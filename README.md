@@ -1,6 +1,6 @@
 # gml-raptor - WORK IN PROGRESS - BUILDING UP THE REPO CURRENTLY!
 
-![image](https://user-images.githubusercontent.com/19487451/167885369-a5ae0b14-9176-4429-babd-2a140ab5880a.png) <br>&nbsp;&nbsp;Studio 2.3+
+[![gmlogo](https://user-images.githubusercontent.com/19487451/167885369-a5ae0b14-9176-4429-babd-2a140ab5880a.png)](https://gamemaker.io)<br>&nbsp;&nbsp;Studio 2.3+
 
 `raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.
 This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
