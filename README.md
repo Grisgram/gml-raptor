@@ -19,7 +19,7 @@ If you have questions, feedback or just want to discuss specific parts of this p
 Feel free to fork, advance, fix and do what you want with the code in this repository, but please respect the MIT License and credit.<br/>
 
 
-## CONTRIBUTING
+### CONTRIBUTING
 I am happy, if you want to support `raptor` to become even better, just launch a pull request, explain me your changes, and I make sure, you get credited as contributor.
 
 
@@ -31,7 +31,7 @@ That being said, it leads to this requirement/fact:<br/>
 `raptor` contains some other libraries that are referenced from my classes, so they are packaged together with this project template.
 
 
-### Credits
+## Credits
 Credits for external libraries go to 
 
 [@JujuAdams](https://github.com/JujuAdams) and the great community at [GameMakerKitchen Discord](https://discord.gg/8krYCqr) for the [SNAP](https://github.com/JujuAdams/SNAP) Library and [Scribble](https://github.com/JujuAdams/scribble), which I packaged into this repository and the project template.
