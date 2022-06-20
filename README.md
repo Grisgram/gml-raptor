@@ -20,7 +20,7 @@ Feel free to fork, advance, fix and do what you want with the code in this repos
 
 
 ## CONTRIBUTING
-I am happy, if you want to support raptor to become even better, just launch a pull request, explain me your changes, and I make sure, you get credited as contributor.
+I am happy, if you want to support `raptor` to become even better, just launch a pull request, explain me your changes, and I make sure, you get credited as contributor.
 
 
 ## Other libraries
