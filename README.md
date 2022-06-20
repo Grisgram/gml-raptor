@@ -1,4 +1,4 @@
-# gml-raptor
+# gml-raptor - WORK IN PROGRESS - BUILDING UP THE REPO CURRENTLY!
 
 `raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.
 This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
