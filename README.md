@@ -2,12 +2,15 @@
 
 [![gmlogo](https://user-images.githubusercontent.com/19487451/167885369-a5ae0b14-9176-4429-babd-2a140ab5880a.png)](https://gamemaker.io)<br>&nbsp;&nbsp;Studio 2.3+
 
+<p align="center"><img src="https://user-images.githubusercontent.com/19487451/174725914-44c47daa-1d3b-4664-94ef-65f2574cba48.png" style="display:block; margin:auto; width:256px"></p>
+
+
 `raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.
 This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
 
 ---
 
-**Please note**
+**Important! Please read (TLDR)**
 
 There are many objects and scripts in this library and to get going with this platform, you should take the time to read the basic concepts that this platform follows in the (todo:create link)wiki.
 
