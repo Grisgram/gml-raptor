@@ -7,6 +7,14 @@
 `raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
 
+## Main Features
+
+|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png)|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png)|
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+|![savegame](https://user-images.githubusercontent.com/19487451/174740590-e7dbfb58-230a-4f26-8b43-aa8cec9e905e.png) **Savegames**<br/>Have your data saved and restored with optional encryption|![race](https://user-images.githubusercontent.com/19487451/174740589-3ac7e7ac-2540-4344-9bac-862d64e584b1.png) **Race** -- The **Ra**ndom **C**ontent **E**ngine<br/>Loot, Random maps, Dice, all that can be random with json-based config|
+|![state](https://user-images.githubusercontent.com/19487451/174740591-913c45ea-8d75-4a8a-a639-87565130d1b8.png) **State Machines**<br/>Easy to use but powerful game object control|![animation](https://user-images.githubusercontent.com/19487451/174740587-73d1c7ef-2e72-41d2-bda8-720910b07ec7.png) **Animations**<br/>Runtime sprite animations with triggers and runtime tweaks|
+|![ui](https://user-images.githubusercontent.com/19487451/174740598-d524fc94-a05d-4b61-a5f2-dff70b320134.png) **UI and Localization**<br/>Basic UI Controls objects incl. Text Input, json-localization, 100% [Scribble](https://github.com/JujuAdams/scribble)-based|![tools](https://user-images.githubusercontent.com/19487451/174740595-72050233-4d26-49f0-96e4-9ca743210a71.png) **Tools**<br/>Utils and helpers, like Object Pools, Effects, struct & array enhancements, Message broadcasting|
+
 ---
 
 **Important! Please read (TLDR)**
