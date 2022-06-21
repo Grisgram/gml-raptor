@@ -19,7 +19,7 @@ This repository contains a ready-to-use project template in yyz format ready to 
 
 **Important! Please read (TLDR)**
 
-There are many objects and scripts in this library and to get going with this platform, you should take the time to read the basic concepts that this platform follows in the (todo:create link)wiki.
+There are many objects and scripts in this library and to get going with this platform, you should take the time to read the basic concepts that this platform follows in the [Wiki](https://github.com/Grisgram/gml-raptor/wiki).
 
 ---
 
