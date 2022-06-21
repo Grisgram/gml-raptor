@@ -4,8 +4,7 @@
 
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/174725914-44c47daa-1d3b-4664-94ef-65f2574cba48.png" style="display:block; margin:auto; width:256px"></p>
 
-
-`raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.
+`raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
 
 ---
