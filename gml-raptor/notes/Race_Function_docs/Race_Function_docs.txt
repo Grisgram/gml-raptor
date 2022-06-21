@@ -1,0 +1,347 @@
+RACE - The (RA)ndom (C)ontent (E)ngine.
+Copyright (c) 2012-2022 Michael Barthold, indievidualgames.com
+
+Please respect the MIT License for this library: https://opensource.org/licenses/MIT
+====================================================================================
+
+NAMING CONVENTIONS
+==================
+
+FUNCTIONS
+---------
+	Race comes with a bunch of functions that shall make your life easier, when it comes to random content.
+	In general, there are two types of functions: 
+		* Functions that start with race_ are end-user-functions and are here for you to be called.
+		* Functions that start with two underscores __race are internal functions and should not be called directly.
+
+	In addition, Race offers some #macro definitions that shall help you create better readable code.
+	They follow the same scheme: Some start with RACE_ and are here for you to be used, some are internal and start with __RACE.
+
+MACROS
+------
+	__RACE_TABLE_QUERIED		-> holds the struct of the topmost table, that started the current query
+	__RACE_TABLE_CURRENT		-> holds the struct of the table where the dropped item here is contained in
+	__RACE_ITEM_DROPPED		-> holds the race struct (race_result_entry) that just dropped.
+	The _TABLE_ macros MAY hold the same value, but in a recursive scenario, they might be different.
+
+
+RACE_FUNCTIONS - TABLE FUNCTIONS
+================================
+
+race_load_file(filename_to_load, overwrite_existing = true)
+-----------------------------------------------------------
+	Loads race tables from the specified file into __RACE_GLOBAL. 
+	NOTE: If you (re)load a file that has already been loaded, all tables
+	in memory that match tables in that file will be replaced by a new instance of the struct!
+	(in other words: reloading a file overwrites in-memory values and your pointers become invalid).
+	If you do not want that (if you want to preserve in-memory values, set the second
+	parameter of this function (overwrite_existing) to false, then only those tables will be added,
+	that did not already exist in memory.
+	
+	@param {string} filename_to_load	The file to load. RACE_ROOT_FOLDER will be used as prefix for the path
+										(default is "race/". See Race_Configuration script!)
+										".json" extension will be appended for you.
+										
+	@param {bool} overwrite_existing	Defaults to true. If true, any already loaded table in memory will be reset
+										to the values loaded from file. Set to false to preserve any existing in-memory states.
+
+
+race_table_dump(table_name)
+---------------------------
+	Dumps the table and all items to the debug console.
+	
+	@param {string|struct} table_name	The table to iterate over. Can be the name of the table OR the table struct.
+
+
+race_get_table(table_name)
+--------------------------
+	Gets a race table from __RACE_GLOBAL.
+	If table_name is not found in the globals, undefined is returned.
+	You receive the entire struct from the json file for this table, including all the items and their properties.
+	Use any of the items functions (see next chapter below) to work with table structs.
+	NOTE: You can use this function to "export" a table from race, 	to persist it in the save game. 
+	It can be imported again through race_add_table().
+	
+	@param {string} table_name		The table to get.
+	@returns {struct}				The race table struct.
+
+
+race_get_table_names()
+----------------------
+	Gets a list of currently loaded race table names.
+	This list also contains all names of dynamically created
+	tables through recursive queries.
+	Dynamically created table names always start with $
+	
+	@returns {array}				An array of all known race table names.
+
+
+race_add_table(table_name, table_struct, overwrite_existing = true)
+-------------------------------------------------------------------
+	Adds a table to __RACE_GLOBAL.
+	This function can be used to import a table that has not been loaded
+	through a regular race file, but from somewhere else, maybe the savegame.
+	NOTE: Overwriting an existing table means: Another INSTANCE is assigned!
+	All your current pointers to table old table are now invalid/target the wrong struct!
+	Make sure to call set_table() on all object instances of the RaceTable object in your 
+	current room that use this table!
+	NOTE: NEVER add a table with a name starting with a dollar sign ($)!
+	This marker is used race-internally to indicate dynamically created tables through
+	recursive queries.
+
+	@param {string} table_name			The name of the table to add.
+	@param {struct}	table_struct		The race table struct to add.
+	@param {bool}	overwrite_existing	Default=true. Overwrite the table in race if it does already exist.
+
+
+race_table_exists(table_name)
+-----------------------------
+	Test whether the specified table exists and is loaded.
+	
+	@param {string} table_name		The table to check
+	@returns {bool}					True, if that table exists and is loaded, otherwise false.
+
+
+race_table_clone(table_name)
+----------------------------
+	Clones a race table and returns the new name.
+	Use this function if specific objects need their own
+	private copy of a table. Make sure, to remember the return value
+	of this function. The new name is your only access point to the clone.
+	
+	@param {string} table_name	The name of the table to clone. If it does not exist, undefined is returned.
+	@returns {string}			The name of the clone or undefined, if table_name does not exist or is not loaded.
+
+
+race_table_reset(table_name)
+----------------------------
+	Resets a table to the originl state when it was added or loaded from a file.
+	If table_name is not found in the globals, undefined is returned.
+	
+	@param {string} table_name	The table to reset
+	@returns {struct}			The reset race table struct.
+	
+
+race_table_delete_temp(table_name)
+----------------------------------
+	Deletes a temporary race_table (that is a table, created through "+" queries
+	or with race_table_clone(...).
+	NOTE: Only tables that start with "$" can be deleted!
+	
+	@param {string} table_name	The table to delete
+
+
+race_query(table_name, drop_on_layer = "")
+-----------------------------------------------------------------
+		This function is the core of Race, it generates the loot.
+		It has two parameters, only the table_name is required.
+		Set [drop_on_layer] to specify, where the items shall drop.
+		If you do not supply this parameter, no instances will drop.
+		This is important if you generate random content and just need the items, but no instances 
+		(to draw from a tile set manually, as an example).
+		
+		The function returns the "loot". This is an array of structs of type race_result_entry.
+		It contains:
+			name		= item name
+			type		= objecttype (asset name)
+			data		= race data_struct (enabled, chance, ...)
+			attributes	= attributes of this item (= data.attributes)
+			instance	= dropped instance (or undefined)
+		All contained objects already exist on the layer and are instantiated.
+		Their onCreate and onQueryHit events have already been executed.
+		If no drop was generated, [instance] contains undefined.
+
+
+race_table_get_loot_count(table)
+race_table_set_loot_count(table, new_loot_count)
+-----------------------------------------------------------------------------------
+	Gets or sets the loot count of a table.
+	If the table is not found in a get call, undefined is returned.
+	
+	@param {struct} table			The table retrieved from race_get_table.
+	Getter returns an {integer} or undefined if the table is not found.
+	
+
+race_table_get_name(table) 
+race_table_set_name(table, new_name)
+-----------------------------------------------------------------
+	Gets or sets the name of a table.
+
+	@param {struct} table			The table retrieved from race_get_table.
+	Getter returns a {string} or undefined if the table is not found.
+
+
+race_table_get_items(table)
+---------------------------
+	Gets the items contained in a table.
+	If the table is not found, undefined is returned.
+	
+	@param {struct} table			The table retrieved from race_get_table.
+	@returns {struct}				The items sub-struct of the table.
+
+
+race_table_get_item_names(table)
+--------------------------------
+	Gets the names of the items contained in a table.
+	If the table is not found, undefined is returned.
+
+	@param {struct} table			The table retrieved from race_get_table.
+	@returns {array}				A string array containing all item names.
+
+
+race_table_get_item(table, item_name)
+-------------------------------------
+	Gets the struct of a single item contained in a table.
+	NOTE: This method may crash if table does not exist or is not loaded!
+
+	@param {struct} table		The table to search
+	@param {string} item_name	The item to retrieve
+	@returns {struct}			The item struct of the item.
+
+
+race_table_foreach_item(table_name, func, args = undefined)
+-----------------------------------------------------------
+	Iterates over all items of a table, calling a specified function
+	on each of the items. This method is similar to juju's foreach from SNAP
+	but only sends the name and the struct to the callback.
+	The invoked function will receive 2 parameters:
+	item_name   -> the name of the item
+	item		-> the struct of the item from the table
+	(args)		-> If supplied as args, the forwarded args (see parameter definition below)
+
+	@param {string|struct} table_name	The table to iterate over. Can be the name of the table OR the table struct.
+										This function accepts both, either the table struct or the table name as
+										first parameter to make it as-universal-as-possible.
+	@param {function} func				The function to call for each item
+	@param {any} args = undefined		Optional. Provide any value or an array or a struct to be passed to the function.
+										This parameter allows you additionally send any parameter to the function while
+										iterating over the table.
+
+	Example
+	-------
+	race_table_foreach_item("my_table", function(name, item) {
+		show_debug_message(name + ": " + string(item));
+	});
+
+
+RACE_FUNCTIONS - ITEM FUNCTIONS
+===============================
+	You see 4 versions of each function here.
+	Those starting with race_get_... or race_set_... work on the table struct and need an item_name
+	to know, which item to set.
+	Those starting with race_item_get_... or race_item_set_... work directly with the item struct,
+	which can be retrieved through race_table_get_item or in the callback of race_table_foreach_item
+	and are more efficient, especially in loops.
+
+race_get_type(table, item_name)
+race_set_type(table, item_name, new_type)
+race_item_get_type(item_struct)
+race_item_set_type(item_struct, new_type)
+----------------------------------------------------------------------------
+
+	Gets or sets the type of an item.
+	You can change the type of an item to drop at runtime. This might become handy,
+	if your game state requires stronger or simply other enemies to spawn (just an example).
+
+	@param {struct} table			The table retrieved from race_get_table.
+	@param {string} item_name		One of the names retrieved from race_table_get_items.
+	@param {struct} item_struct		The struct of the item retrieved through race_table_get_item 
+									or in the callback of race_table_foreach_item.
+	@param {string} new_type		The new object type to assign.
+
+	NOTE: This method may crash, if table does not exist or is not loaded!
+	Getter returns a {string} or undefined if the item is not found.
+
+
+race_is_enabled(table, item_name)
+race_set_enabled(table, item_name, new_enabled)
+race_item_is_enabled(item_struct)
+race_item_set_enabled(item_struct, new_enabled)
+----------------------------------------------------------------------------
+	Gets or sets the enabled state of an item.
+	Setting it to enabled = false means: "this item can not drop", it is then
+	ignored, when a query() runs.
+
+	@param {struct} table			The table retrieved from race_get_table.
+	@param {string} item_name		One of the names retrieved from race_table_get_items.
+	@param {struct} item_struct		The struct of the item retrieved through race_table_get_item 
+									or in the callback of race_table_foreach_item.
+	@param {bool} new_enabled		true or false, the new enabled state.
+
+	NOTE: This method may crash, if table does not exist or is not loaded!
+	Getter returns a {bool} or undefined if the item is not found.
+
+race_is_unique(table, item_name)
+race_set_unique(table, item_name, new_unique)
+race_item_is_unique(item_struct)
+race_item_set_unique(item_struct, new_unique)
+----------------------------------------------------------------------------
+	Gets or sets the unique state of an item.
+	If an item is unique, it can be included only ONCE per query() run.
+	Non-unique items may appear more than once.
+	A monster could drop 3 piles of cloth and 2 axes, unless some of them are unique.
+
+	@param {struct} table			The table retrieved from race_get_table.
+	@param {string} item_name		One of the names retrieved from race_table_get_items.
+	@param {struct} item_struct		The struct of the item retrieved through race_table_get_item 
+									or in the callback of race_table_foreach_item.
+	@param {bool} new_unique		true or false, the new unique state.
+
+	NOTE: This method may crash, if table does not exist or is not loaded!
+	Getter returns a {bool} or undefined if the item is not found.
+
+race_is_always(table, item_name)
+race_set_always(table, item_name, new_always)
+race_item_is_always(item_struct)
+race_item_set_always(item_struct, new_always)
+----------------------------------------------------------------------------
+	Gets or sets the always state of an item.
+	If an item is set to always, it is guaranteed that it will be included in the drop 
+	and the chance is ignored.
+
+	@param {struct} table			The table retrieved from race_get_table.
+	@param {string} item_name		One of the names retrieved from race_table_get_items.
+	@param {struct} item_struct		The struct of the item retrieved through race_table_get_item 
+									or in the callback of race_table_foreach_item.
+	@param {bool} new_always		true or false, the new always state.
+
+	NOTE: This method may crash, if table does not exist or is not loaded!
+	Getter returns a {bool} or undefined if the item is not found.
+
+race_get_chance(table, item_name)
+race_set_chance(table, item_name, new_chance)
+race_item_get_chance(item_struct)
+race_item_set_chance(item_struct, new_chance)
+----------------------------------------------------------------------------
+	Gets or sets the chance of an item.
+	The chance is the probability to drop, in relation to all other items in the same table.
+	To understand, how chance works, see the Race_Object_docs where chance is explained in detail.
+	Setting the chance to 0 has the same effect as setting enabled to false: it can not drop.
+
+	@param {struct} table			The table retrieved from race_get_table.
+	@param {string} item_name		One of the names retrieved from race_table_get_items.
+	@param {struct} item_struct		The struct of the item retrieved through race_table_get_item 
+									or in the callback of race_table_foreach_item.
+	@param {real} new_chance		The new drop chance for this item.
+
+	NOTE: This method may crash, if table does not exist or is not loaded!
+	Getter returns a {real} or undefined if the item is not found.
+
+
+race_get_attribute(table, item_name, attribute_name)
+race_set_attribute(table, item_name, attribute_name, value)
+race_item_get_attribute(item_struct, attribute_name)
+race_item_set_attribute(item_struct, attribute_name, value)
+-----------------------------------------------------------
+	Sets a custom named attribute on an item.
+	To learn more about custom attributes, see the ATTRIBUTES chapter in Race_File_Specs!
+
+	@param {struct} table			The table to search
+	@param {string} item_name		The item to set the attribute
+	@param {struct} item_struct		The struct of the item retrieved through race_table_get_item 
+									or in the callback of race_table_foreach_item.
+	@param {string} attribute_name	The attribute to set
+	@param {any}    value			The value to assign to this attribute
+
+	NOTE: This method may crash if table does not exist or is not loaded!
+	Getter returns {any} datatype, you must know what you get! Custom attributes are not restricted!

@@ -1,0 +1,36 @@
+{
+	"legal" : {
+		"game_name"		: "enter-game-name-here",
+		"company"		: "indievidualgames.com",
+		"copyright" 	: "(c)2022 indievidualgames.com",
+		"locale_author" : "Mike Barthold aka Haerion Coldrock aka Grisgram",
+		"developer" 	: "Mike Barthold aka Haerion Coldrock aka Grisgram",
+	},
+	
+	"credits" : {
+		"credits_title" : "Credits",
+	},
+	
+	"global_words" : {
+		"buttons" : {
+			"ok" 		: "OK",
+			"apply" 	: "Anwenden",
+			"cancel" 	: "Abbrechen",
+			"yes" 		: "Ja",
+			"no" 		: "Nein",
+			"save" 		: "Speichern",
+			"retry" 	: "Wiederholen",
+			"ignore" 	: "Ignorieren",
+			"undo" 		: "Rückgängig",
+			"back" 		: "Zurück",
+			"continue" 	: "Weiter",
+		},
+		
+		"keyboard" : {
+			"shift" 	: "Shift",
+			"ctrl" 		: "Strg",
+			"alt" 		: "Alt",
+		},
+	},
+
+}
