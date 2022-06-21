@@ -25,7 +25,7 @@ There are many objects and scripts in this library and to get going with this pl
 
 I tried to isolate some of the classes and make smaller repositories of it, but I failed. They work too good together and, as an example, to isolate my savegame-system out into its own repository and removing all the dependencies would've required to sacrifice lots of its functionality. Same is true for the StateMachine or the Animation system. So, after thinking about it for some time, I decided to make it public "as-it-is". It's a set of working-together parts, that allows you to speed up your game development process.
 
-If you have questions, feedback or just want to discuss specific parts of this platform, just open a new thread in the (todo:create link)discussions for this repository. I'll do my best to answer any questions as quick as possible!
+If you have questions, feedback or just want to discuss specific parts of this platform, just open a new thread in the [discussions](https://github.com/Grisgram/gml-raptor/discussions) for this repository. I'll do my best to answer any questions as quick as possible!
 Feel free to fork, advance, fix and do what you want with the code in this repository, but please respect the MIT License and credit.<br/>
 
 
