@@ -33,18 +33,24 @@ I do not like that. You will always find a single-download-and-run release in th
 That being said, it leads to this requirement/fact:<br/>
 `raptor` contains some other libraries that are referenced from my classes, so they are packaged together with this project template.
 
+Some of these 'other libraries' are my own and are by default also included in the package, because I find it more easy to remove one not required folder by a simple hit of the 'Delete' key instead of browsing the file system for all bread crumbs that need to be added. It just saves time.
+
+By default, these libraries of mine are included:
+
+* [Outline Shader Drawer](https://github.com/Grisgram/gml-outline-shader-drawer)
+* [Animated Flag](https://github.com/Grisgram/gml-animated-flag)
 
 ## Credits
 Credits for external libraries go to 
 
-[@JujuAdams](https://github.com/JujuAdams) and the great community at [GameMakerKitchen Discord](https://discord.gg/8krYCqr) for the [SNAP](https://github.com/JujuAdams/SNAP) Library and [Scribble](https://github.com/JujuAdams/scribble), which I packaged into this repository and the project template.
+* [@JujuAdams](https://github.com/JujuAdams) and the great community at [GameMakerKitchen Discord](https://discord.gg/8krYCqr) for the [SNAP](https://github.com/JujuAdams/SNAP) Library and [Scribble](https://github.com/JujuAdams/scribble), which I packaged into this repository and the project template.
 I do my best to keep the re-packaged libraries here always at the latest version of Juju's repo.
 If you prefer to look up the most recent version (or any specific version) for yourself, you find SNAP and Scribble at the links a few lines above this one.
 
 
-[@YellowAfterLife](https://github.com/YellowAfterlife) for the [Open Link in new Tab](https://yal.cc/gamemaker-opening-links-in-new-tab-on-html5/) Browser Game extension for GameMaker, which I modified a bit to fit into the platform. This extension is also packaged into the platform and ready-to-use.
+* [@YellowAfterLife](https://github.com/YellowAfterlife) for the [Open Link in new Tab](https://yal.cc/gamemaker-opening-links-in-new-tab-on-html5/) Browser Game extension for GameMaker, which I modified a bit to fit into the platform. This extension is also packaged into the platform and ready-to-use.
 
 ### Contact me
-Beside the communication channel here, you can reach me as @Haerion on the GameMakerKitchen discord mentioned above.
+Beside the communication channel here, you can reach me as @Haerion on the [GameMakerKitchen Discord](https://discord.gg/8krYCqr).
 
 
