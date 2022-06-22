@@ -12,15 +12,26 @@ This repository contains a ready-to-use project template in yyz format ready to 
 
 ## Main Features
 
-|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png)|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png)|
+|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Coding & Data|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Visuals & Objects|
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-|![savegame](https://user-images.githubusercontent.com/19487451/174751651-b5630b17-0b12-40ab-be1c-d20c4e012779.png) **Savegames**<br/>Have your data saved and restored with optional encryption|![race](https://user-images.githubusercontent.com/19487451/174751649-ee0bc6a8-a274-4f1e-872c-851b95861184.png) **RACE** -- The **RA**ndom **C**ontent **E**ngine<br/>Loot, Random maps, Dice, all that can be random with json-based config|
-|![state](https://user-images.githubusercontent.com/19487451/174751048-0d3e2c9c-0974-437b-b5de-9a9d1ee068a2.png) **State Machines**<br/>Easy to use but powerful game object control|![animation](https://user-images.githubusercontent.com/19487451/174751647-d88c71c7-edea-4883-a180-e7edbdf1455d.png) **Animations**<br/>Runtime sprite animations with triggers and runtime tweaks|
-|![ui](https://user-images.githubusercontent.com/19487451/174751656-75fddb70-8f39-4b55-a1f1-f4dfd042974f.png) **UI and Localization**<br/>Basic UI Controls objects incl. Text Input, json-localization, 100% [Scribble](https://github.com/JujuAdams/scribble)-based|![tools](https://user-images.githubusercontent.com/19487451/174751654-34b7e843-9fba-4c3e-a5b4-21c7134a9666.png) **Tools**<br/>Utils and Helpers, like Object Pools, Effects, Struct & Array enhancements, Message Broadcasting|
+|![savegame](https://user-images.githubusercontent.com/19487451/174751651-b5630b17-0b12-40ab-be1c-d20c4e012779.png) **Savegames**<br/>Have your data saved and restored with optional encryption|![state](https://user-images.githubusercontent.com/19487451/174751048-0d3e2c9c-0974-437b-b5de-9a9d1ee068a2.png) **State Machines**<br/>Easy to use but powerful game object control|
+|![race](https://user-images.githubusercontent.com/19487451/174751649-ee0bc6a8-a274-4f1e-872c-851b95861184.png) **RACE** -- The **RA**ndom **C**ontent **E**ngine<br/>Loot, Random maps, Dice, all that can be random with json-based config|![animation](https://user-images.githubusercontent.com/19487451/174751647-d88c71c7-edea-4883-a180-e7edbdf1455d.png) **Animations**<br/>Runtime sprite animations with triggers and runtime tweaks|
+|![tools](https://user-images.githubusercontent.com/19487451/174751654-34b7e843-9fba-4c3e-a5b4-21c7134a9666.png) **Tools**<br/>Utils and Helpers, like Object Pools,<br/> Effects, Struct & Array enhancements, Message Broadcasting|![ui](https://user-images.githubusercontent.com/19487451/174751656-75fddb70-8f39-4b55-a1f1-f4dfd042974f.png) **UI and Localization**<br/>Basic UI Controls objects incl. Text Input, json-localization, 100% [Scribble](https://github.com/JujuAdams/scribble)-based|
+
+## How Releases are organized
+When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
+While the project template itself is useful and must be up-to-date when you start a *new Project*, the normal case is, that you are in the middle of development, when a new release is done here. But in this second case you have very likely adapted configuration scripts (in the _GAME_SETUP_ section of the project) and you do not want to have them overwritten when updating to the latest version.
+
+To cover both of these scenarios, you will find several files and downloads for each release here:
+* A `.zip` file, containing the project template (you should *always* update this locally in your templates folder to be ready for the next project!)
+* A `*-full.yymps` local package file that contains *all files of the platform* in a single package. This includes the config files, so take care, when importing!
+* A `*-update.yymps` local package file that contains all files of the platform *except the configuration files*. It should be safe to import this, as long as you didn't modify any of the platform source code itself.
+
+**Please Note:** In rare cases it might be possible, that there is no `*-update.yymps` available for a release. This happens, when I (for whatever reason) had to update/change the basic configuration files also. I will leave a dedicated note in the Release Notes, if this is the case. You should copy the sources of your GameConfiguration out of the way before updating and have to merge manually then. But mostly such a case will only contain a new config switch or two. Nothing to worry about.
 
 ---
 
-**Important! Please read (TLDR)**
+**Important! Please read**
 
 There are many objects and scripts in this library and to get going with this platform, you should take the time to read the basic concepts that this platform follows in the [Wiki](https://github.com/Grisgram/gml-raptor/wiki).
 
