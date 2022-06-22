@@ -28,7 +28,7 @@
     "path": "folders/_gml_raptor_/_generic_objects_.yy",
   },
   "resourceVersion": "1.0",
-  "name": "SelfLogger",
+  "name": "RaptorBase",
   "tags": [],
   "resourceType": "GMObject",
 }

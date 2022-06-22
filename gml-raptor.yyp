@@ -199,7 +199,7 @@
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},"order":12,},
     {"id":{"name":"Game_Configuration","path":"scripts/Game_Configuration/Game_Configuration.yy",},"order":8,},
     {"id":{"name":"scribble_font_set_style_family","path":"scripts/scribble_font_set_style_family/scribble_font_set_style_family.yy",},"order":12,},
-    {"id":{"name":"SelfLogger","path":"objects/SelfLogger/SelfLogger.yy",},"order":6,},
+    {"id":{"name":"RaptorBase","path":"objects/RaptorBase/RaptorBase.yy",},"order":6,},
     {"id":{"name":"string_width_scribble","path":"scripts/string_width_scribble/string_width_scribble.yy",},"order":4,},
     {"id":{"name":"scribble_glyph_get","path":"scripts/scribble_glyph_get/scribble_glyph_get.yy",},"order":13,},
     {"id":{"name":"InputBox","path":"objects/InputBox/InputBox.yy",},"order":1,},

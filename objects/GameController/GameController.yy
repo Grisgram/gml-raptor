@@ -5,8 +5,8 @@
   "spriteMaskId": null,
   "persistent": true,
   "parentObjectId": {
-    "name": "SelfLogger",
-    "path": "objects/SelfLogger/SelfLogger.yy",
+    "name": "RaptorBase",
+    "path": "objects/RaptorBase/RaptorBase.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
