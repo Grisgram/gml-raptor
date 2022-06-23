@@ -1,15 +1,25 @@
-event_inherited();
+Saveable
+========
 
-/// @description Docs inside! You MUST call this when overriding!
-/*
+The Saveable object is a base object, containing function prototypes you may override (redefine),
+and also two user events that get invoked before data is written on save and after it has been loaded.
+It acts as a base class for all objects that shall be contained in a save game.
+In the Tools folder you find a script named Savegame. This script contains functions that iterate
+over all "Saveable" objects and create a json structure of them.
+
+-------------------------------------------------------------------------------------------------------------
+NOTE: Saving Saveable objects to a file can always iterate only over the current room and persistent objects!
+-------------------------------------------------------------------------------------------------------------
+
 	By default, all saveable objects will be part of the savegame file.
 	Use the declared instance variable add_to_savegame and set it to false
 	if you want to skip specific instances from being saved.
 	
-	The indie platform defines these objects as children of Saveable:
-	- SaveableLGTextObject
-	- RaceObject
+	The base platform defines these objects as children of Saveable:
+	- LGTextObject
+	- StatefulObject -> RaceObject
 	- RaceTable
+	- RaceController
 
 	ALL RACE TABLES known at the time of saving the game will be part of
 	the savegame.
@@ -25,7 +35,7 @@ event_inherited();
 	"obj", "id"							The object type and id (for restore reference)
 	"x", "y"							The current position
 	"direction", "speed"				The direction and speed
-	"layer"								The name of the layer where it exists
+	"layer", "depth"					The name of the layer (if available) and/or depth where it exists
 	
 	OBJECT FIELDS
 	"visible", "persistent", "solid"	Object flags
@@ -42,7 +52,7 @@ event_inherited();
 	links (like the RaceController variable on a RaceTable object)!
 	You do not need to save "race_table_name" and other race variables manually.
 	
-	NOTE: The user event 12 (onGameSaving) will be invoked before the contents of
+	NOTE: The user event 14 (onGameSaving) will be invoked before the contents of
 	the data variable (or whatever onGameSaving returns, if you override it)
 	are written to the savegame file.
 	The function onGameSaving below will be called by the savegame
@@ -54,7 +64,7 @@ event_inherited();
 	NOTE: If you create a instance variable called "data", it will be automatically
 	saved and loaded, as long as it's a struct.
 	
-	The same is true for the onGameLoaded function and user event 13 (onGameLoaded). 
+	The same is true for the onGameLoaded function and user event 15 (onGameLoaded). 
 	It receives the exact struct you returned from onGameSaving.
 	
 	In addition, there is a post-save function onGameSaved which gets invoked after
@@ -63,45 +73,17 @@ event_inherited();
 	Override an re-declare this function if you need another behavior.
 	
 	The callback/event order is:
-	Saving								|	Loading
-	-------------------------------------------------------------------------------
-	SAVEGAME_SAVE_IN_PROGRESS = true	|	SAVEGAME_LOAD_IN_PROGRESS = true
-	onGameSaving (user event)			|	onGameLoading (function)
-	onGameSaving (function)				|	SAVEGAME_LOAD_IN_PROGRESS = false
-	SAVEGAME_SAVE_IN_PROGRESS = false	|	onGameLoaded  (function)
-	onGameSaved  (function)				|	onGameLoaded  (user event)
-	-------------------------------------------------------------------------------
+	| Saving							|	Loading									|
+	|-------------------------------------------------------------------------------|
+	| SAVEGAME_SAVE_IN_PROGRESS = true	|	SAVEGAME_LOAD_IN_PROGRESS = true		|
+	| onGameSaving (user event)			|	onGameLoading (function)				|
+	| onGameSaving (function)			|	SAVEGAME_LOAD_IN_PROGRESS = false		|
+	| SAVEGAME_SAVE_IN_PROGRESS = false	|	onGameLoaded  (function)				|
+	| onGameSaved  (function)			|	onGameLoaded  (user event)				|
+	|-------------------------------------------------------------------------------|
 	
 	NOTE: The "...ing" (savING, loadING) functions and events are invoked
 	on a per-object basis during the save process!
 	The "...ed" (savED, loadED) are bulk-invoked on all objects AFTER
 	ALL DATA has been saved/loaded.
-*/
 
-/// @function					onGameSaving()
-/// @description				invoked per instance during game save
-/// @returns {struct}			data struct to be saved
-onGameSaving = function() {
-	log(MY_NAME + ": onGameSaving (auto-apply data variable)");
-	return data;
-};
-
-/// @function					onGameSaved()
-/// @description				Invoked AFTER saving 
-onGameSaved = function() {
-	log(MY_NAME + ": onGameSaved");
-}
-
-/// @function					onGameLoading(loaded_data)
-/// @description				occurs when this object has been loaded
-/// @param {struct} loaded_data	the custom data struct loaded
-onGameLoading = function(loaded_data) {
-	log(MY_NAME + ": onGameLoading (auto-apply data variable)");
-	data = loaded_data;
-}
-
-/// @function					onGameLoaded()
-/// @description				occurs after all objects have been loaded
-onGameLoaded = function() {
-	log(MY_NAME + ": onGameLoaded");
-}

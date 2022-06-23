@@ -89,7 +89,7 @@ function savegame_load_game(filename, cryptkey = "") {
 	}
 	
 	// load the structs
-	savegame_clear_structs();
+	__savegame_clear_structs();
 	__SAVEGAME_STRUCTS = variable_struct_get(savegame, __SAVEGAME_STRUCT_HEADER);
 	
 	// recreate object instances
@@ -187,7 +187,7 @@ function savegame_load_game(filename, cryptkey = "") {
 	// invoke the post event
 	var names = savegame_get_instance_names();
 	for (var i = 0; i < array_length(names); i++) {
-		var inst = savegame_get_instance(names[i]);
+		var inst = savegame_get_instance_of(names[i]);
 		with (inst) {
 			if (variable_instance_exists(self, __SAVEGAME_ONLOADED_NAME)) 
 				__SAVEGAME_ONLOADED_FUNCTION();
@@ -206,7 +206,7 @@ function savegame_load_game(filename, cryptkey = "") {
 /// @description				Saves the entire game state to a file.
 ///								See docu in Saveable object for full documentation.
 /// @param {string} filename	Relative path inside the working_folder where to save the file
-/// @param {string=""} cryptkey	Optional. The same key that has been used to encrypt the file.
+/// @param {string=""} cryptkey	Optional. The key to use to encrypt the file.
 ///								If not provided, the file is written in plain text (NOT RECOMMENDED!).
 function savegame_save_game(filename, cryptkey = "") {
 
@@ -319,8 +319,7 @@ function savegame_add_struct(name, struct) {
 }
 
 /// @function					savegame_remove_struct(name)
-/// @description				Removes any custom struct to the save game.
-///								Can be retrieved after loading through savegame_get_struct(name).
+/// @description				Removes any custom struct from the save game.
 /// @param {string} name		The name of the struct. If it does not exist, it is silently ignored.
 function savegame_remove_struct(name) {
 	if (variable_struct_exists(__SAVEGAME_STRUCTS, name))
@@ -329,7 +328,7 @@ function savegame_remove_struct(name) {
 
 /// @function					savegame_struct_exists(name)
 /// @description				Checks whether a specified struct exists in the savegame.
-/// @param {string} name		The name of the struct. If it does not exist, it is silently ignored.
+/// @param {string} name		The name of the struct to find.
 /// @returns {bool}				True, if the struct exists or false, if not.
 function savegame_struct_exists(name) {
 	return variable_struct_exists(__SAVEGAME_STRUCTS, name);
@@ -350,9 +349,9 @@ function savegame_get_struct_names() {
 	return variable_struct_get_names(__SAVEGAME_STRUCTS);
 }
 
-/// @function					savegame_clear_structs()
+/// @function					__savegame_clear_structs()
 /// @description				Clears ALL savegame structs (custom structs and instances)
-function savegame_clear_structs() {
+function __savegame_clear_structs() {
 	__SAVEGAME_STRUCTS = {};
 	__SAVEGAME_INSTANCES = {}; 
 }
@@ -366,41 +365,39 @@ function savegame_get_instance_names() {
 	return variable_struct_get_names(__SAVEGAME_INSTANCES);
 }
 
-/// @function						savegame_get_instance(old_instance_id)
+/// @function						savegame_get_instance_of(old_instance_id)
 /// @description					Retrieves the specified instance from the savegame.
 /// @param {string} old_instance_id	The old id (when the game was saved) of the object.
 /// @returns {struct}				The instance or [noone], if it does not exist.
-function savegame_get_instance(old_instance_id) {
+function savegame_get_instance_of(old_instance_id) {
 	if (!is_string(old_instance_id)) old_instance_id = string(old_instance_id);
 	if (variable_struct_exists(__SAVEGAME_INSTANCES, old_instance_id))
 		return variable_struct_get(__SAVEGAME_INSTANCES, old_instance_id);
 	else
 		return noone;
 }
-#endregion
 
-#region ID mapping
-/// @function					array_map_get_instance_array_of(id_array)
+/// @function					savegame_get_instance_array_of(id_array)
 /// @description				Maps an array of object ids to an array of instances.
 ///								NOTE: Only works with stored ids of savegames!
 /// @param {array} id_array		An array of object ids.
 /// @returns {array}			Returns an array containing the ids of the instances (in the same order).
-function array_map_get_instance_array_of(id_array) {
+function savegame_get_instance_array_of(id_array) {
 	var rv = array_create(array_length(id_array));
 	
 	for (var i = 0; i < array_length(id_array); i++) {
-		rv[i] = id_array[i] != undefined ? savegame_get_instance(id_array[i]) : undefined;
+		rv[i] = id_array[i] != undefined ? savegame_get_instance_of(id_array[i]) : undefined;
 	}
 	
 	return rv;
 }
 
-/// @function					array_map_get_id_array_of(instance_array)
+/// @function					savegame_get_id_array_of(instance_array)
 /// @description				Maps an array of object instances to an array of their id's only.
 ///								Useful if you want to persist linked objects in a savegame.
 /// @param {array} instance_array	An array of object instances.
-/// @returns {array}			Returns an array containing the ids of the instances (in the same order).
-function array_map_get_id_array_of(instance_array) {
+/// @returns {array}			Returns an array containing the instances (in the same order).
+function savegame_get_id_array_of(instance_array) {
 	var rv = array_create(array_length(instance_array));
 	
 	for (var i = 0; i < array_length(instance_array); i++) {
@@ -414,4 +411,4 @@ function array_map_get_id_array_of(instance_array) {
 // initialize the structs and variables
 SAVEGAME_LOAD_IN_PROGRESS = false;
 SAVEGAME_SAVE_IN_PROGRESS = false;
-savegame_clear_structs();
+__savegame_clear_structs();

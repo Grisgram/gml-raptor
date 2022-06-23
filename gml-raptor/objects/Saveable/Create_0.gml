@@ -1,24 +1,16 @@
-Saveable
-========
+event_inherited();
 
-The Saveable object is a base object, containing function prototypes you may override (redefine),
-and also two user events that get invoked before data is written on save and after it has been loaded.
-It acts as a base class for all objects that shall be contained in a save game.
-In the Tools folder you find a script name Savegame. This script contains functions that iterate
-over all "Saveable" objects and create a json structure of them.
-
--------------------------------------------------------------------------------------------------------------
-NOTE: Saving Saveable objects to a file can always iterate only over the current room and persistant objects!
--------------------------------------------------------------------------------------------------------------
-
+/// @description Docs inside! You MUST call this when overriding!
+/*
 	By default, all saveable objects will be part of the savegame file.
 	Use the declared instance variable add_to_savegame and set it to false
 	if you want to skip specific instances from being saved.
 	
-	The base platform defines these objects as children of Saveable:
-	- SaveableLGTextObject
-	- RaceObject
+	The indie platform defines these objects as children of Saveable:
+	- LGTextObject
+	- StatefulObject -> RaceObject
 	- RaceTable
+	- RaceController
 
 	ALL RACE TABLES known at the time of saving the game will be part of
 	the savegame.
@@ -34,7 +26,7 @@ NOTE: Saving Saveable objects to a file can always iterate only over the current
 	"obj", "id"							The object type and id (for restore reference)
 	"x", "y"							The current position
 	"direction", "speed"				The direction and speed
-	"layer", "depth"					The name of the layer (if available) and/or depth where it exists
+	"layer"								The name of the layer where it exists
 	
 	OBJECT FIELDS
 	"visible", "persistent", "solid"	Object flags
@@ -85,4 +77,32 @@ NOTE: Saving Saveable objects to a file can always iterate only over the current
 	on a per-object basis during the save process!
 	The "...ed" (savED, loadED) are bulk-invoked on all objects AFTER
 	ALL DATA has been saved/loaded.
+*/
 
+/// @function					onGameSaving()
+/// @description				invoked per instance during game save
+/// @returns {struct}			data struct to be saved
+onGameSaving = function() {
+	log(MY_NAME + ": onGameSaving (auto-apply data variable)");
+	return data;
+};
+
+/// @function					onGameSaved()
+/// @description				Invoked AFTER saving 
+onGameSaved = function() {
+	log(MY_NAME + ": onGameSaved");
+}
+
+/// @function					onGameLoading(loaded_data)
+/// @description				occurs when this object has been loaded
+/// @param {struct} loaded_data	the custom data struct loaded
+onGameLoading = function(loaded_data) {
+	log(MY_NAME + ": onGameLoading (auto-apply data variable)");
+	data = loaded_data;
+}
+
+/// @function					onGameLoaded()
+/// @description				occurs after all objects have been loaded
+onGameLoaded = function() {
+	log(MY_NAME + ": onGameLoaded");
+}

@@ -5,8 +5,8 @@
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "RaptorBase",
-    "path": "objects/RaptorBase/RaptorBase.yy",
+    "name": "_raptorBase",
+    "path": "objects/_raptorBase/_raptorBase.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
