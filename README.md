@@ -10,6 +10,13 @@ I will not accept issues and bugs from this pre-release version.
 `raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
 
+<p align="center"><i>
+The best code is written late at night, we all know that!<br/>
+If you like what you see and want to support future development, to keep me awake, spend me a coffee!<br/></i>
+  <a href="https://www.paypal.com/donate/?hosted_button_id=PL8VA5UFCPMK6"><img src="https://www.paypalobjects.com/en_US/AT/i/btn/btn_donateCC_LG.gif" /></a>
+</p>
+
+
 ## Main Features
 
 |![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Coding & Data|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Visuals & Objects|
