@@ -1,0 +1,97 @@
+RACE - The (RA)ndom (C)ontent (E)ngine.
+Copyright (c) 2012-2022 Michael Barthold, indievidualgames.com
+
+Please respect the MIT License for this library: https://opensource.org/licenses/MIT
+====================================================================================
+
+RACE FILE SPECIFICATION
+=======================
+
+	Race files are normal json files containing the properties of items to drop,
+	however, there are some special meanings for some fields, that need a bit of explanation.
+
+	First, lets look at a "standard" race table:
+
+	-----------------------------
+	{
+		"demotable": {
+			"loot_count" : 1,
+			"items" : {
+				"object1": 		{"type" : "TestDrop1_1",	"always" : 0,	"unique" : 1,	"enabled" : 1,	"chance" : 10.25,	},
+				"DemoItem1": 	{"type" : "TestDrop2_2",	"always" : 0,	"unique" : 0,	"enabled" : 1,	"chance" : 50.0,	},
+				"DemoValue1": 	{"type" : "TestDrop3_3",	"always" : 0,	"unique" : 1,	"enabled" : 1,	"chance" : 100.0,	},
+			}
+		},
+	}
+	-----------------------------
+	"demotable" is the name of this race table.
+	It contains the table property loot_count, which defines the number of items to drop when this table gets queried.
+
+	"items" is the list of items this table contains (the things that can "drop" in game).
+	each of them has a name ("object1", "DemoItem1", etc...) and also contains the standard race properties type, always, unique, enabled and chance.
+
+	However, the most important value here is "type".
+	This field holds the NAME of the object in the asset browser (the object name) that can drop.
+	The table will call instance_create_layer() with this name to create an instance of the object when it drops.
+	Each RaceTable object has a variable race_drop_on_layer which must hold the layer name, where to drop the loot.
+
+
+Custom named attributes
+=======================
+	Race supports adding custom attributes to each item in a table. This can be done either from the json or at runtime through the
+	race_get_attribute/race_set_attribute functions.
+	With the first attribute you set, a "attributes" sub-struct is created on that item, which will hold all attributes.
+	You can assign any value or datatype to an attribute, even methods!
+	NOTE: Deserializing methods from json may or may not work - it's best to attach functions at runtime and not in the json file.
+	
+	To create custom attributes already in the json file, here is an example, what this would look like:
+
+	"object1": 		{"type" : "TestDrop1_1",	"always" : 0,	"unique" : 1,	"enabled" : 1,	"chance" : 10.25,	
+		"attributes" : {
+			"gold_value" : 105.00,
+			"min_level" : 25,
+		},
+	},
+	
+	In this item, two custom attributes are added, the "gold_value" and a "min_level".
+	They can be retrieved at runtime with race_get_attribute(table, item_name, attribute_name) or even set/modified.
+	
+
+
+Sub References (Table recursion)
+================================
+	To understand, how recursion is implemented in the json structs, let's look at a standard item first:
+
+		"CoolWeapon": 		{"type" : "WeaponObject",		"always" : 0,	"unique" : 1,	"enabled" : 1,	"chance" : 36.0,	},
+	
+	The "type" is WeaponObject, which will result in a call to instance_create_layer(x, y, race_drop_on_layer, asset_get_index("WeaponObject")) when it
+	gets hit by a query.
+
+	Now, instead of a single item (WeaponObject), we can add entire tables as entry to a table.
+	When a query hits such a subtable, it goes into recursion, querying that subtable. If this hits again another subsubtable, the recursion continues
+	until finally a single item is hit.
+
+	There are two ways to add subtables to a table: by_reference or as a copy.
+	The difference is in the properties of the added tables and all properties of items in the subtable (through all recursion levels!).
+
+	If you add a subtable "by_reference", it's just a pointer to the other table. All referenced tables share the same properties
+	for type, always, enabled, unique and chance. If you change one of them, you change it for ALL referenced tables.
+
+	If you add a table "as a copy", the entire structure of this table (including all recursive subtables, a so-called deep copy) is COPIED to this
+	table. All properties are copied as well, meaning, you can adapt each single item in this structure without affecting all other copies of this 
+	table and its subs.
+
+ADD BY_REFERENCE
+----------------
+	To add a subtable by_reference, use an equals sign (=) together with the referenced table name in the "type" field, like this:
+		"Weapons": 		{"type" : "=weapons_table",	"always" : 0,	"unique" : 1,	"enabled" : 1,	"chance" : 36.0,	},
+
+	When a query hits this entry, the query simple continues in the "weapons_table", using the properties found there.
+
+ADD AS A COPY
+-------------
+	To add a subtable as a copy, use a plus sign (+) together with the table name to copy in the "type" field, like this:
+		"Weapons": 		{"type" : "+weapons_table",	"always" : 0,	"unique" : 1,	"enabled" : 1,	"chance" : 36.0,	},
+
+	NOTE: By default, Copy-References are resolved on first hit of such an entry. Very deep structures can have a minor performance impact on that frame,
+	where the deep copy takes place. But they are resolved only once, with the values the copied table has at the point when the copy is performed.

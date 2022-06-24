@@ -1,0 +1,57 @@
+{
+	"legal" : {
+		"game_name"		: "gml-raptor Demo",
+		"company"		: "risingdemons.com/indievidualgames.com",
+		"copyright" 	: "(c)2022 risingdemons.com/indievidualgames.com",
+		"locale_author" : "Mike Barthold aka Haerion Coldrock aka Grisgram",
+		"developer" 	: "Mike Barthold aka Haerion Coldrock aka Grisgram",
+	},
+	
+	"credits" : {
+		"credits_title" : "Credits",
+	},
+	
+	"global_words" : {
+		"buttons" : {
+			"ok" 		: "OK",
+			"apply" 	: "Apply",
+			"cancel" 	: "Cancel",
+			"yes" 		: "Yes",
+			"no" 		: "No",
+			"save" 		: "Save",
+			"retry" 	: "Retry",
+			"ignore" 	: "Ignore",
+			"undo" 		: "Undo",
+			"back" 		: "Back",
+			"continue" 	: "Continue",
+		},
+		
+		"keyboard" : {
+			"shift" 	: "Shift",
+			"ctrl" 		: "Ctrl",
+			"alt" 		: "Alt",
+		},
+	},
+
+	"main_menu": {
+		"header_text"	: "Welcome to [?legal/game_name]",
+		"version_str"	: "Version {0} <- This demonstrates the contents of the version.json file",
+		"start_game"	: "Start Game",
+		"exit_game"		: "Exit Game",
+		
+		"info": {
+			"about"		: "You see a blank gml-raptor project here.\nOnly 1 Font, no Button Sprites, this is all default.\nHover over elements, some of them\noffer a tooltip that tells you,\nwhere you can find the code in the project\nfor that specific item.\n\nOh, btw, the font is set as scribble_font_set_default in the Game_Configuration script!",
+			"hotswap"	: "Click the locale buttons\nto see LG_hotswap in action",
+			"flag"		: "The animated_flag in action ->",			
+		},
+		
+		"tooltips": {
+			"language_button"	: "Object: Objects\\LanguageButton\nCode: Scripts\\MainMenuButtons\nSettings: RoomEditor Variables on this Object",
+			"game_button"		: "Object: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nSettings: RoomEditor Variables on this Object",
+			"demo_label"		: "This string is resolved via string reference in json.\nLook at the locale_en.json in the Included Files\\locale folder at \"main_menu/header_text\"!",
+			"version_label"		: "Look at the version.json File in the Included Files folder!",
+		},
+
+	},
+
+}

@@ -1,0 +1,57 @@
+{
+	"legal" : {
+		"game_name"		: "gml-raptor Demo",
+		"company"		: "risingdemons.com/indievidualgames.com",
+		"copyright" 	: "(c)2022 risingdemons.com/indievidualgames.com",
+		"locale_author" : "Mike Barthold aka Haerion Coldrock aka Grisgram",
+		"developer" 	: "Mike Barthold aka Haerion Coldrock aka Grisgram",
+	},
+	
+	"credits" : {
+		"credits_title" : "Credits",
+	},
+	
+	"global_words" : {
+		"buttons" : {
+			"ok" 		: "OK",
+			"apply" 	: "Anwenden",
+			"cancel" 	: "Abbrechen",
+			"yes" 		: "Ja",
+			"no" 		: "Nein",
+			"save" 		: "Speichern",
+			"retry" 	: "Wiederholen",
+			"ignore" 	: "Ignorieren",
+			"undo" 		: "Rückgängig",
+			"back" 		: "Zurück",
+			"continue" 	: "Weiter",
+		},
+		
+		"keyboard" : {
+			"shift" 	: "Shift",
+			"ctrl" 		: "Strg",
+			"alt" 		: "Alt",
+		},
+	},
+
+	"main_menu": {
+		"header_text"	: "Willkommen zur [?legal/game_name]",
+		"version_str"	: "Version {0} <- Das ist der Inhalt der Datei version.json",
+		"start_game"	: "Spiel starten",
+		"exit_game"		: "Spiel beenden",
+		
+		"info": {
+			"about"		: "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als scribble_font_set_default eingetragen!",
+			"hotswap"	: "Klicke die Sprachbuttons\num LG_hotswap in Aktion zu sehen",
+			"flag"		: "Die animated_flag in Aktion ->",
+		},
+		
+		"tooltips": {
+			"language_button"	: "Objekt: Objects\\LanguageButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
+			"game_button"		: "Objekt: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
+			"demo_label"		: "Dieser String wurde mittels String Reference in json aufgelöst.\nSieh in die locale_de.json bei \"main_menu/header_text\" im Included Files\\locale Ordner!",
+			"version_label"		: "Sieh dir die version.json Datei im Included Files Ordner an!",
+		},
+
+	},
+
+}

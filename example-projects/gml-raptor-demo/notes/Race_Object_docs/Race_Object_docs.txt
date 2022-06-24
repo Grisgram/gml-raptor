@@ -1,0 +1,148 @@
+RACE - The (RA)ndom (C)ontent (E)ngine.
+Copyright (c) 2012-2022 Michael Barthold, indievidualgames.com
+
+Please respect the MIT License for this library: https://opensource.org/licenses/MIT
+====================================================================================
+
+UserEvents
+==========
+	Race utilizes two callbacks: 
+		onQueryHit
+		onQueryStarted
+
+	onQueryStarted gets invoked on any RaceTable object when a query starts and it also invokes the RaceController's onQueryStarted, if the
+	controller is set on that table.
+	See the source code in these objects for a detailled explanation of those events, why they are there and what you can do when they get invoked.
+
+HOW CHANCE WORKS
+================
+	RACE is organized in tables (loot-tables, see "RaceTable" below).
+	When you query() a table, it looks through all the items contained 
+	in the table and builds the SUM of all chance-values.
+	So, in a table with 2 entries, each with a chance of 10, the sum is 20.
+	So each entry has equal chance of 50%, or, in other words a chance of "10 out of 20".
+	If you set the chance of one of these to 5, it only has a 33% chance ("5 out of 15"),
+	and the other one a 66% chance ("10 out of 15").
+	This chance system allows you to "weighten" drops in relation to all other items in the table.
+	There are helper functions available to modify or multiply all chances by a given amount, or to modify
+	only enabled items,... almost all thinkable combinations are available for batch-processing chances on
+	your loot items.
+
+OBJECTS
+=======
+
+RaceObject
+----------
+	The base object. Your items that drop should have this object set as parent anywhere in the inheritance chain,
+	so the onQueryHit event gets processed correctly.
+	
+	FUNCTIONS
+	---------
+		None.
+		
+	INSTANCE VARIABLES
+	------------------
+		None.
+		
+	EVENTS
+	------
+		This object reacts on these callbacks:
+			onQueryHit
+
+
+RaceTable
+---------
+	This object is that, what games call a "loot table".
+	It can receive both events, onQueryStarted and onQueryHit.
+	Race is a recursive System, so a table can be contained in another table, limited only by the maximum depth
+	of structs in GameMaker (128 levels, as far as I know at the time or writing this).
+	
+	This is very important for more complex loot systems, for instance, if you design an item system,
+	that contains commons, rare and unique items, you could build a table containing all the commons,
+	a table with all rares and a table with all uniques.
+	And then, on top of that, you define a table, containing the common, rare and unique tables.
+	The clou on this design is, each of those tables (as it is also a RaceObject) has it's own chance!
+	So, the common table could have a chance of 75, the rares of 24 and the uniques of 1.
+	This would give a sum of 100, where commons will drop at a 75% rate (75 out of 100), rares at 24%
+	and uniques only have a 1% drop chance (1 out of 100).
+
+	To learn more about how the .json files for loot tables are set up, see the documentation Race_File_Specs.
+	
+	FUNCTIONS
+	---------
+		query()
+		-------
+		To make the table "drop loot", call the query() function on this object.
+		It calls race_query() with its table name and returns the created loot.
+		For more information see race_query() documentation in Race_Function_docs.		
+				
+		set_table(table_name)
+		---------------------
+		Assigns a new table to this object's instance.
+		NOTE: You must supply the table_NAME here, not the struct!
+		This is, because this function is also used internally, to get the table based on the race_table_name 
+		instance variable when the object gets created.
+		The function will query the table from global by its own. 
+		
+	INSTANCE VARIABLES
+	------------------
+		race_controller
+		---------------
+		If this variable is set to a RaceController object instance, all events (onQueryStarted and onQueryHit)
+		will also be forwarded to this controller instance.
+		Another advantage of using a RaceController object is, that you do not have to take care, that the
+		json table file gets loaded. This is done by the controller.
+		
+		race_table_name
+		---------------
+		Enter the name of the table this object shall use, when query() is invoked.
+		
+		race_drop_on_layer
+		------------------
+		Enter the layer name where to drop item loot.
+		This variable may be overruled (but not overWRITTEN!) by the optional parameter of the query() function.
+		
+	EVENTS
+	------
+		onCreate
+		--------
+		Sets the table to use based on the race_table_name instance variable (if set).
+		
+		This object reacts on these callbacks:
+			onQueryStarted
+			onQueryHit
+
+
+RaceController
+--------------
+	This is a controller item that will load a json-table when it gets created. The name of the file
+	is specified in the race_table_file_name instance variable of this object.
+
+	USAGE OF A CONTROLLER IS TOTALLY OPTIONAL!
+	If you do not use a controller item, you must load your json tables in code by calling race_load_file(...).
+	It will receive onQueryHit and onQueryStarted events for EVERY table that has set this controller
+	in its race_controller instance variable.
+	Treat them like kind of global watchdog events to have one central point, where all those events
+	come together to count up achievement progress, centralized logging, whatever.
+	For more information on RaceController, look in its source code, all events have detailled
+	descriptions for their usage.
+
+	FUNCTIONS
+	---------
+		None.
+		
+	INSTANCE VARIABLES
+	------------------
+		race_table_file_name
+		--------------------
+		Holds the file name of the json file this controller shall load when created.
+		
+	EVENTS
+	------
+		onCreate
+		--------
+		Loads the race table json file specified in the race_table_file_name instance variable (if set).
+		
+		This object reacts on these callbacks:
+			onQueryStarted
+			onQueryHit

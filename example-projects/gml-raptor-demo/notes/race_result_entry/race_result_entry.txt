@@ -1,0 +1,20 @@
+
+	This is the return value of a call to the query(...) function.
+	query(...) returns an array of race_result_entry.
+
+
+race_result_entry
+-----------------
+
+		name		= item name
+		type		= objecttype (asset name)
+		data		= race data_struct (enabled, chance, ...)
+		attributes	= attributes of this item (= data.attributes)
+		instance	= dropped instance (or undefined)
+
+	All contained objects already exist on the layer and are instantiated.
+	Their onCreate and onQueryHit events have already been executed.
+	If no drop was generated, [instance] contains undefined.
+	
+	A note on attributes: If the race entry had not attributes, this member contains {}
+	an empty struct and is never undefined.

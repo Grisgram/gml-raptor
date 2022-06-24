@@ -1,0 +1,6 @@
+/// @description set mouse_over_image_index
+
+if (HIDDEN_BEHIND_POPUP) exit;
+
+event_inherited();
+__set_over_image();
