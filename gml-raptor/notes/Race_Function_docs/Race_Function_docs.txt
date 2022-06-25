@@ -19,9 +19,9 @@ FUNCTIONS
 
 MACROS
 ------
-	__RACE_TABLE_QUERIED		-> holds the struct of the topmost table, that started the current query
-	__RACE_TABLE_CURRENT		-> holds the struct of the table where the dropped item here is contained in
-	__RACE_ITEM_DROPPED		-> holds the race struct (race_result_entry) that just dropped.
+	RACE_TABLE_QUERIED		-> holds the struct of the topmost table, that started the current query
+	RACE_TABLE_CURRENT		-> holds the struct of the table where the dropped item here is contained in
+	RACE_ITEM_DROPPED		-> holds the race struct (race_result_entry) that just dropped.
 	The _TABLE_ macros MAY hold the same value, but in a recursive scenario, they might be different.
 
 
@@ -82,7 +82,7 @@ race_add_table(table_name, table_struct, overwrite_existing = true)
 	This function can be used to import a table that has not been loaded
 	through a regular race file, but from somewhere else, maybe the savegame.
 	NOTE: Overwriting an existing table means: Another INSTANCE is assigned!
-	All your current pointers to table old table are now invalid/target the wrong struct!
+	All your current pointers to the old table are now invalid/target the wrong struct!
 	Make sure to call set_table() on all object instances of the RaceTable object in your 
 	current room that use this table!
 	NOTE: NEVER add a table with a name starting with a dollar sign ($)!
@@ -122,7 +122,7 @@ race_table_reset(table_name)
 	@returns {struct}			The reset race table struct.
 	
 
-race_table_delete_temp(table_name)
+__race_table_delete_temp(table_name)
 ----------------------------------
 	Deletes a temporary race_table (that is a table, created through "+" queries
 	or with race_table_clone(...).

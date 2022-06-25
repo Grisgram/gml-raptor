@@ -28,9 +28,9 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 #macro __RACE_GLOBAL			global.__race_tables
 
 // internal query-runtime macros
-#macro __RACE_TABLE_CURRENT		global.__race_table_current
-#macro __RACE_TABLE_QUERIED		global.__race_table_queried
-#macro __RACE_ITEM_DROPPED		global.__race_item_dropped
+#macro RACE_TABLE_CURRENT		global.__race_table_current
+#macro RACE_TABLE_QUERIED		global.__race_table_queried
+#macro RACE_ITEM_DROPPED		global.__race_item_dropped
 
 #macro __RACE_TEMP_TABLE_PREFIX	"$"
 
@@ -125,7 +125,7 @@ function race_table_exists(table_name) {
 	return variable_struct_exists(__RACE_GLOBAL, table_name);
 }
 
-/// @function					race_table_reset(table_name)
+/// @function					race_table_reset(table_name, recursive = false)
 /// @param {string} table_name	The table to reset
 /// @param {bool=false} recursive	(Default false). Set to true to have referenced sub tables reset also.
 /// @returns {struct}			The reset race table struct.
@@ -144,7 +144,7 @@ function race_table_reset(table_name, recursive = false) {
 			if (recursive && string_starts_with(name, "="))
 				race_table_reset(string_skip_start(name, 1), recursive);
 			if (string_starts_with(name, __RACE_TEMP_TABLE_PREFIX))
-				race_table_delete_temp(name);
+				__race_table_delete_temp(name);
 		}
 		var dc = snap_deep_copy(cache);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);
@@ -173,12 +173,12 @@ function race_table_clone(table_name) {
 	return undefined;
 }
 
-/// @function					race_table_delete_temp(table_name)
+/// @function					__race_table_delete_temp(table_name)
 /// @description				Deletes a temporary race_table (that is a table, created through "+" queries
 ///								or with race_table_clone(...).
 ///								NOTE: Only tables that start with "$" can be deleted!
 /// @param {string} table_name	The table to delete
-function race_table_delete_temp(table_name) {
+function __race_table_delete_temp(table_name) {
 	if (!string_starts_with(table_name, __RACE_TEMP_TABLE_PREFIX) || !race_table_exists(table_name))
 		return;
 	log(sprintf("Deleting temp race table '{0}'", table_name));

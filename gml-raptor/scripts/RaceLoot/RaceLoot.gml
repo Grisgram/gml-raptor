@@ -70,36 +70,36 @@ function __race_dropItem(race_controller, item_struct, layer_to_drop) {
 	var dropx = variable_instance_exists(self, "x") ? x : 0;
 	var dropy = variable_instance_exists(self, "y") ? y : 0;
 	var drop = instance_create_layer(dropx ?? 0, dropy ?? 0, layer_to_drop, asset_get_index(itemtype));
-	__RACE_ITEM_DROPPED = item_struct;
+	RACE_ITEM_DROPPED = item_struct;
 	
 	var instname;
 	with (drop) {
 		instname = MY_NAME;
 		data.race_data = item_struct;
-		onQueryHit(__RACE_TABLE_QUERIED, __RACE_TABLE_CURRENT, item_struct);
+		onQueryHit(RACE_TABLE_QUERIED, RACE_TABLE_CURRENT, item_struct);
 	}
 	log(sprintf("Dropped item: instance='{0}'; object='{1}'; layer='{2}';", instname, itemtype, layer_to_drop));
 
 	if (race_controller != noone) {
 		with (race_controller)
-			onQueryHit(__RACE_TABLE_QUERIED, __RACE_TABLE_CURRENT, item_struct);
+			onQueryHit(RACE_TABLE_QUERIED, RACE_TABLE_CURRENT, item_struct);
 	}
-	__RACE_ITEM_DROPPED = undefined;
+	RACE_ITEM_DROPPED = undefined;
 	return drop;
 };
 
 function __race_queryRecursive(race_table_object, race_controller, table, result, uniques) {
-	__RACE_TABLE_CURRENT = table;
+	RACE_TABLE_CURRENT = table;
 	// Push onQueryStarted only on the top level table (not in the recursions)
-	if (__RACE_TABLE_CURRENT == __RACE_TABLE_QUERIED) {
+	if (RACE_TABLE_CURRENT == RACE_TABLE_QUERIED) {
 		if (race_controller != noone) {
 			with (race_controller)
-				onQueryStarted(__RACE_TABLE_QUERIED, __RACE_TABLE_CURRENT);
+				onQueryStarted(RACE_TABLE_QUERIED, RACE_TABLE_CURRENT);
 		}
 	
 		if (race_table_object != noone) {
 			with(race_table_object)
-				onQueryStarted(__RACE_TABLE_QUERIED, __RACE_TABLE_CURRENT);
+				onQueryStarted(RACE_TABLE_QUERIED, RACE_TABLE_CURRENT);
 		}
 	}
 	
@@ -165,9 +165,9 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 
 		rv = [];
 
-		__RACE_TABLE_QUERIED = race_get_table(table_name);
+		RACE_TABLE_QUERIED = race_get_table(table_name);
 
-		__race_queryRecursive(race_table_object, race_controller, __RACE_TABLE_QUERIED, rv, unique_drops);
+		__race_queryRecursive(race_table_object, race_controller, RACE_TABLE_QUERIED, rv, unique_drops);
 		if (drop_instances) {
 			var i = 0; repeat(array_length(rv)) {
 				rv[i].instance = __race_dropItem(race_controller, rv[i], drop_on_layer);
@@ -178,9 +178,9 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 		log("*ERROR* Race table '" + table_name + "' not loaded or does not exist!");
 		
 	// query is done, reset globals
-	__RACE_TABLE_QUERIED = undefined;
-	__RACE_TABLE_CURRENT = undefined;
-	__RACE_ITEM_DROPPED = undefined;
+	RACE_TABLE_QUERIED = undefined;
+	RACE_TABLE_CURRENT = undefined;
+	RACE_ITEM_DROPPED = undefined;
 	
 	return rv;
 }
