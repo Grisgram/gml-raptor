@@ -37,12 +37,21 @@
 		"header_text"	: "Welcome to [?legal/game_name]",
 		"version_str"	: "Version {0} <- This demonstrates the contents of the version.json file",
 		"start_game"	: "Start Game",
+		"show_message"	: "Show MessageBox",
 		"exit_game"		: "Exit Game",
 		
 		"info": {
 			"about"		: "You see a blank gml-raptor project here.\nOnly 1 Font, no Button Sprites, this is all default.\nHover over elements, some of them\noffer a tooltip that tells you,\nwhere you can find the code in the project\nfor that specific item.\n\nOh, btw, the font is set as scribble_font_set_default in the Game_Configuration script!",
 			"hotswap"	: "Click the locale buttons\nto see LG_hotswap in action",
 			"flag"		: "The animated_flag in action ->",			
+		},
+		
+		"demo_message": {
+			"title"			: "Demo MessageBox",
+			"text"			: "This is a message displaying [c_yellow]super important information[/]\nto the user!\n\nWith a single line of code!",
+			"click_title"	: "Button clicked",
+			"ok_clicked"	: "You clicked [c_yellow]OK",
+			"cancel_clicked": "You clicked [c_yellow]CANCEL",
 		},
 		
 		"tooltips": {

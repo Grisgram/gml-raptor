@@ -45,26 +45,29 @@ function __msgbox_callback_wrapper() {
 			break;
 		}
 	}
+	ACTIVE_MESSAGE_BOX.close();
 	if (btnstruct != undefined) {
 		if (btnstruct.callback != undefined)
 			btnstruct.callback();
 	} else
 		log("*ERROR* Could not find MessageBox Button in __buttons array!");
-	ACTIVE_MESSAGE_BOX.close();
 }
 
 function __msgbox_x_button_default_callback() {
+	var callback_to_use = undefined;
 	if (ACTIVE_MESSAGE_BOX.x_button_uses_escape_callback) {
 		var esc = ACTIVE_MESSAGE_BOX.__find_button_with_hotkey(msgbox_key.escape);
 		if (esc != undefined && esc.callback != undefined) {
 			log("MessageBox closed through X-Button redirect to escape-key-callback.");
-			esc.callback();
+			callback_to_use = esc.callback;
 		}
 	} else if (ACTIVE_MESSAGE_BOX.x_button_callback != undefined) {
 		log("MessageBox closed through X-Button callback.");
-		ACTIVE_MESSAGE_BOX.x_button_callback();
+		callback_to_use = ACTIVE_MESSAGE_BOX.x_button_callback;
 	}
 	ACTIVE_MESSAGE_BOX.close();
+	if (callback_to_use != undefined)
+		callback_to_use();
 }
 
 /// @function						MessageBox(window_object, layer_name, message_title, message_text)
@@ -155,6 +158,8 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			if (other.text_color  != undefined) text_color  = other.text_color;
 			if (other.title_color != undefined) title_color = other.title_color;
 			if (other.draw_color  != undefined) draw_color  = other.draw_color;
+			if (other.text_color_mouse_over  != undefined) text_color_mouse_over  = other.text_color_mouse_over;
+			if (other.draw_color_mouse_over  != undefined) draw_color_mouse_over  = other.draw_color_mouse_over;
 			
 			if (other.distance_between_buttons  != undefined) distance_between_buttons  = other.distance_between_buttons;
 			if (other.button_offset_from_bottom != undefined) button_offset_from_bottom = other.button_offset_from_bottom;
@@ -176,6 +181,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			force_redraw();
 		}
 		show_popup();
+		return self;
 	}
 	
 	static close = function() {
@@ -203,6 +209,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			if (existing != undefined) existing.hotkey = msgbox_key.none;
 		}
 		array_push(__buttons, new __msgbox_button(button_object, button_text, on_click_callback, __layer_name, hotkey));
+		return self;
 	}
 	/// @function					add_yes(yes_button_object, on_yes_callback)
 	/// @description				add a yes-button to the window
@@ -210,7 +217,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	/// @param {function} on_yes_callback
 	/// @param {enum=msgbox_key.none} hotkey
 	static add_yes = function(yes_button_object, on_yes_callback, hotkey = msgbox_key.none) {
-		add_button(yes_button_object, "=global_words/buttons/yes", on_yes_callback, hotkey);
+		return add_button(yes_button_object, "=global_words/buttons/yes", on_yes_callback, hotkey);
 	}
 	/// @function					add_no(no_button_object, on_no_callback)
 	/// @description				add a no-button to the window
@@ -218,7 +225,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	/// @param {function} on_no_callback
 	/// @param {enum=msgbox_key.none} hotkey
 	static add_no = function(no_button_object, on_no_callback, hotkey = msgbox_key.none) {
-		add_button(no_button_object, "=global_words/buttons/no", on_no_callback, hotkey);
+		return add_button(no_button_object, "=global_words/buttons/no", on_no_callback, hotkey);
 	}
 	/// @function					add_ok(ok_button_object, on_ok_callback)
 	/// @description				add an ok-button to the window
@@ -226,7 +233,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	/// @param {function} on_ok_callback
 	/// @param {enum=msgbox_key.none} hotkey
 	static add_ok = function(ok_button_object, on_ok_callback, hotkey = msgbox_key.none) {
-		add_button(ok_button_object, "=global_words/buttons/ok", on_ok_callback, hotkey);
+		return add_button(ok_button_object, "=global_words/buttons/ok", on_ok_callback, hotkey);
 	}
 	/// @function					add_cancel(cancel_button_object, on_cancel_callback)
 	/// @description				add a cancel-button to the window
@@ -234,7 +241,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	/// @param {function} on_cancel_callback
 	/// @param {enum=msgbox_key.none} hotkey
 	static add_cancel = function(cancel_button_object, on_cancel_callback, hotkey = msgbox_key.none) {
-		add_button(cancel_button_object, "=global_words/buttons/cancel", on_cancel_callback, hotkey);
+		return add_button(cancel_button_object, "=global_words/buttons/cancel", on_cancel_callback, hotkey);
 	}
 	/// @function					add_continue(continue_button_object, on_continue_callback)
 	/// @description				add a continue-button to the window
@@ -242,7 +249,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	/// @param {function} on_continue_callback
 	/// @param {enum=msgbox_key.none} hotkey
 	static add_continue = function(continue_button_object, on_continue_callback, hotkey = msgbox_key.none) {
-		add_button(continue_button_object, "=global_words/buttons/continue", on_continue_callback, hotkey);
+		return add_button(continue_button_object, "=global_words/buttons/continue", on_continue_callback, hotkey);
 	}
 	
 }
