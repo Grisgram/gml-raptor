@@ -21,9 +21,10 @@
 #macro	STATE_MACHINES	global.__statemachine_pool
 STATE_MACHINES		= new ListPool("STATE_MACHINES");
 
-/// @function StateMachine(self)
+/// @function	 StateMachine(_owner, ...)
 /// @description Create a new state machine with a list of states
-/// @param {owner, ...} any number of new State(...) instances that define the states
+/// @param {instance} _owner   The owner of the StateMachine. MUST be an object instance!
+/// @param {State...} states  Any number (up to 15) of State(...) instances that define the states
 function StateMachine(_owner) constructor {
 	owner		 = _owner;
 	__states	 = [];
@@ -51,7 +52,7 @@ function StateMachine(_owner) constructor {
 			return !HIDDEN_BEHIND_POPUP;
 	}
 	
-	/// @function					add_state(_name, _on_enter = undefined, _on_step, _on_leave = undefined)
+	/// @function					add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
 	/// @description				Defines a state for the StateMachine.
 	static add_state = function(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined) {
 		with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}'", _name));
@@ -84,6 +85,7 @@ function StateMachine(_owner) constructor {
 		if (active_state == undefined || active_state.name != name) {
 			if (active_state != undefined && state_exists(name)) {
 				with(owner) log(MY_NAME + sprintf(": Leaving state '{0}'{1}", other.active_state.name, leave_override != undefined ? " (with leave-override)" : ""));
+				active_state.data = data;
 				if (!active_state.leave(name, leave_override)) {
 					with(owner) log(MY_NAME + sprintf(": Leave state '{0}' aborted by leave callback!", other.active_state.name));
 					return;
@@ -96,6 +98,7 @@ function StateMachine(_owner) constructor {
 			for (var i = 0; i < array_length(__states); i++) {
 				if (__states[i].name == name) {
 					active_state = __states[i];
+					active_state.data = data;
 					with(owner) 
 						log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
 						
@@ -118,6 +121,8 @@ function StateMachine(_owner) constructor {
 	
 	/// @function delete_state(_name)
 	static delete_state = function(name) {
+		if (active_state_name() == name) 
+			return;
 		var delidx = -1;
 		for (var i = 0; i < array_length(__states); i++) {
 			if (__states[i].name == name) {
@@ -141,6 +146,7 @@ function StateMachine(_owner) constructor {
 		return active_state != undefined;
 	}
 	
+	/// @function active_state_name()
 	static active_state_name = function() {
 		return active_state != undefined ? active_state.name : undefined;
 	}
@@ -154,6 +160,7 @@ function StateMachine(_owner) constructor {
 		return undefined;
 	}
 	
+	/// @function state_exists(name)
 	static state_exists = function(name) {
 		return get_state(name) != undefined;
 	}
@@ -161,6 +168,7 @@ function StateMachine(_owner) constructor {
 	/// @function step()
 	static step = function() {
 		if (active_state != undefined) {
+			active_state.data = data;
 			var rv = active_state.step();
 			__perform_state_change("step", rv);
 		}
@@ -200,7 +208,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 		if (enter_override != undefined)
 			rv = enter_override(data, prev_state, on_enter);
 		else if (on_enter != undefined)
-			rv = on_enter(data, prev_state);
+			rv = on_enter(data, prev_state, undefined);
 		return rv;
 	}
 	
@@ -208,7 +216,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 		if (leave_override != undefined)
 			return leave_override(data, new_state, on_leave) ?? true;
 		else if (on_leave != undefined)
-			return on_leave(data, new_state) ?? true;
+			return on_leave(data, new_state, undefined) ?? true;
 		else
 			return true;
 	}
