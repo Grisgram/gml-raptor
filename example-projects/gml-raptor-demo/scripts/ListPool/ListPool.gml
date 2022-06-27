@@ -41,17 +41,34 @@ function ListPool(_name = "listPool") constructor {
 		return ds_list_size(list);
 	}
 	
-	/// @function		process_all(function_name = "step")
-	/// @description	Invokes the named function on each element in the pool.
-	///			This is done via self[$ function_name]() and NOT through.
-	///			script_execute, which would be very slow.
-	///			NOTE: The function is called SCOPED in a with(list[| i])
-	///			statement, which means, "self" in the function is the owner
-	///			of the function.
+	/// @function		process_all(function_name = "step", ...)
+	/// @description	Invokes the named function on each element in the pool
+	///					and forwards any additional parameters specified.
+	///					This is done via self[$ function_name]() and NOT through
+	///					script_execute, which would be very slow.
+	///					NOTE: The function is called SCOPED in a with(list[| i])
+	///					statement, which means, "self" in the function is the owner
+	///					of the function.
 	/// @param {string} function_name The function to invoke on each element
+	/// @param {any...} up to 15 additional parameters that will be forwarded to the invoked function.
 	static process_all = function(function_name = "step") {
-		for (var i = 0; i < ds_list_size(list); i++) {
-			with(list[| i]) self[$ function_name]();
+		switch (argument_count) {
+			case  1: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](); break;
+			case  2: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1]); break;
+			case  3: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2]); break;
+			case  4: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3]); break;
+			case  5: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4]); break;
+			case  6: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5]); break;
+			case  7: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+			case  8: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+			case  9: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+			case 10: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+			case 11: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+			case 12: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+			case 13: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+			case 14: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+			case 15: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+			case 16: for (var i = 0; i < ds_list_size(list); i++) with(list[| i]) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
 		}
 	}
 	

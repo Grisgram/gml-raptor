@@ -23,7 +23,7 @@ STATE_MACHINES		= new ListPool("STATE_MACHINES");
 
 /// @function	 StateMachine(_owner, ...)
 /// @description Create a new state machine with a list of states
-/// @param {instance} _owner   The owner of the StateMachine. MUST be an object instance!
+/// @param {instance} _owner  The owner of the StateMachine. MUST be an object instance!
 /// @param {State...} states  Any number (up to 15) of State(...) instances that define the states
 function StateMachine(_owner) constructor {
 	owner		 = _owner;
@@ -41,26 +41,51 @@ function StateMachine(_owner) constructor {
 		array_push(__states, st);
 	}
 	
-	/// @function 	events_enabled()
-	/// @description The default implementation disables events if we are behind a popup
-	///				 override/redefine if you need another condition
-	///				 ATTENTION! If you redeclare this, do it always in a with(states) {...} bracket
-	///				 in the create event of the object redefining it, otherwise you won't have access 
-	///				 to the state machine's variables, like the owner.
+	/// @function 		events_enabled()
+	/// @description	Invoked by the StateMachine when it needs to know, whether it should react
+	///					on input events like key strokes or mouse clicks.
+	///					The default implementation disables events if we are behind a popup or a 
+	///					MessageBox is currently open.
+	///					override/redefine if you need another condition
+	///					ATTENTION! If you redeclare this, do it always in a with(states) {...} bracket
+	///					in the create event of the object redefining it, otherwise you won't have access 
+	///					to the state machine's variables, like the owner.
+	/// @returns {bool} true/false Shall the StateMachine react on input events?
 	events_enabled = function() {
 		with(owner)
 			return !HIDDEN_BEHIND_POPUP;
 	}
 	
-	/// @function					add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
-	/// @description				Defines a state for the StateMachine.
+	/// @function		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
+	/// @description	Defines a new state for the StateMachine. 
+	///					NOTE: If a state with that name already exists, it is overwritten!
+	/// @param {func} _on_enter  Optional. Callback to invoke when this state gets entered
+	/// @param {func} step       Optional. Callback to invoke every frame while in this state
+	/// @param {func} _on_leave  Optional. Callback to invoke when this state shall be left
 	static add_state = function(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined) {
 		with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}'", _name));
-		if (get_state(_name) != undefined)
+		if (get_state(_name) != undefined) {
+			with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: '{0}' overwrites an existing state!", _name));
 			delete_state(_name);
+		}
 		var st = new State(_name, _on_enter, _on_step, _on_leave);
 		st.data = data;
 		array_push(__states, st);
+		return self;
+	}
+	
+	/// @function		add_state_shared(_state)
+	/// @description	Adds a shared state to the StateMachine. 
+	///					NOTE: If a state with that name already exists, it is overwritten!
+	/// @param {State}  state The shared state to add
+	static add_state_shared = function(_state) {
+		var _name = _state.name;
+		with(owner) log(MY_NAME + sprintf(": StateMachine added shared state '{0}'", _name));
+		if (get_state(_name) != undefined) {
+			with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: Shared state '{0}' overwrites an existing state!", _name));
+			delete_state(_name);
+		}
+		array_push(__states, _state);
 		return self;
 	}
 	
@@ -74,7 +99,11 @@ function StateMachine(_owner) constructor {
 		}
 	}
 	
-	/// @function set_state(name, enter_override = undefined, leave_override = undefined)
+	/// @function		set_state(name, enter_override = undefined, leave_override = undefined)
+	/// @description	Transition to a new state. If the specified state does not exist,
+	///					an error is logged and the object stays in the current state.
+	/// @param {func} enter_override  Optional. Replace the original on_enter for this transition with something else
+	/// @param {func} leave_override  Optional. Replace the original on_leave for this transition with something else	
 	static set_state = function(name, enter_override = undefined, leave_override = undefined) {
 		// automated state changes due to events may be blocked globally
 		// through the events_enabled() function
@@ -119,7 +148,10 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function delete_state(_name)
+	/// @function		delete_state(_name)
+	/// @description	Delete a state from the StateMachine.
+	///					If the object is currently in this state, the delete request is silently ignored.
+	/// @param {string} 	_name  The name of the state to delete.
 	static delete_state = function(name) {
 		if (active_state_name() == name) 
 			return;
@@ -135,23 +167,23 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function set_on_destroy(func)
-	static set_on_destroy = function(func) {
-		on_destroy = func;
-		return self;
-	}
-	
-	/// @function has_active_state()
+	/// @function			has_active_state()
+	/// @description		Check whether the StateMachine is currently in a valid state
+	/// @returns {bool} 	true/false Is the object in a valid state?
 	static has_active_state = function() {
 		return active_state != undefined;
 	}
 	
-	/// @function active_state_name()
+	/// @function			active_state_name()
+	/// @description		Get the name of the active state
+	/// @returns {string} 	The name of the active state or undefined, if there is none.
 	static active_state_name = function() {
 		return active_state != undefined ? active_state.name : undefined;
 	}
 	
-	/// @function get_state(name)
+	/// @function			get_state(name)
+	/// @description		Get the state instance with the given name
+	/// @returns {State} 	The requested state or undefined, if there is none.
 	static get_state = function(name) {
 		for (var i = 0; i < array_length(__states); i++) {
 			if (__states[i].name == name)
@@ -160,7 +192,22 @@ function StateMachine(_owner) constructor {
 		return undefined;
 	}
 	
-	/// @function state_exists(name)
+	/// @function rename_state(old_name, new_name)
+	/// @function rename_state(old_name, new_name)
+	/// @description	Rename an existing state.
+	///					Useful to rename event states if you redefine keys or similar reasons.
+	///					NOTE: If the state to rename does not exist, the rename request is silently ignored.
+	/// @param {string} old_name   The current name of the state
+	/// @param {string} new_name   The new name to assign.
+	static rename_state = function(old_name, new_name) {
+		var st = get_state(old_name);
+		if (st != undefined) st.name = new_name;
+	}
+	
+	/// @function		state_exists(name)
+	/// @description	Check whether the specified state exists
+	/// @param {string} name   The name of the state to check
+	/// @returns {bool} true/false State exists?
 	static state_exists = function(name) {
 		return get_state(name) != undefined;
 	}
@@ -174,7 +221,18 @@ function StateMachine(_owner) constructor {
 		}
 	}
 	
-	/// @function destroy()
+	/// @function		set_on_destroy(func)
+	/// @description	Set a callback function to be invoked when this StateMachine is destroyed.
+	///					Use this if you need to destroy/free resources allocated in the data of the
+	///					StateMachine (like ds_lists or ds_maps).
+	/// @param {func} func Function to invoke when this StateMachine is destroyed.
+	static set_on_destroy = function(func) {
+		on_destroy = func;
+		return self;
+	}
+	
+	/// @function		destroy()
+	/// @description	Destroy this StateMachine. The on_destroy callback will be invoked, if one is set.
 	static destroy = function() {
 		if (on_destroy != undefined)
 			on_destroy();
