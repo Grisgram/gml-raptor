@@ -21,16 +21,17 @@
 						  NOTE: infinite animations receive this trigger only if you call abort()!
 	- frame_trigger		- add a trigger to a specific frame. it gets invoked BEFORE this frame is processed
 
-	ALL TRIGGERS receive "self" (this animation instance) as first parameter.
+	If you reuse the animation often, it may become handy, to clear out all triggers from previous
+	iterations. You can use the reset_triggers() function for that. It will delete ALL registered triggers.
+	
+	Every Animation instance has a data={} struct variable available.
+	One member is added to the data in the constructor: data.anim = self;
+	It holds a pointer to the Animation, this data struct belongs to, so you can easily access the running
+	animation from within any trigger function (which is always scoped to the owner -- the game object).
+	You can add any data to it. Each trigger will receive this data struct as first parameter.
 	IN ADDITION, the frame_trigger callback receives a second parameter "frame" which holds the current frame
 	number that is about to get processed.
 
-	If you reuse the animation often, it may become handy, to clear out all triggers from previous
-	interations. You can use the reset_triggers() function for that. It will delete ALL registered triggers.
-	
-	Every Animation instance has a data={} struct variable available.
-	You can add any data to it. Each trigger will receive this data struct as first parameter.
-	
 */
 
 #macro	ANIMATIONS	global.__ANIMATIONS
@@ -38,6 +39,11 @@ ANIMATIONS		= new ListPool("ANIMATIONS");
 
 /// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
 /// @description	Holds an animation. set repeats to -1 to loop forever until you call abort()
+/// @param {instance}	_obj_owner  The object to be animated
+/// @param {int}		_delay      How many frames to wait until animation starts
+/// @param {int}		_duration   Running time of (one loop) of the animation
+/// @param {AnimCurve}	_animcurve  The AnimCurve providing the animated values
+/// @param {int}		_repeats    Number of loops to perform. Default = 1, set to -1 for infinite repeats.
 function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) constructor {
 	owner				= _obj_owner;
 	delay				= _delay;
@@ -45,6 +51,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= {};
+	data.animation      = self;
 
 	func_x				= function(value) { if (__move_distance_mode) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
 	func_y				= function(value) { if (__move_distance_mode) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
@@ -93,26 +100,48 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		interval = _interval;
 	};
 		
+	/// @function		add_started_trigger(trigger)
+	/// @description	Add a trigger to run when animation starts.
+	///					The callback will receive 1 parameter: data
+	/// @param {func}	trigger  The callback to invoke.
 	static add_started_trigger = function(trigger) {
 		array_push(__started_triggers, trigger);
 		return self;
 	}
 	
+	/// @function		add_frame_trigger(trigger)
+	/// @description	Add a trigger to run on frame X.
+	///					If you set is_interval to 'true', it will run EVERY x frames.
+	///					The callback will receive 2 parameters: data,frame
+	/// @param {int}	frame    The frame number, when to do the callback
+	/// @param {func}	trigger  The callback to invoke.
+	/// @param {bool}	trigger  If true, runs every x frames.
 	static add_frame_trigger = function(frame, trigger, is_interval = false) {
 		array_push(__frame_triggers, new __frame_trigger_class(frame, trigger));
 		return self;
 	}
 	
+	/// @function		add_loop_trigger(trigger)
+	/// @description	Add a trigger to run when the animation finished one loop.
+	///					A loop ends at the last frame of an animation.
+	///					The callback will receive 1 parameter: data
+	/// @param {func}	trigger  The callback to invoke.
 	static add_loop_trigger = function(trigger) {
 		array_push(__loop_triggers, trigger);
 		return self;
 	}
 	
+	/// @function		add_finished_trigger(trigger)
+	/// @description	Add a trigger to run when animation finishes.
+	///					The callback will receive 1 parameter: data
+	/// @param {func}	trigger  The callback to invoke.
 	static add_finished_trigger = function(trigger) {
 		array_push(__finished_triggers, trigger);
 		return self;
 	}
 	
+	/// @function		reset_triggers()
+	/// @description	Remove all registered triggers from this animation.
 	static reset_triggers = function() {
 		__started_triggers	= [];
 		__frame_triggers	= [];
@@ -140,6 +169,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	///					for x/y and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "move by" curve).
 	///					Both default move functions for x and y respect this setting.
+	/// @param {real}	xdistance  Horizontal distance
+	/// @param {real}	ydistance  Vertical distance
 	static set_move_distance = function(xdistance, ydistance) {
 		__move_distance_mode = true;
 		__move_xdistance  = xdistance;
@@ -152,6 +183,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	///					for x/y and the curve value shall be a multiplier from the current
 	///					to the target coordinates you supply here (a "move to" curve).
 	///					Both default move functions for x and y respect this setting.
+	/// @param {real}	xtarget  Horizontal target position
+	/// @param {real}	ytarget  Vertical target position
 	static set_move_target = function(xtarget, ytarget) {
 		__move_distance_mode = true;
 		__move_xdistance = xtarget - __start_x;
@@ -162,6 +195,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	/// @function		set_scale_relative(relative)
 	/// @description	tell the animation that image-scaling values are to be
 	///					interpreted as relative multiplier to the current scale (default = false)
+	/// @param {bool}	relative  If true, then the scale value is interpreted as multiplier
 	static set_scale_relative = function(relative) {
 		__relative_scale = relative;
 		return self;
@@ -171,6 +205,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	/// @description	use this function if the animcurve holds a standard 0..1 value
 	///					for image_angle and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "rotate by" curve).
+	/// @param {real}	degrees  The number of degrees to rotate
 	static set_rotation_distance = function(degrees) {
 		__relative_angle = true;
 		__rotation_distance = degrees;
@@ -182,6 +217,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	///					for x/y and the curve value shall be a multiplier from the current
 	///					to the target angle you supply here (a "rotate to" curve).
 	///					Both default move functions for x and y respect this setting.
+	/// @param {real}	degrees  The angle to rotate to
 	static set_rotation_target = function(degrees) {
 		__relative_angle = true;
 		__rotation_distance = degrees - __start_angle;
@@ -190,9 +226,18 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 
 	/// @function		set_blend_range(start_color = c_white, end_color = c_white)
 	/// @description	set the two colors that shall be modified during an image_blend curve
+	/// @param {color}	start_color  Color on animcurve value = 0. Default = c_white
+	/// @param {color}	end_color    Color on animcurve value = 1. Default = c_white
 	static set_blend_range = function(start_color = c_white, end_color = c_white) {
 		__blend_start = start_color;
 		__blend_end	  = end_color;
+		return self;
+	}
+
+	/// @function					set_function(channel_name, _function)
+	/// @description				Assign a function that takes 1 argument (the value) for a channel
+	static set_function = function(channel_name, _function) {
+		self[$ "func_" + channel_name] = method(self, _function);
 		return self;
 	}
 
@@ -203,17 +248,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		return self;
 	}
 	
-	/// @function play_forward()
+	/// @function play_backwards()
 	/// @description Animation shall play backwards (Animcurve starts at 1 and goes back to 0)
 	static play_backwards = function() {
 		__play_forward = false;
-		return self;
-	}
-
-	/// @function					set_function(channel_name, _function)
-	/// @description				Assign a function that takes 1 argument (the value) for a channel
-	static set_function = function(channel_name, _function) {
-		self[$ "func_" + channel_name] = method(self, _function);
 		return self;
 	}
 
@@ -272,7 +310,9 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	}
 		
 	/// @function		reset()
-	/// @description	All back to start. Animation will RUN now!
+	/// @description	All back to start. Animation will RUN now (but respect the delay)!
+	///					NOTE: The animation direction (forward/backward) will NOT change 
+	///					with a reset!
 	static reset = function() {
 		ANIMATIONS.add(self);
 		
@@ -298,13 +338,14 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 }
 
 /// @function		animation_clear_pool()
-/// @description	Instantly removes ALL animations.
+/// @description	Instantly removes ALL animations from the global ANIMATIONS pool.
 function animation_clear_pool() {
 	ANIMATIONS.clear();
 }
 
 /// @function		animation_remove_all(owner = self)
-/// @description	Holds an animation. set repeats to -1 to loop forever until you call abort()
+/// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
+/// @param {instance} owner  The owner that shall have its animations removed.
 function animation_remove_all(owner = self) {
 	var removers = [];
 	var lst = ANIMATIONS.list;
@@ -339,9 +380,12 @@ function animation_remove_all(owner = self) {
 	}
 }
 
-/// @function		in_animation(owner = self)
-/// @description	returns true, if there's at least one animation for the specified owner currently in the pool
-function in_animation(owner = self) {
+/// @function		is_in_animation(owner = self)
+/// @description	Returns true, if there's at least one animation for the specified owner 
+///					currently in the global ANIMATIONS pool
+/// @param {instance}	owner  The owner to check.
+/// @returns {bool}		true, if at least one animation for the specified owner is active
+function is_in_animation(owner = self) {
 	var lst = ANIMATIONS.list;
 	if (IS_HTML) {
 		var myowner;
@@ -372,14 +416,15 @@ function in_animation(owner = self) {
 ///						(started, finished, frames, etc). It just has no animation.
 ///						You can use this to easily delay or repeat actions without the need of
 ///						actually design a real animation.
-///						This function return an Animation struct instance for chaining.
+///						Can be seen as a comfortable ALARM implementation with more options than the builtin alarms.
 /// @returns {Animation}
 function animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
 	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats);
 }
 
 /// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
-/// @description		constructor wrapper if you don't need to keep your own pointer
+/// @description		convenience constructor wrapper if you don't need to keep your own pointer
+/// @returns {Animation}
 function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) {
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats);
 }

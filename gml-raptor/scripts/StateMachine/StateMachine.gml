@@ -32,6 +32,8 @@ function StateMachine(_owner) constructor {
 	active_state = undefined;
 	on_destroy	 = undefined;
 	
+	data.state_machine = self;
+	
 	with(owner) log(MY_NAME + ": StateMachine created");
 	
 	for (var i = 1; i < argument_count; i++) {
