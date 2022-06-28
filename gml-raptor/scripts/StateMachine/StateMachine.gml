@@ -26,13 +26,14 @@ STATE_MACHINES		= new ListPool("STATE_MACHINES");
 /// @param {instance} _owner  The owner of the StateMachine. MUST be an object instance!
 /// @param {State...} states  Any number (up to 15) of State(...) instances that define the states
 function StateMachine(_owner) constructor {
-	owner		 = _owner;
-	__states	 = [];
-	data		 = {};
-	active_state = undefined;
-	on_destroy	 = undefined;
+	owner				= _owner;
+	__states			= [];
+	active_state		= undefined;
+	on_destroy			= undefined;
+	__allow_re_enter	= false;
 	
-	data.state_machine = self;
+	data				= {};
+	data.state_machine	= self;
 	
 	with(owner) log(MY_NAME + ": StateMachine created");
 	
@@ -113,7 +114,7 @@ function StateMachine(_owner) constructor {
 			return;
 			
 		var rv = undefined;
-		if (active_state == undefined || active_state.name != name) {
+		if (active_state == undefined || __allow_re_enter || active_state.name != name) {
 			if (active_state != undefined && state_exists(name)) {
 				with(owner) log(MY_NAME + sprintf(": Leaving state '{0}'{1}", other.active_state.name, leave_override != undefined ? " (with leave-override)" : ""));
 				active_state.data = data;
@@ -221,6 +222,17 @@ function StateMachine(_owner) constructor {
 			var rv = active_state.step();
 			__perform_state_change("step", rv);
 		}
+	}
+	
+	/// @function		set_allow_re_enter_state(allow)
+	/// @description	Set whether re-entering the same state is allowed (Default = false).
+	///					If you set this to true, a set_state with the name of the current state
+	///					will cause the on_leave of the current state followed by on_enter of
+	///					the same to be invoked.
+	/// @param {bool}	allow  Set to true, if re-entering the current state is allowed (Default = false)
+	static set_allow_re_enter_state = function(allow) {
+		__allow_re_enter = allow;
+		return self;
 	}
 	
 	/// @function		set_on_destroy(func)
