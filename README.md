@@ -8,7 +8,7 @@ I will not accept issues and bugs from this pre-release version.
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/174816442-47348841-a956-4f23-970b-38fc7ad73864.png" style="display:block; margin:auto; width:438px"></p>
 
 `raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
-This repository contains a ready-to-use project template in yyz format ready to be downloaded as release from (todo:create link)here.
+This repository contains a ready-to-use project template in `.yyz` format ready to be downloaded as release from (todo:create link)here.
 
 ## Main Features
 
