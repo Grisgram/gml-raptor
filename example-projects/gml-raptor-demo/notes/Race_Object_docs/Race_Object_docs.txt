@@ -55,7 +55,7 @@ RaceTable
 	This object is that, what games call a "loot table".
 	It can receive both events, onQueryStarted and onQueryHit.
 	Race is a recursive System, so a table can be contained in another table, limited only by the maximum depth
-	of structs in GameMaker (128 levels, as far as I know at the time or writing this).
+	of structs in GameMaker (128 levels, as far as I know at the time of writing this).
 	
 	This is very important for more complex loot systems, for instance, if you design an item system,
 	that contains commons, rare and unique items, you could build a table containing all the commons,

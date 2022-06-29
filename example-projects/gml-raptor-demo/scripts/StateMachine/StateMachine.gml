@@ -232,6 +232,7 @@ function StateMachine(_owner) constructor {
 	/// @param {bool}	allow  Set to true, if re-entering the current state is allowed (Default = false)
 	static set_allow_re_enter_state = function(allow) {
 		__allow_re_enter = allow;
+		return self;
 	}
 	
 	/// @function		set_on_destroy(func)

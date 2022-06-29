@@ -39,11 +39,17 @@
 		"start_game"	: "Spiel starten",
 		"show_message"	: "MessageBox anzeigen",
 		"exit_game"		: "Spiel beenden",
+		"player_name"	: "Gib deinen Spielernamen hier ein und klicke \"Speichern\" um das Savegame System zu demonstrieren",
+		"button_save"	: "Speichern",
+		"button_load"	: "Laden",
+		"button_save_enc" : "Speichern verschl.",
+		"button_load_enc" : "Laden verschlüsselt",
 		
 		"info": {
 			"about"		: "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als scribble_font_set_default eingetragen!",
 			"hotswap"	: "Klicke die Sprachbuttons\num LG_hotswap in Aktion zu sehen",
 			"flag"		: "Die animated_flag in Aktion ->",
+			"save_loc"	: "Die Savegame Dateien sind in\nC:/Benutzer/<dein-user-name>/appdata/local/gml_raptor_demo",
 		},
 		
 		"demo_message": {

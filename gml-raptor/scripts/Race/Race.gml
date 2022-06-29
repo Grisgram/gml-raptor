@@ -34,6 +34,15 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 
 #macro __RACE_TEMP_TABLE_PREFIX	"$"
 
+/// @function		__race_init()
+function __race_init() {
+	if (!variable_global_exists("__race_tables"))
+		__RACE_GLOBAL = {};
+
+	if (!variable_global_exists("__race_cache"))
+		__RACE_CACHE = {};
+}
+
 /// @function							race_load_file(filename_to_load, overwrite_existing = true)
 /// @description						Loads race tables from the specified file into __RACE_GLOBAL. 
 ///										NOTE: If you (re)load a file that has already been loaded, all tables
@@ -46,12 +55,7 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 /// @param {bool=true} overwrite_existing	Defaults to true. If true, any already loaded table in memory will be reset
 ///										to the values loaded from file. Set to false to preserve any existing in-memory states.
 function race_load_file(filename_to_load, overwrite_existing = true) {
-	if (!variable_global_exists("__race_tables"))
-		__RACE_GLOBAL = {};
-
-	if (!variable_global_exists("__race_cache"))
-		__RACE_CACHE = {};
-
+	__race_init();
 	var filename = RACE_ROOT_FOLDER + filename_to_load + (string_ends_with(filename_to_load, ".json") ? "" : ".json");
 	if (!file_exists(filename)) {
 		log(sprintf("*ERROR* race table file '{0}' not found!", filename));
@@ -591,3 +595,5 @@ function __race_log_onQueryHit(first_query_table, current_query_table, item_drop
 			file_name));
 }
 #endregion
+
+__race_init();
