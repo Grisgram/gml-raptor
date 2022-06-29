@@ -2,7 +2,7 @@
     button clicks
 */
 function startButton_click() {
-	room_goto("rmPlay");
+	room_goto(rmPlay);
 }
 
 function exitButton_click() {

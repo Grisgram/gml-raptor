@@ -35,6 +35,7 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 #macro __RACE_TEMP_TABLE_PREFIX	"$"
 
 /// @function		__race_init()
+/// @description	Make sure, the race globals exist
 function __race_init() {
 	if (!variable_global_exists("__race_tables"))
 		__RACE_GLOBAL = {};

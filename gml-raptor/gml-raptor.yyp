@@ -54,6 +54,7 @@
     {"id":{"name":"scribble_font_add_msdf","path":"scripts/scribble_font_add_msdf/scribble_font_add_msdf.yy",},"order":3,},
     {"id":{"name":"LG_Configuration","path":"scripts/LG_Configuration/LG_Configuration.yy",},"order":9,},
     {"id":{"name":"snap_from_yaml","path":"scripts/snap_from_yaml/snap_from_yaml.yy",},"order":0,},
+    {"id":{"name":"KeyTranslator","path":"scripts/KeyTranslator/KeyTranslator.yy",},"order":12,},
     {"id":{"name":"sprDefaultWindow","path":"sprites/sprDefaultWindow/sprDefaultWindow.yy",},"order":3,},
     {"id":{"name":"__scribble_gc_collect","path":"scripts/__scribble_gc_collect/__scribble_gc_collect.yy",},"order":9,},
     {"id":{"name":"UnitTestAll","path":"scripts/UnitTestAll/UnitTestAll.yy",},"order":2,},

@@ -82,6 +82,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	__cvalue			= 0;
 	__first_step		= false;
 	__play_forward		= true;
+	__paused			= false;
 
 	__blend_start		 = c_white;
 	__blend_end			 = c_white;
@@ -115,9 +116,9 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	///					The callback will receive 2 parameters: data,frame
 	/// @param {int}	frame    The frame number, when to do the callback
 	/// @param {func}	trigger  The callback to invoke.
-	/// @param {bool}	trigger  If true, runs every x frames.
+	/// @param {bool}	is_interval  If true, runs every x frames.
 	static add_frame_trigger = function(frame, trigger, is_interval = false) {
-		array_push(__frame_triggers, new __frame_trigger_class(frame, trigger));
+		array_push(__frame_triggers, new __frame_trigger_class(frame, trigger, is_interval));
 		return self;
 	}
 	
@@ -159,7 +160,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		var t;
 		for (var i = 0; i < array_length(__frame_triggers); i++) {
 			t = __frame_triggers[@ i];
-			if (t.frame == frame || (t.interval && (t.frame mod frame == 0))) t.trigger(data, frame);
+			if (t.frame == frame || (t.interval && (frame % t.frame == 0))) t.trigger(data, frame);
 		}
 	}
 	#endregion
@@ -255,10 +256,39 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		return self;
 	}
 
+	/// @function		pause()
+	/// @description	Pause the animation at the current frame
+	static pause = function() {
+		__paused = true;
+		return self;
+	}
+	
+	/// @function		resume()
+	/// @description	Resume the animation at the frame it has been paused
+	static resume = function() {
+		__paused = false;
+		return self;
+	}
+	
+	/// @function		set_paused(paused)
+	/// @description	Set the pause state
+	/// @param {bool}	paused  true to pause, false to resume
+	static set_paused = function(paused) {
+		__paused = paused;
+		return self;
+	}
+
+	/// @function		is_paused()
+	/// @description	Check whether this animation is currently paused
+	/// @returns {bool} The current pause state
+	static is_paused = function() {
+		return __paused;
+	}
+
 	/// @function					step()
 	/// @description				call this every step!
 	static step = function() {
-		if (__finished) return;
+		if (__finished || __paused) return;
 		
 		if (__active) {
 			if (__first_step) {
@@ -266,8 +296,9 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 				__invoke_triggers(__started_triggers);
 			}
 			
+			__total_frames++;
 			__frame_counter++;
-			__invoke_frame_triggers(__frame_counter);
+			__invoke_frame_triggers(__total_frames);
 			
 			if (animcurve != undefined) {
 				var pit = __play_forward ? __frame_counter : (duration - __frame_counter);
@@ -324,10 +355,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		
 		__delay_counter		= 0;
 		__frame_counter		= 0;
+		__total_frames		= 0;
 		__repeat_counter	= 0;
 		__active			= delay == 0;
 		__finished			= repeats == 0;
 		__first_step		= __active;
+		__paused			= false;
 		
 		return self;
 	}

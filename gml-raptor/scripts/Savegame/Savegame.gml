@@ -11,10 +11,15 @@
 #macro SAVEGAME_SAVE_IN_PROGRESS		global.__savegame_save_in_progress
 #macro SAVEGAME_LOAD_IN_PROGRESS		global.__savegame_load_in_progress
 
+// The GLOBALDATA struct is persisted with the savegame
+#macro GLOBALDATA			global.__game_data
+GLOBALDATA = {};
+
 // holds custom structs for the savegame
 #macro __SAVEGAME_STRUCTS				global.__savegame_structs
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances
-										
+
+#macro __SAVEGAME_GLOBAL_DATA_HEADER	"global_data"
 #macro __SAVEGAME_RACE_HEADER			"race_tables"
 #macro __SAVEGAME_OBJECT_HEADER			"instances"
 #macro __SAVEGAME_STRUCT_HEADER			"structs"
@@ -80,6 +85,9 @@ function savegame_load_game(filename, cryptkey = "") {
 	// load engine data
 	var engine = variable_struct_get(savegame, __SAVEGAME_ENGINE_HEADER);
 	random_set_seed(variable_struct_get(engine, __SAVEGAME_ENGINE_SEED));
+	
+	// load global data
+	GLOBALDATA = variable_struct_get(savegame, __SAVEGAME_GLOBAL_DATA_HEADER);
 	
 	// load all race tables
 	var race = variable_struct_get(savegame, __SAVEGAME_RACE_HEADER);
@@ -219,6 +227,9 @@ function savegame_save_game(filename, cryptkey = "") {
 	variable_struct_set(engine, __SAVEGAME_ENGINE_SEED, random_get_seed());
 	variable_struct_set(savegame, __SAVEGAME_ENGINE_HEADER, engine);
 	
+	// save global data
+	variable_struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+
 	// Then, add all race tables to the save game
 	var race = {};
 	variable_struct_set(savegame, __SAVEGAME_RACE_HEADER, race);

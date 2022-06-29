@@ -65,8 +65,15 @@
 			"game_button"		: "Object: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nSettings: RoomEditor Variables on this Object",
 			"demo_label"		: "This string is resolved via string reference in json.\nLook at the locale_en.json in the Included Files\\locale folder at \"main_menu/header_text\"!",
 			"version_label"		: "Look at the version.json File in the Included Files folder!",
+			"inputbox"			: "Enter some text and test the UX:\n[c_yellow]Cursor keys[/], [c_yellow]Shift+Cursor[/]\n[c_yellow]Home, End[/] (with and without Shift)\n[c_yellow]Mouse-Click[/], [c_yellow]Mouse-Drag[/] to select,\n[c_yellow]Ctrl-C, Ctrl-X, Ctrl-V[/] etc\n\nThe InputBox offers quite some comfort!",
 		},
 
+	},
+
+	"play": {
+		"ui": {
+			"debug_info"	: "Press [c_yellow]F12[/] to show/hide the debug infos",
+		},
 	},
 
 }
