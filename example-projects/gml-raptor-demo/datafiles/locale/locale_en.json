@@ -71,7 +71,16 @@
 	},
 
 	"play": {
+		"how_to_play": {
+			"title": "How to play",
+			"text":  "Move your character with WASD keys.\n\nIn the middle of the screen, a [c_yellow]Spawner[/] will appear.\nIt spits out [c_yellow]enemies[/] every now and then.\n\nThey see you when you enter their yellow [c_yellow]Scanner range[/].\n\n[shake]Then you die.[/]\n\nIf you can touch an enemy on its back side, [shake]then the enemy dies![/]\n\n[c_orange]Try to survive as long as you can!",
+		},
+		"game_over": {
+			"title": "Game over",
+			"text":  "You got caught!\n\nBut you could at least eliminate [c_yellow]{0}[/] enemies!\n\nNow we're heading back to the [c_yellow]Main Menu[/].",
+		},
 		"ui": {
+			"score_view"	: "Enemies eliminated: [c_yellow][scale,1.5]{0}[/]",
 			"debug_info"	: "Press [c_yellow]F12[/] to show/hide the debug infos",
 		},
 	},

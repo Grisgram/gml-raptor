@@ -17,6 +17,8 @@ states
 	function() {
 		vspeed = MOVE_SPEED * keyboard_check(ord("S")) - MOVE_SPEED * keyboard_check(ord("W"));
 		hspeed = MOVE_SPEED * keyboard_check(ord("D")) - MOVE_SPEED * keyboard_check(ord("A"));
+		x = clamp(x, 0, VIEW_WIDTH);
+		y = clamp(y, 0, VIEW_HEIGHT);
 	}
 )
 .add_state("pause")

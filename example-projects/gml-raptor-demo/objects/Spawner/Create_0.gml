@@ -38,11 +38,11 @@ states
 		// declare the infinit animation to be ready to go after spawn-animation finishes.
 		sdata.running_anim = sdata.running_anim ?? 
 			new Animation(self, 0, 480, acRotate360, -1) // rotate once per 8 seconds (480 frames), -1 repeats == infinite loop
-			.add_frame_trigger(150, function() {
-				// spawn a new enemy every 2.5 seconds (= 150 frames)
-				if (GLOBALDATA.enemy_count < MAX_ENEMY_COUNT)
-					instance_create_layer(x,y, "Actors", Enemy);
-			}, true); // the "true" here sets this frame trigger to be an "interval" trigger every 150 frames
+				.add_frame_trigger(150, function() {
+					// spawn a new enemy every 2.5 seconds (= 150 frames)
+					if (GLOBALDATA.enemy_count < MAX_ENEMY_COUNT)
+						instance_create_layer(x,y, "Actors", Enemy);
+				}, true); // the "true" here sets this frame trigger to be an "interval" trigger every 150 frames
 			
 		sdata.running_anim.pause();
 

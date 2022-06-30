@@ -71,7 +71,16 @@
 	},
 	
 	"play": {
+		"how_to_play": {
+			"title": "Spielregeln",
+			"text":  "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [c_yellow]Spawner[/].\nEr spuckt ständig [c_yellow]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [c_yellow]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[c_orange]Versuche, so lange wie möglich am Leben zu bleiben!",
+		},
+		"game_over": {
+			"title": "Game over",
+			"text":  "Du wurdest entdeckt!\n\nAber du hast immerhin [c_yellow]{0}[/] Gegner eliminiert!\n\nNun geht's zurück zum [c_yellow]Hauptmenü[/].",
+		},
 		"ui": {
+			"score_view"	: "Gegner eliminiert: [c_yellow][scale,1.5]{0}[/]",
 			"debug_info"	: "Drücke [c_yellow]F12[/] um die Debug-Infos ein-/auszublenden",
 		},
 	},

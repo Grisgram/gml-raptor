@@ -5,8 +5,8 @@
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "Saveable",
-    "path": "objects/Saveable/Saveable.yy",
+    "name": "StatefulObject",
+    "path": "objects/StatefulObject/StatefulObject.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,

@@ -34,7 +34,7 @@
 
 */
 
-#macro	ANIMATIONS	global.__ANIMATIONS
+#macro ANIMATIONS	global.__ANIMATIONS
 ANIMATIONS		= new ListPool("ANIMATIONS");
 
 /// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
@@ -376,11 +376,12 @@ function animation_clear_pool() {
 	ANIMATIONS.clear();
 }
 
-/// @function		animation_remove_all(owner = self)
-/// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner that shall have its animations removed.
-function animation_remove_all(owner = self) {
-	var removers = [];
+/// @function		animation_get_all(owner = self)
+/// @description	Get all registered animations for the specified owner from the global ANIMATIONS pool.
+/// @param {instance} owner  The owner whose animations you want to retrieve.
+function animation_get_all(owner = self) {
+	var rv = [];
+
 	var lst = ANIMATIONS.list;
 	if (IS_HTML) {
 		var myowner;
@@ -393,15 +394,24 @@ function animation_remove_all(owner = self) {
 			with (item.owner)
 				otherowner = MY_NAME;
 			if (myowner == otherowner)
-				array_push(removers, item);
+				array_push(rv, item);
 		}		
 	} else {
 		for (var i = 0; i < ds_list_size(lst); i++) {
 			var item = lst[| i];
 			if (item.owner == owner)
-				array_push(removers, item);
+				array_push(rv, item);
 		}
 	}
+
+	return rv;
+}
+
+/// @function		animation_remove_all(owner = self)
+/// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
+/// @param {instance} owner  The owner that shall have its animations removed.
+function animation_remove_all(owner = self) {
+	var removers = animation_get_all(owner);
 	
 	with (owner) 
 		log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));

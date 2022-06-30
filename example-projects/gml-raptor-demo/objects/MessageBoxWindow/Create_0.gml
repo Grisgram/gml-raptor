@@ -3,7 +3,7 @@
 event_inherited();
 
 buttons = [];
-text_distance_top_bottom = 32;
+text_distance_top_bottom = 64;
 distance_between_buttons = 12;
 button_offset_from_bottom = 12;
 
@@ -69,14 +69,10 @@ __draw_self = function() {
 		
 		if (sprite_index != -1) {
 			// adapt image scale if necessary after calculating the buttons
+			var sumheight = __scribble_text.get_height() + maxh + button_offset_from_bottom + text_distance_top_bottom;
+			
 			image_xscale = max(image_xscale, (max(min_width, sumwidth) + distx) / sprite_get_width(sprite_index));
-			image_yscale = max(image_yscale, (max(min_height, SELF_HEIGHT_UNSCALED + 2 * text_distance_top_bottom + maxh + button_offset_from_bottom) + disty) / sprite_get_height(sprite_index));
-
-			// TODO: Warum hab ich das getan? Das ergibt keinen Sinn... Einfach löschen wenn Spiel fertig und es keine bekannten Bugs gibt
-			//__startup_xscale = image_xscale;
-			//__startup_yscale = image_yscale;
-			//min_width  = sprite_width;
-			//min_height = sprite_height;
+			image_yscale = max(image_yscale, (max(min_height, sumheight) + disty) / sprite_get_height(sprite_index));
 		
 			__setup_drag_rect(ninetop);
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);

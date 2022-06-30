@@ -12,5 +12,5 @@
 /// @function		drawDebugInfo()
 function drawDebugInfo() {
 	// This is a demo debug output when you press F12 to print the size of the processing queues of the active RoomController
-	draw_text(1500,850, sprintf("Statemachines: {0}\nAnimations: {1}", STATE_MACHINES.size(), ANIMATIONS.size()));
+	draw_text(1500,850, sprintf("Statemachines: {0}\nAnimations: {1}", STATEMACHINES.size(), ANIMATIONS.size()));
 }

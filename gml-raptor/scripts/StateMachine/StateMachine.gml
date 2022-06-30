@@ -18,8 +18,8 @@
 	
 */
 
-#macro	STATE_MACHINES	global.__statemachine_pool
-STATE_MACHINES		= new ListPool("STATE_MACHINES");
+#macro	STATEMACHINES	global.__statemachine_pool
+STATEMACHINES		= new ListPool("STATEMACHINES");
 
 /// @function	 StateMachine(_owner, ...)
 /// @description Create a new state machine with a list of states
@@ -251,14 +251,14 @@ function StateMachine(_owner) constructor {
 		if (on_destroy != undefined)
 			on_destroy();
 		with(owner) log(MY_NAME + ": StateMachine destroyed");
-		STATE_MACHINES.remove(self);
+		STATEMACHINES.remove(self);
 	}
 	
 	static toString = function() {
 		return active_state != undefined ? sprintf("[{0}]", active_state.name) : "[-NO-STATE-]";
 	}
 	
-	STATE_MACHINES.add(self);
+	STATEMACHINES.add(self);
 	
 }
 
@@ -306,6 +306,6 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 /// @function		state_machine_clear_pool()
 /// @description	Instantly removes ALL state machines
 function state_machine_clear_pool() {
-	STATE_MACHINES.clear();
+	STATEMACHINES.clear();
 }
 

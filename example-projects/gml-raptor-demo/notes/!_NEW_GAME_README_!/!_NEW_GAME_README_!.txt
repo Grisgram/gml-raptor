@@ -16,7 +16,7 @@
 		
 		- Start the game
 		
-		- In the Browser press Shift-Ctrl-I (inspect) and look at the Source of index.html
+		- In the Browser inspect the site and look at the Source of index.html
 		
 		- In line ~82/83 you find something like that:
 		  <script type="text/javascript" src="game/default-game.js?AWDAC=1242070312"></script>
