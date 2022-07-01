@@ -3,4 +3,6 @@
 // Inherit the parent event
 event_inherited();
 
-states.destroy();
+if (variable_instance_exists(self, "states") && states != undefined)
+	states.destroy();
+

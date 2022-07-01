@@ -1,5 +1,8 @@
 /// @description Player StateMachine
 
+#macro PLAYER	global.player
+PLAYER = self;
+
 // Inherit the parent event
 event_inherited();
 

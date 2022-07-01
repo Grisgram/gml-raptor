@@ -1,8 +1,12 @@
 /*
     button clicks
 */
-function startButton_click() {
+function startStateDemoButton_click() {
 	room_goto(rmPlay);
+}
+
+function startRaceDemoButton_click() {
+	room_goto(rmRace);
 }
 
 function exitButton_click() {

@@ -2,7 +2,6 @@
   "spriteId": null,
   "solid": false,
   "visible": true,
-  "managed": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
@@ -28,8 +27,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "play",
-    "path": "folders/Rooms/play.yy",
+    "name": "play-states",
+    "path": "folders/Rooms/play-states.yy",
   },
   "resourceVersion": "1.0",
   "name": "PlayRoomController",

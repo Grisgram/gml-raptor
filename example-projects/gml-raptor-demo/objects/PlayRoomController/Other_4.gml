@@ -4,7 +4,7 @@
 
 scribble_score = undefined;
 
-msg_show_ok("=play/how_to_play/title", "=play/how_to_play/text", function() {
+msg_show_ok("=play/how_to_play_states/title", "=play/how_to_play_states/text", function() {
 	create_spawner_and_player();
 });
 

@@ -31,8 +31,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "play",
-    "path": "folders/Objects/play.yy",
+    "name": "play-states",
+    "path": "folders/Objects/play-states.yy",
   },
   "resourceVersion": "1.0",
   "name": "Player",

@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "play",
-    "path": "folders/Sprites/play.yy",
+    "name": "play-state-demo",
+    "path": "folders/Sprites/play-state-demo.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprEnemyScan",

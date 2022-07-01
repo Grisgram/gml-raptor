@@ -51,8 +51,8 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "play",
-    "path": "folders/Rooms/play.yy",
+    "name": "play-states",
+    "path": "folders/Rooms/play-states.yy",
   },
   "resourceVersion": "1.0",
   "name": "rmPlay",

@@ -1,4 +1,4 @@
-/// @description 
+/// @description define owner
 
 // Inherit the parent event
 event_inherited();

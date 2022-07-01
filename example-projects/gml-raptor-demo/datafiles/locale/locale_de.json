@@ -34,16 +34,17 @@
 	},
 
 	"main_menu": {
-		"header_text"	: "Willkommen zur [?legal/game_name]",
-		"version_str"	: "Version {0} <- Das ist der Inhalt der Datei version.json",
-		"start_game"	: "Spiel starten",
-		"show_message"	: "MessageBox anzeigen",
-		"exit_game"		: "Spiel beenden",
-		"player_name"	: "Gib deinen Spielernamen hier ein und klicke \"Speichern\" um das Savegame System zu demonstrieren",
-		"button_save"	: "Speichern",
-		"button_load"	: "Laden",
-		"button_save_enc" : "Speichern verschl.",
-		"button_load_enc" : "Laden verschlüsselt",
+		"header_text"		: "Willkommen zur [?legal/game_name]",
+		"version_str"		: "Version {0} <- Das ist der Inhalt der Datei version.json",
+		"start_state_game"	: "[scale,1.25]StateMachine Demo starten",
+		"start_race_game"	: "[scale,1.25]Race Demo starten",
+		"show_message"		: "[scale,1.25]MessageBox anzeigen",
+		"exit_game"			: "[scale,1.25]Spiel beenden",
+		"player_name"		: "Gib deinen Spielernamen hier ein und klicke \"Speichern\" um das Savegame System zu demonstrieren",
+		"button_save"		: "Speichern",
+		"button_load"		: "Laden",
+		"button_save_enc" 	: "Speichern verschl.",
+		"button_load_enc" 	: "Laden verschlüsselt",
 		
 		"info": {
 			"about"		: "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als scribble_font_set_default eingetragen!",
@@ -71,9 +72,13 @@
 	},
 	
 	"play": {
-		"how_to_play": {
+		"how_to_play_states": {
 			"title": "Spielregeln",
 			"text":  "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [c_yellow]Spawner[/].\nEr spuckt ständig [c_yellow]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [c_yellow]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[c_orange]Versuche, so lange wie möglich am Leben zu bleiben!",
+		},
+		"how_to_play_race": {
+			"title": "Race Demo",
+			"text":  "Dies ist eine kurze Demo, die ein Spielfeld wie in einem Match-3 Spiel\nmit zufälligen Edelsteinen mit Hilfe von [c_yellow]RaceTables[/] füllt.\n\nDu kannst die Wahrscheinlichkeiten und den Enabled-Zustand anpassen.\n\nIm Raum befindet sich ein [c_yellow]RaceController[/] und ein [c_yellow]RaceTable[/] Objekt.\n\n[scale,1.25][c_yellow]ACHTUNG![/] Dies ist ein [c_yellow]DEMO[/] Programm!\nDie Eingabefelder sind nicht abgesichert!\nWenn du nonsens eingibst (zb. keine Zahlen als Chance), dann wird es abstürzen!\n\nKlicke auf [c_yellow]Starten[/], um das Spielfeld zu füllen.",
 		},
 		"game_over": {
 			"title": "Game over",
@@ -82,6 +87,10 @@
 		"ui": {
 			"score_view"	: "Gegner eliminiert: [c_yellow][scale,1.5]{0}[/]",
 			"debug_info"	: "Drücke [c_yellow]F12[/] um die Debug-Infos ein-/auszublenden",
+			"enabled"		: "Aktiv",
+			"chance"		: "Chance",
+			"race_start_button"	: "[scale,1.25]Starten",
+			"race_exit_button"	: "[scale,1.25]Demo beenden",
 		},
 	},
 
