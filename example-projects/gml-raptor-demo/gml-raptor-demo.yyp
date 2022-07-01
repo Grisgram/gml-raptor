@@ -334,7 +334,7 @@
     {"CopyToMask":-1,"filePath":"datafiles/locale","resourceVersion":"1.0","name":"locale_en.json","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles/race","resourceVersion":"1.0","name":"demotable.json","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"version.json","resourceType":"GMIncludedFile",},
-    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"index.html","resourceType":"GMIncludedFile",},
+    {"CopyToMask":3035461389054378222,"filePath":"datafiles","resourceVersion":"1.0","name":"index.html","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2022.3.0.625",

@@ -10,7 +10,7 @@ msg_show_ok("=play/how_to_play/title", "=play/how_to_play/text", function() {
 
 gain_score = function(amount) {
 	GLOBALDATA.score += amount;
-	scribble_score = scribble("[fa_left][fa_middle]" + sprintf(LG("play/ui/score_view"), GLOBALDATA.score), "score_view");
+	scribble_score = scribble("[fa_right][fa_middle]" + sprintf(LG("play/ui/score_view"), GLOBALDATA.score), "score_view");
 }
 
 create_spawner_and_player = function() {

@@ -133,7 +133,7 @@ function StateMachine(_owner) constructor {
 					active_state.data = data;
 					with(owner) 
 						log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
-						
+					
 					rv = active_state.enter(prev_name, enter_override);
 					__perform_state_change("enter", rv);
 					break;

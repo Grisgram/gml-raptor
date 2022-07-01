@@ -3,11 +3,20 @@
 // Inherit the parent event
 event_inherited();
 
+KEY_W = ord("W");
+KEY_A = ord("A");
+KEY_S = ord("S");
+KEY_D = ord("D");
+
 #macro MOVE_SPEED		4
+#macro ACCEL_DURATION	30
+
+states.data.is_alive = false;
 
 states
 .add_state("appear",
 	function(sdata) {
+		sdata.is_alive = true;
 		x = VIEW_CENTER_X;
 		y = 150;
 		return "moving";
@@ -17,8 +26,22 @@ states
 	function() {
 		vspeed = MOVE_SPEED * keyboard_check(ord("S")) - MOVE_SPEED * keyboard_check(ord("W"));
 		hspeed = MOVE_SPEED * keyboard_check(ord("D")) - MOVE_SPEED * keyboard_check(ord("A"));
-		x = clamp(x, 0, VIEW_WIDTH);
-		y = clamp(y, 0, VIEW_HEIGHT);
+		x = clamp(x, sprite_xoffset, VIEW_WIDTH  - sprite_xoffset);
+		y = clamp(y, sprite_yoffset, VIEW_HEIGHT - sprite_yoffset);
+	}
+)
+.add_state("die",
+	function(sdata) {
+		sdata.is_alive = false;
+		animation_run(self,0,30,acLinearRotate)
+			.set_rotation_distance(720)
+			.play_backwards();
+		animation_run(self,0,30,acLinearScale)
+			.play_backwards()
+			.add_finished_trigger(function() {
+				instance_destroy(self);
+				ROOMCONTROLLER.game_over();
+			});
 	}
 )
 .add_state("pause")

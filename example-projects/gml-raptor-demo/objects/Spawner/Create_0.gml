@@ -29,6 +29,11 @@ x = VIEW_CENTER_X;
 y = VIEW_CENTER_Y;
 image_alpha = 0; // start hidden
 
+spawn_enemy = function() {
+	if (GLOBALDATA.enemy_count < MAX_ENEMY_COUNT)
+		instance_create_layer(x,y, "Actors", Enemy);
+}
+
 // The ever-running spawn animation.
 states.data.running_anim = undefined;
 
@@ -40,8 +45,7 @@ states
 			new Animation(self, 0, 480, acRotate360, -1) // rotate once per 8 seconds (480 frames), -1 repeats == infinite loop
 				.add_frame_trigger(150, function() {
 					// spawn a new enemy every 2.5 seconds (= 150 frames)
-					if (GLOBALDATA.enemy_count < MAX_ENEMY_COUNT)
-						instance_create_layer(x,y, "Actors", Enemy);
+					spawn_enemy();
 				}, true); // the "true" here sets this frame trigger to be an "interval" trigger every 150 frames
 			
 		sdata.running_anim.pause();
@@ -49,8 +53,13 @@ states
 		// spawn animation
 		// delay 2 seconds (120 frames), so it does not spawn in the moment the room becomes visible
 		// spawn anim time 1.5 seconds (90 frames)
+		// the frame trigger will spawn 3 enemies straight away
 		animation_run(self, 120, 90, acSpawnerAppear)
 			.set_rotation_distance(360)
+			.add_frame_trigger(6, function() {
+				if (GLOBALDATA.enemy_count < 3)
+					spawn_enemy();
+			}, true)
 			.add_finished_trigger(function() {
 				states.set_state("do_spawning");
 			});
