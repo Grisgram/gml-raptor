@@ -2,7 +2,7 @@
 
 [![gmlogo](https://user-images.githubusercontent.com/19487451/167885369-a5ae0b14-9176-4429-babd-2a140ab5880a.png)](https://gamemaker.io)<br>&nbsp;&nbsp;Studio 2.3+
 
-`raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
+`raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in `.yyz` format ready to be downloaded as release from (todo:create link)here.
 
 ## Main Features
