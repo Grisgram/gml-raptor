@@ -27,6 +27,8 @@ override("onQueryHit", function(first_query_table, current_query_table, item_dro
 	x = BOARD_LEFT_BORDER + 128 * col;
 	y = BOARD_TOP_BORDER  + 128 * row;
 	image_alpha = 0;
+	image_xscale = 0.75;
+	image_yscale = 0.75;
 	
 	animation_run(self, GLOBALDATA.gem_count div 2, 30, acLinearAlpha);
 	
