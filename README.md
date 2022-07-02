@@ -5,7 +5,7 @@ This repository contains a ready-to-use project template in `.yyz` format ready 
 
 ## Version list
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
-These version of external links are packaged in the current `raptor` release:
+These versions of external libraries are packaged in the current `raptor` release:
 | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
 |:-:|:-:|:-:|:-:|:-:|
 |1.0|8.0.4|4.0.2|1.3|1.1|
