@@ -57,6 +57,11 @@ By default, these libraries of mine are included:
 * [Animated Flag](https://github.com/Grisgram/gml-animated-flag)
 
 ## Credits
+### Translation help and proof reading
+
+Very special thanks to `Alex` [@pamims](https://github.com/pamims) for proof reading my version of the english language and correcting it to the _real_ version of the english language! Thank you very much for volunteering here!
+
+
 ### Credits for external libraries go to 
 
 * [@JujuAdams](https://github.com/JujuAdams) and the great community at [GameMakerKitchen Discord](https://discord.gg/8krYCqr) for the [SNAP](https://github.com/JujuAdams/SNAP) Library and [Scribble](https://github.com/JujuAdams/scribble), which I packaged into this repository and the project template.
