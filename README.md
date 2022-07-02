@@ -1,9 +1,14 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/174816442-47348841-a956-4f23-970b-38fc7ad73864.png" style="display:block; margin:auto; width:438px"></p>
 
-[![gmlogo](https://user-images.githubusercontent.com/19487451/167885369-a5ae0b14-9176-4429-babd-2a140ab5880a.png)](https://gamemaker.io)<br>&nbsp;&nbsp;Studio 2.3+
-
 `raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in `.yyz` format ready to be downloaded as release from (todo:create link)here.
+
+## Version list
+You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.
+These version of external links are packaged in the current `raptor` release:
+| raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
+|:-:|:-:|:-:|:-:|:-:|
+|1.0|8.0.4|4.0.2|1.3|1.1|
 
 ## Main Features
 
