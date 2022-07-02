@@ -1,4 +1,4 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/19487451/174816442-47348841-a956-4f23-970b-38fc7ad73864.png" style="display:block; margin:auto; width:438px"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
 
 `raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in `.yyz` format ready to be downloaded as release from (todo:create link)here.
