@@ -250,7 +250,7 @@ function savegame_save_game(filename, cryptkey = "") {
 			var obj = object_get_name(object_index);
 			var instdata = {
 				__SAVEGAME_OBJ_PROP_OBJ		: obj,
-				__SAVEGAME_OBJ_PROP_ID		: id,
+				__SAVEGAME_OBJ_PROP_ID		: real(id),
 				__SAVEGAME_OBJ_PROP_X		: x,
 				__SAVEGAME_OBJ_PROP_Y		: y,
 				__SAVEGAME_OBJ_PROP_DIR		: direction,
