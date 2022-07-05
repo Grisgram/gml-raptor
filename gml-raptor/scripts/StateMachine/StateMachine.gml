@@ -31,6 +31,7 @@ function StateMachine(_owner) constructor {
 	active_state		= undefined;
 	on_destroy			= undefined;
 	__allow_re_enter	= false;
+	__state_frame		= 0;
 	
 	data				= {};
 	data.state_machine	= self;
@@ -134,6 +135,7 @@ function StateMachine(_owner) constructor {
 					with(owner) 
 						log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
 					
+					__state_frame = 0;
 					rv = active_state.enter(prev_name, enter_override);
 					__perform_state_change("enter", rv);
 					break;
@@ -219,7 +221,8 @@ function StateMachine(_owner) constructor {
 	static step = function() {
 		if (active_state != undefined) {
 			active_state.data = data;
-			var rv = active_state.step();
+			var rv = active_state.step(__state_frame);
+			__state_frame++;
 			__perform_state_change("step", rv);
 		}
 	}
@@ -293,8 +296,8 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 			return true;
 	}
 	
-	static step = function() {
-		return on_step != undefined ? on_step(data) : undefined;
+	static step = function(frame) {
+		return on_step != undefined ? on_step(data, frame) : undefined;
 	}
 	
 	static toString = function() {
