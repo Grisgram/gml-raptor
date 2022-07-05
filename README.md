@@ -1,14 +1,14 @@
-# gml-raptor - WORK IN PROGRESS - BUILDING UP THE REPO CURRENTLY!
+<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
 
-The source code currently in the repo is not final - please wait some days until the docs are finished and I release the platform as 1.0<br/>
-I will not accept issues and bugs from this pre-release version.
+`raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
+This repository contains a ready-to-use project template in `.yyz` format that can be downloaded from [the Releases page](https://github.com/Grisgram/gml-raptor/releases).
 
-[![gmlogo](https://user-images.githubusercontent.com/19487451/167885369-a5ae0b14-9176-4429-babd-2a140ab5880a.png)](https://gamemaker.io)<br>&nbsp;&nbsp;Studio 2.3+
-
-<p align="center"><img src="https://user-images.githubusercontent.com/19487451/174816442-47348841-a956-4f23-970b-38fc7ad73864.png" style="display:block; margin:auto; width:438px"></p>
-
-`raptor` is a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
-This repository contains a ready-to-use project template in `.yyz` format ready to be downloaded as release from (todo:create link)here.
+## Version list
+You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
+These versions of external libraries are packaged into the current `raptor` release:
+| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|2022.6|1.0|8.0.4|4.0.2|1.3|1.1|
 
 ## Main Features
 
@@ -62,6 +62,11 @@ By default, these libraries of mine are included:
 * [Animated Flag](https://github.com/Grisgram/gml-animated-flag)
 
 ## Credits
+### Translation help and proof reading
+
+Very special thanks to `Alex` [@pamims](https://github.com/pamims) for proof reading my version of the english language and correcting it to the _real_ version of the english language! Thank you very much for volunteering here!
+
+
 ### Credits for external libraries go to 
 
 * [@JujuAdams](https://github.com/JujuAdams) and the great community at [GameMakerKitchen Discord](https://discord.gg/8krYCqr) for the [SNAP](https://github.com/JujuAdams/SNAP) Library and [Scribble](https://github.com/JujuAdams/scribble), which I packaged into this repository and the project template.
