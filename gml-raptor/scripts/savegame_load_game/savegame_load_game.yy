@@ -6,7 +6,7 @@
     "path": "folders/_gml_raptor_/Savegame.yy",
   },
   "resourceVersion": "1.0",
-  "name": "Savegame",
+  "name": "savegame_load_game",
   "tags": [],
   "resourceType": "GMScript",
 }
