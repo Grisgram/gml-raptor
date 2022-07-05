@@ -1,7 +1,7 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
 
 `raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
-This repository contains a ready-to-use project template in `.yyz` format ready to be downloaded as release from (todo:create link)here.
+This repository contains a ready-to-use project template in `.yyz` format that can be downloaded from [the Releases page](https://github.com/Grisgram/gml-raptor/releases).
 
 ## Version list
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
