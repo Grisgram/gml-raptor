@@ -59,4 +59,3 @@ function gui_runtime_config() constructor {
 }
 
 GUI_RUNTIME_CONFIG = new gui_runtime_config();
-

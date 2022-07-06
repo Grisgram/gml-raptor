@@ -3,6 +3,11 @@
 */
 
 function race_demo_start_click() {
+	with(cmdFillBoard)
+		log("GUI is now " + (draw_on_gui ? "OFF" : "ON"));
+	with(_baseControl)
+		draw_on_gui = !draw_on_gui;
+	return;
 	
 	with(Gem)
 		instance_destroy(self);

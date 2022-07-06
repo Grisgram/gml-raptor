@@ -39,6 +39,8 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+display_set_gui_size(VIEW_WIDTH,VIEW_HEIGHT);
+
 /*
 	-------------------
 		GUI CONTROL
