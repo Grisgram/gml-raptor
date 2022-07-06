@@ -8,7 +8,7 @@ You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
 |:-:|:-:|:-:|:-:|:-:|:-:|
-|2022.6|1.0|8.0.4|4.0.2|1.3|1.1|
+|2022.6|1.1|8.0.4|4.0.2|1.3|1.1|
 
 | |
 |:--:|
