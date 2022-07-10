@@ -87,9 +87,10 @@ __draw_self = function() {
 		__finalize_scribble_text();
 
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0;
+		var nine = -1;
 		if (sprite_index != -1) {
-			var nine = sprite_get_nineslice(sprite_index);
-			if (nine != -1) {
+			nine = sprite_get_nineslice(sprite_index);
+			if (nine != -1 && nine.enabled) {
 				nineleft = nine.left;
 				nineright = nine.right;
 				ninetop = nine.top;
@@ -102,7 +103,7 @@ __draw_self = function() {
 				image_xscale = max(__startup_xscale, (max(min_width, __scribble_text.get_width())  + distx) / sprite_get_width(sprite_index));
 				image_yscale = max(__startup_yscale, (max(min_height,__scribble_text.get_height()) + disty) / sprite_get_height(sprite_index));
 			}
-			edges.update();
+			edges.update(nine);
 
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
 			
@@ -116,15 +117,17 @@ __draw_self = function() {
 			edges.bottom = edges.top + edges.height - 1;
 			edges.center_x = x + edges.width / 2;
 			edges.center_y = y + edges.height / 2;
+			edges.copy_to_nineslice();
 		}
 		
-		__text_x = edges.center_x + text_xoffset;
-		__text_y = edges.center_y + text_yoffset;
+		__text_x = edges.ninesliced.center_x + text_xoffset;
+		__text_y = edges.ninesliced.center_y + text_yoffset;
+
 		// text offset behaves differently when right or bottom aligned
-		if      (string_pos("[fa_left]",   scribble_text_align) != 0) __text_x = edges.left   + text_xoffset + nineleft;
-		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = edges.right  - text_xoffset - nineright;
-		if      (string_pos("[fa_top]",    scribble_text_align) != 0) __text_y = edges.top    + text_yoffset + ninetop;
-		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = edges.bottom - text_yoffset - ninebottom;
+		if      (string_pos("[fa_left]",   scribble_text_align) != 0) __text_x = edges.ninesliced.left   + text_xoffset;
+		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = edges.ninesliced.right  - text_xoffset;
+		if      (string_pos("[fa_top]",    scribble_text_align) != 0) __text_y = edges.ninesliced.top    + text_yoffset;
+		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = edges.ninesliced.bottom - text_yoffset;
 
 		__last_text = text;
 		__last_sprite_index = sprite_index;

@@ -33,6 +33,7 @@ __draw_self = function() {
 			disty = ninetop + ninebottom;
 			image_xscale = max(__startup_xscale, (max(min_width, max(__scribble_text.get_width(),  __scribble_title.get_width()))  + distx) / sprite_get_width(sprite_index));
 			image_yscale = max(__startup_yscale, (max(min_height,max(__scribble_text.get_height(), __scribble_title.get_height())) + disty) / sprite_get_height(sprite_index));
+			button_offset_from_bottom = 12 + ninebottom;
 		}
 		
 		__text_x = SELF_VIEW_CENTER_X + text_xoffset;

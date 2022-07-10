@@ -24,10 +24,6 @@
 // This macro is only used once in a html game when the game initalizes
 #macro HTML_LOCALES			["en", "de"]
 
-// This layer is used for all message boxes.
-// Leave this macro here even if you don't use messageboxes, otherwise you get a compile error
-#macro MESSAGEBOX_LAYER		"popup_instances"
-
 /// @function function onGameStart()
 function onGameStart() {
 
@@ -39,7 +35,7 @@ function onGameStart() {
 	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
-	set_app_theme(ci_theme.rising);
+	set_app_theme(ci_theme.none);
 
 	if (IS_HTML)
 		browser_click_handler = open_link_in_new_tab;

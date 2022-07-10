@@ -11,8 +11,8 @@ for (i = 0; i <= running_vertices; i++) {
 	
 	// vertext drawing positions
     vertex_x		= x - sprite_xoffset + scale_x * width * vertex_index;
-    start_vertex_x	= vertex_x + sin(vertex_offset) * wave_offset;
-    end_vertex_x	= vertex_x + cos(vertex_offset) * wave_offset;
+    start_vertex_x	= vertex_x + scale_x * sin(vertex_offset) * wave_offset;
+    end_vertex_x	= vertex_x + scale_x * cos(vertex_offset) * wave_offset;
     vertex_y		= y - sprite_yoffset + scale_y * sin(vertex_offset) * wave_offset;
     draw_width		= vertex_index * texture_width;
 	

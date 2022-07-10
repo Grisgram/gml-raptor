@@ -109,6 +109,7 @@
     {"id":{"name":"Animation","path":"scripts/Animation/Animation.yy",},"order":22,},
     {"id":{"name":"scribble_font_duplicate","path":"scripts/scribble_font_duplicate/scribble_font_duplicate.yy",},"order":5,},
     {"id":{"name":"SpriteEffectRunner","path":"objects/SpriteEffectRunner/SpriteEffectRunner.yy",},"order":9,},
+    {"id":{"name":"MessageBox_Configuration","path":"scripts/MessageBox_Configuration/MessageBox_Configuration.yy",},"order":12,},
     {"id":{"name":"Spawner","path":"objects/Spawner/Spawner.yy",},"order":0,},
     {"id":{"name":"rmRace","path":"rooms/rmRace/rmRace.yy",},"order":1,},
     {"id":{"name":"SpriteEffects","path":"scripts/SpriteEffects/SpriteEffects.yy",},"order":10,},

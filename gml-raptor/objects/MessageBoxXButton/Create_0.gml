@@ -2,6 +2,8 @@
 
 event_inherited();
 
+sprite_index = MESSAGEBOX_XBUTTON_SPRITE;
+
 message_window = undefined;
 
 __window_right = 0;
