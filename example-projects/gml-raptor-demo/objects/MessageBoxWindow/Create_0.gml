@@ -20,8 +20,9 @@ __draw_self = function() {
 		scribble_add_title_effects(__scribble_title);
 		
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0, distx = 0, disty = 0;
+		var nine = -1;
 		if (sprite_index != -1) {
-			var nine = sprite_get_nineslice(sprite_index);
+			nine = sprite_get_nineslice(sprite_index);
 			if (nine != -1) {
 				nineleft = nine.left;
 				nineright = nine.right;
@@ -34,23 +35,37 @@ __draw_self = function() {
 			image_xscale = max(__startup_xscale, (max(min_width, max(__scribble_text.get_width(),  __scribble_title.get_width()))  + distx) / sprite_get_width(sprite_index));
 			image_yscale = max(__startup_yscale, (max(min_height,max(__scribble_text.get_height(), __scribble_title.get_height())) + disty) / sprite_get_height(sprite_index));
 			button_offset_from_bottom = 12 + ninebottom;
+			__setup_drag_rect(ninetop);
+			edges.update(nine);
+			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
+		} else {
+			// No sprite - update edges by hand
+			edges.left = x;
+			edges.top = y;
+			edges.width  = text != "" ? __scribble_text.get_width() : 0;
+			edges.height = text != "" ? __scribble_text.get_height() : 0;
+			edges.right = edges.left + edges.width - 1;
+			edges.bottom = edges.top + edges.height - 1;
+			edges.center_x = x + edges.width / 2;
+			edges.center_y = y + edges.height / 2;
+			edges.copy_to_nineslice();
 		}
 		
-		__text_x = SELF_VIEW_CENTER_X + text_xoffset;
-		__text_y = SELF_VIEW_CENTER_Y + text_yoffset;
+		__text_x = edges.ninesliced.center_x + text_xoffset;
+		__text_y = edges.ninesliced.center_y + text_yoffset;
 		// text offset behaves differently when right or bottom aligned
-		if      (string_pos("[fa_left]",   scribble_text_align) != 0) __text_x = SELF_VIEW_LEFT_EDGE   + text_xoffset + nineleft;
-		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = SELF_VIEW_RIGHT_EDGE  - text_xoffset - nineright;
-		if      (string_pos("[fa_top]",    scribble_text_align) != 0) __text_y = SELF_VIEW_TOP_EDGE    + text_yoffset + ninetop;
-		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = SELF_VIEW_BOTTOM_EDGE - text_yoffset - ninebottom;
+		if      (string_pos("[fa_left]",   scribble_text_align) != 0) __text_x = edges.ninesliced.left   + text_xoffset;
+		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = edges.ninesliced.right  - text_xoffset;
+		if      (string_pos("[fa_top]",    scribble_text_align) != 0) __text_y = edges.ninesliced.top    + text_yoffset;
+		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = edges.ninesliced.bottom - text_yoffset;
 
 		__title_x = SELF_VIEW_CENTER_X + title_xoffset;
-		__title_y = SELF_VIEW_CENTER_Y + title_yoffset;
+		__title_y = SELF_VIEW_TOP_EDGE + titlebar_height / 2 + title_yoffset; // title aligned to titlebar_height by default
 		// title offset behaves differently when right or bottom aligned
-		if      (string_pos("[fa_left]",   scribble_title_align) != 0) __title_x = SELF_VIEW_LEFT_EDGE   + title_xoffset + nineleft;
-		else if (string_pos("[fa_right]",  scribble_title_align) != 0) __title_x = SELF_VIEW_RIGHT_EDGE  - title_xoffset - nineright;
-		if      (string_pos("[fa_top]",    scribble_title_align) != 0) __title_y = SELF_VIEW_TOP_EDGE    + title_yoffset;
-		else if (string_pos("[fa_bottom]", scribble_title_align) != 0) __title_y = SELF_VIEW_BOTTOM_EDGE - title_yoffset;
+		if      (string_pos("[fa_left]",   scribble_title_align) != 0) __title_x = edges.ninesliced.left   + title_xoffset;
+		else if (string_pos("[fa_right]",  scribble_title_align) != 0) __title_x = edges.ninesliced.right  - title_xoffset;
+		if      (string_pos("[fa_top]",    scribble_title_align) != 0) __title_y = SELF_VIEW_TOP_EDGE      + title_yoffset;
+		else if (string_pos("[fa_bottom]", scribble_title_align) != 0) __title_y = titlebar_height         - title_yoffset;
 
 		__last_text = text;
 		__last_sprite_index = sprite_index;
@@ -76,6 +91,7 @@ __draw_self = function() {
 			image_yscale = max(image_yscale, (max(min_height, sumheight) + disty) / sprite_get_height(sprite_index));
 		
 			__setup_drag_rect(ninetop);
+			edges.update(nine);
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
 		}
 		
@@ -96,9 +112,9 @@ __draw_self = function() {
 			}
 		}
 		
-		// re-position the text to the new width and height
-		var area_top = SELF_VIEW_TOP_EDGE + ninetop;
-		if      (string_pos("[fa_center]", scribble_text_align) != 0) __text_x = SELF_VIEW_CENTER_X;
+		// re-position the text and title to the new width and height
+		var area_top = edges.ninesliced.top;
+		if      (string_pos("[fa_center]", scribble_text_align) != 0) __text_x = SELF_VIEW_CENTER_X + text_xoffset;
 		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = SELF_VIEW_RIGHT_EDGE - text_xoffset - nineright;
 		if      (string_pos("[fa_middle]", scribble_text_align) != 0) __text_y = area_top + (button_min_y - area_top) / 2 + text_yoffset;
 		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = button_min_y - text_yoffset;

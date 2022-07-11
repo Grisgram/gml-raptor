@@ -7,8 +7,8 @@
 
 #macro CI_NONE_BRIGHT			CI_GLOBAL_WHITE
 #macro CI_NONE_DARK				CI_GLOBAL_BLACK
-#macro CI_NONE_SHADOW			c_dkgrey
-#macro CI_NONE_ACCENT			c_yellow
+#macro CI_NONE_SHADOW			#808080
+#macro CI_NONE_ACCENT			#FFFF00
 
 #macro CI_RISING_RED			#7D0000
 #macro CI_RISING_RED_DARK		#390000

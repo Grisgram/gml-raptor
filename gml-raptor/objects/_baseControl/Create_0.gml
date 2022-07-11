@@ -20,10 +20,6 @@ __text_y			= 0;
 
 __force_redraw		= false;
 
-// GMS HTML5 runtime can not do ui drawing properly
-if (IS_HTML)
-	draw_on_gui = false;
-
 /// @function					force_redraw()
 /// @description				force recalculate of all positions next frame
 force_redraw = function() {
