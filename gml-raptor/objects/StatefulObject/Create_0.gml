@@ -4,4 +4,3 @@
 event_inherited();
 
 mouse_is_over = false;
-

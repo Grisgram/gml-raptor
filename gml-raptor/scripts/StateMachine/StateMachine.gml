@@ -36,7 +36,10 @@ function StateMachine(_owner) constructor {
 	data				= {};
 	data.state_machine	= self;
 	
-	with(owner) log(MY_NAME + ": StateMachine created");
+	with(owner) {
+		log(MY_NAME + ": StateMachine created");
+		data.state_data = other.data;
+	}
 	
 	for (var i = 1; i < argument_count; i++) {
 		var st = argument[@ i];
@@ -58,6 +61,33 @@ function StateMachine(_owner) constructor {
 	events_enabled = function() {
 		with(owner)
 			return !HIDDEN_BEHIND_POPUP;
+	}
+	
+	/// @function		set_events_enabled_func(func)
+	/// @description	Assigns a new events_enabled function to this state machine.
+	///					This is a chainable convenience function, you can also assign a
+	///					new events_enabled function by simply overriding (redefining)
+	///					the .events_enabled member of this state machine directly.
+	/// @param {func} func	The function to assign as events_enabled evaluator
+	static set_events_enabled_func = function(func) {
+		self[$ "events_enabled"] = method(self, func);
+		return self;
+	}
+	
+	/// @function		clear_states()
+	/// @description	Removes all known states, sets active_state = undefined and optionally 
+	///					resets the data variable.
+	///					NOTE: The on_leave callback of any active state will NOT be invoked!
+	///					This reset is instant.
+	/// @param {bool}	reset_data	Default true. The data variable will be reset also.
+	static clear_states = function(reset_data = true) {
+		__states			= [];
+		active_state		= undefined;
+		if (reset_data) {
+			data				= {};
+			data.state_machine	= self;
+		}
+		return self;
 	}
 	
 	/// @function		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)

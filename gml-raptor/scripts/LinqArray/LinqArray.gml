@@ -32,7 +32,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	static get = function(index) {
 		if (length() == 0) 
 			return undefined;
-		return array[get_index_in_range(index)];
+		var idx = get_index_in_range(index);
+		return array[@ idx];
 	}
 
 	/// @function length()
@@ -44,7 +45,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @function clear(with_value = undefined)
 	/// @description clear the entire array with a value
 	static clear = function(with_value = undefined) {
-		var i = 0; repeat(length()) array[i++] = with_value;
+		var i = 0; repeat(length()) {
+			array[@ i] = with_value;
+			i++;
+		}
 		return self;
 	}
 	
@@ -62,28 +66,27 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		var len = length();
 		var val;
 		var i = 0; repeat(floor(len / 2)) {
-			val = array[i];
-			array[i] = array[len - i - 1];
+			val = array[@ i];
+			array[@ i] = array[@ len - i - 1];
 			i++;
-			array[len - i] = val;
+			array[@ len - i] = val;
 		}
 		return self;
 	}
 	
-	/// @function shuffle(passes = 2)
+	/// @function shuffle()
 	/// @description randomly shuffle an array. more passes = more randomization but also more run time
-	static shuffle = function(passes = 2) {
-		repeat (passes) {
-			var len = length(), 
-				random_index = 0,
-				value;
-			while(len != 0){
-				random_index = irandom(--len);
+	static shuffle = function() {
+		var len = length(), 
+			random_index = 0,
+			value;
+		while(len != 0){
+			len--;
+			random_index = irandom(len);
 		
-				value = array[len];
-				array[len] = array[random_index];
-				array[random_index] = value;
-			}
+			value = array[@ len];
+			array[@ len] = array[@ random_index];
+			array[@ random_index] = value;
 		}
 		return self;
 	}
@@ -103,7 +106,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @description push values at the end into the array. multiple arguments allowed. see official docs at
 	///             https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_push.htm
 	static push = function(values) {
-		var i = 0; repeat(argument_count) array_push(array, argument[i++]);
+		var i = 0; repeat(argument_count) {
+			array_push(array, argument[i]);
+			i++;
+		}
 		return self;
 	}
 	
@@ -114,10 +120,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return array_pop(array);
 	}
 	
-	/// @function remove()
+	/// @function remove(index, count = 1)
 	/// @description remove count items at position index from that array an reduce its size. see official docs at
 	///              https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_delete.htm
-	static remove = function(index, count) {
+	static remove = function(index, count = 1) {
 		array_delete(array, index, count);
 		return self;
 	}
@@ -135,7 +141,9 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @description get the first index of the specified value or undefined, if it is not contained in the array
 	static first_index_of = function(value) {
 		var i = 0; repeat(length()) {
-			if (array[i++] == value) return i - 1;
+			if (array[@ i] == value) 
+				return i;
+			i++;
 		}
 		return undefined;
 	}
@@ -160,7 +168,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @function clone()
 	/// @description get a new LinqArray containing a (snap) deep copy of this LinqArray
 	static clone = function() {
-		var rv = new LinqArray(length());
+		var rv = new LinqArray();
 		rv.array = snap_deep_copy(array);
 		return rv;
 	}
@@ -257,8 +265,11 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @description True, if the condition_function returned true on an item
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static is_any = function(condition_function, data = undefined) {
-		var i = 0; repeat(length())
-			if (condition_function(array[i++], data)) return true;
+		var i = 0; repeat(length()) {
+			if (condition_function(array[i], data)) 
+				return true;
+			i++;
+		}
 				
 		return false;
 	}
@@ -267,9 +278,11 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @description True, if the condition_function returned true on an item
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static are_all = function(condition_function, data = undefined) {
-		var i = 0; repeat(length()) 
-			if (!condition_function(array[i++], data)) return false;
-				
+		var i = 0; repeat(length()) {
+			if (!condition_function(array[i], data)) 
+				return false;
+			i++;
+		}
 		return true;
 	}
 
@@ -278,9 +291,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static count = function(condition_function, data = undefined) {
 		var rv = 0;
-		var i = 0; repeat(length()) 
-			if (condition_function(array[i++], data)) rv++;
-				
+		var i = 0; repeat(length()) {
+			if (condition_function(array[i], data)) rv++;
+			i++;
+		}
 		return rv;
 	}
 
@@ -291,8 +305,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	///				 with a selector function(item) {return item.age}
 	static select = function(selector_function, data = undefined) {
 		var rv = new LinqArray(length());
-		var i = 0; repeat(length())
-			rv.push(selector_function(array[i++], data));
+		var i = 0; repeat(length()) {
+			rv.array[@ i] = selector_function(array[i], data);
+			i++;
+		}
 		return rv;
 	}
 
@@ -300,8 +316,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @description Calls the iterator function for each item in the array
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the iterator_function, if specified
 	static do_foreach = function(iterator_function, data = undefined) {
-		var i = 0; repeat(length())
-			iterator_function(array[i++], data);
+		var i = 0; repeat(length()) {
+			iterator_function(array[@ i], data);
+			i++;
+		}
 		return self;
 	}
 
@@ -312,13 +330,14 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		var found = false;
 		var a, val;
 		while (i < length()) {
-			val = array[i];
+			val = array[@ i];
 			found = false;
 			a = 0; repeat(argument_count) {
-				if (array[i] == argument[a++]) {
+				if (array[@ i] == argument[@ a]) {
 					found = true;
 					break;
 				}
+				a++;
 			}
 			if (found) 
 				array_delete(array, i, 1);
@@ -415,8 +434,10 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		var val;
 		while (i < count) {
 			val = array[irandom_range(0, len)];
-			if (!ensure_unique || !rv.contains(val))
-				rv.array[i++] = val;
+			if (!ensure_unique || !rv.contains(val)) {
+				rv.array[@ i] = val;
+				i++;
+			}
 		}
 		return rv;
 	}
@@ -463,7 +484,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		var rv = new LinqArray();
 		var val;
 		var i = 0; repeat(length()) {
-			val = array[i++];
+			val = array[i];
+			i++;
 			if (distinct_function == undefined) {
 				if (!rv.contains(val)) {
 					rv.push(val);
@@ -539,17 +561,20 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 
 	/// @function union(other_array)
 	/// @description integrates other_array into this one, avoiding duplicates
+	/// @param {array|LinqArray} other_array Must be an array or LinqArray
 	static union = function(other_array) {
 		var val;
 		if (is_array(other_array)) {
 			var i = 0; repeat(array_length(other_array)) {
-				val = other_array[i++];
+				val = other_array[i];
 				if (!contains(val)) push(val);
+				i++;
 			}
 		} else {
 			var i = 0; repeat(other_array.length()) {
-				val = other_array.array[i++];
+				val = other_array.array[i];
 				if (!contains(val)) push(val);
+				i++;
 			}			
 		}
 		return self;
@@ -557,18 +582,21 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 
 	/// @function union_new(other_array)
 	/// @description same as union, but returns a NEW LinqArray, not modifying this current one
+	/// @param {array|LinqArray} other_array Must be an array or LinqArray
 	static union_new = function(other_array) {
 		var rv = clone();
 		var val;
 		if (is_array(other_array)) {
 			var i = 0; repeat(array_length(other_array)) {
-				val = other_array[i++];
+				val = other_array[i];
 				if (!rv.contains(val)) rv.push(val);
+				i++;
 			}
 		} else {
 			var i = 0; repeat(other_array.length()) {
-				val = other_array.array[i++];
+				val = other_array.array[i];
 				if (!rv.contains(val)) rv.push(val);
+				i++;
 			}			
 		}
 		return rv;
@@ -587,7 +615,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 /// @param {array} array
 /// @returns {LinqArray}		
 function LinqArray_create_from(array) {
-	var rv = new LinqArray(array_length(array));
+	var rv = new LinqArray();
 	rv.array = array;
 	return rv;
 }
