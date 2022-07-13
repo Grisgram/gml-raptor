@@ -137,7 +137,7 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	return a; 
 }
 
-/// @function					camera_zoom_to(frames, new_width, new_height, camera_index = 0)
+/// @function					camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
 /// @description				zoom the camera animated by X pixels
 /// @param {int} frames 			
 /// @param {real} new_width

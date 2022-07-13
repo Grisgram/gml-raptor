@@ -33,6 +33,10 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 	
+	DEBUG_LOG_LIST_POOLS		= true;
+	DEBUG_LOG_STATEMACHINE		= true;
+	DEBUG_LOG_RACE				= true;
+	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
 	set_app_theme(ci_theme.none);

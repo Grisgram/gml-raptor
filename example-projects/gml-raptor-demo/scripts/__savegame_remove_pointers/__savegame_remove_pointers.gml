@@ -61,15 +61,18 @@ function __savegame_deep_copy_remove(source) constructor {
         {
             var _name = _names[_i];
             var _value = variable_struct_get(_source, _name);
-            
+			
             if (is_method(_value)) {
 				_i++;
 				continue;
 			} 
-            else if (typeof(_value) == "ref" || (is_real(_value) && instance_exists(_value)))
+            else if (typeof(_value) == "ref" || 
+					(!is_real(_value) && !is_struct(_value) && typeof(_value) == "struct") || 
+					(is_real(_value) && real(_value) > 100000 && instance_exists(_value)))
 			{
-				if (_name != __SAVEGAME_OBJ_PROP_ID && _value > 100000) {
-					var res = replace_ref(_value);
+				var idval = variable_instance_get(_value, "id");
+				if (_name != __SAVEGAME_OBJ_PROP_ID && idval != undefined && real(idval) > 100000) {
+					var res = replace_ref(idval);
 					if (res.success)
 						_value = res.value;
 				}
@@ -101,14 +104,25 @@ function __savegame_deep_copy_remove(source) constructor {
         {
             var _value = _source[_i];
             
-            if (is_real(_value) && instance_exists(_value)) 
+			if (typeof(_value) == "ref" || 
+				(!is_real(_value) && !is_struct(_value) && typeof(_value) == "struct") || 
+				(is_real(_value) && real(_value) > 100000 && instance_exists(_value)))
 			{
-				if (_value > 100000) {
-					var res = replace_ref(_value);
+				var idval = variable_instance_get(_value, "id");
+				if (idval != undefined && real(idval) > 100000) {
+					var res = replace_ref(idval);
 					if (res.success)
 						_value = res.value;
 				}
 			} 
+            //if (is_real(_value) && instance_exists(_value)) 
+			//{
+			//	if (_value > 100000) {
+			//		var res = replace_ref(_value);
+			//		if (res.success)
+			//			_value = res.value;
+			//	}
+			//} 
 			else if (is_struct(_value))
             {
                 _value = copy_struct(_value);

@@ -47,11 +47,13 @@ onQueryHit = function(first_query_table, current_query_table, item_dropped) {
 /// @param {string} table_name			The table to load from the controller
 set_table = function(table_name) {
 	if (!race_table_exists(table_name)) {
-		log(MY_NAME + " could not find race table '" + table_name + "'. Make sure, it is loaded or check room instance creation order. RaceController must be instantiated first!");
+		if (DEBUG_LOG_RACE)
+			log(MY_NAME + " could not find race table '" + table_name + "'. Make sure, it is loaded or check room instance creation order. RaceController must be instantiated first!");
 		return;
 	}
 	
-	log(MY_NAME + " received race table to use: raceTable='" + table_name + "';");
+	if (DEBUG_LOG_RACE)
+		log(MY_NAME + " received race table to use: raceTable='" + table_name + "';");
 	race_table_name = table_name;
 	race_table = race_get_table(table_name);
 }

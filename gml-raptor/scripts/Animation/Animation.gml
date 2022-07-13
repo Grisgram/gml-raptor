@@ -51,7 +51,6 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= {};
-	data.animation      = self;
 
 	func_x				= function(value) { if (__relative_distance) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
 	func_y				= function(value) { if (__relative_distance) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
@@ -222,7 +221,6 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		__relative_scale = true;
 		__scale_xdistance = xtarget - __start_xscale;
 		__scale_ydistance = ytarget - __start_yscale;
-		logd(__scale_xdistance,__scale_ydistance);
 		return self;
 	}
 
@@ -437,8 +435,9 @@ function animation_get_all(owner = self) {
 function animation_abort_all(owner = self) {
 	var removers = animation_get_all(owner);
 	
-	with (owner) 
-		log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
 		
 	for (var i = 0; i < array_length(removers); i++) {
 		var to_remove = removers[@ i];

@@ -5,9 +5,9 @@
 #macro GUI_POPUP_LAYER_GROUP	global.__popup_layer_group
 
 // Use this macro in all controls events that shall not react when a popup is open
-// Code it like this (first line of event): if (HIDDEN_BEHIND_POPUP) exit;
+// Code it like this (first line of event): if (__HIDDEN_BEHIND_POPUP) exit;
 // HTMLBUG - DECLARED IN GAMECONTROLLER.onCreate!!
-//#macro HIDDEN_BEHIND_POPUP		(!visible || (GUI_POPUP_VISIBLE && !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP)))
+//#macro __HIDDEN_BEHIND_POPUP		(!visible || (GUI_POPUP_VISIBLE && !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP)))
 
 GUI_POPUP_VISIBLE = false;
 

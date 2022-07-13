@@ -56,7 +56,8 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 		var newname = __race_get_unique_deepcopy_name(tblname);
 		race_set_type(table, name, "=" + newname);
 		variable_struct_set(__RACE_GLOBAL, newname, deepcopy);
-		log("Added dynamic global race table: '" + newname + "'");
+		if (DEBUG_LOG_RACE)
+			log("Added dynamic global race table: '" + newname + "'");
 		__race_queryRecursive(race_table_object, race_controller, deepcopy, result, uniques);
 	} else {
 		if (typename != __RACE_NULL_ITEM)
@@ -66,7 +67,8 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 
 function __race_dropItem(race_controller, item_struct, layer_to_drop) {
 	var itemtype = race_item_get_type(item_struct.data);
-	log(sprintf("Dropping item: object='{0}'; layer='{1}';", itemtype, layer_to_drop));
+	if (DEBUG_LOG_RACE)
+		log(sprintf("Dropping item: object='{0}'; layer='{1}';", itemtype, layer_to_drop));
 	var dropx = variable_instance_exists(self, "x") ? x : 0;
 	var dropy = variable_instance_exists(self, "y") ? y : 0;
 	var drop = instance_create_layer(dropx ?? 0, dropy ?? 0, layer_to_drop, asset_get_index(itemtype));
@@ -78,7 +80,8 @@ function __race_dropItem(race_controller, item_struct, layer_to_drop) {
 		data.race_data = item_struct;
 		onQueryHit(RACE_TABLE_QUERIED, RACE_TABLE_CURRENT, item_struct);
 	}
-	log(sprintf("Dropped item: instance='{0}'; object='{1}'; layer='{2}';", instname, itemtype, layer_to_drop));
+	if (DEBUG_LOG_RACE)
+		log(sprintf("Dropped item: instance='{0}'; object='{1}'; layer='{2}';", instname, itemtype, layer_to_drop));
 
 	if (race_controller != noone) {
 		with (race_controller)
@@ -109,7 +112,8 @@ function __race_queryRecursive(race_table_object, race_controller, table, result
 	for (var i = 0; i < array_length(names); i++;) {
 		var name = names[i];
 		if (race_is_enabled(table, name) && race_is_always(table, name)) {
-			log("Adding always-enabled item to loot result: " + name);
+			if (DEBUG_LOG_RACE)
+				log("Adding always-enabled item to loot result: " + name);
 			always_enabled_count++;
 			__race_addToResult(race_table_object, race_controller, table, result, uniques, name);
 		}
@@ -175,7 +179,8 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 			}
 		}
 	} else 
-		log("*ERROR* Race table '" + table_name + "' not loaded or does not exist!");
+		if (DEBUG_LOG_RACE)
+			log("*ERROR* Race table '" + table_name + "' not loaded or does not exist!");
 		
 	// query is done, reset globals
 	RACE_TABLE_QUERIED = undefined;
