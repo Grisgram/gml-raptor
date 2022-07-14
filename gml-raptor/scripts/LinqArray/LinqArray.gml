@@ -173,7 +173,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function minval(accessor_function = undefined)
+	/// @function minval(accessor_function = undefined, data = undefined)
 	/// @description Find the lowest value. if accessor_function is undefined, values are compared directly, otherwise
 	///				 the return value of the accessor_function on both values is compared.
 	///				 Use the accessor if you array contains structs and you want to find the lowest value of one of the
@@ -195,7 +195,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function maxval(accessor_function = undefined)
+	/// @function maxval(accessor_function = undefined, data = undefined)
 	/// @description Find the highest value. if accessor_function is undefined, values are compared directly, otherwise
 	///				 the return value of the accessor_function on both values is compared.
 	///				 Use the accessor if you array contains structs and you want to find the highest value of one of the
@@ -217,7 +217,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function sum(accessor_function = undefined)
+	/// @function sum(accessor_function = undefined, data = undefined)
 	/// @description Sum all values. if accessor_function is undefined, values are calculated directly, otherwise
 	///				 the return value of the accessor_function is calculated.
 	///				 Use the accessor if you array contains structs and you want to find the average value of one of the
@@ -236,7 +236,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function avg(accessor_function = undefined)
+	/// @function avg(accessor_function = undefined, data = undefined)
 	/// @description Find the average value. if accessor_function is undefined, values are calculated directly, otherwise
 	///				 the return value of the accessor_function is calculated.
 	///				 Use the accessor if you array contains structs and you want to find the average value of one of the
@@ -248,7 +248,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return sum(accessor_function, data) / length();
 	}
 
-	/// @function where(condition_function)
+	/// @function where(condition_function, data = undefined)
 	/// @description Perform a Linq-Where query on the array and return a new LinqArray containing the filtered data
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static where = function(condition_function, data = undefined) {
@@ -261,7 +261,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function is_any(condition_function)
+	/// @function is_any(condition_function, data = undefined)
 	/// @description True, if the condition_function returned true on an item
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static is_any = function(condition_function, data = undefined) {
@@ -274,7 +274,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return false;
 	}
 	
-	/// @function are_all(condition_function)
+	/// @function are_all(condition_function, data = undefined)
 	/// @description True, if the condition_function returned true on an item
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static are_all = function(condition_function, data = undefined) {
@@ -286,7 +286,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return true;
 	}
 
-	/// @function count(condition_function)
+	/// @function count(condition_function, data = undefined)
 	/// @description counts the occurrences where condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static count = function(condition_function, data = undefined) {
@@ -298,7 +298,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function select(selector_function)
+	/// @function select(selector_function, data = undefined)
 	/// @description Get a new LinqArray containing all returns values from the selector.
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the selector_function, if specified
 	///				 Example: You can select only the "age" from an array of structs {name:"abc", age:33}
@@ -312,7 +312,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function do_foreach(iterator_function)
+	/// @function do_foreach(iterator_function, data = undefined)
 	/// @description Calls the iterator function for each item in the array
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the iterator_function, if specified
 	static do_foreach = function(iterator_function, data = undefined) {
@@ -347,7 +347,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function remove_where(condition_function)
+	/// @function remove_where(condition_function, data = undefined)
 	/// @description remove all where the condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static remove_where = function(condition_function, data = undefined) {
@@ -370,7 +370,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return LinqArray_create_from(copy);
 	}
 
-	/// @function skip_while(condition_function)
+	/// @function skip_while(condition_function, data = undefined)
 	/// @description skip entries while condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static skip_while = function(condition_function, data = undefined) {
@@ -380,7 +380,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return skip(i);
 	}
 
-	/// @function skip_until(condition_function)
+	/// @function skip_until(condition_function, data = undefined)
 	/// @description skip entries until condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static skip_until = function(condition_function, data = undefined) {
@@ -399,7 +399,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return LinqArray_create_from(copy);
 	}
 
-	/// @function take_while(condition_function)
+	/// @function take_while(condition_function, data = undefined)
 	/// @description take entries while condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static take_while = function(condition_function, data = undefined) {
@@ -409,7 +409,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return take(i);
 	}
 
-	/// @function take_until(condition_function)
+	/// @function take_until(condition_function, data = undefined)
 	/// @description take entries until condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static take_until = function(condition_function, data = undefined) {
@@ -442,7 +442,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function first_or_default(condition_function = undefined)
+	/// @function first_or_default(condition_function = undefined, data = undefined)
 	/// @description if no condition_function specified returns the first entry in the array or undefined if array_length == 0.
 	///				 if a condition_function is specified, returns the first item where the function returns true, or undefined
 	///				 if it never returns true.
@@ -458,7 +458,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		}
 	}
 	
-	/// @function last_or_default(condition_function = undefined)
+	/// @function last_or_default(condition_function = undefined, data = undefined)
 	/// @description if no condition_function specified returns the last entry in the array or undefined if array_length == 0.
 	///				 if a condition_function is specified, returns the first item counting backwards from the end of the array,
 	///				 where the function returns true, or undefined, if it never returns true.
@@ -474,7 +474,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		}
 	}
 
-	/// @function distinct(distinct_function = undefined)
+	/// @function distinct(distinct_function = undefined, data = undefined)
 	/// @description returns a new LinqArray containing only unique values. If no distinct_function is specified,
 	///				 values are compared directly, otherwise the distinct_function must return the value that makes an item distinct.
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the distinct_function, if specified

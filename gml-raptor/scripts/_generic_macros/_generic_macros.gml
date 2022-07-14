@@ -15,8 +15,8 @@
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
 #macro SCRIBBLE_COLORS		global.__scribble_colours
 
-/// better human readable version of this instance's name (for logging mostly)
-#macro MY_NAME object_get_name(object_index) + "(" + string(real(id)) + ")"
+/// better human readable version of this instance's name (for logging mostly) - HTML BUG moved to GameController!!!
+//#macro MY_NAME object_get_name(object_index) + "(" + string(real(id)) + ")"
 
 /// shorter to write debug output
 #macro log	show_debug_message

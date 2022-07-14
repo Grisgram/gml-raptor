@@ -60,3 +60,18 @@ function is_child_of(child, parent) {
 	//return child == parent || object_is_ancestor(child, parent);
 }
 
+/// @function		run_delayed(owner, delay, func, data = undefined)
+/// @description	Executes a specified function in <delay> frames from now.
+///					Behind the scenes this uses the animation_empty function which
+///					is part of the ANIMATIONS ListPool, so if you clear all animations,
+///					while this is waiting for launch, you will also abort this one here.
+///					Keep that in mind.
+/// @param {instance} owner	The owner of the delayed runner
+/// @param {int} delay		Number of frames to wait
+/// @param {func} func		The function to execute
+/// @param {struct} data	An optional data struct to be forwarded to func. Defaults to undefined.
+function run_delayed(owner, delay, func, data = undefined) {
+	var anim = animation_empty(owner, delay, 0).add_finished_trigger(function(data) { data.func(data.args); });
+	anim.data.func = func;
+	anim.data.args = data;
+}

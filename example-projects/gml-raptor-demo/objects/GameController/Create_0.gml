@@ -11,6 +11,8 @@
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed
 
+#macro MY_NAME object_get_name(object_index) + "(" + string(real(id)) + ")"
+
 event_inherited();
 #macro GAMECONTROLLER			global.__game_controller
 GAMECONTROLLER = self;
