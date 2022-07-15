@@ -476,18 +476,6 @@ function is_in_animation(owner = self) {
 	return false;
 }
 
-/// @function			animation_empty(_obj_owner, _delay, _duration, _repeats = 1)
-/// @description		Convenience function to create a delay/duration/callback animation
-///						without an animcurve, but you have still ALL callbacks available
-///						(started, finished, frames, etc). It just has no animation.
-///						You can use this to easily delay or repeat actions without the need of
-///						actually design a real animation.
-///						Can be seen as a comfortable ALARM implementation with more options than the builtin alarms.
-/// @returns {Animation}
-function animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
-	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats);
-}
-
 /// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
 /// @description		convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
@@ -502,4 +490,16 @@ function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) 
 function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) {
 	animation_abort_all(_obj_owner);
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats);
+}
+
+/// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1)
+/// @description		Convenience function to create a delay/duration/callback animation
+///						without an animcurve, but you have still ALL callbacks available
+///						(started, finished, frames, etc). It just has no animation.
+///						You can use this to easily delay or repeat actions without the need of
+///						actually design a real animation.
+///						Can be seen as a comfortable ALARM implementation with more options than the builtin alarms.
+/// @returns {Animation}
+function __animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
+	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats);
 }

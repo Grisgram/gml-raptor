@@ -28,10 +28,10 @@ function msg_show_yes_no_cancel(title, text, yes_callback = undefined, no_callba
 
 function __get_default_msgbox(title, text) {
 	var msg = new MessageBox(MESSAGEBOX_WINDOW, MESSAGEBOX_LAYER, title, text);
-	msg.draw_color				= APP_THEME_BRIGHT;
-	msg.draw_color_mouse_over	= APP_THEME_BRIGHT;
-	msg.text_color				= APP_THEME_BRIGHT;
-	msg.text_color_mouse_over	= APP_THEME_BRIGHT;
-	msg.title_color				= APP_THEME_BRIGHT;
+	msg.draw_color				= MESSAGEBOX_WINDOW_BLEND;
+	msg.draw_color_mouse_over	= MESSAGEBOX_WINDOW_BLEND;
+	msg.title_color				= MESSAGEBOX_TITLE_BLEND;
+	msg.text_color				= MESSAGEBOX_TEXT_BLEND;
+	msg.text_color_mouse_over	= MESSAGEBOX_TEXT_BLEND;
 	return msg;
 }

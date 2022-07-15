@@ -29,13 +29,13 @@ function is_any_of(val) {
 	return false;
 }
 
-/// @function					percent(of, total)
-/// @description				Gets, how many % "of" is of "total" (30,50 => 60%)
-/// @param {real} of
-/// @param {real} total
-/// @returns {real}	percent value
-function percent(of, total) {
-	return (of/total) * 100;
+/// @function		percent(val, total)
+/// @description	Gets, how many % "val" is of "total"
+/// @param {real} val	The value
+/// @param {real} total	100%
+/// @returns {real}	How many % of total is val. Example: val 30, total 50 -> returns 60(%)
+function percent(val, total) {
+	return (val/total) * 100;
 }
 
 /// @function					percent_mul(of, total)
@@ -62,16 +62,35 @@ function is_child_of(child, parent) {
 
 /// @function		run_delayed(owner, delay, func, data = undefined)
 /// @description	Executes a specified function in <delay> frames from now.
-///					Behind the scenes this uses the animation_empty function which
+///					Behind the scenes this uses the __animation_empty function which
 ///					is part of the ANIMATIONS ListPool, so if you clear all animations,
-///					while this is waiting for launch, you will also abort this one here.
+///					or use animation_run_ex while this is waiting for launch, 
+///					you will also abort this one here.
 ///					Keep that in mind.
 /// @param {instance} owner	The owner of the delayed runner
 /// @param {int} delay		Number of frames to wait
 /// @param {func} func		The function to execute
 /// @param {struct} data	An optional data struct to be forwarded to func. Defaults to undefined.
 function run_delayed(owner, delay, func, data = undefined) {
-	var anim = animation_empty(owner, delay, 0).add_finished_trigger(function(data) { data.func(data.args); });
+	var anim = __animation_empty(owner, delay, 0).add_finished_trigger(function(data) { data.func(data.args); });
 	anim.data.func = func;
 	anim.data.args = data;
+}
+
+/// @function		run_delayed_ex(owner, delay, func, data = undefined)
+/// @description	Executes a specified function EXCLUSIVELY in <delay> frames from now.
+///					Exclusively means in this case, animation_abort_all is invoked before
+///					starting the delayed waiter.
+///					Behind the scenes this uses the __animation_empty function which
+///					is part of the ANIMATIONS ListPool, so if you clear all animations,
+///					or use animation_run_ex while this is waiting for launch, 
+///					you will also abort this one here.
+///					Keep that in mind.
+/// @param {instance} owner	The owner of the delayed runner
+/// @param {int} delay		Number of frames to wait
+/// @param {func} func		The function to execute
+/// @param {struct} data	An optional data struct to be forwarded to func. Defaults to undefined.
+function run_delayed_ex(owner, delay, func, data = undefined) {
+	animation_abort_all(owner);
+	run_delayed(owner, delay, func, data);
 }

@@ -22,6 +22,9 @@
 #macro log	show_debug_message
 #macro logd var __log__d_=function(){var line="***VALUE DUMP***";for(var i=0;i<argument_count;i++)line+="|"+string(argument[i]);show_debug_message(line);}__log__d_
 
+// An empty function can be used in various places, like as a disabling override on enter/leave states in the statemachine
+#macro EMPTY_FUNC		function(){}
+
 // HTMLBUG - DECLARED IN GAMECONTROLLER.onCreate!!
 //#macro SECONDS_TO_FRAMES		* room_speed
 //#macro FRAMES_TO_SECONDS		/ room_speed

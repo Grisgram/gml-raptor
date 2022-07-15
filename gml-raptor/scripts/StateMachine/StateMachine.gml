@@ -156,7 +156,7 @@ function StateMachine(_owner) constructor {
 				active_state.data = data;
 				if (!active_state.leave(name, leave_override)) {
 					if (DEBUG_LOG_STATEMACHINE)
-						with(owner) log(MY_NAME + sprintf(": Leave state '{0}' aborted by leave callback!", other.active_state.name));
+						with(owner) log(MY_NAME + sprintf(": State change '{0}'->'{1}' aborted by leave callback!", other.active_state.name, name));
 					return;
 				}
 			}

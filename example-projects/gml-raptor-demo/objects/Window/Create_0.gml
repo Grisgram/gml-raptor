@@ -27,6 +27,15 @@ scribble_add_title_effects = function(titletext) {
 	// example: titletext.blend(c_blue, 1); // where ,1 is alpha
 }
 
+/// @function					__create_scribble_title_object(align, str)
+/// @description				setup the initial object to work with
+/// @param {string} align			
+/// @param {string} str			
+__create_scribble_title_object = function(align, str) {
+	return scribble(align + str, MY_NAME)
+			.starting_format(font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, title_color);
+}
+
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
@@ -36,7 +45,7 @@ __draw_self = function() {
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
 		scribble_add_text_effects(__scribble_text);
 
-		__scribble_title = __create_scribble_object(scribble_title_align, title);
+		__scribble_title = __create_scribble_title_object(scribble_title_align, title);
 		scribble_add_title_effects(__scribble_title);
 		
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0, distx = 0, disty = 0;

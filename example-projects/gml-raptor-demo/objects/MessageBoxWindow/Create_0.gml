@@ -16,7 +16,7 @@ __draw_self = function() {
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
 		scribble_add_text_effects(__scribble_text);
 
-		__scribble_title = __create_scribble_object(scribble_title_align, title);
+		__scribble_title = __create_scribble_title_object(scribble_title_align, title);
 		scribble_add_title_effects(__scribble_title);
 		
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0, distx = 0, disty = 0;

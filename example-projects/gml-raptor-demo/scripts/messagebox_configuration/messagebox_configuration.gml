@@ -15,3 +15,7 @@
 
 // The sprite to use to the X-Button on a messagebox - ORIGIN ALIGN MIDDLE-RIGHT!
 #macro MESSAGEBOX_XBUTTON_SPRITE	sprDefaultXButton
+// MessageBox colors
+#macro MESSAGEBOX_WINDOW_BLEND		APP_THEME_BRIGHT
+#macro MESSAGEBOX_TITLE_BLEND		APP_THEME_BRIGHT
+#macro MESSAGEBOX_TEXT_BLEND		APP_THEME_BRIGHT
