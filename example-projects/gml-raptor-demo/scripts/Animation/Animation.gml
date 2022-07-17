@@ -51,6 +51,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= {};
+	name				= undefined;
 
 	func_x				= function(value) { if (__relative_distance) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
 	func_y				= function(value) { if (__relative_distance) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
@@ -167,6 +168,17 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		}
 	}
 	#endregion
+
+	/// @function		set_name(_name)
+	/// @description	Gives this animation a specific name. Usage of names is totally optional,
+	///					but this allows you to set a unique marker to an animation, which can be
+	///					used as criteria in the is_in_animation(...) function.
+	///					You can access the name of an animation with .name
+	/// @param {string}	_name  The name this animation shall use.
+	static set_name = function(_name) {
+		name = _name;
+		return self;
+	}
 
 	/// @function		set_move_distance(xdistance, ydistance)
 	/// @description	use this function if the animcurve holds a standard 0..1 value
@@ -446,12 +458,16 @@ function animation_abort_all(owner = self) {
 	}
 }
 
-/// @function		is_in_animation(owner = self)
+/// @function		is_in_animation(owner = self, name = undefined)
 /// @description	Returns true, if there's at least one animation for the specified owner 
-///					currently in the global ANIMATIONS pool
-/// @param {instance}	owner  The owner to check.
-/// @returns {bool}		true, if at least one animation for the specified owner is active
-function is_in_animation(owner = self) {
+///					currently in the global ANIMATIONS pool.
+///					If the name is also specified, true is only returned, if the names match.
+///					This is useful if you need to know, whether an object is currently running
+///					one specific animation.
+/// @param {instance}	owner	The owner to check.
+/// @param {string}		name	The name of the animation to check.
+/// @returns {bool}		true, if at least one animation for the specified owner/name is active
+function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
 	if (IS_HTML) {
 		var myowner;
@@ -463,13 +479,13 @@ function is_in_animation(owner = self) {
 			var otherowner;
 			with (item.owner)
 				otherowner = MY_NAME;
-			if (myowner == otherowner)
+			if (myowner == otherowner && (name == undefined || name == item.name))
 				return true;
 		}		
 	} else {
 		for (var i = 0; i < ds_list_size(lst); i++) {
 			var item = lst[| i];
-			if (item.owner == owner)
+			if (item.owner == owner && (name == undefined || name == item.name))
 				return true;
 		}
 	}

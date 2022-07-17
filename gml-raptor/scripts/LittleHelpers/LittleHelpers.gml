@@ -71,10 +71,12 @@ function is_child_of(child, parent) {
 /// @param {int} delay		Number of frames to wait
 /// @param {func} func		The function to execute
 /// @param {struct} data	An optional data struct to be forwarded to func. Defaults to undefined.
+/// @returns {Animation}	The animation processing the delay
 function run_delayed(owner, delay, func, data = undefined) {
 	var anim = __animation_empty(owner, delay, 0).add_finished_trigger(function(data) { data.func(data.args); });
 	anim.data.func = func;
 	anim.data.args = data;
+	return anim;
 }
 
 /// @function		run_delayed_ex(owner, delay, func, data = undefined)
@@ -90,7 +92,8 @@ function run_delayed(owner, delay, func, data = undefined) {
 /// @param {int} delay		Number of frames to wait
 /// @param {func} func		The function to execute
 /// @param {struct} data	An optional data struct to be forwarded to func. Defaults to undefined.
+/// @returns {Animation}	The animation processing the delay
 function run_delayed_ex(owner, delay, func, data = undefined) {
 	animation_abort_all(owner);
-	run_delayed(owner, delay, func, data);
+	return run_delayed(owner, delay, func, data);
 }

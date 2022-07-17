@@ -2,6 +2,9 @@
 
 event_inherited();
 
+// this variable holds the object for which the tooltip is shown
+tooltip_parent = undefined;
+
 __active = false;
 __frame_countdown = -1;
 __last_activation_delay_frames = -1;
@@ -34,6 +37,7 @@ deactivate = function() {
 	__active = false;
 	visible = false;
 	text = "";
+	tooltip_parent = undefined;
 	// force zero-text redraw for correct positioning when re-activated
 	__draw_self();
 	__callback = undefined;

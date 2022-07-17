@@ -30,7 +30,7 @@ function tooltip_get_instance(tooltip_object_index) {
 
 /// @function					tooltip_show(tooltip_object_index, tooltip_text, delay_frames = -1, for_object = self)
 /// @description				show a tooltip after x frames over a specified object
-/// @param {int} tooltip_object
+/// @param {asset} tooltip_object
 /// @param {string} scribble-formatted-tooltip-text
 /// @param {int=-1} delay
 /// @param {instance=self} object to bind to
@@ -43,6 +43,7 @@ function tooltip_show(tooltip_object_index, tooltip_text, delay_frames = -1, for
 		if (font_to_use == "undefined" && variable_instance_exists(for_object, "font_to_use")) 
 			font_to_use = for_object.font_to_use;
 		text = tooltip_text;
+		tooltip_parent = for_object;
 		force_redraw();
 		__draw_self();
 		activate(delay_frames);
