@@ -1,4 +1,5 @@
 /// @description Enemy StateMachine
+game_active = true;
 
 // Inherit the parent event
 event_inherited();
