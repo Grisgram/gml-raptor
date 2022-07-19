@@ -53,10 +53,7 @@ function onGameStart() {
 	// Setup Scribble
 	// ------------------------------------------------------------------
 	scribble_font_set_default("fntArial");
-	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
-	//scribble_font_bake_outline_8dir("acme24","acme24out",c_black,true);
-	//scribble_font_bake_outline_8dir("freak24","freak24out",c_black,true);
-	//scribble_font_bake_outline_8dir_2px("freak36","freak36out",c_black,true);
+	//scribble_font_bake_outline_8dir("fntArial","acme28out",c_black,true);
 
 	// Custom named scribble colors 
 	// (SCRIBBLE_COLORS is a macro pointing to global.__scribble_colours)

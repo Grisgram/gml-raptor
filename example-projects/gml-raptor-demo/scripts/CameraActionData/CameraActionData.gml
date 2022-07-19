@@ -46,19 +46,19 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	anim_curve_step = {x: 0, y: 0, xprevious: 0, yprevious: 0};
 
 	static __add_or_enqueue = function(enqueue_if_running = false) {
-		var rv = other.__get_first_free_camera_action();
-		var enqueue = (enqueue_if_running && ROOMCONTROLLER.__has_camera_action_with(callback));
+		var rv = __CAMERA_RUNTIME.get_first_free_camera_action();
+		var enqueue = (enqueue_if_running && __CAMERA_RUNTIME.has_camera_action_with(callback));
 
 		if (enqueue) {
-			ds_list_add(ROOMCONTROLLER.__camera_action_queue, self);
-			var queue_length = ds_list_size(ROOMCONTROLLER.__camera_action_queue);
+			ds_list_add(__CAMERA_RUNTIME.camera_action_queue, self);
+			var queue_length = ds_list_size(__CAMERA_RUNTIME.camera_action_queue);
 			rv = -1;
 			enqueued = true;
 			with(ROOMCONTROLLER)
 				log(MY_NAME + sprintf(": Enqueued camera action: script='{0}'; frames={1}; queue_position={2};", 
 					script_get_name(other.callback), other.total_frames, queue_length));
 		} else {
-			other.__active_camera_actions[rv] = self;
+			__CAMERA_RUNTIME.active_camera_actions[rv] = self;
 			with(ROOMCONTROLLER)
 				log(MY_NAME + sprintf(": Created camera action: script='{0}'; frames={1}; index={2};", 
 					script_get_name(other.callback), other.total_frames, rv));
@@ -93,12 +93,12 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 			finished_callback(self);
 		
 		// start next from queue (if available)
-		var i = 0; repeat(ds_list_size(ROOMCONTROLLER.__camera_action_queue)) {
-			var entry = ds_list_find_value(ROOMCONTROLLER.__camera_action_queue, i);
+		var i = 0; repeat(ds_list_size(__CAMERA_RUNTIME.camera_action_queue)) {
+			var entry = ds_list_find_value(__CAMERA_RUNTIME.camera_action_queue, i);
 			if (entry.callback == callback) {
 				entry.__internal_index = entry.__add_or_enqueue();
 				entry.enqueued = false;
-				ds_list_delete(ROOMCONTROLLER.__camera_action_queue, i);
+				ds_list_delete(__CAMERA_RUNTIME.camera_action_queue, i);
 				with(ROOMCONTROLLER)
 					log(MY_NAME + sprintf(": Activated camera action from queue: script='{0}'; index={1};", 
 						script_get_name(entry.callback), entry.__internal_index));

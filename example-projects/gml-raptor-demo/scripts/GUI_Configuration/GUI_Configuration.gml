@@ -15,10 +15,10 @@ enum adopt_properties {
 	full	= 2,
 }
 
-#macro TOOLTIP_DELAY_FRAMES		0.5 SECONDS_TO_FRAMES
+#macro TOOLTIP_DELAY_FRAMES		30
 								
-#macro TEXT_CURSOR_BLINK_SPEED	0.5 SECONDS_TO_FRAMES
-#macro TEXT_KEY_REPEAT_DELAY	0.5 SECONDS_TO_FRAMES
+#macro TEXT_CURSOR_BLINK_SPEED	30
+#macro TEXT_KEY_REPEAT_DELAY	30
 #macro TEXT_KEY_REPEAT_INTERVAL	room_speed / 30
 
 #macro GUI_RUNTIME_CONFIG		global.gui_configuration

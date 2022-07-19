@@ -216,6 +216,7 @@
     {"id":{"name":"__shd_scribble","path":"shaders/__shd_scribble/__shd_scribble.yy",},"order":0,},
     {"id":{"name":"snap_from_xml","path":"scripts/snap_from_xml/snap_from_xml.yy",},"order":0,},
     {"id":{"name":"__scribble_class_page","path":"scripts/__scribble_class_page/__scribble_class_page.yy",},"order":4,},
+    {"id":{"name":"CameraRuntime","path":"scripts/CameraRuntime/CameraRuntime.yy",},"order":13,},
     {"id":{"name":"spr1pxTrans","path":"sprites/spr1pxTrans/spr1pxTrans.yy",},"order":0,},
     {"id":{"name":"LittleHelpers","path":"scripts/LittleHelpers/LittleHelpers.yy",},"order":9,},
     {"id":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},"order":0,},

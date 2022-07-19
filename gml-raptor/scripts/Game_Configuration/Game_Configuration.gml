@@ -52,7 +52,7 @@ function onGameStart() {
 
 	// Setup Scribble
 	// ------------------------------------------------------------------
-	//scribble_font_set_default("freak16");
+	//scribble_font_set_default("acme28");
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
 
 	// Custom named scribble colors 
