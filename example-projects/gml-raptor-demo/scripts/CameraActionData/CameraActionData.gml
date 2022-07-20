@@ -30,20 +30,35 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	completed = false;
 	enqueued = false;
 	
-	
 	/*
 		About AnimactionCurves:
-		By default, a linear interpolation happens (CameraLinearCurve)
-		Change it to whatever interpolation you design.
+		By default, a linear interpolation happens (acLinearMove)
+		Change it to whatever interpolation you desire.
 		Adapt the channel names for x/y if the curve uses different channel names
 		The anim_curve_step gets updated every step BEFORE the runtime of the
 		camera action is invoked, and contains the current values for x/y of the curve
 		SEE camera_action_move or _zoom for implementation examples.
 	*/
-	anim_curve = CameraLinearCurve;
+	anim_curve = acLinearMove;
 	anim_curve_channel_x = "x";
 	anim_curve_channel_y = "y";
 	anim_curve_step = {x: 0, y: 0, xprevious: 0, yprevious: 0};
+
+	/// @function		set_anim_curve(curve, x_channel_name = "x", y_channel_name = "y")
+	/// @description	Assigns a different AnimCurve than the default LinearCurve to this camera action.
+	///			The curve must provide the channels named in the x_ and y_channel_name parameters and
+	///			the value range must be 0..1, where 0 meanse "0%" and 1 means "100%" of distance done.
+	///			This function returns self to make it chainable.
+	/// @param {AnimCurve} curve 	The AnimCurve to use.
+	/// @param {string} x_channel_name	Name of the channel for the x-coordinate
+	/// @param {string} y_channel_name	Name of the channel for the y-coordinate
+	/// @returns {camera_action_data} struct Self, to be chainable.
+	static set_anim_curve = function(curve, x_channel_name = "x", y_channel_name = "y") {
+		anim_curve = curve;
+		anim_curve_channel_x = x_channel_name;
+		anim_curve_channel_y = y_channel_name;
+		return self;
+	}
 
 	static __add_or_enqueue = function(enqueue_if_running = false) {
 		var rv = __CAMERA_RUNTIME.get_first_free_camera_action();

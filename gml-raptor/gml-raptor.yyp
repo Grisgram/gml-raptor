@@ -25,7 +25,6 @@
     {"id":{"name":"scribble_is_text_element","path":"scripts/scribble_is_text_element/scribble_is_text_element.yy",},"order":4,},
     {"id":{"name":"scribble_msdf_thickness_offset","path":"scripts/scribble_msdf_thickness_offset/scribble_msdf_thickness_offset.yy",},"order":5,},
     {"id":{"name":"snap_to_gml","path":"scripts/snap_to_gml/snap_to_gml.yy",},"order":1,},
-    {"id":{"name":"CameraLinearCurve","path":"animcurves/CameraLinearCurve/CameraLinearCurve.yy",},"order":3,},
     {"id":{"name":"rmStartup","path":"rooms/rmStartup/rmStartup.yy",},"order":1,},
     {"id":{"name":"scribble_glyph_get","path":"scripts/scribble_glyph_get/scribble_glyph_get.yy",},"order":13,},
     {"id":{"name":"Debug_Mode","path":"scripts/Debug_Mode/Debug_Mode.yy",},"order":21,},
