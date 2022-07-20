@@ -187,7 +187,6 @@
     {"id":{"name":"Race_Function_docs","path":"notes/Race_Function_docs/Race_Function_docs.yy",},"order":1,},
     {"id":{"name":"scribble_font_set_style_family","path":"scripts/scribble_font_set_style_family/scribble_font_set_style_family.yy",},"order":12,},
     {"id":{"name":"_baseControlWithTooltip","path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",},"order":6,},
-    {"id":{"name":"CameraLinearCurve","path":"animcurves/CameraLinearCurve/CameraLinearCurve.yy",},"order":4,},
     {"id":{"name":"scribble_font_bake_shader","path":"scripts/scribble_font_bake_shader/scribble_font_bake_shader.yy",},"order":3,},
     {"id":{"name":"sprDefaultButton","path":"sprites/sprDefaultButton/sprDefaultButton.yy",},"order":1,},
     {"id":{"name":"string_height_scribble","path":"scripts/string_height_scribble/string_height_scribble.yy",},"order":2,},
