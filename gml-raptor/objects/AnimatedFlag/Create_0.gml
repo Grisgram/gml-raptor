@@ -27,7 +27,7 @@ assign_sprite = function(new_sprite_index, new_image_index = 0) {
 	height = sprite_get_height(sprite_index);
 	texture_width = texture_get_width(texture);
 	texture_height = texture_get_height(texture);
-	running_vertices = vertex_count == -1 ? width / 10 : vertex_count;
+	running_vertices = vertex_count == -1 ? ceil(width / 10) : vertex_count;
 	scale_x = (render_width != -1 ? render_width / width : image_xscale);
 	scale_y = (render_height != -1 ? render_height / height : image_yscale);
 }

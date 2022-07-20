@@ -26,12 +26,14 @@ function __msgbox_button(obj, btn_text, cb, layer_name, react_on_key) constructo
 	__layer_name = layer_name;
 	hotkey = react_on_key;
 	__button = undefined;
+	
 	static create_instance = function() {
 		__button = instance_create_layer(0, 0, __layer_name, object);
 		with (__button) {
 			text = other.button_text;
 			on_left_click = __msgbox_callback_wrapper;
 		}
+		return __button;
 	}
 }
 
@@ -84,12 +86,17 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	title = string_starts_with(message_title, "=") ? LG(message_title) : message_title;
 	text  = string_starts_with(message_text, "=")  ? LG(message_text)  : message_text;
 	font  = undefined;
-	text_color  = undefined;
-	title_color = undefined;
-	draw_color  = undefined;
-	distance_between_buttons  = undefined;
-	button_offset_from_bottom = undefined;
-	text_distance_top_bottom  = undefined;
+	
+	// coloring
+	text_color					= undefined;
+	title_color					= undefined;
+	draw_color					= undefined;
+	text_color_mouse_over		= undefined;
+	draw_color_mouse_over		= undefined;
+	
+	distance_between_buttons	= undefined;
+	button_offset_from_bottom	= undefined;
+	text_distance_top_bottom	= undefined;
 	
 	allow_window_drag = true;
 	

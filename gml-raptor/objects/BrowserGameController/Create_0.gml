@@ -23,7 +23,7 @@ update_canvas = function() {
 	var rh = browser_height;
 
 	var newwidth, newheight;
-	var scale = rw / VIEW_WIDTH;
+	var scale = min(rw / VIEW_WIDTH, rh / VIEW_HEIGHT);
 	
 	// find best-fit option
 	newwidth = VIEW_WIDTH * scale;
@@ -42,10 +42,11 @@ update_canvas = function() {
 	// set window size to screen pixel size:
 	window_set_size(newwidth, newheight);
 	window_set_position(rw / 2 - newwidth / 2, rh / 2 - newheight / 2);
-	if (IS_HTML)
-		display_set_gui_size(newwidth, newheight);
 
 	// set canvas size to page pixel size:
 	browser_stretch_canvas(newwidth, newheight);
+
+	if (IS_HTML)
+		GUI_RUNTIME_CONFIG.gui_scale_set(scale, scale);
 }
 

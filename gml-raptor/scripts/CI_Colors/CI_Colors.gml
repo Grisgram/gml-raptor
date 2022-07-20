@@ -5,6 +5,11 @@
 #macro CI_GLOBAL_WHITE			#FAFAFA
 #macro CI_GLOBAL_BLACK			#070707
 
+#macro CI_NONE_BRIGHT			CI_GLOBAL_WHITE
+#macro CI_NONE_DARK				CI_GLOBAL_BLACK
+#macro CI_NONE_SHADOW			#808080
+#macro CI_NONE_ACCENT			#FFFF00
+
 #macro CI_RISING_RED			#7D0000
 #macro CI_RISING_RED_DARK		#390000
 #macro CI_RISING_WHITE			#D5D5D5
@@ -32,14 +37,26 @@
 
 // ci-colors // theming
 enum ci_theme {
-	mbar, indie, rising
+	none, mbar, indie, rising
 }
 
 /// @function				set_app_theme(theme)
 /// @description			use enum ci_theme for parameter!
 /// @param {enum ci_theme} 	theme
 function set_app_theme(theme) {
+	
 	switch (theme) {
+		case ci_theme.none:
+			SCRIBBLE_COLORS.ci_bright = CI_NONE_BRIGHT;
+			SCRIBBLE_COLORS.ci_dark   = CI_NONE_DARK;
+			SCRIBBLE_COLORS.ci_shadow = CI_NONE_SHADOW;
+			SCRIBBLE_COLORS.ci_accent = CI_NONE_ACCENT;
+			
+			APP_THEME_BRIGHT	= CI_NONE_BRIGHT;
+			APP_THEME_DARK		= CI_NONE_DARK;
+			APP_THEME_SHADOW	= CI_NONE_SHADOW;
+			APP_THEME_ACCENT	= CI_NONE_ACCENT;
+			break;
 		case ci_theme.mbar:
 			SCRIBBLE_COLORS.ci_bright = CI_MBAR_ORANGE_MEDIUM;
 			SCRIBBLE_COLORS.ci_dark   = CI_MBAR_ORANGE_DARK;

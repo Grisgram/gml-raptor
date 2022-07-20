@@ -59,7 +59,8 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 	__race_init();
 	var filename = RACE_ROOT_FOLDER + filename_to_load + (string_ends_with(filename_to_load, ".json") ? "" : ".json");
 	if (!file_exists(filename)) {
-		log(sprintf("*ERROR* race table file '{0}' not found!", filename));
+		if (DEBUG_LOG_RACE)
+			log(sprintf("*ERROR* race table file '{0}' not found!", filename));
 		return;
 	}
 	
@@ -69,13 +70,15 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 		var names = variable_struct_get_names(tablefile);
 		var tablecnt = array_length(names);
 			
-		log(sprintf("Successfully loaded {0} table(s) from '{1}'{2}", tablecnt, filename, (overwrite_existing ? " WITH OVERWRITE" : "")));
+		if (DEBUG_LOG_RACE)
+			log(sprintf("Successfully loaded {0} table(s) from '{1}'{2}", tablecnt, filename, (overwrite_existing ? " WITH OVERWRITE" : "")));
 		for (var i = 0; i < tablecnt; i++) {
 			var table = variable_struct_get(tablefile, names[i]);
 			race_add_table(names[i], table, overwrite_existing);
 		}
 	} else
-		log("*ERROR* Failed to load race table file '" + filename + "'!")
+		if (DEBUG_LOG_RACE)
+			log("*ERROR* Failed to load race table file '" + filename + "'!")
 }
 
 /// @function					race_get_table(table_name)
@@ -118,7 +121,8 @@ function race_add_table(table_name, table_struct, overwrite_existing = true) {
 		variable_struct_set(__RACE_CACHE, table_name, table_struct);
 		var dc = snap_deep_copy(table_struct);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);					
-		log(sprintf("Added global race table '{0}'", table_name));
+		if (DEBUG_LOG_RACE)
+			log(sprintf("Added global race table '{0}'", table_name));
 	}
 }
 
@@ -153,10 +157,12 @@ function race_table_reset(table_name, recursive = false) {
 		}
 		var dc = snap_deep_copy(cache);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);
-		log(sprintf("Race table '{0}' has been reset", table_name));
+		if (DEBUG_LOG_RACE)
+			log(sprintf("Race table '{0}' has been reset", table_name));
 		return dc;
 	} else 
-		log(sprintf("*ERROR* Race table '{0}' reset failed. Table not found!", table_name));
+		if (DEBUG_LOG_RACE)
+			log(sprintf("*ERROR* Race table '{0}' reset failed. Table not found!", table_name));
 	return undefined;
 }
 
@@ -186,7 +192,8 @@ function race_table_clone(table_name) {
 function __race_table_delete_temp(table_name) {
 	if (!string_starts_with(table_name, __RACE_TEMP_TABLE_PREFIX) || !race_table_exists(table_name))
 		return;
-	log(sprintf("Deleting temp race table '{0}'", table_name));
+	if (DEBUG_LOG_RACE)
+		log(sprintf("Deleting temp race table '{0}'", table_name));
 	variable_struct_remove(__RACE_GLOBAL, table_name);
 }
 
@@ -570,6 +577,9 @@ function race_table_set_name(table, new_name) {
 
 #region Log-Helpers for callbacks
 function __race_log_onQueryStarted(first_query_table, current_query_table, file_name = "") {
+	if (!DEBUG_LOG_RACE)
+		return;
+		
 	if (file_name == "")
 		log(MY_NAME + sprintf(": onQueryStarted: initial='{0}'; current='{1}';", 
 			race_table_get_name(first_query_table),
@@ -583,6 +593,9 @@ function __race_log_onQueryStarted(first_query_table, current_query_table, file_
 }
 
 function __race_log_onQueryHit(first_query_table, current_query_table, item_dropped, file_name = "") {
+	if (!DEBUG_LOG_RACE)
+		return;
+
 	if (file_name = "")
 		log(MY_NAME + sprintf(": onQueryHit: item='{0}'; initial='{1}'; current='{2}';", 
 			item_dropped.name,

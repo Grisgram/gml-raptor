@@ -5,7 +5,7 @@ event_inherited();
 if (__TEXT_NAV_TAB_LOCK == id)
 	__TEXT_NAV_TAB_LOCK = 0;
 
-if (!__has_focus || HIDDEN_BEHIND_POPUP) exit;
+if (!__has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 
 if (GUI_MOUSE_HAS_MOVED && mouse_check_button(mb_left))
 	__set_cursor_pos_from_click(true);

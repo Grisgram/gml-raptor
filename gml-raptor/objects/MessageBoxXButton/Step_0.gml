@@ -11,7 +11,7 @@ with (message_window) {
 		other.__nine_slice_calculated = true;
 	}
 	other.__window_right = SELF_VIEW_RIGHT_EDGE - other.__nine_right;
-	other.__window_top = SELF_VIEW_TOP_EDGE + other.__nine_top / 2;
+	other.__window_top = SELF_VIEW_TOP_EDGE + titlebar_height / 2;
 }
 
 x = __window_right;

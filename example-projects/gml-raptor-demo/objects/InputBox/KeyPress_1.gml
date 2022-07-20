@@ -1,6 +1,6 @@
 /// @description Cursor control & add text
 
-if (!__has_focus || HIDDEN_BEHIND_POPUP) exit;
+if (!__has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 
 __cut_selection = function() {
 	if (selection_length == 0)

@@ -9,26 +9,53 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @description			set both values in one step
 	/// @param {real} xp
 	/// @param {real} yp
+	/// @returns {Coord2} self for command chaining
 	static set = function(xp, yp) {
 		x = xp;
-		y = yp;		
+		y = yp;
+		return self;
 	}
 	
 	/// @function				mul(factor_x, factor_y)
 	/// @description			multiply both values in one step
 	/// @param {real} factor_x
 	/// @param {real} factor_y
+	/// @returns {Coord2} self for command chaining
 	static mul = function(factor_x, factor_y) {
 		x *= factor_x;
 		y *= factor_y;
+		return self;
 	}
 	
 	/// @function				mulxy(factor)
 	/// @description			multiply both values in one step
 	/// @param {real} factor
+	/// @returns {Coord2} self for command chaining
 	static mulxy = function(factor) {
 		x *= factor;
 		y *= factor;
+		return self;
+	}
+
+	/// @function				add(factor_x, factor_y)
+	/// @description			add a value to the current values
+	/// @param {real} add_x
+	/// @param {real} add_y
+	/// @returns {Coord2} self for command chaining
+	static add = function(add_x, add_y) {
+		x += add_x;
+		y += add_y;
+		return self;
+	}
+
+	/// @function				addxy(factor_x, factor_y)
+	/// @description			add the same value to the current values
+	/// @param {real} value
+	/// @returns {Coord2} self for command chaining
+	static addxy = function(value) {
+		x += value;
+		y += value;
+		return self;
 	}
 
 	/// @function					length_xy()

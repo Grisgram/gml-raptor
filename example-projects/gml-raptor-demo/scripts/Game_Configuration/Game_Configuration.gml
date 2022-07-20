@@ -24,10 +24,6 @@
 // This macro is only used once in a html game when the game initalizes
 #macro HTML_LOCALES			["en", "de"]
 
-// This layer is used for all message boxes.
-// Leave this macro here even if you don't use messageboxes, otherwise you get a compile error
-#macro MESSAGEBOX_LAYER		"popup_instances"
-
 /// @function function onGameStart()
 function onGameStart() {
 
@@ -37,9 +33,13 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 	
+	DEBUG_LOG_LIST_POOLS		= true;
+	DEBUG_LOG_STATEMACHINE		= true;
+	DEBUG_LOG_RACE				= true;
+	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
-	set_app_theme(ci_theme.rising);
+	set_app_theme(ci_theme.none);
 
 	if (IS_HTML)
 		browser_click_handler = open_link_in_new_tab;
@@ -53,10 +53,7 @@ function onGameStart() {
 	// Setup Scribble
 	// ------------------------------------------------------------------
 	scribble_font_set_default("fntArial");
-	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
-	//scribble_font_bake_outline_8dir("acme24","acme24out",c_black,true);
-	//scribble_font_bake_outline_8dir("freak24","freak24out",c_black,true);
-	//scribble_font_bake_outline_8dir_2px("freak36","freak36out",c_black,true);
+	//scribble_font_bake_outline_8dir("fntArial","acme28out",c_black,true);
 
 	// Custom named scribble colors 
 	// (SCRIBBLE_COLORS is a macro pointing to global.__scribble_colours)

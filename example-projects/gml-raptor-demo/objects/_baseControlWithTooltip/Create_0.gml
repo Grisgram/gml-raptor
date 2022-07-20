@@ -8,7 +8,7 @@ __activate_tooltip = function() {
 	if (tooltip_text == "" || tooltip_object == undefined)
 		return;
 
-	tooltip_show(tooltip_object, LG_resolve(tooltip_text));
+	tooltip_show(tooltip_object, LG_resolve(tooltip_text), self);
 }
 
 /// @function					__deactivate_tooltip()

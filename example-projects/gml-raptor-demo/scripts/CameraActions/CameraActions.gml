@@ -3,6 +3,32 @@
 	Used by RoomController to create camera flights
 */
 
+enum cam_align {
+	top_left		= 0,
+	top_center		= 1,
+	top_right		= 2,
+	middle_left		= 3,
+	middle_center	= 4,
+	middle_right	= 5,
+	bottom_left		= 6,
+	bottom_center	= 7,
+	bottom_right	= 8,
+}
+
+function __get_target_for_cam_align(x_target, y_target, align = cam_align.top_left) {
+	switch (align) {
+		case cam_align.top_left		: return { x: x_target,					y: y_target };
+		case cam_align.top_center	: return { x: x_target - CAM_WIDTH / 2, y: y_target };
+		case cam_align.top_right	: return { x: x_target - CAM_WIDTH,     y: y_target };
+		case cam_align.middle_left	: return { x: x_target,					y: y_target - CAM_HEIGHT / 2 };	
+		case cam_align.middle_center: return { x: x_target - CAM_WIDTH / 2, y: y_target - CAM_HEIGHT / 2 };
+		case cam_align.middle_right	: return { x: x_target - CAM_WIDTH,		y: y_target - CAM_HEIGHT / 2 };
+		case cam_align.bottom_left	: return { x: x_target,					y: y_target - CAM_HEIGHT };	
+		case cam_align.bottom_center: return { x: x_target - CAM_WIDTH / 2,	y: y_target - CAM_HEIGHT };
+		case cam_align.bottom_right	: return { x: x_target - CAM_WIDTH,		y: y_target - CAM_HEIGHT };
+	}
+}
+
 function __camera_action_screen_shake(actiondata) {
 	var ela = actiondata.elapsed;
 	actiondata.xrumble = actiondata.xintensity * (1 - ela);

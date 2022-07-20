@@ -51,25 +51,25 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= {};
-	data.animation      = self;
+	name				= undefined;
 
-	func_x				= function(value) { if (__move_distance_mode) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
-	func_y				= function(value) { if (__move_distance_mode) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
+	func_x				= function(value) { if (__relative_distance) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
+	func_y				= function(value) { if (__relative_distance) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
 	func_hspeed			= function(value) { owner.hspeed		= value; };
 	func_vspeed			= function(value) { owner.vspeed		= value; };
 	func_speed			= function(value) { owner.speed			= value; };
 	func_directon		= function(value) { owner.direction		= value; };
 	func_image_alpha	= function(value) { owner.image_alpha	= value; };
 	func_image_blend	= function(value) { owner.image_blend	= merge_color(__blend_start, __blend_end, value); };
-	func_image_xscale	= function(value) { if (__relative_scale) owner.image_xscale = __start_xscale * value; else owner.image_xscale	= value; };
-	func_image_yscale	= function(value) { if (__relative_scale) owner.image_yscale = __start_yscale * value; else owner.image_yscale	= value; };
-	func_image_angle	= function(value) { if (__relative_angle) owner.image_angle  = __start_angle + __rotation_distance * value; else owner.image_angle = value; };
+	func_image_xscale	= function(value) { if (__relative_scale) owner.image_xscale = __start_xscale + __scale_xdistance * value; else owner.image_xscale	= value; };
+	func_image_yscale	= function(value) { if (__relative_scale) owner.image_yscale = __start_yscale + __scale_ydistance * value; else owner.image_yscale	= value; };
+	func_image_angle	= function(value) { if (__relative_angle) owner.image_angle  = __start_angle  + __rotation_distance * value; else owner.image_angle = value; };
 	func_image_index	= function(value) { owner.image_index	= value; };
 	func_image_speed	= function(value) { owner.image_speed	= value; };
 	func_image_scale	= function(value) { 
 		if (__relative_scale) {
-			owner.image_xscale = __start_xscale * value; 
-			owner.image_yscale = __start_yscale * value; 
+			owner.image_xscale = __start_xscale + __scale_xdistance * value; 
+			owner.image_yscale = __start_yscale + __scale_ydistance * value; 
 		} else {
 			owner.image_xscale = value; 
 			owner.image_yscale = value; 
@@ -84,15 +84,19 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	__play_forward		= true;
 	__paused			= false;
 
-	__blend_start		 = c_white;
-	__blend_end			 = c_white;
+	__blend_start		= c_white;
+	__blend_end			= c_white;
 	
-	__move_distance_mode = false;
-	__move_xdistance	 = 0;
-	__move_ydistance	 = 0;
-	__relative_scale	 = false;
-	__relative_angle	 = false;
-	__rotation_distance	 = 0;
+	__relative_distance = false;
+	__move_xdistance	= 0;
+	__move_ydistance	= 0;
+	
+	__relative_scale	= false;
+	__scale_xdistance	= 0;
+	__scale_ydistance	= 0;
+	
+	__relative_angle	= false;
+	__rotation_distance	= 0;
 
 	#region TRIGGERS
 	static __frame_trigger_class = function(_frame, _trigger, _interval) constructor {
@@ -165,6 +169,17 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	}
 	#endregion
 
+	/// @function		set_name(_name)
+	/// @description	Gives this animation a specific name. Usage of names is totally optional,
+	///					but this allows you to set a unique marker to an animation, which can be
+	///					used as criteria in the is_in_animation(...) function.
+	///					You can access the name of an animation with .name
+	/// @param {string}	_name  The name this animation shall use.
+	static set_name = function(_name) {
+		name = _name;
+		return self;
+	}
+
 	/// @function		set_move_distance(xdistance, ydistance)
 	/// @description	use this function if the animcurve holds a standard 0..1 value
 	///					for x/y and the curve value shall be a multiplier for the total
@@ -173,7 +188,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	/// @param {real}	xdistance  Horizontal distance
 	/// @param {real}	ydistance  Vertical distance
 	static set_move_distance = function(xdistance, ydistance) {
-		__move_distance_mode = true;
+		__relative_distance = true;
 		__move_xdistance  = xdistance;
 		__move_ydistance  = ydistance;
 		return self;
@@ -187,18 +202,37 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	/// @param {real}	xtarget  Horizontal target position
 	/// @param {real}	ytarget  Vertical target position
 	static set_move_target = function(xtarget, ytarget) {
-		__move_distance_mode = true;
+		__relative_distance = true;
 		__move_xdistance = xtarget - __start_x;
 		__move_ydistance = ytarget - __start_y;
 		return self;
 	}
 
-	/// @function		set_scale_relative(relative)
-	/// @description	tell the animation that image-scaling values are to be
-	///					interpreted as relative multiplier to the current scale (default = false)
-	/// @param {bool}	relative  If true, then the scale value is interpreted as multiplier
-	static set_scale_relative = function(relative) {
-		__relative_scale = relative;
+	/// @function		set_scale_distance(xdistance, ydistance)
+	/// @description	use this function if the animcurve holds a standard 0..1 value
+	///					for x/y and the curve value shall be a multiplier for the total
+	///					distance you supply here (a "scale by" curve).
+	///					Both default scale functions for x and y respect this setting.
+	/// @param {real}	xdistance  Horizontal scale delta
+	/// @param {real}	ydistance  Vertical scale delta
+	static set_scale_distance = function(xdistance, ydistance) {
+		__relative_scale = true;
+		__scale_xdistance = xdistance;
+		__scale_ydistance = ydistance;
+		return self;
+	}
+
+	/// @function		set_scale_target(xtarget, ytarget)
+	/// @description	use this function if the animcurve holds a standard 0..1 value
+	///					for x/y and the curve value shall be a multiplier for the total
+	///					distance you supply here (a "scale to" curve).
+	///					Both default scale functions for x and y respect this setting.
+	/// @param {real}	xdistance  Horizontal scale target
+	/// @param {real}	ydistance  Vertical scale target
+	static set_scale_target = function(xtarget, ytarget) {
+		__relative_scale = true;
+		__scale_xdistance = xtarget - __start_xscale;
+		__scale_ydistance = ytarget - __start_yscale;
 		return self;
 	}
 
@@ -407,14 +441,15 @@ function animation_get_all(owner = self) {
 	return rv;
 }
 
-/// @function		animation_remove_all(owner = self)
+/// @function		animation_abort_all(owner = self)
 /// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
 /// @param {instance} owner  The owner that shall have its animations removed.
-function animation_remove_all(owner = self) {
+function animation_abort_all(owner = self) {
 	var removers = animation_get_all(owner);
 	
-	with (owner) 
-		log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
 		
 	for (var i = 0; i < array_length(removers); i++) {
 		var to_remove = removers[@ i];
@@ -423,12 +458,16 @@ function animation_remove_all(owner = self) {
 	}
 }
 
-/// @function		is_in_animation(owner = self)
+/// @function		is_in_animation(owner = self, name = undefined)
 /// @description	Returns true, if there's at least one animation for the specified owner 
-///					currently in the global ANIMATIONS pool
-/// @param {instance}	owner  The owner to check.
-/// @returns {bool}		true, if at least one animation for the specified owner is active
-function is_in_animation(owner = self) {
+///					currently in the global ANIMATIONS pool.
+///					If the name is also specified, true is only returned, if the names match.
+///					This is useful if you need to know, whether an object is currently running
+///					one specific animation.
+/// @param {instance}	owner	The owner to check.
+/// @param {string}		name	The name of the animation to check.
+/// @returns {bool}		true, if at least one animation for the specified owner/name is active
+function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
 	if (IS_HTML) {
 		var myowner;
@@ -440,29 +479,17 @@ function is_in_animation(owner = self) {
 			var otherowner;
 			with (item.owner)
 				otherowner = MY_NAME;
-			if (myowner == otherowner)
+			if (myowner == otherowner && (name == undefined || name == item.name))
 				return true;
 		}		
 	} else {
 		for (var i = 0; i < ds_list_size(lst); i++) {
 			var item = lst[| i];
-			if (item.owner == owner)
+			if (item.owner == owner && (name == undefined || name == item.name))
 				return true;
 		}
 	}
 	return false;
-}
-
-/// @function			animation_empty(_obj_owner, _delay, _duration, _repeats = 1)
-/// @description		Convenience function to create a delay/duration/callback animation
-///						without an animcurve, but you have still ALL callbacks available
-///						(started, finished, frames, etc). It just has no animation.
-///						You can use this to easily delay or repeat actions without the need of
-///						actually design a real animation.
-///						Can be seen as a comfortable ALARM implementation with more options than the builtin alarms.
-/// @returns {Animation}
-function animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
-	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats);
 }
 
 /// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
@@ -470,4 +497,25 @@ function animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
 /// @returns {Animation}
 function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) {
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats);
+}
+
+/// @function			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
+/// @description		Runs an animation EXCLUSIVE (i.e. calls "animation_abort_all()" for the owner first.
+///						Convenience constructor wrapper if you don't need to keep your own pointer
+/// @returns {Animation}
+function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) {
+	animation_abort_all(_obj_owner);
+	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats);
+}
+
+/// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1)
+/// @description		Convenience function to create a delay/duration/callback animation
+///						without an animcurve, but you have still ALL callbacks available
+///						(started, finished, frames, etc). It just has no animation.
+///						You can use this to easily delay or repeat actions without the need of
+///						actually design a real animation.
+///						Can be seen as a comfortable ALARM implementation with more options than the builtin alarms.
+/// @returns {Animation}
+function __animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
+	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats);
 }

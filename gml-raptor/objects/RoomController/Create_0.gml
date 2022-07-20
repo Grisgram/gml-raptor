@@ -39,6 +39,8 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
+
 /*
 	-------------------
 		GUI CONTROL
@@ -80,39 +82,6 @@ WINDOW_SIZE_Y = window_get_height();
 */
 #region CAMERA CONTROL
 
-#region camera runtime
-__active_camera_actions = array_create(1, undefined);
-__camera_action_queue = ds_list_create();
-
-__get_first_free_camera_action = function() {
-	freeidx = -1;
-	var i = 0; repeat(array_length(__active_camera_actions)) {
-		if (__active_camera_actions[i] == undefined) {
-			freeidx = i;
-			break;
-		}
-		i++;
-	}
-	if (freeidx == -1) {
-		freeidx = array_length(__active_camera_actions);
-		array_push(__active_camera_actions, undefined);
-	}
-	if (freeidx == 0 && array_length(__active_camera_actions) > 1)
-		__active_camera_actions = array_create(1, undefined); // shrink the array if necessary
-	return freeidx;
-}
-
-__has_camera_action_with = function(script_to_call) {
-	var i = 0; repeat(array_length(__active_camera_actions)) {
-		var action = __active_camera_actions[i++];
-		if (action != undefined && action.callback == script_to_call)
-			return true;
-	}
-	return false;
-}
-
-#endregion
-
 /// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
 /// @description				lets rumble!
 /// @param {int} frames 			
@@ -135,7 +104,7 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	return a; 
 }
 
-/// @function					camera_zoom_to(frames, new_width, new_height, camera_index = 0)
+/// @function					camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
 /// @description				zoom the camera animated by X pixels
 /// @param {int} frames 			
 /// @param {real} new_width
@@ -169,21 +138,28 @@ camera_zoom_by = function(frames, width_delta, enqueue_if_running = true, camera
 	return a; 
 }
 
-/// @function					camera_move_to(frames, width_delta, new_height, camera_index = 0)
-/// @description				move the camera animated to a specified position
+/// @function					camera_move_to(frames, width_delta, new_height, camera_align = cam_align.top_left, camera_index = 0)
+/// @description				move the camera animated to a specified position with an optional
+///								alignment.
+///								The cam_align enum can be used to specify a different alignment than
+///								the default of top_left. For instance, if you specify align.middle_center here,
+///								this function works like a kind of "look at that point", as the CENTER of the view
+///								will be at target_x, target_y coordinates.
 /// @param {int} frames 			
 /// @param {real} target_x
 /// @param {real} target_y
 /// @param {bool=true} enqueue_if_running
+/// @param {camera_align=cam_align.top_left} alignment of the target coordinates
 /// @param {int=0} camera_index
 /// @returns {camera_action_data} struct
-camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0) {
+camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_move, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
 	a.first_call = true;
 	a.relative = false; // not-relative tells the action to use a.target* for calculation
-	a.target_x = target_x;
-	a.target_y = target_y;
+	var aligned = __get_target_for_cam_align(target_x, target_y, camera_align);
+	a.target_x = aligned.x;
+	a.target_y = aligned.y;
 	// Return the action to our caller
 	return a; 
 }

@@ -1,4 +1,5 @@
 /// @description Enemy StateMachine
+game_active = true;
 
 // Inherit the parent event
 event_inherited();
@@ -75,7 +76,7 @@ states
 )
 .add_state("die",
 	function(sdata) {
-		animation_remove_all(self);
+		animation_abort_all(self);
 		sdata.is_alive = false;
 		animation_run(scanner,0,30,acLinearAlpha)
 			.play_backwards()

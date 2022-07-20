@@ -10,6 +10,8 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 	top = rect_top;
 	width = rect_width;
 	height = rect_height;
+	right = get_right();
+	bottom = get_bottom();
 	
 	/// @function					get_right()
 	/// @description				right edge of the rectangle
@@ -38,6 +40,8 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 		top = rect_top;
 		width = rect_width;
 		height = rect_height;
+		right = get_right();
+		bottom = get_bottom();
 	}
 	
 	/// @function				intersects_rect(other_rect)	

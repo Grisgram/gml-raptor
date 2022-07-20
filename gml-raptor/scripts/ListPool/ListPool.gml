@@ -31,7 +31,8 @@ function ListPool(_name = "listPool") constructor {
 	static add = function(obj) {
 		if (ds_list_find_index(list, obj) == -1) {
 			ds_list_add(list, obj);
-			log(sprintf("{0} item added: newSize={1};", name, size()));
+			if (DEBUG_LOG_LIST_POOLS)
+				log(sprintf("{0} item added: newSize={1};", name, size()));
 		}
 	}
 

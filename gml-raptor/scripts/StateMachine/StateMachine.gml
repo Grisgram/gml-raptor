@@ -34,14 +34,18 @@ function StateMachine(_owner) constructor {
 	__state_frame		= 0;
 	
 	data				= {};
-	data.state_machine	= self;
 	
-	with(owner) log(MY_NAME + ": StateMachine created");
+	with(owner) {
+		if (DEBUG_LOG_STATEMACHINE)
+			log(MY_NAME + ": StateMachine created");
+		data.state_data = other.data;
+	}
 	
 	for (var i = 1; i < argument_count; i++) {
 		var st = argument[@ i];
 		st.data = data;
-		with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}' on creation", state.name));
+		if (DEBUG_LOG_STATEMACHINE)
+			with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}' on creation", state.name));
 		array_push(__states, st);
 	}
 	
@@ -57,7 +61,32 @@ function StateMachine(_owner) constructor {
 	/// @returns {bool} true/false Shall the StateMachine react on input events?
 	events_enabled = function() {
 		with(owner)
-			return !HIDDEN_BEHIND_POPUP;
+			return !__LAYER_OR_OBJECT_HIDDEN && !__HIDDEN_BEHIND_POPUP;
+	}
+	
+	/// @function		set_events_enabled_func(func)
+	/// @description	Assigns a new events_enabled function to this state machine.
+	///					This is a chainable convenience function, you can also assign a
+	///					new events_enabled function by simply overriding (redefining)
+	///					the .events_enabled member of this state machine directly.
+	/// @param {func} func	The function to assign as events_enabled evaluator
+	static set_events_enabled_func = function(func) {
+		self[$ "events_enabled"] = method(self, func);
+		return self;
+	}
+	
+	/// @function		clear_states()
+	/// @description	Removes all known states, sets active_state = undefined and optionally 
+	///					resets the data variable.
+	///					NOTE: The on_leave callback of any active state will NOT be invoked!
+	///					This reset is instant.
+	/// @param {bool}	reset_data	Default true. The data variable will be reset also.
+	static clear_states = function(reset_data = true) {
+		__states			= [];
+		active_state		= undefined;
+		if (reset_data) 
+			data = {};
+		return self;
 	}
 	
 	/// @function		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
@@ -67,9 +96,11 @@ function StateMachine(_owner) constructor {
 	/// @param {func} step       Optional. Callback to invoke every frame while in this state
 	/// @param {func} _on_leave  Optional. Callback to invoke when this state shall be left
 	static add_state = function(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined) {
-		with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}'", _name));
+		if (DEBUG_LOG_STATEMACHINE)
+			with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}'", _name));
 		if (get_state(_name) != undefined) {
-			with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: '{0}' overwrites an existing state!", _name));
+			if (DEBUG_LOG_STATEMACHINE)
+				with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: '{0}' overwrites an existing state!", _name));
 			delete_state(_name);
 		}
 		var st = new State(_name, _on_enter, _on_step, _on_leave);
@@ -84,9 +115,11 @@ function StateMachine(_owner) constructor {
 	/// @param {State}  state The shared state to add
 	static add_state_shared = function(_state) {
 		var _name = _state.name;
-		with(owner) log(MY_NAME + sprintf(": StateMachine added shared state '{0}'", _name));
+		if (DEBUG_LOG_STATEMACHINE)
+			with(owner) log(MY_NAME + sprintf(": StateMachine added shared state '{0}'", _name));
 		if (get_state(_name) != undefined) {
-			with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: Shared state '{0}' overwrites an existing state!", _name));
+			if (DEBUG_LOG_STATEMACHINE)
+				with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: Shared state '{0}' overwrites an existing state!", _name));
 			delete_state(_name);
 		}
 		array_push(__states, _state);
@@ -97,7 +130,8 @@ function StateMachine(_owner) constructor {
 	static __perform_state_change = function(action, rv) {
 		if (rv != undefined && is_string(rv)) {
 			if (!has_active_state() || rv != active_state.name) {
-				with(owner) log(MY_NAME + sprintf(": '{0}.{1}' resulted in state change '{2}'", other.active_state.name, action, rv));
+				if (DEBUG_LOG_STATEMACHINE)
+					with(owner) log(MY_NAME + sprintf(": '{0}.{1}' resulted in state change '{2}'", other.active_state.name, action, rv));
 				set_state(rv);
 			}
 		}
@@ -117,10 +151,12 @@ function StateMachine(_owner) constructor {
 		var rv = undefined;
 		if (active_state == undefined || __allow_re_enter || active_state.name != name) {
 			if (active_state != undefined && state_exists(name)) {
-				with(owner) log(MY_NAME + sprintf(": Leaving state '{0}'{1}", other.active_state.name, leave_override != undefined ? " (with leave-override)" : ""));
+				if (DEBUG_LOG_STATEMACHINE)
+					with(owner) log(MY_NAME + sprintf(": Leaving state '{0}'{1}", other.active_state.name, leave_override != undefined ? " (with leave-override)" : ""));
 				active_state.data = data;
 				if (!active_state.leave(name, leave_override)) {
-					with(owner) log(MY_NAME + sprintf(": Leave state '{0}' aborted by leave callback!", other.active_state.name));
+					if (DEBUG_LOG_STATEMACHINE)
+						with(owner) log(MY_NAME + sprintf(": State change '{0}'->'{1}' aborted by leave callback!", other.active_state.name, name));
 					return;
 				}
 			}
@@ -132,8 +168,9 @@ function StateMachine(_owner) constructor {
 				if (__states[i].name == name) {
 					active_state = __states[i];
 					active_state.data = data;
-					with(owner) 
-						log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
+					if (DEBUG_LOG_STATEMACHINE)
+						with(owner) 
+							log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
 					
 					__state_frame = 0;
 					rv = active_state.enter(prev_name, enter_override);
@@ -146,8 +183,9 @@ function StateMachine(_owner) constructor {
 			if (active_state == undefined) {
 				active_state = prev_state;
 				if (!string_starts_with(name, "ev:"))
-					with(owner)
-						log(MY_NAME + ": *WARNING* Could not activate state '" + name + "'. State not found!");
+					if (DEBUG_LOG_STATEMACHINE)
+						with(owner)
+							log(MY_NAME + ": *WARNING* Could not activate state '" + name + "'. State not found!");
 			}
 		}
 		return self;
@@ -253,7 +291,8 @@ function StateMachine(_owner) constructor {
 	static destroy = function() {
 		if (on_destroy != undefined)
 			on_destroy();
-		with(owner) log(MY_NAME + ": StateMachine destroyed");
+		if (DEBUG_LOG_STATEMACHINE)
+			with(owner) log(MY_NAME + ": StateMachine destroyed");
 		STATEMACHINES.remove(self);
 	}
 	

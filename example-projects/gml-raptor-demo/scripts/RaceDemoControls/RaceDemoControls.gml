@@ -2,8 +2,7 @@
     All control events of the Race Demo
 */
 
-function race_demo_start_click() {
-	
+function race_demo_start_click() {	
 	with(Gem)
 		instance_destroy(self);
 		

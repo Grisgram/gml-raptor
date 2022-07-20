@@ -43,13 +43,15 @@ function macro_camera_viewport_index_switch_back() {
 #macro CAM_BOTTOM_EDGE		(CAM_TOP_EDGE  + CAM_HEIGHT - 1)
 #macro CAM_ASPECT_RATIO		(CAM_WIDTH / CAM_HEIGHT)
 
-// View helpers
+// View helpers - UI layer
 #macro UI_VIEW_WIDTH				 display_get_gui_width()
 #macro UI_VIEW_HEIGHT				 display_get_gui_height()
 #macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2)
 #macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2)
 #macro UI_VIEW_ASPECT_RATIO			(UI_VIEW_WIDTH  / UI_VIEW_HEIGHT)
+#macro UI_SCALE						min(display_get_gui_width()/VIEW_WIDTH, display_get_gui_height()/VIEW_HEIGHT)
 
+// View helpers - viewport
 #macro VIEW_WIDTH					view_wport[VIEWPORT_INDEX]
 #macro VIEW_HEIGHT					view_hport[VIEWPORT_INDEX]
 #macro VIEW_TOP_EDGE				 CAM_TOP_EDGE
@@ -87,3 +89,11 @@ function macro_camera_viewport_index_switch_back() {
 #macro SELF_VIEW_RIGHT_EDGE			(x + SELF_RIGHT_EDGE)
 #macro SELF_VIEW_BOTTOM_EDGE		(y + SELF_BOTTOM_EDGE)
 
+// These hold the absolute position on the UI layer and even take UI_SCALE into account
+#macro SELF_UI_VIEW_CENTER_X		(UI_SCALE * (x + SELF_CENTER_X))
+#macro SELF_UI_VIEW_CENTER_Y		(UI_SCALE * (y + SELF_CENTER_Y))
+#macro SELF_UI_VIEW_CENTER			(UI_SCALE * SELF_VIEW_CENTER_X), (UI_SCALE * SELF_VIEW_CENTER_Y)
+#macro SELF_UI_VIEW_LEFT_EDGE		(UI_SCALE * (x + SELF_LEFT_EDGE))
+#macro SELF_UI_VIEW_TOP_EDGE		(UI_SCALE * (y + SELF_TOP_EDGE))
+#macro SELF_UI_VIEW_RIGHT_EDGE		(UI_SCALE * (x + SELF_RIGHT_EDGE))
+#macro SELF_UI_VIEW_BOTTOM_EDGE		(UI_SCALE * (y + SELF_BOTTOM_EDGE))
