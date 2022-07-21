@@ -1,11 +1,20 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"><br/>
-<img src="https://user-images.githubusercontent.com/19487451/174751651-b5630b17-0b12-40ab-be1c-d20c4e012779.png">
-<img src="https://user-images.githubusercontent.com/19487451/174751649-ee0bc6a8-a274-4f1e-872c-851b95861184.png">
-<img src="https://user-images.githubusercontent.com/19487451/174751647-d88c71c7-edea-4883-a180-e7edbdf1455d.png">
-<img src="https://user-images.githubusercontent.com/19487451/174751654-34b7e843-9fba-4c3e-a5b4-21c7134a9666.png">
-<img src="https://user-images.githubusercontent.com/19487451/174751656-75fddb70-8f39-4b55-a1f1-f4dfd042974f.png">
-<img src="https://user-images.githubusercontent.com/19487451/174751048-0d3e2c9c-0974-437b-b5de-9a9d1ee068a2.png">
+<img src="https://user-images.githubusercontent.com/19487451/180134446-1223e79f-0963-4438-954c-331d8827283e.png">
+<img src="https://user-images.githubusercontent.com/19487451/180134457-003f837a-2e33-44af-a5fa-1f92f6aa8b22.png">
+<img src="https://user-images.githubusercontent.com/19487451/180134463-51a17e65-f2de-415e-aadd-8ee6aa8ed7d8.png">
+<img src="https://user-images.githubusercontent.com/19487451/180134472-8e9a940f-41f0-48f4-964d-8e46dc9222b3.png">
+<img src="https://user-images.githubusercontent.com/19487451/180134486-7b55554d-aef1-4379-9e55-02290021b8fe.png">
+<img src="https://user-images.githubusercontent.com/19487451/180134498-d648abcb-ac41-4050-ac04-79046a634a66.png">
 </p>
+
+![image](https://user-images.githubusercontent.com/19487451/180134446-1223e79f-0963-4438-954c-331d8827283e.png)
+![image](https://user-images.githubusercontent.com/19487451/180134457-003f837a-2e33-44af-a5fa-1f92f6aa8b22.png)
+![image](https://user-images.githubusercontent.com/19487451/180134463-51a17e65-f2de-415e-aadd-8ee6aa8ed7d8.png)
+![image](https://user-images.githubusercontent.com/19487451/180134472-8e9a940f-41f0-48f4-964d-8e46dc9222b3.png)
+![image](https://user-images.githubusercontent.com/19487451/180134486-7b55554d-aef1-4379-9e55-02290021b8fe.png)
+![image](https://user-images.githubusercontent.com/19487451/180134498-d648abcb-ac41-4050-ac04-79046a634a66.png)
+
+
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
