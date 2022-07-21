@@ -1,14 +1,9 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"><br/>
+![savegame](https://user-images.githubusercontent.com/19487451/174751651-b5630b17-0b12-40ab-be1c-d20c4e012779.png)![state](https://user-images.githubusercontent.com/19487451/174751048-0d3e2c9c-0974-437b-b5de-9a9d1ee068a2.png)![race](https://user-images.githubusercontent.com/19487451/174751649-ee0bc6a8-a274-4f1e-872c-851b95861184.png)![animation](https://user-images.githubusercontent.com/19487451/174751647-d88c71c7-edea-4883-a180-e7edbdf1455d.png)![tools](https://user-images.githubusercontent.com/19487451/174751654-34b7e843-9fba-4c3e-a5b4-21c7134a9666.png)![ui](https://user-images.githubusercontent.com/19487451/174751656-75fddb70-8f39-4b55-a1f1-f4dfd042974f.png)
+</p>
 
 `raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
 This repository contains a ready-to-use project template in `.yyz` format that can be downloaded from [the Releases page](https://github.com/Grisgram/gml-raptor/releases).
-
-## Version list
-You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
-These versions of external libraries are packaged into the current `raptor` release:
-| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
-|:-:|:-:|:-:|:-:|:-:|:-:|
-|2022.6|1.2.1|8.0.4|4.1.0|1.3|1.2|
 
 | |
 |:--:|
@@ -21,6 +16,13 @@ These versions of external libraries are packaged into the current `raptor` rele
 |![savegame](https://user-images.githubusercontent.com/19487451/174751651-b5630b17-0b12-40ab-be1c-d20c4e012779.png) **Savegames**<br/>Have your data saved and restored with optional encryption|![state](https://user-images.githubusercontent.com/19487451/174751048-0d3e2c9c-0974-437b-b5de-9a9d1ee068a2.png) **State Machines**<br/>Easy to use but powerful game object control|
 |![race](https://user-images.githubusercontent.com/19487451/174751649-ee0bc6a8-a274-4f1e-872c-851b95861184.png) **RACE** (**RA**ndom **C**ontent **E**ngine)<br/>Loot, Random maps, Dice, all that can be random with json-based config|![animation](https://user-images.githubusercontent.com/19487451/174751647-d88c71c7-edea-4883-a180-e7edbdf1455d.png) **Animations**<br/>Runtime sprite animations with triggers and runtime tweaks|
 |![tools](https://user-images.githubusercontent.com/19487451/174751654-34b7e843-9fba-4c3e-a5b4-21c7134a9666.png) **Tools**<br/>Utils and Helpers, like Object Pools,<br/> Effects, Struct & Array enhancements, Message Broadcasting|![ui](https://user-images.githubusercontent.com/19487451/174751656-75fddb70-8f39-4b55-a1f1-f4dfd042974f.png) **UI and Localization**<br/>Basic UI Controls objects incl. Text Input, json-localization, 100% [Scribble](https://github.com/JujuAdams/scribble)-based|
+
+## Version list
+You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
+These versions of external libraries are packaged into the current `raptor` release:
+| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|2022.6|1.2.1|8.0.4|4.1.0|1.3|1.2|
 
 ## How Releases are organized
 When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
