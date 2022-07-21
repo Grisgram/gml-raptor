@@ -2,8 +2,8 @@
 <img src="https://user-images.githubusercontent.com/19487451/174751651-b5630b17-0b12-40ab-be1c-d20c4e012779.png"><img src="https://user-images.githubusercontent.com/19487451/174751048-0d3e2c9c-0974-437b-b5de-9a9d1ee068a2.png"><img src="https://user-images.githubusercontent.com/19487451/174751649-ee0bc6a8-a274-4f1e-872c-851b95861184.png"><img src="https://user-images.githubusercontent.com/19487451/174751647-d88c71c7-edea-4883-a180-e7edbdf1455d.png"><img src="https://user-images.githubusercontent.com/19487451/174751654-34b7e843-9fba-4c3e-a5b4-21c7134a9666.png"><img src="https://user-images.githubusercontent.com/19487451/174751656-75fddb70-8f39-4b55-a1f1-f4dfd042974f.png">
 </p>
 
-`raptor` is kind of a platform, a layer I put on top of the GameMaker Studio environment, a collection of objects, (struct)classes and utility functions that I use to write games.<br/>
-This repository contains a ready-to-use project template in `.yyz` format that can be downloaded from [the Releases page](https://github.com/Grisgram/gml-raptor/releases).
+`gml-raptor` is a ready-to-use project template for (GameMaker Studio 2.3+)[https://gamemaker.io] with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
+[The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
 
 | |
 |:--:|
