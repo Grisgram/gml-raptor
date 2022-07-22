@@ -14,6 +14,10 @@
 |:--:|
 |![trello](https://user-images.githubusercontent.com/19487451/177526365-74bd6c31-a762-4484-9723-a8d4f5108950.png)&nbsp;&nbsp;&nbsp;[View the public roadmap on Trello](https://trello.com/b/wAkyqDBz/gml-raptor-roadmap)|
 
+## Play it live at itch.io
+Just want to see the demo without cloning?<br/>
+Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!
+
 ## Main Features
 
 |![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Coding & Data|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Visuals & Objects|
