@@ -55,10 +55,10 @@
 		
 		"demo_message": {
 			"title"			: "Demo MessageBox",
-			"text"			: "Das ist eine Nachricht mit [c_yellow]super wichtiger Information[/]\nfür den Benutzer!\n\nMit nur einer Zeile code!",
+			"text"			: "Das ist eine Nachricht mit [ci_accent]super wichtiger Information[/]\nfür den Benutzer!\n\nMit nur einer Zeile code!",
 			"click_title"	: "Button geklickt",
-			"ok_clicked"	: "Du hast [c_yellow]OK[/] geklickt",
-			"cancel_clicked": "Du hast [c_yellow]ABBRECHEN[/] geklickt",
+			"ok_clicked"	: "Du hast [ci_accent]OK[/] geklickt",
+			"cancel_clicked": "Du hast [ci_accent]ABBRECHEN[/] geklickt",
 		},
 		
 		"tooltips": {
@@ -66,7 +66,7 @@
 			"game_button"		: "Objekt: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
 			"demo_label"		: "Dieser String wurde mittels String Reference in json aufgelöst.\nSieh in die locale_de.json bei \"main_menu/header_text\" im Included Files\\locale Ordner!",
 			"version_label"		: "Sieh dir die version.json Datei im Included Files Ordner an!",
-			"inputbox"			: "Gib etwas Text ein und teste die UX:\n[c_yellow]Cursortasten[/], [c_yellow]Shift+Cursor[/]\n[c_yellow]Pos1, End[/] (mit und ohne Shift)\n[c_yellow]Mouse-Click[/], [c_yellow]Mouse-Drag[/] zum Selektieren,\n[c_yellow]Strg-C, Strg-X, Strg-V[/] etc\n\nDie InputBox ist sehr komfortabel!",
+			"inputbox"			: "Gib etwas Text ein und teste die UX:\n[ci_accent]Cursortasten[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Pos1, End[/] (mit und ohne Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] zum Selektieren,\n[ci_accent]Strg-C, Strg-X, Strg-V[/] etc\n\nDie InputBox ist sehr komfortabel!",
 		},
 
 	},
@@ -74,19 +74,19 @@
 	"play": {
 		"how_to_play_states": {
 			"title": "Spielregeln",
-			"text":  "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [c_yellow]Spawner[/].\nEr spuckt ständig [c_yellow]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [c_yellow]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[c_orange]Versuche, so lange wie möglich am Leben zu bleiben!",
+			"text":  "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [ci_accent]Spawner[/].\nEr spuckt ständig [ci_accent]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [ci_accent]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[ci_accent2]Versuche, so lange wie möglich am Leben zu bleiben!",
 		},
 		"how_to_play_race": {
 			"title": "Race Demo",
-			"text":  "Dies ist eine kurze Demo, die ein Spielfeld wie in einem Match-3 Spiel\nmit zufälligen Edelsteinen mit Hilfe von [c_yellow]RaceTables[/] füllt.\n\nDu kannst die Wahrscheinlichkeiten und den Enabled-Zustand anpassen.\n\nIm Raum befindet sich ein [c_yellow]RaceController[/] und ein [c_yellow]RaceTable[/] Objekt.\n\n[scale,1.25][c_yellow]ACHTUNG![/] Dies ist ein [c_yellow]DEMO[/] Programm!\nDie Eingabefelder sind nicht abgesichert!\nWenn du nonsens eingibst (zb. keine Zahlen als Chance), dann wird es abstürzen!\n\nKlicke auf [c_yellow]Starten[/], um das Spielfeld zu füllen.",
+			"text":  "Dies ist eine kurze Demo, die ein Spielfeld wie in einem Match-3 Spiel\nmit zufälligen Edelsteinen mit Hilfe von [ci_accent]RaceTables[/] füllt.\n\nDu kannst die Wahrscheinlichkeiten und den Enabled-Zustand anpassen.\n\nIm Raum befindet sich ein [ci_accent]RaceController[/] und ein [ci_accent]RaceTable[/] Objekt.\n\n[scale,1.25][ci_accent]ACHTUNG![/] Dies ist ein [ci_accent]DEMO[/] Programm!\nDie Eingabefelder sind nicht abgesichert!\nWenn du nonsens eingibst (zb. keine Zahlen als Chance), dann wird es abstürzen!\n\nKlicke auf [ci_accent]Starten[/], um das Spielfeld zu füllen.",
 		},
 		"game_over": {
 			"title": "Game over",
-			"text":  "Du wurdest entdeckt!\n\nAber du hast immerhin [c_yellow]{0}[/] Gegner eliminiert!\n\nNun geht's zurück zum [c_yellow]Hauptmenü[/].",
+			"text":  "Du wurdest entdeckt!\n\nAber du hast immerhin [ci_accent]{0}[/] Gegner eliminiert!\n\nNun geht's zurück zum [ci_accent]Hauptmenü[/].",
 		},
 		"ui": {
-			"score_view"	: "Gegner eliminiert: [c_yellow][scale,1.5]{0}[/]",
-			"debug_info"	: "Drücke [c_yellow]F12[/] um die Debug-Infos ein-/auszublenden",
+			"score_view"	: "Gegner eliminiert: [ci_accent][scale,1.5]{0}[/]",
+			"debug_info"	: "Drücke [ci_accent]F12[/] um die Debug-Infos ein-/auszublenden",
 			"enabled"		: "Aktiv",
 			"chance"		: "Chance",
 			"race_start_button"	: "[scale,1.25]Starten",

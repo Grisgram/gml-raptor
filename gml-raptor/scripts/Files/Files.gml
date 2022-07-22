@@ -74,7 +74,7 @@ function file_write_text_file(filename, text) {
 	__ensure_file_cache();
 	var buffer = buffer_create(string_byte_length(text) + 1, buffer_fixed, 1);
 	buffer_write(buffer, buffer_string, text);
-	buffer_save(buffer, filename);
+	buffer_save(buffer, working_directory + filename);
 	buffer_delete(buffer);
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
 		log(sprintf("Updated cache for file '{0}'", filename));
@@ -137,7 +137,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 	log("Saving encrypted struct to " + filename);
 	var buffer = snap_to_binary(struct);
 	encrypt_buffer(buffer, cryptkey);
-	buffer_save(buffer, filename);
+	buffer_save(buffer, working_directory + filename);
 	buffer_delete(buffer);
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
 		log(sprintf("Updated cache for file '{0}' (encrypted struct)", filename));
@@ -161,7 +161,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 			return snap_deep_copy(variable_struct_get(__FILE_CACHE, filename));
 		}
 		log("Loading encrypted struct from " + filename);
-		var buffer = buffer_load(filename);
+		var buffer = buffer_load(working_directory + filename);
 		encrypt_buffer(buffer, cryptkey);	
 		var rv = snap_from_binary(buffer, 0, true);
 		buffer_delete(buffer);

@@ -58,6 +58,7 @@ function onGameStart() {
 	// Custom named scribble colors 
 	// (SCRIBBLE_COLORS is a macro pointing to global.__scribble_colours)
 	//SCRIBBLE_COLORS.my_col		= #E5E5E5;
+	SCRIBBLE_COLORS.ci_accent2		= #FF972F;
 
 }
 

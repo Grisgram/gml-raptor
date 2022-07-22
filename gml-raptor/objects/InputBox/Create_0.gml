@@ -190,7 +190,7 @@ __draw_cursor = function() {
 			}
 		}
 		draw_set_color(text_color);
-		draw_line(__cursor_x, __cursor_y, __cursor_x, __cursor_y + __cursor_height);
+		draw_line_width(__cursor_x, __cursor_y, __cursor_x, __cursor_y + __cursor_height, 2);
 		draw_set_color(c_white);
 	}
 }
@@ -200,26 +200,35 @@ __draw_cursor = function() {
 /// @param {bool=false} force_extend_selection 			
 __set_cursor_pos_from_click = function(force_extend_selection = false) {
 	var full_box = __scribble_text.get_bbox(__text_x, __text_y);
-	var xinside = GUI_MOUSE_X - full_box.left;
+	var mousepos = mouse_x;
+	var topleft = new Coord2(full_box.left, full_box.top);
+	var boxwidth = full_box.width;
+	if (draw_on_gui) {
+		mousepos = GUI_MOUSE_X;
+		translate_world_to_gui(topleft.x, topleft.y, topleft);
+		boxwidth = translate_world_to_gui_abs(boxwidth, 0).x;
+	}
+
+	var xinside = mousepos - topleft.x;
 	if (xinside < 0) {
 		set_cursor_pos(0, force_extend_selection);
 		return;
 	}
-	if (xinside > full_box.width) {
+	
+	if (xinside > boxwidth) {
 		set_cursor_pos(string_length(text), force_extend_selection);
 		return;
 	}
-	var last_right = 0;
+	
 	var i = 1; repeat(string_length(text)) {
-		var substr = string_copy(text, 1, i++);
+		var substr = string_copy(text, 1, i);
+		i++;
 		var scrib = scribble("[fa_left]" + substr).starting_format(
 				font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, text_color);
-		var bbox = scrib.get_bbox(full_box.left, full_box.top);
-		var box_inside = bbox.right - full_box.left;
-		if (box_inside < xinside)
-			last_right = box_inside;
-		else
+		var bbox = scrib.get_bbox(topleft.x, topleft.y);
+		var box_inside = bbox.right - topleft.x;
+		if (box_inside >= xinside)
 			break;
 	}
-	set_cursor_pos(max(0, i - 2), force_extend_selection);
+	set_cursor_pos(clamp(i - 2, 0, string_length(text)), force_extend_selection);
 }

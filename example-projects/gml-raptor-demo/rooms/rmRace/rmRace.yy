@@ -66,7 +66,7 @@
           ],"isDnd":false,"objectId":{"name":"Label","path":"objects/Label/Label.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":6.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1472.0,"y":80.0,"resourceVersion":"1.0","name":"lblEnabledText","tags":[],"resourceType":"GMRInstance",},
         {"properties":[
             {"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=play/ui/chance","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-          ],"isDnd":false,"objectId":{"name":"Label","path":"objects/Label/Label.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":11.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1584.0,"y":80.0,"resourceVersion":"1.0","name":"inst_605A8E96","tags":[],"resourceType":"GMRInstance",},
+          ],"isDnd":false,"objectId":{"name":"Label","path":"objects/Label/Label.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":11.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1584.0,"y":80.0,"resourceVersion":"1.0","name":"lblChanceHeader","tags":[],"resourceType":"GMRInstance",},
         {"properties":[
             {"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=play/ui/race_start_button","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
             {"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"race_demo_start_click","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
@@ -180,7 +180,7 @@
     {"name":"txtChanceGemBlue","path":"rooms/rmRace/rmRace.yy",},
     {"name":"txtChanceGemYellow","path":"rooms/rmRace/rmRace.yy",},
     {"name":"lblEnabledText","path":"rooms/rmRace/rmRace.yy",},
-    {"name":"inst_605A8E96","path":"rooms/rmRace/rmRace.yy",},
+    {"name":"lblChanceHeader","path":"rooms/rmRace/rmRace.yy",},
     {"name":"cmdFillBoard","path":"rooms/rmRace/rmRace.yy",},
     {"name":"cmdExitRaceDemo","path":"rooms/rmRace/rmRace.yy",},
     {"name":"raceController","path":"rooms/rmRace/rmRace.yy",},
