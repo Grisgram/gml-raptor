@@ -55,10 +55,10 @@
 		
 		"demo_message": {
 			"title"			: "Demo MessageBox",
-			"text"			: "This is a message displaying [c_yellow]super important information[/]\nto the user!\n\nWith a single line of code!",
+			"text"			: "This is a message displaying [ci_accent]super important information[/]\nto the user!\n\nWith a single line of code!",
 			"click_title"	: "Button clicked",
-			"ok_clicked"	: "You clicked [c_yellow]OK",
-			"cancel_clicked": "You clicked [c_yellow]CANCEL",
+			"ok_clicked"	: "You clicked [ci_accent]OK",
+			"cancel_clicked": "You clicked [ci_accent]CANCEL",
 		},
 		
 		"tooltips": {
@@ -66,7 +66,7 @@
 			"game_button"		: "Object: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nSettings: RoomEditor Variables on this Object",
 			"demo_label"		: "This string is resolved via string reference in json.\nLook at the locale_en.json in the Included Files\\locale folder at \"main_menu/header_text\"!",
 			"version_label"		: "Look at the version.json File in the Included Files folder!",
-			"inputbox"			: "Enter some text and test the UX:\n[c_yellow]Cursor keys[/], [c_yellow]Shift+Cursor[/]\n[c_yellow]Home, End[/] (with and without Shift)\n[c_yellow]Mouse-Click[/], [c_yellow]Mouse-Drag[/] to select,\n[c_yellow]Ctrl-C, Ctrl-X, Ctrl-V[/] etc\n\nThe InputBox offers quite some comfort!",
+			"inputbox"			: "Enter some text and test the UX:\n[ci_accent]Cursor keys[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Home, End[/] (with and without Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] to select,\n[ci_accent]Ctrl-C, Ctrl-X, Ctrl-V[/] etc\n\nThe InputBox offers quite some comfort!",
 		},
 
 	},
@@ -74,19 +74,19 @@
 	"play": {
 		"how_to_play_states": {
 			"title": "How to play",
-			"text":  "Move your character with WASD keys.\n\nIn the middle of the screen, a [c_yellow]Spawner[/] will appear.\nIt spits out [c_yellow]enemies[/] every now and then.\n\nThey see you when you enter their yellow [c_yellow]Scanner range[/].\n\n[shake]Then you die.[/]\n\nIf you can touch an enemy on its back side, [shake]then the enemy dies![/]\n\n[c_orange]Try to survive as long as you can!",
+			"text":  "Move your character with WASD keys.\n\nIn the middle of the screen, a [ci_accent]Spawner[/] will appear.\nIt spits out [ci_accent]enemies[/] every now and then.\n\nThey see you when you enter their yellow [ci_accent]Scanner range[/].\n\n[shake]Then you die.[/]\n\nIf you can touch an enemy on its back side, [shake]then the enemy dies![/]\n\n[ci_accent2]Try to survive as long as you can!",
 		},
 		"how_to_play_race": {
 			"title": "Race Demo",
-			"text":  "This is a short demo filling a playing field, that could be any Match-3 game\nwith random gems using [c_yellow]RaceTables[/].\n\nYou can modify the chances and enabled states with the controls.\n\nThis room contains a [c_yellow]RaceController[/] and a [c_yellow]RaceTable[/] object.\n\n[scale,1.25][c_yellow]WARNING![/] This is a [c_yellow]DEMO[/] Program!\nThe InputBoxes perform no type-checking!\nIf you enter nonsense (i.e. no numbers as Chance), it will crash!\n\nClick the [c_yellow]Run[/] button to fill the board.",
+			"text":  "This is a short demo filling a playing field, that could be any Match-3 game\nwith random gems using [ci_accent]RaceTables[/].\n\nYou can modify the chances and enabled states with the controls.\n\nThis room contains a [ci_accent]RaceController[/] and a [ci_accent]RaceTable[/] object.\n\n[scale,1.25][ci_accent]WARNING![/] This is a [ci_accent]DEMO[/] Program!\nThe InputBoxes perform no type-checking!\nIf you enter nonsense (i.e. no numbers as Chance), it will crash!\n\nClick the [ci_accent]Run[/] button to fill the board.",
 		},
 		"game_over": {
 			"title": "Game over",
-			"text":  "You got caught!\n\nBut you could at least eliminate [c_yellow]{0}[/] enemies!\n\nNow we're heading back to the [c_yellow]Main Menu[/].",
+			"text":  "You got caught!\n\nBut you could at least eliminate [ci_accent]{0}[/] enemies!\n\nNow we're heading back to the [ci_accent]Main Menu[/].",
 		},
 		"ui": {
-			"score_view"		: "Enemies eliminated: [c_yellow][scale,1.5]{0}[/]",
-			"debug_info"		: "Press [c_yellow]F12[/] to show/hide the debug infos",
+			"score_view"		: "Enemies eliminated: [ci_accent][scale,1.5]{0}[/]",
+			"debug_info"		: "Press [ci_accent]F12[/] to show/hide the debug infos",
 			"enabled"			: "Enabled",
 			"chance"			: "Chance",
 			"race_start_button"	: "[scale,1.25]Run",

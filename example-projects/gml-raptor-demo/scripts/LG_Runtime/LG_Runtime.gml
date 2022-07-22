@@ -8,8 +8,12 @@
 
 #macro __LG_LOCALE_BASE_NAME	"locale_"
 
+#macro __LG_INIT_ERROR_SHOWN	global.__lg_init_error_shown
+#macro __LG_INITIALIZED			global.__lg_initialized
 #macro __LG_HTML_NEED_CHECK		global.__lg_html_need_check
 #macro __LG_HTML_INITIALIZED	(!__LG_HTML_NEED_CHECK || (variable_global_exists("__lg_languages") && is_array(LG_AVAIL_LOCALES) && array_length(LG_AVAIL_LOCALES) > 0))
+
+__LG_INIT_ERROR_SHOWN = false;
 
 /// @function		__LG_load_avail_languages()
 /// @returns {bool} True, if at least one language was found, otherwise false.
@@ -104,6 +108,7 @@ function LG_init(locale_to_use = undefined) {
 	else
 		loaded = __LG_load_avail_languages();
 	
+	__LG_INITIALIZED = loaded;
 	if (loaded) {
 		var default_exists = __LG_locale_exists(LG_DEFAULT_LANGUAGE);
 		var current_exists = __LG_locale_exists(LG_CURRENT_LOCALE);
@@ -150,10 +155,21 @@ function LG() {
 	var wildcard = false;
 	
 	if (!__LG_HTML_INITIALIZED) {
-		show_message(
-			"LG Error: On HTML Runtime you must declare the available locales\nin the array LG_AVAIL_LOCALES!\n\n" +
-			"Example: LG_AVAIL_LOCALES=[\"en\",\"de\",\"es\"]\n\n" +
-			"In the HTML runtime you also need to call LG_Init() manually after the initialization of LG_AVAIL_LOCALES");
+		if (!__LG_INIT_ERROR_SHOWN) {
+			show_message(
+				"LG Error: On HTML Runtime you must declare the available locales\nin the array LG_AVAIL_LOCALES!\n\n" +
+				"Example: LG_AVAIL_LOCALES=[\"en\",\"de\",\"es\"]\n\n" +
+				"In the HTML runtime you also need to call LG_Init() manually after the initialization of LG_AVAIL_LOCALES");
+			__LG_INIT_ERROR_SHOWN = true;
+		}
+	} else if (!__LG_INITIALIZED) {
+		if (!__LG_INIT_ERROR_SHOWN) {
+			show_message(
+				"LG Error: Not initialized.\nIf you set LG_AUTO_INIT to false you MUST call LG_Init() before your first\n" +
+				"string can be resolved!");
+			__LG_INIT_ERROR_SHOWN = true;
+		}
+		return "LG-NOT-INITIALIZED";
 	}
 	
 	// this inner function parses the path(s) and finds the string you're looking for
@@ -274,9 +290,11 @@ function LG_resolve(str) {
 	return str;
 }
 
+__LG_HTML_NEED_CHECK = IS_HTML;
+__LG_INITIALIZED = IS_HTML; // for html, we start initialized, there is a second check __LG_HTML_INITIALIZED 
+							// that takes care whether the required globals exist for HTML
 if (LG_AUTO_INIT_ON_STARTUP) {
 	show_debug_message("Welcome to LG localization subsystem! (c)indievidualgames.com");
-	__LG_HTML_NEED_CHECK = IS_HTML;
 	if (IS_HTML)
 		show_debug_message("LG is in HTML mode. Preset languages are " + string(HTML_LOCALES));
 	else

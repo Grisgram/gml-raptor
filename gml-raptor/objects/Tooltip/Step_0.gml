@@ -4,7 +4,8 @@ event_inherited();
 
 if (__active) {
 	if (!visible) {
-		visible = (--__frame_countdown <= 0);
+		__frame_countdown--;
+		visible = (__frame_countdown <= 0);
 		if (visible) text = update_tooltip_text();
 	} 
 	if (visible) {

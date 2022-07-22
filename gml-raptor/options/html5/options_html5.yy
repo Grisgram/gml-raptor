@@ -11,7 +11,7 @@
   "option_html5_index": "index.html",
   "option_html5_loadingbar": "ImageLoadBar_hook",
   "option_html5_jsprepend": "",
-  "option_html5_icon": "${base_options_dir}/html5/fav.ico",
+  "option_html5_icon": "fav.ico",
   "option_html5_allow_fullscreen": true,
   "option_html5_interpolate_pixels": true,
   "option_html5_centregame": true,
