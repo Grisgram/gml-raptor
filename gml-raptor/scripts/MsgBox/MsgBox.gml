@@ -181,8 +181,13 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			title_yoffset = other.title_yoffset;
 
 			__draw_self(); // force variable update...
-			x = UI_VIEW_CENTER_X - SELF_CENTER_X;
-			y = UI_VIEW_CENTER_Y - SELF_CENTER_Y - UI_VIEW_HEIGHT / 6;
+			if (draw_on_gui) {
+				x = translate_gui_to_world_x(UI_VIEW_CENTER_X - SELF_UI_VIEW_CENTER_X);
+				y = translate_gui_to_world_y(UI_VIEW_CENTER_Y - SELF_UI_VIEW_CENTER_Y - UI_VIEW_HEIGHT / 6);
+			} else {
+				x = VIEW_CENTER_X - SELF_VIEW_CENTER_X;
+				y = VIEW_CENTER_Y - SELF_VIEW_CENTER_Y - VIEW_HEIGHT / 6;
+			}
 			__startup_x = x;
 			__startup_y = y;
 			force_redraw();
