@@ -276,6 +276,23 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		return self;
 	}
 
+	/// @function					set_animcurve(_animcurve)
+	/// @description				Assign a new animcurve to this animation.
+	///								ATTENTION: Changing a curve in the middle of an animation
+	///								can be used for advanced effects but also be a source of
+	///								really unexpected behavior!
+	static set_animcurve = function(_animcurve) {
+		animcurve = _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
+		return self;
+	}
+
+	/// @function					set_duration(_duration)
+	/// @description				Change the duration of this animation.
+	static set_duration = function(_duration) {
+		duration = _duration;
+		return self;
+	}
+
 	/// @function play_forward()
 	/// @description Animation shall play forward (this is default)
 	static play_forward = function() {
@@ -288,6 +305,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	static play_backwards = function() {
 		__play_forward = false;
 		return self;
+	}
+
+	/// @function is_playing_forward()
+	/// @description Returns whether the animation is currently in play_forward mode or not
+	static is_playing_forward = function() {
+		return __play_forward;
 	}
 
 	/// @function		pause()

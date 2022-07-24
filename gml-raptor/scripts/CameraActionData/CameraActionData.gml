@@ -65,8 +65,8 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 		var enqueue = (enqueue_if_running && __CAMERA_RUNTIME.has_camera_action_with(callback));
 
 		if (enqueue) {
-			ds_list_add(__CAMERA_RUNTIME.camera_action_queue, self);
-			var queue_length = ds_list_size(__CAMERA_RUNTIME.camera_action_queue);
+			array_push(__CAMERA_RUNTIME.camera_action_queue, self);
+			var queue_length = array_length(__CAMERA_RUNTIME.camera_action_queue);
 			rv = -1;
 			enqueued = true;
 			with(ROOMCONTROLLER)
@@ -100,7 +100,7 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 
 	static abort = function() { 
 		with(ROOMCONTROLLER) {
-			__active_camera_actions[other.__internal_index] = undefined;
+			__CAMERA_RUNTIME.active_camera_actions[@ other.__internal_index] = undefined;
 			log(MY_NAME + sprintf(": Camera action {0}: index={1};", other.completed ? "finished" : "aborted", other.__internal_index));
 		}
 		// invoke finished_callback (if available)
@@ -108,12 +108,12 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 			finished_callback(self);
 		
 		// start next from queue (if available)
-		var i = 0; repeat(ds_list_size(__CAMERA_RUNTIME.camera_action_queue)) {
-			var entry = ds_list_find_value(__CAMERA_RUNTIME.camera_action_queue, i);
+		var i = 0; repeat(array_length(__CAMERA_RUNTIME.camera_action_queue)) {
+			var entry = __CAMERA_RUNTIME.camera_action_queue[@ i];
 			if (entry.callback == callback) {
 				entry.__internal_index = entry.__add_or_enqueue();
 				entry.enqueued = false;
-				ds_list_delete(__CAMERA_RUNTIME.camera_action_queue, i);
+				array_delete(__CAMERA_RUNTIME.camera_action_queue, i, 1);
 				with(ROOMCONTROLLER)
 					log(MY_NAME + sprintf(": Activated camera action from queue: script='{0}'; index={1};", 
 						script_get_name(entry.callback), entry.__internal_index));

@@ -1,3 +1,4 @@
 /// @description Log object creation
 
-log(MY_NAME + " created.");
+if (log_create_destroy)
+	log(MY_NAME + " created.");
