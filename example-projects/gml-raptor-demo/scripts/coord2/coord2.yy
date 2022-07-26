@@ -6,7 +6,7 @@
     "path": "folders/_gml_raptor_/Tools.yy",
   },
   "resourceVersion": "1.0",
-  "name": "Coords",
+  "name": "Coord2",
   "tags": [],
   "resourceType": "GMScript",
 }
