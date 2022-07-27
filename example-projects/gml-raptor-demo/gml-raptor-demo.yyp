@@ -274,7 +274,9 @@
   "isEcma": false,
   "configs": {
     "name": "Default",
-    "children": [],
+    "children": [
+      {"name":"release","children":[],},
+    ],
   },
   "RoomOrderNodes": [
     {"roomId":{"name":"rmStartup","path":"rooms/rmStartup/rmStartup.yy",},},

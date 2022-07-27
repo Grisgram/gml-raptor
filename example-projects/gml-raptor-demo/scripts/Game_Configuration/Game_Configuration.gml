@@ -29,7 +29,6 @@ function onGameStart() {
 
 	// Debug/Dev configuration
 	DEBUG_SHOW_OBJECT_FRAMES	= false;
-	DEBUG_MODE_ACTIVE			= true;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 	
