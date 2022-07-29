@@ -40,9 +40,6 @@ function onGameStart() {
 	// You can define your own CI_colors in the CI_Colors script
 	set_app_theme(ci_theme.none);
 
-	if (IS_HTML)
-		browser_click_handler = open_link_in_new_tab;
-
 	// Load start data
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------
