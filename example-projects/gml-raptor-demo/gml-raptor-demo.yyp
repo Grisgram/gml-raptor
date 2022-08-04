@@ -369,7 +369,7 @@
     {"CopyToMask":3035461389054378190,"filePath":"datafiles","resourceVersion":"1.0","name":"index.html","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "2022.6.0.23",
+    "IDEVersion": "2022.6.1.26",
   },
   "resourceVersion": "1.5",
   "name": "gml-raptor-demo",

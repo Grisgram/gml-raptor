@@ -37,15 +37,21 @@
 #macro ANIMATIONS	global.__ANIMATIONS
 ANIMATIONS		= new ListPool("ANIMATIONS");
 
-/// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
+#macro LOOP_INFINITE	-1
+
+/// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
 /// @description	Holds an animation. set repeats to -1 to loop forever until you call abort()
 /// @param {instance}	_obj_owner  The object to be animated
 /// @param {int}		_delay      How many frames to wait until animation starts
 /// @param {int}		_duration   Running time of (one loop) of the animation
 /// @param {AnimCurve}	_animcurve  The AnimCurve providing the animated values
 /// @param {int}		_repeats    Number of loops to perform. Default = 1, set to -1 for infinite repeats.
-function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) constructor {
+/// @param {string}		_finished_state	If the owner is stateful (or owns a StateMachine named "states"),
+///										you can supply the name of a state here to set when this animation
+///										finishes (A finished_trigger will be added for you).
+function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) constructor {
 	owner				= _obj_owner;
+	finished_state		= _finished_state;
 	delay				= _delay;
 	duration			= _duration
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
@@ -68,11 +74,11 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	func_image_speed	= function(value) { owner.image_speed	= value; };
 	func_image_scale	= function(value) { 
 		if (__relative_scale) {
-			owner.image_xscale = __start_xscale + __scale_xdistance * value; 
-			owner.image_yscale = __start_yscale + __scale_ydistance * value; 
+			owner.image_xscale = __start_xscale + __scale_xdistance * value;
+			owner.image_yscale = __start_yscale + __scale_ydistance * value;
 		} else {
-			owner.image_xscale = value; 
-			owner.image_yscale = value; 
+			owner.image_xscale = value;
+			owner.image_yscale = value;
 		}
 	};
 
@@ -342,6 +348,34 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		return __paused;
 	}
 
+	/// @function		is_active()
+	/// @description	Check if the animation has already started or still in delay countdown
+	/// @returns {bool} True, if the animation is running, false if still waiting for initial delay
+	static is_active = function() {
+		return __active;
+	}
+
+	/// @function		get_frame_counter()
+	/// @description	Gets the current running frame count
+	///					NOTE: This function returns 0 (zero) while waiting for the initial delay.
+	/// @returns {int}	The current frame number
+	static get_frame_counter = function() {
+		return __frame_counter;
+	}
+
+	/// @function		get_remaining_frames()
+	/// @description	Returns the amount of frames left for this animation iteration
+	///					In a looping animation with more than one repeat, this returns
+	///					the number of frames remaining in the current loop.
+	///					NOTE: 
+	///					On the LAST FRAME of an iteration, this returns 1 (this one frame remaining)
+	///					Before the animations started (delay) 
+	///					this returns duration + remaining_delay_frames
+	/// @returns {int}	The remaining frames for this animation iteration
+	static get_remaining_frames = function() {
+		return __active ? (duration - __frame_counter + 1) : (delay - __delay_counter + duration);
+	}
+
 	/// @function					step()
 	/// @description				call this every step!
 	static step = function() {
@@ -401,7 +435,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 	/// @description	All back to start. Animation will RUN now (but respect the delay)!
 	///					NOTE: The animation direction (forward/backward) will NOT change 
 	///					with a reset!
-	static reset = function() {
+	static reset = function(_incl_triggers = false) {
 		ANIMATIONS.add(self);
 		
 		__start_x			= owner.x;
@@ -419,12 +453,25 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) cons
 		__first_step		= __active;
 		__paused			= false;
 		
+		if (_incl_triggers)
+			reset_triggers();
+			
 		return self;
 	}
 
 	reset();
 	reset_triggers();
 
+	if (_finished_state != undefined && variable_instance_exists(owner, "states")) {
+		var anim = self;
+		data.__finished_state = finished_state;
+		with (owner) {
+			anim.add_finished_trigger(function(sdata) {
+				states.set_state(sdata.__finished_state);
+				variable_struct_remove(sdata, "__finished_state");
+			});
+		}
+	}
 }
 
 /// @function		animation_clear_pool()
@@ -515,20 +562,20 @@ function is_in_animation(owner = self, name = undefined) {
 	return false;
 }
 
-/// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
+/// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
 /// @description		convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
-function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) {
-	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats);
+function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) {
+	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state);
 }
 
-/// @function			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1)
+/// @function			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
 /// @description		Runs an animation EXCLUSIVE (i.e. calls "animation_abort_all()" for the owner first.
 ///						Convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
-function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1) {
+function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) {
 	animation_abort_all(_obj_owner);
-	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats);
+	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state);
 }
 
 /// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1)
