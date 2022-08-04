@@ -35,6 +35,12 @@ function StateMachine(_owner) constructor {
 	
 	data				= {};
 	
+	locking_animation	= undefined;
+	lock_state_buffered	= false;
+	lock_end_state		= undefined;
+	lock_end_enter		= undefined;
+	lock_end_leave		= undefined;
+	
 	with(owner) {
 		if (DEBUG_LOG_STATEMACHINE)
 			log(MY_NAME + ": StateMachine created");
@@ -87,6 +93,27 @@ function StateMachine(_owner) constructor {
 		if (reset_data) 
 			data = {};
 		return self;
+	}
+	
+	static __release_anim_lock = function() {
+		log("Entering __release_anim_lock callback");
+		locking_animation = undefined;
+		lock_state_buffered = false;
+		if (lock_end_state != undefined)
+			set_state(lock_end_state, lock_end_enter, lock_end_leave);
+		lock_end_state = undefined;
+		lock_end_enter = undefined;
+		lock_end_leave = undefined;
+	}
+	
+	static lock_animation = function(_animation, _buffer_state_change = true) {
+		locking_animation = _animation;
+		lock_state_buffered = _buffer_state_change;
+		with (owner)
+			_animation.add_finished_trigger(function() {
+				with (states)
+					__release_anim_lock();
+			});
 	}
 	
 	/// @function		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
@@ -146,8 +173,17 @@ function StateMachine(_owner) constructor {
 		// automated state changes due to events may be blocked globally
 		// through the events_enabled() function
 		if (string_starts_with(name, "ev:") && !events_enabled())
-			return;
-			
+			return self;
+		
+		if (locking_animation != undefined) {
+			if (lock_state_buffered && lock_end_state == undefined) {
+				lock_end_state = name;
+				lock_end_enter = enter_override;
+				lock_end_leave = leave_override;
+			}
+			return self;
+		}
+		
 		var rv = undefined;
 		if (active_state == undefined || __allow_re_enter || active_state.name != name) {
 			if (active_state != undefined && state_exists(name)) {
@@ -157,7 +193,7 @@ function StateMachine(_owner) constructor {
 				if (!active_state.leave(name, leave_override)) {
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner) log(MY_NAME + sprintf(": State change '{0}'->'{1}' aborted by leave callback!", other.active_state.name, name));
-					return;
+					return self;
 				}
 			}
 		

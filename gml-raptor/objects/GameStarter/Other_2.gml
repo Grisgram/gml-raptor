@@ -27,6 +27,7 @@ if (file_exists(working_directory + "version.json")) {
 
 // Initialize LG on HTML frontend
 if (IS_HTML) {
+	browser_click_handler = open_link_in_new_tab;
 	LG_AVAIL_LOCALES = HTML_LOCALES;
 	LG_init();
 }

@@ -11,6 +11,9 @@
 // detect if running the html5 target
 #macro IS_HTML		(os_browser != browser_not_a_browser)
 
+// detect if running on a mobile device - works even for html runtime (mobile browsers)!
+#macro IS_MOBILE	(os_type == os_android || os_type == os_ios)
+
 // detect if the scribble library is loaded
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
 #macro SCRIBBLE_COLORS		global.__scribble_colours

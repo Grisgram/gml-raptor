@@ -1,3 +1,7 @@
+/*
+	Holds a 2D Coordinate pair (x,y)
+*/
+
 /// @function					Coord2(xp, yp)
 /// @param {real} xp
 /// @param {real} yp
@@ -31,13 +35,33 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @description			multiply both values in one step
 	/// @param {real} factor
 	/// @returns {Coord2} self for command chaining
-	static mulxy = function(factor) {
+	static mul_xy = function(factor) {
 		x *= factor;
 		y *= factor;
 		return self;
 	}
 
-	/// @function				add(factor_x, factor_y)
+	/// @function				plus(other_coord2)
+	/// @description			Add the values of other_coord2 into this one
+	/// @param {Coord2} other_coord2
+	/// @returns {Coord2} self for command chaining
+	static plus = function(other_coord2) {
+		x += other_coord2.x;
+		y += other_coord2.y;
+		return self;
+	}
+	
+	/// @function				minus(other_coord2)
+	/// @description			Subtract the values in other_coord2 from this one
+	/// @param {Coord2} other_coord2
+	/// @returns {Coord2} self for command chaining
+	static minus = function(other_coord2) {
+		x -= other_coord2.x;
+		y -= other_coord2.y;
+		return self;
+	}
+
+	/// @function				add(add_x, add_y)
 	/// @description			add a value to the current values
 	/// @param {real} add_x
 	/// @param {real} add_y
@@ -48,11 +72,11 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 
-	/// @function				addxy(factor_x, factor_y)
+	/// @function				addxy(value)
 	/// @description			add the same value to the current values
 	/// @param {real} value
 	/// @returns {Coord2} self for command chaining
-	static addxy = function(value) {
+	static add_xy = function(value) {
 		x += value;
 		y += value;
 		return self;
@@ -89,48 +113,5 @@ function Coord2(xp = 0, yp = 0) constructor {
 	
 	static toString = function() {
 		return sprintf("{{0}/{1}}", x, y);
-	}
-}
-
-/// @function					Coord3(xp, yp, zp)
-/// @param {real} xp
-/// @param {real} yp
-/// @param {real} zp
-/// @returns {Coord3}
-function Coord3(xp, yp, zp) : Coord2(xp, yp) constructor {
-	z = zp;
-	
-	/// @function					length_xyz()
-	/// @description				3D-hypotenuse
-	/// @returns {real} length			
-	static length_xyz = function() { return sqrt(sqr(x) + sqr(y) + sqr(z)); }
-	
-	/// @function				distance_to_coord3(other_Coord3)
-	/// @description			distance between two vectors
-	/// @param {Coord3} other_Coord3
-	/// @returns {Coord3}	new Coord3
-	static distance_to_coord3 = function(other_coord3) {
-		return new Coord3(abs(x - other_coord3.x), abs(y - other_coord3.y), abs(z - other_coord3.z));
-	}
-	
-	/// @function				distance_to_xyz(xp, yp, zp)
-	/// @description			distance between vector and point in 3D space
-	/// @param {real} xp
-	/// @param {real} yp
-	/// @param {real} zp
-	/// @returns {Coord2}	new Coord3
-	static distance_to_xyz = function(xp, yp, zp) { 
-		return new Coord3(abs(x - xp), abs(y - yp), abs(z - zp));
-	}
-
-	/// @function				equals_xyz(other_coord3)
-	/// @description			true, if all, x, y and z match	
-	/// @returns {bool}			
-	static equals_xyz = function(other_coord3) {
-		return (x == other_coord3.x) && (y == other_coord3.y) && (z == other_coord3.z);
-	}
-
-	static toString = function() {
-		return sprintf("{{0}/{1}/{2}}", x, y, z);
 	}
 }

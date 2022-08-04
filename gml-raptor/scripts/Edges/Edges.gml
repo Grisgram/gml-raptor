@@ -44,7 +44,7 @@ function Edges(obj) constructor {
 			other.height	= other.bottom - other.top + 1;
 
 			var si = (nineslicedata != -1 ? nineslicedata : sprite_get_nineslice(sprite_index));
-			if (si != -1 && si.enabled) {
+			if ((si ?? -1) != -1 && si.enabled) {
 				var nineleft = si.left;
 				var ninetop = si.top;
 				var nineright = si.right;

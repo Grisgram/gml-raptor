@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+    "name": "SNAP",
+    "path": "folders/_juju_/SNAP.yy",
   },
   "resourceVersion": "1.0",
-  "name": "Coords",
+  "name": "snap_deep_add",
   "tags": [],
   "resourceType": "GMScript",
 }

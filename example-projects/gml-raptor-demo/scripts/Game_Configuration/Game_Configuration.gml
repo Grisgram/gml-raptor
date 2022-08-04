@@ -29,7 +29,6 @@ function onGameStart() {
 
 	// Debug/Dev configuration
 	DEBUG_SHOW_OBJECT_FRAMES	= false;
-	DEBUG_MODE_ACTIVE			= true;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 	
@@ -40,9 +39,6 @@ function onGameStart() {
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
 	set_app_theme(ci_theme.none);
-
-	if (IS_HTML)
-		browser_click_handler = open_link_in_new_tab;
 
 	// Load start data
 	// Example lines to show that you can load your startup files here
