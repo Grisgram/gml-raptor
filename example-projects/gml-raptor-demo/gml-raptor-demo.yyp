@@ -77,6 +77,7 @@
     {"id":{"name":"snap_to_xml","path":"scripts/snap_to_xml/snap_to_xml.yy",},"order":1,},
     {"id":{"name":"snap_from_csv","path":"scripts/snap_from_csv/snap_from_csv.yy",},"order":0,},
     {"id":{"name":"sprGemPurple","path":"sprites/sprGemPurple/sprGemPurple.yy",},"order":2,},
+    {"id":{"name":"Arrays","path":"scripts/Arrays/Arrays.yy",},"order":24,},
     {"id":{"name":"__scribble_system_glyph_data","path":"scripts/__scribble_system_glyph_data/__scribble_system_glyph_data.yy",},"order":11,},
     {"id":{"name":"scribble_font_add_msdf","path":"scripts/scribble_font_add_msdf/scribble_font_add_msdf.yy",},"order":3,},
     {"id":{"name":"CameraActions","path":"scripts/CameraActions/CameraActions.yy",},"order":3,},

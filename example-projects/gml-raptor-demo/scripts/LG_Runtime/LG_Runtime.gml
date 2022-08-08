@@ -54,7 +54,7 @@ function __LG_get_locale_filename(localeName) {
 /// @returns {bool}				True or false, telling you, whether the file exists.
 /// @description				Checks, whether a file for the specified locale exists.
 function __LG_locale_exists(localeName) {
-	return file_exists(__LG_get_locale_filename(localeName));
+	return IS_HTML ? array_contains(LG_AVAIL_LOCALES, localeName) : file_exists(__LG_get_locale_filename(localeName));
 }
 
 /// @function					__LG_load_file(localeName)
@@ -175,24 +175,29 @@ function LG() {
 	// this inner function parses the path(s) and finds the string you're looking for
 	static find = function(wildcard, array) {
 		var key;
-		var map = array[0];
+		var map = array[@ 0];
 		var args = [];
 		var len = 0;
-	
+		
+		if (map == undefined)
+			return undefined;
+			
 		for (var i = 1; i < array_length(array); i++) {
-			var subarr = string_split(array[i], "/");
+			var subarr = string_split(array[@ i], "/");
 			var sublen = array_length(subarr);
 			array_copy(args, len, subarr, 0, sublen);
 			len += sublen;
 		}
+
 		for (var i = 0; i < len - 1; i++) {
-			key = args[i];
+			key = args[@ i];
 			map = variable_struct_get(map, key);
 			if (map == undefined)
 				break;
 		}
+		
 		if (map != undefined) {
-			key = args[len - 1];
+			key = args[@ len - 1];
 			if (wildcard) {
 				var names;
 				var pickany = false;

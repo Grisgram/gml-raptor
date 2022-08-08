@@ -87,6 +87,25 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @returns {real} length			
 	static length_xy = function() { return sqrt(sqr(x) + sqr(y)); }
 	
+	/// @function		static angle_xy()
+	/// @description	gets alpha (angle from horizontal to hypo). 0° right ccw
+	static angle_xy = function() {
+		var angle = abs(darcsin(y / length_xy()));
+		if (x >= 0) {
+			if (y >= 0) {
+				return angle;
+			} else {
+				return 360 - angle;
+			}
+		} else {
+			if (y >= 0) {
+				return 180 - angle;
+			} else {
+				return 180 + angle;
+			}
+		}
+	}
+	
 	/// @function				distance_to_coord2(other_Coord2)
 	/// @description			distance between two vectors
 	/// @param {Coord2} other_Coord2

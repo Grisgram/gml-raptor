@@ -213,6 +213,7 @@
     {"id":{"name":"string_height_scribble_ext","path":"scripts/string_height_scribble_ext/string_height_scribble_ext.yy",},"order":3,},
     {"id":{"name":"__scribble_config_behaviours","path":"scripts/__scribble_config_behaviours/__scribble_config_behaviours.yy",},"order":0,},
     {"id":{"name":"scribble_super_create","path":"scripts/scribble_super_create/scribble_super_create.yy",},"order":1,},
+    {"id":{"name":"Arrays","path":"scripts/Arrays/Arrays.yy",},"order":29,},
     {"id":{"name":"InputBox","path":"objects/InputBox/InputBox.yy",},"order":1,},
     {"id":{"name":"LayerManager","path":"scripts/LayerManager/LayerManager.yy",},"order":6,},
     {"id":{"name":"__scribble_gen_5_finalize_bidi","path":"scripts/__scribble_gen_5_finalize_bidi/__scribble_gen_5_finalize_bidi.yy",},"order":5,},
