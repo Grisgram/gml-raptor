@@ -39,6 +39,9 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+#macro PARTSYS					global.__room_particle_system
+PARTSYS = (string_is_empty(particle_layer_name) ? undefined : new ParticleManager(particle_layer_name));
+
 display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
 /*
