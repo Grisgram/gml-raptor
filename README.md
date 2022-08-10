@@ -16,7 +16,8 @@
 
 ## Play it live at itch.io
 Just want to see the demo without cloning?<br/>
-Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!
+Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!<br/>
+If you like what you see, don't forget to ✨ the repository and follow me here and on itch! The more reach `raptor` gets, the faster it can enhance even more!
 
 ## Main Features
 
