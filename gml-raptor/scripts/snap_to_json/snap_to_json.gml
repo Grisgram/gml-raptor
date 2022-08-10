@@ -10,7 +10,7 @@
 //If you'd like to throw an error whenever this function tries to serialise a function/method, set SNAP_JSON_SERIALISE_FUNCTION_NAMES to -1
 //If you'd like to simply ignore functions/methods when serialising structs/arrays, set SNAP_JSON_SERIALISE_FUNCTION_NAMES to 0
 //If you'd like to use some clever tricks to deserialise functions/methods in a manner specific to your game, set SNAP_JSON_SERIALISE_FUNCTION_NAMES to 1
-#macro SNAP_JSON_SERIALISE_FUNCTION_NAMES  -1
+#macro SNAP_JSON_SERIALISE_FUNCTION_NAMES  0
 
 function snap_to_json()
 {
