@@ -76,6 +76,7 @@ By default, these libraries of mine are included:
 
 * [Outline Shader Drawer](https://github.com/Grisgram/gml-outline-shader-drawer)
 * [Animated Flag](https://github.com/Grisgram/gml-animated-flag)
+* [HighScorer](https://github.com/Grisgram/gml-highscorer)
 
 ## Credits
 ### Translation help and proof reading
