@@ -1,4 +1,9 @@
 function unit_test_LinqArray() {
+	if (!script_exists(asset_get_index("LinqArray"))) {
+		log("Skipped unit tests for \"LingArray\": Not in project.");
+		return;
+	}
+
 	var ut = new UnitTest("LinqArray");
 
 	ut.test_start = function(name) {

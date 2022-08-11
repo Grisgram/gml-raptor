@@ -62,13 +62,14 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 	///					of the table (score high/low, time high/low).
 	///					If the supplied value is not good enough for a place in the
 	///					highscore table, -1 is returned.
+	///					NOTE: Ranks are 1-based, not 0-based. "1" is the first place!
 	/// @param {real}	_value	The value to compare in the table
 	/// @returns {int}	The place in the highscore table or -1, if no highscore.
 	static get_highscore_rank = function(_value) {
 		for (var i = 0; i < array_length(data.entries); i++) {
 			var entry = data.entries[@ i];
 			if (entry == undefined || __is_better_than(_value, entry))
-				return i;
+				return i + 1;
 		}
 		return -1;
 	}
@@ -101,7 +102,7 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 			return undefined;
 		
 		var rv = new HighScoreEntry(_name, _score, _time, _id);
-		array_insert(data.entries, rank, rv);
+		array_insert(data.entries, rank - 1, rv);
 		array_resize(data.entries, data.max_entries);
 		return rv;
 	}

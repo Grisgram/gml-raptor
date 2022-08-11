@@ -61,6 +61,7 @@
     {"id":{"name":"scribble_font_add_from_sprite","path":"scripts/scribble_font_add_from_sprite/scribble_font_add_from_sprite.yy",},"order":2,},
     {"id":{"name":"SpriteEffectRunner","path":"objects/SpriteEffectRunner/SpriteEffectRunner.yy",},"order":10,},
     {"id":{"name":"string_width_scribble_ext","path":"scripts/string_width_scribble_ext/string_width_scribble_ext.yy",},"order":5,},
+    {"id":{"name":"HighScorerTests","path":"scripts/HighScorerTests/HighScorerTests.yy",},"order":3,},
     {"id":{"name":"Race_File_Specs","path":"notes/Race_File_Specs/Race_File_Specs.yy",},"order":0,},
     {"id":{"name":"Browser_Click_Handler","path":"scripts/Browser_Click_Handler/Browser_Click_Handler.yy",},"order":7,},
     {"id":{"name":"scribble_font_bake_outline_4dir","path":"scripts/scribble_font_bake_outline_4dir/scribble_font_bake_outline_4dir.yy",},"order":0,},
@@ -282,6 +283,7 @@
     "name": "Default",
     "children": [
       {"name":"release","children":[],},
+      {"name":"unit_testing","children":[],},
     ],
   },
   "RoomOrderNodes": [

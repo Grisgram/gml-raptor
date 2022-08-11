@@ -1,4 +1,9 @@
 function unit_test_Strings() {
+	if (!script_exists(asset_get_index("string_split"))) {
+		log("Skipped unit tests for \"Strings\": Not in project.");
+		return;
+	}
+
 	var ut = new UnitTest("Strings");
 
 	ut.tests.split_ok_1		= function(test, data) {
