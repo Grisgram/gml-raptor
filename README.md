@@ -30,9 +30,9 @@ If you like what you see, please don't forget to ✨ the repository and consider
 ## Version list
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
 These versions of external libraries are packaged into the current `raptor` release:
-| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
-|:-:|:-:|:-:|:-:|:-:|:-:|
-|2022.6|1.3|8.0.4|4.2.0|1.3|1.2|
+| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag | HighScorer |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|2022.6|1.3|8.0.4|4.2.0|1.3|1.2|1.1|
 
 ## How Releases are organized
 When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
