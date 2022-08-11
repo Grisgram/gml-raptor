@@ -41,11 +41,7 @@ function StateMachine(_owner) constructor {
 	lock_end_enter		= undefined;
 	lock_end_leave		= undefined;
 	
-	with(owner) {
-		if (DEBUG_LOG_STATEMACHINE)
-			log(MY_NAME + ": StateMachine created");
-		data.state_data = other.data;
-	}
+	if (DEBUG_LOG_STATEMACHINE) with(owner) log(MY_NAME + ": StateMachine created");
 	
 	for (var i = 1; i < argument_count; i++) {
 		var st = argument[@ i];

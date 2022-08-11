@@ -15,6 +15,10 @@
 #macro GLOBALDATA			global.__game_data
 GLOBALDATA = {};
 
+// This macro is used internally on objects that push their own data
+// into the savegame. __raptordata is the root of internal data structs
+#macro __RAPTORDATA			data.__raptordata
+
 // holds custom structs for the savegame
 #macro __SAVEGAME_STRUCTS				global.__savegame_structs
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances

@@ -57,6 +57,12 @@ function ParticleManager(particle_layer_name) constructor {
 		return variable_struct_exists(__emitters, name);
 	}
 
+	/// @function		static emitter_set_range(name, xmin, xmax, ymin, ymax, shape, distribution)
+	/// @description	Set the range of an emitter
+	static emitter_set_range = function(name, xmin, xmax, ymin, ymax, shape, distribution) {
+		part_emitter_region(system, emitter_get(name), xmin, xmax, ymin, ymax, shape, distribution);
+	}
+
 	/// @function					emitter_destroy(name)
 	/// @description				immediately destroy an emitter
 	/// @param {string} name
@@ -76,7 +82,8 @@ function ParticleManager(particle_layer_name) constructor {
 		var names = variable_struct_get_names(__particle_types);
 		var i = 0; repeat(array_length(names)) {
 			part_type_destroy(variable_struct_get(__particle_types, names[i]));
-			variable_struct_set(__particle_types, names[i++], undefined);
+			variable_struct_set(__particle_types, names[i], undefined);
+			i++;
 		}
 		__particle_types = {};
 		
@@ -85,7 +92,8 @@ function ParticleManager(particle_layer_name) constructor {
 			var emitter = variable_struct_get(__emitters, names[i]);
 			part_emitter_clear(system, emitter);
 			part_emitter_destroy(system, emitter);
-			variable_struct_set(__emitters, names[i++], undefined);
+			variable_struct_set(__emitters, names[i], undefined);
+			i++;
 		}
 		__emitters = {};
 	}
@@ -96,7 +104,7 @@ function ParticleManager(particle_layer_name) constructor {
 	/// @param {string} particle_name
 	/// @param {real} particles_per_frame
 	static stream = function(emitter_name, particle_name, particles_per_frame) {
-		part_emitter_stream(self, 
+		part_emitter_stream(system, 
 			emitter_get(emitter_name), 
 			particle_type_get(particle_name), 
 			particles_per_frame);
@@ -108,7 +116,7 @@ function ParticleManager(particle_layer_name) constructor {
 	///						emitter is going to be reused in the future!
 	/// @param {string} emitter_name
 	static stream_stop = function(emitter_name) {
-		part_emitter_clear(self, emitter_get(emitter_name));
+		part_emitter_clear(system, emitter_get(emitter_name));
 	}
 	
 	/// @function			burst(emitter_name, particle_name, particles_per_frame)
@@ -117,7 +125,7 @@ function ParticleManager(particle_layer_name) constructor {
 	/// @param {string} particle_name
 	/// @param {real} particle_count
 	static burst = function(emitter_name, particle_name, particle_count) {
-		part_emitter_burst(self, 
+		part_emitter_burst(system, 
 			emitter_get(emitter_name), 
 			particle_type_get(particle_name), 
 			particle_count);
@@ -130,7 +138,7 @@ function ParticleManager(particle_layer_name) constructor {
 	/// @param {string} particle_name
 	/// @param {real} particle_count
 	static spawn_particles = function(xpos, ypos, particle_name, particle_count) {
-		part_particles_create(self, xpos, ypos,
+		part_particles_create(system, xpos, ypos,
 			particle_type_get(particle_name), particle_count);
 	}
 }

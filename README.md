@@ -6,6 +6,7 @@
 <img src="https://user-images.githubusercontent.com/19487451/180134486-7b55554d-aef1-4379-9e55-02290021b8fe.png">
 <img src="https://user-images.githubusercontent.com/19487451/180134498-d648abcb-ac41-4050-ac04-79046a634a66.png">
 </p>
+<h1 align="center">🔹🔷 1️⃣.4️⃣ 🔷🔹</h1>
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
@@ -16,7 +17,8 @@
 
 ## Play it live at itch.io
 Just want to see the demo without cloning?<br/>
-Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!
+Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!<br/>
+If you like what you see, please don't forget to ⭐ the repository and consider following me here and on itch! The more reach `raptor` gets, the faster it can evolve even more!
 
 ## Main Features
 
@@ -29,9 +31,9 @@ Test the html-version of the raptor-demo directly on my [itch.io](https://grisgr
 ## Version list
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
 These versions of external libraries are packaged into the current `raptor` release:
-| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag |
-|:-:|:-:|:-:|:-:|:-:|:-:|
-|2022.6|1.3|8.0.4|4.2.0|1.3|1.2|
+| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag | HighScorer |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|2022.6|1.3|8.0.4|4.2.0|1.4|1.2|1.1|
 
 ## How Releases are organized
 When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
@@ -75,6 +77,7 @@ By default, these libraries of mine are included:
 
 * [Outline Shader Drawer](https://github.com/Grisgram/gml-outline-shader-drawer)
 * [Animated Flag](https://github.com/Grisgram/gml-animated-flag)
+* [HighScorer](https://github.com/Grisgram/gml-highscorer)
 
 ## Credits
 ### Translation help and proof reading

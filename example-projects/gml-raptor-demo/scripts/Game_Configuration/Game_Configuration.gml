@@ -32,9 +32,9 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 	
-	DEBUG_LOG_LIST_POOLS		= true;
-	DEBUG_LOG_STATEMACHINE		= true;
-	DEBUG_LOG_RACE				= true;
+	DEBUG_LOG_LIST_POOLS		= false;
+	DEBUG_LOG_STATEMACHINE		= false;
+	DEBUG_LOG_RACE				= false;
 	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
@@ -56,6 +56,9 @@ function onGameStart() {
 	//SCRIBBLE_COLORS.my_col		= #E5E5E5;
 	SCRIBBLE_COLORS.ci_accent2		= #FF972F;
 
+	HIGHSCORES = file_read_struct_plain(HIGHSCORES_FILENAME) ?? 
+		new HighScoreTable(10, scoring.score_high);
+		
 }
 
 /// @function function onGameEnd()

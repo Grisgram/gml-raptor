@@ -32,3 +32,6 @@
 //#macro SECONDS_TO_FRAMES		* room_speed
 //#macro FRAMES_TO_SECONDS		/ room_speed
 
+// Unit test automation
+#macro __RUN_UNIT_TESTS					show_debug_message("Unit tests disabled.");
+#macro unit_testing:__RUN_UNIT_TESTS	UnitTestAll();
