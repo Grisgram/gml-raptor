@@ -2,6 +2,28 @@
     Helper functions for arrays
 */
 
+/// @function		array_create_2d(sizex, sizey, initial_value = 0)
+/// @description	Create a 2-dimensional array and fill it with a specified initial value
+function array_create_2d(sizex, sizey, initial_value = 0) {
+	var rv = array_create(sizex);
+	for (var i = 0; i < sizex; i++)
+		rv[@ i] = array_create(sizey, initial_value);
+	return rv;
+}
+
+/// @function		array_create_3d(sizex, sizey, sizez, initial_value = 0)
+/// @description	Create a 3-dimensional array and fill it with a specified initial value
+function array_create_3d(sizex, sizey, sizez, initial_value = 0) {
+	var rv = array_create(sizex);
+	for (var i = 0; i < sizex; i++) {
+		var arr = array_create(sizey);
+		rv[@ i] = arr;
+		for (var j = 0; j < sizey; j++)
+			arr[@ j] = array_create(sizez, initial_value);
+	}
+	return rv;
+}
+
 /// @function		array_clear(array, with_value = undefined)
 /// @description	Clear the contents of the array to undefined or a specified default value
 /// @param {array} array	The array to clear
