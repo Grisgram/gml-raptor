@@ -8,6 +8,10 @@
 // All controls skip their events, if this is true
 #macro __SKIP_CONTROL_EVENT		(__GUI_MOUSE_EVENT_LOCK || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP)
 
+// Instead of repeating the same if again and again in each mouse event, just use this macro;
+#macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;
+
+
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed
 
