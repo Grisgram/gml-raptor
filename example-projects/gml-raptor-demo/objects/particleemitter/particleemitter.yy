@@ -5,7 +5,10 @@
   "managed": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "_raptorBase",
+    "path": "objects/_raptorBase/_raptorBase.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
