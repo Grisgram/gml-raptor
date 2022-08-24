@@ -1,4 +1,7 @@
 {
+  "ConfigValues": {
+    "release": {"textureGroupId":"{\"name\":\"Default\",\"path\":\"texturegroups/Default\"}",},
+  },
   "hinting": 0,
   "glyphOperations": 0,
   "interpreter": 0,

@@ -56,8 +56,8 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 		if (rv.object_index == object) {
 			log(sprintf("Found instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
 			instance_activate_object(rv);
-			rv.x = x;
-			rv.y = y;
+			rv.x = variable_instance_exists(self, "x") ? x : 0;
+			rv.y = variable_instance_exists(self, "y") ? y : 0;
 			ds_list_delete(pool, i);
 			__pool_invoke_activate(rv);
 			return rv;
@@ -67,11 +67,13 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 	
 	log(sprintf("Creating new instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
 	var rv;
+	var xp = variable_instance_exists(self, "x") ? x : 0;
+	var yp = variable_instance_exists(self, "y") ? y : 0;
 	if (at_layer_if_new == undefined || is_string(at_layer_if_new)) {
 		var dest_layer = (at_layer_if_new == undefined ? layer : at_layer_if_new);
-		rv = instance_create_layer(x,y,dest_layer,object);
+		rv = instance_create_layer(xp,yp,dest_layer,object);
 	} else {
-		rv = instance_create_depth(x,y,at_layer_if_new,object);
+		rv = instance_create_depth(xp,yp,at_layer_if_new,object);
 	}
 	rv.__object_pool_name = pool_name;
 	__pool_invoke_activate(rv);
