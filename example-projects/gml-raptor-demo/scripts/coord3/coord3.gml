@@ -9,7 +9,13 @@
 /// @returns {Coord3}
 function Coord3(xp, yp, zp) : Coord2(xp, yp) constructor {
 	z = zp;
-	
+
+	/// @function		clone3()
+	/// @description	Clones this as Coord3
+	static clone3 = function() {
+		return new Coord3(x, y, z);
+	}
+
 	/// @function				set(xp, yp, zp)
 	/// @description			set all values in one step
 	/// @param {real} xp

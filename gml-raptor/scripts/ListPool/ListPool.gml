@@ -26,7 +26,7 @@ function ListPool(_name = "listPool") constructor {
 	}
 	
 	/// @function		add(obj)
-	/// @description	Adds an object to the pool
+	/// @description	Adds an object to the pool (if it is not already contained)
 	/// @param {any} obj	The object to add
 	static add = function(obj) {
 		if (ds_list_find_index(list, obj) == -1) {

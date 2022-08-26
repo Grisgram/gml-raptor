@@ -10,7 +10,13 @@
 /// @returns {Coord4}
 function Coord4(xp, yp, zp, wp) : Coord3(xp, yp, zp) constructor {
 	w = wp;
-	
+
+	/// @function		clone4()
+	/// @description	Clones this as Coord4
+	static clone4 = function() {
+		return new Coord4(x, y, z, w);
+	}
+
 	/// @function				set(xp, yp, zp, wp)
 	/// @description			set all values in one step
 	/// @param {real} xp
@@ -124,7 +130,7 @@ function Coord4(xp, yp, zp, wp) : Coord3(xp, yp, zp) constructor {
 	/// @param {real} wp
 	/// @returns {Coord4}	new Coord4
 	static distance_to_xyzw = function(xp, yp, zp, wp) { 
-		return new Coord3(abs(x - xp), abs(y - yp), abs(z - zp), abs(w - wp));
+		return new Coord4(abs(x - xp), abs(y - yp), abs(z - zp), abs(w - wp));
 	}
 
 	/// @function				equals_xyzw(other_coord4)

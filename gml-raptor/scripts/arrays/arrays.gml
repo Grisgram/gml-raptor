@@ -2,13 +2,45 @@
     Helper functions for arrays
 */
 
+/// @function		array_create_2d(sizex, sizey, initial_value = 0)
+/// @description	Create a 2-dimensional array and fill it with a specified initial value
+function array_create_2d(sizex, sizey, initial_value = 0) {
+	var rv = array_create(sizex);
+	for (var i = 0; i < sizex; i++)
+		rv[@ i] = array_create(sizey, initial_value);
+	return rv;
+}
+
+/// @function		array_create_3d(sizex, sizey, sizez, initial_value = 0)
+/// @description	Create a 3-dimensional array and fill it with a specified initial value
+function array_create_3d(sizex, sizey, sizez, initial_value = 0) {
+	var rv = array_create(sizex);
+	for (var i = 0; i < sizex; i++) {
+		var arr = array_create(sizey);
+		rv[@ i] = arr;
+		for (var j = 0; j < sizey; j++)
+			arr[@ j] = array_create(sizez, initial_value);
+	}
+	return rv;
+}
+
 /// @function		array_clear(array, with_value = undefined)
 /// @description	Clear the contents of the array to undefined or a specified default value
-/// @param {array} array	The array to clear
+///					This function detects the dimensions of the array and can clear 1d, 2d, 3d arrays
+///					recursively. If you do not want that and force inner arrays to be overwritten
+///					(like resetting the 2nd dimension of an array back to empty arrays), set the 
+///					recursive parameter to false.
+/// @param {array}	array		The array to clear
+/// @param {bool}	with_value	The value to set
+/// @param {bool}	recursive	Detect sub-dimensions yes/no
 /// @returns {array}		Cleaned array (same as input parameter, for chaining)
-function array_clear(array, with_value = undefined) {
+function array_clear(array, with_value = undefined, recursive = true) {
 	var i = 0; repeat(array_length(array)) {
-		array[@ i] = with_value;
+		var sub = array[@ i];
+		if (recursive && is_array(sub))
+			array_clear(sub, with_value, recursive);
+		else
+			array[@ i] = with_value;
 		i++;
 	}
 	return array;
@@ -35,13 +67,20 @@ function array_shuffle(array) {
 	return array;
 }
 
+/// @function		array_null_or_empty(array)
+/// @description	Returns whether the variable is undefined or an empty array
+///					or not an array at all
+function array_null_or_empty(array) {
+	return (array == undefined || !is_array(array) || array_length(array) == 0);
+}
+
 /// @function		array_contains(array, value)
 /// @description	Searches the array for the specified value.
 /// @param {array} array	The array to search
 /// @param {any} value		The value to find
 /// @returns {bool}			True, if value is contained in array, otherwise false
-function array_contains(array, value) {
-	if (array == undefined)
+function array_contains(array, value, recursive = true) {
+	if (array_null_or_empty(array))
 		return false;
 		
 	for (var i = 0; i < array_length(array); i++) {

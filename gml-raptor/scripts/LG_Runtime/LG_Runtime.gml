@@ -252,7 +252,7 @@ function LG() {
 		}
 	}
 	
-	if (variable_struct_exists(__LG_RESOLVE_CACHE, cacheKey)) {
+	if (!wildcard && variable_struct_exists(__LG_RESOLVE_CACHE, cacheKey)) {
 		return variable_struct_get(__LG_RESOLVE_CACHE, cacheKey);
 	}
 	
@@ -275,8 +275,10 @@ function LG() {
 	
 	if (LG_SCRIBBLE_COMPATIBLE == false)
 		string_replace_all(result, "[[", "[");
+	
+	if (!wildcard) // we do not cache random picks
+		variable_struct_set(__LG_RESOLVE_CACHE, cacheKey, result);
 		
-	variable_struct_set(__LG_RESOLVE_CACHE, cacheKey, result);
 	return result;
 }
 

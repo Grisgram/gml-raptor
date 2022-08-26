@@ -9,6 +9,12 @@
 function Coord2(xp = 0, yp = 0) constructor {
 	set(xp, yp);
 	
+	/// @function		clone2()
+	/// @description	Clones this as Coord2
+	static clone2 = function() {
+		return new Coord2(x, y);
+	}
+	
 	/// @function				set(xp, yp)
 	/// @description			set both values in one step
 	/// @param {real} xp

@@ -195,8 +195,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	ydistance  Vertical distance
 	static set_move_distance = function(xdistance, ydistance) {
 		__relative_distance = true;
-		__move_xdistance  = xdistance;
-		__move_ydistance  = ydistance;
+		__move_xdistance	= xdistance;
+		__move_ydistance	= ydistance;
 		return self;
 	}
 
@@ -209,8 +209,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	ytarget  Vertical target position
 	static set_move_target = function(xtarget, ytarget) {
 		__relative_distance = true;
-		__move_xdistance = xtarget - __start_x;
-		__move_ydistance = ytarget - __start_y;
+		__start_x			= owner.x;
+		__start_y			= owner.y;
+		__move_xdistance	= xtarget - __start_x;
+		__move_ydistance	= ytarget - __start_y;
 		return self;
 	}
 
@@ -222,9 +224,9 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	xdistance  Horizontal scale delta
 	/// @param {real}	ydistance  Vertical scale delta
 	static set_scale_distance = function(xdistance, ydistance) {
-		__relative_scale = true;
-		__scale_xdistance = xdistance;
-		__scale_ydistance = ydistance;
+		__relative_scale	= true;
+		__scale_xdistance	= xdistance;
+		__scale_ydistance	= ydistance;
 		return self;
 	}
 
@@ -236,9 +238,11 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	xdistance  Horizontal scale target
 	/// @param {real}	ydistance  Vertical scale target
 	static set_scale_target = function(xtarget, ytarget) {
-		__relative_scale = true;
-		__scale_xdistance = xtarget - __start_xscale;
-		__scale_ydistance = ytarget - __start_yscale;
+		__relative_scale	= true;
+		__start_xscale		= owner.image_xscale;
+		__start_yscale		= owner.image_yscale;
+		__scale_xdistance	= xtarget - __start_xscale;
+		__scale_ydistance	= ytarget - __start_yscale;
 		return self;
 	}
 
@@ -260,7 +264,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					Both default move functions for x and y respect this setting.
 	/// @param {real}	degrees  The angle to rotate to
 	static set_rotation_target = function(degrees) {
-		__relative_angle = true;
+		__relative_angle	= true;
+		__start_angle		= owner.image_angle;
 		__rotation_distance = degrees - __start_angle;
 		return self;
 	}
@@ -386,7 +391,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__first_step = false;
 				__invoke_triggers(__started_triggers);
 			}
-			
+
 			__total_frames++;
 			__frame_counter++;
 			__invoke_frame_triggers(__total_frames);
@@ -413,6 +418,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 					}
 				}
 				__frame_counter		= 0;
+				__delay_counter		= 0;
+				__active			= (delay == 0);
 			}
 		} else {
 			__delay_counter++;
