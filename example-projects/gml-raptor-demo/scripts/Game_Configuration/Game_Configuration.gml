@@ -56,8 +56,8 @@ function onGameStart() {
 	//SCRIBBLE_COLORS.my_col		= #E5E5E5;
 	SCRIBBLE_COLORS.ci_accent2		= #FF972F;
 
-	HIGHSCORES = file_read_struct_plain(HIGHSCORES_FILENAME) ?? 
-		new HighScoreTable(10, scoring.score_high);
+	//HIGHSCORES = file_read_struct_plain(HIGHSCORES_FILENAME) ?? 
+	//	new HighScoreTable(10, scoring.score_high);
 		
 }
 
