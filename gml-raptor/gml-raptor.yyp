@@ -313,7 +313,6 @@
     {"folderPath":"folders/_juju_/SNAP/XML.yy","order":8,"resourceVersion":"1.0","name":"XML","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/_juju_/SNAP/YAML.yy","order":9,"resourceVersion":"1.0","name":"YAML","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/_gml_raptor_packages_/gml-highscorer.yy","order":2,"resourceVersion":"1.0","name":"gml-highscorer","tags":[],"resourceType":"GMFolder",},
-    {"folderPath":"folders/Objects/ui_skin.yy","order":1,"resourceVersion":"1.0","name":"ui_skin","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/_juju_/Scribble.yy","order":1,"resourceVersion":"1.0","name":"Scribble","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/_juju_/Scribble/(System - don't call these functions).yy","order":1,"resourceVersion":"1.0","name":"(System - don't call these functions)","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/_juju_/Scribble/(System - don't call these functions)/Classes.yy","order":1,"resourceVersion":"1.0","name":"Classes","tags":[],"resourceType":"GMFolder",},

@@ -31,6 +31,16 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 		entries : array_create(_max_entries, undefined),
 	}
 	
+	static assign_data = function(loaded_data) {
+		data.max_entries = variable_struct_get(loaded_data, "max_entries");
+		data.criteria = loaded_data.criteria;
+		for (var i = 0; i < array_length(loaded_data.entries); i++) {
+			var le = loaded_data.entries[@ i].data;
+			data.entries[@ i] = new HighScoreEntry(le.Name, le.Score, le.Time, le.ID);
+			data.entries[@ i].data.Created = le.Created;
+		}
+	}
+	
 	/// @function		reset()
 	/// @description	Remove all entries and start over with a new array
 	static reset = function() {
@@ -155,7 +165,8 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 	///					rank 1 returns the leader of the table!
 	///	@param {int=-1} from_rank. Leave at -1 to receive everything.
 	///	@param {int=-1} to_rank. Leave at -1 to receive everything.
-	static get_score_list = function(from_rank = -1, to_rank = -1) {
+	///	@param {int=0}	decimals. Number of decimal places to show.
+	static get_score_list = function(from_rank = -1, to_rank = -1, decimals = 0) {
 		if (to_rank < 0) to_rank = array_length(data.entries);
 		var rv = "";
 		for (var i = 0; i < array_length(data.entries); i++) {
@@ -163,7 +174,7 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + string(entry.data.Score);
+				rv += (rv == "" ? "" : "\n") + string_format(entry.data.Score ?? 0, 1, decimals);
 		}
 		return rv;
 	}

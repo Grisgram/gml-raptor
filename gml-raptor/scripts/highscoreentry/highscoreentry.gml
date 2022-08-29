@@ -19,7 +19,7 @@
 	
 	Score		The points the player reached
 	
-	Time		The duration of the game 
+	Time		The duration of the game (in milliseconds)
 	
 	Created		Creation time of this entry
 */

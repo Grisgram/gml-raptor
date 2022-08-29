@@ -5,7 +5,7 @@ if (!__has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 __cut_selection = function() {
 	if (selection_length == 0)
 		return "";
-		
+	var txbefore = text;
 	var rv = string_copy(text, __selection_start, abs(selection_length));
 	text = string_copy(text, 1, __selection_start - 1) + 
 		   string_copy(text, __selection_start + abs(selection_length), 
@@ -13,6 +13,7 @@ __cut_selection = function() {
 	set_cursor_pos(max(0, __selection_start - 1));
 	selected_text = "";
 	selection_length = 0;
+	__invoke_text_changed(txbefore, text);
 	return rv;
 }
 
@@ -21,9 +22,11 @@ __backspace_char = function() {
 		return;
 		
 	if (selection_length == 0) {
+		var txbefore = text;
 		text = string_copy(text, 1, cursor_pos - 1) + 
 			   string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos);
 		set_cursor_pos(cursor_pos - 1);
+		__invoke_text_changed(txbefore, text);
 	} else
 		__cut_selection();
 }
@@ -32,10 +35,12 @@ __delete_char = function() {
 	if (cursor_pos == string_length(text) && selection_length == 0)
 		return;
 		
-	if (selection_length == 0)
+	if (selection_length == 0) {
+		var txbefore = text;
 		text = string_copy(text, 1, cursor_pos) + 
 			   string_copy(text, cursor_pos + 2, string_length(text) - cursor_pos);
-	else
+		__invoke_text_changed(txbefore, text);
+	} else
 		__cut_selection();
 }
 
@@ -44,7 +49,7 @@ __add_text = function() {
 		return;
 		
 	__cut_selection();
-	if (string_length(text) >= max_string_length_characters)
+	if (string_length(text) >= max_length)
 		return;
 
 	var i = 0; repeat(array_length(forbidden_characters)) {
@@ -52,12 +57,14 @@ __add_text = function() {
 	}
 	
 	if (keyboard_string != "") {
+		var txbefore = text;
 		var cb = keyboard_string;
 		text = string_copy(text, 1, cursor_pos) + cb +
 			string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos - string_length(cb) + 1);
 		cursor_pos += string_length(cb);
 		__reset_cursor_blink();
 		keyboard_string = "";
+		__invoke_text_changed(txbefore, text);
 	}
 }
 
@@ -73,12 +80,14 @@ __paste_text = function() {
 		return;
 		
 	__cut_selection();
+	var txbefore = text;
 	var cb = clipboard_get_text();
 	text = string_copy(text, 1, cursor_pos) + cb +
 		string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos);
-	if (string_length(text) >= max_string_length_characters)
-		text = string_copy(text, 1, max_string_length_characters);
-	set_cursor_pos(min(max_string_length_characters, cursor_pos + string_length(cb)));
+	if (string_length(text) >= max_length)
+		text = string_copy(text, 1, max_length);
+	set_cursor_pos(min(max_length, cursor_pos + string_length(cb)));
+	__invoke_text_changed(txbefore, text);
 }
 
 __cut_text = function() {
@@ -141,12 +150,6 @@ __find_next_input_box = function(shift_tab = false) {
 	else if (lowest_candidate  != undefined) with (lowest_candidate)  set_focus(true);
 }
 
-__select_all = function() {
-	selection_start = string_length(text);
-	selection_length = -string_length(text);
-	set_cursor_pos(string_length(text), true);
-}
-
 __do_key_action = function() {
 	if (!__has_focus) 
 		return;
@@ -170,7 +173,7 @@ __do_key_action = function() {
 	else if (keyboard_check(vk_right))
 		set_cursor_pos(min(string_length(text), cursor_pos + 1));
 	else if (keyboard_check(vk_control) && keyboard_check(ord("A")))
-		__select_all();
+		select_all();
 	else if (keyboard_check(vk_control) && keyboard_check(ord("X")))
 		__cut_text();
 	else if (keyboard_check(vk_control) && keyboard_check(ord("C")))

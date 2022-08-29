@@ -60,7 +60,7 @@ set_table = function(_highscoretable) {
 		var rankidx = i + 1;
 		var sranks		= __table.get_rank_list(rankidx,rankidx,rank_prefix_character);
 		var snames		= __table.get_name_list(rankidx,rankidx);
-		var sscores		= __table.get_score_list(rankidx,rankidx);
+		var sscores		= __table.get_score_list(rankidx,rankidx, score_decimals);
 		var stimes		= __table.get_time_list(rankidx,rankidx);
 		var screateds	= __table.get_created_list(rankidx,rankidx);
 		
@@ -105,7 +105,7 @@ set_table = function(_highscoretable) {
 	if (draw_debug_frame)
 		draw_clear_alpha(c_green, 0.2);
 	else
-		draw_clear_alpha(c_black, 0.0);
+		draw_clear_alpha(c_black, render_background_darken);
 		
 	draw_set_alpha(1);
 	
@@ -118,7 +118,7 @@ set_table = function(_highscoretable) {
 		var rankidx = i + 1;
 		var sranks		= __table.get_rank_list(rankidx,rankidx,rank_prefix_character);
 		var snames		= __table.get_name_list(rankidx,rankidx);
-		var sscores		= __table.get_score_list(rankidx,rankidx);
+		var sscores		= __table.get_score_list(rankidx,rankidx, score_decimals);
 		var stimes		= __table.get_time_list(rankidx,rankidx);
 		var screateds	= __table.get_created_list(rankidx,rankidx);
 
