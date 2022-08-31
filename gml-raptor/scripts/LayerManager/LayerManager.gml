@@ -2,7 +2,11 @@
 /// @description				Sets the visible state of all layers where the name matches
 ///								the specified wildcard.
 ///								Wildcard character is '*'. It can be at the beginning, the end or both.
-function layer_set_all_visible(wildcard, vis) {
+/// @param {string}	wildcard			The layer name or wildcard (name* or *name) to set visibility for
+/// @param {bool}	vis					Visible yes/no
+/// @param {bool}	object_activation	if true, all objects on this layer will be 
+///										activated/deactivated according to vis
+function layer_set_all_visible(wildcard, vis, object_activation = true) {
 	var layers = layer_get_all();
 	for (var i = 0; i < array_length(layers); i++) {
 		var lid = layers[i];
@@ -10,6 +14,9 @@ function layer_set_all_visible(wildcard, vis) {
 		
 		if (string_match(lname, wildcard)) {
 			layer_set_visible(lid, vis);
+			if (object_activation) {
+				if (vis) instance_activate_layer(lid); else instance_deactivate_layer(lid);
+			}
 			log(sprintf("Setting layer visibility: layer='{0}'; visible={1};", lname, vis));
 		}
 	}
