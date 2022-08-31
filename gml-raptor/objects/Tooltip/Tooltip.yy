@@ -1,10 +1,11 @@
 {
   "spriteId": {
-    "name": "sprDefaultLabel",
-    "path": "sprites/sprDefaultLabel/sprDefaultLabel.yy",
+    "name": "sprDefaultLabelFilled",
+    "path": "sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",
   },
   "solid": false,
   "visible": false,
+  "managed": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
