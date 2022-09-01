@@ -38,6 +38,7 @@ log(sprintf("Detecting scribble library: {0}found!", IS_SCRIBBLE_LOADED ? "" : "
 log("Checking for Debug mode: " + (DEBUG_MODE_ACTIVE ? "ACTIVE" : "DISABLED"));
 check_debug_mode();
 
+load_settings();
 log("Invoking onGameStart()");
 onGameStart();
 

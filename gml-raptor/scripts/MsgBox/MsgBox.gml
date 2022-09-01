@@ -142,6 +142,11 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		
 		if (x_button_visible) {
 			__x_button = instance_create_layer(0, 0, __layer_name, x_button_object);
+			with (__x_button) {
+				on_enter_sound = MESSAGEBOX_XBUTTON_ENTER_SOUND;
+				on_leave_sound = MESSAGEBOX_XBUTTON_LEAVE_SOUND;
+				on_click_sound = MESSAGEBOX_XBUTTON_CLICK_SOUND;
+			}
 		}
 		
 		window = instance_create_layer(0, 0, __layer_name, __window_object);

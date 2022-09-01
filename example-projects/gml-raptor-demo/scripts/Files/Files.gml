@@ -82,6 +82,31 @@ function file_write_text_file(filename, text) {
 	}
 }
 
+/// @function					file_write_struct(filename, struct, cryptkey = "")
+/// @param {string} filename	The name (relative path starting in working_directory) of the output file
+/// @param {struct} struct		The struct to write out to a json file
+/// @param {string=""} cryptkey	Optional key to encrypt the file
+/// @description				Saves a given struct to a file, optionally encrypted
+function file_write_struct(filename, struct, cryptkey = "") {
+	if (cryptkey == "")
+		file_write_struct_plain(filename, struct)
+	else
+		file_write_struct_encrypted(filename, struct, cryptkey);
+}
+
+/// @function					file_read_struct(filename, add_to_cache = false, cryptkey = "")
+/// @description				Reads a given struct from a file, optionally encrypted
+/// @param {string} filename	The name (relative path starting in working_directory) of the input file
+/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
+/// @param {string=""} cryptkey	Optional key to encrypt the file
+/// @returns {struct}			The json_decoded struct.
+function file_read_struct(filename, add_to_cache = false, cryptkey = "") {
+	if (cryptkey == "")
+		return file_read_struct_plain(filename, add_to_cache);
+	else
+		return file_read_struct_encrypted(filename, cryptkey, add_to_cache);
+}
+
 /// @function					file_write_struct_plain(filename, struct)
 /// @param {string} filename	The name (relative path starting in working_directory) of the output file
 /// @param {struct} struct		The struct to write out to a json file

@@ -23,7 +23,6 @@ set_table = function(_highscoretable) {
 	
 	var maxw_trophy1	= 0;
 	var maxw_trophy23	= 0;
-	var maxh_trophy		= 0;
 	var maxw_normal_line = 0;
 	
 	var tmp = __table.data.entries[@ 0];
@@ -35,13 +34,15 @@ set_table = function(_highscoretable) {
 	if (render_time) trophyrows++;
 	if (render_create_date) trophyrows++;
 
-	var surfw = 0, surfh = 0;
+	var surfw = 0, surfh = 2 * space_between_columns;
 	
 	var draw_from_rank = max(0, from_rank - 1);
 	var draw_to_rank = (to_rank < 0 ? __table.size() : to_rank);
 	var measured_rank_23 = false;
 	
 	for (var i = draw_from_rank; i < draw_to_rank; i++) {
+		var maxh_trophy		= 0;
+
 		if (i == 0 && rank_1_font != noone)	draw_set_font(rank_1_font); else
 		if (i == 1 && rank_2_font != noone)	draw_set_font(rank_2_font); else
 		if (i == 2 && rank_3_font != noone)	draw_set_font(rank_3_font); else
@@ -54,8 +55,8 @@ set_table = function(_highscoretable) {
 		
 		var trophyh = 0;
 		if (i == 0 && rank_1_trophy_sprite != noone) trophyh = sprite_get_height(rank_1_trophy_sprite); else
-		if (i == 1 && rank_2_trophy_sprite != noone) trophyh = sprite_get_height(rank_2_trophy_sprite) + space_between_rows; else
-		if (i == 2 && rank_3_trophy_sprite != noone) trophyh = sprite_get_height(rank_3_trophy_sprite) + space_between_rows; 
+		if (i == 1 && rank_2_trophy_sprite != noone) trophyh = sprite_get_height(rank_2_trophy_sprite) + space_between_rows / 2; else
+		if (i == 2 && rank_3_trophy_sprite != noone) trophyh = sprite_get_height(rank_3_trophy_sprite) + space_between_rows / 2; 
 		
 		var rankidx = i + 1;
 		var sranks		= __table.get_rank_list(rankidx,rankidx,rank_prefix_character);
@@ -96,7 +97,7 @@ set_table = function(_highscoretable) {
 	//surfh -= space_between_rows;
 	
 	var curx = space_between_columns;
-	var cury = space_between_rows / 2;
+	var cury = space_between_rows;
 	var lineh = 0;
 	
 	__surface = surface_create(surfw, surfh);
@@ -150,7 +151,7 @@ set_table = function(_highscoretable) {
 					locy += string_height(screateds) + space_between_rows;
 				}
 				
-				lineh = trophyrows * space_between_rows + trophyrows * string_height(sranks) + sprite_get_height(rank_1_trophy_sprite);
+				lineh = (trophyrows - 1) * space_between_rows + trophyrows * string_height(sranks) + sprite_get_height(rank_1_trophy_sprite);
 			}
 		} else if (i == 1) {
 			if (rank_2_trophy_sprite != noone) {
@@ -209,7 +210,7 @@ set_table = function(_highscoretable) {
 					locy += string_height(screateds) + space_between_rows;
 				}
 				
-				lineh = trophyrows * space_between_rows + trophyrows * string_height(sranks) + sprite_get_height(rank_3_trophy_sprite) + 2 * space_between_rows;
+				lineh = (trophyrows - 1) * space_between_rows + trophyrows * string_height(sranks) + sprite_get_height(rank_3_trophy_sprite) + space_between_rows;
 			}
 		} else {		
 			if (i == 0)	draw_set_color(rank_1_color); else

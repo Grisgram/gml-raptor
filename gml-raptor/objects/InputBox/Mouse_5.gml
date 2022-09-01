@@ -1,6 +1,6 @@
 /// @description gain focus & cursor pos
 
-if (__SKIP_CONTROL_EVENT) exit;
+GUI_EVENT;
 
 event_inherited();
 set_focus();
