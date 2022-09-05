@@ -31,9 +31,10 @@ function __race_get_unique_deepcopy_name(basename) {
 	return newname;
 }
 
-function __race_is_in_unique_list(uniques, name) {
+function __race_is_in_unique_list(uniques, table, name) {
+	var look_for = name + "@" + table.name;
 	for (var i = 0; i < array_length(uniques); i++;) {
-		if (uniques[i] == name) 
+		if (uniques[i] == look_for) 
 			return true;
 	}
 	return false;
@@ -41,7 +42,7 @@ function __race_is_in_unique_list(uniques, name) {
 
 function __race_addToResult(race_table_object, race_controller, table, result, uniques, name) {
 	if (race_is_unique(table, name))
-		array_push(uniques, name);
+		array_push(uniques, name + "@" + table.name);
 	
 	var item = race_table_get_item(table, name);
 	var typename = race_item_get_type(item);
@@ -65,13 +66,20 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 	}
 };
 
-function __race_dropItem(race_controller, item_struct, layer_to_drop) {
+function __race_dropItem(race_controller, item_struct, layer_to_drop, pool_name) {
 	var itemtype = race_item_get_type(item_struct.data);
 	if (DEBUG_LOG_RACE)
-		log(sprintf("Dropping item: object='{0}'; layer='{1}';", itemtype, layer_to_drop));
+		log(sprintf("Dropping item: object='{0}'; layer='{1}'; pool='{2};", itemtype, layer_to_drop, pool_name));
 	var dropx = variable_instance_exists(self, "x") ? x : 0;
 	var dropy = variable_instance_exists(self, "y") ? y : 0;
-	var drop = instance_create_layer(dropx ?? 0, dropy ?? 0, layer_to_drop, asset_get_index(itemtype));
+	var drop;
+	if (string_is_empty(pool_name))
+		drop = instance_create_layer(dropx ?? 0, dropy ?? 0, layer_to_drop, asset_get_index(itemtype));
+	else {
+		drop = pool_get_instance(pool_name, asset_get_index(itemtype), layer_to_drop);
+		drop.x = dropx ?? 0;
+		drop.y = dropy ?? 0;
+	}
 	RACE_ITEM_DROPPED = item_struct;
 	
 	var instname;
@@ -133,7 +141,7 @@ function __race_queryRecursive(race_table_object, race_controller, table, result
 			if (race_is_enabled(table, name) && 
 				(!race_is_always(table, name) || !race_is_unique(table, name)) && 
 				race_get_chance(table, name) > 0 &&
-				(!race_is_unique(table, name) || !__race_is_in_unique_list(uniques, name))) {
+				(!race_is_unique(table, name) || !__race_is_in_unique_list(uniques, table, name))) {
 					dropables[dropable_count] = name;
 					dropable_count++;
 			}
@@ -148,10 +156,12 @@ function __race_queryRecursive(race_table_object, race_controller, table, result
 		// this value determines, which item will drop!
 		var hit_value = random(chance_sum);
 		var running_value = 0;
+		var haddrop = false;
 		for (var i = 0; i < array_length(dropables); i++;) {
 			var name = dropables[i];
 			running_value += race_get_chance(table, name);
 			if (hit_value < running_value) {
+				haddrop = true;
 				__race_addToResult(race_table_object, race_controller, table, result, uniques, name);
 				break;
 			}
@@ -159,12 +169,12 @@ function __race_queryRecursive(race_table_object, race_controller, table, result
 	}
 }
 
-function __race_query_internal(race_table_object, race_controller, table_name, drop_on_layer = "") {
+function __race_query_internal(race_table_object, race_controller, table_name, drop_on_layer = "", pool_name = "") {
 	var rv = undefined;
 	var drop_instances = drop_on_layer != "";
 			
 	// Start the query only if we have a valid table
-	if (race_table_exists(table_name)) {
+	if ((is_string(table_name) && race_table_exists(table_name)) || is_struct(table_name)) {
 		var unique_drops = [];
 
 		rv = [];
@@ -174,7 +184,7 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 		__race_queryRecursive(race_table_object, race_controller, RACE_TABLE_QUERIED, rv, unique_drops);
 		if (drop_instances) {
 			var i = 0; repeat(array_length(rv)) {
-				rv[i].instance = __race_dropItem(race_controller, rv[i], drop_on_layer);
+				rv[i].instance = __race_dropItem(race_controller, rv[i], drop_on_layer, pool_name);
 				i++;
 			}
 		}
@@ -190,7 +200,28 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 	return rv;
 }
 
-function race_query(table_name, drop_on_layer = "") {
-	return __race_query_internal(noone, noone, table_name, drop_on_layer);
+/// @function		race_query(table_name, drop_on_layer = "", pool_name = "")
+/// @description	Perform a loot query on the specified table
+/// @returns {array}				Returns the "loot". This is a struct of type race_result_entry.
+///									It contains:
+///										name		= item name
+///										type		= objecttype (asset name)
+///										data		= race data_struct (enabled, chance, ...)
+///										attributes	= attributes of this item (= data.attributes)
+///										instance	= dropped instance (or undefined)
+///									All contained instances already exist on the layer.
+///									Their onCreate and onQueryHit events have already been executed.
+///									If no drop was generated, instance contains undefined.
+/// @param {string} table_name		The race table to query.
+/// @param {string=""} drop_on_layer	Optional. If not supplied or if this is an empty string, the
+///									instance variable race_drop_on_layer will be used to determine
+///									on which layer to drop the loot. This parameter can override
+///									this instance variable (without changing it!) for this one query,
+///									in case, this time the items shall drop on another layer.
+///									If this is an empty string, no instances will be dropped.
+/// @param {string=""} pool_name	Optional. If supplied, objects will be attached to the
+///									specified ObjectPool, so less new instances are created.
+function race_query(table_name, drop_on_layer = "", pool_name = "") {
+	return __race_query_internal(noone, noone, table_name, drop_on_layer, pool_name);
 }
 	

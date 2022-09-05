@@ -185,18 +185,27 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 			log(sprintf("Cache hit for file '{0}' (buffer deep copy)", filename));
 			return snap_deep_copy(variable_struct_get(__FILE_CACHE, filename));
 		}
-		log("Loading encrypted struct from " + filename);
-		var buffer = buffer_load(working_directory + filename);
-		encrypt_buffer(buffer, cryptkey);	
-		var rv = snap_from_binary(buffer, 0, true);
-		buffer_delete(buffer);
+		try {
+			log("Loading encrypted struct from " + filename);
+			var buffer = buffer_load(working_directory + filename);
+			encrypt_buffer(buffer, cryptkey);
+			var rv = snap_from_binary(buffer, 0, true);
+			buffer_delete(buffer);
 		
-		if (add_to_cache) {
-			log(sprintf("Added file '{0}' to cache (encrypted struct)", filename));
-			variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
-		}
+			if (add_to_cache) {
+				log(sprintf("Added file '{0}' to cache (encrypted struct)", filename));
+				variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+			}
 
-		return rv;
+			return rv;
+		} catch (ex) {
+			log("*ERROR* during file_read_struct_encrypted:");
+			log(ex.message);
+			log(ex.longMessage);
+			log(ex.script);
+			log(ex.stacktrace);
+			return undefined;
+		}
 	}
 	return undefined;
 }

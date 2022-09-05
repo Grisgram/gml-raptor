@@ -19,7 +19,8 @@
 #macro SCRIBBLE_COLORS		global.__scribble_colours
 
 /// better human readable version of this instance's name (for logging mostly)
-#macro MY_NAME object_get_name(object_index) + "(" + string(real(id)) + ")"
+#macro MY_ID	string(real(id))
+#macro MY_NAME	object_get_name(object_index) + "(" + string(real(id)) + ")"
 
 /// shorter to write debug output
 #macro log	show_debug_message
@@ -30,6 +31,11 @@
 
 // An empty function can be used in various places, like as a disabling override on enter/leave states in the statemachine
 #macro EMPTY_FUNC		function(){}
+
+// A simple counting-up unique id system
+global.__unique_count_up_id	= 0;
+#macro UID		(++global.__unique_count_up_id)
+#macro SUID		string(++global.__unique_count_up_id)
 
 // Those macros define all situations that can lead to an invisible element on screen
 #macro __LAYER_OR_OBJECT_HIDDEN	(!visible || (layer_get_name(layer) != -1 && !layer_get_visible(layer)))
