@@ -142,6 +142,11 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		
 		if (x_button_visible) {
 			__x_button = instance_create_layer(0, 0, __layer_name, x_button_object);
+			with (__x_button) {
+				on_enter_sound = MESSAGEBOX_XBUTTON_ENTER_SOUND;
+				on_leave_sound = MESSAGEBOX_XBUTTON_LEAVE_SOUND;
+				on_click_sound = MESSAGEBOX_XBUTTON_CLICK_SOUND;
+			}
 		}
 		
 		window = instance_create_layer(0, 0, __layer_name, __window_object);
@@ -184,15 +189,18 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			if (draw_on_gui) {
 				x = translate_gui_to_world_x(UI_VIEW_CENTER_X - SELF_UI_VIEW_CENTER_X);
 				y = translate_gui_to_world_y(UI_VIEW_CENTER_Y - SELF_UI_VIEW_CENTER_Y - UI_VIEW_HEIGHT / 6);
+				y = min(max(y, 0), UI_VIEW_HEIGHT - sprite_height);
 			} else {
 				x = VIEW_CENTER_X - SELF_VIEW_CENTER_X;
 				y = VIEW_CENTER_Y - SELF_VIEW_CENTER_Y - VIEW_HEIGHT / 6;
+				y = min(max(y, 0), VIEW_HEIGHT - sprite_height);
 			}
+			x = max(x, 0);
 			__startup_x = x;
 			__startup_y = y;
 			force_redraw();
 		}
-		show_popup();
+		show_popup(MESSAGEBOX_LAYER);
 		return self;
 	}
 	

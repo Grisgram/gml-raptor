@@ -126,7 +126,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					The callback will receive 2 parameters: data,frame
 	/// @param {int}	frame    The frame number, when to do the callback
 	/// @param {func}	trigger  The callback to invoke.
-	/// @param {bool}	is_interval  If true, runs every x frames.
+	/// @param {bool=false}	is_interval  If true, runs every x frames.
 	static add_frame_trigger = function(frame, trigger, is_interval = false) {
 		array_push(__frame_triggers, new __frame_trigger_class(frame, trigger, is_interval));
 		return self;
@@ -235,8 +235,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					for x/y and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "scale to" curve).
 	///					Both default scale functions for x and y respect this setting.
-	/// @param {real}	xdistance  Horizontal scale target
-	/// @param {real}	ydistance  Vertical scale target
+	/// @param {real}	xtarget  Horizontal scale target
+	/// @param {real}	ytarget  Vertical scale target
 	static set_scale_target = function(xtarget, ytarget) {
 		__relative_scale	= true;
 		__start_xscale		= owner.image_xscale;

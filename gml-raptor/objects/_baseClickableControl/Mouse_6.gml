@@ -1,6 +1,6 @@
 /// @description log event
 
-if (__SKIP_CONTROL_EVENT) exit;
+GUI_EVENT;
 
 log(MY_NAME + ": onMiddleDown");
 await_click = true;

@@ -97,3 +97,19 @@ function run_delayed_ex(owner, delay, func, data = undefined) {
 	animation_abort_all(owner);
 	return run_delayed(owner, delay, func, data);
 }
+
+/// @function		if_null(value, value_if_null)
+/// @description	Tests if the specified value is undefined or noone, or,
+///					if it is a string, is empty.
+///					In any of those cases value_if_null is returned, otherwise
+///					value is returned.
+/// @param {any} value	The value to test
+/// @param {any} value_if_null	the value to return, if value is null.
+/// @returns {any}	value or value_if_null
+function if_null(value, value_if_null) {
+	if (value == undefined || value == noone)
+		return value_if_null;
+	if (is_string(value))
+		return string_is_empty(value) ? value_if_null : value;
+	return value;
+}

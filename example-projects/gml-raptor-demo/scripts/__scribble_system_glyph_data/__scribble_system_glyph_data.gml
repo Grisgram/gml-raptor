@@ -119,6 +119,12 @@ function __scribble_system_glyph_data()
     var _map_b = global.__scribble_glyph_data.__arabic_medial_map;
     var _map_c = global.__scribble_glyph_data.__arabic_final_map;
     
+    //Hamza
+    _map_i[? 0x0621] = 0xFE80; //Isolated
+    _map_c[? 0x0621] = 0xFE80; //Final
+    _map_b[? 0x0621] = 0xFE80; //Medial
+    _map_a[? 0x0621] = 0xFE80; //Initial
+    
     //Alef with madda above
     _map_i[? 0x0622] = 0xFE81; //Isolated
     _map_c[? 0x0622] = 0xFE82; //Final
@@ -269,6 +275,12 @@ function __scribble_system_glyph_data()
     _map_b[? 0x063A] = 0xFED0; //Medial
     _map_a[? 0x063A] = 0xFECF; //Initial
     
+    //Tatweel - Elongation symbol
+    _map_i[? 0x0640] = 0x0640; //Isolated
+    _map_c[? 0x0640] = 0x0640; //Final
+    _map_b[? 0x0640] = 0x0640; //Medial
+    _map_a[? 0x0640] = 0x0640; //Initial
+    
     //Feh
     _map_i[? 0x0641] = 0xFED1; //Isolated
     _map_c[? 0x0641] = 0xFED2; //Final
@@ -396,6 +408,10 @@ function __scribble_system_glyph_data()
         
         ++_i;
     }
+    
+    //Tatweel can always connect in both directions
+    _map_prev[? 0x640] = true;
+    _map_next[? 0x640] = true;
     
     #endregion
     

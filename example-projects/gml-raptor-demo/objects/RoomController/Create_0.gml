@@ -40,7 +40,18 @@ event_inherited();
 ROOMCONTROLLER = self;
 
 #macro PARTSYS					global.__room_particle_system
-PARTSYS = (string_is_empty(particle_layer_name) ? undefined : new ParticleManager(particle_layer_name));
+if (particle_layer_names == undefined || is_string(particle_layer_names) && string_is_empty(particle_layer_names)) {
+	PARTSYS = undefined;
+} else {
+	if (is_string(particle_layer_names)) {
+		PARTSYS = new ParticleManager(particle_layer_names);
+	} else if (is_array(particle_layer_names)) {
+		PARTSYS = array_create(array_length(particle_layer_names));
+		for (var i = 0; i < array_length(PARTSYS); i++)
+			PARTSYS[@ i] = new ParticleManager(particle_layer_names[@ i]);
+	} else
+		PARTSYS = undefined;
+}
 
 display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 

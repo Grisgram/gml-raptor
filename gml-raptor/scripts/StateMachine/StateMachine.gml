@@ -163,6 +163,7 @@ function StateMachine(_owner) constructor {
 	/// @function		set_state(name, enter_override = undefined, leave_override = undefined)
 	/// @description	Transition to a new state. If the specified state does not exist,
 	///					an error is logged and the object stays in the current state.
+	/// @param {string} name state to enter
 	/// @param {func} enter_override  Optional. Replace the original on_enter for this transition with something else
 	/// @param {func} leave_override  Optional. Replace the original on_leave for this transition with something else	
 	static set_state = function(name, enter_override = undefined, leave_override = undefined) {

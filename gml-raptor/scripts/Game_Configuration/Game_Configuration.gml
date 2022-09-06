@@ -22,9 +22,27 @@
 */
 
 // This macro is only used once in a html game when the game initalizes
-#macro HTML_LOCALES			["en", "de"]
+#macro HTML_LOCALES			["en"]
+
+// The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
+// all your games! Do NOT reuse the same name over and over again!
+#macro GAME_SETTINGS_FILENAME			"game_settings.json"
+#macro FILE_CRYPT_KEY					""
+// To avoid conflicts between encrypted and plaing settings files, give
+// the file in release mode a different name
+// Replace the production crypt key with a good salty key of your own!
+#macro release:GAME_SETTINGS_FILENAME	"game_settings.gsx"
+#macro release:FILE_CRYPT_KEY			"replace-this-string-for-your-own-safety"
+
+#macro HIGHSCORES				global._HIGHSCORES
+// If your game does not record highscores, set this to undefined, but DO NOT DELETE the macro!
+HIGHSCORES						= new HighScoreTable(10, scoring.score_high);
+// Fill the highscore table with empty data. If you don't want that, just delete the line
+repeat (10) HIGHSCORES.register_highscore("- no entry -",0);
 
 /// @function function onGameStart()
+/// @description	When this runs, load_settings() has already been called and 
+///					you can access your settings through the GAMESETTINGS macro.
 function onGameStart() {
 
 	// Debug/Dev configuration
@@ -48,12 +66,16 @@ function onGameStart() {
 
 	// Setup Scribble
 	// ------------------------------------------------------------------
-	//scribble_font_set_default("acme28");
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
+	//scribble_font_set_default("acme28");
 
 	// Custom named scribble colors 
 	// (SCRIBBLE_COLORS is a macro pointing to global.__scribble_colours)
 	//SCRIBBLE_COLORS.my_col		= #E5E5E5;
+	
+	// Audio setup for rooms
+	//set_room_default_audio(rmMain, mus_theme, amb_theme);
+	//set_room_default_audio(rmPlay, mus_theme, amb_theme);
 
 }
 

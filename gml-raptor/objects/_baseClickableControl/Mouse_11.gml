@@ -1,6 +1,5 @@
 /// @description log event
 
 event_inherited();
-if (__SKIP_CONTROL_EVENT) exit;
-
+play_ui_sound(on_leave_sound);
 await_click = false;

@@ -1,5 +1,5 @@
 /// @description Show how-to-play
-
+event_inherited();
 #macro MAX_ENEMY_COUNT		10
 
 scribble_score = undefined;

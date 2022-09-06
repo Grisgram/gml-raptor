@@ -21,6 +21,8 @@ enum adopt_properties {
 #macro TEXT_KEY_REPEAT_DELAY	30
 #macro TEXT_KEY_REPEAT_INTERVAL	room_speed / 30
 
+#macro MOUSE_DBL_CLICK_SPEED_MS 500
+
 #macro GUI_RUNTIME_CONFIG		global.gui_configuration
 
 #macro __TEXT_NAV_TAB_LOCK		global.__gui_nav_tab_lock
@@ -36,6 +38,8 @@ function gui_runtime_config() constructor {
 	text_cursor_blink_speed		= TEXT_CURSOR_BLINK_SPEED;
 	text_key_repeat_delay		= TEXT_KEY_REPEAT_DELAY;
 	text_key_repeat_interval	= TEXT_KEY_REPEAT_INTERVAL;
+	
+	mouse_double_click_speed	= MOUSE_DBL_CLICK_SPEED_MS;
 
 	// set up sound channels based on platform
 	audio_channel_num(IS_HTML ? AUDIO_CHANNELS_HTML : 

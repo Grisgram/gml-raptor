@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "sprDefaultLabel",
-    "path": "sprites/sprDefaultLabel/sprDefaultLabel.yy",
+    "name": "sprDefaultLabelFilled",
+    "path": "sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",
   },
   "solid": false,
   "visible": true,

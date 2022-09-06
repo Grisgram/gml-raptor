@@ -84,7 +84,9 @@ function array_contains(array, value, recursive = true) {
 		return false;
 		
 	for (var i = 0; i < array_length(array); i++) {
-		if (array[@ i] == value)
+		var val = array[@ i];
+		if (val == value ||
+			(recursive && is_array(val) && array_contains(val, value, recursive)))
 			return true;
 	}
 	return false;

@@ -32,8 +32,10 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 	camera				= view_get_camera(_viewport);
 	
 	shader				= shd_outline;
-
-//	outline_color		= _outline_color;
+	u_texel				= shader_get_uniform(shader, "u_vTexel");
+	u_outline_color		= shader_get_uniform(shader, "u_vOutlineColour");
+	u_thickness			= shader_get_uniform(shader, "u_vThickness");
+	
 	outline_color		= make_color_rgb(color_get_red(_outline_color),color_get_green(_outline_color),color_get_blue(_outline_color));
 	outline_alpha		= _outline_alpha;
 	outline_strength	= _outline_strength;
@@ -126,9 +128,9 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		shader_set(shader);
 		var _texture = surface_get_texture(__outline_surface_1);
 		texture_set_stage(shader_get_sampler_index(shader, "u_sSpriteSurface"), _texture);
-		shader_set_uniform_f(shader_get_uniform(shader, "u_vTexel"), texture_get_texel_width(_texture), texture_get_texel_height(_texture));
-		shader_set_uniform_f(shader_get_uniform(shader, "u_vOutlineColour"), outline_color, outline_alpha); //colour, alpha
-		shader_set_uniform_f(shader_get_uniform(shader, "u_vThickness"), outline_strength, alpha_fading ? 1 : 0); // thickness x, y
+		shader_set_uniform_f(u_texel		, texture_get_texel_width(_texture), texture_get_texel_height(_texture));
+		shader_set_uniform_f(u_outline_color, outline_color, outline_alpha); //colour, alpha
+		shader_set_uniform_f(u_thickness	, outline_strength, alpha_fading ? 1 : 0); // thickness x, y
 
 		draw_surface_part_ext(application_surface,
 			_surface_l, _surface_t,
@@ -161,16 +163,8 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 	
 	static draw_object_outline = function(object_to_draw = other) {
 		with (object_to_draw) {
-			if (is_child_of(self, OutlineObject)) {
-				other.outline_color		= make_color_rgb(color_get_red(outline_color),color_get_green(outline_color),color_get_blue(outline_color));
-				other.outline_alpha		= outline_alpha;
-				other.outline_strength	= outline_strength;
-				other.alpha_fading		= outline_alpha_fading;
-			}
 			other.draw_sprite_outline(self, image_index, x, y, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 		}
 	}
 	
 }
-
-

@@ -76,9 +76,11 @@ set_table = function(table_name) {
 ///									this instance variable (without changing it!) for this one query,
 ///									in case, this time the items shall drop on another layer.
 ///									If this is an empty string, no instances will be dropped.
-query = function(drop_on_layer = "") {
+/// @param {string=""} pool_name	Optional. If supplied, objects will be attached to the
+///									specified ObjectPool, so less new instances are created.
+query = function(drop_on_layer = "", pool_name = "") {
 	var layername = drop_on_layer == "" ? race_drop_on_layer : drop_on_layer;
-	return __race_query_internal(self, race_controller, race_table_name, layername);
+	return __race_query_internal(self, race_controller, race_table_name, layername, pool_name);
 }
 
 // this variable holds the assigned table

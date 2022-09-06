@@ -55,6 +55,7 @@ set_focus = function(from_tab = false) {
 	selection_length = 0;
 	__last_selection_length = -1;
 	force_redraw();
+	__invoke_got_focus();
 }
 
 /// @function					lose_focus()
@@ -69,9 +70,56 @@ lose_focus = function() {
 	selection_length = 0;
 	__last_selection_length = -1;
 	force_redraw();
+	__invoke_lost_focus();
 }
 
-/// @function					__reset_cursor_blink
+/// @function		select_all()
+/// @description	Select all the text in the inputbox
+select_all = function() {
+	selection_start = string_length(text);
+	selection_length = -string_length(text);
+	set_cursor_pos(string_length(text), true);
+}
+
+/// @function	select_word()
+select_word = function() {
+	// scan to the left and right for word-breakers, then select the region
+	static is_in_word = function(char) {
+		if (char == undefined)
+			return false;
+			
+		var o = ord(char);
+		return 
+			(o >= ord("A") && o <= ord("Z")) ||
+			(o >= ord("a") && o <= ord("z")) ||
+			(o >= ord("0") && o <= ord("9")) ||
+			(o == ord("_")) ||
+			(o >= 128 && o <= 165); // Umlauts and standard special characters
+	}
+	var left = cursor_pos + 1;
+	var right = cursor_pos + 1;
+	if (!is_in_word(__char_at(left))) {
+		// first line exit if we are on a non-word character
+		// then select only this character
+		selection_start = left;
+		selection_length = 1;
+	} else {
+		while (is_in_word(__char_at(left))) left--;
+		while (is_in_word(__char_at(right))) right++;
+		set_cursor_pos(right - 1);
+		selection_start = left + 1;
+		selection_length = -max(1, right - left - 1);
+	}
+}
+
+/// @function __char_at(pos)
+__char_at = function(pos) {
+	if (pos > 0 && pos <= string_length(text))
+		return string_copy(text, pos, 1);
+	return undefined;
+}
+
+/// @function					__reset_cursor_blink()
 /// @description				ensure, cursor stays visible
 __reset_cursor_blink = function() {
 	__cursor_frame = 0;
@@ -111,6 +159,22 @@ __stop_wait_for_key_repeat = function() {
 	__repeating_key = undefined;
 }
 
+__invoke_got_focus = function() {
+	if (on_got_focus != undefined)
+		on_got_focus(self);
+}
+
+__invoke_lost_focus = function() {
+	if (on_lost_focus != undefined)
+		on_lost_focus(self);
+}
+
+/// @function	__invoke_text_changed(old_text, new_text)
+__invoke_text_changed = function(old_text, new_text) {
+	if (on_text_changed != undefined && old_text != new_text)
+		on_text_changed(self, old_text, new_text);	
+}
+
 /// @function					scribble_add_text_effects(scribbletext)
 /// @description				called when a scribble element is created to allow adding custom effects.
 ///								overwrite (redefine) in child controls
@@ -128,8 +192,8 @@ scribble_add_text_effects = function(scribbletext) {
 /// @function					draw_scribble_text()
 /// @description				draw the text - redefine for additional text effects
 draw_scribble_text = function() {
-	if (string_length(text) > max_string_length_characters) {
-		text = string_copy(text, 1, max_string_length_characters);
+	if (string_length(text) > max_length) {
+		text = string_copy(text, 1, max_length);
 		force_redraw();
 		__draw_self();
 		return;

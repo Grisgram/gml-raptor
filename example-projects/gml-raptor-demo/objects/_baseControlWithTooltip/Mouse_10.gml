@@ -2,5 +2,5 @@
 
 event_inherited();
 
-if (__SKIP_CONTROL_EVENT) exit;
+GUI_EVENT;
 __activate_tooltip();

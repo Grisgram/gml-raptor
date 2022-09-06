@@ -8,11 +8,11 @@
 	
 	Check out the variable definitions! You can set everything you need there.
 	
-	A note on the "emitter_follow_object" variable definition:
-	This is by default false as the original intention of this object was a static position
-	in the room. If you plan to move this ParticleEmitter, set this variable to True, but keep
-	in mind, that this causes a emitter_set_range call every end_step to update x/y position of
-	the emitter!
+	A note on the "follow_instance" variable definition:
+	This is by default undefined as the original intention of this object was a static position
+	in the room. If you plan to move this ParticleEmitter, set this variable to an instance name, 
+	but keep in mind, that this causes a emitter_set_range call every end_step to update the 
+	x/y position of the emitter if the attached object has moved!
 	
 	The ParticleEmitter offers 3 methods:
 	- stream()	start streaming
@@ -21,9 +21,31 @@
 	
 	NOTE:	This object REQUIRES that you have a ParticleManager up and running
 			through the RoomController!
-			This object accesses the PART_SYS macro, which is filled by the
-			RoomController, if you set a particle_layer_name in its Variable Definitions.
+			This object accesses the PARTSYS macro, which is filled by the
+			RoomController, if you set one or more particle_layer_names in its Variable Definitions.
+			
+	About the PARTSYS_INDEX variable definition:
+	You may setup a roomcontroller to host multiple particle systems on different layers,
+	by specifying an array or strings instead of a single string for the "particle_layer_names"
+	variable in a RoomController. 
+	If you have multiple systems active, you must specify the index of the system this Emitter
+	shall use. (Index 0 is the first system, in order of the strings you specified in the
+	RoomController).
 */
+
+onPoolActivate = function() {
+	__follow_offset = undefined;
+}
+
+onPoolDeactivate = function() {
+	stop();
+}
+
+onPoolActivate();
+
+__get_partsys = function() {
+	return (is_array(PARTSYS) ? PARTSYS[@ partsys_index] : PARTSYS);
+}
 
 /// @function		stream(particle_name = undefined, particles_per_frame = undefined)
 /// @description	Starts streaming particles as defined for the emitter.
@@ -32,15 +54,17 @@
 stream = function(particle_name = undefined, particles_per_frame = undefined) {
 	var pn = particle_name ?? stream_particle_name;
 	var pc = particles_per_frame ?? stream_particle_count;
-	log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, PARTSYS.emitter_get_range_min(emitter_name), emitter_name));
-	PARTSYS.stream(emitter_name, pn, pc);
+	var ps = __get_partsys();
+	log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
+	ps.stream(emitter_name, pn, pc);
 }
 
 /// @function		stop()
 /// @description	Stops streaming
 stop = function() {
 	log(MY_NAME + sprintf(": Stopped streaming through '{0}'", emitter_name));
-	PARTSYS.stream_stop(emitter_name);
+	var ps = __get_partsys();	
+	ps.stream_stop(emitter_name);
 }
 
 /// @function		burst(particle_name = undefined, particle_count = undefined)
@@ -53,14 +77,16 @@ burst = function(particle_name = undefined, particle_count = undefined) {
 	var pn = particle_name ?? burst_particle_name;
 	pn = pn ?? stream_particle_name;
 	var pc = particle_count ?? burst_particle_count;
-	log(MY_NAME + sprintf(": Bursting {0} '{1}' particles at {2} through '{3}'", pc, pn, PARTSYS.emitter_get_range_min(emitter_name), emitter_name));
-	PARTSYS.burst(emitter_name, pn, pc);
+	var ps = __get_partsys();	
+	log(MY_NAME + sprintf(": Bursting {0} '{1}' particles at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
+	ps.burst(emitter_name, pn, pc);
 }
 
 prev_x = x;
 prev_y = y;
 
-PARTSYS.emitter_move_range_to(emitter_name, x, y);
+var initps = __get_partsys();	
+initps.emitter_move_range_to(emitter_name, x, y);
 
 // Inherit the parent event
 event_inherited();

@@ -37,6 +37,16 @@
     {"varType":4,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"on_left_click","tags":[],"resourceType":"GMObjectProperty",},
     {"varType":4,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"on_middle_click","tags":[],"resourceType":"GMObjectProperty",},
     {"varType":4,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"on_right_click","tags":[],"resourceType":"GMObjectProperty",},
+    {"varType":4,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"on_double_click","tags":[],"resourceType":"GMObjectProperty",},
+    {"varType":5,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[
+        "GMSound",
+      ],"resourceVersion":"1.0","name":"on_enter_sound","tags":[],"resourceType":"GMObjectProperty",},
+    {"varType":5,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[
+        "GMSound",
+      ],"resourceVersion":"1.0","name":"on_leave_sound","tags":[],"resourceType":"GMObjectProperty",},
+    {"varType":5,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[
+        "GMSound",
+      ],"resourceVersion":"1.0","name":"on_click_sound","tags":[],"resourceType":"GMObjectProperty",},
   ],
   "overriddenProperties": [],
   "parent": {
