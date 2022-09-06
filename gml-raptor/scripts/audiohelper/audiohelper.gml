@@ -48,7 +48,7 @@ __ACTIVE_AMBIENCE			= undefined;
 /// @function		play_ui_sound(snd, priority = 7, gain = 1.0)
 /// @description	Plays a sound of type ui (attached to ui_volume setting)
 function play_ui_sound(snd, priority = 7, gain = 1.0) {
-	if (AUDIOSETTINGS.sound_enabled && snd != undefined) {
+	if (AUDIOSETTINGS.ui_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, false);
 		audio_sound_gain(sid, gain * AUDIOSETTINGS.ui_volume * AUDIOSETTINGS.master_volume, 0);
 		return sid;
@@ -59,7 +59,7 @@ function play_ui_sound(snd, priority = 7, gain = 1.0) {
 /// @function		play_voice(snd, priority = 10, gain = 1.0, loop = false)
 /// @description	Plays a sound of type voice (attached to voice_volume setting)
 function play_voice(snd, priority = 10, gain = 1.0, loop = false) {
-	if (AUDIOSETTINGS.sound_enabled && snd != undefined) {
+	if (AUDIOSETTINGS.voice_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, loop);
 		audio_sound_gain(sid, gain * AUDIOSETTINGS.voice_volume * AUDIOSETTINGS.master_volume, 0);
 		return sid;

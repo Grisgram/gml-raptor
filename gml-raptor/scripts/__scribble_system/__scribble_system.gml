@@ -1,6 +1,6 @@
 // @jujuadams
-#macro __SCRIBBLE_VERSION           "8.0.5"
-#macro __SCRIBBLE_DATE              "2022-08-14"
+#macro __SCRIBBLE_VERSION           "8.0.7"
+#macro __SCRIBBLE_DATE              "2022-09-04"
 #macro __SCRIBBLE_DEBUG             false
 #macro __SCRIBBLE_VERBOSE_GC        false
 #macro SCRIBBLE_LOAD_FONTS_ON_BOOT  true
@@ -286,6 +286,9 @@ global.__scribble_anim_shader_msdf_desync = false;
 global.__scribble_anim_shader_msdf_desync_to_default = false;
 global.__scribble_anim_shader_msdf_default = false;
 
+global.__scribble_standard_shader_uniforms_dirty = true;
+global.__scribble_msdf_shader_uniforms_dirty = true;
+
 global.__scribble_anim_properties = array_create(__SCRIBBLE_ANIM.__SIZE);
 scribble_anim_reset();
 
@@ -358,7 +361,7 @@ function __scribble_error()
         ++_i;
     }
     
-    show_debug_message("Scribble: " + string_replace_all(_string, "\n", "\n          "));
+    show_debug_message("Scribble " + __SCRIBBLE_VERSION + ": " + string_replace_all(_string, "\n", "\n          "));
     show_error("Scribble:\n" + _string + "\n ", true);
 }
 

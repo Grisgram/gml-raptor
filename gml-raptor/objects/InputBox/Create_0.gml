@@ -81,6 +81,44 @@ select_all = function() {
 	set_cursor_pos(string_length(text), true);
 }
 
+/// @function	select_word()
+select_word = function() {
+	// scan to the left and right for word-breakers, then select the region
+	static is_in_word = function(char) {
+		if (char == undefined)
+			return false;
+			
+		var o = ord(char);
+		return 
+			(o >= ord("A") && o <= ord("Z")) ||
+			(o >= ord("a") && o <= ord("z")) ||
+			(o >= ord("0") && o <= ord("9")) ||
+			(o == ord("_")) ||
+			(o >= 128 && o <= 165); // Umlauts and standard special characters
+	}
+	var left = cursor_pos + 1;
+	var right = cursor_pos + 1;
+	if (!is_in_word(__char_at(left))) {
+		// first line exit if we are on a non-word character
+		// then select only this character
+		selection_start = left;
+		selection_length = 1;
+	} else {
+		while (is_in_word(__char_at(left))) left--;
+		while (is_in_word(__char_at(right))) right++;
+		set_cursor_pos(right - 1);
+		selection_start = left + 1;
+		selection_length = -max(1, right - left - 1);
+	}
+}
+
+/// @function __char_at(pos)
+__char_at = function(pos) {
+	if (pos > 0 && pos <= string_length(text))
+		return string_copy(text, pos, 1);
+	return undefined;
+}
+
 /// @function					__reset_cursor_blink()
 /// @description				ensure, cursor stays visible
 __reset_cursor_blink = function() {

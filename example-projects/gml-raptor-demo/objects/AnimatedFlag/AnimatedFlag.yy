@@ -39,8 +39,8 @@
   ],
   "overriddenProperties": [],
   "parent": {
-    "name": "animated-flag",
-    "path": "folders/_gml_raptor_packages_/animated-flag.yy",
+    "name": "gml-animated-flag",
+    "path": "folders/_gml_raptor_packages_/gml-animated-flag.yy",
   },
   "resourceVersion": "1.0",
   "name": "AnimatedFlag",

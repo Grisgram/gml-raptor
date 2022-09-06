@@ -161,14 +161,8 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 
 	}
 	
-	static draw_object_outline = function(object_to_draw) {
+	static draw_object_outline = function(object_to_draw = other) {
 		with (object_to_draw) {
-			if (is_child_of(self, OutlineObject)) {
-				object_to_draw.outline_color	= make_color_rgb(color_get_red(outline_color),color_get_green(outline_color),color_get_blue(outline_color));
-				object_to_draw.outline_alpha	= outline_alpha;
-				object_to_draw.outline_strength	= outline_strength;
-				object_to_draw.alpha_fading		= outline_alpha_fading;
-			}
 			other.draw_sprite_outline(self, image_index, x, y, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 		}
 	}

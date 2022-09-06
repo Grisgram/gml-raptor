@@ -66,7 +66,7 @@ function __LG_load_file(localeName) {
 		log("Loading locale '" + localeName + "'...");
 		var json = file_read_text_file_absolute(__LG_get_locale_filename(localeName));
 		__LG_STRINGS = snap_from_json(json);
-		log("Locale '" + localeName + " loaded successfully.");
+		log("Locale '" + localeName + "' loaded successfully.");
 		return true;
 	}
 	return false;
@@ -301,7 +301,7 @@ __LG_HTML_NEED_CHECK = IS_HTML;
 __LG_INITIALIZED = IS_HTML; // for html, we start initialized, there is a second check __LG_HTML_INITIALIZED 
 							// that takes care whether the required globals exist for HTML
 if (LG_AUTO_INIT_ON_STARTUP) {
-	show_debug_message("Welcome to LG localization subsystem! (c)indievidualgames.com");
+	show_debug_message("Initializing LG localization subsystem.");
 	if (IS_HTML)
 		show_debug_message("LG is in HTML mode. Preset languages are " + string(HTML_LOCALES));
 	else
