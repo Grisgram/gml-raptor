@@ -398,6 +398,7 @@
     {"CopyToMask":-1,"filePath":"datafiles/race","resourceVersion":"1.0","name":"racedemo.json","resourceType":"GMIncludedFile",},
     {"ConfigValues":{"release":{"CopyToMask":"3035461389054378222",},},"CopyToMask":3035461389054378222,"filePath":"datafiles","resourceVersion":"1.0","name":"version.json","resourceType":"GMIncludedFile",},
     {"ConfigValues":{"release":{"CopyToMask":"3035461389054378190",},},"CopyToMask":3035461389054378190,"filePath":"datafiles","resourceVersion":"1.0","name":"index.html","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"gml_raptor_demo_settings.json","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2022.6.1.26",
