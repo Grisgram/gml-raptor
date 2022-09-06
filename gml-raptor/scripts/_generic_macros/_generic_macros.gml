@@ -48,6 +48,17 @@ global.__unique_count_up_id	= 0;
 // Instead of repeating the same if again and again in each mouse event, just use this macro;
 #macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;
 
+// try/catch/finally support
+#macro TRY						try {
+#macro CATCH	} catch (__exception) { \
+					log(__exception.message); \
+					log(__exception.longMessage); \
+					log(__exception.script); \
+					for (var __st_i = 0; __st_i < array_length(__exception.stacktrace);__st_i++) \
+						log(__exception.stacktrace[@ __st_i]); 
+#macro FINALLY	} finally {
+#macro ENDTRY   }
+
 // Unit test automation
 #macro __RUN_UNIT_TESTS					show_debug_message("Unit tests disabled.");
 #macro unit_testing:__RUN_UNIT_TESTS	UnitTestAll();

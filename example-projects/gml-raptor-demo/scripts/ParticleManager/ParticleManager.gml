@@ -102,7 +102,7 @@ function ParticleManager(particle_layer_name) constructor {
 		}
 		variable_struct_remove(__buffered_target, name);
 		var diff = rng.maxco.clone2().minus(rng.minco);
-		rng.minco.set(newx - rng.center.x, newy - rng.center.y);
+		rng.minco.set(newx, newy);
 		rng.maxco = rng.minco.clone2().plus(diff);
 		part_emitter_region(system, emitter_get(name), rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 	}
@@ -195,7 +195,8 @@ function ParticleManager(particle_layer_name) constructor {
 	static stream_stop = function(emitter_name) {
 		part_emitter_clear(system, emitter_get(emitter_name));
 		var rng = variable_struct_get(__emitter_ranges, emitter_name);
-		part_emitter_region(system, emitter_get(emitter_name), rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
+		if (rng != undefined)
+			part_emitter_region(system, emitter_get(emitter_name), rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 	}
 	
 	/// @function			burst(emitter_name, particle_name, particles_per_frame)

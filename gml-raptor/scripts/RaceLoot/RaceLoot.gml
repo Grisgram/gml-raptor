@@ -156,12 +156,10 @@ function __race_queryRecursive(race_table_object, race_controller, table, result
 		// this value determines, which item will drop!
 		var hit_value = random(chance_sum);
 		var running_value = 0;
-		var haddrop = false;
 		for (var i = 0; i < array_length(dropables); i++;) {
 			var name = dropables[i];
 			running_value += race_get_chance(table, name);
 			if (hit_value < running_value) {
-				haddrop = true;
 				__race_addToResult(race_table_object, race_controller, table, result, uniques, name);
 				break;
 			}

@@ -20,8 +20,21 @@
 */
 
 assign_sprite = function(new_sprite_index, new_image_index = 0) {
-	sprite_index = new_sprite_index;
-	image_index = new_image_index;
+	if (sprite_index != -1 && sprite_index != new_sprite_index) {
+		// recalculate x/yscale from current to new sprite so the
+		// render size doesn't change
+		var cw = sprite_width;
+		var ch = sprite_height;
+		var nw = sprite_get_width(new_sprite_index);
+		var nh = sprite_get_height(new_sprite_index);
+		sprite_index = new_sprite_index;
+		image_index = new_image_index;
+		image_xscale = cw / nw;
+		image_yscale = ch / nh;
+	} else {
+		sprite_index = new_sprite_index;
+		image_index = new_image_index;
+	}
 	texture	= sprite_get_texture(sprite_index, image_index);
 	width  = sprite_get_width(sprite_index);
 	height = sprite_get_height(sprite_index);
@@ -32,4 +45,4 @@ assign_sprite = function(new_sprite_index, new_image_index = 0) {
 	scale_y = (render_height != -1 ? render_height / height : image_yscale);
 }
 
-assign_sprite(sprite_index);
+assign_sprite(sprite_to_use == undefined ? sprite_index : sprite_to_use);

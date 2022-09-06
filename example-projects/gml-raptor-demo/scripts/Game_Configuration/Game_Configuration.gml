@@ -22,16 +22,17 @@
 */
 
 // This macro is only used once in a html game when the game initalizes
-#macro HTML_LOCALES				["en"]
+#macro HTML_LOCALES			["en"]
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME	"game_settings.json"
-
-// File encryption - Your global crypt key (also used for settings file)
-#macro FILE_CRYPT_KEY			""
+#macro GAME_SETTINGS_FILENAME			"game_settings.json"
+#macro FILE_CRYPT_KEY					""
+// To avoid conflicts between encrypted and plaing settings files, give
+// the file in release mode a different name
 // Replace the production crypt key with a good salty key of your own!
-#macro release:FILE_CRYPT_KEY	"7I-I³-^^I-I01³ /°0^^4 0= 4!/! ³-:-71!/!9_15I-I³|)-(4/°,!/!1^0/°,³-v|_/°,4551( 11=³=0/°,!v!"
+#macro release:GAME_SETTINGS_FILENAME	"game_settings.gsx"
+#macro release:FILE_CRYPT_KEY			"/°0^^4 0= 4!/! ³-:-71!/!9_15I-I³|)-(4/°,!/!1^0/°,³-v|_/°,4551( 11=³=0/°,!v!"
 
 #macro HIGHSCORES				global._HIGHSCORES
 // If your game does not record highscores, set this to undefined, but DO NOT DELETE the macro!
@@ -76,7 +77,7 @@ function onGameStart() {
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
 	//set_room_default_audio(rmPlay, mus_theme, amb_theme);
-	
+
 }
 
 /// @function function onGameEnd()
