@@ -39,19 +39,24 @@ function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_c
 	}
 	
 	TRY
+		log("Loading text file " + filename);
 	    var _buffer = buffer_load(filename);
+		var bufsize = buffer_get_size(_buffer);
+		log(sprintf("Loaded {0} bytes from file", bufsize));
+		var _string = undefined;
+		if (bufsize > 0) {
+		    if (remove_utf8_bom && (buffer_get_size(_buffer) >= 4) && (buffer_peek(_buffer, 0, buffer_u32) & 0xFFFFFF == 0xBFBBEF))
+		    {
+		        buffer_seek(_buffer, buffer_seek_start, 3);
+		    }
     
-	    if (remove_utf8_bom && (buffer_get_size(_buffer) >= 4) && (buffer_peek(_buffer, 0, buffer_u32) & 0xFFFFFF == 0xBFBBEF))
-	    {
-	        buffer_seek(_buffer, buffer_seek_start, 3);
-	    }
-    
-	    var _string = buffer_read(_buffer, buffer_string);
-	    buffer_delete(_buffer);
+		    _string = buffer_read(_buffer, buffer_string);
+		    buffer_delete(_buffer);
 	
-		if (add_to_cache) {
-			log(sprintf("Added file '{0}' to cache", filename));
-			variable_struct_set(__FILE_CACHE, filename, _string);
+			if (add_to_cache) {
+				log(sprintf("Added file '{0}' to cache", filename));
+				variable_struct_set(__FILE_CACHE, filename, _string);
+			}
 		}
 	    return _string;
 	CATCH return undefined; ENDTRY
@@ -144,17 +149,22 @@ function file_write_struct_plain(filename, struct) {
 /// @returns {struct}			The json_decoded struct or undefined if something went wrong.
 function file_read_struct_plain(filename, add_to_cache = false) {
 	__ensure_file_cache();
-	if (file_exists(filename)) {
+	if (file_exists(working_directory + filename)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			log(sprintf("Cache hit for file '{0}'", filename));
 			return snap_deep_copy(variable_struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			log("Loading plain text struct from " + filename);
-			var rv = snap_from_json(file_read_text_file(filename));
-			if (add_to_cache) {
-				log(sprintf("Added file '{0}' to cache (struct)", filename));
-				variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+			var contents = file_read_text_file(filename);
+			log(sprintf("Read {0} characters from file", string_length(contents)));
+			var rv = undefined;
+			if (!string_is_empty(contents)) {
+				rv = snap_from_json(contents);
+				if (add_to_cache) {
+					log(sprintf("Added file '{0}' to cache (struct)", filename));
+					variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+				}
 			}
 			return rv;
 		CATCH return undefined;	ENDTRY
@@ -196,7 +206,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 /// @returns {struct}			The decrypted struct.
 function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {	
 	__ensure_file_cache();
-	if (file_exists(filename)) {
+	if (file_exists(working_directory + filename)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			log(sprintf("Cache hit for file '{0}' (buffer deep copy)", filename));
 			return snap_deep_copy(variable_struct_get(__FILE_CACHE, filename));
@@ -204,15 +214,19 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 		TRY
 			log("Loading encrypted struct from " + filename);
 			var buffer = buffer_load(working_directory + filename);
-			encrypt_buffer(buffer, cryptkey);
-			var rv = snap_from_binary(buffer, 0, true);
-			buffer_delete(buffer);
+			var bufsize = buffer_get_size(buffer);
+			log(sprintf("Read {0} bytes into the buffer", bufsize));
+			var rv = undefined;
+			if (bufsize > 0) {
+				encrypt_buffer(buffer, cryptkey);
+				rv = snap_from_binary(buffer, 0, true);
+				buffer_delete(buffer);
 		
-			if (add_to_cache) {
-				log(sprintf("Added file '{0}' to cache (encrypted struct)", filename));
-				variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+				if (add_to_cache) {
+					log(sprintf("Added file '{0}' to cache (encrypted struct)", filename));
+					variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+				}
 			}
-
 			return rv;
 		CATCH return undefined; ENDTRY
 	}
