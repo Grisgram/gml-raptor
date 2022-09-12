@@ -20,12 +20,12 @@ function __room_audio_session() constructor {
 	
 	/// @function		is_same_music()
 	static is_same_music = function(mus) {
-		return music_id != undefined && mus == music_id;
+		return music_id != undefined && mus == music_asset;
 	}
 	
 	/// @function		is_same_ambience()
 	static is_same_ambience = function(amb) {
-		return ambience_id != undefined && amb == ambience_id;
+		return ambience_id != undefined && amb == ambience_asset;
 	}
 	
 	/// @function		stop_active_music()
