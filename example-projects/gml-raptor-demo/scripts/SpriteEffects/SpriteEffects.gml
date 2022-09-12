@@ -1,4 +1,4 @@
-#macro POOL_EXPLOSIONS				"sprite_effects_pool"
+#macro __POOL_EFFECTS		"sprite_effects_pool"
 
 /// @function					effect_start_scaled_by(sprite, _xscale, _yscale, speed_multiplier = 1, finished_callback = undefined)
 /// @description				start a pooled effect animation scaled by a factor
@@ -10,7 +10,7 @@
 /// @param {real=1}	speed_multiplier
 /// @param {func=undefined}	finished_callback
 function effect_start_scaled_by(sprite, on_layer, xscale, yscale, rotation = 0, speed_multiplier = 1, finished_callback = undefined) {
-	var rv = pool_get_instance(POOL_EXPLOSIONS, SpriteEffectRunner, on_layer);
+	var rv = pool_get_instance(__POOL_EFFECTS, SpriteEffectRunner, on_layer);
 	with (rv) {
 		__finished_callback = finished_callback;
 		layer = layer_get_id(on_layer);

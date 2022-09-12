@@ -34,6 +34,27 @@ function animcurve_get_ext(curve_id) {
 			return undefined;		
 		}
 		
+		/// @function	get_channel_index(channel_name)
+		get_channel_index = function(channel_name) {
+			for (var i = 0, len = array_length(channels); i < len; i++) 
+				if (channel_names[@ i] == channel_name)
+					return i;
+			return -1;
+		}
+		
+		/// @function	get_value_by_name(channel_name)
+		get_value_by_name = function(channel_name) {
+			var idx = get_channel_index(channel_name);
+			if (idx >= 0)
+				return channel_values[@ channel_index];
+			return -1;
+		}
+		
+		/// @function	get_value(channel_index)
+		get_value = function(channel_index) {
+			return channel_values[@ channel_index];
+		}
+		
 		/// @function					update_values(point_in_time)
 		update_values = function(point_in_time) {
 			for (var i = 0; i < array_length(channels); i++) 

@@ -84,7 +84,7 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 /// @description				Returns a previously fetched instance back into its pool
 /// @param {instance=self} 
 function pool_return_instance(instance = self) {
-	if (variable_instance_exists(instance, "__object_pool_name")) {
+	if (instance != undefined && variable_instance_exists(instance, "__object_pool_name")) {
 		var pool_name = instance.__object_pool_name;
 		log(sprintf("Sending instance '{0}' back to pool '{1}'", object_get_name(instance.object_index), pool_name));
 		__pool_invoke_deactivate(instance);
@@ -115,6 +115,14 @@ function pool_clear(pool_name) {
 		instance_destroy(inst);
 	}
 	ds_list_clear(pool);
+}
+
+/// @function		pool_clear_all()
+/// @description	Clear all pools. Use this when leaving the room.
+///					NOTE: The ROOMCONTROLLER automatically does this for you in the RoomEnd event
+function pool_clear_all() {
+	ds_map_destroy(__OBJECT_POOLS);
+	__OBJECT_POOLS = ds_map_create();
 }
 
 function __pool_invoke_activate(inst) {

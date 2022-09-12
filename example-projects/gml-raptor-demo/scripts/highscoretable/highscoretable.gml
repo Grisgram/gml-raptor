@@ -49,10 +49,10 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 
 	static __is_better_than = function(value, better_than_entry) {
 		switch (data.criteria) {
-			case scoring.score_high:	return value >= better_than_entry.data.Score;
-			case scoring.score_low:		return value <= better_than_entry.data.Score;
-			case scoring.time_high:		return value >= better_than_entry.data.Time;
-			case scoring.time_low:		return value <= better_than_entry.data.Time;
+			case scoring.score_high:	return (value != undefined) && (value >= better_than_entry.data.Score);
+			case scoring.score_low:		return (value != undefined) && (value <= better_than_entry.data.Score);
+			case scoring.time_high:		return (value != undefined) && (value >= better_than_entry.data.Time);
+			case scoring.time_low:		return (value != undefined) && (value <= better_than_entry.data.Time);
 		}
 	}
 
@@ -94,7 +94,7 @@ function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) const
 	/// @param {int} _time	The running time of the game. Expected to be in milliseconds.
 	/// @param {any} _id	Optional value if you have some unique player ids in your game.
 	/// @returns {HighScoreEntry} The entry generated or undefined, if this was not a highscore.
-	static register_highscore = function(_name, _score, _time, _id = undefined) {
+	static register_highscore = function(_name, _score = undefined, _time = undefined, _id = undefined) {
 		var val;
 		switch (data.criteria) {
 			case scoring.score_high:	

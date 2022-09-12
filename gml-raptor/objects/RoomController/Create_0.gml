@@ -95,15 +95,20 @@ WINDOW_SIZE_Y = window_get_height();
 	----------------------
 */
 #region CAMERA CONTROL
-
+screen_shaking = false;
 /// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
-/// @description				lets rumble!
+/// @description				lets rumble! NOTE: Ignored, if already rumbling!
 /// @param {int} frames 			
 /// @param {real} xintensity
 /// @param {real} yintensity
 /// @param {int=0} camera_index
 /// @returns {camera_action_data} struct
 screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
+	if (screen_shaking) {
+		log("screen_shake ignored. Already shaking!");
+		return undefined;
+	}
+	screen_shaking = true;
 	var a = new camera_action_data(camera_index, frames, __camera_action_screen_shake);
 	a.no_delta = {dx:0, dy:0}; // delta watcher if cam target moves while we animate
 	a.xintensity = xinstensity;
@@ -113,7 +118,7 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	a.xrumble = 0;
 	a.yrumble = 0;
 	camera_set_view_target(view_camera[camera_index], noone);
-
+	a.finished_callback = function() {ROOMCONTROLLER.screen_shaking = false;};
 	// Return the action to our caller
 	return a; 
 }

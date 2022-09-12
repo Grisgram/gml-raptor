@@ -12,6 +12,41 @@ function __default_room_audio(_room, _room_music = undefined, _ambience_sound = 
 #macro __DEFAULT_ROOM_AUDIO		global.___DEFAULT_ROOM_AUDIO
 __DEFAULT_ROOM_AUDIO			= [];
 
+function __room_audio_session() constructor {
+	music_id = undefined;
+	music_asset = undefined;
+	ambience_id = undefined;
+	ambience_asset = undefined;
+	
+	/// @function		is_same_music()
+	static is_same_music = function(mus) {
+		return music_id != undefined && mus == music_id;
+	}
+	
+	/// @function		is_same_ambience()
+	static is_same_ambience = function(amb) {
+		return ambience_id != undefined && amb == ambience_id;
+	}
+	
+	/// @function		stop_active_music()
+	static stop_active_music = function() {
+		if (music_id != undefined) {
+			audio_stop_sound(music_id);
+			music_id = undefined;
+			music_asset = undefined;
+		}
+	}
+	
+	/// @function		stop_active_ambience()
+	static stop_active_ambience = function() {
+		if (ambience_id != undefined) {
+			audio_stop_sound(ambience_id);
+			ambience_id = undefined;
+			ambience_asset = undefined;
+		}
+	}
+}
+
 function set_room_default_audio(_room, _music, _ambience) {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++) {
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == _room) {
@@ -39,11 +74,8 @@ function get_default_ambience_for_room() {
 }
 #endregion
 
-#macro __ACTIVE_MUSIC		global.___ACTIVE_MUSIC
-__ACTIVE_MUSIC				= undefined;
-
-#macro __ACTIVE_AMBIENCE	global.___ACTIVE_AMBIENCE
-__ACTIVE_AMBIENCE			= undefined;
+#macro __ACTIVE_AUDIO_SESSION		global.___ACTIVE_AUDIO_SESSION
+__ACTIVE_AUDIO_SESSION				= new __room_audio_session();
 
 /// @function		play_ui_sound(snd, priority = 7, gain = 1.0)
 /// @description	Plays a sound of type ui (attached to ui_volume setting)
@@ -85,41 +117,48 @@ function stop_sound(sound_id) {
 		audio_stop_sound(sound_id);
 }
 
-/// @function		play_music(mus, priority = 9, gain = 1.0, loop = true)
+/// @function		play_music(mus, priority = 9, gain = 1.0, loop = true, force_restart = false)
 /// @description	Plays a sound of type music (attached to music_volume setting)
-function play_music(mus, priority = 9, gain = 1.0, loop = true) {
+function play_music(mus, priority = 9, gain = 1.0, loop = true, force_restart = false) {
+	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_music(mus)) {
+		log("Play music ignored. Same music already playing.");
+		return;
+	}
+		
 	stop_music();
 	if (AUDIOSETTINGS.music_enabled && mus != undefined) {
-		__ACTIVE_MUSIC = audio_play_sound(mus, 9, loop);
-		audio_sound_gain(__ACTIVE_MUSIC, gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
+		__ACTIVE_AUDIO_SESSION.music_id = audio_play_sound(mus, 9, loop);
+		__ACTIVE_AUDIO_SESSION.music_asset = mus;
+		audio_sound_gain(__ACTIVE_AUDIO_SESSION.music_id, gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
 	}
 }
 
 /// @function		stop_music()
 /// @description	Stops the currently playing music
 function stop_music() {
-	if (__ACTIVE_MUSIC != undefined) {
-		audio_stop_sound(__ACTIVE_MUSIC);
-		__ACTIVE_MUSIC = undefined;
-	}
+	__ACTIVE_AUDIO_SESSION.stop_active_music();
+
 }
 
-/// @function		play_ambience(amb, priority = 8, gain = 1.0, loop = true)
+/// @function		play_ambience(amb, priority = 8, gain = 1.0, loop = true, force_restart = false)
 /// @description	Plays a sound of type ambience (attached to ambience_volume setting)
-function play_ambience(amb, priority = 8, gain = 1.0, loop = true) {
+function play_ambience(amb, priority = 8, gain = 1.0, loop = true, force_restart = false) {
+	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_ambience(amb)) {
+		log("Play ambience ignored. Same ambience already playing.");
+		return;
+	}
+		
 	stop_ambience();
 	if (AUDIOSETTINGS.ambience_enabled && amb != undefined) {
-		__ACTIVE_AMBIENCE = audio_play_sound(amb, priority, loop);
-		audio_sound_gain(__ACTIVE_AMBIENCE, gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, 0);
+		__ACTIVE_AUDIO_SESSION.ambience_id = audio_play_sound(amb, priority, loop);
+		__ACTIVE_AUDIO_SESSION.ambience_asset = amb;
+		audio_sound_gain(__ACTIVE_AUDIO_SESSION.ambience_id, gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, 0);
 	}
 }
 
 /// @function		stop_ambience()
 /// @description	Stops the currently playing ambience sounds
 function stop_ambience() {
-	if (__ACTIVE_AMBIENCE != undefined) {
-		audio_stop_sound(__ACTIVE_AMBIENCE);
-		__ACTIVE_AMBIENCE = undefined;
-	}
+	__ACTIVE_AUDIO_SESSION.stop_active_ambience();
 }
 
