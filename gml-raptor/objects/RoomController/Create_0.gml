@@ -118,7 +118,7 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	a.xrumble = 0;
 	a.yrumble = 0;
 	camera_set_view_target(view_camera[camera_index], noone);
-	a.finished_callback = function() {ROOMCONTROLLER.screen_shaking = false;};
+	a.__internal_finished_callback = function() {ROOMCONTROLLER.screen_shaking = false;};
 	// Return the action to our caller
 	return a; 
 }

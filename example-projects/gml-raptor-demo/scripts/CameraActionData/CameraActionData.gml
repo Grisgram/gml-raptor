@@ -27,6 +27,7 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	callback = script_to_call;
 	started_callback = undefined;
 	finished_callback = undefined;
+	__internal_finished_callback = undefined;
 	completed = false;
 	enqueued = false;
 	
@@ -104,7 +105,10 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 			log(MY_NAME + sprintf(": Camera action {0}: index={1};", other.completed ? "finished" : "aborted", other.__internal_index));
 		}
 		// invoke finished_callback (if available)
-		if (finished_callback != undefined)
+		if (__internal_finished_callback != undefined)	
+			__internal_finished_callback(self);
+			
+		if (finished_callback != undefined)	
 			finished_callback(self);
 		
 		// start next from queue (if available)
