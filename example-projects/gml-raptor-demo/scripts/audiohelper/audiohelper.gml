@@ -47,6 +47,9 @@ function __room_audio_session() constructor {
 	}
 }
 
+#macro __ACTIVE_AUDIO_SESSION		global.___ACTIVE_AUDIO_SESSION
+__ACTIVE_AUDIO_SESSION				= new __room_audio_session();
+
 function set_room_default_audio(_room, _music, _ambience) {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++) {
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == _room) {
@@ -73,9 +76,6 @@ function get_default_ambience_for_room() {
 	return undefined;
 }
 #endregion
-
-#macro __ACTIVE_AUDIO_SESSION		global.___ACTIVE_AUDIO_SESSION
-__ACTIVE_AUDIO_SESSION				= new __room_audio_session();
 
 /// @function		play_ui_sound(snd, priority = 7, gain = 1.0)
 /// @description	Plays a sound of type ui (attached to ui_volume setting)

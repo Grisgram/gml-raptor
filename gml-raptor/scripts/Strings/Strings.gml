@@ -189,3 +189,52 @@ function string_match(str, wildcard_str) {
 function string_is_empty(str) {
 	return str == undefined || string_trim(str) == "";
 }
+
+/// @function		string_reverse(str)
+/// @description	Reverse a string back-to-front
+/// @param {string} str			string to reverse
+/// @returns {string}				the reversed string
+function string_reverse(str) {
+    var out = "";
+    for(var i=string_length(str); i>0; i--) {
+        out += string_char_at(str, i);
+    }
+    return out;
+}
+
+/// @function		string_parse_hex(str)
+/// @description	Parses a hex string, ignoring $, # and dashes and stops at the first unknown character
+///					Returns a numeric value containing the (decimal) value of the hex in the string
+/// @param {string} str	string to parse
+/// @returns {int}	the value of the string
+function string_parse_hex(str) {
+	var rv = 0;
+	var upper = string_upper(str);
+ 
+	// special unicode values
+	var ZERO	= ord("0");
+	var NINE	= ord("9");
+	var A		= ord("A");
+	var F		= ord("F");
+	var DASH	= ord("-");
+	var DOLLAR	= ord("$");
+	var HASH	= ord("#");
+ 
+	for (var i = 1; i <= string_length(str); i++) {
+	    var c = ord(string_char_at(upper, i));
+
+		rv = rv << 4;
+		
+	    if (c >= ZERO && c <= NINE) {
+	        rv += (c - ZERO);
+	    } else if (c>=A&&c<=F) {
+	        rv += (c - A + 10);
+		} else if (c == DASH || c == DOLLAR || c == HASH) {
+			continue;
+	    } else {
+			return rv;
+	    }
+	}
+ 
+	return rv;
+}
