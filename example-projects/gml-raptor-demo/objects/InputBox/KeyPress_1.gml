@@ -18,7 +18,7 @@ __cut_selection = function() {
 }
 
 __backspace_char = function() {
-	if (cursor_pos == 0)
+	if (cursor_pos == 0 && selection_length == 0)
 		return;
 		
 	if (selection_length == 0) {

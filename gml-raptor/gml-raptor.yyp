@@ -126,6 +126,7 @@
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},"order":12,},
     {"id":{"name":"snap_to_binary","path":"scripts/snap_to_binary/snap_to_binary.yy",},"order":1,},
     {"id":{"name":"AnimCurves","path":"scripts/AnimCurves/AnimCurves.yy",},"order":1,},
+    {"id":{"name":"HealthBarDrawer","path":"scripts/HealthBarDrawer/HealthBarDrawer.yy",},"order":31,},
     {"id":{"name":"__scribble_class_null_element","path":"scripts/__scribble_class_null_element/__scribble_class_null_element.yy",},"order":4,},
     {"id":{"name":"HighScoreTrophyRenderer","path":"objects/HighScoreTrophyRenderer/HighScoreTrophyRenderer.yy",},"order":4,},
     {"id":{"name":"scribble_anim_wobble","path":"scripts/scribble_anim_wobble/scribble_anim_wobble.yy",},"order":9,},

@@ -15,6 +15,7 @@
     {"id":{"name":"__shd_scribble_bake_outline_4dir","path":"shaders/__shd_scribble_bake_outline_4dir/__shd_scribble_bake_outline_4dir.yy",},"order":1,},
     {"id":{"name":"TooltipManager","path":"scripts/TooltipManager/TooltipManager.yy",},"order":5,},
     {"id":{"name":"__scribble_gc_collect","path":"scripts/__scribble_gc_collect/__scribble_gc_collect.yy",},"order":9,},
+    {"id":{"name":"HealthBarDrawer","path":"scripts/HealthBarDrawer/HealthBarDrawer.yy",},"order":26,},
     {"id":{"name":"Enemy","path":"objects/Enemy/Enemy.yy",},"order":1,},
     {"id":{"name":"acLinearRotate","path":"animcurves/acLinearRotate/acLinearRotate.yy",},"order":3,},
     {"id":{"name":"ObjectPools","path":"scripts/ObjectPools/ObjectPools.yy",},"order":10,},

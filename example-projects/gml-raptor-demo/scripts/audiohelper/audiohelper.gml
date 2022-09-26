@@ -77,9 +77,9 @@ function get_default_ambience_for_room() {
 }
 #endregion
 
-/// @function		play_ui_sound(snd, priority = 7, gain = 1.0)
+/// @function		play_ui_sound(snd, gain = 1.0, priority = 7)
 /// @description	Plays a sound of type ui (attached to ui_volume setting)
-function play_ui_sound(snd, priority = 7, gain = 1.0) {
+function play_ui_sound(snd, gain = 1.0, priority = 7) {
 	if (AUDIOSETTINGS.ui_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, false);
 		audio_sound_gain(sid, gain * AUDIOSETTINGS.ui_volume * AUDIOSETTINGS.master_volume, 0);
@@ -88,9 +88,9 @@ function play_ui_sound(snd, priority = 7, gain = 1.0) {
 	return undefined;
 }
 
-/// @function		play_voice(snd, priority = 10, gain = 1.0, loop = false)
+/// @function		play_voice(snd, gain = 1.0, loop = false, priority = 10)
 /// @description	Plays a sound of type voice (attached to voice_volume setting)
-function play_voice(snd, priority = 10, gain = 1.0, loop = false) {
+function play_voice(snd, gain = 1.0, loop = false, priority = 10) {
 	if (AUDIOSETTINGS.voice_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, loop);
 		audio_sound_gain(sid, gain * AUDIOSETTINGS.voice_volume * AUDIOSETTINGS.master_volume, 0);
@@ -99,9 +99,9 @@ function play_voice(snd, priority = 10, gain = 1.0, loop = false) {
 	return undefined;
 }
 
-/// @function		play_sound(snd, priority = 10, gain = 1.0, loop = false)
+/// @function		play_sound(snd, gain = 1.0, loop = false, priority = 10)
 /// @description	Plays a sound of type sfx (attached to sound_volume setting)
-function play_sound(snd, priority = 10, gain = 1.0, loop = false) {
+function play_sound(snd, gain = 1.0, loop = false, priority = 10) {
 	if (AUDIOSETTINGS.sound_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, loop);
 		audio_sound_gain(sid, gain * AUDIOSETTINGS.sound_volume * AUDIOSETTINGS.master_volume, 0);
@@ -117,9 +117,9 @@ function stop_sound(sound_id) {
 		audio_stop_sound(sound_id);
 }
 
-/// @function		play_music(mus, priority = 9, gain = 1.0, loop = true, force_restart = false)
+/// @function		play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 9)
 /// @description	Plays a sound of type music (attached to music_volume setting)
-function play_music(mus, priority = 9, gain = 1.0, loop = true, force_restart = false) {
+function play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 9) {
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_music(mus)) {
 		log("Play music ignored. Same music already playing.");
 		return;
@@ -127,7 +127,7 @@ function play_music(mus, priority = 9, gain = 1.0, loop = true, force_restart = 
 		
 	stop_music();
 	if (AUDIOSETTINGS.music_enabled && mus != undefined) {
-		__ACTIVE_AUDIO_SESSION.music_id = audio_play_sound(mus, 9, loop);
+		__ACTIVE_AUDIO_SESSION.music_id = audio_play_sound(mus, priority, loop);
 		__ACTIVE_AUDIO_SESSION.music_asset = mus;
 		audio_sound_gain(__ACTIVE_AUDIO_SESSION.music_id, gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
 	}
@@ -140,9 +140,9 @@ function stop_music() {
 
 }
 
-/// @function		play_ambience(amb, priority = 8, gain = 1.0, loop = true, force_restart = false)
+/// @function		play_ambience(amb, gain = 1.0, loop = true, force_restart = false, priority = 8)
 /// @description	Plays a sound of type ambience (attached to ambience_volume setting)
-function play_ambience(amb, priority = 8, gain = 1.0, loop = true, force_restart = false) {
+function play_ambience(amb, gain = 1.0, loop = true, force_restart = false, priority = 8) {
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_ambience(amb)) {
 		log("Play ambience ignored. Same ambience already playing.");
 		return;
