@@ -1,6 +1,6 @@
-#macro CANVAS_CREDITS "@TabularElf - https://tabelf.link/"
-#macro CANVAS_VERSION "1.1.1"
-show_debug_message("Canvas " + CANVAS_VERSION + " initalized! Created by " + CANVAS_CREDITS);
+#macro __CANVAS_CREDITS "@TabularElf - https://tabelf.link/"
+#macro __CANVAS_VERSION "1.1.3"
+show_debug_message("Canvas " + __CANVAS_VERSION + " initalized! Created by " + __CANVAS_CREDITS);
 
 #macro __CANVAS_HEADER_SIZE 5
 
@@ -26,7 +26,7 @@ function Canvas(_width, _height) constructor {
 		static Start = function() {
 			if !(surface_exists(__surface)) {
 				if !(buffer_exists(__buffer)) {
-					__surfaceCreate();
+					__SurfaceCreate();
 					surface_set_target(__surface);
 					draw_clear_alpha(0, 0);
 					surface_reset_target();
@@ -42,14 +42,14 @@ function Canvas(_width, _height) constructor {
 		
 		static Finish = function() {
 			surface_reset_target();
-			if !(buffer_exists(__buffer)) {
-				__init();
-			}
+			__init();
 			
 			if (__writeToCache) {
-				buffer_get_surface(__buffer, __surface, 0);
+				__UpdateCache();
 			}
-			__status = CanvasStatus.HAS_DATA;
+			
+			__status = CanvasStatus.HAS_DATA;	
+			
 			return self;
 		}
 		
@@ -62,6 +62,28 @@ function Canvas(_width, _height) constructor {
 					__buffer = buffer_create(__width * __height * 4, buffer_fixed, 4);	
 				}
 			}
+		}
+		
+		static CopySurface = function(_surfID, _x, _y, _updateCache = __writeToCache) {
+			if (!surface_exists(_surfID)) {
+				show_error("Canvas: Surface " + string(_surfID) + " doesn't exist!", true);	
+			}
+			
+			var _width = surface_get_width(_surfID);
+			var _height = surface_get_height(_surfID);
+			
+			if (__width != _width) || (__height != _height) {
+				Resize(_width, _height);	
+			}
+			
+			__init();
+			CheckSurface();
+			
+			surface_copy(__surface, _x, _y, _surfID);
+			if (_updateCache) {
+				__UpdateCache();
+			}
+			return self;
 		}
 		
 		static Free = function() {
@@ -89,7 +111,7 @@ function Canvas(_width, _height) constructor {
 		static CheckSurface = function() {
 			if (buffer_exists(__buffer)) || (buffer_exists(__cacheBuffer)) {
 				if !(surface_exists(__surface)) {
-					__surfaceCreate();
+					__SurfaceCreate();
 					if (buffer_exists(__cacheBuffer)) {
 						Restore();	
 					}
@@ -98,7 +120,10 @@ function Canvas(_width, _height) constructor {
 			}
 		}
 		
-		static Resize = function(_width, _height) {
+		static Resize = function(_width, _height, _keepData = false) {
+			
+			if (__width == _width) && (__height == _height) return self;
+			
 			if (buffer_exists(__buffer)) {
 				buffer_delete(__buffer);
 			}
@@ -113,6 +138,7 @@ function Canvas(_width, _height) constructor {
 			
 			__width = _width;
 			__height = _height;
+			
 			__status = CanvasStatus.NO_DATA;
 			
 			return self;
@@ -182,21 +208,28 @@ function Canvas(_width, _height) constructor {
 				case CanvasStatus.NO_DATA:
 					__status = CanvasStatus.HAS_DATA;
 				case CanvasStatus.HAS_DATA:
+					buffer_delete(__buffer);
 					__buffer = _buff;
 					__refreshSurface();
 				break;
 				
 				case CanvasStatus.HAS_DATA_CACHED:
+					buffer_delete(__cacheBuffer);
 					__cacheBuffer = _buff;
 				break;
 			}
 			return self;
 		}
 			
-		static __surfaceCreate = function() {
+		static __SurfaceCreate = function() {
 			if !(surface_exists(__surface)) {
 				__surface = surface_create(__width, __height);
 			}
+		}
+		
+		static __UpdateCache = function() {
+			buffer_get_surface(__buffer, __surface, 0);
+			__status = CanvasStatus.HAS_DATA;	
 		}
 		
 		static GetStatus = function() {
@@ -249,6 +282,24 @@ function Canvas(_width, _height) constructor {
 		
 		static WriteToCache = function(_bool) {
 			__writeToCache = _bool;	
+			return self;
+		}
+		
+		static UpdateCache = function() {
+			switch(GetStatus()) {
+				case CanvasStatus.NO_DATA:
+				case CanvasStatus.HAS_DATA_CACHED:
+					__init();
+					CheckSurface();
+				case CanvasStatus.HAS_DATA:
+					__UpdateCache();
+				break;
+				case CanvasStatus.IN_USE:
+					show_error("Canvas: Canvas is currently in use! Please call .Finish() before updating the cache!", true);
+				break;
+				
+				
+			}
 			return self;
 		}
 		
