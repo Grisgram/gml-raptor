@@ -127,11 +127,22 @@ function pool_clear_all() {
 }
 
 function __pool_invoke_activate(inst) {
-	if (variable_instance_exists(inst, "onPoolActivate"))
-		inst.onPoolActivate();
+	with (inst) {
+		__statemachine_pause_all(self, true);
+		if (variable_instance_exists(self, "__raptor_onPoolActivate"))
+			__raptor_onPoolActivate();
+		if (variable_instance_exists(self, "onPoolActivate"))
+			onPoolActivate();
+	}
 }
 
 function __pool_invoke_deactivate(inst) {
-	if (variable_instance_exists(inst, "onPoolDeactivate"))
-		inst.onPoolDeactivate();
+	with (inst) {
+		__statemachine_pause_all(self, false);
+		animation_abort_all(self);
+		if (variable_instance_exists(self, "__raptor_onPoolDeactivate"))
+			__raptor_onPoolDeactivate();
+		if (variable_instance_exists(self, "onPoolDeactivate"))
+			onPoolDeactivate();
+	}
 }

@@ -87,3 +87,34 @@ function ListPool(_name = "listPool") constructor {
 
 }
 
+/// @function		__listpool_get_all_owner_objects(_listpool, owner)
+/// @description	INTERNAL FUNCTION. Retrieves all objects from a listpool for
+///					a specified owner. Crashes if the objects do not have an "owner" member!
+function __listpool_get_all_owner_objects(_listpool, owner) {
+	var rv = [];
+
+	var lst = _listpool.list;
+	if (IS_HTML) {
+		var myowner;
+		with (owner) myowner = MY_NAME;
+		// GMS HTML runtime is not able to recognize reference equality correctly, 
+		// so we need to tweak here (UGLY!!!)
+		for (var i = 0; i < ds_list_size(lst); i++) {
+			var item = lst[| i];
+			var otherowner;
+			with (item.owner)
+				otherowner = MY_NAME;
+			if (myowner == otherowner)
+				array_push(rv, item);
+		}		
+	} else {
+		for (var i = 0; i < ds_list_size(lst); i++) {
+			var item = lst[| i];
+			if (item.owner == owner)
+				array_push(rv, item);
+		}
+	}
+
+	return rv;
+}
+

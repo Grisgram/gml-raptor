@@ -2,8 +2,8 @@
 
 event_inherited();
 
-onPoolActivate = function() {
+__raptor_onPoolActivate = function() {
 	__finished_callback = undefined;
 }
 
-onPoolActivate();
+__raptor_onPoolActivate();

@@ -491,31 +491,7 @@ function animation_clear_pool() {
 /// @description	Get all registered animations for the specified owner from the global ANIMATIONS pool.
 /// @param {instance} owner  The owner whose animations you want to retrieve.
 function animation_get_all(owner = self) {
-	var rv = [];
-
-	var lst = ANIMATIONS.list;
-	if (IS_HTML) {
-		var myowner;
-		with (owner) myowner = MY_NAME;
-		// GMS HTML runtime is not able to recognize reference equality correctly, 
-		// so we need to tweak here (UGLY!!!)
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			var otherowner;
-			with (item.owner)
-				otherowner = MY_NAME;
-			if (myowner == otherowner)
-				array_push(rv, item);
-		}		
-	} else {
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			if (item.owner == owner)
-				array_push(rv, item);
-		}
-	}
-
-	return rv;
+	return __listpool_get_all_owner_objects(ANIMATIONS, owner);
 }
 
 /// @function		animation_abort_all(owner = self)
