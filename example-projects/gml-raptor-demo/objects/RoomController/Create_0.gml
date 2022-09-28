@@ -39,6 +39,9 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+#macro BROADCASTER		global._BROADCASTER
+BROADCASTER = new Sender();
+
 #macro PARTSYS					global.__room_particle_system
 if (particle_layer_names == undefined || is_string(particle_layer_names) && string_is_empty(particle_layer_names)) {
 	PARTSYS = undefined;
@@ -95,7 +98,7 @@ WINDOW_SIZE_Y = window_get_height();
 	----------------------
 */
 #region CAMERA CONTROL
-screen_shaking = false;
+__screen_shaking = false;
 /// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
 /// @description				lets rumble! NOTE: Ignored, if already rumbling!
 /// @param {int} frames 			
@@ -104,11 +107,11 @@ screen_shaking = false;
 /// @param {int=0} camera_index
 /// @returns {camera_action_data} struct
 screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
-	if (screen_shaking) {
+	if (__screen_shaking) {
 		log("screen_shake ignored. Already shaking!");
 		return undefined;
 	}
-	screen_shaking = true;
+	__screen_shaking = true;
 	var a = new camera_action_data(camera_index, frames, __camera_action_screen_shake);
 	a.no_delta = {dx:0, dy:0}; // delta watcher if cam target moves while we animate
 	a.xintensity = xinstensity;
@@ -118,7 +121,7 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	a.xrumble = 0;
 	a.yrumble = 0;
 	camera_set_view_target(view_camera[camera_index], noone);
-	a.__internal_finished_callback = function() {ROOMCONTROLLER.screen_shaking = false;};
+	a.__internal_finished_callback = function() {ROOMCONTROLLER.__screen_shaking = false;};
 	// Return the action to our caller
 	return a; 
 }
