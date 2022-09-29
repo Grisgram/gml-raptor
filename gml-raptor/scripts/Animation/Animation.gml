@@ -398,7 +398,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 			
 			if (animcurve != undefined) {
 				var pit = __play_forward ? __frame_counter : (duration - __frame_counter);
-				animcurve.update_values(pit / duration);
+				animcurve.update(pit, duration);
+				
 				for (var i = 0; i < array_length(animcurve.channel_names); i++) {
 					__cname  = animcurve.channel_names[i];
 					__cvalue = animcurve.channel_values[i];

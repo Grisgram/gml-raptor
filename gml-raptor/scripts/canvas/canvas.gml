@@ -1,5 +1,5 @@
 #macro __CANVAS_CREDITS "@TabularElf - https://tabelf.link/"
-#macro __CANVAS_VERSION "1.1.3"
+#macro __CANVAS_VERSION "1.2.0"
 show_debug_message("Canvas " + __CANVAS_VERSION + " initalized! Created by " + __CANVAS_CREDITS);
 
 #macro __CANVAS_HEADER_SIZE 5
@@ -22,12 +22,18 @@ function Canvas(_width, _height) constructor {
 		__cacheBuffer = -1;
 		__status = CanvasStatus.NO_DATA;
 		__writeToCache = true;
+		__index = 0;
 		
-		static Start = function() {
-			if !(surface_exists(__surface)) {
-				if !(buffer_exists(__buffer)) {
+		static Start = function(_ext = -1) {
+			__index = _ext;
+			if (!surface_exists(__surface)) {
+				if (!buffer_exists(__buffer)) {
 					__SurfaceCreate();
-					surface_set_target(__surface);
+					if (_ext == -1) {
+						surface_set_target(__surface);
+					} else {
+						surface_set_target_ext(_ext, __surface);	
+					}
 					draw_clear_alpha(0, 0);
 					surface_reset_target();
 				} else {
@@ -48,13 +54,13 @@ function Canvas(_width, _height) constructor {
 				__UpdateCache();
 			}
 			
-			__status = CanvasStatus.HAS_DATA;	
+			__status = CanvasStatus.HAS_DATA;
 			
 			return self;
 		}
 		
 		static __init = function() {
-			if !(buffer_exists(__buffer)) {
+			if (!buffer_exists(__buffer)) {
 				if (buffer_exists(__cacheBuffer)) {
 					// Lets decompress it
 					Restore();
@@ -64,16 +70,26 @@ function Canvas(_width, _height) constructor {
 			}
 		}
 		
-		static CopySurface = function(_surfID, _x, _y, _updateCache = __writeToCache) {
+		static CopySurface = function(_surfID, _x, _y, _forceResize = false, _updateCache = __writeToCache) {
 			if (!surface_exists(_surfID)) {
 				show_error("Canvas: Surface " + string(_surfID) + " doesn't exist!", true);	
+			}
+			
+			__init();
+			CheckSurface();
+			
+			var _currentlyWriting = false;
+			
+			if (surface_get_target() == __surface) {
+				_currentlyWriting = true;
+				Finish();
 			}
 			
 			var _width = surface_get_width(_surfID);
 			var _height = surface_get_height(_surfID);
 			
-			if (__width != _width) || (__height != _height) {
-				Resize(_width, _height);	
+			if (_forceResize) && ((__width != (_x + _width)) || (__height != (_y + _height))) {
+				Resize(_x + _width, _y + _height);	
 			}
 			
 			__init();
@@ -83,6 +99,45 @@ function Canvas(_width, _height) constructor {
 			if (_updateCache) {
 				__UpdateCache();
 			}
+			
+			if (_currentlyWriting) {
+				Start(__index);	
+			}
+			
+			return self;
+		}
+		
+		static CopySurfacePart = function(_surfID, _x, _y, _xs, _ys, _ws, _hs, _forceResize = false, _updateCache = __writeToCache) {
+			if (!surface_exists(_surfID)) {
+				show_error("Canvas: Surface " + string(_surfID) + " doesn't exist!", true);	
+			}
+			
+			__init();
+			CheckSurface();
+			
+			var _currentlyWriting = false;
+			
+			if (surface_get_target() == __surface) {
+				_currentlyWriting = true;
+				Finish();
+			}
+			
+			var _width = surface_get_width(_surfID);
+			var _height = surface_get_height(_surfID);
+			
+			if (_forceResize) && ((__width != (_x + _width)) || (__height != (_y + _height))) {
+				Resize(_x + _width, _y + _height);	
+			}
+			
+			surface_copy_part(__surface, _x, _y, _surfID, _xs, _ys, _ws, _hs);
+			if (_updateCache) {
+				__UpdateCache();
+			}
+			
+			if (_currentlyWriting) {
+				Start(__index);	
+			}
+			
 			return self;
 		}
 		
@@ -110,7 +165,7 @@ function Canvas(_width, _height) constructor {
 		
 		static CheckSurface = function() {
 			if (buffer_exists(__buffer)) || (buffer_exists(__cacheBuffer)) {
-				if !(surface_exists(__surface)) {
+				if (!surface_exists(__surface)) {
 					__SurfaceCreate();
 					if (buffer_exists(__cacheBuffer)) {
 						Restore();	
@@ -124,22 +179,35 @@ function Canvas(_width, _height) constructor {
 			
 			if (__width == _width) && (__height == _height) return self;
 			
-			if (buffer_exists(__buffer)) {
-				buffer_delete(__buffer);
-			}
-			
-			if (buffer_exists(__cacheBuffer)) {
-				buffer_delete(__cacheBuffer);
-			}
-			
-			if (surface_exists(__surface)) {
-				surface_free(__surface);	
-			}
+			__init();
+			CheckSurface();
 			
 			__width = _width;
 			__height = _height;
 			
-			__status = CanvasStatus.NO_DATA;
+			var _currentlyWriting = false;
+			
+			if (surface_get_target() == __surface) {
+				_currentlyWriting = true;
+				Finish();
+			}
+			
+			var _tempSurf = surface_create(_width, _height);
+			surface_copy(_tempSurf, 0, 0, __surface);
+			surface_resize(__surface, _width, _height);
+			buffer_resize(__buffer, _width*_height*4);
+			surface_copy(__surface, 0, 0, _tempSurf);
+			surface_free(_tempSurf);
+			
+			if (__writeToCache) {
+				__UpdateCache();	
+			}
+			
+			__status = CanvasStatus.HAS_DATA;
+			
+			if (_currentlyWriting) {
+				Start(__index);	
+			}
 			
 			return self;
 		}
@@ -222,7 +290,7 @@ function Canvas(_width, _height) constructor {
 		}
 			
 		static __SurfaceCreate = function() {
-			if !(surface_exists(__surface)) {
+			if (!surface_exists(__surface)) {
 				__surface = surface_create(__width, __height);
 			}
 		}
@@ -303,10 +371,37 @@ function Canvas(_width, _height) constructor {
 			return self;
 		}
 		
-		static FreeSurface = function() {
+		static Flush = function() {
 			if (surface_exists(__surface)) {
 				surface_free(__surface);	
 			}
 			return self;
+		}
+		
+		static FreeSurface = Flush;
+		
+		static GetTexture = function() {
+			return surface_get_texture(GetSurfaceID());
+		}
+		
+		static GetPixel = function(_x, _y) {
+			__init();
+			if (_x >= __width || _x < 0) || (_y >= __height || _y < 0) return 0;
+			var _col = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_u32);
+			var _r = _col & 0xFF;
+			var _g = (_col >> 8) & 0xFF;
+			var _b = (_col >> 16) & 0xFF;
+			return (_b & 0xFF) << 16 | (_g & 0xFF) << 8 | (_r & 0xFF);
+		}
+		
+		static GetPixelArray = function(_x, _y) {
+			__init();
+			if (_x >= __width || _x < 0) || (_y >= __height || _y < 0) return [0,0,0,0];
+			var _col = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_u32);
+			var _r = _col & 0xFF;
+			var _g = (_col >> 8) & 0xFF;
+			var _b = (_col >> 16)  & 0xFF;
+			var _a = (_col >> 24) / 0xFF;
+			return [_r, _g, _b, _a];
 		}
 }

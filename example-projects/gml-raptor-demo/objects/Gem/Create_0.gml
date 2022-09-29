@@ -30,7 +30,8 @@ override("onQueryHit", function(first_query_table, current_query_table, item_dro
 	image_xscale = 0.75;
 	image_yscale = 0.75;
 	
-	animation_run(self, GLOBALDATA.gem_count div 2, 30, acLinearAlpha);
+	var a = animation_run(self, GLOBALDATA.gem_count div 2, 30, acLinearAlpha);
+	log(a.animcurve.values.image_alpha());
 	
 	GLOBALDATA.gem_count++;
 });
