@@ -39,9 +39,6 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
-#macro BROADCASTER		global._BROADCASTER
-BROADCASTER = new Sender();
-
 #macro PARTSYS					global.__room_particle_system
 if (particle_layer_names == undefined || is_string(particle_layer_names) && string_is_empty(particle_layer_names)) {
 	PARTSYS = undefined;
