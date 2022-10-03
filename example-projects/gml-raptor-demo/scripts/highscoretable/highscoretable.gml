@@ -17,21 +17,23 @@
 */
 
 enum scoring {
-	score_high	= 1,
-	score_low	= 2,
-	time_high	= 3,
-	time_low	= 4,
+	score_high	= 0,
+	score_low	= 1,
+	time_high	= 2,
+	time_low	= 3,
 }
 
-function HighScoreTable(_max_entries = 10, _criteria = scoring.score_high) constructor {
+function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = scoring.score_high) constructor {
 	
 	data = {
+		name : _name,
 		max_entries : _max_entries,
 		criteria : _criteria,
 		entries : array_create(_max_entries, undefined),
 	}
 	
 	static assign_data = function(loaded_data) {
+		data.name = variable_struct_get(loaded_data, "name");
 		data.max_entries = variable_struct_get(loaded_data, "max_entries");
 		data.criteria = loaded_data.criteria;
 		for (var i = 0; i < array_length(loaded_data.entries); i++) {
