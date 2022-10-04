@@ -7,7 +7,7 @@ function unit_test_Highscorer() {
 	var ut = new UnitTest("Highscorer");
 
 	ut.tests.table_add_ok = function(test, data) {
-		var hs = new HighScoreTable(3, scoring.score_high);
+		var hs = new HighScoreTable("Highscores", 3, scoring.score_high);
 		test.assert_equals(0, hs.size());
 		
 		hs.register_highscore("1",10,100,1000);
@@ -27,7 +27,7 @@ function unit_test_Highscorer() {
 	}
 
 	ut.tests.table_score_high_get_rank_ok = function(test, data) {
-		var hs = new HighScoreTable(3, scoring.score_high);
+		var hs = new HighScoreTable("Highscores", 3, scoring.score_high);
 		hs.register_highscore("1",10,100,1000);
 		hs.register_highscore("2",20,200,2000);
 		hs.register_highscore("3",30,300,3000);
@@ -38,7 +38,7 @@ function unit_test_Highscorer() {
 	}
 
 	ut.tests.table_score_low_get_rank_ok = function(test, data) {
-		var hs = new HighScoreTable(3, scoring.score_low);
+		var hs = new HighScoreTable("Highscores", 3, scoring.score_low);
 		hs.register_highscore("1",10,100,1000);
 		hs.register_highscore("2",20,200,2000);
 		hs.register_highscore("3",30,300,3000);
@@ -49,7 +49,7 @@ function unit_test_Highscorer() {
 	}
 
 	ut.tests.table_time_low_get_rank_ok = function(test, data) {
-		var hs = new HighScoreTable(3, scoring.time_low);
+		var hs = new HighScoreTable("Highscores", 3, scoring.time_low);
 		hs.register_highscore("1",10,100,1000);
 		hs.register_highscore("2",20,200,2000);
 		hs.register_highscore("3",30,300,3000);
@@ -60,7 +60,7 @@ function unit_test_Highscorer() {
 	}
 
 	ut.tests.table_time_high_get_rank_ok = function(test, data) {
-		var hs = new HighScoreTable(3, scoring.time_high);
+		var hs = new HighScoreTable("Highscores", 3, scoring.time_high);
 		hs.register_highscore("1",10,100,1000);
 		hs.register_highscore("2",20,200,2000);
 		hs.register_highscore("3",30,300,3000);
@@ -71,7 +71,7 @@ function unit_test_Highscorer() {
 	}
 
 	ut.tests.table_lists_ok = function(test, data) {
-		var hs = new HighScoreTable(3, scoring.score_low);
+		var hs = new HighScoreTable("Highscores", 3, scoring.score_low);
 		hs.register_highscore("1",10,100,1000);
 		hs.register_highscore("2",20,200,2000);
 		hs.register_highscore("3",30,300,3000);

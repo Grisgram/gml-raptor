@@ -36,7 +36,7 @@
 
 #macro HIGHSCORES				global._HIGHSCORES
 // If your game does not record highscores, set this to undefined, but DO NOT DELETE the macro!
-HIGHSCORES						= new HighScoreTable(10, scoring.score_high);
+HIGHSCORES						= new HighScoreTable("Highscores", 10, scoring.score_high);
 // Fill the highscore table with empty data. If you don't want that, just delete the line
 repeat (10) HIGHSCORES.register_highscore("- no entry -",0);
 
