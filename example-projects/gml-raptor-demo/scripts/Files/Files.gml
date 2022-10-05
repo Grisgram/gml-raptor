@@ -157,7 +157,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 		TRY
 			log("Loading plain text struct from " + filename);
 			var contents = file_read_text_file(filename);
-			log(sprintf("Read {0} characters from file", string_length(contents)));
+			log(sprintf("Read {0} characters from file", (string_is_empty(contents) ? "0" : string_length(contents))));
 			var rv = undefined;
 			if (!string_is_empty(contents)) {
 				rv = snap_from_json(contents);
