@@ -243,7 +243,9 @@
     {"id":{"name":"scribble_anim_pulse","path":"scripts/scribble_anim_pulse/scribble_anim_pulse.yy",},"order":3,},
     {"id":{"name":"snap_from_xml","path":"scripts/snap_from_xml/snap_from_xml.yy",},"order":0,},
     {"id":{"name":"scribble_anim_reset","path":"scripts/scribble_anim_reset/scribble_anim_reset.yy",},"order":5,},
+    {"id":{"name":"Pythagoras","path":"scripts/Pythagoras/Pythagoras.yy",},"order":28,},
     {"id":{"name":"LittleHelpers","path":"scripts/LittleHelpers/LittleHelpers.yy",},"order":7,},
+    {"id":{"name":"PythagorasTests","path":"scripts/PythagorasTests/PythagorasTests.yy",},"order":4,},
     {"id":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},"order":0,},
   ],
   "Options": [
