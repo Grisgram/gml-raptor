@@ -164,6 +164,7 @@
     {"id":{"name":"Race_Configuration","path":"scripts/Race_Configuration/Race_Configuration.yy",},"order":11,},
     {"id":{"name":"sprDefaultFrameTrans","path":"sprites/sprDefaultFrameTrans/sprDefaultFrameTrans.yy",},"order":3,},
     {"id":{"name":"snap_shallow_add","path":"scripts/snap_shallow_add/snap_shallow_add.yy",},"order":13,},
+    {"id":{"name":"Guid","path":"scripts/Guid/Guid.yy",},"order":29,},
     {"id":{"name":"Coord4","path":"scripts/Coord4/Coord4.yy",},"order":22,},
     {"id":{"name":"scribble_font_scale","path":"scripts/scribble_font_scale/scribble_font_scale.yy",},"order":12,},
     {"id":{"name":"scribble_typists_add_event","path":"scripts/scribble_typists_add_event/scribble_typists_add_event.yy",},"order":7,},

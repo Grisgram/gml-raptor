@@ -238,3 +238,21 @@ function string_parse_hex(str) {
  
 	return rv;
 }
+
+/// @function		string_get_hex(str)
+/// @description	Converts a decimal value to a hex string of a specified length.
+///					ATTENTION! If you convert numbers that are too large for the specified
+///					length, you might lose information! (Like trying to convert 123456789 into a 2-digit hex string)
+/// @param {int} decimal	value to convert
+/// @param {int} len	length of the result string
+/// @param {bool} to_uppercase	use ABCDEF (default) or abcdef for hex digits
+/// @returns {string}	the value of the string
+function string_get_hex(decimal, len = 2, to_uppercase = true) {
+	var rv = "";
+	var dig = (to_uppercase ? "0123456789ABCDEF" : "0123456789abcdef");
+    while (len-- || decimal) {
+        rv = string_char_at(dig, (decimal & $F) + 1) + rv;
+        decimal = decimal >> 4;
+    }
+	return rv;
+}

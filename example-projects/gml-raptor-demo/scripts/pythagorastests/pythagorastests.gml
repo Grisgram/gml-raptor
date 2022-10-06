@@ -22,7 +22,7 @@ function unit_test_Pythagoras() {
 	ut.tests.xy_ok_3		= function(test, data) {
 		var x1 = 40, y1 = 10, x2 = 10, y2 = 25;
 		var p = pyth_xy(x1, y1, x2, y2);
-		test.assert_equals(90 - p.beta, p.alpha);
+		test.assert_equals(-(90 - p.beta), p.alpha);
 	};
 
 	ut.run();

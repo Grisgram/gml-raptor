@@ -1,6 +1,7 @@
 {
   "resources": [
     {"id":{"name":"sprDefaultFlag","path":"sprites/sprDefaultFlag/sprDefaultFlag.yy",},"order":2,},
+    {"id":{"name":"Guid","path":"scripts/Guid/Guid.yy",},"order":29,},
     {"id":{"name":"__savegame_restore_pointers","path":"scripts/__savegame_restore_pointers/__savegame_restore_pointers.yy",},"order":1,},
     {"id":{"name":"HighScoreEntry","path":"scripts/HighScoreEntry/HighScoreEntry.yy",},"order":1,},
     {"id":{"name":"CI_Colors","path":"scripts/CI_Colors/CI_Colors.yy",},"order":27,},
