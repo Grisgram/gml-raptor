@@ -31,6 +31,18 @@
 			"ctrl" 		: "Strg",
 			"alt" 		: "Alt",
 		},
+		
+		"states": {
+		  "disconnected": "Getrennt",
+		  "inactive"	: "Inaktiv",
+		  "connected"	: "Verbunden",
+		  "active"		: "Aktiv",
+		  "unlocked"	: "Entsperrt",
+		  "locked"		: "Versperrt",
+		  "closed"		: "Geschlossen",
+		  "open"		: "Offen"
+		}
+		
 	},
 
 }
