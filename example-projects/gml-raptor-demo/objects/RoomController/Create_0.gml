@@ -67,10 +67,18 @@ display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 #macro GUI_MOUSE_Y				global.__gui_mouse_y
 #macro GUI_MOUSE_DELTA_X		global.__gui_mouse_xmove
 #macro GUI_MOUSE_DELTA_Y		global.__gui_mouse_ymove
-
 #macro GUI_MOUSE_HAS_MOVED		global.__gui_mouse_has_moved
-#macro MOUSE_HAS_MOVED			global.__gui_mouse_has_moved
 
+#macro MOUSE_X_PREVIOUS			global.__world_mouse_xprevious
+#macro MOUSE_Y_PREVIOUS			global.__world_mouse_yprevious
+#macro MOUSE_X					global.__world_mouse_x
+#macro MOUSE_Y					global.__world_mouse_y
+#macro MOUSE_DELTA_X			global.__world_mouse_xmove
+#macro MOUSE_DELTA_Y			global.__world_mouse_ymove
+#macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
+
+MOUSE_X		= mouse_x;
+MOUSE_Y		= mouse_y;
 GUI_MOUSE_X = device_mouse_x_to_gui(0);
 GUI_MOUSE_Y = device_mouse_y_to_gui(0);
 

@@ -34,11 +34,13 @@
 #macro release:GAME_SETTINGS_FILENAME	"game_settings.gsx"
 #macro release:FILE_CRYPT_KEY			"replace-this-string-for-your-own-safety"
 
+#macro HIGHSCORE_TABLE_NAME		"Highscores"
+#macro HIGHSCORE_TABLE_LENGTH	10
 #macro HIGHSCORES				global._HIGHSCORES
 // If your game does not record highscores, set this to undefined, but DO NOT DELETE the macro!
-HIGHSCORES						= new HighScoreTable("Highscores", 10, scoring.score_high);
+HIGHSCORES						= new HighScoreTable(HIGHSCORE_TABLE_NAME, HIGHSCORE_TABLE_LENGTH, scoring.score_high);
 // Fill the highscore table with empty data. If you don't want that, just delete the line
-repeat (10) HIGHSCORES.register_highscore("- no entry -",0);
+repeat (HIGHSCORE_TABLE_LENGTH) HIGHSCORES.register_highscore("- no entry -",0);
 
 /// @function function onGameStart()
 /// @description	When this runs, load_settings() has already been called and 

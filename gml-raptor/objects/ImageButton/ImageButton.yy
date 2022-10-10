@@ -24,10 +24,17 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [],
-  "properties": [],
+  "eventList": [
+    {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+  ],
+  "properties": [
+    {"varType":5,"value":"noone","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[
+        "GMSprite",
+      ],"resourceVersion":"1.0","name":"sprite_to_use","tags":[],"resourceType":"GMObjectProperty",},
+  ],
   "overriddenProperties": [
     {"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"32","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"value":"","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
   ],
   "parent": {
     "name": "controls",

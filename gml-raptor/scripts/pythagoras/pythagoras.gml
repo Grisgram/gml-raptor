@@ -32,7 +32,8 @@ function Pythagoras() constructor {
 		var q = (x2 > x1 ? 
 			(y2 < y1 ? 0 : 3) :
 			(y2 < y1 ? 1 : 2));
-		if (q == 1) angle = 180 - beta;
+		if (q == 0) angle = -beta;
+		else if (q == 1) angle = 180 + beta;
 		else if (q == 2) angle = 180 + beta;
 		else if (q == 3) angle = 360 - beta;
 		return self;

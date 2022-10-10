@@ -42,6 +42,7 @@
     {"id":{"name":"_view_and_self_macros","path":"scripts/_view_and_self_macros/_view_and_self_macros.yy",},"order":8,},
     {"id":{"name":"UnitTest","path":"scripts/UnitTest/UnitTest.yy",},"order":15,},
     {"id":{"name":"snap_from_grid","path":"scripts/snap_from_grid/snap_from_grid.yy",},"order":1,},
+    {"id":{"name":"Sprites_and_Objects","path":"scripts/Sprites_and_Objects/Sprites_and_Objects.yy",},"order":30,},
     {"id":{"name":"__scribble_system","path":"scripts/__scribble_system/__scribble_system.yy",},"order":10,},
     {"id":{"name":"_OUTLINE_SHADER_DRAWER_VERSION_","path":"scripts/_OUTLINE_SHADER_DRAWER_VERSION_/_OUTLINE_SHADER_DRAWER_VERSION_.yy",},"order":0,},
     {"id":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"order":2,},

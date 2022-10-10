@@ -200,6 +200,7 @@
     {"id":{"name":"Race_Configuration","path":"scripts/Race_Configuration/Race_Configuration.yy",},"order":11,},
     {"id":{"name":"snap_from_xml","path":"scripts/snap_from_xml/snap_from_xml.yy",},"order":0,},
     {"id":{"name":"__shd_scribble_bake_shadow","path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},"order":4,},
+    {"id":{"name":"Sprites_and_Objects","path":"scripts/Sprites_and_Objects/Sprites_and_Objects.yy",},"order":30,},
     {"id":{"name":"_view_and_self_macros","path":"scripts/_view_and_self_macros/_view_and_self_macros.yy",},"order":26,},
     {"id":{"name":"string_height_scribble_ext","path":"scripts/string_height_scribble_ext/string_height_scribble_ext.yy",},"order":3,},
     {"id":{"name":"__shd_scribble_bake_outline_8dir","path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},"order":2,},
