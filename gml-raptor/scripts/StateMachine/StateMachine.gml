@@ -174,7 +174,7 @@ function StateMachine(_owner) constructor {
 			return self;
 		
 		if (locking_animation != undefined) {
-			if (lock_state_buffered && lock_end_state == undefined) {
+			if (lock_state_buffered) {
 				lock_end_state = name;
 				lock_end_enter = enter_override;
 				lock_end_leave = leave_override;
