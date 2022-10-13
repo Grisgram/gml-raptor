@@ -381,6 +381,13 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return __active ? (duration - __frame_counter + 1) : (delay - __delay_counter + duration);
 	}
 
+	static __process_final_state = function() {
+		if (string_is_empty(finished_state)) 
+			return;
+		var st = finished_state;
+		with (owner) states.set_state(st);
+	}
+
 	/// @function					step()
 	/// @description				call this every step!
 	static step = function() {
@@ -416,6 +423,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 					if (__finished) { 
 						ANIMATIONS.remove(self);
 						__invoke_triggers(__finished_triggers);
+						__process_final_state();
 					}
 				}
 				__frame_counter		= 0;
@@ -435,8 +443,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		var was_finished = __finished;
 		__finished = true;
 		ANIMATIONS.remove(self);
-		if (!was_finished)
+		if (!was_finished) {
 			__invoke_triggers(__finished_triggers);
+			__process_final_state();
+		}
 	}
 		
 	/// @function		reset()
@@ -470,15 +480,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	reset();
 	reset_triggers();
 
-	if (_finished_state != undefined && variable_instance_exists(owner, "states")) {
-		var anim = self;
-		data.__finished_state = finished_state;
-		with (owner) {
-			anim.add_finished_trigger(function(sdata) {
-				states.set_state(sdata.__finished_state);
-				variable_struct_remove(sdata, "__finished_state");
-			});
-		}
+	if (!variable_instance_exists(owner, "states")) {
+		finished_state = undefined; // remove the finished state if it is not a owner with states
 	}
 }
 

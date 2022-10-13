@@ -93,7 +93,6 @@ function StateMachine(_owner) constructor {
 	}
 	
 	static __release_anim_lock = function() {
-		log("Entering __release_anim_lock callback");
 		locking_animation = undefined;
 		lock_state_buffered = false;
 		if (lock_end_state != undefined)
