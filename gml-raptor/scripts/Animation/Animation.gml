@@ -58,6 +58,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	repeats				= _repeats;
 	data				= {};
 	name				= undefined;
+	
+	parent_animation	= undefined; // used for looping through followed_by and loop_to methods
+	child_animation		= undefined;
+	chain_loop_count	= -1;
+	chain_loop_run		= 0;
+	chain_loop_target	= undefined;
 
 	func_x				= function(value) { if (__relative_distance) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
 	func_y				= function(value) { if (__relative_distance) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
@@ -382,10 +388,24 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	}
 
 	static __process_final_state = function() {
-		if (string_is_empty(finished_state)) 
-			return;
-		var st = finished_state;
-		with (owner) states.set_state(st);
+		if (!string_is_empty(finished_state)) {
+			var st = finished_state;
+			with (owner) states.set_state(st);
+		}
+		
+		// First check, if we need to loop...
+		if (chain_loop_target != undefined) {
+			if (chain_loop_count != -1) chain_loop_run++;
+			if (chain_loop_count == -1 || chain_loop_run < chain_loop_count) {
+				with (chain_loop_target) reset();
+				return; // exit here, no child animations while looping
+			} else if (child_animation != undefined) 
+				chain_loop_run = 0; // if we are not the last in the chain, we might be called again
+		}
+		// ...then, if there's a child to activate now
+		if (child_animation != undefined) {
+			with (child_animation) reset(); // launch the child
+		}
 	}
 
 	/// @function					step()
@@ -434,6 +454,56 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 			__delay_counter++;
 			__active = __delay_counter >= delay;
 			__first_step = __active;
+		}
+	}
+	
+	/// @function		followed_by(_delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
+	/// @description	Defines a follow-up animation when this animation finishes
+	/// @param {int}		_delay      How many frames to wait until animation starts
+	/// @param {int}		_duration   Running time of (one loop) of the animation
+	/// @param {AnimCurve}	_animcurve  The AnimCurve providing the animated values
+	/// @param {int}		_repeats    Number of loops to perform. Default = 1, set to -1 for infinite repeats.
+	/// @param {string}		_finished_state	If the owner is stateful (or owns a StateMachine named "states"),
+	///										you can supply the name of a state here to set when this animation
+	///										finishes (A finished_trigger will be added for you).
+	static followed_by = function(_delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) {
+		var anm = new Animation(owner, _delay, _duration, _animcurve, _repeats, _finished_state);
+		ANIMATIONS.remove(anm); // do not autostart this one
+		anm.parent_animation = self;
+		child_animation = anm;
+		return anm;
+	}
+	
+	/// @function		loop_to_first(_repeats = -1)
+	/// @description	Jumps to the first animation of the sequence when this animation ends.
+	/// @param {int}		_repeats    Number of loops to perform. Default = -1, which means forever
+	static loop_to_first = function(_repeats = -1) {
+		var anm = self;
+		while (anm.parent_animation != undefined)
+			anm = anm.parent_animation;
+		chain_loop_target = anm;
+		chain_loop_count = _repeats;
+		return self;
+	}
+	
+	/// @function		loop_to(_name, _repeats = -1)
+	/// @description	Jumps to the named animation of the sequence when this animation ends.
+	///					NOTE: You can set a name for an animation through the .set_name method!
+	/// @param {int}		_repeats    Number of loops to perform. Default = -1, which means forever
+	static loop_to = function(_name, _repeats = -1) {
+		var anm = self;
+		if (anm.name == _name) {
+			chain_loop_target = anm;
+			chain_loop_count = _repeats;
+			return self;
+		}
+		while (anm.parent_animation != undefined) {
+			if (anm.name == _name) {
+				chain_loop_target = anm;
+				chain_loop_count = _repeats;
+				return self;
+			}
+			anm = anm.parent_animation;
 		}
 	}
 	

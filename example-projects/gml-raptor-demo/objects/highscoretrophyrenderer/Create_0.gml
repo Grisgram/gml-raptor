@@ -26,12 +26,12 @@ set_table = function(_highscoretable) {
 	var maxw_normal_line = 0;
 	
 	var tmp = __table.data.entries[@ 0];
-	var render_score = (tmp != undefined && tmp.data.Score != undefined);
-	var render_time  = (tmp != undefined && tmp.data.Time != undefined);
+	var _render_score = (render_score && tmp != undefined && tmp.data.Score != undefined);
+	var _render_time  = (render_time  && tmp != undefined && tmp.data.Time  != undefined);
 
 	var trophyrows = 1;
-	if (render_score) trophyrows++;
-	if (render_time) trophyrows++;
+	if (_render_score) trophyrows++;
+	if (_render_time) trophyrows++;
 	if (render_create_date) trophyrows++;
 
 	var surfw = 0, surfh = 2 * space_between_columns;
@@ -67,15 +67,15 @@ set_table = function(_highscoretable) {
 		
 		if (render_rank) maxw_rank = max(maxw_rank, string_width(sranks) + space_between_columns);
 		maxw_name = max(maxw_name, string_width(snames) + space_between_columns);
-		if (render_score) maxw_score = max(maxw_score, string_width(sscores) + space_between_columns);
-		if (render_time) maxw_time= max(maxw_time, string_width(stimes) + space_between_columns);
+		if (_render_score) maxw_score = max(maxw_score, string_width(sscores) + space_between_columns);
+		if (_render_time) maxw_time= max(maxw_time, string_width(stimes) + space_between_columns);
 		if (render_create_date) maxw_create = max(maxw_create, string_width(screateds) + space_between_columns);
 
 		if (i == 0) maxw_trophy1 = max(trophyw, maxw_rank + maxw_name, maxw_score, maxw_time, maxw_create); else
 		if (i == 1 || i == 2) maxw_trophy23 = max(maxw_trophy23, trophyw, maxw_rank + maxw_name, maxw_score, maxw_time, maxw_create); else
 		maxw_normal_line = max(maxw_normal_line, maxw_rank + maxw_name + maxw_score + maxw_time + maxw_create + 2 * space_between_columns);
 		
-		maxh_trophy = max(maxh_trophy, trophyh + trophyrows * max(string_height(sranks), string_height(snames)));
+		maxh_trophy = max(maxh_trophy, trophyh - space_between_rows + trophyrows * (space_between_rows + max(string_height(sranks), string_height(snames))));
 
 		surfw = max(surfw, maxw_trophy1, 2 * maxw_trophy23, maxw_rank + maxw_name + maxw_score + maxw_time + maxw_create + 2 * space_between_columns);
 		if ((i == 0 && rank_1_trophy_sprite != noone) ||
@@ -138,11 +138,11 @@ set_table = function(_highscoretable) {
 				draw_text(locx - string_width(line) / 2, locy, line);
 				locy += string_height(line) + space_between_rows;
 				
-				if (render_score) {
+				if (_render_score) {
 					draw_text(locx - string_width(sscores) / 2, locy, sscores);
 					locy += string_height(sscores) + space_between_rows;
 				}
-				if (render_time) {
+				if (_render_time) {
 					draw_text(locx - string_width(stimes) / 2, locy, stimes);
 					locy += string_height(stimes) + space_between_rows;
 				}
@@ -168,11 +168,11 @@ set_table = function(_highscoretable) {
 				draw_text(locx - string_width(line) / 2, locy, line);
 				locy += string_height(line) + space_between_rows;
 				
-				if (render_score) {
+				if (_render_score) {
 					draw_text(locx - string_width(sscores) / 2, locy, sscores);
 					locy += string_height(sscores) + space_between_rows;
 				}
-				if (render_time) {
+				if (_render_time) {
 					draw_text(locx - string_width(stimes) / 2, locy, stimes);
 					locy += string_height(stimes) + space_between_rows;
 				}
@@ -197,11 +197,11 @@ set_table = function(_highscoretable) {
 				draw_text(locx - string_width(line) / 2, locy, line);
 				locy += string_height(line) + space_between_rows;
 				
-				if (render_score) {
+				if (_render_score) {
 					draw_text(locx - string_width(sscores) / 2, locy, sscores);
 					locy += string_height(sscores) + space_between_rows;
 				}
-				if (render_time) {
+				if (_render_time) {
 					draw_text(locx - string_width(stimes) / 2, locy, stimes);
 					locy += string_height(stimes) + space_between_rows;
 				}
@@ -231,13 +231,13 @@ set_table = function(_highscoretable) {
 			curx += maxw_name;
 			lineh = max(lineh, string_height(sranks));
 
-			if (render_score) {
+			if (_render_score) {
 				draw_text(curx + maxw_score - space_between_columns - string_width(sscores), cury, sscores);
 				curx += maxw_score;
 				lineh = max(lineh, string_height(sscores));
 			}
 
-			if (render_time) {
+			if (_render_time) {
 				draw_text(curx + maxw_time - string_width(stimes), cury, stimes);
 				curx += maxw_time;
 				lineh = max(lineh, string_height(stimes));

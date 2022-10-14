@@ -355,6 +355,6 @@
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"version.json","CopyToMask":-1,"filePath":"datafiles",},
   ],
   "MetaData": {
-    "IDEVersion": "2022.9.0.49",
+    "IDEVersion": "2022.9.1.51",
   },
 }
