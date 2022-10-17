@@ -165,7 +165,7 @@ camera_zoom_by = function(frames, width_delta, enqueue_if_running = true, camera
 	return a; 
 }
 
-/// @function					camera_move_to(frames, width_delta, new_height, camera_align = cam_align.top_left, camera_index = 0)
+/// @function					camera_move_to(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0)
 /// @description				move the camera animated to a specified position with an optional
 ///								alignment.
 ///								The cam_align enum can be used to specify a different alignment than
@@ -191,7 +191,7 @@ camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true,
 	return a; 
 }
 
-/// @function					camera_move_by(frames, width_delta, new_height, camera_index = 0)
+/// @function					camera_move_by(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0)
 /// @description				move the camera animated by a specified distance
 /// @param {int} frames 			
 /// @param {real} distance_x
@@ -208,6 +208,18 @@ camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = t
 	a.distance_y = distance_y;
 	// Return the action to our caller
 	return a; 
+}
+
+/// @function					camera_look_at(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0)
+/// @description				move the camera animated so that target_x and target_y are in the center of the screen when finished.
+/// @param {int} frames 			
+/// @param {real} target_x
+/// @param {real} target_y
+/// @param {bool=true} enqueue_if_running
+/// @param {int=0} camera_index
+/// @returns {camera_action_data} struct
+camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0) {
+	return camera_move_to(frames, target_x, target_y, enqueue_if_running, cam_align.middle_center, camera_index);
 }
 
 #endregion

@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "MainRoomController",
   "spriteId": null,
   "solid": false,
   "visible": true,
@@ -28,8 +31,4 @@
     "name": "main",
     "path": "folders/Rooms/main.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "MainRoomController",
-  "tags": [],
-  "resourceType": "GMObject",
 }
