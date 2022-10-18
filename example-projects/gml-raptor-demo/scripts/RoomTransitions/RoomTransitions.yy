@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "Canvas",
+  "name": "RoomTransitions",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+    "name": "_generic_objects_",
+    "path": "folders/_gml_raptor_/_generic_objects_.yy",
   },
 }

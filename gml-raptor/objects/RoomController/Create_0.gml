@@ -12,9 +12,9 @@
 	-----------
 	The GuiController is a passice object, that only does one single thing:
 	Every step (exactly: in the BEGIN STEP event to make sure, coordinates are
-	already updated when the controls enter their step event), 
+	already updated when the controls enter their step events), 
 	the mouse position is converted to GUI coordinates and stored
-	in the global.gui_mouse_x and global.gui_mouse_y variables.
+	in the global.__gui_mouse_x and global.__gui_mouse_y variables.
 	These can also be accessed through the macros
 	GUI_MOUSE_X and GUI_MOUSE_Y.
 	
@@ -32,6 +32,9 @@
 	--------------
 	tbd
 	
+	ROOM TRANSITION CONTROL
+	-----------------------
+	
 */
 
 event_inherited();
@@ -40,7 +43,7 @@ event_inherited();
 ROOMCONTROLLER = self;
 
 #macro PARTSYS					global.__room_particle_system
-if (particle_layer_names == undefined || is_string(particle_layer_names) && string_is_empty(particle_layer_names)) {
+if (particle_layer_names == undefined || (is_string(particle_layer_names) && string_is_empty(particle_layer_names))) {
 	PARTSYS = undefined;
 } else {
 	if (is_string(particle_layer_names)) {
@@ -220,6 +223,42 @@ camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = t
 /// @returns {camera_action_data} struct
 camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0) {
 	return camera_move_to(frames, target_x, target_y, enqueue_if_running, cam_align.middle_center, camera_index);
+}
+
+#endregion
+
+/*
+	----------------------
+	  TRANSITION CONTROL
+	----------------------
+*/
+#region TRANSITION CONTROL
+#macro __ACTIVE_TRANSITION		global.___ACTIVE_TRANSITION
+if (!variable_global_exists("___ACTIVE_TRANSITION"))
+	__ACTIVE_TRANSITION	= undefined;
+
+#macro __ACTIVE_TRANSITION_STEP		global.___ACTIVE_TRANSITION_STEP
+if (!variable_global_exists("___ACTIVE_TRANSITION_STEP"))
+	__ACTIVE_TRANSITION_STEP = -1; // Step 0 = out, Step 1 = in and -1 means inactive
+
+#macro TRANSITION_RUNNING		global._TRANSITION_RUNNING
+if (!variable_global_exists("_TRANSITION_RUNNING"))
+	TRANSITION_RUNNING = false;
+
+/// @function		transit(_transition)
+/// @description	Perform an animated transition to another room
+///					See RoomTransitions script for more info
+transit = function(_transition, skip_if_another_running = false) {
+	if (skip_if_another_running && TRANSITION_RUNNING) {
+		log("*WARNING* Transition ignored, another one is running");
+		return;
+	}
+	
+	log(sprintf("Starting transit to '{0}'", room_get_name(_transition.target_room)));
+	
+	__ACTIVE_TRANSITION		 = _transition;
+	__ACTIVE_TRANSITION_STEP = 0;
+	TRANSITION_RUNNING = true;
 }
 
 #endregion

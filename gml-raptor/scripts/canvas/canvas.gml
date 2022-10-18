@@ -1,5 +1,6 @@
 #macro __CANVAS_CREDITS "@TabularElf - https://tabelf.link/"
-#macro __CANVAS_VERSION "1.2.0"
+#macro __CANVAS_VERSION "1.2.1"
+#macro __CANVAS_ON_WEB (os_browser != browser_not_a_browser)
 show_debug_message("Canvas " + __CANVAS_VERSION + " initalized! Created by " + __CANVAS_CREDITS);
 
 #macro __CANVAS_HEADER_SIZE 5
@@ -29,11 +30,7 @@ function Canvas(_width, _height) constructor {
 			if (!surface_exists(__surface)) {
 				if (!buffer_exists(__buffer)) {
 					__SurfaceCreate();
-					if (_ext == -1) {
-						surface_set_target(__surface);
-					} else {
-						surface_set_target_ext(_ext, __surface);	
-					}
+					surface_set_target(__surface);
 					draw_clear_alpha(0, 0);
 					surface_reset_target();
 				} else {
@@ -41,7 +38,12 @@ function Canvas(_width, _height) constructor {
 				}
 			}
 			
-			surface_set_target(__surface);
+			if (_ext == -1) {
+				surface_set_target(__surface);
+			} else {
+				surface_set_target_ext(_ext, __surface);	
+			}
+			
 			__status = CanvasStatus.IN_USE;
 			return self;
 		}
@@ -89,7 +91,7 @@ function Canvas(_width, _height) constructor {
 			var _height = surface_get_height(_surfID);
 			
 			if (_forceResize) && ((__width != (_x + _width)) || (__height != (_y + _height))) {
-				Resize(_x + _width, _y + _height);	
+				Resize(_x + _width, _y + _height, true);	
 			}
 			
 			__init();
@@ -126,7 +128,7 @@ function Canvas(_width, _height) constructor {
 			var _height = surface_get_height(_surfID);
 			
 			if (_forceResize) && ((__width != (_x + _width)) || (__height != (_y + _height))) {
-				Resize(_x + _width, _y + _height);	
+				Resize(_x + _width, _y + _height, true);	
 			}
 			
 			surface_copy_part(__surface, _x, _y, _surfID, _xs, _ys, _ws, _hs);
@@ -179,34 +181,49 @@ function Canvas(_width, _height) constructor {
 			
 			if (__width == _width) && (__height == _height) return self;
 			
+			if (!_keepData) || (__CANVAS_ON_WEB) {
+				if (buffer_exists(__buffer)) {
+					buffer_delete(__buffer);
+				}	
+				
+				if (buffer_exists(__cacheBuffer)) {
+					buffer_delete(__cacheBuffer);
+				}
+				
+				if (surface_exists(__surface)) {
+					surface_free(__surface);	
+				}
+			}
+			
 			__init();
 			CheckSurface();
 			
-			__width = _width;
-			__height = _height;
-			
-			var _currentlyWriting = false;
-			
-			if (surface_get_target() == __surface) {
-				_currentlyWriting = true;
-				Finish();
-			}
-			
-			var _tempSurf = surface_create(_width, _height);
-			surface_copy(_tempSurf, 0, 0, __surface);
-			surface_resize(__surface, _width, _height);
-			buffer_resize(__buffer, _width*_height*4);
-			surface_copy(__surface, 0, 0, _tempSurf);
-			surface_free(_tempSurf);
-			
-			if (__writeToCache) {
+			if (_keepData) && (!__CANVAS_ON_WEB) {
+				__width = _width;
+				__height = _height;
+				
+				var _currentlyWriting = false;
+				
+				if (surface_get_target() == __surface) {
+					_currentlyWriting = true;
+					Finish();
+				}
+				
+				var _tempSurf = surface_create(_width, _height);
+				surface_copy(_tempSurf, 0, 0, __surface);
+				surface_resize(__surface, _width, _height);
+				buffer_resize(__buffer, _width*_height*4);
+				surface_copy(__surface, 0, 0, _tempSurf);
+				surface_free(_tempSurf);
+				
+				
 				__UpdateCache();	
-			}
-			
-			__status = CanvasStatus.HAS_DATA;
-			
-			if (_currentlyWriting) {
-				Start(__index);	
+				
+				__status = CanvasStatus.HAS_DATA;
+				
+				if (_currentlyWriting) {
+					Start(__index);	
+				}
 			}
 			
 			return self;
@@ -403,5 +420,21 @@ function Canvas(_width, _height) constructor {
 			var _b = (_col >> 16)  & 0xFF;
 			var _a = (_col >> 24) / 0xFF;
 			return [_r, _g, _b, _a];
+		}
+		
+		static Clear = function(_clearSurface = true, _clearBuffer = true) {
+			__init();
+			CheckSurface();
+			
+			if (_clearSurface) {
+				surface_set_target(__surface);	
+				draw_clear_alpha(c_black, 0);
+				surface_reset_target();
+			}
+			
+			if (_clearBuffer) {
+				buffer_fill(__buffer, 0, buffer_u8, 0, buffer_get_size(__buffer));
+			}
+			return self;
 		}
 }
