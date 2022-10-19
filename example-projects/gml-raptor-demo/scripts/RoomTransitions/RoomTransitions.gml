@@ -46,7 +46,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 		__ACTIVE_TRANSITION_STEP = 1;
 		frame_counter = 0;
 		__destroy_fx_layer();
-		room_goto(target_room);
+		if (target_room != room)
+			room_goto(target_room);
 	}
 
 	/// @function		transit_finished()
@@ -84,16 +85,16 @@ function FadeTransition(_target_room, _fade_out_frames, _fade_in_frames) : __Roo
 	
 	in_step = function() {
 		running = clamp((frame_counter / fade_in_frames), 0, 1);
-		fx_set_parameter(fx, "g_TintCol", running, running, running, 1);
-		if (frame_counter == fade_in_frames) {
+		fx_set_parameter(fx, "g_TintCol", [running, running, running, 1]);
+		if (frame_counter >= fade_in_frames) {
 			transit_finished();
 		}
 	}
 	
 	out_step = function() {
 		running = clamp(1 - (frame_counter / fade_out_frames), 0, 1);
-		fx_set_parameter(fx, "g_TintCol", running, running, running, 1);
-		if (frame_counter == fade_out_frames) {
+		fx_set_parameter(fx, "g_TintCol", [running, running, running, 1]);
+		if (frame_counter >= fade_out_frames) {
 			running = 0;
 			do_transit();
 		}
@@ -115,7 +116,7 @@ function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _ma
 	in_step = function() {
 		running = clamp(1 - (frame_counter / fade_in_frames), 0, 1);
 		fx_set_parameter(fx, "g_CellSize", max_pixelation * running);
-		if (frame_counter == fade_in_frames) {
+		if (frame_counter >= fade_in_frames) {
 			transit_finished();
 		}
 	}
@@ -123,7 +124,7 @@ function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _ma
 	out_step = function() {
 		running = clamp((frame_counter / fade_out_frames), 0, 1);
 		fx_set_parameter(fx, "g_CellSize", max_pixelation * running);
-		if (frame_counter == fade_out_frames) {
+		if (frame_counter >= fade_out_frames) {
 			running = 0;
 			do_transit();
 		}
@@ -141,7 +142,7 @@ function BlendTransition(_target_room, _blend_frames) : __RoomTransition(_target
 	in_draw_gui = function() {
 		running = clamp(1 - (frame_counter / blend_frames), 0, 1);
 		draw_surface_stretched_ext(canvas.GetSurfaceID(), 0, 0, CAM_WIDTH, CAM_HEIGHT, c_white, running);
-		if (frame_counter == blend_frames) {
+		if (frame_counter >= blend_frames) {
 			canvas.Free();
 			transit_finished();
 		}
@@ -194,7 +195,7 @@ function SlideTransition(_target_room, _slide_frames, _animcurve) : __RoomTransi
 		draw_surface_stretched_ext(source_canvas.GetSurfaceID(), srcx, srcy, CAM_WIDTH, CAM_HEIGHT, c_white, 1);
 		draw_surface_stretched_ext(dest_canvas.GetSurfaceID(), destx, desty, CAM_WIDTH, CAM_HEIGHT, c_white, 1);
 		
-		if (frame_counter == slide_frames) {
+		if (frame_counter >= slide_frames) {
 			source_canvas.Free();
 			dest_canvas.Free();
 			transit_finished();

@@ -41,6 +41,13 @@ function gui_runtime_config() constructor {
 	
 	mouse_double_click_speed	= MOUSE_DBL_CLICK_SPEED_MS;
 
+	// Those members exist in html only and are set by the BrowserGameController
+	if (IS_HTML) {
+		canvas_width = browser_width;
+		canvas_height = browser_height;
+		canvas_scale = 1;		
+	}
+
 	// set up sound channels based on platform
 	audio_channel_num(IS_HTML ? AUDIO_CHANNELS_HTML : 
 		(is_any_of(os_type, os_windows, os_macosx) ? AUDIO_CHANNELS_WINMAC : AUDIO_CHANNELS_OTHER));
