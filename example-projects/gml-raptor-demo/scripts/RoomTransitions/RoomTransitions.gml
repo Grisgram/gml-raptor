@@ -78,8 +78,8 @@ function FadeTransition(_target_room, _fade_out_frames, _fade_in_frames) : __Roo
 	fx = fx_create("_filter_tintfilter");
 	layer_set_fx(fx_layer, fx);
 
-	fade_out_frames = _fade_out_frames;
-	fade_in_frames  = _fade_in_frames;
+	fade_out_frames = (_fade_out_frames > 0 ? _fade_out_frames : 1);
+	fade_in_frames  = (_fade_in_frames > 0 ? _fade_in_frames : 1);
 	
 	running = 1;
 	
@@ -107,8 +107,8 @@ function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _ma
 	fx = fx_create("_filter_pixelate");
 	layer_set_fx(fx_layer, fx);
 
-	fade_out_frames = _fade_out_frames;
-	fade_in_frames  = _fade_in_frames;
+	fade_out_frames = (_fade_out_frames > 0 ? _fade_out_frames : 1);
+	fade_in_frames  = (_fade_in_frames > 0 ? _fade_in_frames : 1);
 	max_pixelation  = _max_pixelation;
 	
 	running = 1;
@@ -136,7 +136,7 @@ function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _ma
 function BlendTransition(_target_room, _blend_frames) : __RoomTransition(_target_room, false) constructor {
 	canvas = undefined;
 	
-	blend_frames = _blend_frames;
+	blend_frames = (_blend_frames > 0 ? _blend_frames : 1);
 	running		 = 1;
 	
 	in_draw_gui = function() {

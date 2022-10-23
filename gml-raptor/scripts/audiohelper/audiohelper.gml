@@ -101,7 +101,7 @@ function play_voice(snd, gain = 1.0, loop = false, priority = 10) {
 
 /// @function		play_sound(snd, gain = 1.0, loop = false, priority = 10)
 /// @description	Plays a sound of type sfx (attached to sound_volume setting)
-function play_sound(snd, gain = 1.0, loop = false, priority = 10) {
+function play_sound(snd, gain = 1.0, loop = false, priority = 9) {
 	if (AUDIOSETTINGS.sound_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, loop);
 		audio_sound_gain(sid, gain * AUDIOSETTINGS.sound_volume * AUDIOSETTINGS.master_volume, 0);
@@ -119,7 +119,7 @@ function stop_sound(sound_id) {
 
 /// @function		play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 9)
 /// @description	Plays a sound of type music (attached to music_volume setting)
-function play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 9) {
+function play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 99) {
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_music(mus)) {
 		log("Play music ignored. Same music already playing.");
 		return;
