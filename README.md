@@ -95,6 +95,6 @@ If you prefer to look up the most recent version (or any specific version) for y
 * [@YellowAfterLife](https://github.com/YellowAfterlife) for the [Open Link in new Tab](https://yal.cc/gamemaker-opening-links-in-new-tab-on-html5/) Browser Game extension for GameMaker, which I modified a bit to fit into the platform. This extension is also packaged into the platform and ready-to-use.
 
 ### Contact me
-Beside the communication channel here, you can reach me as @Haerion on the [GameMakerKitchen Discord](https://discord.gg/8krYCqr).
+Beside the communication channel here, you can reach me as @Grisgram on the [GameMakerKitchen Discord](https://discord.gg/8krYCqr).
 
 
