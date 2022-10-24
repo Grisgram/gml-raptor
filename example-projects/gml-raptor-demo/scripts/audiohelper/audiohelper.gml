@@ -62,9 +62,9 @@ function set_room_default_audio(_room, _music, _ambience) {
 	array_push(__DEFAULT_ROOM_AUDIO, new __default_room_audio(_room, _music, _ambience));
 }
 
-function get_default_music_for_room(_room) {
+function get_default_music_for_room() {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++)
-		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == _room)
+		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == room)
 			return __DEFAULT_ROOM_AUDIO[@ i].music;
 	return undefined;
 }
