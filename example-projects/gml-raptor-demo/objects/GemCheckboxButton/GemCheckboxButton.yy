@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "GemCheckboxButton",
   "spriteId": {
     "name": "sprDefaultButton",
     "path": "sprites/sprDefaultButton/sprDefaultButton.yy",
@@ -25,28 +28,24 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
-    {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,},
   ],
   "properties": [
-    {"varType":2,"value":"\"\"","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"bind_to","tags":[],"resourceType":"GMObjectProperty",},
-    {"varType":3,"value":"true","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"is_checked","tags":[],"resourceType":"GMObjectProperty",},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"bind_to","varType":2,"value":"\"\"","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"is_checked","varType":3,"value":"true","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],},
   ],
   "overriddenProperties": [
-    {"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"value":"","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"draw_color","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"c_green","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"c_green","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"32","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"32","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"False","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"draw_on_gui","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"False","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"gem_checkbox_clicked","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"value":"",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"draw_color","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"c_green",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"c_green",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"32",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"32",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"draw_on_gui","path":"objects/_baseControl/_baseControl.yy",},"objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"gem_checkbox_clicked",},
   ],
   "parent": {
     "name": "play-race",
     "path": "folders/Objects/play-race.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "GemCheckboxButton",
-  "tags": [],
-  "resourceType": "GMObject",
 }

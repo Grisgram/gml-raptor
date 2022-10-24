@@ -71,8 +71,11 @@ __add_text = function() {
 __copy_text = function() {
 	if (os_type != os_windows || selection_length == 0)
 		return;
-		
-	clipboard_set_text(selected_text);
+	
+	if (string_is_empty(password_char))
+		clipboard_set_text(selected_text);
+	else
+		clipboard_set_text("-- You shall not try to make a password visible through Ctrl-C! ;) --");
 }
 
 __paste_text = function() {
@@ -95,7 +98,10 @@ __cut_text = function() {
 		return;
 	
 	var cut = __cut_selection();
-	clipboard_set_text(cut);
+	if (string_is_empty(password_char))
+		clipboard_set_text(cut);
+	else
+		clipboard_set_text("-- You shall not try to make a password visible through Ctrl-X! ;) --");
 }
 
 __find_next_input_box = function(shift_tab = false) {
@@ -155,8 +161,10 @@ __do_key_action = function() {
 		return;
 	
 	keyboard_string = string_copy(keyboard_string, string_length(keyboard_string), 1);
-
-	if (keyboard_check(vk_tab))
+	
+	if (keyboard_string != "")
+		__add_text();
+	else if (keyboard_check(vk_tab))
 		__find_next_input_box(keyboard_check(vk_shift));
 	else if (keyboard_check(vk_backspace))
 		__backspace_char();
@@ -184,8 +192,6 @@ __do_key_action = function() {
 		__copy_text();
 	else if (keyboard_check(vk_shift)   && keyboard_check(vk_insert))
 		__paste_text();
-	else
-		__add_text();
 
 	keyboard_string = "";
 	__start_wait_for_key_repeat(keyboard_key);

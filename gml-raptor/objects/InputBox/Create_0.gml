@@ -132,7 +132,7 @@ __reset_cursor_blink = function() {
 /// @param {int} pos 			
 /// @param {bool=false} force_extend_selection 			
 set_cursor_pos = function(pos, force_extend_selection = false) {
-	if (keyboard_check(vk_shift) || force_extend_selection)
+	if ((keyboard_check(vk_shift) && !keyboard_check(vk_insert)) || force_extend_selection)
 		selection_length -= (pos - cursor_pos);
 	else
 		selection_length = 0;
@@ -189,6 +189,23 @@ scribble_add_text_effects = function(scribbletext) {
 	}
 }
 
+/// @function					__create_scribble_object(align, str)
+/// @description				tweaking the internal function of base for password char
+///								so that scribble always draws only *** without knowing the real text
+/// @param {string} align			
+/// @param {string} str			
+__create_scribble_object = function(align, str) {
+	var scstr = (string_is_empty(password_char) ? str : string_repeat(string_copy(password_char,1,1), visible_string_length));
+	var sbc = scribble(align + scstr, MY_NAME)
+				.starting_format(font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, 
+								 mouse_is_over ? text_color_mouse_over : text_color);
+	
+	if (!autosize && sbc.get_width() > nine_slice_data.width) 
+		sbc.fit_to_box(nine_slice_data.width, nine_slice_data.height, true);
+		
+	return sbc;
+}
+
 /// @function					draw_scribble_text()
 /// @description				draw the text - redefine for additional text effects
 draw_scribble_text = function() {
@@ -213,7 +230,7 @@ draw_scribble_text = function() {
 				var xleft = __create_scribble_object("[fa_left]", substr).get_width();
 				__selection_start = startpos + 1;
 				selected_text = string_copy(text, __selection_start, abs(selection_length));
-				var xwidth = __create_scribble_object("[fa_left]", selected_text).get_width() - 1;
+				var xwidth = min(nine_slice_data.width, __create_scribble_object("[fa_left]", selected_text).get_width() - 1);
 				var bbox = __scribble_text.get_bbox(__text_x, __text_y);
 				var txstart = bbox.left;
 				__selection_rect.set(txstart + xleft, bbox.top, xwidth, __scribble_text.get_height());
