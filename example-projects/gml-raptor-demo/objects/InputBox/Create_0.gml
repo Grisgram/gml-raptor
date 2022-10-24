@@ -233,7 +233,7 @@ draw_scribble_text = function() {
 				var xwidth = min(nine_slice_data.width, __create_scribble_object("[fa_left]", selected_text).get_width() - 1);
 				var bbox = __scribble_text.get_bbox(__text_x, __text_y);
 				var txstart = bbox.left;
-				__selection_rect.set(txstart + xleft, bbox.top, xwidth, __scribble_text.get_height());
+				__selection_rect.set(txstart + xleft, bbox.top, xwidth, min(__cursor_height, __scribble_text.get_height()));
 			} else 
 				__selection_rect.set(0,0,0,0);
 		}
@@ -255,7 +255,7 @@ __draw_cursor = function() {
 			// make draw calculations only once, if visible changed in last frame
 			__last_cursor_visible = __cursor_visible;
 			var scrib = (text == "" ? __create_scribble_object(scribble_text_align, "A") : __scribble_text);
-			__cursor_height = scrib.get_height();
+			__cursor_height = min(scrib.get_height(), scrib.get_bbox().height);
 			var bbox = __scribble_text.get_bbox(__text_x, __text_y);
 			var ybox = scrib.get_bbox(__text_x, __text_y);
 			__cursor_y = ybox.top;
