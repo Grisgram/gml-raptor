@@ -136,7 +136,7 @@ set_cursor_pos = function(pos, force_extend_selection = false) {
 		selection_length -= (pos - cursor_pos);
 	else
 		selection_length = 0;
-	cursor_pos = pos;
+	cursor_pos = clamp(pos, 0, string_length(text));
 	__reset_cursor_blink();
 }
 
@@ -194,14 +194,21 @@ scribble_add_text_effects = function(scribbletext) {
 ///								so that scribble always draws only *** without knowing the real text
 /// @param {string} align			
 /// @param {string} str			
-__create_scribble_object = function(align, str) {
-	var scstr = (string_is_empty(password_char) ? str : string_repeat(string_copy(password_char,1,1), visible_string_length));
-	var sbc = scribble(align + scstr, MY_NAME)
+__create_scribble_object = function(align, str, test_only = false) {
+	var sbc, bb;
+	var max_chars = string_length(str);
+	
+	do {
+		var pw = !string_is_empty(password_char);
+		var scstr = (pw ? string_repeat(string_copy(password_char,1,1), max_chars) : string_copy(str, 1, max_chars));
+		sbc = scribble(align + scstr, MY_NAME)
 				.starting_format(font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, 
 								 mouse_is_over ? text_color_mouse_over : text_color);
-	
-	if (!autosize && sbc.get_width() > nine_slice_data.width) 
-		sbc.fit_to_box(nine_slice_data.width, nine_slice_data.height, true);
+		bb = sbc.get_bbox();
+		if (!pw && !test_only) text = scstr;
+		max_chars--;
+	} until (autosize || max_chars <= 1 || bb.width <= nine_slice_data.width);
+	cursor_pos = clamp(cursor_pos, 0, string_length(text));
 		
 	return sbc;
 }
@@ -227,10 +234,10 @@ draw_scribble_text = function() {
 					endpos = exc;
 				}
 				var substr = string_copy(text, 1, startpos);
-				var xleft = __create_scribble_object("[fa_left]", substr).get_width();
+				var xleft = __create_scribble_object("[fa_left]", substr, true).get_width();
 				__selection_start = startpos + 1;
 				selected_text = string_copy(text, __selection_start, abs(selection_length));
-				var xwidth = min(nine_slice_data.width, __create_scribble_object("[fa_left]", selected_text).get_width() - 1);
+				var xwidth = min(nine_slice_data.width, __create_scribble_object("[fa_left]", selected_text, true).get_width() - 1);
 				var bbox = __scribble_text.get_bbox(__text_x, __text_y);
 				var txstart = bbox.left;
 				__selection_rect.set(txstart + xleft, bbox.top, xwidth, min(__cursor_height, __scribble_text.get_height()));
@@ -254,7 +261,7 @@ __draw_cursor = function() {
 		if (__last_cursor_visible != __cursor_visible) {
 			// make draw calculations only once, if visible changed in last frame
 			__last_cursor_visible = __cursor_visible;
-			var scrib = (text == "" ? __create_scribble_object(scribble_text_align, "A") : __scribble_text);
+			var scrib = (text == "" ? __create_scribble_object(scribble_text_align, "A", true) : __scribble_text);
 			__cursor_height = min(scrib.get_height(), scrib.get_bbox().height);
 			var bbox = __scribble_text.get_bbox(__text_x, __text_y);
 			var ybox = scrib.get_bbox(__text_x, __text_y);
@@ -265,7 +272,7 @@ __draw_cursor = function() {
 				__cursor_x = bbox.right;
 			} else {
 				var substr = string_copy(text, 1, cursor_pos);
-				var scrib = __create_scribble_object("[fa_left]", substr);
+				var scrib = __create_scribble_object("[fa_left]", substr, true);
 				var subbox = scrib.get_bbox(__text_x, __text_y);
 				__cursor_x = bbox.left + subbox.width - 1;
 			}

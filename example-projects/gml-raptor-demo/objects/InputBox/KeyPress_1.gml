@@ -61,7 +61,7 @@ __add_text = function() {
 		var cb = keyboard_string;
 		text = string_copy(text, 1, cursor_pos) + cb +
 			string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos - string_length(cb) + 1);
-		cursor_pos += string_length(cb);
+		cursor_pos = clamp(cursor_pos + string_length(cb), 1, string_length(text));
 		__reset_cursor_blink();
 		keyboard_string = "";
 		__invoke_text_changed(txbefore, text);
