@@ -58,7 +58,7 @@ function savegame_save_game(filename, cryptkey = "") {
 				__SAVEGAME_OBJ_PROP_PERS	: persistent,
 				__SAVEGAME_OBJ_PROP_SOLID	: solid,
 				__SAVEGAME_OBJ_PROP_SPRITE	: sprite_index,
-				__SAVEGAME_OBJ_PROP_IMAGE	: image_index,
+				__SAVEGAME_OBJ_PROP_IMAGE	: (sprite_index != -1 ? image_index : 0),
 				__SAVEGAME_OBJ_PROP_ISPEED	: image_speed,
 				__SAVEGAME_OBJ_PROP_ALPHA	: image_alpha,
 				__SAVEGAME_OBJ_PROP_ANGLE	: image_angle,
@@ -66,7 +66,6 @@ function savegame_save_game(filename, cryptkey = "") {
 				__SAVEGAME_OBJ_PROP_XSCALE	: image_xscale,
 				__SAVEGAME_OBJ_PROP_YSCALE	: image_yscale,
 			}
-			
 			// auto-save variables of platform objects
 			// RaceController
 			if (obj == "RaceController" || object_is_ancestor(object_index, RaceController))
