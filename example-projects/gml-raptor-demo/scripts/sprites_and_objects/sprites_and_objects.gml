@@ -25,13 +25,19 @@ function replace_sprite(on_object, replace_with, keep_size = true, keep_location
 		
 			var sw = sprite_width;
 			var sh = sprite_height;
-			x -= sprite_xoffset;
-			y -= sprite_yoffset;
+			if (keep_location) {
+				x -= sprite_xoffset;
+				y -= sprite_yoffset;
+			}
 			sprite_index = replace_with;
-			image_xscale = sw / sprite_get_width(replace_with);
-			image_yscale = sh / sprite_get_height(replace_with);
-			x += sprite_xoffset;
-			y += sprite_yoffset;	
+			if (keep_size) {
+				image_xscale = sw / sprite_get_width(replace_with);
+				image_yscale = sh / sprite_get_height(replace_with);
+			}
+			if (keep_location) {
+				x += sprite_xoffset;
+				y += sprite_yoffset;
+			}
 		}
 	}
 }

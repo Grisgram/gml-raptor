@@ -9,6 +9,9 @@
 	The value_percent ranges from 0 to 1, so for display you should multiply it by 100.
 */
 
+#macro __SLIDER_IN_FOCUS		global._SLIDER_IN_FOCUS
+__SLIDER_IN_FOCUS				= undefined;
+
 enum slider_autotext {
 	none = 0,
 	text_is_value = 1,
@@ -39,18 +42,20 @@ check_mouse_over_knob = function() {
 	__mouse_over_knob = 
 		(is_between(xcheck, __knob_x - __knob_dims.origin_x * knob_xscale, __knob_x - __knob_dims.origin_x * knob_xscale + __knob_dims.width  * knob_xscale) &&
 		 is_between(ycheck, __knob_y - __knob_dims.origin_y * knob_yscale, __knob_y - __knob_dims.origin_y * knob_yscale + __knob_dims.height * knob_yscale));
-	
+
+	__knob_image_index = (
+		(
+			(__mouse_over_knob && (__SLIDER_IN_FOCUS == undefined || __SLIDER_IN_FOCUS == self)) || __knob_grabbed
+		) && 
+		sprite_get_number(knob_sprite) > 1 ? 1 : 0);
+
 	if (__mouse_over_knob != over_before) {
 		if (__mouse_over_knob) {
-			__knob_image_index = (mouse_check_button(mb_left) && sprite_get_number(knob_sprite) > 1 ? 1 : 0);
 			if (on_mouse_enter_knob != undefined) on_mouse_enter_knob();
-			window_set_cursor(cursor_over_knob);
 		} else {
-			__knob_image_index = 0;
 			if (on_mouse_leave_knob != undefined) on_mouse_leave_knob();
 		}
 	}
-	if (!__mouse_over_knob && !__knob_grabbed) window_set_cursor(__outside_knob_cursor);
 }
 
 /// @function calculate_value_percent()
@@ -72,8 +77,13 @@ set_value = function(new_value) {
 
 /// @function draw_knob()
 draw_knob = function() {
-	__knob_x = x - sprite_xoffset + nine_slice_data.left + value_percent * nine_slice_data.width;
-	__knob_y = y - sprite_yoffset + nine_slice_data.top  + nine_slice_data.height / 2;
+	if (orientation_horizontal) {
+		__knob_x = x - sprite_xoffset + nine_slice_data.left + value_percent * nine_slice_data.width;
+		__knob_y = y - sprite_yoffset + nine_slice_data.top  + nine_slice_data.height / 2;
+	} else {
+		__knob_x = x - sprite_xoffset + nine_slice_data.left   + nine_slice_data.width / 2;
+		__knob_y = y - sprite_yoffset + nine_slice_data.bottom - value_percent * nine_slice_data.height;
+	}
 	draw_sprite_ext(
 		knob_sprite, __knob_image_index, 
 		__knob_x, __knob_y, 

@@ -90,7 +90,7 @@ function Sender() constructor {
 		removers = [];
 		for (var i = 0, len = array_length(receivers); i < len; i++) {
 			var r = receivers[@ i];
-			if (string_match(_broadcast.title, r.message_filter)) {
+			if (array_null_or_empty(r.message_filter) || array_contains(r.message_filter, _broadcast.title)) {
 				if (r.callback(_broadcast))
 					array_push(removers, r.name);
 			}
@@ -119,7 +119,7 @@ function Sender() constructor {
 
 function Receiver(_name, _message_filter, _callback) constructor {
 	name			= _name;
-	message_filter	= _message_filter;
+	message_filter  = string_split(_message_filter, "|");
 	callback		= _callback;
 }
 

@@ -16,6 +16,9 @@
 ///										not be added to the result!
 ///	@returns {array}					A string array containing the split parts of the input string
 function string_split(str, delimiter = ",", skip_empty_strings = true, trim_parts = true) {
+	if (string_is_empty(str))
+		return [];
+	
 	var inblock = false; // inside a block quote?
 	var rv = [];										
 	var tmp = "";
