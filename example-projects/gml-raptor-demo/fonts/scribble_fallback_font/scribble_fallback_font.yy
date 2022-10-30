@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMFont",
+  "resourceVersion": "1.0",
+  "name": "scribble_fallback_font",
   "ConfigValues": {
     "release": {"textureGroupId":"{\"name\":\"Default\",\"path\":\"texturegroups/Default\"}",},
   },
@@ -135,8 +138,4 @@
     "name": "(System - don't call these functions)",
     "path": "folders/_juju_/Scribble/(System - don't call these functions).yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scribble_fallback_font",
-  "tags": [],
-  "resourceType": "GMFont",
 }
