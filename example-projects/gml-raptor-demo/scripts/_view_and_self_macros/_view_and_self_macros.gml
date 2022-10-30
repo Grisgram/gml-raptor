@@ -60,6 +60,7 @@ function macro_camera_viewport_index_switch_back() {
 #macro VIEW_BOTTOM_EDGE				(VIEW_TOP_EDGE  + UI_VIEW_HEIGHT)
 #macro VIEW_CENTER_X				(VIEW_LEFT_EDGE + VIEW_WIDTH / 2)
 #macro VIEW_CENTER_Y				(VIEW_TOP_EDGE  + VIEW_HEIGHT / 2)
+#macro VIEW_CENTER					VIEW_CENTER_X, VIEW_CENTER_Y
 #macro VIEW_ASPECT_RATIO			(VIEW_WIDTH / VIEW_HEIGHT)
 
 // SELF Coordinates (object dimensions only, without absolute screen position)

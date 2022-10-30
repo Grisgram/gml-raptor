@@ -46,7 +46,11 @@ update_canvas = function() {
 	// set canvas size to page pixel size:
 	browser_stretch_canvas(newwidth, newheight);
 
-	if (IS_HTML)
+	if (IS_HTML) {
 		GUI_RUNTIME_CONFIG.gui_scale_set(scale, scale);
+		GUI_RUNTIME_CONFIG.canvas_width  = newwidth;
+		GUI_RUNTIME_CONFIG.canvas_height = newheight;
+		GUI_RUNTIME_CONFIG.canvas_scale  = scale;
+	}
 }
 

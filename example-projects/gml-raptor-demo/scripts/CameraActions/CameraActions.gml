@@ -107,15 +107,15 @@ function __camera_action_move(actiondata) {
 		
 		macro_camera_viewport_index_switch_to(actiondata.camera_index);
 		actiondata.cam_start_x = CAM_LEFT_EDGE;
-		actiondata.cam_start_y = CAM_TOP_EDGE;
+		actiondata.cam_start_y = CAM_TOP_EDGE ;
 		
 		if (actiondata.relative) {
-			actiondata.target_x = CAM_CENTER_X + actiondata.distance_x;
-			actiondata.target_y = CAM_CENTER_Y + actiondata.distance_y;
+			actiondata.target_x = CAM_LEFT_EDGE + actiondata.distance_x;
+			actiondata.target_y = CAM_TOP_EDGE  + actiondata.distance_y;
 		}
 		
-		actiondata.distance_x = actiondata.target_x - CAM_CENTER_X;
-		actiondata.distance_y = actiondata.target_y - CAM_CENTER_Y;
+		actiondata.distance_x = actiondata.target_x - CAM_LEFT_EDGE;
+		actiondata.distance_y = actiondata.target_y - CAM_TOP_EDGE ;
 		macro_camera_viewport_index_switch_back();
 	}
 	

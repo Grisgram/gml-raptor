@@ -67,6 +67,30 @@ function array_shuffle(array) {
 	return array;
 }
 
+/// @function		array_pick_random(array, number = 1)
+/// @description	Picks any number of random entries of an array
+///					TAKE CARE! If you set number higher than size of the array
+///					a copy of the array is returned, containing simply all items
+/// @returns		If number=1 the picked item is returned, otherwise an array of items
+function array_pick_random(array, number = 1) {
+	var rv = [];
+	var len = array_length(array);
+	if (number >= len) {
+		rv = array_create(len);
+		array_copy(rv,0,array,0,len);
+	} else {
+		var hit = [];
+		repeat(number) {
+			var idx;
+			do {
+				idx = irandom_range(0, len - 1);
+			} until (!array_contains(hit, idx, false));
+			array_push(rv, array[@ idx]);
+		}
+	}
+	return (number == 1 ? rv[@ 0] : rv);
+}
+
 /// @function		array_null_or_empty(array)
 /// @description	Returns whether the variable is undefined or an empty array
 ///					or not an array at all

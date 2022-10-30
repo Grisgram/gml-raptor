@@ -6,6 +6,8 @@
 // Inherit the parent event
 event_inherited();
 
+states.add_state("idle");
+
 // As a demonstration you can see here the "override" function,
 // a useful tool if you redefine methods from parent objects.
 // if you "override" a function, the original function is available as "base.function_name"

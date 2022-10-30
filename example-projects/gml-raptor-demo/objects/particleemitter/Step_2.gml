@@ -9,8 +9,10 @@ if (follow_instance != undefined && instance_exists(follow_instance)) {
 			ps.emitter_move_range_to(emitter_name, x, y);
 			var rmin = ps.emitter_get_range_min(emitter_name);
 			var rmax = ps.emitter_get_range_max(emitter_name);
-			rmax.x = rmin.x + (CAULDRON_FLAME_WIDTH * follow_instance.image_xscale);
-			rmax.y = rmin.y + (CAULDRON_FLAME_HEIGHT * follow_instance.image_yscale);
+			var distx = rmax.x - rmin.x;
+			var disty = rmax.y - rmin.y;
+			rmax.x = rmin.x + (distx * follow_instance.image_xscale);
+			rmax.y = rmin.y + (disty * follow_instance.image_yscale);
 		}
 	} else {
 		__follow_offset = new Coord2(

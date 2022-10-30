@@ -14,7 +14,7 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 		
 		if (string_match(lname, wildcard)) {
 			layer_set_visible(lid, vis);
-			if (object_activation) {
+			if (object_activation && layer_get_element_type(lid) == layerelementtype_instance) {
 				if (vis) instance_activate_layer(lid); else instance_deactivate_layer(lid);
 			}
 			log(sprintf("Setting layer visibility: layer='{0}'; visible={1};", lname, vis));

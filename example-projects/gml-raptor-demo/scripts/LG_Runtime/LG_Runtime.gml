@@ -196,6 +196,9 @@ function LG() {
 				break;
 		}
 		
+		if (len == 0) 
+			return undefined;
+		
 		if (map != undefined) {
 			key = args[@ len - 1];
 			if (wildcard) {
@@ -241,6 +244,8 @@ function LG() {
 	var cacheKey = "";
 	var args = [__LG_STRINGS];
 	for (var i = 0; i < argument_count; i++) {
+		if (string_is_empty(argument[i]))
+			continue;
 		var argconv = string_starts_with(argument[i], "=") ? string_skip_start(argument[i], 1) : argument[i];
 		if (string_ends_with(argconv, "*")) {
 			wildcard = true;

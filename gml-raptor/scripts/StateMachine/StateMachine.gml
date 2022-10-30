@@ -32,6 +32,7 @@ function StateMachine(_owner) constructor {
 	on_destroy			= undefined;
 	__allow_re_enter	= false;
 	__state_frame		= 0;
+	__objectpool_paused = false;
 	
 	data				= {};
 	
@@ -92,7 +93,6 @@ function StateMachine(_owner) constructor {
 	}
 	
 	static __release_anim_lock = function() {
-		log("Entering __release_anim_lock callback");
 		locking_animation = undefined;
 		lock_state_buffered = false;
 		if (lock_end_state != undefined)
@@ -290,7 +290,7 @@ function StateMachine(_owner) constructor {
 	
 	/// @function step()
 	static step = function() {
-		if (active_state != undefined) {
+		if (!__objectpool_paused && active_state != undefined) {
 			active_state.data = data;
 			var rv = active_state.step(__state_frame);
 			__state_frame++;
@@ -378,9 +378,16 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 
 }
 
-/// @function		state_machine_clear_pool()
+/// @function		statemachine_clear_pool()
 /// @description	Instantly removes ALL state machines
-function state_machine_clear_pool() {
+function statemachine_clear_pool() {
 	STATEMACHINES.clear();
 }
 
+/// @function		__statemachine_pause_all(_owner, _paused)
+/// @description	raptor-internal! Do not call!
+function __statemachine_pause_all(_owner, _paused) {
+	var mymachines = __listpool_get_all_owner_objects(STATEMACHINES, _owner);
+	for (var i = 0; i < array_length(mymachines); i++)
+		mymachines[@ i].__objectpool_paused = _paused;
+}

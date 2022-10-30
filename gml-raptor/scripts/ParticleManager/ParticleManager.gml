@@ -65,6 +65,7 @@ function ParticleManager(particle_layer_name) constructor {
 	/// @function		emitter_set_range(name, xmin, xmax, ymin, ymax, shape, distribution)
 	/// @description	Set the range of an emitter
 	static emitter_set_range = function(name, xmin, xmax, ymin, ymax, shape, distribution) {
+		emitter_get(name); // creates the emitter if it does not exist
 		var rng = variable_struct_get(__emitter_ranges, name) ?? new __emitter_range(name, xmin, xmax, ymin, ymax, shape, distribution);
 		rng.minco.set(xmin, ymin);
 		rng.maxco.set(xmax, ymax);

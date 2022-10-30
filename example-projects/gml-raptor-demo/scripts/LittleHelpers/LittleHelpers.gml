@@ -113,3 +113,11 @@ function if_null(value, value_if_null) {
 		return string_is_empty(value) ? value_if_null : value;
 	return value;
 }
+
+/// @function		eq(inst1, inst2)
+/// @description	Compare, whether two object instances are the same instance
+///					Due to a html bug you can not simply compare inst1==inst2,
+///					but you have to compare their ids instead.
+function eq(inst1, inst2) {
+	TRY return string(inst1.id)==string(inst2.id) CATCH return false; ENDTRY
+}

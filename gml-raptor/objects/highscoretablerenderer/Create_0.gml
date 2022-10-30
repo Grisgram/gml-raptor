@@ -21,8 +21,8 @@ set_table = function(_highscoretable) {
 	var maxw_create = 0;
 	
 	var tmp = __table.data.entries[@ 0];
-	var render_score = (tmp != undefined && tmp.data.Score != undefined);
-	var render_time  = (tmp != undefined && tmp.data.Time != undefined);
+	var _render_score = (render_score && tmp != undefined && tmp.data.Score != undefined);
+	var _render_time  = (render_time  && tmp != undefined && tmp.data.Time  != undefined);
 	
 	var surfw = 0, surfh = 0;
 	
@@ -44,8 +44,8 @@ set_table = function(_highscoretable) {
 		
 		if (render_rank) maxw_rank = max(maxw_rank, string_width(sranks) + space_between_columns);
 		maxw_name = max(maxw_name, string_width(snames) + space_between_columns);
-		if (render_score) maxw_score = max(maxw_score, string_width(sscores) + space_between_columns);
-		if (render_time) maxw_time= max(maxw_time, string_width(stimes) + space_between_columns);
+		if (_render_score) maxw_score = max(maxw_score, string_width(sscores) + space_between_columns);
+		if (_render_time) maxw_time= max(maxw_time, string_width(stimes) + space_between_columns);
 		if (render_create_date) maxw_create = max(maxw_create, string_width(screateds) + space_between_columns);
 
 		surfw = max(surfw, maxw_rank + maxw_name + maxw_score + maxw_time + maxw_create + 2 * space_between_columns);
@@ -100,13 +100,13 @@ set_table = function(_highscoretable) {
 		curx += maxw_name;
 		lineh = max(lineh, string_height(sranks));
 
-		if (render_score) {
+		if (_render_score) {
 			draw_text(curx + maxw_score - space_between_columns - string_width(sscores), cury, sscores);
 			curx += maxw_score;
 			lineh = max(lineh, string_height(sscores));
 		}
 
-		if (render_time) {
+		if (_render_time) {
 			draw_text(curx + maxw_time - string_width(stimes), cury, stimes);
 			curx += maxw_time;
 			lineh = max(lineh, string_height(stimes));

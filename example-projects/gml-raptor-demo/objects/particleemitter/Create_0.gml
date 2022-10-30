@@ -33,15 +33,15 @@
 	RoomController).
 */
 
-onPoolActivate = function() {
+__raptor_onPoolActivate = function() {
 	__follow_offset = undefined;
 }
 
-onPoolDeactivate = function() {
+__raptor_onPoolDeactivate = function() {
 	stop();
 }
 
-onPoolActivate();
+__raptor_onPoolActivate();
 
 __get_partsys = function() {
 	return (is_array(PARTSYS) ? PARTSYS[@ partsys_index] : PARTSYS);

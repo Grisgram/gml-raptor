@@ -74,5 +74,16 @@ function unit_test_Strings() {
 		test.assert_false(string_contains("1234567890", "4456"));
 	};
 
+	ut.tests.parse_hex_ok	= function(test, data) {
+		test.assert_equals(255, string_parse_hex("$FF"));
+		test.assert_equals(49152, string_parse_hex("C000"));
+	};
+
+	ut.tests.convert_hex_ok	= function(test, data) {
+		test.assert_equals("FF", string_get_hex(255));
+		test.assert_equals("00ff", string_get_hex(255,4,false));
+		test.assert_equals("c000", string_get_hex(49152,,false));
+	};
+
 	ut.run();
 }

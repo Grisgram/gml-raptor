@@ -31,6 +31,17 @@
 			"ctrl" 		: "Ctrl",
 			"alt" 		: "Alt",
 		},
+		
+		"states": {
+		  "disconnected": "Disconnected",
+		  "inactive"	: "Inactive",
+		  "connected"	: "Connected",
+		  "active"		: "Active",
+		  "unlocked"	: "Unlocked",
+		  "locked"		: "Locked",
+		  "closed"		: "Closed",
+		  "open"		: "Open"
+		}
 	},
 
 }

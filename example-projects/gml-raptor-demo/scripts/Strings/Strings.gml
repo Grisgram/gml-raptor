@@ -16,6 +16,9 @@
 ///										not be added to the result!
 ///	@returns {array}					A string array containing the split parts of the input string
 function string_split(str, delimiter = ",", skip_empty_strings = true, trim_parts = true) {
+	if (string_is_empty(str))
+		return [];
+	
 	var inblock = false; // inside a block quote?
 	var rv = [];										
 	var tmp = "";
@@ -188,4 +191,71 @@ function string_match(str, wildcard_str) {
 /// @returns {bool}				y/n
 function string_is_empty(str) {
 	return str == undefined || string_trim(str) == "";
+}
+
+/// @function		string_reverse(str)
+/// @description	Reverse a string back-to-front
+/// @param {string} str			string to reverse
+/// @returns {string}				the reversed string
+function string_reverse(str) {
+    var out = "";
+    for(var i=string_length(str); i>0; i--) {
+        out += string_char_at(str, i);
+    }
+    return out;
+}
+
+/// @function		string_parse_hex(str)
+/// @description	Parses a hex string, ignoring $, # and dashes and stops at the first unknown character
+///					Returns a numeric value containing the (decimal) value of the hex in the string
+/// @param {string} str	string to parse
+/// @returns {int}	the value of the string
+function string_parse_hex(str) {
+	var rv = 0;
+	var upper = string_upper(str);
+ 
+	// special unicode values
+	var ZERO	= ord("0");
+	var NINE	= ord("9");
+	var A		= ord("A");
+	var F		= ord("F");
+	var DASH	= ord("-");
+	var DOLLAR	= ord("$");
+	var HASH	= ord("#");
+ 
+	for (var i = 1; i <= string_length(str); i++) {
+	    var c = ord(string_char_at(upper, i));
+
+		rv = rv << 4;
+		
+	    if (c >= ZERO && c <= NINE) {
+	        rv += (c - ZERO);
+	    } else if (c>=A&&c<=F) {
+	        rv += (c - A + 10);
+		} else if (c == DASH || c == DOLLAR || c == HASH) {
+			continue;
+	    } else {
+			return rv;
+	    }
+	}
+ 
+	return rv;
+}
+
+/// @function		string_get_hex(str)
+/// @description	Converts a decimal value to a hex string of a specified length.
+///					ATTENTION! If you convert numbers that are too large for the specified
+///					length, you might lose information! (Like trying to convert 123456789 into a 2-digit hex string)
+/// @param {int} decimal	value to convert
+/// @param {int} len	length of the result string
+/// @param {bool} to_uppercase	use ABCDEF (default) or abcdef for hex digits
+/// @returns {string}	the value of the string
+function string_get_hex(decimal, len = 2, to_uppercase = true) {
+	var rv = "";
+	var dig = (to_uppercase ? "0123456789ABCDEF" : "0123456789abcdef");
+    while (len-- || decimal) {
+        rv = string_char_at(dig, (decimal & $F) + 1) + rv;
+        decimal = decimal >> 4;
+    }
+	return rv;
 }

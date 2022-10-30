@@ -28,12 +28,13 @@ function GuiMouseTranslator() constructor {
 	/// @function					update_gui_mouse_over()
 	/// @description				check if mouse is over the control and perform enter/leave events accordingly
 	static update_gui_mouse_over = function() {
-		event_redirection_active = true;
 		
 		with (other) {
 			if (!visible || (layer_exists(layer) && !layer_get_visible(layer))) 
 				return;
 				
+			other.event_redirection_active = true;
+			
 			other.gui_mouse_is_over = point_in_rectangle(
 				GUI_MOUSE_X, GUI_MOUSE_Y, 
 				SELF_UI_VIEW_LEFT_EDGE, SELF_UI_VIEW_TOP_EDGE, 
@@ -55,18 +56,20 @@ function GuiMouseTranslator() constructor {
 					
 				other.gui_last_mouse_is_over = other.gui_mouse_is_over;
 			}
+			
+			other.event_redirection_active = false;
 		}
-		
-		event_redirection_active = false;
 	}
 	
 	/// @function					check_gui_mouse_clicks()
 	/// @description				check mouse button states and perform press/release events accordingly
 	static check_gui_mouse_clicks = function() {
-		event_redirection_active = true;
 
 		with (other) {
 			if (!visible || (layer_exists(layer) && !layer_get_visible(layer))) return;
+			
+			other.event_redirection_active = true;
+			
 			// check clicks only if mouse is over
 			if (other.gui_mouse_is_over) {
 				other.gui_left_is_down	 = mouse_check_button(mb_left);
@@ -100,9 +103,9 @@ function GuiMouseTranslator() constructor {
 					other.gui_last_right_is_down = other.gui_right_is_down;
 				}
 			}
+			
+			other.event_redirection_active = false;
 		}
-		
-		event_redirection_active = false;
 	}
 	
 }

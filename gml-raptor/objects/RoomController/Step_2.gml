@@ -19,3 +19,10 @@ for (var i = 0; i < array_length(__CAMERA_RUNTIME.active_camera_actions); i++) {
 	}
 }
 
+if (__ACTIVE_TRANSITION != undefined) {
+	with (__ACTIVE_TRANSITION) {
+		frame_counter++;
+		if (__ACTIVE_TRANSITION_STEP == 0) out_step(); else 
+		if (__ACTIVE_TRANSITION_STEP == 1) in_step();
+	}
+}

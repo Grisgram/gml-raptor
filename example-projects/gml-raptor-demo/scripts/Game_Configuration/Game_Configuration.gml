@@ -22,23 +22,25 @@
 */
 
 // This macro is only used once in a html game when the game initalizes
-#macro HTML_LOCALES			["en"]
+#macro HTML_LOCALES			["en", "de"]
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			"gml_raptor_demo_settings.json"
+#macro GAME_SETTINGS_FILENAME			"gml_raptor_demo_" + GML_RAPTOR_VERSION + "_settings.json"
 #macro FILE_CRYPT_KEY					""
 // To avoid conflicts between encrypted and plaing settings files, give
 // the file in release mode a different name
 // Replace the production crypt key with a good salty key of your own!
-//#macro release:GAME_SETTINGS_FILENAME	"gml_raptor_demo_settings.gsx"
-//#macro release:FILE_CRYPT_KEY			"/°0^^4 0= 4!/! ³-:-71!/!9_15I-I³|)-(4/°,!/!1^0/°,³-v|_/°,4551( 11=³=0/°,!v!"
+#macro release:GAME_SETTINGS_FILENAME	"gml_raptor_demo_" + GML_RAPTOR_VERSION + "_settings.gsx"
+#macro release:FILE_CRYPT_KEY			"/°0^^4 0= 4!/! ³-:-71!/!9_15I-I³|)-(4/°,!/!1^0/°,³-v|_/°,4551( 11=³=0/°,!v!"
 
+#macro HIGHSCORE_TABLE_NAME		"Highscores"
+#macro HIGHSCORE_TABLE_LENGTH	10
 #macro HIGHSCORES				global._HIGHSCORES
 // If your game does not record highscores, set this to undefined, but DO NOT DELETE the macro!
-HIGHSCORES						= new HighScoreTable(10, scoring.score_high);
+HIGHSCORES						= new HighScoreTable(HIGHSCORE_TABLE_NAME, HIGHSCORE_TABLE_LENGTH, scoring.score_high);
 // Fill the highscore table with empty data. If you don't want that, just delete the line
-repeat (10) HIGHSCORES.register_highscore("- no entry -",0);
+repeat (HIGHSCORE_TABLE_LENGTH) HIGHSCORES.register_highscore("- no entry -",0);
 
 /// @function function onGameStart()
 /// @description	When this runs, load_settings() has already been called and 

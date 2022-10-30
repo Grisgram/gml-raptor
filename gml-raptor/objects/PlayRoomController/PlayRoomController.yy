@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "PlayRoomController",
   "spriteId": null,
   "solid": false,
   "visible": true,
@@ -28,8 +31,4 @@
     "name": "play",
     "path": "folders/Rooms/play.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "PlayRoomController",
-  "tags": [],
-  "resourceType": "GMObject",
 }
