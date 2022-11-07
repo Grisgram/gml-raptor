@@ -408,8 +408,8 @@
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"racedemo.json","CopyToMask":-1,"filePath":"datafiles/race",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"version.json","ConfigValues":{"release":{"CopyToMask":"3035461389054378222",},},"CopyToMask":3035461389054378222,"filePath":"datafiles",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"index.html","ConfigValues":{"release":{"CopyToMask":"3035461389054378190",},},"CopyToMask":3035461389054378190,"filePath":"datafiles",},
-    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_1.6_settings.json","CopyToMask":-1,"filePath":"datafiles",},
-    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_1.6_settings.gsx","CopyToMask":-1,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_2.0_settings.json","CopyToMask":-1,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_2.0_settings.gsx","CopyToMask":-1,"filePath":"datafiles",},
   ],
   "MetaData": {
     "IDEVersion": "2022.9.1.51",

@@ -117,6 +117,15 @@ function stop_sound(sound_id) {
 		audio_stop_sound(sound_id);
 }
 
+function update_audio_volume() {
+	if (__ACTIVE_AUDIO_SESSION != undefined) {
+		if (__ACTIVE_AUDIO_SESSION.music_id != undefined)
+			audio_sound_gain(__ACTIVE_AUDIO_SESSION.music_id, AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
+		if (__ACTIVE_AUDIO_SESSION.ambience_id != undefined) 
+			audio_sound_gain(__ACTIVE_AUDIO_SESSION.ambience_id, AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, 0);		
+	}
+}
+
 /// @function		play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 9)
 /// @description	Plays a sound of type music (attached to music_volume setting)
 function play_music(mus, gain = 1.0, loop = true, force_restart = false, priority = 99) {

@@ -489,6 +489,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @function		loop_to(_name, _repeats = -1)
 	/// @description	Jumps to the named animation of the sequence when this animation ends.
 	///					NOTE: You can set a name for an animation through the .set_name method!
+	/// @param {string}		_name		Name of the animation to loop to (use .set_name to set a name!)
 	/// @param {int}		_repeats    Number of loops to perform. Default = -1, which means forever
 	static loop_to = function(_name, _repeats = -1) {
 		var anm = self;

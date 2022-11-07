@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMObject",
+  "resourceVersion": "1.0",
+  "name": "CheckBox",
   "spriteId": {
     "name": "sprDefaultCheckbox",
     "path": "sprites/sprDefaultCheckbox/sprDefaultCheckbox.yy",
@@ -31,8 +34,4 @@
     "name": "controls",
     "path": "folders/_gml_raptor_/UI/controls.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "CheckBox",
-  "tags": [],
-  "resourceType": "GMObject",
 }
