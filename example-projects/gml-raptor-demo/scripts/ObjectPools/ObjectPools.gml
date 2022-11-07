@@ -128,7 +128,7 @@ function pool_clear_all() {
 
 function __pool_invoke_activate(inst) {
 	with (inst) {
-		__statemachine_pause_all(self, true);
+		__statemachine_pause_all(self, false);
 		if (variable_instance_exists(self, "__raptor_onPoolActivate"))
 			__raptor_onPoolActivate();
 		if (variable_instance_exists(self, "onPoolActivate"))
@@ -138,7 +138,7 @@ function __pool_invoke_activate(inst) {
 
 function __pool_invoke_deactivate(inst) {
 	with (inst) {
-		__statemachine_pause_all(self, false);
+		__statemachine_pause_all(self, true);
 		animation_abort_all(self);
 		if (variable_instance_exists(self, "__raptor_onPoolDeactivate"))
 			__raptor_onPoolDeactivate();
