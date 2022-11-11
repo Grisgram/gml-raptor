@@ -28,6 +28,9 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	fx				= undefined;
 	frame_counter	= 0;
 
+	draw_width		= (IS_HTML ? GUI_RUNTIME_CONFIG.canvas_width  / GUI_RUNTIME_CONFIG.canvas_scale : APP_SURF_WIDTH);
+	draw_height		= (IS_HTML ? GUI_RUNTIME_CONFIG.canvas_height / GUI_RUNTIME_CONFIG.canvas_scale : APP_SURF_HEIGHT);
+
 	static __create_fx_layer = function() {
 		fx_layer = (need_fx_layer ? layer_create(ROOMCONTROLLER.depth + 1) : undefined);
 		if (fx_layer != undefined && fx != undefined)
@@ -63,7 +66,7 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	/// @function		get_app_canvas()
 	/// @description	Copy the app surface to a canvas
 	static get_app_canvas = function() {
-		var rv = new Canvas(VIEW_WIDTH, VIEW_HEIGHT);
+		var rv = new Canvas(APP_SURF_WIDTH, APP_SURF_HEIGHT);
 		rv.Start();
 		rv.CopySurface(application_surface, 0, 0);
 		rv.Finish();
@@ -141,7 +144,7 @@ function BlendTransition(_target_room, _blend_frames) : __RoomTransition(_target
 	
 	in_draw_gui = function() {
 		running = clamp(1 - (frame_counter / blend_frames), 0, 1);
-		draw_surface_stretched_ext(canvas.GetSurfaceID(), 0, 0, CAM_WIDTH, CAM_HEIGHT, c_white, running);
+		canvas.DrawStretchedExt(0, 0, draw_width, draw_height, c_white, running);
 		if (frame_counter >= blend_frames) {
 			canvas.Free();
 			transit_finished();
@@ -165,35 +168,46 @@ function SlideTransition(_target_room, _slide_frames, _animcurve) : __RoomTransi
 					
 	slide_frames	= _slide_frames;
 	first_in		= true;
+	
 	have_x			= false;
 	have_y			= false;
 	
 	in_draw_gui = function() {
-		animcurve.update(frame_counter, slide_frames);
+		// a bit explanation here:
+		// 1) why "frame_counter - 1" in the line beloW? Because surface in html is delayed 1 frame
+		// 2) why "return" in first_in -> for the same reason, we need to skip 1 frame if html
+		animcurve.update(max(frame_counter - 1, 0), slide_frames);
 		
 		if (first_in) {
 			first_in = false;
-			dest_canvas = get_app_canvas();
-			have_x = variable_struct_exists(values, "x");
-			have_y = variable_struct_exists(values, "y");
+			// 1 frame delay to have gms set up all surfaces in the new room
+			// just draw the screenshot from previous room for 1 more frame
+			source_canvas.DrawStretchedExt(0, 0, draw_width, draw_height, c_white, 1);
+			return;
 		}
 
-		var srcx = CAM_WIDTH  * (have_x ? values.x() : 0);
-		var srcy = CAM_HEIGHT * (have_y ? values.y() : 0);
-		var destx = (have_x ? CAM_WIDTH : 0); // start outside of the view
-		var desty = (have_y ? CAM_HEIGHT : 0);
+		if (dest_canvas == undefined) {
+			dest_canvas = get_app_canvas();
+			have_x = animcurve.channel_exists("x");
+			have_y = animcurve.channel_exists("y");
+		}
+		
+		var srcx = draw_width  * (have_x ? values.x() : 0);
+		var srcy = draw_height * (have_y ? values.y() : 0);
+		var destx = (have_x ? draw_width  : 0); // start outside of the view
+		var desty = (have_y ? draw_height : 0);
 
 		if (srcx != 0 || srcy != 0) {
 			// draw the new surface only if anything has changed (i.e. not in the first frame)
-			if (srcx < 0) destx = srcx + CAM_WIDTH; else
-			if (srcx > 0) destx = srcx - CAM_WIDTH;
-			if (srcy < 0) desty = srcy + CAM_HEIGHT; else
-			if (srcy > 0) desty = srcy - CAM_HEIGHT;
+			if (srcx < 0) destx = srcx + draw_width; else
+			if (srcx > 0) destx = srcx - draw_width;
+			if (srcy < 0) desty = srcy + draw_height; else
+			if (srcy > 0) desty = srcy - draw_height;
 		}
 
 		draw_clear_alpha(c_black, 0.0); // in case of an overshoot animation, make sure, the surface is cleared
-		draw_surface_stretched_ext(source_canvas.GetSurfaceID(), srcx, srcy, CAM_WIDTH, CAM_HEIGHT, c_white, 1);
-		draw_surface_stretched_ext(dest_canvas.GetSurfaceID(), destx, desty, CAM_WIDTH, CAM_HEIGHT, c_white, 1);
+		source_canvas.DrawStretchedExt(srcx, srcy, draw_width, draw_height, c_white, 1);
+		dest_canvas.DrawStretchedExt(destx, desty, draw_width, draw_height, c_white, 1);
 		
 		if (frame_counter >= slide_frames) {
 			source_canvas.Free();

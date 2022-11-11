@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Generator",
-    "path": "folders/_juju_/Scribble/(System - don't call these functions)/Generator.yy",
+    "path": "folders/_third_party_packages_/Scribble/(System - don't call these functions)/Generator.yy",
   },
 }

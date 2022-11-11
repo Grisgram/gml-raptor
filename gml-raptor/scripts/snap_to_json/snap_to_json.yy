@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "JSON",
-    "path": "folders/_juju_/SNAP/JSON.yy",
+    "path": "folders/_third_party_packages_/SNAP/JSON.yy",
   },
 }

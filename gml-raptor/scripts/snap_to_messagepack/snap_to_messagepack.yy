@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Messagepack",
-    "path": "folders/_juju_/SNAP/Messagepack.yy",
+    "path": "folders/_third_party_packages_/SNAP/Messagepack.yy",
   },
 }

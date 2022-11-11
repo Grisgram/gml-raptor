@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Animation",
-    "path": "folders/_juju_/Scribble/Animation.yy",
+    "path": "folders/_third_party_packages_/Scribble/Animation.yy",
   },
 }

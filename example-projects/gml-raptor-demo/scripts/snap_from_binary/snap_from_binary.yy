@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Binary",
-    "path": "folders/_juju_/SNAP/Binary.yy",
+    "path": "folders/_third_party_packages_/SNAP/Binary.yy",
   },
 }

@@ -5,7 +5,7 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+    "name": "Canvas",
+    "path": "folders/_third_party_packages_/Canvas.yy",
   },
 }
