@@ -5,6 +5,6 @@
   "type": 1,
   "parent": {
     "name": "Shaders",
-    "path": "folders/_juju_/Scribble/(System - don't call these functions)/Shaders.yy",
+    "path": "folders/_third_party_packages_/Scribble/(System - don't call these functions)/Shaders.yy",
   },
 }

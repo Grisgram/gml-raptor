@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Scribble",
-    "path": "folders/_juju_/Scribble.yy",
+    "path": "folders/_third_party_packages_/Scribble.yy",
   },
 }

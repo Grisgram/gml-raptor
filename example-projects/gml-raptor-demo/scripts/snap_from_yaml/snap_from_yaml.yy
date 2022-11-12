@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "YAML",
-    "path": "folders/_juju_/SNAP/YAML.yy",
+    "path": "folders/_third_party_packages_/SNAP/YAML.yy",
   },
 }

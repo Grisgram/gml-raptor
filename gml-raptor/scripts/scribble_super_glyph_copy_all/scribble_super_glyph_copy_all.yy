@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Superfonts",
-    "path": "folders/_juju_/Scribble/Superfonts.yy",
+    "path": "folders/_third_party_packages_/Scribble/Superfonts.yy",
   },
 }

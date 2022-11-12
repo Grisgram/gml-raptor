@@ -31,6 +31,10 @@ function macro_camera_viewport_index_switch_back() {
 	VIEWPORT_INDEX	= __VIEWPORT_INDEX_PUSH_STACK;
 }
 
+// application things
+#macro APP_SURF_WIDTH		surface_get_width(application_surface)
+#macro APP_SURF_HEIGHT		surface_get_height(application_surface)
+
 // camera things
 #macro CAM					view_camera[CAM_INDEX]
 #macro CAM_WIDTH			camera_get_view_width(CAM)

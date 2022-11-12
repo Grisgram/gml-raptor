@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Quick Functions",
-    "path": "folders/_juju_/Scribble/Quick Functions.yy",
+    "path": "folders/_third_party_packages_/Scribble/Quick Functions.yy",
   },
 }

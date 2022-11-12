@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "SNAP",
-    "path": "folders/_juju_/SNAP.yy",
+    "path": "folders/_third_party_packages_/SNAP.yy",
   },
 }

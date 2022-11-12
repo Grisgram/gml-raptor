@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "GML",
-    "path": "folders/_juju_/SNAP/GML.yy",
+    "path": "folders/_third_party_packages_/SNAP/GML.yy",
   },
 }

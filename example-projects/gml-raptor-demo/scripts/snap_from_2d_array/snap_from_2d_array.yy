@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "Grids & 2D Arrays",
-    "path": "folders/_juju_/SNAP/Grids & 2D Arrays.yy",
+    "path": "folders/_third_party_packages_/SNAP/Grids & 2D Arrays.yy",
   },
 }

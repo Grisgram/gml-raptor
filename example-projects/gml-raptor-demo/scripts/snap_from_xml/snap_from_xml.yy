@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "XML",
-    "path": "folders/_juju_/SNAP/XML.yy",
+    "path": "folders/_third_party_packages_/SNAP/XML.yy",
   },
 }

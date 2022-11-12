@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "INI",
-    "path": "folders/_juju_/SNAP/INI.yy",
+    "path": "folders/_third_party_packages_/SNAP/INI.yy",
   },
 }

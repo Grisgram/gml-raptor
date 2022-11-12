@@ -6,6 +6,6 @@
   "isCompatibility": false,
   "parent": {
     "name": "CSV",
-    "path": "folders/_juju_/SNAP/CSV.yy",
+    "path": "folders/_third_party_packages_/SNAP/CSV.yy",
   },
 }
