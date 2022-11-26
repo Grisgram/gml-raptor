@@ -41,3 +41,15 @@ function replace_sprite(on_object, replace_with, keep_size = true, keep_location
 		}
 	}
 }
+
+
+/// @function		instance_create(xp, yp, layer_name_or_depth, object, struct = undefined)
+/// @description	Convenience function to avoid that nasty switching between 
+///					instance_create_layer and instance_create_depth.
+///					Should've been always like that... supply a string to create the instance
+///					on a named layer or supply an integer to create it on a specified depth
+function instance_create(xp, yp, layer_name_or_depth, object, struct = undefined) {
+	return is_string(layer_name_or_depth) ?
+		instance_create_layer(xp, yp, layer_name_or_depth, object, struct) :
+		instance_create_depth(xp, yp, layer_name_or_depth, object, struct);
+}

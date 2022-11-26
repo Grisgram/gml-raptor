@@ -6,6 +6,8 @@
 	
 */
 
+#macro __POOL_EMITTERS		"__particle_emitter_pool"
+
 /// @function					ParticleManager(particle_layer_name)
 /// @description				Helps in organizing particles for a level
 /// @param {string} particle_layer_name
@@ -13,12 +15,20 @@
 function ParticleManager(particle_layer_name) constructor {
 	log(sprintf("ParticleManager created for layer '{0}'", particle_layer_name));
 	system = part_system_create_layer(particle_layer_name, false);
-	__particle_types = {};
-	__emitters = {};
-	__emitter_ranges = {};
 	
-	__buffered_delta = {};
-	__buffered_target = {};
+	__emitter_object	= ParticleEmitter;
+	__particle_types	= {};
+	__emitters			= {};
+	__emitter_ranges	= {};
+	
+	__buffered_delta	= {};
+	__buffered_target	= {};
+	
+	/// @function		set_emitter_object(_emitter_object)
+	/// @description	Set an object type to use when attaching emitters (default = ParticleEmitter)
+	static set_emitter_object = function(_emitter_object) {
+		__emitter_object = _emitter_object;
+	}
 	
 	/// @function					particle_type_get(name)
 	/// @description				register (or get existing) part type for leak-free destroying at end of level
@@ -53,6 +63,65 @@ function ParticleManager(particle_layer_name) constructor {
 		var rv = variable_struct_exists(__emitters, name) ? variable_struct_get(__emitters, name) : part_emitter_create(system);
 		variable_struct_set(__emitters, name, rv);
 		return rv;
+	}
+	
+	/// @function					emitter_clone(name)
+	/// @description				clone an emitter (and its range) to a new name
+	/// @param {string} new_name	the name of the new emitter
+	static emitter_clone = function(name, new_name) {
+		if (!variable_struct_exists(__emitter_ranges, name))
+			return undefined;
+		
+		var rv = emitter_get(new_name);
+		var orig = variable_struct_get(__emitter_ranges, name);
+		var rng = new __emitter_range(new_name, 
+			orig.minco.x, orig.maxco.x,
+			orig.minco.y, orig.maxco.y,
+			orig.eshape,
+			orig.edist
+		);
+		
+		variable_struct_set(__emitter_ranges, new_name, rng);
+		return rv;
+	}
+	
+	/// @function		attach_emitter(name, instance, layer_name_or_depth, particle_type_name, follow_this_instance = true, use_object_pools = true)
+	/// @description	Attach a new ParticleEmitter instance on the specified layer to an instance
+	///					with optional follow-setting.
+	///					NOTE: If you need more than one emitter of this kind, look at attach_emitter_clone
+	/// @returns {ParticleEmitter}	the created object instance on the layer for cleanup if you no longer need it
+	static attach_emitter = function(name, instance, layer_name_or_depth, particle_type_name, follow_this_instance = true, use_object_pools = true) {
+		var xp	= instance.x;
+		var yp	= instance.y;
+		var rv	= use_object_pools ?
+			pool_get_instance(__POOL_EMITTERS, __emitter_object, layer_name_or_depth) :
+			instance_create(xp, yp, layer_name_or_depth, __emitter_object);
+
+		with(rv) if (stream_on_create) stop(); // stop for now - you don't have a particle!
+
+		emitter_get(name);
+		emitter_move_range_to(name, xp, yp);
+
+		with(rv) {
+			x = xp;
+			y = yp;
+			follow_instance = follow_this_instance ? instance : undefined;
+			emitter_name = name;
+			stream_particle_name = particle_type_name;
+			burst_particle_name = particle_type_name;
+			if (stream_on_create) stream(); // NOW you may stream!
+		}	
+		
+		return rv;
+	}
+	
+	/// @function		attach_emitter_clone(name, new_name, instance, layer_name_or_depth, particle_type_name, follow_this_instance = true, use_object_pools = true)
+	/// @description	Attach a clone of an existing emitter to a new ParticleEmitter instance 
+	///					on the specified layer to an instance with optional follow-setting.
+	/// @returns {ParticleEmitter}	the created object instance on the layer for cleanup if you no longer need it
+	static attach_emitter_clone = function(name, new_name, instance, layer_name_or_depth, particle_type_name, follow_this_instance = true, use_object_pools = true) {
+		emitter_clone(name, new_name);
+		return attach_emitter(new_name, instance, layer_name_or_depth, particle_type_name, follow_this_instance, use_object_pools);
 	}
 	
 	/// @function					emitter_exists(name)
@@ -103,7 +172,7 @@ function ParticleManager(particle_layer_name) constructor {
 		}
 		variable_struct_remove(__buffered_target, name);
 		var diff = rng.maxco.clone2().minus(rng.minco);
-		rng.minco.set(newx, newy);
+		rng.minco.set(rng.baseminco.x + newx, rng.baseminco.y + newy);
 		rng.maxco = rng.minco.clone2().plus(diff);
 		part_emitter_region(system, emitter_get(name), rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 	}
@@ -143,18 +212,24 @@ function ParticleManager(particle_layer_name) constructor {
 		part_system_destroy(system);
 		var names = variable_struct_get_names(__particle_types);
 		var i = 0; repeat(array_length(names)) {
-			part_type_destroy(variable_struct_get(__particle_types, names[i]));
-			variable_struct_set(__particle_types, names[i], undefined);
+			if (variable_struct_exists(__particle_types, names[i]) && 
+				variable_struct_get   (__particle_types, names[i]) != undefined) {
+				part_type_destroy(variable_struct_get(__particle_types, names[i]));
+				variable_struct_set(__particle_types, names[i], undefined);
+			}
 			i++;
 		}
 		__particle_types = {};
 		
 		names = variable_struct_get_names(__emitters);
 		i = 0; repeat(array_length(names)) {
-			var emitter = variable_struct_get(__emitters, names[i]);
-			part_emitter_clear(system, emitter);
-			part_emitter_destroy(system, emitter);
-			variable_struct_set(__emitters, names[i], undefined);
+			if (variable_struct_exists(__emitters, names[i]) && 
+				variable_struct_get   (__emitters, names[i]) != undefined) {
+				var emitter = variable_struct_get(__emitters, names[i]);
+				part_emitter_clear(system, emitter);
+				part_emitter_destroy(system, emitter);
+				variable_struct_set(__emitters, names[i], undefined);
+			}
 			i++;
 		}
 		__emitters = {};
@@ -231,6 +306,8 @@ function __emitter_range(name, xmin, xmax, ymin, ymax, shape, distribution) cons
 	center = new Coord2((xmax - xmin) / 2, (ymax - ymin) / 2);
 	minco = new Coord2(xmin, ymin);
 	maxco = new Coord2(xmax, ymax);
+	baseminco = minco.clone2();
+	basemaxco = maxco.clone2();
 	eshape = shape;
 	edist = distribution;
 }
