@@ -21,7 +21,7 @@ function GameSettings() constructor {
 
 function load_settings() {
 	GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,,FILE_CRYPT_KEY) ?? new GameSettings();
-	if (HIGHSCORES != undefined)
+	if (HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
 		HIGHSCORES.assign_data(GAMESETTINGS.highscoredata);
 	AUDIOSETTINGS = GAMESETTINGS.audio;
 }

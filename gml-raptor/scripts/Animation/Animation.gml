@@ -548,6 +548,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
+	static toString = function() {
+		var me = "";
+		with (owner) me = MY_NAME;
+		return sprintf("{0}: delay={1}; duration={2}; repeats={3};", me, delay, duration, repeats);
+	}
+
 	reset();
 	reset_triggers();
 
@@ -597,26 +603,12 @@ function animation_abort_all(owner = self) {
 /// @returns {bool}		true, if at least one animation for the specified owner/name is active
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
-	if (IS_HTML) {
-		var myowner;
-		with (owner) myowner = MY_NAME;
-		// GMS HTML runtime is not able to recognize reference equality correctly, 
-		// so we need to tweak here (UGLY!!!)
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			var otherowner;
-			with (item.owner)
-				otherowner = MY_NAME;
-			if (myowner == otherowner && (name == undefined || name == item.name))
-				return true;
-		}		
-	} else {
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			if (item.owner == owner && (name == undefined || name == item.name))
-				return true;
-		}
+	for (var i = 0; i < ds_list_size(lst); i++) {
+		var item = lst[| i];
+		if (item.owner == owner && (name == undefined || name == item.name))
+			return true;
 	}
+
 	return false;
 }
 
