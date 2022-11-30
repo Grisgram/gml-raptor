@@ -66,7 +66,7 @@ __update_position = function(ps = undefined, force = false) {
 			ps = ps ?? __get_partsys();
 			ps.emitter_move_range_to(emitter_name, x, y);
 			if (scale_with_instance)
-				ps.emitter_scale_to(self);
+				ps.emitter_scale_to(emitter_name, self);
 		}
 	}
 }
