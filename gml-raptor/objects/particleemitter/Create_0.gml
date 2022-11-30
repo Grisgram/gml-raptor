@@ -65,12 +65,8 @@ __update_position = function(ps = undefined, force = false) {
 		if (x != xprevious || y != yprevious || force) {
 			ps = ps ?? __get_partsys();
 			ps.emitter_move_range_to(emitter_name, x, y);
-			var rmin = ps.emitter_get_range_min(emitter_name);
-			var rmax = ps.emitter_get_range_max(emitter_name);
-			var distx = rmax.x - rmin.x;
-			var disty = rmax.y - rmin.y;
-			rmax.x = rmin.x + (distx * follow_instance.image_xscale);
-			rmax.y = rmin.y + (disty * follow_instance.image_yscale);
+			if (scale_with_instance)
+				ps.emitter_scale_to(self);
 		}
 	}
 }

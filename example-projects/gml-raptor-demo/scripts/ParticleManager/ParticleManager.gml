@@ -188,13 +188,21 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		part_emitter_region(system, emitter_get(name), rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 	}
 
+	/// @function		emitter_scale_to(name, instance)
+	/// @description	scales the emitter range to a specified object instance
+	static emitter_scale_to = function(name, instance) {
+		var rng = variable_struct_get(__emitter_ranges, name);
+		if (rng != undefined)
+			rng.scale_to(instance);
+	}
+	
 	/// @function		emitter_get_range_min(name)
 	/// @description	Gets the min coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_min = function(name) {
 		var rng = variable_struct_get(__emitter_ranges, name);
 		return (rng != undefined ? rng.minco : new Coord2(-1, -1));
 	}
-	
+
 	/// @function		emitter_get_range_max(name)
 	/// @description	Gets the min coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_max = function(name) {
@@ -315,6 +323,10 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 
 
 function __emitter_range(name, xmin, xmax, ymin, ymax, shape, distribution) constructor {
+	ctor = {
+		minco: new Coord2(xmin, ymin),
+		maxco: new Coord2(xmax, ymax)
+	};
 	ename = name;
 	center = new Coord2((xmax - xmin) / 2, (ymax - ymin) / 2);
 	minco = new Coord2(xmin, ymin);
@@ -323,4 +335,13 @@ function __emitter_range(name, xmin, xmax, ymin, ymax, shape, distribution) cons
 	basemaxco = maxco.clone2();
 	eshape = shape;
 	edist = distribution;
+	
+	/// @function		scale_to(instance)
+	static scale_to = function(instance) {
+		minco.set(ctor.minco.x * instance.image_xscale, ctor.minco.y * instance.image_yscale);
+		maxco.set(ctor.maxco.x * instance.image_xscale, ctor.maxco.y * instance.image_yscale);
+		center.set((maxco.x - minco.x) / 2, (maxco.y - minco.y) / 2);
+		baseminco.set(minco.x, minco.y);
+		basemaxco.set(maxco.x, maxco.y);
+	}
 }

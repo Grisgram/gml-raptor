@@ -255,6 +255,7 @@
     {"id":{"name":"InputBox","path":"objects/InputBox/InputBox.yy",},"order":1,},
     {"id":{"name":"scribble_anim_blink","path":"scripts/scribble_anim_blink/scribble_anim_blink.yy",},"order":0,},
     {"id":{"name":"LayerManager","path":"scripts/LayerManager/LayerManager.yy",},"order":5,},
+    {"id":{"name":"PersistentGameController","path":"objects/PersistentGameController/PersistentGameController.yy",},"order":3,},
     {"id":{"name":"CameraRuntime","path":"scripts/CameraRuntime/CameraRuntime.yy",},"order":13,},
     {"id":{"name":"__scribble_system","path":"scripts/__scribble_system/__scribble_system.yy",},"order":10,},
     {"id":{"name":"scribble_anim_wheel","path":"scripts/scribble_anim_wheel/scribble_anim_wheel.yy",},"order":8,},
