@@ -27,16 +27,19 @@ function Pythagoras() constructor {
 		a		= x2 - x1;
 		b		= y2 - y1;
 		c		= sqrt(a*a + b*b);
-		alpha	= radtodeg(arcsin(a / c));
-		beta	= radtodeg(arcsin(b / c));
-		var q = (x2 > x1 ? 
-			(y2 < y1 ? 0 : 3) :
-			(y2 < y1 ? 1 : 2));
-		if (q == 0) angle = -beta;
-		else if (q == 1) angle = 180 + beta;
-		else if (q == 2) angle = 180 + beta;
-		else if (q == 3) angle = 360 - beta;
-		return self;
+		if (c != 0) {
+			alpha	= radtodeg(arcsin(a / c));
+			beta	= radtodeg(arcsin(b / c));
+			var q = (x2 > x1 ? 
+				(y2 < y1 ? 0 : 3) :
+				(y2 < y1 ? 1 : 2));
+			if (q == 0) angle = -beta;
+			else if (q == 1) angle = 180 + beta;
+			else if (q == 2) angle = 180 + beta;
+			else if (q == 3) angle = 360 - beta;
+			gamma = 180 - (alpha + beta);
+		} else 
+			return clear();
 	}
 
 	static clear = function() {
@@ -45,6 +48,7 @@ function Pythagoras() constructor {
 		c		= 0;
 		alpha	= 0;
 		beta	= 0;
+		gamma	= 0;
 		angle	= 0;
 		return self;
 	}

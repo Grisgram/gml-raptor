@@ -387,11 +387,14 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return __active ? (duration - __frame_counter + 1) : (delay - __delay_counter + duration);
 	}
 
-	static __process_final_state = function() {
+	/// @function		__process_final_state(aborted = false)
+	static __process_final_state = function(aborted = false) {
 		if (!string_is_empty(finished_state)) {
 			var st = finished_state;
 			with (owner) states.set_state(st);
 		}
+		
+		if (aborted) return;
 		
 		// First check, if we need to loop...
 		if (chain_loop_target != undefined) {
@@ -516,7 +519,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		ANIMATIONS.remove(self);
 		if (!was_finished) {
 			__invoke_triggers(__finished_triggers);
-			__process_final_state();
+			__process_final_state(true);
 		}
 	}
 		

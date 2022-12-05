@@ -58,6 +58,10 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 			instance_activate_object(rv);
 			var xp = (variable_instance_exists(self, "x") ? x : 0) ?? 0;
 			var yp = (variable_instance_exists(self, "y") ? y : 0) ?? 0;
+			with(rv) {
+				x = xp;
+				y = yp;
+			}
 			ds_list_delete(pool, i);
 			__pool_invoke_activate(rv);
 			return rv;

@@ -284,6 +284,20 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			particles_per_frame);
 	}
 	
+	/// @function			stream_at(xpos, ypos, emitter_name, particle_name, particles_per_frame)
+	/// @description		start streaming particles at a specified rate and at a specified coordinate
+	///						ATTENTION! This method will move the emitter range to the specified coordinates!
+	/// @param {int} xpos
+	/// @param {int} ypos
+	/// @param {string} emitter_name
+	/// @param {string} particle_name
+	/// @param {real} particles_per_frame
+	static stream_at = function(xpos, ypos, emitter_name, particle_name, particles_per_frame) {
+		__apply_buffering(emitter_name);
+		emitter_move_range_to(emitter_name, xpos, ypos);
+		stream(emitter_name, particle_name, particles_per_frame);
+	}
+
 	/// @function			stream_stop(emitter_name)
 	/// @description		stop streaming particles.
 	///						ATTENTION! You must setup part_emitter_region again if this
@@ -308,7 +322,21 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			particle_type_get(particle_name), 
 			particle_count);
 	}
-	
+
+	/// @function			burst_at(xpos, ypos, emitter_name, particle_name, particle_count)
+	/// @description		one time particle explosion burst at a specified coordinate
+	///						ATTENTION! This method will move the emitter range to the specified coordinates!
+	/// @param {int} xpos
+	/// @param {int} ypos
+	/// @param {string} emitter_name
+	/// @param {string} particle_name
+	/// @param {real} particle_count
+	static burst_at = function(xpos, ypos, emitter_name, particle_name, particle_count) {
+		__apply_buffering(emitter_name);
+		emitter_move_range_to(emitter_name, xpos, ypos);
+		burst(emitter_name, particle_name, particle_count);
+	}
+
 	/// @function			spawn_particles(xpos, ypos, particle_name, particle_count)
 	/// @description		spawn particles at a specified position without an emitter
 	/// @param {real} xpos
