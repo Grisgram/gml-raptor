@@ -330,7 +330,9 @@ function StateMachine(_owner) constructor {
 	}
 	
 	static toString = function() {
-		return active_state != undefined ? sprintf("[{0}]", active_state.name) : "[-NO-STATE-]";
+		var me = "";
+		with (owner) me = MY_NAME;
+		return sprintf("{0}: state='{1}'; locked='{2}'; paused={3};", me, active_state_name(), locking_animation, __objectpool_paused);
 	}
 	
 	STATEMACHINES.add(self);

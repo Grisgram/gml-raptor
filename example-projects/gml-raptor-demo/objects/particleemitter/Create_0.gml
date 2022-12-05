@@ -33,8 +33,10 @@
 	RoomController).
 */
 
+__follow_offset = new Coord2(0, 0);
+
 __raptor_onPoolActivate = function() {
-	__follow_offset = undefined;
+	__follow_offset.set(0, 0);
 }
 
 __raptor_onPoolDeactivate = function() {
@@ -47,52 +49,98 @@ __get_partsys = function() {
 	return (is_array(PARTSYS) ? PARTSYS[@ partsys_index] : PARTSYS);
 }
 
-/// @function		stream(particle_name = undefined, particles_per_frame = undefined)
+/// @function		set_offset(xoff, yoff)
+/// @description	sets a static offset distance to apply when following an instance
+set_offset = function(xoff, yoff) {
+	__follow_offset.set(xoff, yoff);
+	__update_position(,true);
+	return self;
+}
+
+/// @function		__update_position(ps = undefined)
+__update_position = function(ps = undefined, force = false) {
+	if (follow_instance != undefined && instance_exists(follow_instance)) {
+		x = follow_instance.x + __follow_offset.x * follow_instance.image_xscale;
+		y = follow_instance.y + __follow_offset.y * follow_instance.image_yscale;
+		if (x != xprevious || y != yprevious || force) {
+			ps = ps ?? __get_partsys();
+			ps.emitter_move_range_to(emitter_name, x, y);
+			if (scale_with_instance)
+				ps.emitter_scale_to(emitter_name, self);
+		}
+	}
+}
+
+/// @function		stream(particles_per_frame = undefined, particle_name = undefined)
 /// @description	Starts streaming particles as defined for the emitter.
 ///					If you don't supply any parameters, the values from the variable definitions
 ///					are used.
-stream = function(particle_name = undefined, particles_per_frame = undefined) {
+stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	var pn = particle_name ?? stream_particle_name;
 	var pc = particles_per_frame ?? stream_particle_count;
+	
+	stream_particle_count = pc;
+	
+	if (string_is_empty(pn) || string_is_empty(emitter_name)) {
+		if (DEBUG_LOG_PARTICLES)
+			log(MY_NAME + " ignored stream() call - no emitter name or particle name");
+		return;
+	}
+	
 	var ps = __get_partsys();
-	log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
+	__update_position(ps, true);
+	if (DEBUG_LOG_PARTICLES)
+		log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
+	ps.stream_stop(emitter_name);
 	ps.stream(emitter_name, pn, pc);
+	return self;
 }
 
 /// @function		stop()
 /// @description	Stops streaming
 stop = function() {
-	log(MY_NAME + sprintf(": Stopped streaming through '{0}'", emitter_name));
+	if (DEBUG_LOG_PARTICLES)
+		log(MY_NAME + sprintf(": Stopped streaming through '{0}'", emitter_name));
 	var ps = __get_partsys();	
 	ps.stream_stop(emitter_name);
+	return self;
 }
 
-/// @function		burst(particle_name = undefined, particle_count = undefined)
+/// @function		burst(particle_count = undefined, particle_name = undefined, stop_streaming = true)
 /// @description	Immediately bursts out n particles
 ///					If you don't supply any parameters, the values from the variable definitions
 ///					are used.
 ///					If no burst_particle_name is set in the variable definitions, the
 ///					stream_particle_name is used.
-burst = function(particle_name = undefined, particle_count = undefined) {
+burst = function(particle_count = undefined, particle_name = undefined, stop_streaming = true) {
 	var pn = particle_name ?? burst_particle_name;
 	pn = pn ?? stream_particle_name;
 	var pc = particle_count ?? burst_particle_count;
-	var ps = __get_partsys();	
-	log(MY_NAME + sprintf(": Bursting {0} '{1}' particles at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
+	
+	burst_particle_count = pc;
+	
+	var ps = __get_partsys();
+	if (stop_streaming) stop();
+	__update_position(ps, true);
+	if (DEBUG_LOG_PARTICLES)
+		log(MY_NAME + sprintf(": Bursting {0} '{1}' particles at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
 	ps.burst(emitter_name, pn, pc);
+	return self;
 }
 
 prev_x = x;
 prev_y = y;
 
-var initps = __get_partsys();	
-initps.emitter_move_range_to(emitter_name, x, y);
+if (!string_is_empty(emitter_name)) {
+	var initps = __get_partsys();	
+	initps.emitter_move_range_to(emitter_name, x, y);
+}
 
 // Inherit the parent event
 event_inherited();
 
 if (stream_on_create) {
-	if (stream_start_delay > 0)
+	if (stream_start_delay > 0 && DEBUG_LOG_PARTICLES)
 		log(MY_NAME + sprintf(": Will start streaming in {0} frames", stream_start_delay));
 	run_delayed(self, stream_start_delay, function() { stream(); });
 }

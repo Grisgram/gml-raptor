@@ -55,6 +55,7 @@ function onGameStart() {
 	DEBUG_LOG_LIST_POOLS		= false;
 	DEBUG_LOG_STATEMACHINE		= false;
 	DEBUG_LOG_RACE				= false;
+	DEBUG_LOG_PARTICLES			= false;
 	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script

@@ -1,4 +1,4 @@
-#macro GML_RAPTOR_VERSION	"2.0"
+#macro GML_RAPTOR_VERSION	"2.1"
 #macro GML_RAPTOR_NAME		"gml-raptor "
 #macro GML_RAPTOR_COPYRIGHT	"(c)2022* indievidualgames, @Grisgram (github)"
 

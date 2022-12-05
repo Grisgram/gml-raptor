@@ -37,6 +37,9 @@ global.__unique_count_up_id	= 0;
 #macro UID		(++global.__unique_count_up_id)
 #macro SUID		string(++global.__unique_count_up_id)
 
+// undocumented feature: a sprite-less object counts the frames - gamecontroller likely never has a sprite!
+#macro GAMEFRAME	GAMECONTROLLER.image_index
+
 // Those macros define all situations that can lead to an invisible element on screen
 #macro __LAYER_OR_OBJECT_HIDDEN	(!visible || (layer_get_name(layer) != -1 && !layer_get_visible(layer)))
 #macro __HIDDEN_BEHIND_POPUP	(GUI_POPUP_VISIBLE && !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP))

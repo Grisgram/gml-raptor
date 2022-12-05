@@ -2,6 +2,26 @@
     Helper functions for sprites and objects
 */
 
+/// @function		instance_create(xp, yp, layer_name_or_depth, object, struct = undefined)
+/// @description	Convenience function to avoid that nasty switching between 
+///					instance_create_layer and instance_create_depth.
+///					Should've been always like that... supply a string to create the instance
+///					on a named layer or supply an integer to create it on a specified depth
+function instance_create(xp, yp, layer_name_or_depth, object, struct = undefined) {
+	return is_string(layer_name_or_depth) ?
+		instance_create_layer(xp, yp, layer_name_or_depth, object, struct) :
+		instance_create_depth(xp, yp, layer_name_or_depth, object, struct);
+}
+
+/// @function		scale_sprite_to(target_width, target_height)
+/// @description	Scale an instances' sprite so that it has the desired dimensions.
+function scale_sprite_to(target_width, target_height) {
+	var w1 = sprite_get_width(sprite_index);
+	var h1 = sprite_get_height(sprite_index);
+	image_xscale = target_width / w1;
+	image_yscale = target_height / h1;
+}
+
 /// @function		replace_sprite(on_object, replace_with, keep_size = true, keep_location = true)
 /// @description	Replaces the current sprite with the specified one.
 ///					The method checks if "replace_with" is undefined or noone,
@@ -41,3 +61,5 @@ function replace_sprite(on_object, replace_with, keep_size = true, keep_location
 		}
 	}
 }
+
+

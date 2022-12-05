@@ -51,7 +51,7 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 	} else if (is_array(particle_layer_names)) {
 		PARTSYS = array_create(array_length(particle_layer_names));
 		for (var i = 0; i < array_length(PARTSYS); i++)
-			PARTSYS[@ i] = new ParticleManager(particle_layer_names[@ i]);
+			PARTSYS[@ i] = new ParticleManager(particle_layer_names[@ i], i);
 	} else
 		PARTSYS = undefined;
 }

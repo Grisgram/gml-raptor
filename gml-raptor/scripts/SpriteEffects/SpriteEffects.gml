@@ -1,4 +1,4 @@
-#macro __POOL_EFFECTS		"sprite_effects_pool"
+#macro __POOL_EFFECTS		"__sprite_effects_pool"
 
 /// @function					effect_start_scaled_by(sprite, on_layer, xp, yp, _xscale, _yscale, rotation, speed_multiplier, finished_callback)
 /// @description				start a pooled effect animation scaled by a factor

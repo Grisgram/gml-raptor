@@ -49,7 +49,7 @@ function __msgbox_callback_wrapper() {
 	}
 	ACTIVE_MESSAGE_BOX.close();
 	if (btnstruct != undefined) {
-		if (btnstruct.callback != undefined)
+		if (is_method(btnstruct.callback))
 			btnstruct.callback();
 	} else
 		log("*ERROR* Could not find MessageBox Button in __buttons array!");

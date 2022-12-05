@@ -85,6 +85,19 @@ function ListPool(_name = "listPool") constructor {
 		ds_list_destroy(list);
 	}
 
+	/// @function		dump()
+	/// @description	For debugging purposes. Prints all objects to the console
+	static dump = function() {
+		var i = 0;
+		log(sprintf("---- LIST POOL '{0}' DUMP START ----", name));
+		repeat(ds_list_size(list)) {
+			var item = ds_list_find_value(list, i);
+			log(sprintf("#{0}: {1}", i, item));
+			i++;
+		}
+		log(sprintf("---- LIST POOL '{0}' DUMP  END  ----", name));
+	}
+
 }
 
 /// @function		__listpool_get_all_owner_objects(_listpool, owner)
@@ -94,25 +107,10 @@ function __listpool_get_all_owner_objects(_listpool, owner) {
 	var rv = [];
 
 	var lst = _listpool.list;
-	if (IS_HTML) {
-		var myowner;
-		with (owner) myowner = MY_NAME;
-		// GMS HTML runtime is not able to recognize reference equality correctly, 
-		// so we need to tweak here (UGLY!!!)
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			var otherowner;
-			with (item.owner)
-				otherowner = MY_NAME;
-			if (myowner == otherowner)
-				array_push(rv, item);
-		}		
-	} else {
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			if (item.owner == owner)
-				array_push(rv, item);
-		}
+	for (var i = 0; i < ds_list_size(lst); i++) {
+		var item = lst[| i];
+		if (item.owner == owner)
+			array_push(rv, item);
 	}
 
 	return rv;

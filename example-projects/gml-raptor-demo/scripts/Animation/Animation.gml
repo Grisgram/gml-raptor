@@ -387,11 +387,14 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return __active ? (duration - __frame_counter + 1) : (delay - __delay_counter + duration);
 	}
 
-	static __process_final_state = function() {
+	/// @function		__process_final_state(aborted = false)
+	static __process_final_state = function(aborted = false) {
 		if (!string_is_empty(finished_state)) {
 			var st = finished_state;
 			with (owner) states.set_state(st);
 		}
+		
+		if (aborted) return;
 		
 		// First check, if we need to loop...
 		if (chain_loop_target != undefined) {
@@ -516,7 +519,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		ANIMATIONS.remove(self);
 		if (!was_finished) {
 			__invoke_triggers(__finished_triggers);
-			__process_final_state();
+			__process_final_state(true);
 		}
 	}
 		
@@ -546,6 +549,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 			reset_triggers();
 			
 		return self;
+	}
+
+	static toString = function() {
+		var me = "";
+		with (owner) me = MY_NAME;
+		return sprintf("{0}: delay={1}; duration={2}; repeats={3};", me, delay, duration, repeats);
 	}
 
 	reset();
@@ -597,26 +606,12 @@ function animation_abort_all(owner = self) {
 /// @returns {bool}		true, if at least one animation for the specified owner/name is active
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
-	if (IS_HTML) {
-		var myowner;
-		with (owner) myowner = MY_NAME;
-		// GMS HTML runtime is not able to recognize reference equality correctly, 
-		// so we need to tweak here (UGLY!!!)
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			var otherowner;
-			with (item.owner)
-				otherowner = MY_NAME;
-			if (myowner == otherowner && (name == undefined || name == item.name))
-				return true;
-		}		
-	} else {
-		for (var i = 0; i < ds_list_size(lst); i++) {
-			var item = lst[| i];
-			if (item.owner == owner && (name == undefined || name == item.name))
-				return true;
-		}
+	for (var i = 0; i < ds_list_size(lst); i++) {
+		var item = lst[| i];
+		if (item.owner == owner && (name == undefined || name == item.name))
+			return true;
 	}
+
 	return false;
 }
 
