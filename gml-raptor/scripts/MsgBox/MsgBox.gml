@@ -201,6 +201,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			force_redraw();
 		}
 		show_popup(MESSAGEBOX_LAYER);
+		BROADCASTER.send(self, __RAPTOR_BROADCAST_MSGBOX_OPENED);
 		return self;
 	}
 	
@@ -211,6 +212,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		if (__x_button != undefined)
 			instance_destroy(__x_button);
 		ACTIVE_MESSAGE_BOX = __prev_messagebox;
+		BROADCASTER.send(self, __RAPTOR_BROADCAST_MSGBOX_CLOSED);
 		log("MessageBox closed.");
 		if (ACTIVE_MESSAGE_BOX == undefined)
 			hide_popup();
