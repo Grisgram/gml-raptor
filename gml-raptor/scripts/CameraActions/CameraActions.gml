@@ -67,8 +67,12 @@ function __camera_action_zoom(actiondata) {
 		actiondata.cam_start_w = CAM_WIDTH;
 		actiondata.cam_start_h = CAM_HEIGHT;
 		
-		if (actiondata.relative) 
+		if (actiondata.relative) {
+			actiondata.width_delta = actiondata.width_delta > 0 ?
+				min(actiondata.width_delta, actiondata.max_width - CAM_WIDTH) :
+				-min(abs(actiondata.width_delta), CAM_WIDTH - actiondata.min_width);
 			actiondata.new_width = CAM_WIDTH + actiondata.width_delta;
+		}
 		
 		var width_delta = actiondata.new_width - CAM_WIDTH;
 		var new_height = CAM_HEIGHT + (width_delta / CAM_ASPECT_RATIO);
@@ -89,6 +93,10 @@ function __camera_action_zoom(actiondata) {
 		actiondata.cam_start_w + actiondata.next_step_x,
 		actiondata.cam_start_h + actiondata.next_step_y);
 	
+	camera_set_view_pos(cam, 
+		CAM_LEFT_EDGE - actiondata.step_delta_x / 2, 
+		CAM_TOP_EDGE - actiondata.step_delta_y / 2);
+		
 	if (camera_get_view_target(cam) != -1) {
 		// if there's a target set, align the borders of the view 
 		camera_set_view_border(cam, 

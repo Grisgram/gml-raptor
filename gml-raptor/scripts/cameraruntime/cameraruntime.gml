@@ -33,7 +33,7 @@ function __camera_runtime() {
 			has_camera_action_with:  function(script_to_call) {
 				var i = 0; repeat(array_length(active_camera_actions)) {
 					var action = active_camera_actions[i++];
-					if (action != undefined && action.callback == script_to_call)
+					if (action != undefined && action.callback == script_to_call && !action.completed)
 						return true;
 				}
 				return false;

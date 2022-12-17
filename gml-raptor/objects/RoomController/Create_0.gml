@@ -151,18 +151,22 @@ camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_i
 	return a; 
 }
 
-/// @function					camera_zoom_by(frames, width_delta, enqueue_if_running = true, camera_index = 0)
+/// @function					camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
 /// @description				zoom the camera animated by X pixels
 /// @param {int} frames 			
 /// @param {real} width_delta
+/// @param {real} min_width
+/// @param {real} max_width
 /// @param {bool=true} enqueue_if_running
 /// @param {int=0} camera_index
 /// @returns {camera_action_data} struct
-camera_zoom_by = function(frames, width_delta, enqueue_if_running = true, camera_index = 0) {
+camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
 	a.first_call = true;
 	a.relative = true; // relative tells the action to use a.new_width for calculation
+	a.min_width = min_width;
+	a.max_width = max_width;
 	a.width_delta = width_delta;
 	// Return the action to our caller
 	return a; 
