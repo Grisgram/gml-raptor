@@ -187,8 +187,8 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 
 			__draw_self(); // force variable update...
 			if (draw_on_gui) {
-				x = translate_gui_to_world_x(UI_VIEW_CENTER_X - SELF_UI_VIEW_CENTER_X);
-				y = translate_gui_to_world_y(UI_VIEW_CENTER_Y - SELF_UI_VIEW_CENTER_Y - UI_VIEW_HEIGHT / 6);
+				x = UI_VIEW_CENTER_X - SELF_CENTER_X;
+				y = UI_VIEW_CENTER_Y - SELF_CENTER_Y - UI_VIEW_HEIGHT / 6;
 				y = min(max(y, 0), UI_VIEW_HEIGHT - sprite_height);
 			} else {
 				x = VIEW_CENTER_X - SELF_VIEW_CENTER_X;

@@ -58,6 +58,13 @@ function __camera_action_screen_shake(actiondata) {
 		camera_set_view_target(view_camera[actiondata.camera_index], actiondata.restore_target);
 }
 
+function __camera_set_pos(cam, xp, yp) {
+	gml_pragma("forceinline");
+	camera_set_view_pos(cam, 
+		max(CAM_MIN_X, min(xp, CAM_MAX_X - CAM_WIDTH)),
+		max(CAM_MIN_Y, min(yp, CAM_MAX_Y - CAM_HEIGHT)));
+}
+
 function __camera_action_zoom(actiondata) {
 	var cam = view_camera[actiondata.camera_index];
 	if (actiondata.first_call) {
@@ -93,7 +100,7 @@ function __camera_action_zoom(actiondata) {
 		actiondata.cam_start_w + actiondata.next_step_x,
 		actiondata.cam_start_h + actiondata.next_step_y);
 	
-	camera_set_view_pos(cam, 
+	__camera_set_pos(cam, 
 		CAM_LEFT_EDGE - actiondata.step_delta_x / 2, 
 		CAM_TOP_EDGE - actiondata.step_delta_y / 2);
 		
@@ -130,11 +137,11 @@ function __camera_action_move(actiondata) {
 	actiondata.next_step_x = actiondata.distance_x * anim_curve_step.x;
 	actiondata.next_step_y = actiondata.distance_y * anim_curve_step.y;
 	
-	camera_set_view_pos(cam, 
+	__camera_set_pos(cam, 
 		actiondata.cam_start_x + actiondata.next_step_x, 
 		actiondata.cam_start_y + actiondata.next_step_y);
 			
 	if (actiondata.completed) 
-		camera_set_view_pos(cam, actiondata.target_x, actiondata.target_y);	
+		__camera_set_pos(cam, actiondata.target_x, actiondata.target_y);	
 }
 

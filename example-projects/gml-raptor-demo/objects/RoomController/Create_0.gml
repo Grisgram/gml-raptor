@@ -106,6 +106,12 @@ WINDOW_SIZE_Y = window_get_height();
 	----------------------
 */
 #region CAMERA CONTROL
+
+CAM_MIN_X	= 0;
+CAM_MIN_Y	= 0;
+CAM_MAX_X	= room_width;
+CAM_MAX_Y	= room_height;
+
 __screen_shaking = false;
 /// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
 /// @description				lets rumble! NOTE: Ignored, if already rumbling!
