@@ -64,10 +64,10 @@ CAM_MAX_Y					= 0;
 // View helpers - UI layer
 #macro UI_VIEW_WIDTH				 display_get_gui_width()
 #macro UI_VIEW_HEIGHT				 display_get_gui_height()
-#macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2)
-#macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2)
+#macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2 / GUI_RUNTIME_CONFIG.canvas_scale)
+#macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2 / GUI_RUNTIME_CONFIG.canvas_scale)
 #macro UI_VIEW_ASPECT_RATIO			(UI_VIEW_WIDTH  / UI_VIEW_HEIGHT)
-#macro UI_SCALE						min(UI_VIEW_WIDTH/VIEW_WIDTH, UI_VIEW_HEIGHT/VIEW_HEIGHT)
+#macro UI_SCALE						(min(UI_VIEW_WIDTH/VIEW_WIDTH, UI_VIEW_HEIGHT/VIEW_HEIGHT) / GUI_RUNTIME_CONFIG.canvas_scale)
 
 // View helpers - viewport
 #macro VIEW_WIDTH					view_wport[VIEWPORT_INDEX]

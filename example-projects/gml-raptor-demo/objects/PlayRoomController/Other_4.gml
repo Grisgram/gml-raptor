@@ -3,9 +3,10 @@ event_inherited();
 #macro MAX_ENEMY_COUNT		10
 
 scribble_score = undefined;
-
-msg_show_ok("=play/how_to_play_states/title", "=play/how_to_play_states/text", function() {
-	create_spawner_and_player();
+run_delayed(self, 1, function() {
+	msg_show_ok("=play/how_to_play_states/title", "=play/how_to_play_states/text", function() {
+		create_spawner_and_player();
+	});
 });
 
 gain_score = function(amount) {

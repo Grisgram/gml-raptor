@@ -13,7 +13,7 @@ if (__active)
 /// @function					update_canvas()
 /// @description				Update the browser canvas
 update_canvas = function() {
-	if (!IS_HTML)
+	if (!__active)
 		return;
 		
 	curr_width = browser_width;
@@ -40,17 +40,22 @@ update_canvas = function() {
 	}
 
 	// set window size to screen pixel size:
+	var canvleft = rw / 2 - newwidth / 2;
+	var canvtop = rh / 2 - newheight / 2;
 	window_set_size(newwidth, newheight);
-	window_set_position(rw / 2 - newwidth / 2, rh / 2 - newheight / 2);
+	window_set_position(canvleft, canvtop);
 
 	// set canvas size to page pixel size:
 	browser_stretch_canvas(newwidth, newheight);
 
 	if (IS_HTML) {
 		GUI_RUNTIME_CONFIG.gui_scale_set(scale, scale);
+		GUI_RUNTIME_CONFIG.canvas_left	 = canvleft;
+		GUI_RUNTIME_CONFIG.canvas_top	 = canvtop;
 		GUI_RUNTIME_CONFIG.canvas_width  = newwidth;
 		GUI_RUNTIME_CONFIG.canvas_height = newheight;
 		GUI_RUNTIME_CONFIG.canvas_scale  = scale;
 	}
 }
 
+update_canvas();
