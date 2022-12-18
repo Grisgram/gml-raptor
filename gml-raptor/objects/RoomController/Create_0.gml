@@ -82,8 +82,8 @@ display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
 MOUSE_X		= mouse_x;
 MOUSE_Y		= mouse_y;
-GUI_MOUSE_X = device_mouse_x_to_gui(0);
-GUI_MOUSE_Y = device_mouse_y_to_gui(0);
+GUI_MOUSE_X = device_mouse_x_to_gui(0) / GUI_RUNTIME_CONFIG.canvas_scale;
+GUI_MOUSE_Y = device_mouse_y_to_gui(0) / GUI_RUNTIME_CONFIG.canvas_scale;
 
 #macro WINDOW_SIZE_X_PREVIOUS	global.__window_size_xprevious
 #macro WINDOW_SIZE_Y_PREVIOUS	global.__window_size_yprevious
@@ -106,6 +106,12 @@ WINDOW_SIZE_Y = window_get_height();
 	----------------------
 */
 #region CAMERA CONTROL
+
+CAM_MIN_X	= 0;
+CAM_MIN_Y	= 0;
+CAM_MAX_X	= room_width;
+CAM_MAX_Y	= room_height;
+
 __screen_shaking = false;
 /// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
 /// @description				lets rumble! NOTE: Ignored, if already rumbling!
@@ -151,18 +157,22 @@ camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_i
 	return a; 
 }
 
-/// @function					camera_zoom_by(frames, width_delta, enqueue_if_running = true, camera_index = 0)
+/// @function					camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
 /// @description				zoom the camera animated by X pixels
 /// @param {int} frames 			
 /// @param {real} width_delta
+/// @param {real} min_width
+/// @param {real} max_width
 /// @param {bool=true} enqueue_if_running
 /// @param {int=0} camera_index
 /// @returns {camera_action_data} struct
-camera_zoom_by = function(frames, width_delta, enqueue_if_running = true, camera_index = 0) {
+camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
 	a.first_call = true;
 	a.relative = true; // relative tells the action to use a.new_width for calculation
+	a.min_width = min_width;
+	a.max_width = max_width;
 	a.width_delta = width_delta;
 	// Return the action to our caller
 	return a; 

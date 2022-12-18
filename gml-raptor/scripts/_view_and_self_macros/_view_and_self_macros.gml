@@ -47,13 +47,27 @@ function macro_camera_viewport_index_switch_back() {
 #macro CAM_BOTTOM_EDGE		(CAM_TOP_EDGE  + CAM_HEIGHT - 1)
 #macro CAM_ASPECT_RATIO		(CAM_WIDTH / CAM_HEIGHT)
 
+// set the camera min/max positions. These are used by the ROOMCONTROLLERS' camera functions
+// By default, the ROOMCONTROLLER sets these to 0/0-room_width/height when created
+#macro CAM_MIN_X			global.__CAM_MIN_X
+#macro CAM_MAX_X			global.__CAM_MAX_X
+#macro CAM_MIN_Y			global.__CAM_MIN_Y
+#macro CAM_MAX_Y			global.__CAM_MAX_Y
+
+CAM_MIN_X					= 0;
+CAM_MAX_X					= 0;
+CAM_MIN_Y					= 0;
+CAM_MAX_Y					= 0;
+
+
+
 // View helpers - UI layer
 #macro UI_VIEW_WIDTH				 display_get_gui_width()
 #macro UI_VIEW_HEIGHT				 display_get_gui_height()
-#macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2)
-#macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2)
+#macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2 / GUI_RUNTIME_CONFIG.canvas_scale)
+#macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2 / GUI_RUNTIME_CONFIG.canvas_scale)
 #macro UI_VIEW_ASPECT_RATIO			(UI_VIEW_WIDTH  / UI_VIEW_HEIGHT)
-#macro UI_SCALE						min(UI_VIEW_WIDTH/VIEW_WIDTH, UI_VIEW_HEIGHT/VIEW_HEIGHT)
+#macro UI_SCALE						(min(UI_VIEW_WIDTH/VIEW_WIDTH, UI_VIEW_HEIGHT/VIEW_HEIGHT) / GUI_RUNTIME_CONFIG.canvas_scale)
 
 // View helpers - viewport
 #macro VIEW_WIDTH					view_wport[VIEWPORT_INDEX]

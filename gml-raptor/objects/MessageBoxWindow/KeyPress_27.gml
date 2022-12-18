@@ -11,5 +11,10 @@ if (btnstruct != undefined) {
 	log("Invoking MessageBox Button callback through hotkey 'escape'.");
 	with (btnstruct.__button)
 		__msgbox_callback_wrapper();
-} else
-	log("No MessageBox Button defined for hotkey 'escape' in __buttons array!");
+} else {
+	if (!ACTIVE_MESSAGE_BOX.x_button_uses_escape_callback && ACTIVE_MESSAGE_BOX.x_button_callback != undefined)
+		with (ACTIVE_MESSAGE_BOX)
+			__msgbox_x_button_default_callback();
+	else
+		log("No MessageBox Button defined for hotkey 'escape' in __buttons array!");
+}

@@ -16,7 +16,10 @@ __drag_rect = new Rectangle();
 /// @description				setup drag and resize rects
 /// @param {int} ninetop
 __setup_drag_rect = function(ninetop) {
-	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
+	if (draw_on_gui) {
+		__drag_rect.set(SELF_UI_VIEW_LEFT_EDGE, SELF_UI_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
+	} else
+		__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
 }
 
 /// @function					scribble_add_title_effects(titletext)

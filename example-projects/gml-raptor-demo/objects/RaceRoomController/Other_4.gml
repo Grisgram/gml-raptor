@@ -1,7 +1,9 @@
 /// @description Show how-to-play
 event_inherited();
-msg_show_ok("=play/how_to_play_race/title", "=play/how_to_play_race/text", function() {
-	start_game();
+run_delayed(self, 1, function() {
+	msg_show_ok("=play/how_to_play_race/title", "=play/how_to_play_race/text", function() {
+		start_game();
+	});
 });
 
 start_game = function() {

@@ -42,6 +42,8 @@ function StateMachine(_owner) constructor {
 	lock_end_enter		= undefined;
 	lock_end_leave		= undefined;
 	
+	__listpool_processible = false;
+	
 	if (DEBUG_LOG_STATEMACHINE) with(owner) log(MY_NAME + ": StateMachine created");
 	
 	for (var i = 1; i < argument_count; i++) {
@@ -201,6 +203,7 @@ function StateMachine(_owner) constructor {
 				if (__states[i].name == name) {
 					active_state = __states[i];
 					active_state.data = data;
+					__listpool_processible = (active_state.on_step != undefined);
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner) 
 							log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
@@ -292,9 +295,10 @@ function StateMachine(_owner) constructor {
 	static step = function() {
 		if (!__objectpool_paused && active_state != undefined) {
 			active_state.data = data;
-			var rv = active_state.step(__state_frame);
+			var rv = active_state.on_step != undefined ? active_state.step(__state_frame) : undefined;
 			__state_frame++;
-			__perform_state_change("step", rv);
+			if (rv != undefined)
+				__perform_state_change("step", rv);
 		}
 	}
 	

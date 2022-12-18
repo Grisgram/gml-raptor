@@ -28,8 +28,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	fx				= undefined;
 	frame_counter	= 0;
 
-	draw_width		= (IS_HTML ? GUI_RUNTIME_CONFIG.canvas_width  / GUI_RUNTIME_CONFIG.canvas_scale : APP_SURF_WIDTH);
-	draw_height		= (IS_HTML ? GUI_RUNTIME_CONFIG.canvas_height / GUI_RUNTIME_CONFIG.canvas_scale : APP_SURF_HEIGHT);
+	draw_width		= GUI_RUNTIME_CONFIG.canvas_width  / GUI_RUNTIME_CONFIG.canvas_scale;
+	draw_height		= GUI_RUNTIME_CONFIG.canvas_height / GUI_RUNTIME_CONFIG.canvas_scale;
 
 	static __create_fx_layer = function() {
 		fx_layer = (need_fx_layer ? layer_create(ROOMCONTROLLER.depth + 1) : undefined);

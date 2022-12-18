@@ -63,7 +63,8 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 
 	static __add_or_enqueue = function(enqueue_if_running = false) {
 		var rv = __CAMERA_RUNTIME.get_first_free_camera_action();
-		var enqueue = (enqueue_if_running && __CAMERA_RUNTIME.has_camera_action_with(callback));
+		var existing = __CAMERA_RUNTIME.has_camera_action_with(callback);
+		var enqueue = (enqueue_if_running && existing);
 
 		if (enqueue) {
 			array_push(__CAMERA_RUNTIME.camera_action_queue, self);
@@ -74,10 +75,12 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 				log(MY_NAME + sprintf(": Enqueued camera action: script='{0}'; frames={1}; queue_position={2};", 
 					script_get_name(other.callback), other.total_frames, queue_length));
 		} else {
-			__CAMERA_RUNTIME.active_camera_actions[rv] = self;
-			with(ROOMCONTROLLER)
-				log(MY_NAME + sprintf(": Created camera action: script='{0}'; frames={1}; index={2};", 
-					script_get_name(other.callback), other.total_frames, rv));
+			if (!existing) {
+				__CAMERA_RUNTIME.active_camera_actions[rv] = self;
+				with(ROOMCONTROLLER)
+					log(MY_NAME + sprintf(": Created camera action: script='{0}'; frames={1}; index={2};", 
+						script_get_name(other.callback), other.total_frames, rv));
+			}
 		}
 
 		return rv;
