@@ -81,17 +81,24 @@ function savegame_save_game(filename, cryptkey = "") {
 				variable_struct_set(instdata, "race_controller", cid);
 			}
 			
+			
+			if (!variable_instance_exists(self, __SAVEGAME_DATA_HEADER))
+				variable_instance_set(self, __SAVEGAME_DATA_HEADER, {});
+				
+			if (!variable_instance_exists(data, "__raptordata"))
+				__RAPTORDATA = {};
+			
 			event_user(savegame_event.onGameSaving);
-			if (variable_instance_exists(self, __SAVEGAME_ONSAVING_NAME)) {
-				var data = __SAVEGAME_ONSAVING_FUNCTION();
-				if (data != undefined) {
-					if (is_struct(data))
-						variable_struct_set(instdata, __SAVEGAME_DATA_HEADER, data);
-					else
-						log("*ERROR* Function '" + __SAVEGAME_ONSAVING_FUNCTION + "' returned a non-struct data value!");
-				}
-			}
-
+			if (variable_instance_exists(self, __SAVEGAME_ONSAVING_NAME) &&
+				variable_instance_get(self, __SAVEGAME_ONSAVED_NAME) != undefined)
+				__SAVEGAME_ONSAVING_FUNCTION();
+			
+			if (variable_instance_exists(self, __SAVEGAME_DATA_HEADER) &&
+				is_struct(variable_instance_get(self, __SAVEGAME_DATA_HEADER)))
+					variable_struct_set(instdata, __SAVEGAME_DATA_HEADER, data);
+			else
+				variable_struct_set(instdata, __SAVEGAME_DATA_HEADER, {});
+				
 			variable_struct_set(instances,instname,instdata);
 			cnt++;
 		}

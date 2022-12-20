@@ -22,6 +22,7 @@ GLOBALDATA = {};
 // holds custom structs for the savegame
 #macro __SAVEGAME_STRUCTS				global.__savegame_structs
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances
+#macro __SAVEGAME_CONSTRUCTIBLES		global.__savegame_constructibles
 
 #macro __SAVEGAME_GLOBAL_DATA_HEADER	"global_data"
 #macro __SAVEGAME_RACE_HEADER			"race_tables"
@@ -57,11 +58,14 @@ GLOBALDATA = {};
 #macro __SAVEGAME_ONSAVED_NAME			"onGameSaved"
 #macro __SAVEGAME_ONLOADING_NAME		"onGameLoading"
 #macro __SAVEGAME_ONLOADED_NAME			"onGameLoaded"
-										
+
 #macro __SAVEGAME_ONSAVING_FUNCTION		onGameSaving
 #macro __SAVEGAME_ONSAVED_FUNCTION		onGameSaved
 #macro __SAVEGAME_ONLOADING_FUNCTION	onGameLoading
 #macro __SAVEGAME_ONLOADED_FUNCTION		onGameLoaded
+
+#macro __SAVEGAME_CONSTRUCT_NAME		"__savegame_construct"
+#macro __SAVEGAME_CONSTRUCT_MEMBER		__savegame_construct
 
 #macro __SAVEGAME_REF_MARKER			"##_savegame_ref_##."
 
@@ -116,6 +120,7 @@ function savegame_get_struct_names() {
 function __savegame_clear_structs() {
 	__SAVEGAME_STRUCTS = {};
 	__SAVEGAME_INSTANCES = {}; 
+	__SAVEGAME_CONSTRUCTIBLES = {};
 }
 #endregion
 
@@ -167,6 +172,17 @@ function savegame_get_id_array_of(instance_array) {
 	}
 	
 	return rv;
+}
+#endregion
+
+#region CONSTRUCTOR REGISTRATION
+/// @function		savegame_construct(_class_name)
+/// @description	Register a (script-)class as a constructible class to the savegame system.
+///					When loading the game, instead of just assigning the struct, it will invoke
+///					the constructor and then perform a struct_integrate with the loaded data, so
+///					all members receive their loaded values after the constructor executed.
+function savegame_construct(_class_name) {
+	__SAVEGAME_CONSTRUCT_MEMBER = _class_name;	
 }
 #endregion
 

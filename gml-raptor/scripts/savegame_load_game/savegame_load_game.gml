@@ -106,13 +106,12 @@ function savegame_load_game(filename, cryptkey = "") {
 				}
 			}
 
-			if (variable_struct_exists(inst, __SAVEGAME_DATA_HEADER)) {
-				if (variable_instance_exists(self, __SAVEGAME_ONLOADING_NAME)) {
-					var data = variable_struct_get(inst, __SAVEGAME_DATA_HEADER);
-					__SAVEGAME_ONLOADING_FUNCTION(data);
-				} else
-					log("*ERROR* Object '" + obj + "' has savegame data but does not offer a '" + __SAVEGAME_ONSAVING_FUNCTION + "' function!");
-			}
+			var loaded_data = variable_struct_get(inst, __SAVEGAME_DATA_HEADER);
+			__savegame_reconstruct_data(data, loaded_data);
+			if (variable_instance_exists(self, __SAVEGAME_ONLOADING_NAME) &&
+				variable_instance_get(self, __SAVEGAME_ONLOADING_NAME) != undefined) 
+				__SAVEGAME_ONLOADING_FUNCTION();
+				
 		}		
 	}
 	
