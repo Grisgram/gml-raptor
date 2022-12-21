@@ -6,6 +6,8 @@
 /// @param {real=0} rect_height
 /// @returns {struct}			
 function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0) constructor {
+	savegame_construct("Rectangle");
+	
 	left = rect_left;
 	top = rect_top;
 	width = rect_width;

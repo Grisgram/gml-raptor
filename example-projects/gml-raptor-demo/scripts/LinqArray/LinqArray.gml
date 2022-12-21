@@ -10,6 +10,8 @@
 #macro efun ;}
 
 function LinqArray(size = 0, initial_value = undefined) constructor {
+	savegame_construct("LinqArray");
+	
 	array = array_create(size, initial_value);
 
 	/// @function get_array()

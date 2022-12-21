@@ -4,7 +4,9 @@
 ///								based on the sprite of the object
 /// @param {instance} obj
 /// @returns {Edges}
-function Edges(obj) constructor {
+function Edges(obj = undefined) constructor {
+	savegame_construct("Edges");
+	
 	__inst = obj;
 	
 	left	 = 0;
@@ -33,6 +35,9 @@ function Edges(obj) constructor {
 	/// @description	re-read the properties of the object
 	/// @param			nineslice struct as received from sprite_get_nineslice(...)
 	static update = function(nineslicedata = -1) {
+		if (__inst == undefined)
+			return;
+			
 		with (__inst) {
 			other.left		= x - sprite_xoffset;
 			other.top		= y - sprite_yoffset;

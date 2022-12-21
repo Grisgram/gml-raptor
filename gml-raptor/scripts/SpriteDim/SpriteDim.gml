@@ -1,7 +1,9 @@
 /// @function					SpriteDim(sprite)
 /// @description				Scan a sprite's width and height (asset dimensions)
 /// @param {asset} sprite
-function SpriteDim(sprite) constructor {
+function SpriteDim(sprite = -1) constructor {
+	savegame_construct("SpriteDim");
+	
 	if (sprite != -1) {
 		width = sprite_get_width(sprite);
 		height = sprite_get_height(sprite);

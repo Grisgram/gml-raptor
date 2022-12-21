@@ -13,6 +13,8 @@
 ///				of a ds_list internally or you risk a memory leak!
 /// @param {string} _name	The name of the pool. For logging purposes only.
 function ListPool(_name = "listPool") constructor {
+	savegame_construct("ListPool");
+	
 	name = _name;
 	list = ds_list_create();
 
