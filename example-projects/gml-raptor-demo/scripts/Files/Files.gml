@@ -9,6 +9,8 @@
 #macro __FILE_CACHE		global.__file_cache
 __FILE_CACHE = {};
 
+#macro __CONSTRUCTOR_NAME		"__constructor"
+
 /// @function					file_clear_cache()
 /// @description				clears the entire file cache
 function file_clear_cache() {
@@ -160,7 +162,8 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 			log(sprintf("Read {0} characters from file", (string_is_empty(contents) ? "0" : string_length(contents))));
 			var rv = undefined;
 			if (!string_is_empty(contents)) {
-				rv = snap_from_json(contents);
+				var indata = snap_from_json(contents);
+				rv = __file_reconstruct_root(indata);
 				if (add_to_cache) {
 					log(sprintf("Added file '{0}' to cache (struct)", filename));
 					variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
@@ -219,7 +222,8 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 			var rv = undefined;
 			if (bufsize > 0) {
 				encrypt_buffer(buffer, cryptkey);
-				rv = snap_from_binary(buffer, 0, true);
+				var indata = snap_from_binary(buffer, 0, true);
+				rv = __file_reconstruct_root(indata);
 				buffer_delete(buffer);
 		
 				if (add_to_cache) {
@@ -232,3 +236,52 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	}
 	return undefined;
 }
+
+#region CONSTRUCTOR REGISTRATION
+function __file_get_constructed_class(from) {
+	var rv = undefined;
+	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
+		var class = asset_get_index(from[$ __CONSTRUCTOR_NAME]);
+		rv = new class();
+	} else {
+		rv = {};
+	}
+	return rv;
+}
+
+function __file_reconstruct_root(from) {
+	var rv = __file_get_constructed_class(from);
+	__file_reconstruct_class(rv, from);
+	return rv;
+}
+
+/// @function		__file_reconstruct_class(into, from)
+/// @description	reconstruct a loaded data struct through its constructor
+///					if the constructor is known.
+function __file_reconstruct_class(into, from) {
+	var names = variable_struct_get_names(from);
+	
+	with (into) {
+		for (var i = 0; i < array_length(names); i++) {
+			var name = names[i];
+			var member = from[$ name];
+			if (is_struct(member)) {
+				var classinst = __file_get_constructed_class(member);
+				self[$ name] = classinst;
+				__file_reconstruct_class(classinst, member);
+			} else
+				self[$ name] = from[$ name];
+		}
+	}
+}
+
+/// @function		construct(_class_name)
+/// @description	Register a (script-)class as a constructible class to the file system.
+///					When loading the file, instead of just assigning the struct, it will invoke
+///					the constructor and then perform a struct_integrate with the loaded data, so
+///					all members receive their loaded values after the constructor executed.
+function construct(_class_name) {
+	self[$ __CONSTRUCTOR_NAME] = _class_name;	
+}
+
+#endregion

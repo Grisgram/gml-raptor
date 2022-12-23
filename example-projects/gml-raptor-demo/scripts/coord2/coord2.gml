@@ -7,7 +7,7 @@
 /// @param {real} yp
 /// @returns {Coord2}
 function Coord2(xp = 0, yp = 0) constructor {
-	savegame_construct("Coord2");
+	construct("Coord2");
 	
 	set(xp, yp);
 	

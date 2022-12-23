@@ -33,7 +33,7 @@ __TEXT_NAV_TAB_LOCK = 0;
 #macro AUDIO_CHANNELS_OTHER		64
 
 function gui_runtime_config() constructor {
-	savegame_construct("gui_runtime_config");
+	construct("gui_runtime_config");
 	
 	tooltip_delay_frames		= TOOLTIP_DELAY_FRAMES;
 								

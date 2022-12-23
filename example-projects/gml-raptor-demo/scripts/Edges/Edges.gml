@@ -5,7 +5,7 @@
 /// @param {instance} obj
 /// @returns {Edges}
 function Edges(obj = undefined) constructor {
-	savegame_construct("Edges");
+	construct("Edges");
 	
 	__inst = obj;
 	

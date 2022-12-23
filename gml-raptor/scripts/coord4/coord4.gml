@@ -9,7 +9,7 @@
 /// @param {real} wp
 /// @returns {Coord4}
 function Coord4(xp = 0, yp = 0, zp = 0, wp = 0) : Coord3(xp, yp, zp) constructor {
-	savegame_construct("Coord4");
+	construct("Coord4");
 	
 	w = wp;
 

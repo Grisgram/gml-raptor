@@ -107,7 +107,7 @@ function savegame_load_game(filename, cryptkey = "") {
 			}
 
 			var loaded_data = variable_struct_get(inst, __SAVEGAME_DATA_HEADER);
-			__savegame_reconstruct_data(data, loaded_data);
+			__file_reconstruct_class(data, loaded_data);
 			if (variable_instance_exists(self, __SAVEGAME_ONLOADING_NAME) &&
 				variable_instance_get(self, __SAVEGAME_ONLOADING_NAME) != undefined) 
 				__SAVEGAME_ONLOADING_FUNCTION();

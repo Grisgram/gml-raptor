@@ -23,7 +23,7 @@
 */
 
 function Pythagoras() constructor {
-	savegame_construct("Pythagoras");
+	construct("Pythagoras");
 	
 	static calculate = function(x1, y1, x2, y2) {
 		a		= x2 - x1;

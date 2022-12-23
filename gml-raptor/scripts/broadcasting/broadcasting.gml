@@ -43,7 +43,7 @@
 // ---- RAPTOR INTERNAL BROADCASTS ----
 
 function Sender() constructor {
-	savegame_construct("Sender");	
+	construct("Sender");	
 
 	receivers = [];
 	removers = [];
