@@ -237,6 +237,23 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	return undefined;
 }
 
+/// @function		file_list_directory(wildcard, attributes = 0)
+/// @description	list all matching files from a directory in an array
+/// @param {string} wildcard	Pattern to search (like *.*)
+/// @param {string} attributes	attr constants according to yoyo manual
+///                             https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FFile_Handling%2FFile_System%2Ffile_attributes.htm
+/// @returns {array}			The list of existing files
+function file_list_directory(wildcard, attributes = 0) {
+	var rv = [];
+	var f = file_find_first(wildcard, attributes);
+	while (f != "") {
+		array_push(rv, f);
+		f = file_find_next();
+	}
+	file_find_close();
+	return rv;
+}
+
 #region CONSTRUCTOR REGISTRATION
 function __file_get_constructed_class(from) {
 	var rv = undefined;

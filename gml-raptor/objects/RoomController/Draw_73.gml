@@ -28,5 +28,3 @@ if (DEBUG_SHOW_OBJECT_FRAMES) {
 		draw_set_color(c_white);
 	}
 }
-
-drawDebugInfo();
