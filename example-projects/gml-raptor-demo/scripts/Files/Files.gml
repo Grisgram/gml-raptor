@@ -142,7 +142,7 @@ function file_write_struct_plain(filename, struct) {
 	CATCH return false; ENDTRY
 }
 
-/// @function			file_read_struct_plain(filename)
+/// @function			file_read_struct_plain(filename, add_to_cache = false)
 /// @description		Loads the contents of the file and tries to parse it as struct.
 ///						Load is done synchronously.
 ///						If you deal with large files here, consider using coroutines.
@@ -199,7 +199,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 	CATCH return false; ENDTRY
 }
 
-/// @function			file_read_struct_encrypted(filename, cryptkey)
+/// @function			file_read_struct_encrypted(filename, cryptkey, add_to_cache = false)
 /// @description		Decrypts the data in the specified file with the specified key.
 ///						Load is done synchronously.
 ///						If you deal with large files here, consider using coroutines.

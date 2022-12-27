@@ -293,7 +293,7 @@ __set_cursor_pos_from_click = function(force_extend_selection = false) {
 	var boxwidth = full_box.width;
 	if (draw_on_gui) {
 		mousepos = GUI_MOUSE_X;
-		translate_world_to_gui(topleft.x, topleft.y, topleft);
+		translate_world_to_gui_abs(topleft.x, topleft.y, topleft);
 		boxwidth = translate_world_to_gui_abs(boxwidth, 0).x;
 	}
 

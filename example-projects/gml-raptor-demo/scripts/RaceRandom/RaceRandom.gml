@@ -12,9 +12,9 @@
 /// @returns {array}			An array with the length of dice_count entries, each containing one die-result.
 /// @description				Rolls one or more dice with a specified amount of sides.
 function race_random_roll_dice(sides, dice_count = 1) {
-	var rv = [];
+	var rv = array_create(dice_count, 0);
 	for (var i = 0; i < dice_count; i++)
-		array_push(rv, irandom_range(1, sides));
+		rv[@ i] = irandom_range(1, sides);
 	return rv;
 }
 
