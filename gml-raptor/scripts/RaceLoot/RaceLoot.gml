@@ -14,7 +14,6 @@
 /// @param {struct} data_struct	the race table struct of this item (contains unique, enabled, chance,...)
 /// @param {instance=undefined} inst		dropped instance (if anything dropped)
 function race_result_entry(item_name, data_struct, inst = undefined) constructor {
-	construct("race_result_entry");
 	name = item_name;
 	type = data_struct.type;
 	data = (RACE_LOOT_DATA_DEEP_COPY ? snap_deep_copy(data_struct) : data_struct);

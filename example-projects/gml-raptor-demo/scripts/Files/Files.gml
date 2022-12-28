@@ -255,6 +255,7 @@ function file_list_directory(wildcard, attributes = 0) {
 }
 
 #region CONSTRUCTOR REGISTRATION
+/// @function		__file_get_constructed_class(from)
 function __file_get_constructed_class(from) {
 	var rv = undefined;
 	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
@@ -266,6 +267,7 @@ function __file_get_constructed_class(from) {
 	return rv;
 }
 
+/// @function		__file_reconstruct_root(from)
 function __file_reconstruct_root(from) {
 	var rv = __file_get_constructed_class(from);
 	__file_reconstruct_class(rv, from);
