@@ -9,7 +9,7 @@
 #macro __FILE_CACHE		global.__file_cache
 __FILE_CACHE = {};
 
-#macro __CONSTRUCTOR_NAME		"__constructor"
+#macro __CONSTRUCTOR_NAME		"##_raptor_##.__constructor"
 
 /// @function					file_clear_cache()
 /// @description				clears the entire file cache
@@ -108,13 +108,13 @@ function file_write_struct(filename, struct, cryptkey = "") {
 		return file_write_struct_encrypted(filename, struct, cryptkey);
 }
 
-/// @function					file_read_struct(filename, add_to_cache = false, cryptkey = "")
+/// @function					file_read_struct(filename, cryptkey = "", add_to_cache = false)
 /// @description				Reads a given struct from a file, optionally encrypted
 /// @param {string} filename	The name (relative path starting in working_directory) of the input file
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
 /// @param {string=""} cryptkey	Optional key to encrypt the file
+/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
 /// @returns {struct}			The json_decoded struct.
-function file_read_struct(filename, add_to_cache = false, cryptkey = "") {
+function file_read_struct(filename, cryptkey = "", add_to_cache = false) {
 	if (cryptkey == "")
 		return file_read_struct_plain(filename, add_to_cache);
 	else
@@ -259,7 +259,9 @@ function file_list_directory(wildcard, attributes = 0) {
 function __file_get_constructed_class(from) {
 	var rv = undefined;
 	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
-		var class = asset_get_index(from[$ __CONSTRUCTOR_NAME]);
+		var constname = from[$ __CONSTRUCTOR_NAME];
+		log(sprintf("Constructing '{0}'", constname));
+		var class = asset_get_index(constname);
 		rv = new class();
 	} else {
 		rv = {};
@@ -288,6 +290,16 @@ function __file_reconstruct_class(into, from) {
 				var classinst = __file_get_constructed_class(member);
 				self[$ name] = classinst;
 				__file_reconstruct_class(classinst, member);
+			} else if (is_array(member)) {
+				for (var a = 0; a < array_length(member); a++) {
+					var amem = member[@ a];
+					if (is_struct(amem)) {
+						var classinst = __file_get_constructed_class(amem);
+						member[@ a] = classinst;
+						__file_reconstruct_class(classinst, amem);
+					}
+				}
+				self[$ name] = from[$ name];
 			} else
 				self[$ name] = from[$ name];
 		}

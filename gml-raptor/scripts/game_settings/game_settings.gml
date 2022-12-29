@@ -12,6 +12,8 @@ GAMESETTINGS = undefined;
 // Add everything you want to be part of the settings file in this struct.
 // DO NOT ADD FUNCTIONS HERE! Only data!
 function GameSettings() constructor {
+	construct("GameSettings");
+	
 	audio = AUDIOSETTINGS;
 	if (HIGHSCORES != undefined) {
 		highscoredata = HIGHSCORES.data;
@@ -20,7 +22,7 @@ function GameSettings() constructor {
 }
 
 function load_settings() {
-	GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,,FILE_CRYPT_KEY) ?? new GameSettings();
+	GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,FILE_CRYPT_KEY) ?? new GameSettings();
 	if (HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
 		HIGHSCORES.assign_data(GAMESETTINGS.highscoredata);
 	AUDIOSETTINGS = GAMESETTINGS.audio;

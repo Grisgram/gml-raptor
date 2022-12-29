@@ -61,6 +61,13 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 		return self;
 	}
 
+	/// @function		set_finished_callback(callback)
+	/// @description	Set any function as callback when this camera action is finished.
+	///					The callback will receive 1 parameter: this camera action
+	static set_finished_callback = function(callback) {
+		finished_callback = callback;
+	}
+
 	static __add_or_enqueue = function(enqueue_if_running = false) {
 		var rv = __CAMERA_RUNTIME.get_first_free_camera_action();
 		var existing = __CAMERA_RUNTIME.has_camera_action_with(callback);
