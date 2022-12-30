@@ -60,7 +60,6 @@ CAM_MIN_Y					= 0;
 CAM_MAX_Y					= 0;
 
 
-
 // View helpers - UI layer
 #macro UI_VIEW_WIDTH				 display_get_gui_width()
 #macro UI_VIEW_HEIGHT				 display_get_gui_height()
@@ -68,6 +67,8 @@ CAM_MAX_Y					= 0;
 #macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2 / UI_SCALE)
 #macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2 / UI_SCALE)
 #macro UI_VIEW_ASPECT_RATIO			(UI_VIEW_WIDTH  / UI_VIEW_HEIGHT)
+#macro UI_VIEW_WIDTH_SCALED			(UI_VIEW_WIDTH  / UI_SCALE)
+#macro UI_VIEW_HEIGHT_SCALED		(UI_VIEW_HEIGHT / UI_SCALE)
 
 // View helpers - viewport
 #macro VIEW_WIDTH					view_wport[VIEWPORT_INDEX]
@@ -107,14 +108,3 @@ CAM_MAX_Y					= 0;
 #macro SELF_VIEW_TOP_EDGE			(y + SELF_TOP_EDGE)
 #macro SELF_VIEW_RIGHT_EDGE			(x + SELF_RIGHT_EDGE)
 #macro SELF_VIEW_BOTTOM_EDGE		(y + SELF_BOTTOM_EDGE)
-
-// These hold the absolute position on the UI layer and even take UI_SCALE into account
-#macro SELF_UI_VIEW_CENTER_X		(SELF_VIEW_CENTER_X)
-#macro SELF_UI_VIEW_CENTER_Y		(SELF_VIEW_CENTER_Y)
-#macro SELF_UI_VIEW_CENTER			SELF_UI_VIEW_CENTER_X, SELF_UI_VIEW_CENTER_Y
-#macro SELF_UI_VIEW_LEFT_EDGE		(SELF_VIEW_LEFT_EDGE)
-#macro SELF_UI_VIEW_TOP_EDGE		(SELF_VIEW_TOP_EDGE)
-#macro SELF_UI_VIEW_RIGHT_EDGE		(SELF_VIEW_RIGHT_EDGE)
-#macro SELF_UI_VIEW_BOTTOM_EDGE		(SELF_VIEW_BOTTOM_EDGE)
-#macro SELF_UI_WIDTH				(sprite_width)
-#macro SELF_UI_HEIGHT				(sprite_height)

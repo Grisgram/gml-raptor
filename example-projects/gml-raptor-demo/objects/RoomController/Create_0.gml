@@ -82,8 +82,8 @@ display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
 MOUSE_X		= mouse_x;
 MOUSE_Y		= mouse_y;
-GUI_MOUSE_X = device_mouse_x_to_gui(0) / GUI_RUNTIME_CONFIG.canvas_scale;
-GUI_MOUSE_Y = device_mouse_y_to_gui(0) / GUI_RUNTIME_CONFIG.canvas_scale;
+GUI_MOUSE_X = device_mouse_x_to_gui(0);
+GUI_MOUSE_Y = device_mouse_y_to_gui(0);
 
 #macro WINDOW_SIZE_X_PREVIOUS	global.__window_size_xprevious
 #macro WINDOW_SIZE_Y_PREVIOUS	global.__window_size_yprevious

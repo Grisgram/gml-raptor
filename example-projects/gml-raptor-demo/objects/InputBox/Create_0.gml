@@ -297,7 +297,7 @@ __set_cursor_pos_from_click = function(force_extend_selection = false) {
 		boxwidth = translate_world_to_gui_abs(boxwidth, 0).x;
 	}
 
-	var xinside = mousepos - topleft.x * (draw_on_gui ? UI_SCALE : 1);
+	var xinside = mousepos - topleft.x;
 	if (xinside < 0) {
 		set_cursor_pos(0, force_extend_selection);
 		return;
@@ -314,7 +314,7 @@ __set_cursor_pos_from_click = function(force_extend_selection = false) {
 		var scrib = scribble("[fa_left]" + substr).starting_format(
 				font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, text_color);
 		var bbox = scrib.get_bbox(topleft.x, topleft.y);
-		var box_inside = (bbox.right - topleft.x) * (draw_on_gui ? UI_SCALE : 1);
+		var box_inside = bbox.right - topleft.x;
 		if (box_inside >= xinside)
 			break;
 	}

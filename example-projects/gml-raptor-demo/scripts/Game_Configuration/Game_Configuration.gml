@@ -59,7 +59,7 @@ function onGameStart() {
 	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
-	set_app_theme(ci_theme.none);
+	set_app_theme(ci_theme.indie);
 
 	// Load start data
 	// Example lines to show that you can load your startup files here

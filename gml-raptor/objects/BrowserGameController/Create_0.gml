@@ -54,7 +54,6 @@ update_canvas = function() {
 		GUI_RUNTIME_CONFIG.canvas_top	 = canvtop;
 		GUI_RUNTIME_CONFIG.canvas_width  = newwidth;
 		GUI_RUNTIME_CONFIG.canvas_height = newheight;
-		GUI_RUNTIME_CONFIG.canvas_scale  = scale;
 	}
 }
 

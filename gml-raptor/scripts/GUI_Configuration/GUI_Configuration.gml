@@ -46,7 +46,6 @@ function gui_runtime_config() constructor {
 	// Those members exist in html only and are set by the BrowserGameController
 	canvas_left		= 0;
 	canvas_top		= 0;
-	canvas_scale	= 1;		
 	
 	if (IS_HTML) {
 		canvas_width  = browser_width;

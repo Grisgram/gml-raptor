@@ -7,8 +7,8 @@
 // ---------- MOUSE ----------
 GUI_MOUSE_X_PREVIOUS = GUI_MOUSE_X;
 GUI_MOUSE_Y_PREVIOUS = GUI_MOUSE_Y;
-GUI_MOUSE_X			 = device_mouse_x_to_gui(0) / GUI_RUNTIME_CONFIG.canvas_scale;
-GUI_MOUSE_Y			 = device_mouse_y_to_gui(0) / GUI_RUNTIME_CONFIG.canvas_scale;
+GUI_MOUSE_X			 = device_mouse_x_to_gui(0) / UI_SCALE;
+GUI_MOUSE_Y			 = device_mouse_y_to_gui(0) / UI_SCALE;
 GUI_MOUSE_DELTA_X	 = GUI_MOUSE_X - GUI_MOUSE_X_PREVIOUS;
 GUI_MOUSE_DELTA_Y	 = GUI_MOUSE_Y - GUI_MOUSE_Y_PREVIOUS;
 GUI_MOUSE_HAS_MOVED  = GUI_MOUSE_DELTA_X != 0 || GUI_MOUSE_DELTA_Y != 0;
