@@ -8,7 +8,9 @@
 /// @param {real} zp
 /// @param {real} wp
 /// @returns {Coord4}
-function Coord4(xp, yp, zp, wp) : Coord3(xp, yp, zp) constructor {
+function Coord4(xp = 0, yp = 0, zp = 0, wp = 0) : Coord3(xp, yp, zp) constructor {
+	construct("Coord4");
+	
 	w = wp;
 
 	/// @function		clone4()

@@ -43,7 +43,7 @@ event_inherited();
 	links (like the RaceController variable on a RaceTable object)!
 	You do not need to save "race_table_name" and other race variables manually.
 	
-	NOTE: The user event 12 (onGameSaving) will be invoked before the contents of
+	NOTE: The user event 14 (onGameSaving) will be invoked before the contents of
 	the data variable (or whatever onGameSaving returns, if you override it)
 	are written to the savegame file.
 	The function onGameSaving below will be called by the savegame
@@ -81,10 +81,8 @@ event_inherited();
 
 /// @function					onGameSaving()
 /// @description				invoked per instance during game save
-/// @returns {struct}			data struct to be saved
 onGameSaving = function() {
-	log(MY_NAME + ": onGameSaving (auto-apply data variable)");
-	return data;
+	log(MY_NAME + ": onGameSaving");
 };
 
 /// @function					onGameSaved()
@@ -93,12 +91,10 @@ onGameSaved = function() {
 	log(MY_NAME + ": onGameSaved");
 }
 
-/// @function					onGameLoading(loaded_data)
+/// @function					onGameLoading()
 /// @description				occurs when this object has been loaded
-/// @param {struct} loaded_data	the custom data struct loaded
-onGameLoading = function(loaded_data) {
-	log(MY_NAME + ": onGameLoading (auto-apply data variable)");
-	data = loaded_data;
+onGameLoading = function() {
+	log(MY_NAME + ": onGameLoading");
 }
 
 /// @function					onGameLoaded()

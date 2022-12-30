@@ -6,3 +6,6 @@ if (__ACTIVE_TRANSITION != undefined) {
 		if (__ACTIVE_TRANSITION_STEP == 1) in_draw_gui();
 	}
 }
+
+if (!global.__DEBUG_SHOWN) exit;
+drawDebugInfo();

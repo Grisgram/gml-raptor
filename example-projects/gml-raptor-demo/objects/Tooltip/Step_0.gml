@@ -10,10 +10,10 @@ if (__active) {
 	} 
 	if (visible) {
 		if (draw_on_gui) {
-			x = translate_gui_to_world_x(max(0, min(GUI_MOUSE_X + mouse_xoffset, UI_VIEW_WIDTH  - SELF_UI_WIDTH )));
-			y = translate_gui_to_world_y(max(0, min(GUI_MOUSE_Y + mouse_yoffset, UI_VIEW_HEIGHT - SELF_UI_HEIGHT)));
+			x = max(0, min(GUI_MOUSE_X + mouse_xoffset, UI_VIEW_WIDTH_SCALED - SELF_WIDTH ));
+			y = max(0, min(GUI_MOUSE_Y + mouse_yoffset, UI_VIEW_HEIGHT_SCALED - SELF_HEIGHT));
 		} else {
-			x = max(0, min(mouse_x + mouse_xoffset, VIEW_WIDTH - SELF_WIDTH));
+			x = max(0, min(mouse_x + mouse_xoffset, VIEW_WIDTH  - SELF_WIDTH));
 			y = max(0, min(mouse_y + mouse_yoffset, VIEW_HEIGHT - SELF_HEIGHT));
 		}
 	}

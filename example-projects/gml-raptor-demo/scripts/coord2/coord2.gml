@@ -7,6 +7,8 @@
 /// @param {real} yp
 /// @returns {Coord2}
 function Coord2(xp = 0, yp = 0) constructor {
+	construct("Coord2");
+	
 	set(xp, yp);
 	
 	/// @function		clone2()
@@ -94,7 +96,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	static length_xy = function() { return sqrt(sqr(x) + sqr(y)); }
 	
 	/// @function		static angle_xy()
-	/// @description	gets alpha (angle from horizontal to hypo). 0° right ccw
+	/// @description	gets alpha (angle from horizontal to hypo). 0ï¿½ right ccw
 	static angle_xy = function() {
 		var angle = abs(darcsin(y / length_xy()));
 		if (x >= 0) {

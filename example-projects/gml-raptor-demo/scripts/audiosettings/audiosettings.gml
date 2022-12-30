@@ -16,6 +16,8 @@ enum audio_type {
 }
 
 function AudioSettings() constructor {
+	construct("AudioSettings");
+	
 	music_enabled		= true;
 	ui_enabled			= true;
 	sound_enabled		= true;

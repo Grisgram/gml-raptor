@@ -57,7 +57,7 @@ GLOBALDATA = {};
 #macro __SAVEGAME_ONSAVED_NAME			"onGameSaved"
 #macro __SAVEGAME_ONLOADING_NAME		"onGameLoading"
 #macro __SAVEGAME_ONLOADED_NAME			"onGameLoaded"
-										
+
 #macro __SAVEGAME_ONSAVING_FUNCTION		onGameSaving
 #macro __SAVEGAME_ONSAVED_FUNCTION		onGameSaved
 #macro __SAVEGAME_ONLOADING_FUNCTION	onGameLoading

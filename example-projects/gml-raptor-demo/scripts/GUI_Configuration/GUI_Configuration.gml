@@ -33,6 +33,8 @@ __TEXT_NAV_TAB_LOCK = 0;
 #macro AUDIO_CHANNELS_OTHER		64
 
 function gui_runtime_config() constructor {
+	construct("gui_runtime_config");
+	
 	tooltip_delay_frames		= TOOLTIP_DELAY_FRAMES;
 								
 	text_cursor_blink_speed		= TEXT_CURSOR_BLINK_SPEED;
@@ -44,7 +46,6 @@ function gui_runtime_config() constructor {
 	// Those members exist in html only and are set by the BrowserGameController
 	canvas_left		= 0;
 	canvas_top		= 0;
-	canvas_scale	= 1;		
 	
 	if (IS_HTML) {
 		canvas_width  = browser_width;

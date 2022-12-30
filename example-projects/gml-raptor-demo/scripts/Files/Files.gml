@@ -9,6 +9,8 @@
 #macro __FILE_CACHE		global.__file_cache
 __FILE_CACHE = {};
 
+#macro __CONSTRUCTOR_NAME		"##_raptor_##.__constructor"
+
 /// @function					file_clear_cache()
 /// @description				clears the entire file cache
 function file_clear_cache() {
@@ -106,13 +108,13 @@ function file_write_struct(filename, struct, cryptkey = "") {
 		return file_write_struct_encrypted(filename, struct, cryptkey);
 }
 
-/// @function					file_read_struct(filename, add_to_cache = false, cryptkey = "")
+/// @function					file_read_struct(filename, cryptkey = "", add_to_cache = false)
 /// @description				Reads a given struct from a file, optionally encrypted
 /// @param {string} filename	The name (relative path starting in working_directory) of the input file
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
 /// @param {string=""} cryptkey	Optional key to encrypt the file
+/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
 /// @returns {struct}			The json_decoded struct.
-function file_read_struct(filename, add_to_cache = false, cryptkey = "") {
+function file_read_struct(filename, cryptkey = "", add_to_cache = false) {
 	if (cryptkey == "")
 		return file_read_struct_plain(filename, add_to_cache);
 	else
@@ -140,7 +142,7 @@ function file_write_struct_plain(filename, struct) {
 	CATCH return false; ENDTRY
 }
 
-/// @function			file_read_struct_plain(filename)
+/// @function			file_read_struct_plain(filename, add_to_cache = false)
 /// @description		Loads the contents of the file and tries to parse it as struct.
 ///						Load is done synchronously.
 ///						If you deal with large files here, consider using coroutines.
@@ -160,7 +162,8 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 			log(sprintf("Read {0} characters from file", (string_is_empty(contents) ? "0" : string_length(contents))));
 			var rv = undefined;
 			if (!string_is_empty(contents)) {
-				rv = snap_from_json(contents);
+				var indata = snap_from_json(contents);
+				rv = __file_reconstruct_root(indata);
 				if (add_to_cache) {
 					log(sprintf("Added file '{0}' to cache (struct)", filename));
 					variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
@@ -196,7 +199,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 	CATCH return false; ENDTRY
 }
 
-/// @function			file_read_struct_encrypted(filename, cryptkey)
+/// @function			file_read_struct_encrypted(filename, cryptkey, add_to_cache = false)
 /// @description		Decrypts the data in the specified file with the specified key.
 ///						Load is done synchronously.
 ///						If you deal with large files here, consider using coroutines.
@@ -219,7 +222,8 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 			var rv = undefined;
 			if (bufsize > 0) {
 				encrypt_buffer(buffer, cryptkey);
-				rv = snap_from_binary(buffer, 0, true);
+				var indata = snap_from_binary(buffer, 0, true);
+				rv = __file_reconstruct_root(indata);
 				buffer_delete(buffer);
 		
 				if (add_to_cache) {
@@ -232,3 +236,83 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	}
 	return undefined;
 }
+
+/// @function		file_list_directory(wildcard, attributes = 0)
+/// @description	list all matching files from a directory in an array
+/// @param {string} wildcard	Pattern to search (like *.*)
+/// @param {string} attributes	attr constants according to yoyo manual
+///                             https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FFile_Handling%2FFile_System%2Ffile_attributes.htm
+/// @returns {array}			The list of existing files
+function file_list_directory(wildcard, attributes = 0) {
+	var rv = [];
+	var f = file_find_first(wildcard, attributes);
+	while (f != "") {
+		array_push(rv, f);
+		f = file_find_next();
+	}
+	file_find_close();
+	return rv;
+}
+
+#region CONSTRUCTOR REGISTRATION
+/// @function		__file_get_constructed_class(from)
+function __file_get_constructed_class(from) {
+	var rv = undefined;
+	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
+		var constname = from[$ __CONSTRUCTOR_NAME];
+		log(sprintf("Constructing '{0}'", constname));
+		var class = asset_get_index(constname);
+		rv = new class();
+	} else {
+		rv = {};
+	}
+	return rv;
+}
+
+/// @function		__file_reconstruct_root(from)
+function __file_reconstruct_root(from) {
+	var rv = __file_get_constructed_class(from);
+	__file_reconstruct_class(rv, from);
+	return rv;
+}
+
+/// @function		__file_reconstruct_class(into, from)
+/// @description	reconstruct a loaded data struct through its constructor
+///					if the constructor is known.
+function __file_reconstruct_class(into, from) {
+	var names = variable_struct_get_names(from);
+	
+	with (into) {
+		for (var i = 0; i < array_length(names); i++) {
+			var name = names[i];
+			var member = from[$ name];
+			if (is_struct(member)) {
+				var classinst = __file_get_constructed_class(member);
+				self[$ name] = classinst;
+				__file_reconstruct_class(classinst, member);
+			} else if (is_array(member)) {
+				for (var a = 0; a < array_length(member); a++) {
+					var amem = member[@ a];
+					if (is_struct(amem)) {
+						var classinst = __file_get_constructed_class(amem);
+						member[@ a] = classinst;
+						__file_reconstruct_class(classinst, amem);
+					}
+				}
+				self[$ name] = from[$ name];
+			} else
+				self[$ name] = from[$ name];
+		}
+	}
+}
+
+/// @function		construct(_class_name)
+/// @description	Register a (script-)class as a constructible class to the file system.
+///					When loading the file, instead of just assigning the struct, it will invoke
+///					the constructor and then perform a struct_integrate with the loaded data, so
+///					all members receive their loaded values after the constructor executed.
+function construct(_class_name) {
+	self[$ __CONSTRUCTOR_NAME] = _class_name;	
+}
+
+#endregion

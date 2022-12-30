@@ -204,6 +204,11 @@ function StateMachine(_owner) constructor {
 					active_state = __states[i];
 					active_state.data = data;
 					__listpool_processible = (active_state.on_step != undefined);
+					if (__listpool_processible)
+						STATEMACHINES.add(self);
+					else 
+						STATEMACHINES.remove(self);
+
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner) 
 							log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
@@ -338,8 +343,6 @@ function StateMachine(_owner) constructor {
 		with (owner) me = MY_NAME;
 		return sprintf("{0}: state='{1}'; locked='{2}'; paused={3};", me, active_state_name(), locking_animation, __objectpool_paused);
 	}
-	
-	STATEMACHINES.add(self);
 	
 }
 
