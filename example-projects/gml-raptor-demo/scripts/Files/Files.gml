@@ -260,7 +260,7 @@ function __file_get_constructed_class(from) {
 	var rv = undefined;
 	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
 		var constname = from[$ __CONSTRUCTOR_NAME];
-		log(sprintf("Constructing '{0}'", constname));
+		//log(sprintf("Constructing '{0}'", constname));
 		var class = asset_get_index(constname);
 		rv = new class();
 	} else {

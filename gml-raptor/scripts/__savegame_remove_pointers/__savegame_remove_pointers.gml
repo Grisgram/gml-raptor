@@ -33,7 +33,7 @@ function __savegame_deep_copy_remove(source) constructor {
 			
 			if (string_length(strid) == 10 && string_starts_with(strid, "ref ")) {
 				strid = string(real(_value));
-				log("Found top level instance id in struct: " + strid);
+				//log("Found top level instance id in struct: " + strid);
 				rv.value = __SAVEGAME_REF_MARKER + strid;
 				rv.success = true;
 			} else {			

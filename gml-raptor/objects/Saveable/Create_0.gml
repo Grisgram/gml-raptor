@@ -82,23 +82,19 @@ event_inherited();
 /// @function					onGameSaving()
 /// @description				invoked per instance during game save
 onGameSaving = function() {
-	log(MY_NAME + ": onGameSaving");
 };
 
 /// @function					onGameSaved()
 /// @description				Invoked AFTER saving 
 onGameSaved = function() {
-	log(MY_NAME + ": onGameSaved");
 }
 
 /// @function					onGameLoading()
 /// @description				occurs when this object has been loaded
 onGameLoading = function() {
-	log(MY_NAME + ": onGameLoading");
 }
 
 /// @function					onGameLoaded()
 /// @description				occurs after all objects have been loaded
 onGameLoaded = function() {
-	log(MY_NAME + ": onGameLoaded");
 }
