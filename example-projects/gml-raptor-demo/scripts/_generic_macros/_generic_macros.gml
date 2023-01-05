@@ -41,8 +41,8 @@ global.__unique_count_up_id	= 0;
 #macro GAMEFRAME	GAMECONTROLLER.image_index
 
 // Those macros define all situations that can lead to an invisible element on screen
-#macro __LAYER_OR_OBJECT_HIDDEN	(!visible || (layer_get_name(layer) != -1 && !layer_get_visible(layer)))
-#macro __HIDDEN_BEHIND_POPUP	(GUI_POPUP_VISIBLE && !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP))
+#macro __LAYER_OR_OBJECT_HIDDEN	(!visible || (layer != -1 && !layer_get_visible(layer)))
+#macro __HIDDEN_BEHIND_POPUP	(GUI_POPUP_VISIBLE && (layer == -1 || !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP)))
 #macro __GUI_MOUSE_EVENT_LOCK	(variable_instance_exists(self, "draw_on_gui") && draw_on_gui && !gui_mouse.event_redirection_active)
 
 // All controls skip their events, if this is true

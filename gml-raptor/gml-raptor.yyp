@@ -214,6 +214,7 @@
     {"id":{"name":"gmcallback_imgloadbar","path":"scripts/gmcallback_imgloadbar/gmcallback_imgloadbar.yy",},"order":0,},
     {"id":{"name":"_generic_macros","path":"scripts/_generic_macros/_generic_macros.yy",},"order":11,},
     {"id":{"name":"__scribble_gen_6_build_lines","path":"scripts/__scribble_gen_6_build_lines/__scribble_gen_6_build_lines.yy",},"order":6,},
+    {"id":{"name":"StopWatch","path":"scripts/StopWatch/StopWatch.yy",},"order":43,},
     {"id":{"name":"scribble_font_add","path":"scripts/scribble_font_add/scribble_font_add.yy",},"order":0,},
     {"id":{"name":"shd_outline","path":"shaders/shd_outline/shd_outline.yy",},"order":3,},
     {"id":{"name":"__scribble_gen_10_set_padding_flags","path":"scripts/__scribble_gen_10_set_padding_flags/__scribble_gen_10_set_padding_flags.yy",},"order":1,},

@@ -70,7 +70,10 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 			with (created) {
 				direction		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_DIR);
 				speed			= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPD);
-				sprite_index	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPRITE); 
+				var sprname		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPRITE_NAME);
+				sprite_index	= sprname != undefined ?
+								  asset_get_index(sprname) :
+								  variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPRITE);
 				image_index		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_IMAGE); 
 				image_speed		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_ISPEED);
 				image_alpha		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_ALPHA); 

@@ -42,6 +42,7 @@ GLOBALDATA = {};
 #macro __SAVEGAME_OBJ_PROP_VIS			"visible"
 #macro __SAVEGAME_OBJ_PROP_PERS			"persistent"
 #macro __SAVEGAME_OBJ_PROP_SOLID		"solid"
+#macro __SAVEGAME_OBJ_PROP_SPRITE_NAME	"sprite_name"
 #macro __SAVEGAME_OBJ_PROP_SPRITE		"sprite_index"
 #macro __SAVEGAME_OBJ_PROP_IMAGE		"image_index"
 #macro __SAVEGAME_OBJ_PROP_ISPEED		"image_speed"

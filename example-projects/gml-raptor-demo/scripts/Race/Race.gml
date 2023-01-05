@@ -592,7 +592,7 @@ function __race_log_onQueryStarted(first_query_table, current_query_table, file_
 
 }
 
-function __race_log_onQueryHit(first_query_table, current_query_table, item_dropped, file_name = "") {
+function __race_log_onQueryHit(item_dropped, first_query_table, current_query_table, file_name = "") {
 	if (!DEBUG_LOG_RACE)
 		return;
 
