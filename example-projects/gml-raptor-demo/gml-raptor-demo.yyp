@@ -5,6 +5,7 @@
   "resources": [
     {"id":{"name":"sprDefaultFlag","path":"sprites/sprDefaultFlag/sprDefaultFlag.yy",},"order":2,},
     {"id":{"name":"scribble_font_combine","path":"scripts/scribble_font_combine/scribble_font_combine.yy",},"order":5,},
+    {"id":{"name":"MouseCursorCompanion","path":"objects/MouseCursorCompanion/MouseCursorCompanion.yy",},"order":13,},
     {"id":{"name":"Guid","path":"scripts/Guid/Guid.yy",},"order":27,},
     {"id":{"name":"__savegame_restore_pointers","path":"scripts/__savegame_restore_pointers/__savegame_restore_pointers.yy",},"order":1,},
     {"id":{"name":"CI_Colors","path":"scripts/CI_Colors/CI_Colors.yy",},"order":27,},
@@ -91,6 +92,7 @@
     {"id":{"name":"_globals_","path":"scripts/_globals_/_globals_.yy",},"order":3,},
     {"id":{"name":"string_width_scribble","path":"scripts/string_width_scribble/string_width_scribble.yy",},"order":4,},
     {"id":{"name":"snap_from_csv","path":"scripts/snap_from_csv/snap_from_csv.yy",},"order":0,},
+    {"id":{"name":"sprDefaultMouseCursor","path":"sprites/sprDefaultMouseCursor/sprDefaultMouseCursor.yy",},"order":16,},
     {"id":{"name":"sprGemPurple","path":"sprites/sprGemPurple/sprGemPurple.yy",},"order":2,},
     {"id":{"name":"CanvasIsCanvas","path":"scripts/CanvasIsCanvas/CanvasIsCanvas.yy",},"order":2,},
     {"id":{"name":"scribble_anim_wave","path":"scripts/scribble_anim_wave/scribble_anim_wave.yy",},"order":7,},
@@ -266,6 +268,7 @@
     {"id":{"name":"sprEnemyScan","path":"sprites/sprEnemyScan/sprEnemyScan.yy",},"order":6,},
     {"id":{"name":"spr1pxTrans","path":"sprites/spr1pxTrans/spr1pxTrans.yy",},"order":4,},
     {"id":{"name":"LG_Runtime","path":"scripts/LG_Runtime/LG_Runtime.yy",},"order":0,},
+    {"id":{"name":"MouseCursor","path":"objects/MouseCursor/MouseCursor.yy",},"order":12,},
     {"id":{"name":"_OUTLINE_SHADER_DRAWER_VERSION_","path":"scripts/_OUTLINE_SHADER_DRAWER_VERSION_/_OUTLINE_SHADER_DRAWER_VERSION_.yy",},"order":0,},
     {"id":{"name":"SpriteEffects","path":"scripts/SpriteEffects/SpriteEffects.yy",},"order":11,},
     {"id":{"name":"sprFieldFrame","path":"sprites/sprFieldFrame/sprFieldFrame.yy",},"order":6,},
@@ -404,7 +407,8 @@
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
   ],
   "TextureGroups": [
-    {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"Default","isScaled":true,"compressFormat":"bz2","loadType":"default","directory":"","autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,},
+    {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"Default","ConfigValues":{"release":{"groupParent":"null","compressFormat":"bz2","loadType":"default",},},"isScaled":true,"compressFormat":"bz2","loadType":"default","directory":"","autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,},
+    {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"ui","ConfigValues":{"release":{"groupParent":"null","compressFormat":"bz2","loadType":"default",},},"isScaled":true,"compressFormat":"bz2","loadType":"default","directory":"","autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"locale_de.json","CopyToMask":-1,"filePath":"datafiles/locale",},

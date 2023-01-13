@@ -2,6 +2,9 @@
   "resourceType": "GMSprite",
   "resourceVersion": "1.0",
   "name": "sprLG_en",
+  "ConfigValues": {
+    "release": {"textureGroupId":"{\"name\":\"ui\",\"path\":\"texturegroups/ui\"}",},
+  },
   "bboxMode": 0,
   "collisionKind": 1,
   "type": 0,

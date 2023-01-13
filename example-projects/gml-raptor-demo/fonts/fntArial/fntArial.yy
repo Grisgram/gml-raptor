@@ -1,4 +1,10 @@
 {
+  "resourceType": "GMFont",
+  "resourceVersion": "1.0",
+  "name": "fntArial",
+  "ConfigValues": {
+    "release": {"textureGroupId":"{\"name\":\"ui\",\"path\":\"texturegroups/ui\"}",},
+  },
   "hinting": 0,
   "glyphOperations": 0,
   "interpreter": 0,
@@ -322,8 +328,4 @@
     "name": "Fonts",
     "path": "folders/Fonts.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "fntArial",
-  "tags": [],
-  "resourceType": "GMFont",
 }

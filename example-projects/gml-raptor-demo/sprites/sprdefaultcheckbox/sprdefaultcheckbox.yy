@@ -3,7 +3,7 @@
   "resourceVersion": "1.0",
   "name": "sprDefaultCheckbox",
   "ConfigValues": {
-    "release": {"textureGroupId":"{\"name\":\"Default\",\"path\":\"texturegroups/Default\"}",},
+    "release": {"textureGroupId":"{\"name\":\"ui\",\"path\":\"texturegroups/ui\"}",},
   },
   "bboxMode": 0,
   "collisionKind": 1,
