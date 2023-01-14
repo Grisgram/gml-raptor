@@ -60,7 +60,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 					__SAVEGAME_OBJ_PROP_VIS			: visible,
 					__SAVEGAME_OBJ_PROP_PERS		: persistent,
 					__SAVEGAME_OBJ_PROP_SOLID		: solid,
-					__SAVEGAME_OBJ_PROP_SPRITE_NAME : sprite_get_name(sprite_index),
+					__SAVEGAME_OBJ_PROP_SPRITE_NAME : (sprite_index != -1 ? sprite_get_name(sprite_index) : undefined),
 					__SAVEGAME_OBJ_PROP_SPRITE		: sprite_index,
 					__SAVEGAME_OBJ_PROP_IMAGE		: (sprite_index != -1 ? image_index : 0),
 					__SAVEGAME_OBJ_PROP_ISPEED		: image_speed,

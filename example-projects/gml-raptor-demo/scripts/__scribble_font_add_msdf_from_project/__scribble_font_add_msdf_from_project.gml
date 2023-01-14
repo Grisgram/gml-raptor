@@ -2,20 +2,22 @@ function __scribble_font_add_msdf_from_project(_sprite)
 {
     var _name = sprite_get_name(_sprite);
     
-    if (ds_map_exists(global.__scribble_font_data, _name))
+    static _font_data_map = __scribble_get_font_data_map();
+    if (ds_map_exists(_font_data_map, _name))
     {
         __scribble_trace("Warning! An MSDF font for \"", _name, "\" has already been added. Destroying the old MSDF font and creating a new one");
-        global.__scribble_font_data[? _name].__destroy();
+        _font_data_map[? _name].__destroy();
     }
     
-    if (global.__scribble_default_font == undefined)
+    var _scribble_state = __scribble_get_state();
+    if (_scribble_state.__default_font == undefined)
     {
         if (SCRIBBLE_VERBOSE) __scribble_trace("Setting default font to \"" + string(_name) + "\"");
-        global.__scribble_default_font = _name;
+        _scribble_state.__default_font = _name;
     }
     
     var _is_krutidev = __scribble_asset_is_krutidev(_sprite, asset_sprite);
-    var _global_glyph_bidi_map = global.__scribble_glyph_data.__bidi_map;
+    var _global_glyph_bidi_map = __scribble_get_glyph_data().__bidi_map;
     
     if (SCRIBBLE_VERBOSE) __scribble_trace("Defined \"" + _name + "\" as an MSDF font");
     
@@ -32,16 +34,17 @@ function __scribble_font_add_msdf_from_project(_sprite)
     _sprite_uvs[2] += _texel_w*_sprite_width*(1 - _sprite_uvs[6]);
     _sprite_uvs[3] += _texel_h*_sprite_height*(1 - _sprite_uvs[7]);
     
-    var _json_buffer = buffer_load(global.__scribble_font_directory + _name + ".json");
+    var _font_directory = __scribble_get_font_directory();
+    var _json_buffer = buffer_load(_font_directory + _name + ".json");
     
     if (_json_buffer < 0)
     {
-        _json_buffer = buffer_load(global.__scribble_font_directory + _name);
+        _json_buffer = buffer_load(_font_directory + _name);
     }
     
     if (_json_buffer < 0)
     {
-        __scribble_error("Could not find \"", global.__scribble_font_directory + _name + ".json\"\nPlease add it to the project's Included Files");
+        __scribble_error("Could not find \"", _font_directory + _name + ".json\"\nPlease add it to the project's Included Files");
     }
     
     var _json_string = buffer_read(_json_buffer, buffer_text);
@@ -51,6 +54,7 @@ function __scribble_font_add_msdf_from_project(_sprite)
     var _metrics_map     = _json[? "metrics"];
     var _json_glyph_list = _json[? "glyphs" ];
     var _atlas_map       = _json[? "atlas"  ];
+    var _kerning_list    = _json[? "kerning"];
     
     var _em_size      = _atlas_map[? "size"         ];
     var _msdf_pxrange = _atlas_map[? "distanceRange"];
@@ -65,6 +69,7 @@ function __scribble_font_add_msdf_from_project(_sprite)
     
     var _font_glyphs_map      = _font_data.__glyphs_map;
     var _font_glyph_data_grid = _font_data.__glyph_data_grid;
+    var _font_kerning_map     = _font_data.__kerning_map;
     if (_is_krutidev) _font_data.__is_krutidev = true;
     _font_data.__msdf_pxrange = _msdf_pxrange;
     
@@ -249,6 +254,18 @@ function __scribble_font_add_msdf_from_project(_sprite)
     var _space_index = _font_glyphs_map[? 32];
     _font_glyph_data_grid[# _space_index, SCRIBBLE_GLYPH.WIDTH ] = _font_glyph_data_grid[# _space_index, SCRIBBLE_GLYPH.SEPARATION];
     _font_glyph_data_grid[# _space_index, SCRIBBLE_GLYPH.HEIGHT] = _json_line_height;
+    
+    if (SCRIBBLE_USE_KERNING)
+    {
+        var _i = 0;
+        repeat(ds_list_size(_kerning_list))
+        {
+            var _kerning_pair = _kerning_list[| _i];
+            var _offset = round(_em_size*_kerning_pair[? "advance"]);
+            _font_kerning_map[? ((_kerning_pair[? "unicode2"] & 0xFFFF) << 16) | (_kerning_pair[? "unicode1"] & 0xFFFF)] = _offset;
+            ++_i;
+        }
+    }
     
     ds_map_destroy(_json);
     

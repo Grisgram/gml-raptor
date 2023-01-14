@@ -60,14 +60,14 @@
 
 function __scribble_gen_6_build_lines()
 {
-    var _glyph_grid   = global.__scribble_glyph_grid;
-    var _word_grid    = global.__scribble_word_grid;
-    var _line_grid    = global.__scribble_line_grid;
-    var _control_grid = global.__scribble_control_grid;
-    var _temp_grid    = global.__scribble_temp_grid;
-    
-    with(global.__scribble_generator_state)
+    static _generator_state = __scribble_get_generator_state();
+    with(_generator_state)
     {
+        var _glyph_grid            = __glyph_grid;
+        var _word_grid             = __word_grid;
+        var _line_grid             = __line_grid;
+        var _control_grid          = __control_grid;
+        var _temp_grid             = __temp_grid;
         var _element               = __element;
         var _word_count            = __word_count;
         var _line_height_min       = __line_height_min;
@@ -138,9 +138,9 @@ function __scribble_gen_6_build_lines()
                 //This ensures we don't mark alignments as used if no text is rendered for that alignment
                 switch(_state_halign)
                 {
-                    case fa_left:   global.__scribble_generator_state.__uses_halign_left   = true; break;
-                    case fa_center: global.__scribble_generator_state.__uses_halign_center = true; break;
-                    case fa_right:  global.__scribble_generator_state.__uses_halign_right  = true; break;
+                    case fa_left:   _generator_state.__uses_halign_left   = true; break;
+                    case fa_center: _generator_state.__uses_halign_center = true; break;
+                    case fa_right:  _generator_state.__uses_halign_right  = true; break;
                 }
                 
                 if (_word_x + _word_width > _simulated_model_max_width)
@@ -298,7 +298,6 @@ function __scribble_gen_6_build_lines()
             {
                 __SCRIBBLE_GEN_LINE_END;
                 _line_y += _line_height;
-                __scribble_trace("Warning! Model generator found hanging line data");
             }
         }
         
@@ -370,7 +369,7 @@ function __scribble_gen_6_build_lines()
     
     __width = ds_grid_get_max(_line_grid, 0, __SCRIBBLE_GEN_LINE.__WIDTH, _line_count - 1, __SCRIBBLE_GEN_LINE.__WIDTH);
     
-    with(global.__scribble_generator_state)
+    with(_generator_state)
     {
         __word_count = _word_count;
         __line_count = _line_count;

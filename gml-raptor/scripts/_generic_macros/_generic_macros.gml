@@ -16,7 +16,7 @@
 
 // detect if the scribble library is loaded
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
-#macro SCRIBBLE_COLORS		global.__scribble_colours
+#macro SCRIBBLE_COLORS		__scribble_config_colours()
 
 /// better human readable version of this instance's name (for logging mostly)
 #macro MY_ID	string(real(id))

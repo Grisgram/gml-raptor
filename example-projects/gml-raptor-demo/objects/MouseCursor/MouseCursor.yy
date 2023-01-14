@@ -40,6 +40,9 @@
       ],},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_offset_x","varType":1,"value":"0","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_offset_y","varType":1,"value":"0","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"sprite_to_use","varType":5,"value":"undefined","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[
+        "GMSprite",
+      ],},
   ],
   "overriddenProperties": [],
   "parent": {

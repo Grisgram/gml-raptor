@@ -26,6 +26,7 @@
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"race_table_name","path":"objects/RaceTable/RaceTable.yy",},"objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"value":"\"match3_board\"",},
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","propertyId":{"name":"race_controller","path":"objects/RaceTable/RaceTable.yy",},"objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"value":"raceController",},
           ],"isDnd":false,"objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":2.0,"scaleY":2.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":1424.0,"y":944.0,},
+        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"raceMouseCursor","properties":[],"isDnd":false,"objectId":{"name":"MouseCursor","path":"objects/MouseCursor/MouseCursor.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":32.0,"y":32.0,},
       ],"visible":true,"depth":0,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":32,"gridY":32,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
     {"resourceType":"GMRInstanceLayer","resourceVersion":"1.0","name":"MessageBox","instances":[],"visible":true,"depth":100,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":32,"gridY":32,"layers":[],"hierarchyFrozen":false,"effectEnabled":true,"effectType":null,"properties":[],},
     {"resourceType":"GMRLayer","resourceVersion":"1.0","name":"popups","visible":false,"depth":200,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritVisibility":true,"inheritSubLayers":true,"gridX":32,"gridY":32,"layers":[
@@ -191,6 +192,7 @@
     {"name":"raceRoomController","path":"rooms/rmRace/rmRace.yy",},
     {"name":"raceController","path":"rooms/rmRace/rmRace.yy",},
     {"name":"match3Table","path":"rooms/rmRace/rmRace.yy",},
+    {"name":"raceMouseCursor","path":"rooms/rmRace/rmRace.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,

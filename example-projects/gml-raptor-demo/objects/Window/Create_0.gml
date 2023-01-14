@@ -36,7 +36,7 @@ scribble_add_title_effects = function(titletext) {
 /// @param {string} str			
 __create_scribble_title_object = function(align, str) {
 	return scribble(align + str, MY_NAME)
-			.starting_format(font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, title_color);
+			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, title_color);
 }
 
 /// @function					__draw_self()

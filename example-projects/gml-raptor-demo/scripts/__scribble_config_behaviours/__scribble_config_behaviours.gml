@@ -17,6 +17,8 @@
 #macro SCRIBBLE_ALLOW_GLYPH_DATA_GETTER       false  //Set to <true> to enable the .get_glyph_data() method on text elements (and a few other features too). This will apply to all text elements and carries a performance penalty
 #macro SCRIBBLE_AUTOFIT_INLINE_SPRITES        false  //Whether to automatically scale sprites to fit into the line of text. This is based on the font height of the current font
 #macro SCRIBBLE_AUTOFIT_INLINE_SURFACES       false  //Whether to automatically scale surfaces to fit into the line of text. This is based on the font height of the current font
+#macro SCRIBBLE_USE_KERNING                   true
+
 
 
 #region Advanced Features
@@ -44,6 +46,23 @@
 #macro SCRIBBLE_BUILD_RETURNS_SELF        false    //Whether the .build() method for text element returns <self>. This defaults to <false> to avoid unintentional misuse
 #macro SCRIBBLE_SHOW_WRAP_BOUNDARY        false    //Controls the drawing of a rectangle that indicates the boundaries of the .wrap(), .fit_to_box(), and .scale_to_box() methods
 #macro SCRIBBLE_ATTEMPT_FONT_SCALING_FIX  true     //Whether to try to fix font scaling due to the font texture being too big for the texture page
+
+//Whether to replace a grave accent (` U+0060, decimal=96) with a zero-width space for Thai text
+#macro SCRIBBLE_THAI_GRAVE_ACCENTS_ARE_ZWSP  false
+
+//Whether to perform the following Unicode substitutions to fix copy-pasted text from e.g. Google Docs:
+// Ellipsis            … U+2026   ->   Three full stops . U+002E
+// En dash             – U+2013   ->   Hyphen           - U+002D
+// Em dash             — U+2014   ->   Hyphen           - U+002D
+// Horizontal bar      ― U+2015   ->   Hyphen           - U+002D
+// Start single quote  ‘ U+2018   ->   Single quote     ' U+0027
+// End single quote    ’ U+2018   ->   Single quote     ' U+0027
+// Start double quote  “ U+201C   ->   Double quote     " U+0022
+// End double quote    ” U+201D   ->   Double quote     " U+0022
+// Low double quote    „ U+201E   ->   Double quote     " U+0022
+// High double quote   ‟ U+201F   ->   Double quote     " U+0022
+// Greek question mark ; U+037E   ->   Semicolon        ; U+003B
+#macro SCRIBBLE_UNDO_UNICODE_SUBSTITUTIONS  false
 
 #endregion
 

@@ -62,20 +62,35 @@ window_set_cursor(cr_none);
 depth = 16000;
 visible = true;
 
+sprite_index = sprite_to_use ?? sprite_index;
+
 companion = undefined;
 
+/// @function set_companion(_companion_sprite, _type = undefined)
 set_companion = function(_companion_sprite, _type = undefined) {
 	if (companion != undefined)
 		pool_return_instance(companion);
 	
 	var typ = _type ?? companion_type;
 	companion = pool_get_instance(__RAPTOR_MOUSE_COMPANION_POOL, typ, depth);
-	companion.sprite_index = _companion_sprite;
+	if (_companion_sprite != undefined)
+		companion.sprite_index = _companion_sprite;
 }
 
-clear_companion = function() {
+/// @function clear_companion(reset_blend_color = true)
+clear_companion = function(reset_blend_color = true) {
 	if (companion != undefined) {
 		pool_return_instance(companion);
 		companion = undefined;
 	}
+	if (reset_blend_color)
+		image_blend = c_white;
+}
+
+/// @function destroy()
+/// @description remove this mouse cursor and restore default cursor
+destroy = function() {
+	window_set_cursor(cr_default);
+	MOUSE_CURSOR = undefined;
+	instance_destroy(self);
 }

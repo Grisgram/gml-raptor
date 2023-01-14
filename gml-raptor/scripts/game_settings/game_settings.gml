@@ -15,6 +15,7 @@ function GameSettings() constructor {
 	construct("GameSettings");
 	
 	audio = AUDIOSETTINGS;
+	use_system_cursor = false;
 	if (HIGHSCORES != undefined) {
 		highscoredata = HIGHSCORES.data;
 		last_highscore_name = "";

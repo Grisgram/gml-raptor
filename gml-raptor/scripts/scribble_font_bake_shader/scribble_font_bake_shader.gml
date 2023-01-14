@@ -32,7 +32,8 @@ function scribble_font_bake_shader(_source_font_name, _new_font_name, _shader, _
         return undefined;
     }
 
-    var _src_font_data = global.__scribble_font_data[? _source_font_name];
+    static _font_data_map = __scribble_get_font_data_map();
+    var _src_font_data = _font_data_map[? _source_font_name];
     if (!is_struct(_src_font_data))
     {
         __scribble_error("Source font \"", _source_font_name, "\" not found\n\"", _new_font_name, "\" will not be available");
@@ -108,9 +109,19 @@ function scribble_font_bake_shader(_source_font_name, _new_font_name, _shader, _
         var _vbuff_data = _vbuff_data_map[? string(_texture)];
         if (_vbuff_data == undefined)
         {
+            static _vertex_format = undefined;
+            if (_vertex_format == undefined)
+            {
+                vertex_format_begin();
+                vertex_format_add_position(); //12 bytes
+                vertex_format_add_color();    // 4 bytes
+                vertex_format_add_texcoord(); // 8 bytes
+                _vertex_format = vertex_format_end();
+            }
+            
             //If we don't have a vertex buffer for this texture, create a new one and store a reference to it
             var _vbuff = vertex_create_buffer();
-            vertex_begin(_vbuff, global.__scribble_passthrough_vertex_format);
+            vertex_begin(_vbuff, _vertex_format);
             
             _vbuff_data_map[? string(_texture)] = {
                 __vertex_buffer: _vbuff,

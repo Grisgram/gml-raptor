@@ -2,5 +2,6 @@
 
 function scribble_font_exists(_name)
 {
-    return ds_map_exists(global.__scribble_font_data, _name);
+    static _font_data_map = __scribble_get_font_data_map();
+    return ds_map_exists(_font_data_map, _name);
 }
