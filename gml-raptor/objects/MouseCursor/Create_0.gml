@@ -52,7 +52,6 @@
 
 #macro __RAPTOR_MOUSE_COMPANION_POOL		"__raptor_mouse_companion_pool"
 
-#macro MOUSE_CURSOR		global._MOUSE_CURSOR
 MOUSE_CURSOR			= self;
 
 event_inherited();

@@ -9,8 +9,6 @@
 #macro __FILE_CACHE		global.__file_cache
 __FILE_CACHE = {};
 
-#macro __CONSTRUCTOR_NAME		"##_raptor_##.__constructor"
-
 /// @function					file_clear_cache()
 /// @description				clears the entire file cache
 function file_clear_cache() {
@@ -304,15 +302,6 @@ function __file_reconstruct_class(into, from) {
 				self[$ name] = from[$ name];
 		}
 	}
-}
-
-/// @function		construct(_class_name)
-/// @description	Register a (script-)class as a constructible class to the file system.
-///					When loading the file, instead of just assigning the struct, it will invoke
-///					the constructor and then perform a struct_integrate with the loaded data, so
-///					all members receive their loaded values after the constructor executed.
-function construct(_class_name) {
-	self[$ __CONSTRUCTOR_NAME] = _class_name;	
 }
 
 #endregion
