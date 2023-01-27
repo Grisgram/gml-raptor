@@ -10,7 +10,7 @@
 
 #macro interface				() constructor
 
-/// @function		construct(_class_name)
+/// @function		construct(_class_name_or_asset)
 /// @description	Register a class as a constructible class to raptor.
 ///					This is used by the file system when loading saved games or any other structures
 ///					that have been saved through raptor.
