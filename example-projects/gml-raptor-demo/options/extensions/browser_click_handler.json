@@ -1,0 +1,9 @@
+{
+  "resourceType": "GMExtensionConfigSet",
+  "configurables": null,
+  "extensionId": {
+    "name": "browser_click_handler",
+    "path": "extensions/browser_click_handler/browser_click_handler.yy"
+  },
+  "resourceVersion": "1.0"
+}

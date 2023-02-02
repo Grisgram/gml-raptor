@@ -36,7 +36,7 @@ function GuiMouseTranslator() constructor {
 			other.event_redirection_active = true;
 			
 			other.gui_mouse_is_over = point_in_rectangle(
-				GUI_MOUSE_X, GUI_MOUSE_Y, 
+				MOUSE_X, MOUSE_Y, // ** GUI FIX 2023.1 **
 				SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, 
 				SELF_VIEW_RIGHT_EDGE, SELF_VIEW_BOTTOM_EDGE);
 			

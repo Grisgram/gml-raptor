@@ -31,7 +31,7 @@
 
 
 #macro __SCRIBBLE_PARSER_WRITE_GLYPH  ;\//Pull info out of the font's data structures
-									  var _data_index = _font_glyphs_map[? (os_browser != browser_not_a_browser ? string(_glyph_write) : _glyph_write)];\
+									  var _data_index = _font_glyphs_map[? floor(_glyph_write)];\
                                       ;\//If our glyph is missing, choose the missing character glyph instead!
                                       if (_data_index == undefined)\
                                       {\
