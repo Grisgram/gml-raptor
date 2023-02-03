@@ -49,7 +49,7 @@ update_canvas = function() {
 	browser_stretch_canvas(newwidth, newheight);
 
 	if (IS_HTML) {
-		GUI_RUNTIME_CONFIG.gui_scale_set(scale, scale);
+		//GUI_RUNTIME_CONFIG.gui_scale_set(scale, scale);
 		GUI_RUNTIME_CONFIG.canvas_left	 = canvleft;
 		GUI_RUNTIME_CONFIG.canvas_top	 = canvtop;
 		GUI_RUNTIME_CONFIG.canvas_width  = newwidth;

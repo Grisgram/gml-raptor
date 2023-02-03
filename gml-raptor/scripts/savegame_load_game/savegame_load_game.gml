@@ -23,7 +23,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 		log("*ERROR* Could not load savegame '" + filename + "'!");
 		return false;
 	}
-	
+
 	SAVEGAME_LOAD_IN_PROGRESS = true;
 	
 	// load engine data
@@ -56,6 +56,10 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 		for (var i = 0; i < array_length(names); i++) {
 			var inst	= variable_struct_get(instances, names[i]);
 			var obj		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_OBJ);
+			// since 2023.1 there's an empty struct added silently to each serialized file.
+			// we need to skip this empty mess
+			if (obj == undefined || obj == -1) continue; 
+			
 			var lname	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_LAYER);
 			var ldepth  = variable_struct_get(inst, __SAVEGAME_OBJ_PROP_DEPTH);
 			var xpos	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_X);

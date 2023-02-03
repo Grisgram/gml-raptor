@@ -22,6 +22,8 @@ wait_for_async_tasks	= false;
 
 trampoline_done			= false;
 
+first_step				= true;
+
 // Inherit the parent event
 event_inherited();
 

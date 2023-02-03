@@ -30,7 +30,6 @@
     {"name":"mainRoomController","path":"rooms/rmMain/rmMain.yy",},
     {"name":"profile_data_saveable","path":"rooms/rmMain/rmMain.yy",},
     {"name":"mainMouseCursor","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"inst_36224D02","path":"rooms/rmMain/rmMain.yy",},
   ],
   "isDnd": false,
   "layers": [
@@ -142,7 +141,6 @@
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControlWithTooltip","path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",},"propertyId":{"name":"tooltip_text","path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",},"value":"=main_menu/tooltips/inputbox",},
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_on_gui","path":"objects/_baseControl/_baseControl.yy",},"value":"True",},
           ],"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":560.0,"y":664.0,},
-        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_36224D02","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"Slider","path":"objects/Slider/Slider.yy",},"properties":[],"rotation":0.0,"scaleX":7.0,"scaleY":1.0,"x":832.0,"y":992.0,},
       ],"layers":[],"properties":[],"userdefinedDepth":false,"visible":true,},
     {"resourceType":"GMRBackgroundLayer","resourceVersion":"1.0","name":"Background","animationFPS":15.0,"animationSpeedType":0,"colour":4278190080,"depth":600,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"hspeed":0.0,"htiled":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"properties":[],"spriteId":null,"stretch":false,"userdefinedAnimFPS":false,"userdefinedDepth":false,"visible":true,"vspeed":0.0,"vtiled":false,"x":0,"y":0,},
   ],

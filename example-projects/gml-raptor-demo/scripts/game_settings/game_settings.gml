@@ -12,9 +12,10 @@ GAMESETTINGS = undefined;
 // Add everything you want to be part of the settings file in this struct.
 // DO NOT ADD FUNCTIONS HERE! Only data!
 function GameSettings() constructor {
-	construct("GameSettings");
+	construct(GameSettings);
 	
 	audio = AUDIOSETTINGS;
+	use_system_cursor = false;
 	if (HIGHSCORES != undefined) {
 		highscoredata = HIGHSCORES.data;
 		last_highscore_name = "";

@@ -1,8 +1,15 @@
 // spinner rotation and position
+if (trampoline_done) exit;
+
 spinner_frame_counter = (spinner_frame_counter + 1) % 48;
 spinner_rotation = -45 * floor(spinner_frame_counter / 6);
 spinner_x = VIEW_WIDTH - spinner_w - 16;
 spinner_y = VIEW_HEIGHT - spinner_h - 16;
+
+if (first_step) {
+	first_step = false;
+	window_center();
+}
 
 if (wait_for_async_tasks && async_wait_timeout > 0) {
 	async_wait_counter++;

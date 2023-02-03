@@ -1,7 +1,7 @@
 /// @description event
 
-x = translate_world_to_gui_x(mouse_x);
-y = translate_world_to_gui_y(mouse_y);
+x = GUI_MOUSE_X;
+y = GUI_MOUSE_Y;
 
 if (companion != undefined) {
 	companion.x = x + sprite_width + companion_offset_x + companion.sprite_xoffset;
