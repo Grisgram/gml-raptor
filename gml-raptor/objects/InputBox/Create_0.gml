@@ -202,7 +202,7 @@ __create_scribble_object = function(align, str, test_only = false) {
 		var pw = !string_is_empty(password_char);
 		var scstr = (pw ? string_repeat(string_copy(password_char,1,1), max_chars) : string_copy(str, 1, max_chars));
 		sbc = scribble(align + scstr, MY_NAME)
-				.starting_format(font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, 
+				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 								 mouse_is_over ? text_color_mouse_over : text_color);
 		bb = sbc.get_bbox();
 		if (!pw && !test_only) text = scstr;
@@ -312,7 +312,7 @@ __set_cursor_pos_from_click = function(force_extend_selection = false) {
 		var substr = string_copy(text, 1, i);
 		i++;
 		var scrib = scribble("[fa_left]" + substr).starting_format(
-				font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, text_color);
+				font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, text_color);
 		var bbox = scrib.get_bbox(topleft.x, topleft.y);
 		var box_inside = bbox.right - topleft.x;
 		if (box_inside >= xinside)

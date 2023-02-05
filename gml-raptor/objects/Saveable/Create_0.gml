@@ -38,7 +38,7 @@ event_inherited();
 	"image_angle", "image_xscale",
 	"image_yscale"						Rotation and scaling
 	
-	IN ADDITION: All instance variables of indie platform objects (like the Race...
+	IN ADDITION: All instance variables of raptor platform objects (like the Race...
 	objects) will automatically save their states and even restore their instance
 	links (like the RaceController variable on a RaceTable object)!
 	You do not need to save "race_table_name" and other race variables manually.
@@ -82,23 +82,19 @@ event_inherited();
 /// @function					onGameSaving()
 /// @description				invoked per instance during game save
 onGameSaving = function() {
-	log(MY_NAME + ": onGameSaving");
 };
 
 /// @function					onGameSaved()
 /// @description				Invoked AFTER saving 
 onGameSaved = function() {
-	log(MY_NAME + ": onGameSaved");
 }
 
 /// @function					onGameLoading()
 /// @description				occurs when this object has been loaded
 onGameLoading = function() {
-	log(MY_NAME + ": onGameLoading");
 }
 
 /// @function					onGameLoaded()
 /// @description				occurs after all objects have been loaded
 onGameLoaded = function() {
-	log(MY_NAME + ": onGameLoaded");
 }

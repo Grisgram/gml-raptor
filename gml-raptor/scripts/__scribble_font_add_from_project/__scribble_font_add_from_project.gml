@@ -4,24 +4,26 @@ function __scribble_font_add_from_project(_font)
 {
     var _name = font_get_name(_font);
     
-    if (ds_map_exists(global.__scribble_font_data, _name))
+    static _font_data_map = __scribble_get_font_data_map();
+    if (ds_map_exists(_font_data_map, _name))
     {
         __scribble_trace("Warning! A font for \"", _name, "\" has already been added. Destroying the old font and creating a new one");
-        global.__scribble_font_data[? _name].__destroy();
+        _font_data_map[? _name].__destroy();
     }
     
     if (SCRIBBLE_VERBOSE) __scribble_trace("Adding \"", _name, "\" as standard font");
     
-    if (global.__scribble_default_font == undefined)
+    var _scribble_state = __scribble_get_state();
+    if (_scribble_state.__default_font == undefined)
     {
         if (SCRIBBLE_VERBOSE) __scribble_trace("Setting default font to \"" + string(_name) + "\"");
-        global.__scribble_default_font = _name;
+        _scribble_state.__default_font = _name;
     }
     
     try
     {
         var _is_krutidev = __scribble_asset_is_krutidev(_font, asset_font);
-        var _global_glyph_bidi_map = global.__scribble_glyph_data.__bidi_map;
+        var _global_glyph_bidi_map = __scribble_get_glyph_data().__bidi_map;
         
         //Get font info from the runtime
         var _font_info = font_get_info(_font);
@@ -68,6 +70,7 @@ function __scribble_font_add_from_project(_font)
         var _font_data = new __scribble_class_font(_name, _size, false);
         var _font_glyphs_map      = _font_data.__glyphs_map;
         var _font_glyph_data_grid = _font_data.__glyph_data_grid;
+        var _font_kerning_map     = _font_data.__kerning_map;
         if (_is_krutidev) _font_data.__is_krutidev = true;
         
         var _i = 0;
@@ -112,6 +115,21 @@ function __scribble_font_add_from_project(_font)
                 {
                     _bidi = __SCRIBBLE_BIDI.L2R_DEVANAGARI;
                     _unicode += __SCRIBBLE_DEVANAGARI_OFFSET;
+                }
+            }
+            
+            if (SCRIBBLE_USE_KERNING)
+            {
+                var _kerning_array = _glyph_dict[$ "kerning"];
+                if (is_array(_kerning_array))
+                {
+                    var _j = 0;
+                    repeat(array_length(_kerning_array) div 2)
+                    {
+                        var _first = _kerning_array[_j];
+                        if (_first > 0) _font_kerning_map[? ((_unicode & 0xFFFF) << 16) | (_first & 0xFFFF)] = _kerning_array[_j+1];
+                        _j += 2;
+                    }
                 }
             }
             
@@ -176,6 +194,7 @@ function __scribble_font_add_from_project(_font)
     }
     catch(_error)
     {
+        __scribble_trace(_error);
         __scribble_error("There was an error whilst reading \"", _name, "\"\nPlease reimport the font into GameMaker and reset character ranges\nIf this issue persists, please report it");
     }
 }

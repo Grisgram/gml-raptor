@@ -5,74 +5,54 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function				vs_get_by_path(struct, path)
-/// @description			Gets an entry from a variable_struct with the path syntax that
-///							is used in LG() too.
-///							In a hierachical struct, it gets cruel to cascade 5 variable_struct_get
-///							calls to retrieve a single value.
-///							This function allow you something like:
-///							vs_get_by_path(mystruct, "enemies/dungeon23/bosses/1/name")
-///							and you will receive, whatever is stored at this position in the struct.
-/// @param {struct}	struct	The struct to search through
-/// @param {string} path	The hierarchical path in the struct
-///
-/// @grisgram 2022-02-18
-function vs_get_by_path(struct, path) {
-	var key;
-	var map = struct;
-	var args = string_split(path, "/");
-	var len = array_length(args);
+#macro __CONSTRUCTOR_NAME		"##_raptor_##.__constructor"
+#macro __INTERFACES_NAME		"##_raptor_##.__interfaces"
 
-	for (var i = 0; i < len - 1; i++) {
-		key = args[i];
-		map = variable_struct_get(map, key);
-		if (map == undefined)
-			break;
-	}
-	if (map != undefined) {
-		key = args[len - 1];
-		return variable_struct_get(map, key);
-	}
-	return undefined;
+#macro interface				() constructor
+
+/// @function		construct(_class_name_or_asset)
+/// @description	Register a class as a constructible class to raptor.
+///					This is used by the file system when loading saved games or any other structures
+///					that have been saved through raptor.
+///					When loading the file, instead of just assigning the struct, it will invoke
+///					the constructor and then perform a struct_integrate with the loaded data, so
+///					all members receive their loaded values after the constructor executed.
+function construct(_class_name_or_asset) {
+	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
 }
 
-/// @function					vs_set_by_path(struct, path, value)
-/// @description				Sets an entry from a variable_struct with the path syntax to a new value.
-///								In a hierachical struct, it gets cruel to cascade 5 variable_struct_get
-///								calls to set a single value.
-///								This function allow you something like:
-///								vs_set_by_path(mystruct, "enemies/dungeon23/bosses/1/name", "Ragnaros").
-///								You can set whatever you want for the value, even create new structs
-///								on the fly if you leave the last parameter at its default of true.
-/// @param {struct}	struct		The struct to search through
-/// @param {string} path		The hierarchical path in the struct
-/// @param {any}    value		The value to assign
-/// @param {bool=true}   create_path	Default=true. If true, missing elements in the path will be created as structs.
-///
-/// @grisgram 2022-02-18
-function vs_set_by_path(struct, path, value, create_path = true) {
-	var key;
-	var map = struct;
-	var args = string_split(path, "/");
-	var len = array_length(args);
+/// @function		implement(_interface)
+/// @description	Works like an interface implementation by copying all members
+///					and re-binding all methods from "interface" to "self"
+///					Creates a hidden member __raptor_interfaces in this struct which contains
+///					all implemented interfaces, so you can always ask "if (implements(interface))..."
+///					NOTE: "interface" MUST BE A PARAMETERLESS CONSTRUCTOR FUNCTION!
+///					This function will create one instance and copy/rebind all elements to self.
+function implement(_interface) {
+	var sname, sclass;
+	if (is_string(_interface)) {
+		sname = _interface;
+		sclass = asset_get_index(sname);
+	} else {
+		sname = script_get_name(_interface);
+		sclass = _interface;
+	}
+	
+	var i = new sclass();
+	if (variable_struct_exists(i, __CONSTRUCTOR_NAME))
+		variable_struct_remove(i, __CONSTRUCTOR_NAME); // Remove constructor hint as this is an interface now
+	struct_integrate(self, i);
+	if (!variable_struct_exists(self, __INTERFACES_NAME))
+		self[$ __INTERFACES_NAME] = [];
+	if (!array_contains(self[$ __INTERFACES_NAME], sname))
+		array_push(self[$ __INTERFACES_NAME], sname);
+}
 
-	for (var i = 0; i < len - 1; i++) {
-		key = args[i];
-		var current = map;
-		map = variable_struct_get(map, key);
-		if (map == undefined) {
-			if (create_path) {
-				map = {};
-				variable_struct_set(current,key,map);
-			} else
-				break;
-		}
-	}
-	if (map != undefined) {
-		key = args[len - 1];
-		variable_struct_set(map, key, value);
-	}
-	return undefined;
+/// @function		implements(struct, _interface)
+/// @description	Asks the specified struct whether it implements the specified interface.
+function implements(struct, _interface) {
+	var sname = is_string(_interface) ? _interface : script_get_name(_interface);
+	return variable_struct_exists(struct, __INTERFACES_NAME) && array_contains(struct[$ __INTERFACES_NAME], sname);
 }
 
 /// @function					struct_get_unique_key(struct, basename, prefix = "")
@@ -128,4 +108,15 @@ function struct_integrate(target, sources) {
 	return target;
 }
 
-
+/// @function struct_get(struct, key, default_if_missing, create_if_missing = true)
+/// @description	Save-gets a struct member, returning a default if it does not exist,
+///					and even allows you to create that member in the struct, if it is missing
+function struct_get(struct, key, default_if_missing, create_if_missing = true) {
+	if (variable_struct_exists(struct, key))
+		return struct[$ key];
+		
+	if (create_if_missing)
+		struct[$ key] = default_if_missing;
+	
+	return default_if_missing;
+}

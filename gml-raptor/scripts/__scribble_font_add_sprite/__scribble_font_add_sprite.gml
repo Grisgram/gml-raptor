@@ -19,24 +19,26 @@ function __scribble_font_add_sprite_ext(_sprite, _mapstring, _proportional, _sep
 
 function __scribble_font_add_sprite_common(_sprite, _spritefont, _proportional, _separation)
 {
-    __scribble_system();
+    __scribble_initialize();
     
     var _font_info = font_get_info(_spritefont);
-    
     var _sprite_name = sprite_get_name(_sprite);
-    if (ds_map_exists(global.__scribble_font_data, _sprite_name))
+    
+    static _font_data_map = __scribble_get_font_data_map();
+    if (ds_map_exists(_font_data_map, _sprite_name))
     {
         __scribble_trace("Warning! A spritefont for \"", _sprite_name, "\" has already been added. Destroying the old spritefont and creating a new one");
-        global.__scribble_font_data[? _sprite_name].__destroy();
+        _font_data_map[? _sprite_name].__destroy();
     }
     
     var _is_krutidev = __scribble_asset_is_krutidev(_sprite, asset_sprite);
-    var _global_glyph_bidi_map = global.__scribble_glyph_data.__bidi_map;
+    var _global_glyph_bidi_map = __scribble_get_glyph_data().__bidi_map;
     
-    if (global.__scribble_default_font == undefined)
+    var _scribble_state = __scribble_get_state();
+    if (_scribble_state.__default_font == undefined)
     {
         if (SCRIBBLE_VERBOSE) __scribble_trace("Setting default font to \"" + string(_sprite_name) + "\"");
-        global.__scribble_default_font = _sprite_name;
+        _scribble_state.__default_font = _sprite_name;
     }
     
     var _sprite_width  = sprite_get_width(_sprite);
@@ -72,7 +74,7 @@ function __scribble_font_add_sprite_common(_sprite, _spritefont, _proportional, 
     if (_is_krutidev) _font_data.__is_krutidev = true;
     
     //Also create a duplicate entry so that we can find this spritefont in draw_text_scribble()
-    global.__scribble_font_data[? font_get_name(_spritefont)] = _font_data;
+    _font_data_map[? font_get_name(_spritefont)] = _font_data;
     
     var _i = 0;
     repeat(_size)
@@ -133,11 +135,13 @@ function __scribble_font_add_sprite_common(_sprite, _spritefont, _proportional, 
             
             //Convert the texture index to a texture pointer
             var _texture_index = _image_info.texture;
-            var _texture = global.__scribble_tex_index_lookup_map[? _texture_index];
+            
+            static _tex_index_lookup_map = ds_map_create();
+            var _texture = _tex_index_lookup_map[? _texture_index];
             if (_texture == undefined)
             {
                 _texture = sprite_get_texture(_sprite, _image);
-                global.__scribble_tex_index_lookup_map[? _texture_index] = _texture;
+                _tex_index_lookup_map[? _texture_index] = _texture;
             }
             
             if (_proportional)

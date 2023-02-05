@@ -2,7 +2,7 @@
 /// @description				Scan a sprite's width and height (asset dimensions)
 /// @param {asset} sprite
 function SpriteDim(sprite = -1) constructor {
-	construct("SpriteDim");
+	construct(SpriteDim);
 	
 	if (sprite != -1) {
 		width = sprite_get_width(sprite);

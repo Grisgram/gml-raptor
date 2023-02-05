@@ -38,7 +38,7 @@
 /// @param {bool}	start_filled true (default) to have current_value == max_value, if false, current_value = 0
 /// @param {int}	_direction Where the bar is "anchored" (0 = left, 1 = right, 2 = top, 3 = bottom)
 function HealthBarDrawer(_max_value = 100, _font = undefined, start_filled = true, _anchor = 0) constructor {
-	construct("HealthBarDrawer");
+	construct(HealthBarDrawer);
 
 	update((start_filled ? _max_value : 0), _max_value);
 	

@@ -8,8 +8,8 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-#macro SEQUENCE_CUSTOM_ATTRIBUTES		"indie_attributes"
-#macro SEQUENCE_CUSTOM_INSTANCES		"indie_instances"
+#macro SEQUENCE_CUSTOM_ATTRIBUTES		"__raptor_attributes"
+#macro SEQUENCE_CUSTOM_INSTANCES		"__raptor_instances"
 
 /// @function							seq_create_with_attributes(sequence, layer, x, y)
 /// @description						Create a sequence instance with the specified parameters and return the instance.
@@ -23,7 +23,7 @@ function seq_create_with_attributes(sequence, layer, x, y) {
 	var seq = layer_sequence_create(layer, x, y, sequence);
 	var inst = layer_sequence_get_instance(seq);
 	inst.name = sequence_get(sequence).name;
-	variable_struct_set(inst,SEQUENCE_CUSTOM_ATTRIBUTES,{});
+	inst[$ SEQUENCE_CUSTOM_ATTRIBUTES] = {};
 	log(sprintf("Created sequence: sequence='{0}'; elementID={1};", sequence_get(sequence).name, inst.elementID));
 	return inst;
 }
@@ -94,7 +94,7 @@ function seq_modify_instance(sequence,object,instance,store_as_name = "") {
 ///									in the instance parameter).
 function seq_store_instance(sequence, instance, store_as_name = "") {
 	if (store_as_name == "") store_as_name = object_get_name(instance.object_index);
-	vs_set_by_path(sequence, SEQUENCE_CUSTOM_INSTANCES + "/" + store_as_name,instance);
+	sequence[$ SEQUENCE_CUSTOM_INSTANCES][$ store_as_name] = instance;
 }
 
 /// @function					seq_get_stored_instance(sequence,stored_name)
@@ -104,7 +104,7 @@ function seq_store_instance(sequence, instance, store_as_name = "") {
 /// @returns {instance}			The instance retrieved.
 function seq_get_stored_instance(sequence,stored_name) {
 	if (!is_string(stored_name)) stored_name = object_get_name(stored_name.object_index);
-	return vs_get_by_path(sequence, SEQUENCE_CUSTOM_INSTANCES + "/" + stored_name);
+	return sequence[$ SEQUENCE_CUSTOM_INSTANCES][$ stored_name];
 }
 
 /// @function					seq_get_stored_instances(sequence)

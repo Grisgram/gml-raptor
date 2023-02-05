@@ -33,7 +33,7 @@ __TEXT_NAV_TAB_LOCK = 0;
 #macro AUDIO_CHANNELS_OTHER		64
 
 function gui_runtime_config() constructor {
-	construct("gui_runtime_config");
+	construct(gui_runtime_config);
 	
 	tooltip_delay_frames		= TOOLTIP_DELAY_FRAMES;
 								
@@ -54,7 +54,6 @@ function gui_runtime_config() constructor {
 		canvas_width  = APP_SURF_WIDTH;
 		canvas_height = APP_SURF_HEIGHT;
 	}
-
 	// set up sound channels based on platform
 	audio_channel_num(IS_HTML ? AUDIO_CHANNELS_HTML : 
 		(is_any_of(os_type, os_windows, os_macosx) ? AUDIO_CHANNELS_WINMAC : AUDIO_CHANNELS_OTHER));
@@ -73,7 +72,6 @@ function gui_runtime_config() constructor {
 		display_set_gui_maximize(-1, -1);
 	}
 	
-//	gui_scale_set();
 }
 
 GUI_RUNTIME_CONFIG = new gui_runtime_config();

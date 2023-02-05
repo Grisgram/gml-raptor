@@ -69,17 +69,18 @@
 
 function __scribble_gen_9_write_vbuffs()
 {
-    if (SCRIBBLE_ALLOW_TEXT_GETTER)
+    static _string_buffer   = __scribble_get_buffer_a();
+    static _effects_map     = __scribble_get_effects_map();
+    static _generator_state = __scribble_get_generator_state();
+    
+    with(_generator_state)
     {
-        var _string_buffer = global.__scribble_buffer;
+        var _glyph_grid     = __glyph_grid;
+        var _control_grid   = __control_grid;
+        var _vbuff_pos_grid = __vbuff_pos_grid;
+        var _element        = __element;
+        var _glyph_count    = __glyph_count;
     }
-    
-    var _glyph_grid     = global.__scribble_glyph_grid;
-    var _control_grid   = global.__scribble_control_grid;
-    var _vbuff_pos_grid = global.__scribble_vbuff_pos_grid;
-    
-    var _element     = global.__scribble_generator_state.__element;
-    var _glyph_count = global.__scribble_generator_state.__glyph_count;
     
     
     
@@ -94,11 +95,11 @@ function __scribble_gen_9_write_vbuffs()
     
     
     
-    if (is_array(global.__scribble_generator_state.__bezier_lengths_array))
+    if (is_array(_generator_state.__bezier_lengths_array))
     {
         //Prep for Bezier curve shenanigans if necessary
         var _bezier_do              = true;
-        var _bezier_lengths         = global.__scribble_generator_state.__bezier_lengths_array;
+        var _bezier_lengths         = _generator_state.__bezier_lengths_array;
         var _bezier_search_index    = 0;
         var _bezier_search_d0       = 0;
         var _bezier_search_d1       = _bezier_lengths[1];
@@ -109,8 +110,6 @@ function __scribble_gen_9_write_vbuffs()
     {
         _bezier_do = false;
     }
-    
-    var _vbuff_pos_grid = global.__scribble_vbuff_pos_grid;
     
     var _glyph_scale        = 1.0;
     var _glyph_colour       = 0xFFFFFFFF;
@@ -270,8 +269,8 @@ function __scribble_gen_9_write_vbuffs()
                     _write_colour = _glyph_colour | 0xFFFFFF; //Make sure we use the general glyph alpha
                     
                     _glyph_effect_flags = ~_glyph_effect_flags;
-                    _glyph_effect_flags |= (1 << global.__scribble_effects[? "rainbow"]);
-                    _glyph_effect_flags |= (1 << global.__scribble_effects[? "cycle"  ]);
+                    _glyph_effect_flags |= (1 << _effects_map[? "rainbow"]);
+                    _glyph_effect_flags |= (1 << _effects_map[? "cycle"  ]);
                     _glyph_effect_flags = ~_glyph_effect_flags;
                 }
                 
@@ -326,13 +325,15 @@ function __scribble_gen_9_write_vbuffs()
                     else
                     {
                         //FIXME - sprite_get_uvs() occasionally gives us nonsense for the 7-index result in runtime 2022.3.0.497
-                        var _crop_height = global.__scribble_html5_sprite_height_workaround[$ string(_sprite_index) + ":" + string(_j)];
+                        static _html5_sprite_height_workaround_dict = {};
+                        
+                        var _crop_height = _html5_sprite_height_workaround_dict[$ string(_sprite_index) + ":" + string(_j)];
                         if (_crop_height == undefined)
                         {
                             var _sprite_data = sprite_get_info(_sprite_index);
                             _crop_height = _sprite_data.frames[_j].crop_height;
                             
-                            global.__scribble_html5_sprite_height_workaround[$ string(_sprite_index) + ":" + string(_j)] = _crop_height;
+                            _html5_sprite_height_workaround_dict[$ string(_sprite_index) + ":" + string(_j)] = _crop_height;
                         }
                         
                         var _quad_b = _quad_t + _crop_height/_glyph_yscale;
@@ -370,8 +371,8 @@ function __scribble_gen_9_write_vbuffs()
                     _write_colour = _write_colour | 0xFFFFFF;
                     
                     _glyph_effect_flags = ~_glyph_effect_flags;
-                    _glyph_effect_flags |= (1 << global.__scribble_effects[? "rainbow"]);
-                    _glyph_effect_flags |= (1 << global.__scribble_effects[? "cycle"  ]);
+                    _glyph_effect_flags |= (1 << _effects_map[? "rainbow"]);
+                    _glyph_effect_flags |= (1 << _effects_map[? "cycle"  ]);
                     _glyph_effect_flags = ~_glyph_effect_flags;
                 }
                 

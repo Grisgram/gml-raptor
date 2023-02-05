@@ -198,6 +198,7 @@ function StateMachine(_owner) constructor {
 		
 			var prev_state = active_state != undefined ? active_state		: undefined;
 			var prev_name  = active_state != undefined ? active_state.name	: undefined;
+
 			active_state = undefined;
 			for (var i = 0; i < array_length(__states); i++) {
 				if (__states[i].name == name) {

@@ -132,7 +132,7 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 		/// @param {bool} _updateCache
 		static CopySurface = function(_surfID, _x, _y, _forceResize = false, _updateCache = __writeToCache) {
 			if (!surface_exists(_surfID)) {
-				__CanvasError("Surface " + string(_surfID) + " doesn't exist!", true);	
+				__CanvasError("Surface " + string(_surfID) + " doesn't exist!");	
 			}
 			
 			__init();
@@ -179,7 +179,7 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 		/// @param {bool} _updateCache
 		static CopySurfacePart = function(_surfID, _x, _y, _xs, _ys, _ws, _hs, _forceResize = false, _updateCache = __writeToCache) {
 			if (!surface_exists(_surfID)) {
-				__CanvasError("Surface " + string(_surfID) + " doesn't exist!", true);	
+				__CanvasError("Surface " + string(_surfID) + " doesn't exist!");	
 			}
 			
 			__init();

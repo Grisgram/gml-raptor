@@ -43,7 +43,7 @@
 // ---- RAPTOR INTERNAL BROADCASTS ----
 
 function Sender() constructor {
-	construct("Sender");	
+	construct(Sender);	
 
 	receivers = [];
 	removers = [];

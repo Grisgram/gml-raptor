@@ -46,7 +46,7 @@ draw_scribble_text = function() {
 /// @param {string} str			
 __create_scribble_object = function(align, str) {
 	return scribble(align + str, MY_NAME)
-			.starting_format(font_to_use == "undefined" ? global.__scribble_default_font : font_to_use, 
+			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 mouse_is_over ? text_color_mouse_over : text_color);
 }
 
