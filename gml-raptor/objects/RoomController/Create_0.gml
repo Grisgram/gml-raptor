@@ -271,4 +271,10 @@ transit = function(_transition, skip_if_another_running = false) {
 	TRANSITION_RUNNING = true;
 }
 
+/// @function onTransitFinished()
+/// @description Invoked when a transition to this room is finished.
+///				 Override (redefine) to execute code when a room is no longer animating
+onTransitFinished = function() {
+}
+
 #endregion

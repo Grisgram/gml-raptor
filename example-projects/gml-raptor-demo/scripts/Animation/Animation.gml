@@ -122,7 +122,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					The callback will receive 1 parameter: data
 	/// @param {func}	trigger  The callback to invoke.
 	static add_started_trigger = function(trigger) {
-		array_push(__started_triggers, trigger);
+		if (trigger != undefined) array_push(__started_triggers, trigger);
 		return self;
 	}
 	
@@ -134,7 +134,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {func}	trigger  The callback to invoke.
 	/// @param {bool=false}	is_interval  If true, runs every x frames.
 	static add_frame_trigger = function(frame, trigger, is_interval = false) {
-		array_push(__frame_triggers, new __frame_trigger_class(frame, trigger, is_interval));
+		if (trigger != undefined) array_push(__frame_triggers, new __frame_trigger_class(frame, trigger, is_interval));
 		return self;
 	}
 	
@@ -144,7 +144,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					The callback will receive 1 parameter: data
 	/// @param {func}	trigger  The callback to invoke.
 	static add_loop_trigger = function(trigger) {
-		array_push(__loop_triggers, trigger);
+		if (trigger != undefined) array_push(__loop_triggers, trigger);
 		return self;
 	}
 	
@@ -153,7 +153,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					The callback will receive 1 parameter: data
 	/// @param {func}	trigger  The callback to invoke.
 	static add_finished_trigger = function(trigger) {
-		array_push(__finished_triggers, trigger);
+		if (trigger != undefined) array_push(__finished_triggers, trigger);
 		return self;
 	}
 	

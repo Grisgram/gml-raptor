@@ -46,11 +46,15 @@ function array_clear(array, with_value = undefined, recursive = true) {
 	return array;
 }
 
-/// @function		array_shuffle(array)
+/// @function		array_shuffle_raptor(array)
 /// @description	Shuffles the given array, randomizing the position of its items
+///					NOTE: GameMaker now offers internal array_shuffle and array_shuffle_ext methods!
+///					So, this method is quite obsolete, but I keep it in here in case, you can't do
+///					something you want to do with the internal methods.
 /// @param {array} array	The array to shuffle
 /// @returns {array}		Re-ordered array (same as input parameter, for chaining)
-function array_shuffle(array) {
+/// @obsolete
+function array_shuffle_raptor(array) {
     var len = array_length(array),
         random_index = 0,
         value;
