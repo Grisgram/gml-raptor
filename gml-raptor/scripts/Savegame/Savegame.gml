@@ -53,6 +53,7 @@ GLOBALDATA = {};
 #macro __SAVEGAME_OBJ_PROP_YSCALE		"image_yscale"
 										
 #macro __SAVEGAME_ENGINE_SEED			"seed"
+#macro __SAVEGAME_ENGINE_VERSION		"file_version"
 										
 #macro __SAVEGAME_ONSAVING_NAME			"onGameSaving"
 #macro __SAVEGAME_ONSAVED_NAME			"onGameSaved"

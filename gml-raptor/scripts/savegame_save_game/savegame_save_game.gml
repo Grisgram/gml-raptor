@@ -24,6 +24,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	// First things first: The Engine data
 	var engine = {};
 	variable_struct_set(engine, __SAVEGAME_ENGINE_SEED, random_get_seed());
+	variable_struct_set(engine, __SAVEGAME_ENGINE_VERSION, SAVEGAME_FILE_VERSION);
 	variable_struct_set(savegame, __SAVEGAME_ENGINE_HEADER, engine);
 	
 	// save global data
