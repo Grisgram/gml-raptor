@@ -172,6 +172,12 @@ function savegame_get_id_array_of(instance_array) {
 }
 #endregion
 
+function __ensure_savegame_folder_name() {
+	var adder = "";
+	if (!string_is_empty(SAVEGAME_FOLDER) && !string_ends_with(SAVEGAME_FOLDER, "/")) adder = "/";
+	return SAVEGAME_FOLDER + adder;
+}
+
 // initialize the structs and variables
 SAVEGAME_LOAD_IN_PROGRESS = false;
 SAVEGAME_SAVE_IN_PROGRESS = false;

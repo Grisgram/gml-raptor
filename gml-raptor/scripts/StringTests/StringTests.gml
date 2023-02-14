@@ -5,26 +5,6 @@ function unit_test_Strings() {
 	}
 
 	var ut = new UnitTest("Strings");
-
-	ut.tests.split_ok_1		= function(test, data) {
-		var t = "1,2,3";
-		var res = string_split(t);
-		test.assert_equals(3, array_length(res));
-		test.assert_equals("1", res[0]);
-		test.assert_equals("2", res[1]);
-		test.assert_equals("3", res[2]);
-	};
-
-	ut.tests.split_ok_2		= function(test, data) {
-		var t = "1;2 ;; ;,3";
-		var res = string_split(t, ";", false, false);
-		test.assert_equals(5, array_length(res));
-		test.assert_equals("1",  res[0]);
-		test.assert_equals("2 ", res[1]);
-		test.assert_equals("",   res[2]);
-		test.assert_equals(" ",  res[3]);
-		test.assert_equals(",3", res[4]);
-	};
 	
 	ut.tests.sprintf_ok		= function(test, data) {
 		var t = sprintf("{{0}+{1}={2}}", 1, 1, 2);

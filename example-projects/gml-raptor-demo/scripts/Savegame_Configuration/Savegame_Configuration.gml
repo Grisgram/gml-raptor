@@ -12,7 +12,7 @@
 // The current version of the savegame files.
 // If a loaded file has a lower version than this, the upgrade methods will be called on
 // each object, one versions at a time
-#macro SAVEGAME_FILE_VERSION			4
+#macro SAVEGAME_FILE_VERSION			1
 
 // Every Saveable object can offer method(s) to be performed, when a lower version of a savegame
 // is loaded to convert to the new current format.

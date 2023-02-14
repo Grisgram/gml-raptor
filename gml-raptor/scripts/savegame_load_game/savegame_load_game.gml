@@ -16,6 +16,7 @@
 /// @returns {bool}				True, if the game loaded successfully or false, if not.
 function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
+	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	log(sprintf("[----- LOADING GAME FROM '{0}' ({1}) {2}-----]", filename, cryptkey == "" ? "plain text" : "encrypted", data_only ? "(data only) " : ""));
 	
 	var savegame = file_read_struct(filename, cryptkey);

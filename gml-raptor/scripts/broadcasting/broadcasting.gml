@@ -133,7 +133,7 @@ function Sender() constructor {
 function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	owner			= _owner;
 	name			= _name;
-	message_filter  = string_split(_message_filter, "|");
+	message_filter  = string_split(_message_filter, "|", true);
 	callback		= _callback;
 }
 

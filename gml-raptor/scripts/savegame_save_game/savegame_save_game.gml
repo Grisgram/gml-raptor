@@ -16,6 +16,7 @@
 /// @param {bool=false} data_only	If set to true, no instances will be saved, only GLOBALDATA, structs and race tables
 function savegame_save_game(filename, cryptkey = "", data_only = false) {
 
+	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	log(sprintf("[----- SAVING GAME TO '{0}' ({1}) {2}-----]", filename, cryptkey == "" ? "plain text" : "encrypted", data_only ? "(data only) " : ""));
 	
 	SAVEGAME_SAVE_IN_PROGRESS = true;
