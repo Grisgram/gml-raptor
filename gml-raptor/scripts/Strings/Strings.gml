@@ -21,27 +21,6 @@ function sprintf(str) {
 	return rv;
 }
 
-/// @function			string_trim(str)
-/// @description		Removes white spaces (tabs, cr, lf, ...) from the start and end of a string.
-/// @param {string} str	The string to trim
-///	@returns {string}	The trimmed string
-function string_trim(str) {
-	var l, r, o;
-    l = 1;
-    r = string_length(str);
-    repeat (r) {
-        o = ord(string_char_at(str,l));
-        if ((o > 8) && (o < 14) || (o == 32)) l += 1;
-        else break;
-    }
-    repeat (r-l) {
-        o = ord(string_char_at(str,r));
-        if ((o > 8) && (o < 14) || (o == 32)) r -= 1;
-        else break;
-    }
-    return string_copy(str,l,r-l+1);
-}
-
 /// @function					string_skip_start(str, count)
 /// @description				Returns a substring of str that skipped the first {count} characters
 /// @param {string} str			The string
