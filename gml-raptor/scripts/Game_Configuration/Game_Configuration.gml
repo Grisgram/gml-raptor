@@ -72,9 +72,10 @@ function onGameStart() {
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
 	//scribble_font_set_default("acme28");
 
-	// Custom named scribble colors 
-	// (SCRIBBLE_COLORS is a macro pointing to global.__scribble_colours)
-	//SCRIBBLE_COLORS.my_col		= #E5E5E5;
+	// Custom named scribble colors - use the format that fits best for you! 
+	//scribble_color_set("my_col", make_color_rgb(0xE5,0xE5,0xE5)); // 0x... hex, can also use 165,165,165 - doesn't matter
+	//scribble_color_set("my_col", #E5E5E5); // #RRGGBB
+	//scribble_color_set("my_col", $E5E5E5); // $BBGGRR
 	
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
