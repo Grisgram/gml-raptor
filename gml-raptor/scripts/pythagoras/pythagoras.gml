@@ -65,7 +65,7 @@ function Pythagoras() constructor {
 ///					If the result contains a negative b, it means the obj2 is ABOVE obj1
 /// @returns {Pythagoras} Pythagoras struct containing all data of the rectangle
 function pyth_obj_obj(obj1, obj2, pyth = undefined) {
-	var p = (pyth == undefined ? new Pythagoras() : pyth);
+	var p = pyth ?? new Pythagoras();
 	return p.calculate(obj1.x, obj1.y, obj2.x, obj2.y);
 }
 
@@ -75,7 +75,7 @@ function pyth_obj_obj(obj1, obj2, pyth = undefined) {
 ///					If the result contains a negative b, it means the mouse is ABOVE the object
 /// @returns {Pythagoras} Pythagoras struct containing all data of the rectangle
 function pyth_obj_mouse(obj, pyth = undefined) {
-	var p = (pyth == undefined ? new Pythagoras() : pyth);
+	var p = pyth ?? new Pythagoras();
 	return p.calculate(obj.x, obj.y, mouse_x, mouse_y);
 }
 
@@ -85,6 +85,6 @@ function pyth_obj_mouse(obj, pyth = undefined) {
 ///					If the result contains a negative b, it means y1 is ABOVE y2
 /// @returns {Pythagoras} Pythagoras struct containing all data of the rectangle
 function pyth_xy(x1, y1, x2, y2, pyth = undefined) {
-	var p = (pyth == undefined ? new Pythagoras() : pyth);
+	var p = pyth ?? new Pythagoras();
 	return p.calculate(x1, y1, x2, y2);
 }
