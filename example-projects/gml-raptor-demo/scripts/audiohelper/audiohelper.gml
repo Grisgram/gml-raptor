@@ -81,8 +81,8 @@ function get_default_ambience_for_room() {
 /// @description	Plays a sound of type ui (attached to ui_volume setting)
 function play_ui_sound(snd, gain = 1.0, priority = 7) {
 	if (AUDIOSETTINGS.ui_enabled && snd != undefined) {
-		var sid = audio_play_sound(snd, priority, false);
-		audio_sound_gain(sid, gain * AUDIOSETTINGS.ui_volume * AUDIOSETTINGS.master_volume, 0);
+		var sid = audio_play_sound(snd, priority, false,
+			gain * AUDIOSETTINGS.ui_volume * AUDIOSETTINGS.master_volume);
 		return sid;
 	}
 	return undefined;
@@ -92,8 +92,8 @@ function play_ui_sound(snd, gain = 1.0, priority = 7) {
 /// @description	Plays a sound of type voice (attached to voice_volume setting)
 function play_voice(snd, gain = 1.0, loop = false, priority = 10) {
 	if (AUDIOSETTINGS.voice_enabled && snd != undefined) {
-		var sid = audio_play_sound(snd, priority, loop);
-		audio_sound_gain(sid, gain * AUDIOSETTINGS.voice_volume * AUDIOSETTINGS.master_volume, 0);
+		var sid = audio_play_sound(snd, priority, loop,
+			gain * AUDIOSETTINGS.voice_volume * AUDIOSETTINGS.master_volume);
 		return sid;
 	}
 	return undefined;
@@ -103,8 +103,8 @@ function play_voice(snd, gain = 1.0, loop = false, priority = 10) {
 /// @description	Plays a sound of type sfx (attached to sound_volume setting)
 function play_sound(snd, gain = 1.0, loop = false, priority = 9) {
 	if (AUDIOSETTINGS.sound_enabled && snd != undefined) {
-		var sid = audio_play_sound(snd, priority, loop);
-		audio_sound_gain(sid, gain * AUDIOSETTINGS.sound_volume * AUDIOSETTINGS.master_volume, 0);
+		var sid = audio_play_sound(snd, priority, loop, 
+			gain * AUDIOSETTINGS.sound_volume * AUDIOSETTINGS.master_volume);
 		return sid;
 	}
 	return undefined;
@@ -136,9 +136,9 @@ function play_music(mus, gain = 1.0, loop = true, force_restart = false, priorit
 		
 	stop_music();
 	if (AUDIOSETTINGS.music_enabled && mus != undefined) {
-		__ACTIVE_AUDIO_SESSION.music_id = audio_play_sound(mus, priority, loop);
+		__ACTIVE_AUDIO_SESSION.music_id = audio_play_sound(mus, priority, loop,
+			gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume);
 		__ACTIVE_AUDIO_SESSION.music_asset = mus;
-		audio_sound_gain(__ACTIVE_AUDIO_SESSION.music_id, gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
 	}
 }
 
@@ -159,9 +159,9 @@ function play_ambience(amb, gain = 1.0, loop = true, force_restart = false, prio
 		
 	stop_ambience();
 	if (AUDIOSETTINGS.ambience_enabled && amb != undefined) {
-		__ACTIVE_AUDIO_SESSION.ambience_id = audio_play_sound(amb, priority, loop);
+		__ACTIVE_AUDIO_SESSION.ambience_id = audio_play_sound(amb, priority, loop, 
+			gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume);
 		__ACTIVE_AUDIO_SESSION.ambience_asset = amb;
-		audio_sound_gain(__ACTIVE_AUDIO_SESSION.ambience_id, gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, 0);
 	}
 }
 
