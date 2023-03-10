@@ -183,7 +183,7 @@ function LG() {
 			return undefined;
 			
 		for (var i = 1; i < array_length(array); i++) {
-			var subarr = string_split(array[@ i], "/");
+			var subarr = string_split(array[@ i], "/", true);
 			var sublen = array_length(subarr);
 			array_copy(args, len, subarr, 0, sublen);
 			len += sublen;

@@ -32,7 +32,7 @@
 // the file in release mode a different name
 // Replace the production crypt key with a good salty key of your own!
 #macro release:GAME_SETTINGS_FILENAME	"gml_raptor_demo_" + GML_RAPTOR_VERSION + "_settings.gsx"
-#macro release:FILE_CRYPT_KEY			"/°0^^4 0= 4!/! ³-:-71!/!9_15I-I³|)-(4/°,!/!1^0/°,³-v|_/°,4551( 11=³=0/°,!v!"
+#macro release:FILE_CRYPT_KEY			"/�0^^4 0= 4!/! �-:-71!/!9_15I-I�|)-(4/�,!/!1^0/�,�-v|_/�,4551( 11=�=0/�,!v!"
 
 #macro HIGHSCORE_TABLE_NAME		"Highscores"
 #macro HIGHSCORE_TABLE_LENGTH	10
@@ -69,14 +69,13 @@ function onGameStart() {
 
 	// Setup Scribble
 	// ------------------------------------------------------------------
-	//scribble_font_bake_outline_8dir("fntArial","acme28out",c_black,true);
+	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
+	//scribble_font_set_default("acme28");
 	scribble_font_set_default("fntArial");
 
-	// Custom named scribble colors 
-	// (SCRIBBLE_COLORS is a macro pointing to global.__scribble_colours)
-	//SCRIBBLE_COLORS.my_col		= #E5E5E5;
-	SCRIBBLE_COLORS.ci_accent2		= #FF972F;
-
+	// Custom named scribble colors - use the format that fits best for you! 
+	scribble_color_set("ci_accent2", #FF972F); // #RRGGBB
+	
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
 	//set_room_default_audio(rmPlay, mus_theme, amb_theme);

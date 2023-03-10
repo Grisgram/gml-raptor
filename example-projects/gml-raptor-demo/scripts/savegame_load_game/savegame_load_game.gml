@@ -16,6 +16,7 @@
 /// @returns {bool}				True, if the game loaded successfully or false, if not.
 function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
+	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	log(sprintf("[----- LOADING GAME FROM '{0}' ({1}) {2}-----]", filename, cryptkey == "" ? "plain text" : "encrypted", data_only ? "(data only) " : ""));
 	
 	var savegame = file_read_struct(filename, cryptkey);
@@ -29,6 +30,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	// load engine data
 	var engine = variable_struct_get(savegame, __SAVEGAME_ENGINE_HEADER);
 	random_set_seed(variable_struct_get(engine, __SAVEGAME_ENGINE_SEED));
+	var loaded_version = struct_get(engine, __SAVEGAME_ENGINE_VERSION, 1);
 	
 	// load global data
 	GLOBALDATA = variable_struct_get(savegame, __SAVEGAME_GLOBAL_DATA_HEADER);
@@ -119,6 +121,19 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 
 				var loaded_data = variable_struct_get(inst, __SAVEGAME_DATA_HEADER);
 				__file_reconstruct_class(data, loaded_data);
+				
+				// Savegame versioning
+				if (SAVEGAME_FILE_VERSION > loaded_version) {
+					for (var i = loaded_version + 1; i <= SAVEGAME_FILE_VERSION; i++) {
+						var method_name = sprintf(SAVEGAME_UPGRADE_METHOD_PATTERN, i);
+						if (variable_instance_exists(self, method_name) &&
+							variable_instance_get(self, method_name) != undefined) {
+							log("{0} Upgrading object to version {1}", MY_NAME, i);
+							self[$ method_name]();
+						}
+					}
+				}
+				
 				if (variable_instance_exists(self, __SAVEGAME_ONLOADING_NAME) &&
 					variable_instance_get(self, __SAVEGAME_ONLOADING_NAME) != undefined) 
 					__SAVEGAME_ONLOADING_FUNCTION();

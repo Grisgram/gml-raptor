@@ -61,6 +61,7 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 		__ACTIVE_TRANSITION_STEP = -1;
 		TRANSITION_RUNNING = false;
 		__destroy_fx_layer();
+		with(ROOMCONTROLLER) onTransitFinished();
 	}
 
 	/// @function		get_app_canvas()

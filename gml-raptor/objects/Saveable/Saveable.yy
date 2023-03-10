@@ -10,8 +10,8 @@
   "managed": true,
   "overriddenProperties": [],
   "parent": {
-    "name": "_generic_objects_",
-    "path": "folders/_gml_raptor_/_generic_objects_.yy",
+    "name": "Savegame",
+    "path": "folders/_gml_raptor_/Savegame.yy",
   },
   "parentObjectId": {
     "name": "_raptorBase",

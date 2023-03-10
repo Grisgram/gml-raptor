@@ -1,10 +1,10 @@
 {
 	"legal" : {
 		"game_name"		: "enter-game-name-here",
-		"company"		: "indievidualgames.com",
-		"copyright" 	: "(c)2022 indievidualgames.com",
-		"locale_author" : "Mike Barthold aka Haerion Coldrock aka Grisgram",
-		"developer" 	: "Mike Barthold aka Haerion Coldrock aka Grisgram",
+		"company"		: "Coldrock Games",
+		"copyright" 	: "(c)2023 Coldrock Games",
+		"locale_author"	: "Haerion Coldrock aka Grisgram",
+    	"developer"		: "Haerion Coldrock aka Grisgram",
 	},
 	
 	"credits" : {

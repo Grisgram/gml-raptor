@@ -53,6 +53,7 @@ GLOBALDATA = {};
 #macro __SAVEGAME_OBJ_PROP_YSCALE		"image_yscale"
 										
 #macro __SAVEGAME_ENGINE_SEED			"seed"
+#macro __SAVEGAME_ENGINE_VERSION		"file_version"
 										
 #macro __SAVEGAME_ONSAVING_NAME			"onGameSaving"
 #macro __SAVEGAME_ONSAVED_NAME			"onGameSaved"
@@ -170,6 +171,12 @@ function savegame_get_id_array_of(instance_array) {
 	return rv;
 }
 #endregion
+
+function __ensure_savegame_folder_name() {
+	var adder = "";
+	if (!string_is_empty(SAVEGAME_FOLDER) && !string_ends_with(SAVEGAME_FOLDER, "/")) adder = "/";
+	return SAVEGAME_FOLDER + adder;
+}
 
 // initialize the structs and variables
 SAVEGAME_LOAD_IN_PROGRESS = false;

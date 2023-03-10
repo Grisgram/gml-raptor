@@ -4,4 +4,3 @@
 event_inherited();
 
 txtPlayerName.text = data.player_name;
-
