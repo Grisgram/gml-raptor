@@ -211,6 +211,7 @@
     {"name":"scribble_refresh_everything","order":6,"path":"scripts/scribble_refresh_everything/scribble_refresh_everything.yy",},
     {"name":"Savegame","order":3,"path":"scripts/Savegame/Savegame.yy",},
     {"name":"Buffers","order":1,"path":"scripts/Buffers/Buffers.yy",},
+    {"name":"AudioHelper","order":2,"path":"scripts/AudioHelper/AudioHelper.yy",},
     {"name":"Tooltip","order":11,"path":"objects/Tooltip/Tooltip.yy",},
     {"name":"scribble_msdf_thickness_offset","order":5,"path":"scripts/scribble_msdf_thickness_offset/scribble_msdf_thickness_offset.yy",},
     {"name":"scribble_glyph_get","order":16,"path":"scripts/scribble_glyph_get/scribble_glyph_get.yy",},

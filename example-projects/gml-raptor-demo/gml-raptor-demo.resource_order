@@ -123,6 +123,7 @@
     {"name":"Canvas","order":1,"path":"scripts/Canvas/Canvas.yy",},
     {"name":"scribble_font_bake_shadow","order":4,"path":"scripts/scribble_font_bake_shadow/scribble_font_bake_shadow.yy",},
     {"name":"rmStartup","order":1,"path":"rooms/rmStartup/rmStartup.yy",},
+    {"name":"AudioHelper","order":2,"path":"scripts/AudioHelper/AudioHelper.yy",},
     {"name":"savegame_load_game","order":4,"path":"scripts/savegame_load_game/savegame_load_game.yy",},
     {"name":"scribble_markdown_set_styles","order":4,"path":"scripts/scribble_markdown_set_styles/scribble_markdown_set_styles.yy",},
     {"name":"scribble_font_add_from_sprite","order":2,"path":"scripts/scribble_font_add_from_sprite/scribble_font_add_from_sprite.yy",},

@@ -1,9 +1,6 @@
 {
   "resourceType": "GMExtensionConfigSet",
   "configurables": null,
-  "extensionId": {
-    "name": "browser_hdpi",
-    "path": "extensions/browser_hdpi/browser_hdpi.yy"
-  },
+  "extensionId": null,
   "resourceVersion": "1.0"
 }
