@@ -21,7 +21,7 @@
 	You do *not* need to put "if..." statements around it to check whether you are running HTML.
 	This is covered for you.
 
-	(c)2022 Mike Barthold, risingdemons/indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 

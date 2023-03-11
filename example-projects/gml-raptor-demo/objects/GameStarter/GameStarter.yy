@@ -35,6 +35,7 @@
   "properties": [
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"goto_room_after_init","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"rmMain","varType":5,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"fade_in_frames_first_room","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"async_min_wait_time","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"90","varType":1,},
   ],
   "solid": false,
   "spriteId": null,

@@ -1,7 +1,7 @@
 /*
 	Configure the LG language system with the parameters below.
 	
-	(c)2022 Mike Barthold, risingdemons/indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 

@@ -9,7 +9,7 @@
 		See the DemoTank object in the Demo Project of the original repository at 
 		https://github.com/Grisgram/gml-outline-shader-drawer
 		
-		(c)2022 Grisgram aka Haerion@GameMakerKitchen Discord
+		(c)2022- coldrock.games, @grisgram at github
 		Please respect the MIT License for this Library.
 */
 

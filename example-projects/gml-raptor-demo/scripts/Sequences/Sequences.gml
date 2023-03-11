@@ -4,7 +4,7 @@
 	Sequences are a powerful tool but they lack some QoL features.
 	The functions in this script shall help a bit.
 	
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 

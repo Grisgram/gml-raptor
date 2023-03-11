@@ -1,6 +1,6 @@
-#macro GML_RAPTOR_VERSION	"2.5"
+#macro GML_RAPTOR_VERSION	"2.6"
 #macro GML_RAPTOR_NAME		"gml-raptor "
-#macro GML_RAPTOR_COPYRIGHT	"(c)2022* indievidualgames, @Grisgram (github)"
+#macro GML_RAPTOR_COPYRIGHT	"(c)2022* coldrock.games, @Grisgram (github)"
 
 var cpyrght = (current_year == 2022) ?
 	string_replace(GML_RAPTOR_COPYRIGHT, "*", "") :

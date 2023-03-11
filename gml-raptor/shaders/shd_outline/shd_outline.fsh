@@ -3,7 +3,7 @@
 /// Based on juju adams' selective outline and improved with alpha fading and variable thickness
 /// even on HTML5 target
 ///
-///		(c)2022 Grisgram aka Haerion@GameMakerKitchen Discord
+///		(c)2022- coldrock.games, @grisgram at github
 ///		Please respect the MIT License for this Library.
 ///
 ///

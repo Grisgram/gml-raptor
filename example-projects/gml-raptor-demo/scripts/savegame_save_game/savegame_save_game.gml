@@ -3,7 +3,7 @@
 	All objects that have [Saveable] as their parent in the inheritance chain will be
 	saved to the save game as long as the declared instance variable [add_to_savegame] is true (which is the default).
 	
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 

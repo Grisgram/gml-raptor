@@ -1,6 +1,6 @@
-#macro GML_HIGHSCORER_VERSION	"1.4"
+#macro GML_HIGHSCORER_VERSION	"1.4.1"
 #macro GML_HIGHSCORER_NAME		"gml-highscorer "
-#macro GML_HIGHSCORER_COPYRIGHT	"(c)2022* indievidualgames, @Grisgram (github)"
+#macro GML_HIGHSCORER_COPYRIGHT	"(c)2022* coldrock.games, @Grisgram (github)"
 
 var cpyrght = (current_year == 2022) ?
 	string_replace(GML_HIGHSCORER_COPYRIGHT, "*", "") :
