@@ -38,8 +38,6 @@ __knob_over_color		= draw_color_mouse_over;
 check_mouse_over_knob = function() {
 	xcheck = GUI_MOUSE_X;
 	ycheck = GUI_MOUSE_Y;
-	//xcheck = (draw_on_gui ? GUI_MOUSE_X : MOUSE_X);
-	//ycheck = (draw_on_gui ? GUI_MOUSE_Y : MOUSE_Y);
 
 	var over_before = __mouse_over_knob;
 	
@@ -91,9 +89,11 @@ __set_draw_colors = function() {
 draw_knob = function() {
 	__set_draw_colors();
 	if (orientation_horizontal) {
+		__tilesize = sprite_width / (max_value - min_value + 1);
 		__knob_x = x - sprite_xoffset + nine_slice_data.left + (value - min_value) * __tilesize;
 		__knob_y = y - sprite_yoffset + nine_slice_data.top  + nine_slice_data.height / 2;
 	} else {
+		__tilesize = sprite_height / (max_value - min_value + 1);
 		__knob_x = x - sprite_xoffset + nine_slice_data.left   + nine_slice_data.width / 2;
 		__knob_y = y - sprite_yoffset + nine_slice_data.bottom - (value - min_value) * __tilesize;
 	}
