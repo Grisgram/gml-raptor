@@ -109,6 +109,12 @@ function pool_assign_instance(pool_name, instance) {
 	instance.__object_pool_name = pool_name;
 }
 
+/// @function		pool_get_size(pool_name)
+/// @description	Gets current size of the pool
+function pool_get_size(pool_name) {
+	return ds_list_size(__get_pool_list(pool_name));
+}
+
 /// @function					pool_clear(pool_name)
 /// @description				Clears a named pool and destroys all instances contained
 /// @param {string} pool_name

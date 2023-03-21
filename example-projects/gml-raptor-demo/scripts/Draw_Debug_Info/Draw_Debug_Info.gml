@@ -20,6 +20,9 @@ function drawDebugInfo() {
 ///					Often this method contains a "if (room == ...)" or a switch over the rooms
 ///					To show/hide specific debug elements for each room
 function onDebugViewStarted() {
+	//if (room == rmPlay) {
+	//	layer_set_visible("DebugMode", true);
+	//}
 }
 
 /// @function		onDebugViewClosed()
@@ -27,4 +30,8 @@ function onDebugViewStarted() {
 ///					Often this method contains a "if (room == ...)" or a switch over the rooms
 ///					To show/hide specific debug elements for each room
 function onDebugViewClosed() {
+	//if (room == rmPlay) {
+	//	layer_set_visible("DebugMode", false);
+	//}
 }
+

@@ -30,6 +30,7 @@ __knob_y				= 0;
 __knob_image_index		= 0;
 __mouse_over_knob		= false;
 __knob_grabbed			= false;
+__initial_value_set		= false;
 __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
 __knob_over_color		= draw_color_mouse_over;
@@ -71,9 +72,10 @@ set_value = function(new_value) {
 	value = clamp(new_value, min_value, max_value);
 	calculate_value_percent();
 	if (value != old_val) {
-		if (auto_text == slider_autotext.text_is_value)		text = string(value); else
+		if (auto_text == slider_autotext.text_is_value)		text = string(round(value)); else
 		if (auto_text == slider_autotext.text_is_percent)	text = string_format(value_percent * 100,3,0) + "%";
-		if (on_value_changed != undefined) on_value_changed(value, old_val);
+		if (__initial_value_set && on_value_changed != undefined) on_value_changed(value, old_val);
+		__initial_value_set = true; // this skips the FIRST value assignment on creation
 	}
 }
 
