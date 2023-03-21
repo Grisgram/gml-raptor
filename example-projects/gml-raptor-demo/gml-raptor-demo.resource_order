@@ -147,6 +147,7 @@
     {"name":"sprDefaultSliderRail","order":13,"path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",},
     {"name":"sprGemWhite","order":4,"path":"sprites/sprGemWhite/sprGemWhite.yy",},
     {"name":"snap_deep_add","order":11,"path":"scripts/snap_deep_add/snap_deep_add.yy",},
+    {"name":"TileScanner","order":30,"path":"scripts/TileScanner/TileScanner.yy",},
     {"name":"string_width_scribble_ext","order":6,"path":"scripts/string_width_scribble_ext/string_width_scribble_ext.yy",},
     {"name":"scribble_font_rename","order":12,"path":"scripts/scribble_font_rename/scribble_font_rename.yy",},
     {"name":"snap_to_xml","order":1,"path":"scripts/snap_to_xml/snap_to_xml.yy",},

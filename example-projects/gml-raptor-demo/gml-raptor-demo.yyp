@@ -99,7 +99,7 @@
   "isEcma": false,
   "LibraryEmitters": [],
   "MetaData": {
-    "IDEVersion": "2023.2.0.71",
+    "IDEVersion": "2023.2.1.75",
   },
   "resources": [
     {"id":{"name":"sprDefaultFlag","path":"sprites/sprDefaultFlag/sprDefaultFlag.yy",},},
@@ -190,6 +190,7 @@
     {"id":{"name":"sprDefaultSliderRail","path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",},},
     {"id":{"name":"sprGemWhite","path":"sprites/sprGemWhite/sprGemWhite.yy",},},
     {"id":{"name":"snap_deep_add","path":"scripts/snap_deep_add/snap_deep_add.yy",},},
+    {"id":{"name":"TileScanner","path":"scripts/TileScanner/TileScanner.yy",},},
     {"id":{"name":"string_width_scribble_ext","path":"scripts/string_width_scribble_ext/string_width_scribble_ext.yy",},},
     {"id":{"name":"scribble_anim_blink","path":"scripts/scribble_anim_blink/scribble_anim_blink.yy",},},
     {"id":{"name":"scribble_font_rename","path":"scripts/scribble_font_rename/scribble_font_rename.yy",},},

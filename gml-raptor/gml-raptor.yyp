@@ -90,7 +90,7 @@
   "isEcma": false,
   "LibraryEmitters": [],
   "MetaData": {
-    "IDEVersion": "2023.2.0.71",
+    "IDEVersion": "2023.2.1.75",
   },
   "resources": [
     {"id":{"name":"override","path":"scripts/override/override.yy",},},
@@ -128,6 +128,7 @@
     {"id":{"name":"scribble_font_combine","path":"scripts/scribble_font_combine/scribble_font_combine.yy",},},
     {"id":{"name":"scribble_anim_wave","path":"scripts/scribble_anim_wave/scribble_anim_wave.yy",},},
     {"id":{"name":"Strings","path":"scripts/Strings/Strings.yy",},},
+    {"id":{"name":"TileScanner","path":"scripts/TileScanner/TileScanner.yy",},},
     {"id":{"name":"GameVersionLabel","path":"objects/GameVersionLabel/GameVersionLabel.yy",},},
     {"id":{"name":"__shd_scribble_bake_outline_8dir","path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},},
     {"id":{"name":"CoordTranslator","path":"scripts/CoordTranslator/CoordTranslator.yy",},},

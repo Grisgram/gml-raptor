@@ -98,6 +98,7 @@
     {"name":"scribble_font_combine","order":5,"path":"scripts/scribble_font_combine/scribble_font_combine.yy",},
     {"name":"scribble_anim_wave","order":7,"path":"scripts/scribble_anim_wave/scribble_anim_wave.yy",},
     {"name":"Strings","order":14,"path":"scripts/Strings/Strings.yy",},
+    {"name":"TileScanner","order":59,"path":"scripts/TileScanner/TileScanner.yy",},
     {"name":"GameVersionLabel","order":7,"path":"objects/GameVersionLabel/GameVersionLabel.yy",},
     {"name":"__shd_scribble_bake_outline_8dir","order":2,"path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},
     {"name":"CoordTranslator","order":10,"path":"scripts/CoordTranslator/CoordTranslator.yy",},
