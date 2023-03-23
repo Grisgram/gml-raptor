@@ -218,6 +218,7 @@
     {"name":"__scribble_get_buffer_a","order":2,"path":"scripts/__scribble_get_buffer_a/__scribble_get_buffer_a.yy",},
     {"name":"SpriteEffects","order":13,"path":"scripts/SpriteEffects/SpriteEffects.yy",},
     {"name":"GemChanceInputBox","order":1,"path":"objects/GemChanceInputBox/GemChanceInputBox.yy",},
+    {"name":"CanvasDrawer","order":16,"path":"objects/CanvasDrawer/CanvasDrawer.yy",},
     {"name":"AnimCurves","order":1,"path":"scripts/AnimCurves/AnimCurves.yy",},
     {"name":"InfoLabel","order":2,"path":"objects/InfoLabel/InfoLabel.yy",},
     {"name":"sprDefaultLabelShadowed","order":9,"path":"sprites/sprDefaultLabelShadowed/sprDefaultLabelShadowed.yy",},

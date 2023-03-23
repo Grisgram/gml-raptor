@@ -307,6 +307,7 @@
     {"id":{"name":"__shd_scribble_bake_shadow","path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},},
     {"id":{"name":"snap_deep_add","path":"scripts/snap_deep_add/snap_deep_add.yy",},},
     {"id":{"name":"snap_from_json","path":"scripts/snap_from_json/snap_from_json.yy",},},
+    {"id":{"name":"CanvasDrawer","path":"objects/CanvasDrawer/CanvasDrawer.yy",},},
     {"id":{"name":"__scribble_get_buffer_a","path":"scripts/__scribble_get_buffer_a/__scribble_get_buffer_a.yy",},},
     {"id":{"name":"string_length_scribble","path":"scripts/string_length_scribble/string_length_scribble.yy",},},
     {"id":{"name":"MessageBoxWindow","path":"objects/MessageBoxWindow/MessageBoxWindow.yy",},},

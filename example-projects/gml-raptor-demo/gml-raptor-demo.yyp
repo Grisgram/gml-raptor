@@ -277,6 +277,7 @@
     {"id":{"name":"SpriteEffects","path":"scripts/SpriteEffects/SpriteEffects.yy",},},
     {"id":{"name":"GemChanceInputBox","path":"objects/GemChanceInputBox/GemChanceInputBox.yy",},},
     {"id":{"name":"snap_from_messagepack","path":"scripts/snap_from_messagepack/snap_from_messagepack.yy",},},
+    {"id":{"name":"CanvasDrawer","path":"objects/CanvasDrawer/CanvasDrawer.yy",},},
     {"id":{"name":"AnimCurves","path":"scripts/AnimCurves/AnimCurves.yy",},},
     {"id":{"name":"InfoLabel","path":"objects/InfoLabel/InfoLabel.yy",},},
     {"id":{"name":"sprDefaultLabelShadowed","path":"sprites/sprDefaultLabelShadowed/sprDefaultLabelShadowed.yy",},},
