@@ -18,19 +18,31 @@ enum tile_orientation {
 ///					if scan_on_create is true, the constructor will immediately scan the layer
 ///					and fill the "tiles" array with data. 
 ///					If you set it to false, tiles is an empty array of undefined's until you invoke "scan_layer()"
-function TileScanner(layername_or_id, scan_on_create = true) constructor {
+function TileScanner(layername_or_id = undefined, scan_on_create = true) constructor {
+	construct("TileScanner");
 	
-	lay_id = is_string(layername_or_id) ? layer_get_id(layername_or_id) : layername_or_id;
-	map_id = layer_tilemap_get_id(lay_id);
+	if (layername_or_id != undefined)
+		set_layer(layername_or_id, scan_on_create);
 	
-	// These hold the width and height IN CELLS of the map!
-	map_width	= tilemap_get_width (map_id);
-	map_height	= tilemap_get_height(map_id);
+	/// @function		set_layer(layername_or_id, scan_now = true)
+	/// @description	Wrapper init function to have an optional-only construct for savegames
+	static set_layer = function(layername_or_id, scan_now = true) {
+		lay_id = is_string(layername_or_id) ? layer_get_id(layername_or_id) : layername_or_id;
+		map_id = layer_tilemap_get_id(lay_id);
 	
-	cell_width  = tilemap_get_tile_width (map_id);
-	cell_height = tilemap_get_tile_height(map_id);
+		// These hold the width and height IN CELLS of the map!
+		map_width	= tilemap_get_width (map_id);
+		map_height	= tilemap_get_height(map_id);
 	
-	tiles = array_create(map_width * map_height, undefined);
+		cell_width  = tilemap_get_tile_width (map_id);
+		cell_height = tilemap_get_tile_height(map_id);
+	
+		tiles = array_create(map_width * map_height, undefined);
+		
+		if (scan_now)
+			scan_layer();
+	}
+	
 	
 	#region orientation management (private)
 	
@@ -57,22 +69,22 @@ function TileScanner(layername_or_id, scan_on_create = true) constructor {
 	/// @function		__orientation_to_tiledata(tiledata, orientation)
 	static __orientation_to_tiledata = function(tiledata, orientation) {
 		switch (orientation) {
-			case obj_orientation.right:
+			case tile_orientation.right:
 				tiledata = tile_set_rotate(tiledata, false);
 				tiledata = tile_set_flip  (tiledata, false);
 				tiledata = tile_set_mirror(tiledata, false);
 				break;
-			case obj_orientation.up:
+			case tile_orientation.up:
 				tiledata = tile_set_rotate(tiledata, true);
 				tiledata = tile_set_flip  (tiledata, true);
 				tiledata = tile_set_mirror(tiledata, true);
 				break;
-			case obj_orientation.left:
+			case tile_orientation.left:
 				tiledata = tile_set_rotate(tiledata, false);
 				tiledata = tile_set_flip  (tiledata, true);
 				tiledata = tile_set_mirror(tiledata, true);			
 				break;
-			case obj_orientation.down:
+			case tile_orientation.down:
 				tiledata = tile_set_rotate(tiledata, true);
 				tiledata = tile_set_flip  (tiledata, false);
 				tiledata = tile_set_mirror(tiledata, false);
@@ -87,7 +99,7 @@ function TileScanner(layername_or_id, scan_on_create = true) constructor {
 		var xp = 0, yp = 0;
 		repeat (map_height) {
 			repeat (map_width) {
-				tiles[@(yp * map_width + xp)] = new TileInfo(tilemap_get(map_id, xp, yp), xp, yp, self);
+				tiles[@(yp * map_width + xp)] = new TileInfo().set_data(tilemap_get(map_id, xp, yp), xp, yp, self);
 				xp++;
 			}
 			xp = 0;
@@ -106,18 +118,22 @@ function TileScanner(layername_or_id, scan_on_create = true) constructor {
 			return false;
 		});
 	}
-	
-	if (scan_on_create)
-		scan_layer();
-	
+		
 }
 
-/// @function		TileInfo(tiledata, map_x, map_y, scanner)
+/// @function		TileInfo()
 /// @description	Holds condensed information about a single tile
-function TileInfo(tiledata, map_x, map_y, scanner) constructor {
-	index		= tile_get_index(tiledata);
-	orientation = scanner.__tiledata_to_orientation(tiledata);
-	empty		= (index <= 0);
-	position	= new Coord2(map_x, map_y);
-	position_px = new Coord2(map_x * scanner.cell_width, map_y * scanner.cell_height);
+function TileInfo() constructor {
+	construct("TileInfo");
+	
+	/// @function		set_data(tiledata, map_x, map_y, scanner)
+	/// @description	Wrap this in a function to have an empty constructor for the savegame system
+	static set_data = function(tiledata, map_x, map_y, scanner) {
+		index		= tile_get_index(tiledata);
+		orientation = scanner.__tiledata_to_orientation(tiledata);
+		empty		= (index <= 0);
+		position	= new Coord2(map_x, map_y);
+		position_px = new Coord2(map_x * scanner.cell_width, map_y * scanner.cell_height);
+		return self;
+	}
 }
