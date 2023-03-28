@@ -52,16 +52,10 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		var flip   = tile_get_flip(tiledata);
 		var mirror = tile_get_mirror(tiledata);
 		
-		// Soaked this combinations from the room json after experimenting
-		// with tile manipulation - binary it's a bit field in the MSB:
-		// 0x0111 = 3x = up   =  rotate &  flip &  mirror
-		// 0x0011 = 2x = left = !rotate &  flip &  mirror
-		// 0x0100 = 1x = down =  rotate & !flip & !mirror
-		// 0x0000 = 0x = right
-		if (!rotate && !flip && !mirror) return tile_orientation.right;
-		if ( rotate &&  flip &&  mirror) return tile_orientation.up;
-		if (!rotate &&  flip &&  mirror) return tile_orientation.left;
-		if ( rotate && !flip && !mirror) return tile_orientation.down;
+		if ((!rotate && !flip && !mirror) || (!rotate &&  flip && !mirror)) return tile_orientation.right;
+		if (( rotate &&  flip &&  mirror) || ( rotate && !flip &&  mirror)) return tile_orientation.up;
+		if ((!rotate &&  flip &&  mirror) || (!rotate && !flip &&  mirror)) return tile_orientation.left;
+		if (( rotate && !flip && !mirror) || ( rotate &&  flip && !mirror)) return tile_orientation.down;
 		// This line should never be reached, but still... who knows
 		return tile_orientation.right;
 	}
