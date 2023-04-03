@@ -13,14 +13,17 @@
 		Please respect the MIT License for this Library.
 */
 
-/// @function			outline_drawer(_viewport = 0, _outline_color = c_black, _outline_alpha = 1, _outline_strength = 3, _alpha_fading = true)
+#macro TEXTURE_PAGE_BORDER_SIZE		2
+
+/// @function			outline_drawer(_viewport = 0, _outline_color = c_black, _outline_alpha = 1, _outline_strength = 3, _alpha_fading = true, _use_bbox = false)
 /// @description				
 /// @param {int=0}			_viewport
 /// @param {color=c_white}	_outline_color
 /// @param {real=1}			_outline_alpha
 /// @param {int=3}			_outline_strength
 /// @param {bool=true}		_alpha_fading
-function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha = 1, _outline_strength = 3, _alpha_fading = true) constructor {
+/// @param {bool=false}		_use_bbox
+function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha = 1, _outline_strength = 3, _alpha_fading = true, _use_bbox = false) constructor {
 	__outline_surface_1 = -1;
 	__outline_surface_2 = -1;
 
@@ -40,6 +43,7 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 	outline_alpha		= _outline_alpha;
 	outline_strength	= _outline_strength;
 	alpha_fading		= _alpha_fading;
+	use_bbox			= _use_bbox;
 
 	static __update_surfaces = function() {
 		if (!surface_exists(__outline_surface_1)) __outline_surface_1 = surface_create(1, 1);
@@ -49,24 +53,37 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 	static draw_sprite_outline = function(_obj, _index, _x, _y, _xscale = 1, _yscale = 1, _rotation = 0, _sprite_colour = c_white, _sprite_alpha = 1) {
 		__update_surfaces();
 		var _sprite = _obj.sprite_index;
-		var bbox_w = _obj.bbox_right - _obj.bbox_left + 1;
-		var bbox_h = _obj.bbox_bottom - _obj.bbox_top + 1;
+		var bbox_w = 0;
+		var bbox_h = 0;
+		var bbox_l = 0;
+		var bbox_t = 0;
+		if (use_bbox) {
+			bbox_w = _obj.bbox_right - _obj.bbox_left + 1;
+			bbox_h = _obj.bbox_bottom - _obj.bbox_top + 1;
+			bbox_l = _obj.bbox_left;
+			bbox_t = _obj.bbox_top;
+		} else {
+			bbox_w = _obj.sprite_width;
+			bbox_h = _obj.sprite_height;
+			bbox_l = _obj.x - _obj.sprite_xoffset;
+			bbox_t = _obj.y - _obj.sprite_yoffset;
+		}
 		
 		//Verify the two input surfaces
 		if (!surface_exists(__outline_surface_1))
 		{
-		    show_debug_message("draw_sprite_selective_outline: Surface 1 does not exist!");
+		    show_debug_message("draw_sprite_outline: Surface 1 does not exist!");
 		    return false;
 		}
 
 		if (!surface_exists(__outline_surface_2))
 		{
-		    show_debug_message("draw_sprite_selective_outline: Surface 2 does not exist!");
+		    show_debug_message("draw_sprite_outline: Surface 2 does not exist!");
 		    return false;
 		}
 
-		var _surface_real_w = 2 + 2 * outline_strength + max(_xscale * sprite_get_width(_sprite), bbox_w);
-		var _surface_real_h = 2 + 2 * outline_strength + max(_yscale * sprite_get_height(_sprite), bbox_h);
+		var _surface_real_w = TEXTURE_PAGE_BORDER_SIZE + 2 * outline_strength + max(_xscale * sprite_get_width(_sprite), bbox_w);
+		var _surface_real_h = TEXTURE_PAGE_BORDER_SIZE + 2 * outline_strength + max(_yscale * sprite_get_height(_sprite), bbox_h);
 
 		if ((surface_get_width(__outline_surface_1) < _surface_real_w) || (surface_get_height(__outline_surface_1) < _surface_real_h))
 		{
@@ -98,8 +115,8 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		}
 
 		//Figure out what part of the application surface we need to chop out
-		var _surface_l = max(0, _camera_xscale*(_obj.bbox_left - outline_strength - _camera_x));
-		var _surface_t = max(0, _camera_yscale*(_obj.bbox_top  - outline_strength - _camera_y));
+		var _surface_l = max(0, _camera_xscale*(bbox_l - outline_strength - _camera_x));
+		var _surface_t = max(0, _camera_yscale*(bbox_t - outline_strength - _camera_y));
 		var _surface_r = _surface_l + _camera_xscale*_surface_real_w;
 		var _surface_b = _surface_t + _camera_yscale*_surface_real_h;
 
@@ -110,8 +127,8 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		draw_clear_alpha(c_black, 0.0);
 
 		draw_sprite_ext(_sprite, _index,
-						_xscale*sprite_get_xoffset(_sprite) + 2 + outline_strength + _sprite_l - _obj.bbox_left,
-						_yscale*sprite_get_yoffset(_sprite) + 2 + outline_strength + _sprite_t - _obj.bbox_top,
+						_xscale*sprite_get_xoffset(_sprite) + TEXTURE_PAGE_BORDER_SIZE + outline_strength + _sprite_l - bbox_l,
+						_yscale*sprite_get_yoffset(_sprite) + TEXTURE_PAGE_BORDER_SIZE + outline_strength + _sprite_t - bbox_t,
 		                _xscale, _yscale, _rotation,
 		                _sprite_colour, _sprite_alpha);
 
@@ -147,13 +164,13 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 			// as we increase the surface only when needed but never shrink (for performance)
 			// we need the current_dimensions here for correct rendering in html (surface_get_height)
 			draw_surface_ext(__outline_surface_2, 
-				_obj.bbox_left - outline_strength - 1,
-				_obj.bbox_top + surface_get_height(__outline_surface_2) - outline_strength - 1,
+				bbox_l - outline_strength - 1,
+				bbox_t + surface_get_height(__outline_surface_2) - outline_strength - 1,
 				1, -1, 0, c_white, 1);
 		} else {
 			draw_surface_ext(__outline_surface_2, 
-				_obj.bbox_left - outline_strength - 1, 
-				_obj.bbox_top  - outline_strength - 1,
+				bbox_l - outline_strength - 1, 
+				bbox_t  - outline_strength - 1,
 				1, 1, 0, c_white, 1);
 		}
 

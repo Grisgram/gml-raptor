@@ -1,22 +1,14 @@
-#macro __CANVAS_CREDITS "@TabularElf - https://tabelf.link/"
-#macro __CANVAS_VERSION "1.3.0"
-#macro __CANVAS_ON_WEB (os_browser != browser_not_a_browser)
-show_debug_message("Canvas " + __CANVAS_VERSION + " initalized! Created by " + __CANVAS_CREDITS);
-
-#macro __CANVAS_HEADER_SIZE 5
-
-enum CanvasStatus {
-	NO_DATA,
-	IN_USE,
-	HAS_DATA,
-	HAS_DATA_CACHED
-}
+/* feather ignore all */
 
 /// @func Canvas
 /// @param {Real} width
 /// @param {Real} height
 /// @param {Boolean} forceInit
-function Canvas(_width, _height, _forceInit = false) constructor {
+/// @param {Constant.SurfaceFormatType} surfaceFormat
+function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unorm) constructor {
+	
+		#region Variables
+		static __sys = __CanvasSystem();
 		__width = _width;
 		__height = _height;
 		__surface = -1;
@@ -24,18 +16,33 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 		__cacheBuffer = -1;
 		__status = CanvasStatus.NO_DATA;
 		__writeToCache = true;
-		__index = 0;
+		__index = -1;
+		__depthDisabled = surface_get_depth_disable();
+		// Add to refList
+		__refContents = {
+			buff: __buffer,
+			cbuff: __cacheBuffer,
+			surf: __surface
+		}
+		__isAppSurf = false;
 		
+		var _weakRef = weak_ref_create(self);
+		
+		ds_list_add(__sys.refList, [_weakRef, __refContents]);
+		
+		__UpdateFormat(_format);
 		if (_forceInit) {
-			__init();
+			__Init();
 			CheckSurface();
 			__status = CanvasStatus.HAS_DATA;
 		}
+		#endregion
 		
-		/// @function Start(_ext)
-		/// @param {int=-1} _ext use set_target_ext? (default: no) - any value != -1 will use set_target_ext
-		static Start = function(_ext = -1) {
-			__index = _ext;
+		#region Default Methods
+		
+		/// @param {Real} targetID use set_target_ext? (default: no) - any value != -1 will use set_target_ext
+		static Start = function(_targetID = -1) {
+			__index = _targetID;
 			if (!surface_exists(__surface)) {
 				if (!buffer_exists(__buffer)) {
 					__SurfaceCreate();
@@ -47,20 +54,20 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				}
 			}
 			
-			if (_ext == -1) {
+			if (_targetID == -1) {
 				surface_set_target(__surface);
 			} else {
-				surface_set_target_ext(_ext, __surface);	
+				surface_set_target_ext(__surface, _targetID);	
 			}
 			
 			__status = CanvasStatus.IN_USE;
 			return self;
 		}
 		
-		/// @function Finish()
 		static Finish = function() {
 			surface_reset_target();
-			__init();
+			__index = -1;
+			__Init();
 			
 			if (__writeToCache) {
 				__UpdateCache();
@@ -70,25 +77,12 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			
 			return self;
 		}
-		
-		static __init = function() {
-			if (!buffer_exists(__buffer)) {
-				if (buffer_exists(__cacheBuffer)) {
-					// Lets decompress it
-					Restore();
-				} else {
-					__buffer = buffer_create(__width * __height * 4, buffer_fixed, 4);	
-				}
-			}
-		}
-		
 				
-		/// @function CopyCanvas(_canvas, _x, _y, _forceResize = false, _updateCache = __writeToCache)
-		/// @param {Canvas} _canvas
-		/// @param {real} _x destination x
-		/// @param {real} _y destination y
-		/// @param {bool=false} _forceResize
-		/// @param {bool} _updateCache
+		/// @param {struct.Canvas} canvas
+		/// @param {Real} x destination x
+		/// @param {Real} y destination y
+		/// @param {Bool} forceResize
+		/// @param {Bool} updateCache
 		static CopyCanvas = function(_canvas, _x, _y, _forceResize = false, _updateCache = __writeToCache) {
 			if (!CanvasIsCanvas(_canvas)) {
 				__CanvasError("Canvas " + string(_canvas) + " is not a valid Canvas instance!");
@@ -99,16 +93,15 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			return self;
 		}
 		
-		/// @function CopyCanvasPart(_canvas, _x, _y, _forceResize = false, _updateCache = __writeToCache)
-		/// @param {Canvas} _canvas
-		/// @param {real} _x destination x
-		/// @param {real} _y destination y
-		/// @param {real} _xs source x
-		/// @param {real} _ys source y
-		/// @param {real} _ws source width
-		/// @param {real} _hs source height
-		/// @param {bool=false} _forceResize
-		/// @param {bool} _updateCache
+		/// @param {Canvas} Canvas
+		/// @param {Real} x destination x
+		/// @param {Real} y destination y
+		/// @param {Real} xs source x
+		/// @param {Real} ys source y
+		/// @param {Real} ws source width
+		/// @param {Real} hs source height
+		/// @param {Bool=false} forceResize
+		/// @param {Bool} updateCache
 		static CopyCanvasPart = function(_canvas, _x, _y, _xs, _ys, _ws, _hs, _forceResize = false, _updateCache = __writeToCache) {
 			if (!CanvasIsCanvas(_canvas)) {
 				__CanvasError("Canvas " + string(_canvas) + " is not a valid Canvas instance!");	
@@ -119,23 +112,21 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			return self;
 		}
 		
-		/// @function IsAvailable()
 		static IsAvailable = function() {
 			return (__status == CanvasStatus.HAS_DATA) || (__status == CanvasStatus.HAS_DATA_CACHED);	
 		}
 		
-		/// @function CopySurface(_surfID, _x, _y, _forceResize = false, _updateCache = __writeToCache)
-		/// @param {id} _surfID
-		/// @param {real} _x destination x
-		/// @param {real} _y destination y
-		/// @param {bool=false} _forceResize
-		/// @param {bool} _updateCache
+		/// @param {Id.Surface} surfID
+		/// @param {Real} x destination x
+		/// @param {Real} y destination y
+		/// @param {Bool=false} forceResize
+		/// @param {Bool} updateCache
 		static CopySurface = function(_surfID, _x, _y, _forceResize = false, _updateCache = __writeToCache) {
 			if (!surface_exists(_surfID)) {
 				__CanvasError("Surface " + string(_surfID) + " doesn't exist!");	
 			}
 			
-			__init();
+			__Init();
 			CheckSurface();
 			
 			var _currentlyWriting = false;
@@ -152,7 +143,7 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				Resize(_x + _width, _y + _height, true);	
 			}
 			
-			__init();
+			__Init();
 			CheckSurface();
 			
 			surface_copy(__surface, _x, _y, _surfID);
@@ -164,25 +155,26 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				Start(__index);	
 			}
 			
+			__status = CanvasStatus.HAS_DATA;
+			
 			return self;
 		}
 		
-		/// @function CopySurfacePart(_canvas, _x, _y, _forceResize = false, _updateCache = __writeToCache)
-		/// @param {id} _surfID
-		/// @param {real} _x destination x
-		/// @param {real} _y destination y
-		/// @param {real} _xs source x
-		/// @param {real} _ys source y
-		/// @param {real} _ws source width
-		/// @param {real} _hs source height
-		/// @param {bool=false} _forceResize
-		/// @param {bool} _updateCache
+		/// @param {Id.Surface} surfID
+		/// @param {Real} x destination x
+		/// @param {Real} y destination y
+		/// @param {Real} xs source x
+		/// @param {Real} ys source y
+		/// @param {Real} ws source width
+		/// @param {Real} hs source height
+		/// @param {Bool=false} forceResize
+		/// @param {Bool} updateCache
 		static CopySurfacePart = function(_surfID, _x, _y, _xs, _ys, _ws, _hs, _forceResize = false, _updateCache = __writeToCache) {
 			if (!surface_exists(_surfID)) {
 				__CanvasError("Surface " + string(_surfID) + " doesn't exist!");	
 			}
 			
-			__init();
+			__Init();
 			CheckSurface();
 			
 			var _currentlyWriting = false;
@@ -208,10 +200,11 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				Start(__index);	
 			}
 			
+			__status = CanvasStatus.HAS_DATA;
+			
 			return self;
 		}
 			
-		/// @function Free()
 		static Free = function() {
 			if (buffer_exists(__buffer)) {
 				buffer_delete(__buffer);	
@@ -219,22 +212,22 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				__buffer = -1;
 			}
 			
+			
 			if (buffer_exists(__cacheBuffer)) {
 				buffer_delete(__cacheBuffer);	
 				/* Feather ignore once GM1043 */
 				__cacheBuffer = -1;
 			}
 			
-			if (surface_exists(__surface)) {
+			if (!__isAppSurf) && (surface_exists(__surface)) {
 				surface_free(__surface);	
 				/* Feather ignore once GM1043 */
 				__surface = -1;
 			}
 			
-			__status = CanvasStatus.NO_DATA;
+			if (!__isAppSurf) __status = CanvasStatus.NO_DATA;
 		}
 		
-		/// @function CheckSurface()
 		static CheckSurface = function() {
 			if (buffer_exists(__buffer)) || (buffer_exists(__cacheBuffer)) {
 				if (!surface_exists(__surface)) {
@@ -242,24 +235,26 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 					if (buffer_exists(__cacheBuffer)) {
 						Restore();	
 					}
-					buffer_set_surface(__buffer,__surface, 0);
+					if (surface_exists(__surface)) buffer_set_surface(__buffer,__surface, 0);
 				}
 			} 
+			return self;
 		}
 		
-		/// @function Resize(_width, _height, _keepData = false)
-		/// @param {id} _surfID
-		/// @param {real} _width new width
-		/// @param {real} _height new height
-		/// @param {bool = false} _keepData 
+
+		/// @param {Real} width new width
+		/// @param {Real} height new height
+		/// @param {Bool} [keepData]
 		static Resize = function(_width, _height, _keepData = false) {
 			
 			if (__width == _width) && (__height == _height) return self;
+			if (_width <= 0) || (_height <= 0) return self;
 			
 			__width = _width;
 			__height = _height;
 			
-			if (!_keepData) || (__CANVAS_ON_WEB) {
+			
+			if (!_keepData) || (__CANVAS_ON_WEB) || (__isAppSurf) {
 				if (buffer_exists(__buffer)) {
 					buffer_delete(__buffer);
 				}	
@@ -267,16 +262,18 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				if (buffer_exists(__cacheBuffer)) {
 					buffer_delete(__cacheBuffer);
 				}
-				
-				if (surface_exists(__surface)) {
+
+				if (!__isAppSurf) && (surface_exists(__surface)) {
 					surface_free(__surface);	
+				} else if (__isAppSurf) {
+					surface_resize(application_surface, _width, _height);
 				}
 			}
 			
-			__init();
+			__Init();
 			CheckSurface();
 			
-			if (_keepData) && (!__CANVAS_ON_WEB) {
+			if (_keepData) && (!__CANVAS_ON_WEB) && (!__isAppSurf) {
 				
 				var _currentlyWriting = false;
 				
@@ -285,10 +282,10 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 					Finish();
 				}
 				
-				var _tempSurf = surface_create(_width, _height);
+				var _tempSurf = surface_create(_width, _height, __format);
 				surface_copy(_tempSurf, 0, 0, __surface);
 				surface_resize(__surface, _width, _height);
-				buffer_resize(__buffer, _width*_height*4);
+				buffer_resize(__buffer, _width*_height*__format);
 				surface_copy(__surface, 0, 0, _tempSurf);
 				surface_free(_tempSurf);
 				
@@ -305,36 +302,30 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			return self;
 		}
 		
-		/// @function GetWidth()
 		static GetWidth = function() {
 			return __width;	
 		}
 		
-		/// @function GetHeight()
 		static GetHeight = function() {
 			return __height;	
 		}
 		
-		/// @function GetSurfaceID()
 		static GetSurfaceID = function() {
 			if (__status == CanvasStatus.NO_DATA) return -1;
 			CheckSurface();
 			return __surface;
 		}
-		
-		static __refreshSurface = function() {
-			surface_free(__surface);
-			CheckSurface();
+			
+		static GetSize = function() {
+			return __width * __height * __bufferSize;	
 		}
 		
-		/// @function GetBufferContents()
-		/// @param {bool = false} _forceCompress 
+		/// @param {Bool} forceCompress 
 		static GetBufferContents = function(_forceCompress = false) {
-			//
 			if (_forceCompress) {
 				if (buffer_exists(__buffer)) {
 					var _cbuff = buffer_compress(__buffer, 0, buffer_get_size(__buffer));
-					var _buff = __copyBufferContents(_cbuff, true);
+					var _buff = __CopyBufferContents(_cbuff, true);
 					buffer_delete(_cbuff);
 					return _buff;
 				}
@@ -345,30 +336,40 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				return -1;	
 			}
 			
-			var _buffer = __copyBufferContents(_bufferToCopy);
+			var _buffer = __CopyBufferContents(_bufferToCopy);
 			return _buffer;
 		}
 		
-		static __copyBufferContents = function(_bufferToCopy, _forceCompressed = false) {
-			// Send copied buffer as a result
-			var _size = buffer_get_size(_bufferToCopy);
-			var _isCompressed = (_forceCompressed ? true: (GetStatus() == CanvasStatus.HAS_DATA_CACHED ? true : false));
-			var _buffer = buffer_create(_size+__CANVAS_HEADER_SIZE, buffer_fixed, 1);
-			buffer_write(_buffer, buffer_bool, _isCompressed);
-			buffer_write(_buffer, buffer_u16, __width);
-			buffer_write(_buffer, buffer_u16, __height);
-			buffer_copy(_bufferToCopy, 0, _size, _buffer, __CANVAS_HEADER_SIZE);
-			/* Feather ignore once GM1035 */	
-			return _buffer;
-		}
-		
-		/// @function SetBufferContents(_cvBuff)
-		/// @param {buffer} _cvBuff 
-		static SetBufferContents = function(_cvBuff) {
-			buffer_seek(_cvBuff, buffer_seek_start, 0);
+		/// @param {Buffer} buffer 
+		/// @param {Real} offset 
+		/// @param {Bool} forceFormat 
+		static SetBufferContents = function(_cvBuff, _offset = 0, _forceFormat = false) {
+			var _oldTell = buffer_tell(_cvBuff);
+			buffer_seek(_cvBuff, buffer_seek_start, _offset);
+			// Ensure that we aren't on a very old version of Canvas
+			var _version = buffer_read(_cvBuff, buffer_u8);
+			if (_version < 2) {
+				buffer_seek(_cvBuff, buffer_seek_start, _oldTell);
+				__SetBufferContentsV1(_cvBuff, _offset, _forceFormat);
+				return self;
+			}
 			var _isCompressed = buffer_read(_cvBuff, buffer_bool);
+			var _format = buffer_read(_cvBuff, buffer_u8);
 			var _width = buffer_read(_cvBuff, buffer_u16);
 			var _height = buffer_read(_cvBuff, buffer_u16);
+			
+			if (__format != _format)  {
+				if (!_forceFormat) {
+					__CanvasError("Surface format mismatched! Expected: " + string(__CanvasSurfFormat(__format)) + " got " + string(__CanvasSurfFormat(_format)));
+					exit;
+				}
+				if (__isAppSurf) {
+					__CanvasError("Cannot apply format changes to Canvas application_surface!");
+					exit;
+				}
+				Free();
+				__UpdateFormat(_format);
+			}
 			
 			if ((__width != _width) || (__height != _height)) {
 				__width = _width;
@@ -378,8 +379,9 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				}
 			}
 			
-			var _buff = buffer_create(1, buffer_grow, 1);
-			buffer_copy(_cvBuff, __CANVAS_HEADER_SIZE, buffer_get_size(_cvBuff), _buff, 0);
+			var _size = buffer_get_size(_cvBuff);
+			var _buff = buffer_create(_size, buffer_fixed, 1);
+			buffer_copy(_cvBuff, __CANVAS_HEADER_SIZE_V2, _size, _buff, 0);
 			
 			if (_isCompressed) && (GetStatus() != CanvasStatus.HAS_DATA_CACHED) {
 				var _dbuff = buffer_decompress(_buff);
@@ -395,7 +397,7 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 				case CanvasStatus.HAS_DATA:
 					buffer_delete(__buffer);
 					__buffer = _buff;
-					__refreshSurface();
+					__RefreshSurface();
 				break;
 				
 				case CanvasStatus.HAS_DATA_CACHED:
@@ -403,42 +405,49 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 					__cacheBuffer = _buff;
 				break;
 			}
+			
+			__refContents.surf = __surface;
+			__refContents.buff = __buffer;
+			__refContents.cbuff = __cacheBuffer;
+			
+			buffer_seek(_cvBuff, buffer_seek_start, _oldTell);
 			return self;
 		}
-			
-		static __SurfaceCreate = function() {
-			if (!surface_exists(__surface)) {
-				__surface = surface_create(__width, __height);
-			}
-		}
 		
-		static __UpdateCache = function() {
-			buffer_get_surface(__buffer, __surface, 0);
-			__status = CanvasStatus.HAS_DATA;	
-		}
-		
-		/// @function GetStatus()
 		static GetStatus = function() {
 			return __status;	
 		}
 		
-		/// @function Cache()
+		/// @param {Bool} DepthDisabled
+		static SetDepthDisabled = function(_bool) {
+			__depthDisabled = _bool;	
+			if (IsAvailable()) __RefreshSurface();
+			return self;
+		}
+		
+		static GetDepthDisabled = function() {
+			return __depthDisabled;	
+		}
+		
 		static Cache = function() {
 			if (!buffer_exists(__cacheBuffer)) {
 				if (buffer_exists(__buffer)) {
-					var _size = __width*__height*4;
+					var _size = __width*__height*__bufferSize;
 					__cacheBuffer = buffer_compress(__buffer, 0, _size);
+					__refContents.cbuff =__cacheBuffer;
 					
 					// Remove main buffer
 					buffer_delete(__buffer);
 					/* Feather ignore once GM1043 */
 					__buffer = -1;
+					__refContents.buff = -1;
 					
 					// Remove surface
 					if (surface_exists(__surface)) {
 						surface_free(__surface);	
 						/* Feather ignore once GM1043 */
 						__surface = -1;
+						__refContents.surf = -1;
 					}
 				}
 			}
@@ -447,15 +456,16 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			return self;
 		}
 			
-		/// @function Restore()
 		static Restore = function() {
 			if (!buffer_exists(__buffer)) && (buffer_exists(__cacheBuffer)) {
 				var _dbuff = buffer_decompress(__cacheBuffer);
 				if (buffer_exists(_dbuff)) {
 					__buffer = _dbuff;
+					__refContents.buff = __buffer;
 					buffer_delete(__cacheBuffer);
 					/* Feather ignore once GM1043 */
 					__cacheBuffer = -1;
+					__refContents.cbuff = -1;
 					// Restore surface
 					CheckSurface();
 				} else {
@@ -466,18 +476,36 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			return self;
 		}
 		
-		/// @function WriteToCache()
-		static WriteToCache = function(_bool) {
+		/// @param {String} filename
+		static SaveAsImage = function(_filename) {
+			if (!IsAvailable()) __CanvasError("Canvas not initalized or in use! Please ensure data is ready before using .SaveAsImage()");
+			CheckSurface();
+			if (__format != surface_rgba8unorm) {
+				var _surf = surface_create(__width, __height);
+				surface_copy(_surf, 0, 0, __surface);
+				surface_save(_surf, _filename);
+				surface_free(_surf);
+			} else {
+				surface_save(__surface, _filename);	
+			}
+			return self;
+		}
+		
+		/// @param {Bool} WriteToCache
+		static SetWriteToCache = function(_bool) {
 			__writeToCache = _bool;	
 			return self;
 		}
 		
-		/// @function UpdateCache()
+		static GetWriteToCache = function() {
+			return __writeToCache;	
+		}
+		
 		static UpdateCache = function() {
 			switch(GetStatus()) {
 				case CanvasStatus.NO_DATA:
 				case CanvasStatus.HAS_DATA_CACHED:
-					__init();
+					__Init();
 					CheckSurface();
 				case CanvasStatus.HAS_DATA:
 					__UpdateCache();
@@ -491,184 +519,387 @@ function Canvas(_width, _height, _forceInit = false) constructor {
 			return self;
 		}
 		
-		/// @function Flush()
 		static Flush = function() {
 			if (surface_exists(__surface)) {
-				surface_free(__surface);	
+				surface_free(__surface);
+				__surface = -1;
+				__refContents.surf = -1;
 			}
 			return self;
 		}
 		
-		static FreeSurface = Flush;
-		
-		/// @function GetTexture()
 		static GetTexture = function() {
 			return surface_get_texture(GetSurfaceID());
 		}
 		
-		/// @function GetPixel()
-		/// @param {int} _x 
-		/// @param {int} _y 
+		/// @param {Real} x 
+		/// @param {Real} y 
+		/// @return {Real}
 		static GetPixel = function(_x, _y) {
-			__init();
+			__Init();
 			if (_x >= __width || _x < 0) || (_y >= __height || _y < 0) return 0;
-			var _col = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_u32);
-			var _r = _col & 0xFF;
-			var _g = (_col >> 8) & 0xFF;
-			var _b = (_col >> 16) & 0xFF;
-			return (_b & 0xFF) << 16 | (_g & 0xFF) << 8 | (_r & 0xFF);
+			var _r, _g, _b, _result, _col;
+			
+			switch(__format) {
+				case surface_rgba8unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
+					_r = _col & 0xFF;
+					_g = (_col >> 8) & 0xFF;
+					_b = (_col >> 16) & 0xFF;
+					_result = _b << 16 | _g << 8 | _r;
+				break;
+				case surface_r8unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u8);
+					_r = _col;
+					_result = _r;
+				break;
+				case surface_rg8unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+					_r = _col & 0xFF;
+					_g = (_col >> 8) & 0xFF;
+					_result = (_g & 0xFF) << 8 | (_r & 0xFF);
+				break;
+				case surface_rgba4unorm: 
+					var _col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+					_r = _col & 0x80;
+					_g = (_col >> 4) & 0x80;
+					_b = (_col >> 8) & 0x80;
+					_result = (_b & 0x80) << 8 | (_g & 0x80) << 4 | (_r & 0x80);
+				break;
+				case surface_rgba16float:
+				case surface_rgba32float: 
+					__CanvasError("GetPixel() does not support " + string(__CanvasSurfFormat(__format)) + ". Please use GetPixelArray()");
+				break;
+				case surface_r32float: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f32);
+					_r = _col;
+					_result = _r;
+				break;
+				case surface_r16float: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f16);
+					_r = _col;
+					_result = _r;
+				break;
+			}
+			return _result;
 		}
 		
-		/// @function GetPixel()
-		/// @param {int} _x 
-		/// @param {int} _y 
+		/// @param {Real} x 
+		/// @param {Real} y 
 		static GetPixelArray = function(_x, _y) {
-			__init();
+			__Init();
 			if (_x >= __width || _x < 0) || (_y >= __height || _y < 0) return [0,0,0,0];
-			var _col = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_u32);
-			var _r = _col & 0xFF;
-			var _g = (_col >> 8) & 0xFF;
-			var _b = (_col >> 16)  & 0xFF;
-			var _a = (_col >> 24) / 0xFF;
+			var _r = 0, _g = 0, _b = 0, _a = 0, _col;
+			
+			switch(__format) {
+				case surface_rgba8unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
+					_r = _col & 0xFF;
+					_g = (_col >> 8) & 0xFF;
+					_b = (_col >> 16)  & 0xFF;
+					_a = (_col >> 24) / 0xFF;
+				break;
+				case surface_r8unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u8);
+					_r = _col;
+				break;
+				case surface_rg8unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+					_r = _col & 0xFF;
+					_g = (_col >> 8) & 0xFF;
+				break;
+				case surface_rgba4unorm: 
+					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+					_r = _col & 0x80;
+					_g = (_col >> 4) & 0x80;
+					_b = (_col >> 8) & 0x80;
+				break;
+				case surface_rgba16float:
+					_r = buffer_peek(__buffer, (_x + (_y * __width)) * 2, buffer_f16);
+					_g = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_f16);
+					_b = buffer_peek(__buffer, (_x + (_y * __width)) * 6, buffer_f16);
+					_a = buffer_peek(__buffer, (_x + (_y * __width)) * 8, buffer_f16);
+				case surface_r16float: 
+					_r = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f16);
+				case surface_rgba32float: 
+					_r = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_f32);
+					_g = buffer_peek(__buffer, (_x + (_y * __width)) * 8, buffer_f32);
+					_b = buffer_peek(__buffer, (_x + (_y * __width)) * 12, buffer_f32);
+					_a = buffer_peek(__buffer, (_x + (_y * __width)) * 16, buffer_f32);
+				case surface_r32float: 
+					_r = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f32);
+				break;
+			}
 			return [_r, _g, _b, _a];
 		}
 		
-		/// @function Clear()
-		static Clear = function() {
-			__init();
+		static Clear = function(_color = c_black, _alpha = 0) {
+			__Init();
 			CheckSurface();
 			
 			surface_set_target(__surface);	
-			draw_clear_alpha(c_black, 0);
+			draw_clear_alpha(_color, _alpha);
 			surface_reset_target();
 			
 			buffer_fill(__buffer, 0, buffer_u8, 0, buffer_get_size(__buffer));
 			return self;
 		}
 		
-		static __validateContents = function() {
-			if (!IsAvailable()) {
-				__CanvasError("Canvas has no data or in use!");		
-			}	
+		/// @return {Constant.SurfaceFormatType}
+		static GetFormat = function() {
+			return __format;		
 		}
 		
-		/// @function Draw()
-		/// @param {int} _x 
-		/// @param {int} _y 
+		/// @param {Real} x 
+		/// @param {Real} y 
 		static Draw = function(_x, _y) {
 			__validateContents();
 			CheckSurface();
 			draw_surface(__surface, _x, _y);
 		}
 		
-		/// @function DrawExt()
-		/// @param {real} _x 
-		/// @param {real} _y 
-		/// @param {real} _xscale
-		/// @param {real} _yscale 
-		/// @param {real} _rot
-		/// @param {real} _col
-		/// @param {real} _alpha
+		/// @param {Real} x 
+		/// @param {Real} y 
+		/// @param {Real} xscale
+		/// @param {Real} yscale 
+		/// @param {Real} rot
+		/// @param {Real} col
+		/// @param {Real} alpha
 		static DrawExt = function(_x, _y, _xscale, _yscale, _rot, _col, _alpha) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_ext(__surface, _x, _y, _xscale, _yscale, _rot, _col, _alpha);
 		}
 		
-		/// @function DrawTiled()
-		/// @param {int} _x 
-		/// @param {int} _y 
+		/// @param {Real} x 
+		/// @param {Real} y 
 		static DrawTiled = function(_x, _y) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_tiled(__surface, _x, _y);
 		}
 		
-		/// @function DrawTiledExt()
-		/// @param {real} _x 
-		/// @param {real} _y 
-		/// @param {real} _xscale
-		/// @param {real} _yscale 
-		/// @param {real} _col
-		/// @param {real} _alpha
+		/// @param {Real} x 
+		/// @param {Real} y 
+		/// @param {Real} xscale
+		/// @param {Real} yscale 
+		/// @param {Real} colour
+		/// @param {Real} alpha
 		static DrawTiledExt = function(_x, _y, _xscale, _yscale, _col, _alpha) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_tiled_ext(__surface, _x, _y, _xscale, _yscale, _col, _alpha);
 		}
 		
-		/// @function DrawPart()
-		/// @param {real} _left
-		/// @param {real} _top
-		/// @param {real} _width
-		/// @param {real} _height 
-		/// @param {real} _x 
-		/// @param {real} _y 
+		/// @param {Real} left
+		/// @param {Real} top
+		/// @param {Real} width
+		/// @param {Real} height 
+		/// @param {Real} x 
+		/// @param {Real} y 
 		static DrawPart = function(_left, _top, _width, _height, _x, _y) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_part(__surface, _left, _top, _width, _height, _x, _y);
 		}
 		
-		/// @function DrawPartExt()
-		/// @param {real} _left
-		/// @param {real} _top
-		/// @param {real} _width
-		/// @param {real} _height 
-		/// @param {real} _x 
-		/// @param {real} _y 
-		/// @param {real} _xscale
-		/// @param {real} _yscale 
-		/// @param {real} _col
-		/// @param {real} _alpha
+		/// @param {Real} left
+		/// @param {Real} top
+		/// @param {Real} width
+		/// @param {Real} height 
+		/// @param {Real} x 
+		/// @param {Real} y 
+		/// @param {Real} xscale
+		/// @param {Real} yscale 
+		/// @param {Real} colour
+		/// @param {Real} alpha
 		static DrawPartExt = function(_left, _top, _width, _height, _x, _y, _xscale, _yscale, _col, _alpha) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_part_ext(__surface, _left, _top, _width, _height, _x, _y, _xscale, _yscale, _col, _alpha);
 		}
 		
-		/// @function DrawStretched()
-		/// @param {real} _x
-		/// @param {real} _y
-		/// @param {real} _width
-		/// @param {real} _height 
+		/// @param {Real} x
+		/// @param {Real} y
+		/// @param {Real} width
+		/// @param {Real} height 
 		static DrawStretched = function(_x, _y, _width, _height) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_stretched(__surface, _x, _y, _width, _height);
 		}
 		
-		/// @function DrawStretchedExt()
-		/// @param {real} _x
-		/// @param {real} _y
-		/// @param {real} _width
-		/// @param {real} _height 
-		/// @param {real} _col
-		/// @param {real} _alpha
+		/// @param {Real} x
+		/// @param {Real} y
+		/// @param {Real} width
+		/// @param {Real} height 
+		/// @param {Real} colour
+		/// @param {Real} alpha
 		static DrawStretchedExt = function(_x, _y, _width, _height, _col, _alpha) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_stretched_ext(__surface, _x, _y, _width, _height, _col, _alpha);
 		}
 		
-		/// @function DrawGeneral()
-		/// @param {real} _left
-		/// @param {real} _top
-		/// @param {real} _width
-		/// @param {real} _height 
-		/// @param {real} _x
-		/// @param {real} _y
-		/// @param {real} _xscale
-		/// @param {real} _yscale 
-		/// @param {real} _rot
-		/// @param {real} _col1
-		/// @param {real} _col2
-		/// @param {real} _col3
-		/// @param {real} _col4
-		/// @param {real} _alpha
+		/// @param {Real} left
+		/// @param {Real} top
+		/// @param {Real} width
+		/// @param {Real} height 
+		/// @param {Real} x
+		/// @param {Real} y
+		/// @param {Real} xscale
+		/// @param {Real} yscale 
+		/// @param {Real} rot
+		/// @param {Real} colour1
+		/// @param {Real} colour2
+		/// @param {Real} colour3
+		/// @param {Real} colour4
+		/// @param {Real} alpha
 		static DrawGeneral = function(_left, _top, _width, _height, _x, _y, _xscale, _yscale, _rot, _col1, _col2, _col3, _col4, _alpha) {
 			__validateContents();
 			CheckSurface();
 			draw_surface_general(__surface, _left, _top, _width, _height, _x, _y, _xscale, _yscale, _rot, _col1, _col2, _col3, _col4, _alpha);
 		}
+	#endregion
+		
+		#region Internal Methods
+		
+		static __SetBufferContentsV1 = function(_cvBuff, _offset, _forceFormat) {
+			var _oldTell = buffer_tell(_cvBuff);
+			buffer_seek(_cvBuff, buffer_seek_start, _offset);
+			var _isCompressed = buffer_read(_cvBuff, buffer_bool);
+			var _width = buffer_read(_cvBuff, buffer_u16);
+			var _height = buffer_read(_cvBuff, buffer_u16);
+			
+			if ((__width != _width) || (__height != _height)) {
+				__width = _width;
+				__height = _height;
+				if (surface_exists(__surface)) {
+					surface_resize(__surface, _width, _height);	
+				}
+			}
+			
+			if (__format != surface_rgba8unorm) {
+				if (!_forceFormat) {
+					__CanvasError("Surface format mismatched! Expected: " + string(__CanvasSurfFormat(__format)) + " got " + string(__CanvasSurfFormat(surface_rgba8unorm)));
+					exit;
+				}
+				Free();
+				__UpdateFormat(surface_rgba8unorm);
+			}
+			
+			var _size = buffer_get_size(_cvBuff);
+			var _buff = buffer_create(_size, buffer_fixed, 1);
+			buffer_copy(_cvBuff, __CANVAS_HEADER_SIZE_V1, _size, _buff, 0);
+			
+			if (_isCompressed) && (GetStatus() != CanvasStatus.HAS_DATA_CACHED) {
+				var _dbuff = buffer_decompress(_buff);
+				if (buffer_exists(_dbuff)) {
+					buffer_delete(_buff);
+					_buff = _dbuff;
+				}
+			}
+			
+			switch(GetStatus()) {
+				case CanvasStatus.NO_DATA:
+					__status = CanvasStatus.HAS_DATA;
+				case CanvasStatus.HAS_DATA:
+					buffer_delete(__buffer);
+					__buffer = _buff;
+					__RefreshSurface();
+				break;
+				
+				case CanvasStatus.HAS_DATA_CACHED:
+					buffer_delete(__cacheBuffer);
+					__cacheBuffer = _buff;
+				break;
+			}
+			
+			__refContents.surf = __surface;
+			__refContents.buff = __buffer;
+			__refContents.cbuff = __cacheBuffer;
+			
+			buffer_seek(_cvBuff, buffer_seek_start, _oldTell);
+			return self;
+		}
+		
+		static __RefreshSurface = function() {
+			surface_free(__surface);
+			CheckSurface();
+		}
+			
+		static __CopyBufferContents = function(_bufferToCopy, _forceCompressed = false) {
+			// Send copied buffer as a result
+			var _size = buffer_get_size(_bufferToCopy);
+			var _isCompressed = (_forceCompressed ? true: (GetStatus() == CanvasStatus.HAS_DATA_CACHED ? true : false));
+			var _buffer = buffer_create(_size+__CANVAS_HEADER_SIZE_V2, buffer_fixed, 1);
+			buffer_write(_buffer, buffer_u8, __CANVAS_HEADER_VERSION);
+			buffer_write(_buffer, buffer_bool, _isCompressed);
+			buffer_write(_buffer, buffer_u8, __format);
+			buffer_write(_buffer, buffer_u16, __width);
+			buffer_write(_buffer, buffer_u16, __height);
+			buffer_copy(_bufferToCopy, 0, _size, _buffer, __CANVAS_HEADER_SIZE_V2);
+			/* Feather ignore once GM1035 */	
+			buffer_seek(_buffer, buffer_seek_start, 0);
+			return _buffer;
+		}
+			
+		static __SurfaceCreate = function() {
+			if (!surface_exists(__surface)) {
+				if (__isAppSurf) {
+					__surface = application_surface;
+					exit;
+				}
+				var _oldDepthDisabled = surface_get_depth_disable();
+				surface_depth_disable(__depthDisabled);
+				__surface = surface_create(__width, __height, __format);
+				surface_depth_disable(_oldDepthDisabled);
+				__refContents.surf = __surface;
+			}
+		}
+		
+		static __UpdateCache = function() {
+			if (!surface_exists(__surface)) exit;
+			buffer_get_surface(__buffer, __surface, 0);
+			__status = CanvasStatus.HAS_DATA;	
+		}
+			
+		static __validateContents = function() {
+			if (!IsAvailable()) {
+				__CanvasError("Canvas has no data or in use!");		
+			}	
+		}
+			
+		static __Init = function() {
+			if (!buffer_exists(__buffer)) {
+				if (buffer_exists(__cacheBuffer)) {
+					// Lets decompress it
+					Restore();
+				} else {
+					__buffer = buffer_create(__width * __height * __bufferSize, buffer_fixed, 1);	
+					__refContents.buff = __buffer;
+				}
+			}
+		}
+		
+		static __UpdateFormat = function(_format) {
+			__format = _format;
+			if (!surface_format_is_supported(_format)) {
+				__CanvasError("Surface format " + string(__CanvasSurfFormat(_format)) + " not supported on this platform!");
+			}
+			
+			switch(_format) {
+				case surface_rgba8unorm: __bufferSize = 4; break;
+				case surface_r8unorm: __bufferSize = 1; break;
+				case surface_rg8unorm: __bufferSize = 2; break;
+				case surface_rgba4unorm: __bufferSize = 2; break;
+				case surface_rgba16float: __bufferSize = 8; break;
+				case surface_r16float: __bufferSize = 2; break;
+				case surface_rgba32float: __bufferSize = 16; break;
+				case surface_r32float: __bufferSize = 4; break;
+				default: __CanvasError("Invalid surface format! Got " + string(_format)); break;
+			}	
+		}
+		
+		#endregion
 }

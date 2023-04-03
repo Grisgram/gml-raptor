@@ -17,6 +17,7 @@ event_inherited();
 
 canvas			 = undefined;
 
+__clone			 = undefined;
 __subimages		 = [0];
 __subimage_count = 1;
 __subimage_width = canvas_width;
@@ -57,6 +58,7 @@ __set_origin_offsets = function(origin, custom_x, custom_y) {
 	}
 }
 
+/// @function __draw()
 __draw = function() {
 	if (__subimage_count == 1)
 		canvas.Draw(x - __draw_origin_x, y - __draw_origin_y);
@@ -83,17 +85,21 @@ create_canvas = function(width, height, origin = 7, origin_custom_x = 0, origin_
 /// @function free_canvas()
 /// @description Release the canvas
 free_canvas = function() {
-	if (canvas != undefined) {
+	if (__clone != undefined) {
+		__clone.free();
+		__clone = undefined;
+		canvas  = undefined;
+	} else if (canvas != undefined) {
 		canvas.Free();
 		canvas = undefined;
 	}
 	__drawable = false;
 }
 
-/// @function set_canvas(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0)
+/// @function set_canvas(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0, _sub_image_count = 1, _animation_fps = 0)
 /// @description Assign an already existing canvas to this drawer.
 ///				 NOTE: If the _canvas supplied is not a valid Canvas instance, the entire function is ignored.
-set_canvas = function(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0) {
+set_canvas = function(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0, _sub_image_count = 1, _animation_fps = 0) {
 	if (CanvasIsCanvas(_canvas)) {	
 		free_canvas();
 		canvas = _canvas;
@@ -107,7 +113,7 @@ set_canvas = function(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y 
 set_animation = function(sub_image_count, frames_per_second) {
 	sub_images			= sub_image_count;
 	animation_fps		= frames_per_second;
-	__time_step			= 1000000 / animation_fps;
+	__time_step			= animation_fps > 0 ? (1000000 / animation_fps) : 0;
 	__subimages			= [];
 	__subimage_count	= sub_image_count;
 	
@@ -123,28 +129,15 @@ set_animation = function(sub_image_count, frames_per_second) {
 ///				 based on the sprite's data. Let frame be -1 to clone all frames or set a desired frame to clone
 clone_sprite = function(_sprite, _frame = -1) {
 	free_canvas();
-	var spd				= sprite_get_speed(_sprite);
-	var stp				= sprite_get_speed_type(_sprite);
-	__subimage_count	= _frame == -1 ? sprite_get_number(_sprite) : 1;
-	__subimage_width	= sprite_get_width(_sprite);
-	animation_fps		= stp == spritespeed_framespersecond ? spd : spd * game_get_speed(gamespeed_fps);
 	
-	canvas = create_canvas(
-		__subimage_width * __subimage_count, 
-		sprite_get_height(_sprite), 
-		0, 
-		sprite_get_xoffset(_sprite),
-		sprite_get_yoffset(_sprite));
+	__clone			= sprite_to_canvas(_sprite, _frame);
+	__drawable		= true;
+	canvas			= __clone.canvas;
+	canvas_width	= canvas.GetWidth();
+	canvas_height	= canvas.GetHeight();
 	
-	canvas.Start();
-	
-	var f = max(0, _frame); repeat(__subimage_count) {
-		draw_sprite(_sprite, f, f * __subimage_width + sprite_get_xoffset(_sprite), sprite_get_yoffset(_sprite));
-		f++;
-	}
-	
-	canvas.Finish();
-	set_animation(__subimage_count, animation_fps);
+	__set_origin_offsets(0, sprite_get_xoffset(_sprite), sprite_get_yoffset(_sprite));
+	set_animation(__clone.image_count, __clone.animation_fps);
 	return canvas;
 }
 
