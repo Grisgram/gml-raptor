@@ -21,6 +21,8 @@
     {"name":"gml-highscorer","order":2,"path":"folders/_gml_raptor_packages_/gml-highscorer.yy",},
     {"name":"outline-shader-drawer","order":1,"path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",},
     {"name":"_third_party_packages_","order":14,"path":"folders/_third_party_packages_.yy",},
+    {"name":"Canvas","order":2,"path":"folders/_third_party_packages_/Canvas.yy",},
+    {"name":"System","order":1,"path":"folders/_third_party_packages_/Canvas/System.yy",},
     {"name":"Scribble","order":1,"path":"folders/_third_party_packages_/Scribble.yy",},
     {"name":"(System - don't call these functions)","order":1,"path":"folders/_third_party_packages_/Scribble/(System - don't call these functions).yy",},
     {"name":"Classes","order":1,"path":"folders/_third_party_packages_/Scribble/(System - don't call these functions)/Classes.yy",},
@@ -60,8 +62,6 @@
     {"name":"Sounds","order":2,"path":"folders/Sounds.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"Canvas","order":2,"path":"folders/_third_party_packages_/Canvas.yy",},
-    {"name":"System","order":1,"path":"folders/_third_party_packages_/Canvas/System.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"TileScanner","order":62,"path":"scripts/TileScanner/TileScanner.yy",},
