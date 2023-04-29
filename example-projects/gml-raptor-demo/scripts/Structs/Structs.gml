@@ -39,8 +39,6 @@ function implement(_interface) {
 	}
 	
 	var i = new sclass();
-	if (variable_struct_exists(i, __CONSTRUCTOR_NAME))
-		variable_struct_remove(i, __CONSTRUCTOR_NAME); // Remove constructor hint as this is an interface now
 	struct_integrate(self, i);
 	if (!variable_struct_exists(self, __INTERFACES_NAME))
 		self[$ __INTERFACES_NAME] = [];
