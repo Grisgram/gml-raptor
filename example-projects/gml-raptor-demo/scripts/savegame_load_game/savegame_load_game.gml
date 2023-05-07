@@ -30,7 +30,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	// load engine data
 	var engine = variable_struct_get(savegame, __SAVEGAME_ENGINE_HEADER);
 	random_set_seed(variable_struct_get(engine, __SAVEGAME_ENGINE_SEED));
-	var loaded_version = struct_get(engine, __SAVEGAME_ENGINE_VERSION, 1);
+	var loaded_version = struct_get_ext(engine, __SAVEGAME_ENGINE_VERSION, 1);
 	
 	// load global data
 	GLOBALDATA = variable_struct_get(savegame, __SAVEGAME_GLOBAL_DATA_HEADER);

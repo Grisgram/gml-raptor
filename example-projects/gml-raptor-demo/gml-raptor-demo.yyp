@@ -100,7 +100,7 @@
   "isEcma": false,
   "LibraryEmitters": [],
   "MetaData": {
-    "IDEVersion": "2023.2.1.75",
+    "IDEVersion": "2023.4.0.84",
   },
   "resources": [
     {"id":{"name":"sprDefaultFlag","path":"sprites/sprDefaultFlag/sprDefaultFlag.yy",},},
