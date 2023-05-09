@@ -106,10 +106,10 @@ function struct_integrate(target, sources) {
 	return target;
 }
 
-/// @function struct_get(struct, key, default_if_missing, create_if_missing = true)
+/// @function struct_get_ext(struct, key, default_if_missing, create_if_missing = true)
 /// @description	Save-gets a struct member, returning a default if it does not exist,
 ///					and even allows you to create that member in the struct, if it is missing
-function struct_get(struct, key, default_if_missing, create_if_missing = true) {
+function struct_get_ext(struct, key, default_if_missing, create_if_missing = true) {
 	if (variable_struct_exists(struct, key))
 		return struct[$ key];
 		
