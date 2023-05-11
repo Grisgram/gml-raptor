@@ -53,7 +53,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	owner				= _obj_owner;
 	finished_state		= _finished_state;
 	delay				= _delay;
-	duration			= _duration
+	duration			= _duration;
+	duration_rt			= _duration / room_speed;
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= {};
@@ -416,19 +417,24 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static step = function() {
 		if (__finished || __paused) return;
 		
+		__time_step  =  delta_time / 1000000;
+		__time		 += __time_step;
+		__time_total += __time_step;
+		
 		if (__active) {
 			if (__first_step) {
 				__first_step = false;
 				__invoke_triggers(__started_triggers);
 			}
 
-			__total_frames++;
-			__frame_counter++;
+			__frame_counter = __time * room_speed;
+			__total_frames  = __time_total * room_speed;
+			
 			__invoke_frame_triggers(__total_frames);
 			
 			if (animcurve != undefined) {
-				var pit = __play_forward ? __frame_counter : (duration - __frame_counter);
-				animcurve.update(pit, duration);
+				var pit = __play_forward ? __time : (duration_rt - __time);
+				animcurve.update(pit, duration_rt);
 				
 				for (var i = 0; i < array_length(animcurve.channel_names); i++) {
 					__cname  = animcurve.channel_names[i];
@@ -451,11 +457,16 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				}
 				__frame_counter		= 0;
 				__delay_counter		= 0;
+				__time				= 0;
 				__active			= (delay == 0);
 			}
 		} else {
-			__delay_counter++;
-			__active = __delay_counter >= delay;
+			__delay_counter = __time * room_speed;
+			if (__delay_counter >= delay) {
+				__active	 = true;
+				__time		 = 0;
+				__time_total = 0;
+			}
 			__first_step = __active;
 		}
 	}
@@ -535,7 +546,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__start_xscale		= owner.image_xscale;
 		__start_yscale		= owner.image_yscale;
 		__start_angle		= owner.image_angle;
-		
+	
+		__time				= 0;
+		__time_step			= 0;
+		__time_total		= 0;
 		__delay_counter		= 0;
 		__frame_counter		= 0;
 		__total_frames		= 0;

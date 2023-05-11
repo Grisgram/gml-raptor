@@ -95,7 +95,7 @@
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"locale_de.json","CopyToMask":-1,"filePath":"datafiles/locale",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"locale_en.json","CopyToMask":-1,"filePath":"datafiles/locale",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"racedemo.json","CopyToMask":-1,"filePath":"datafiles/race",},
-    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"version.json","ConfigValues":{"release":{"CopyToMask":"3035461389054378222",},},"CopyToMask":3035461389054378222,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"version.json","ConfigValues":{"release":{"CopyToMask":"3035426170322551022",},},"CopyToMask":3035461389054378222,"filePath":"datafiles",},
   ],
   "isEcma": false,
   "LibraryEmitters": [],
