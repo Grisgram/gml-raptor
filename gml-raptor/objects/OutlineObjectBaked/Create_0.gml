@@ -10,7 +10,7 @@ __free = function() {
 /// @function bake()
 bake = function() {
 	if (canvas != undefined) canvas.free();
-	log("Pre-Baking sprite '{0}' with {1} frames", sprite_get_name(sprite_index), image_number);
+	show_debug_message("Pre-Baking sprite '{0}' with {1} frames", sprite_get_name(sprite_index), image_number);
 	var begintime = current_time;
 	var shader				= shd_outline;
 	var u_texel				= shader_get_uniform(shader, "u_vTexel");
@@ -38,14 +38,14 @@ bake = function() {
 	canvas.canvas.Free();
 	// ...and inject the pre-baked
 	canvas.canvas = target;
-	log("Pre-Baking took {0}ms", current_time - begintime);
+	show_debug_message("Pre-Baking took {0}ms", current_time - begintime);
 }
 
 __draw = function() {
 	if (canvas == undefined) bake();
 	image_index = canvas.get_image_index(delta_time, image_speed);
 	if (outline_always || (outline_on_mouse_over && mouse_is_over))
-		canvas.draw_frame(image_index, x - outline_strength - TEXTURE_PAGE_BORDER_SIZE, y - outline_strength - TEXTURE_PAGE_BORDER_SIZE);
+		canvas.draw_frame_ext(image_index, x, y, depth,	image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 	else
 		draw_self();
 }

@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "Sprite_To_Canvas",
+  "name": "Sprite_to_Canvas",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
