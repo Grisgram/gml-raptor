@@ -9,7 +9,10 @@ outliner = new outline_drawer(
 	outline_alpha_fading,
 	use_bbox_of_sprite
 );
-	
+
+if (pulse_active)
+	outliner.set_shader_pulse(pulse_min_strength, pulse_max_strength, pulse_color_1, pulse_color_2, pulse_frequency_frames);
+
 mouse_is_over = false;
 
 __draw = function() {

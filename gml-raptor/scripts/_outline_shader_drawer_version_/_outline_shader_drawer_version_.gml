@@ -1,4 +1,4 @@
-#macro OUTLINE_SHADER_VERSION	"2.1"
+#macro OUTLINE_SHADER_VERSION	"3.0"
 #macro OUTLINE_SHADER_NAME		"outline-shader-drawer "
 #macro OUTLINE_SHADER_COPYRIGHT	"(c)2022* coldrock.games, @Grisgram (github)"
 
