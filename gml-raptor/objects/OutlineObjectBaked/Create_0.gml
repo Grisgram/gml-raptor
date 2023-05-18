@@ -2,6 +2,8 @@
 event_inherited();
 canvas = undefined;
 
+__browser_flip = (os_browser != browser_not_a_browser) ? -1 : 1;
+
 __free = function() {
 	if (canvas != undefined)
 		canvas.free();
@@ -49,7 +51,7 @@ __draw = function() {
 	if (canvas == undefined) bake();
 	image_index = canvas.get_image_index(delta_time, image_speed);
 	if (outline_always || (outline_on_mouse_over && mouse_is_over))
-		canvas.draw_frame_ext(image_index, x, y, depth,	image_xscale, image_yscale, image_angle, image_blend, image_alpha);
+		canvas.draw_frame_ext(image_index, x, y, depth,	image_xscale, image_yscale * __browser_flip, image_angle * __browser_flip, image_blend, image_alpha);
 	else
 		draw_self();
 }
