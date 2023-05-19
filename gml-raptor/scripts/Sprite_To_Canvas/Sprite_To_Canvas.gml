@@ -71,13 +71,14 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		__matrix = matrix_build(xp, yp, draw_depth, 0, 0, rot * __browser_flip, xscale, yscale * __browser_flip, 1);
 		matrix_set(matrix_world, __matrix);
 		//_left, _top, _width, _height, _x, _y, _xscale, _yscale, _rot, _col1, _col2, _col3, _col4, _alpha
-		canvas.DrawGeneral(subimages[@ frame], 0, image_width, image_height, 
+		canvas.DrawGeneral(subimages[@ frame], 0, 
+			image_width, image_height, 
 			-xoffset - bordersize, -yoffset - bordersize + __render_y,
 			1, 1, 0, col, col, col, col, alpha);
 		matrix_set(matrix_world, matrix_build_identity());
 	}
 
-	/// @function		get_image_index = function(_elapsed, _image_speed)
+	/// @function		get_image_index(_elapsed, _image_speed)
 	/// @description	Should be called every STEP to ensure continuous correct animation
 	///					when you draw this sprite manually.
 	///					Example (STEP event): 
@@ -94,7 +95,16 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		
 		return sub_idx;
 	}
-		
+	
+	/// @function		create_sprite()
+	/// @description	Creates a dynamic sprite out of the frames of this canvas surface
+	static create_sprite = function() {
+		var rv = sprite_create_from_surface(canvas.GetSurfaceID(),0,0,image_width,image_height,false,false,xoffset+bordersize,yoffset+bordersize);
+		for (var i = 1, len = array_length(subimages); i < len; i++) 
+			sprite_add_from_surface(rv,canvas.GetSurfaceID(),subimages[@i],0,image_width,image_height,false,false);
+		return rv;
+	}
+	
 	/// @function		free()
 	/// @description	Release the underlying canvas
 	static free = function() {

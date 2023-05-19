@@ -1,15 +1,23 @@
 /// @description bake on first draw
 event_inherited();
-canvas = undefined;
+canvas		= undefined;
+dynsprite	= undefined;
+origsprite	= sprite_index;
+
+__browser_flip = (os_browser != browser_not_a_browser) ? -1 : 1;
 
 __free = function() {
 	if (canvas != undefined)
 		canvas.free();
+		
+	if (dynsprite != undefined) 
+		sprite_delete(dynsprite);
 }
 
 /// @function bake()
 bake = function() {
-	if (canvas != undefined) canvas.free();
+	__free();
+	origsprite = sprite_index;
 	show_debug_message("Pre-Baking sprite '{0}' with {1} frames", sprite_get_name(sprite_index), image_number);
 	var begintime = current_time;
 	var shader				= shd_outline;
@@ -19,7 +27,7 @@ bake = function() {
 	var u_thickness			= shader_get_uniform(shader, "u_vThickness");
 	var u_vPulse			= shader_get_uniform(shader, "u_vPulse");
 
-	canvas = sprite_to_canvas(sprite_index, -1, outline_strength + TEXTURE_PAGE_BORDER_SIZE);
+	canvas = sprite_to_canvas(sprite_index, -1, outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE);
 	// now bake it with the outliner
 	var target = new Canvas(canvas.canvas.GetWidth(), canvas.canvas.GetHeight(), true);
 	target.Start();
@@ -42,16 +50,26 @@ bake = function() {
 	canvas.canvas.Free();
 	// ...and inject the pre-baked
 	canvas.canvas = target;
+	
+	dynsprite = canvas.create_sprite();
+	sprite_set_bbox_mode(dynsprite, bboxmode_manual); 
+	sprite_set_bbox(dynsprite,
+		sprite_get_bbox_left  (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
+		sprite_get_bbox_top   (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
+		sprite_get_bbox_right (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
+		sprite_get_bbox_bottom(sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2));
+	
 	show_debug_message("Pre-Baking took {0}ms", current_time - begintime);
 }
 
 __draw = function() {
 	if (canvas == undefined) bake();
+	var before = sprite_index;
+	sprite_index = (outline_always || (outline_on_mouse_over && mouse_is_over)) ? dynsprite : origsprite;
+	if (sprite_index != before && (os_browser != browser_not_a_browser)) image_yscale *= __browser_flip;
 	image_index = canvas.get_image_index(delta_time, image_speed);
-	if (outline_always || (outline_on_mouse_over && mouse_is_over))
-		canvas.draw_frame_ext(image_index, x, y, depth,	image_xscale, image_yscale, image_angle, image_blend, image_alpha);
-	else
-		draw_self();
+
+	draw_self();
 }
 
 if (sprite_index != -1) bake();
