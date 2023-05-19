@@ -11,10 +11,11 @@ function sprite_to_canvas(_sprite, _frame = -1, _bordersize = 0) {
 	var __double_border		= 2 * _bordersize;
 	var __subimage_count	= _frame == -1 ? sprite_get_number(_sprite) : 1;
 	var __subimage_width	= sprite_get_width(_sprite) + __double_border;
+	var __subimage_height	= sprite_get_height(_sprite) + __double_border;
 	var __xoffset			= sprite_get_xoffset(_sprite);
 	var __yoffset			= sprite_get_yoffset(_sprite);
 
-	var canvas = new Canvas(__subimage_width * __subimage_count, sprite_get_height(_sprite) + __double_border);
+	var canvas = new Canvas(__subimage_width * __subimage_count, __subimage_height);
 	
 	canvas.Start();
 	
@@ -51,6 +52,8 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 	time_step		= 1000000 / animation_fps;
 
 	__matrix		= undefined;
+	__browser_flip	= (os_browser != browser_not_a_browser) ? -1 : 1;
+	__render_y		= (__browser_flip > 0 ? 0 : -image_height + 2 * yoffset + 2 * bordersize); // THANKS HTML! **$%&#"$§#@"§#@@**
 
 	var xp = 0; repeat(image_count) {
 		array_push(subimages, xp);
@@ -62,12 +65,15 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 	static draw_frame = function(frame, xp, yp) {
 		canvas.DrawPart(subimages[@ frame], 0, image_width, image_height, xp - xoffset - bordersize, yp - yoffset - bordersize);
 	}
-
+	
 	/// @function		draw_frame_ext(frame, xp, yp, draw_depth, xscale, yscale, rot, col, alpha)
 	static draw_frame_ext = function(frame, xp, yp, draw_depth, xscale, yscale, rot, col, alpha) {
-		__matrix = matrix_build(xp, yp, draw_depth, 0, 0, rot, xscale, yscale, 1);
+		__matrix = matrix_build(xp, yp, draw_depth, 0, 0, rot * __browser_flip, xscale, yscale * __browser_flip, 1);
 		matrix_set(matrix_world, __matrix);
-		canvas.DrawGeneral(subimages[@ frame], 0, image_width, image_height, -xoffset - bordersize, -yoffset - bordersize, 1, 1, 0, col, col, col, col, alpha);
+		//_left, _top, _width, _height, _x, _y, _xscale, _yscale, _rot, _col1, _col2, _col3, _col4, _alpha
+		canvas.DrawGeneral(subimages[@ frame], 0, image_width, image_height, 
+			-xoffset - bordersize, -yoffset - bordersize + __render_y,
+			1, 1, 0, col, col, col, col, alpha);
 		matrix_set(matrix_world, matrix_build_identity());
 	}
 
