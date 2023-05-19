@@ -1,12 +1,5 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"><br/>
-<img src="https://user-images.githubusercontent.com/19487451/180134446-1223e79f-0963-4438-954c-331d8827283e.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134457-003f837a-2e33-44af-a5fa-1f92f6aa8b22.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134463-51a17e65-f2de-415e-aadd-8ee6aa8ed7d8.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134472-8e9a940f-41f0-48f4-964d-8e46dc9222b3.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134486-7b55554d-aef1-4379-9e55-02290021b8fe.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134498-d648abcb-ac41-4050-ac04-79046a634a66.png">
-</p>
-<h1 align="center">🔹🔷 VERSION 2️⃣.6️⃣ 🔷🔹</h1>
+<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
+<h1 align="center">2️⃣.6️⃣</h1>
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
@@ -39,7 +32,7 @@ You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag | HighScorer |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|2023.4|2.6|8.6.0|4.2.0|3.0.1|1.3.1|1.4.1|
+|2023.4|2.6|8.6.0|4.2.0|3.0.2|1.3.1|1.4.1|
 
 ## How Releases are organized
 When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
