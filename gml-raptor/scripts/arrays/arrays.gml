@@ -24,6 +24,35 @@ function array_create_3d(sizex, sizey, sizez, initial_value = 0) {
 	return rv;
 }
 
+/// @function		array_copy_2d(array)
+/// @description	Copy any 2-dimensional array
+function array_copy_2d(array) {
+	if (!is_array(array)) return array;
+	var rv = [];
+	for (var i = 0, len = array_length(array); i < len; i++) {
+		rv[@i] = [];
+		array_copy(rv[@i],0,array[@i],0,array_length(array[@i]));
+	}
+	return rv;
+}
+
+/// @function		array_copy_3d(array)
+/// @description	Copy any 3-dimensional array
+function array_copy_3d(array) {
+	if (!is_array(array)) return array;
+	var rv = [];
+	for (var i = 0, len = array_length(array); i < len; i++) {
+		var inner2 = [];
+		var source2 = array[@i];
+		for (var j = 0, len2 = array_length(source2); j < len2; j++) {
+			inner2[@j] = []
+			array_copy(inner2[@j],0,source2[@j],0,array_length(source2[@j]));
+		}
+		rv[@i] = inner2;
+	}
+	return rv;
+}
+
 /// @function		array_clear(array, with_value = undefined)
 /// @description	Clear the contents of the array to undefined or a specified default value
 ///					This function detects the dimensions of the array and can clear 1d, 2d, 3d arrays

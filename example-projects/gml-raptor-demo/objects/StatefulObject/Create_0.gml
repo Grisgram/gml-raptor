@@ -4,6 +4,9 @@
 event_inherited();
 
 mouse_is_over = false;
+/// StatefulObject adds an "animation_end" memmber to data
+if (states != undefined) 
+	states.data.animation_end = false;
 
 /// @function		set_state(name, enter_override = undefined, leave_override = undefined)
 /// @description	Convenience shortcut to states.set_state (as this happens often accidently)

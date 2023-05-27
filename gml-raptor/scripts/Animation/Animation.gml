@@ -68,10 +68,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 
 	func_x				= function(value) { if (__relative_distance) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
 	func_y				= function(value) { if (__relative_distance) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
-	func_hspeed			= function(value) { owner.hspeed		= value; };
-	func_vspeed			= function(value) { owner.vspeed		= value; };
-	func_speed			= function(value) { owner.speed			= value; };
-	func_directon		= function(value) { owner.direction		= value; };
+	func_hspeed			= function(value) { if (__relative_speed) owner.hspeed		= __start_hspeed	 + __hspeed_distance	* value; else owner.hspeed		= value; };
+	func_vspeed			= function(value) { if (__relative_speed) owner.vspeed		= __start_vspeed	 + __vspeed_distance	* value; else owner.vspeed		= value; };
+	func_speed			= function(value) { if (__relative_speed) owner.speed		= __start_speed		 + __speed_distance		* value; else owner.speed		= value; };
+	func_directon		= function(value) { if (__relative_speed) owner.direction	= __start_direction	 + __direction_distance * value; else owner.direction	= value; };
 	func_image_alpha	= function(value) { owner.image_alpha	= value; };
 	func_image_blend	= function(value) { owner.image_blend	= merge_color(__blend_start, __blend_end, value); };
 	func_image_xscale	= function(value) { if (__relative_scale) owner.image_xscale = __start_xscale + __scale_xdistance * value; else owner.image_xscale	= value; };
@@ -110,6 +110,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	
 	__relative_angle	= false;
 	__rotation_distance	= 0;
+	
+	__relative_speed	= false;
+	__hspeed_distance	= 0;
+	__vspeed_distance	= 0;
+	__speed_distance	= 0;
+	__direction_distance= 0;
 
 	#region TRIGGERS
 	static __frame_trigger_class = function(_frame, _trigger, _interval) constructor {
@@ -277,6 +283,50 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
+	/// @function		set_speed_distance(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
+	/// @description	use this function if the animcurve holds a standard 0..1 value
+	///					for hspeed/vspeed or speed/direction and the curve value shall be a multiplier for the total
+	///					distance you supply here (a "change by" curve).
+	///					Think in pairs when using this function. Either supply h/vspeed values or speed/direction,
+	///					as all of those influence each other.
+	/// @param {real}	_hspeed		The amount to change hspeed over time
+	/// @param {real}	_vspeed		The amount to change vspeed over time
+	/// @param {real}	_speed		The amount to change speed over time
+	/// @param {real}	_direction  The amount to change direction over time
+	static set_speed_distance = function(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0) {
+		__relative_speed		= true;
+		__hspeed_distance		= _hspeed;
+		__vspeed_distance		= _vspeed;
+		__speed_distance		= _speed;
+		__direction_distance	= _direction;
+		return self;
+	}
+
+	/// @function		set_speed_target(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
+	/// @description	use this function if the animcurve holds a standard 0..1 value
+	///					for hspeed/vspeed or speed/direction and the curve value shall be a multiplier for the total
+	///					distance you supply here (a "change to" curve).
+	///					Think in pairs when using this function. Either supply h/vspeed values or speed/direction,
+	///					as all of those influence each other.
+	/// @param {real}	_hspeed		The value to set for hspeed over time
+	/// @param {real}	_vspeed		The value to set for vspeed over time
+	/// @param {real}	_speed		The value to set for speed over time
+	/// @param {real}	_direction  The value to set for direction over time
+	static set_speed_target = function(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0) {
+		__relative_speed		= true;
+		
+		__start_hspeed			= owner.hspeed;
+		__start_vspeed			= owner.vspeed;
+		__start_speed			= owner.speed;
+		__start_direction		= owner.direction;
+		
+		__hspeed_distance		= _hspeed - __start_hspeed;
+		__vspeed_distance		= _vspeed - __start_vspeed;
+		__speed_distance		= _speed  - __start_speed;
+		__direction_distance	= _direction - __start_direction;
+		return self;
+	}
+
 	/// @function		set_blend_range(start_color = c_white, end_color = c_white)
 	/// @description	set the two colors that shall be modified during an image_blend curve
 	/// @param {color}	start_color  Color on animcurve value = 0. Default = c_white
@@ -427,8 +477,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__invoke_triggers(__started_triggers);
 			}
 
-			__frame_counter = __time * room_speed;
-			__total_frames  = __time_total * room_speed;
+			__frame_counter = floor(__time * room_speed);
+			__total_frames  = floor(__time_total * room_speed);
 			
 			__invoke_frame_triggers(__total_frames);
 			
@@ -546,6 +596,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__start_xscale		= owner.image_xscale;
 		__start_yscale		= owner.image_yscale;
 		__start_angle		= owner.image_angle;
+		__start_hspeed		= owner.hspeed;
+		__start_vspeed		= owner.vspeed;
+		__start_speed		= owner.speed;
+		__start_direction	= owner.direction;
 	
 		__time				= 0;
 		__time_step			= 0;
