@@ -581,13 +581,15 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					sequence is reached.
 	///					ATTENTION! This function uses a "while" loop to process frame-by-frame as fast as possible
 	///					Use with care in animation sequences (followed_by... etc) as this function will only
-	///					fast-forward the _current_ animation, not the entire sequence (which is technically impossible)
+	///					fast-forward the _current_ animation, not the entire sequence, so with the next frame, a sequence
+	///					will continue with the next animation in the sequence at normal speed.
 	static finish = function() {
 		if (__finished) return;
 		
 		var paused_before  = __paused;
 		var repeats_before = repeats;
 		repeats = 1;
+		__paused = false;
 		
 		while (!__finished)
 			step();
@@ -665,25 +667,63 @@ function animation_clear_pool() {
 
 /// @function		animation_get_all(owner = self)
 /// @description	Get all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner whose animations you want to retrieve.
+///					NOTE: Set the owner to <undefined> to retrieve ALL existing animations!
 function animation_get_all(owner = self) {
 	return __listpool_get_all_owner_objects(ANIMATIONS, owner);
 }
 
 /// @function		animation_abort_all(owner = self)
 /// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner that shall have its animations removed.
+///					NOTE: Set the owner to <undefined> to abort ALL existing animations!
 function animation_abort_all(owner = self) {
 	var removers = animation_get_all(owner);
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
+			log($"{MY_NAME}: Animation cleanup: anims_to_remove={array_length(removers)};");
 		
-	for (var i = 0; i < array_length(removers); i++) {
+	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
 		with (to_remove) 
 			abort();
+	}
+}
+
+/// @function		animation_pause_all(owner = self)
+/// @description	Set all registered animations for the specified owner to paused state.
+///					NOTE: Set the owner to <undefined> to pause ALL existing animations!
+///					This bulk function is very handy if you have a "pause/resume" feature in your
+///					game and you want to "freeze" the scene.
+function animation_pause_all(owner = self) {
+	var to_set = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: Animation bulk pause: anims_to_set={array_length(to_set)};");
+	
+	for (var i = 0, len = array_length(to_set); i < len; i++) {
+		var next = to_set[@ i];
+		with (next) 
+			pause();
+	}
+}
+
+/// @function		animation_resume_all(owner = self)
+/// @description	Set all registered animations for the specified owner to running state.
+///					NOTE: Set the owner to <undefined> to resume ALL existing animations!
+///					This bulk function is very handy if you have a "pause/resume" feature in your
+///					game and you want to "unfreeze" the scene.
+function animation_resume_all(owner = self) {
+	var to_set = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: Animation bulk resume: anims_to_set={array_length(to_set)};");
+	
+	for (var i = 0, len = array_length(to_set); i < len; i++) {
+		var next = to_set[@ i];
+		with (next) 
+			resume();
 	}
 }
 
@@ -693,9 +733,6 @@ function animation_abort_all(owner = self) {
 ///					If the name is also specified, true is only returned, if the names match.
 ///					This is useful if you need to know, whether an object is currently running
 ///					one specific animation.
-/// @param {instance}	owner	The owner to check.
-/// @param {string}		name	The name of the animation to check.
-/// @returns {bool}		true, if at least one animation for the specified owner/name is active
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
 	for (var i = 0; i < ds_list_size(lst); i++) {

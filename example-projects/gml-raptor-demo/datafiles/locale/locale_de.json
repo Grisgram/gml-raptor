@@ -1,108 +1,99 @@
 {
-	"legal" : {
-		"game_name"		: "gml-raptor Demo",
-		"company"		: "Coldrock Games",
-		"copyright" 	: "(c)2023 Coldrock Games",
-		"locale_author"	: "Haerion Coldrock aka Grisgram",
-    	"developer"		: "Haerion Coldrock aka Grisgram",
-	},
-	
-	"credits" : {
-		"credits_title" : "Credits",
-	},
-	
-	"global_words" : {
-		"buttons" : {
-			"ok" 		: "OK",
-			"apply" 	: "Anwenden",
-			"cancel" 	: "Abbrechen",
-			"yes" 		: "Ja",
-			"no" 		: "Nein",
-			"save" 		: "Speichern",
-			"retry" 	: "Wiederholen",
-			"ignore" 	: "Ignorieren",
-			"undo" 		: "Rückgängig",
-			"back" 		: "Zurück",
-			"continue" 	: "Weiter",
-		},
-		
-		"keyboard" : {
-			"shift" 	: "Shift",
-			"ctrl" 		: "Strg",
-			"alt" 		: "Alt",
-		},
-		
-		"states": {
-		  "disconnected": "Getrennt",
-		  "inactive"	: "Inaktiv",
-		  "connected"	: "Verbunden",
-		  "active"		: "Aktiv",
-		  "unlocked"	: "Entsperrt",
-		  "locked"		: "Versperrt",
-		  "closed"		: "Geschlossen",
-		  "open"		: "Offen"
-		}
-	},
-
-	"main_menu": {
-		"header_text"		: "Willkommen zur [?legal/game_name]",
-		"version_str"		: "Version {0} <- Das ist der Inhalt der Datei version.json",
-		"start_state_game"	: "[scale,1.25]StateMachine Demo starten",
-		"start_race_game"	: "[scale,1.25]Race Demo starten",
-		"show_message"		: "[scale,1.25]MessageBox anzeigen",
-		"exit_game"			: "[scale,1.25]Spiel beenden",
-		"player_name"		: "Gib deinen Spielernamen hier ein und klicke \"Speichern\",\num das Savegame System zu demonstrieren",
-		"button_save"		: "Speichern",
-		"button_load"		: "Laden",
-		"button_save_enc" 	: "Speichern verschl.",
-		"button_load_enc" 	: "Laden verschlüsselt",
-		
-		"info": {
-			"about"		: "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als\nscribble_font_set_default eingetragen!",
-			"hotswap"	: "Klicke die Sprachbuttons\num LG_hotswap in Aktion zu sehen",
-			"flag"		: "Die animated_flag in Aktion ->",
-			"save_loc"	: "Die Savegame Dateien sind in\nC:/Benutzer/<dein-user-name>/appdata/local/gml_raptor_demo",
-		},
-		
-		"demo_message": {
-			"title"			: "Demo MessageBox",
-			"text"			: "Das ist eine Nachricht mit [ci_accent]super wichtiger Information[/]\nfür den Benutzer!\n\nMit nur einer Zeile code!",
-			"click_title"	: "Button geklickt",
-			"ok_clicked"	: "Du hast [ci_accent]OK[/] geklickt",
-			"cancel_clicked": "Du hast [ci_accent]ABBRECHEN[/] geklickt",
-		},
-		
-		"tooltips": {
-			"language_button"	: "Objekt: Objects\\LanguageButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
-			"game_button"		: "Objekt: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
-			"demo_label"		: "Dieser String wurde mittels String Reference in json aufgelöst.\nSieh in die locale_de.json bei \"main_menu/header_text\" im Included Files\\locale Ordner!",
-			"version_label"		: "Sieh dir die version.json Datei im Included Files Ordner an!",
-			"inputbox"			: "Gib etwas Text ein und teste die UX:\n[ci_accent]Cursortasten[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Pos1, End[/] (mit und ohne Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] zum Selektieren,\n[ci_accent]Strg-C, Strg-X, Strg-V[/] etc\n\nDie InputBox ist sehr komfortabel!",
-		},
-
-	},
-	
-	"play": {
-		"how_to_play_states": {
-			"title": "Spielregeln",
-			"text":  "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [ci_accent]Spawner[/].\nEr spuckt ständig [ci_accent]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [ci_accent]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[ci_accent2]Versuche, so lange wie möglich am Leben zu bleiben!",
-		},
-		"how_to_play_race": {
-			"title": "Race Demo",
-			"text":  "Dies ist eine kurze Demo, die ein Spielfeld wie in einem Match-3 Spiel\nmit zufälligen Edelsteinen mit Hilfe von [ci_accent]RaceTables[/] füllt.\n\nDu kannst die Wahrscheinlichkeiten und den Enabled-Zustand anpassen.\n\nIm Raum befindet sich ein [ci_accent]RaceController[/] und ein [ci_accent]RaceTable[/] Objekt.\n\n[scale,1.25][ci_accent]ACHTUNG![/] Dies ist ein [ci_accent]DEMO[/] Programm!\nDie Eingabefelder sind nicht abgesichert!\nWenn du nonsens eingibst (zb. keine Zahlen als Chance), dann wird es abstürzen!\n\nKlicke auf [ci_accent]Starten[/], um das Spielfeld zu füllen.",
-		},
-		"game_over": {
-			"title": "Game over",
-			"text":  "Du wurdest entdeckt!\n\nAber du hast immerhin [ci_accent]{0}[/] Gegner eliminiert!\n\nNun geht's zurück zum [ci_accent]Hauptmenü[/].",
-		},
-		"ui": {
-			"score_view"	: "Gegner eliminiert: [ci_accent][scale,1.5]{0}[/]",
-			"debug_info"	: "Drücke [ci_accent]F12[/] um die Debug-Infos ein-/auszublenden",
-			"enabled"		: "Aktiv",
-			"chance"		: "Chance",
-			"race_start_button"	: "[scale,1.25]Starten",
-			"race_exit_button"	: "[scale,1.25]Demo beenden",
-		},
-	},
-
+  "legal": {
+    "game_name": "gml-raptor Demo",
+    "company": "Coldrock Games",
+    "copyright": "(c)2023 Coldrock Games",
+    "locale_author": "Haerion Coldrock aka Grisgram",
+    "developer": "Haerion Coldrock aka Grisgram"
+  },
+  "credits": {
+    "credits_title": "Credits"
+  },
+  "global_words": {
+    "buttons": {
+      "ok": "OK",
+      "apply": "Anwenden",
+      "cancel": "Abbrechen",
+      "yes": "Ja",
+      "no": "Nein",
+      "save": "Speichern",
+      "retry": "Wiederholen",
+      "ignore": "Ignorieren",
+      "undo": "Rückgängig",
+      "back": "Zurück",
+      "continue": "Weiter"
+    },
+    "keyboard": {
+      "shift": "Shift",
+      "ctrl": "Strg",
+      "alt": "Alt"
+    },
+    "states": {
+      "disconnected": "Getrennt",
+      "inactive": "Inaktiv",
+      "connected": "Verbunden",
+      "active": "Aktiv",
+      "unlocked": "Entsperrt",
+      "locked": "Versperrt",
+      "closed": "Geschlossen",
+      "open": "Offen"
+    }
+  },
+  "main_menu": {
+    "header_text": "Willkommen zur [?legal/game_name]",
+    "version_str": "Version {0} <- Das ist der Inhalt der Datei version.json",
+    "start_state_game": "[scale,1.25]StateMachine Demo starten",
+    "start_race_game": "[scale,1.25]Race Demo starten",
+    "show_message": "[scale,1.25]MessageBox anzeigen",
+    "exit_game": "[scale,1.25]Spiel beenden",
+    "player_name": "Gib deinen Spielernamen hier ein und klicke \"Speichern\",\num das Savegame System zu demonstrieren",
+    "button_save": "Speichern",
+    "button_load": "Laden",
+    "button_save_enc": "Speichern verschl.",
+    "button_load_enc": "Laden verschlüsselt",
+    "info": {
+      "about": "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als\nscribble_font_set_default eingetragen!",
+      "hotswap": "Klicke die Sprachbuttons\num LG_hotswap in Aktion zu sehen",
+      "flag": "Die animated_flag in Aktion ->",
+      "save_loc": "Die Savegame Dateien sind in\nC:/Benutzer/<dein-user-name>/appdata/local/gml_raptor_demo"
+    },
+    "demo_message": {
+      "title": "Demo MessageBox",
+      "text": "Das ist eine Nachricht mit [ci_accent]super wichtiger Information[/]\nfür den Benutzer!\n\nMit nur einer Zeile code!",
+      "click_title": "Button geklickt",
+      "ok_clicked": "Du hast [ci_accent]OK[/] geklickt",
+      "cancel_clicked": "Du hast [ci_accent]ABBRECHEN[/] geklickt"
+    },
+    "tooltips": {
+      "language_button": "Objekt: Objects\\LanguageButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
+      "game_button": "Objekt: _gml_raptor_\\UI\\controls\\TextButton\nCode: Scripts\\MainMenuButtons\nEinstellungen: RoomEditor Variables auf diesem Objekt",
+      "demo_label": "Dieser String wurde mittels String Reference in json aufgelöst.\nSieh in die locale_de.json bei \"main_menu/header_text\" im Included Files\\locale Ordner!",
+      "version_label": "Sieh dir die version.json Datei im Included Files Ordner an!",
+      "inputbox": "Gib etwas Text ein und teste die UX:\n[ci_accent]Cursortasten[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Pos1, End[/] (mit und ohne Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] zum Selektieren,\n[ci_accent]Strg-C, Strg-X, Strg-V[/] etc\n\nDie InputBox ist sehr komfortabel!",
+      "playground_button": "Grisgram's Spielwiese.\nDieser Raum ist nicht übersetzt, keine Benutzerführung.\nHier teste ich einige Features von raptor, was auch immer gerade\nin Entwicklung ist."
+    },
+    "start_playground": "[scale,1.25]Dev Playground"
+  },
+  "play": {
+    "how_to_play_states": {
+      "title": "Spielregeln",
+      "text": "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [ci_accent]Spawner[/].\nEr spuckt ständig [ci_accent]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [ci_accent]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[ci_accent2]Versuche, so lange wie möglich am Leben zu bleiben!"
+    },
+    "how_to_play_race": {
+      "title": "Race Demo",
+      "text": "Dies ist eine kurze Demo, die ein Spielfeld wie in einem Match-3 Spiel\nmit zufälligen Edelsteinen mit Hilfe von [ci_accent]RaceTables[/] füllt.\n\nDu kannst die Wahrscheinlichkeiten und den Enabled-Zustand anpassen.\n\nIm Raum befindet sich ein [ci_accent]RaceController[/] und ein [ci_accent]RaceTable[/] Objekt.\n\n[scale,1.25][ci_accent]ACHTUNG![/] Dies ist ein [ci_accent]DEMO[/] Programm!\nDie Eingabefelder sind nicht abgesichert!\nWenn du nonsens eingibst (zb. keine Zahlen als Chance), dann wird es abstürzen!\n\nKlicke auf [ci_accent]Starten[/], um das Spielfeld zu füllen."
+    },
+    "game_over": {
+      "title": "Game over",
+      "text": "Du wurdest entdeckt!\n\nAber du hast immerhin [ci_accent]{0}[/] Gegner eliminiert!\n\nNun geht's zurück zum [ci_accent]Hauptmenü[/]."
+    },
+    "ui": {
+      "score_view": "Gegner eliminiert: [ci_accent][scale,1.5]{0}[/]",
+      "debug_info": "Drücke [ci_accent]F12[/] um die Debug-Infos ein-/auszublenden",
+      "enabled": "Aktiv",
+      "chance": "Chance",
+      "race_start_button": "[scale,1.25]Starten",
+      "race_exit_button": "[scale,1.25]Demo beenden"
+    }
+  }
 }

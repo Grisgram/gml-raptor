@@ -9,6 +9,10 @@ function startRaceDemoButton_click() {
 	room_goto(rmRace);
 }
 
+function startPlaygroundButton_click() {
+	room_goto(rmDevPlayground);
+}
+
 function exitButton_click() {
 	EXIT_GAME
 }
