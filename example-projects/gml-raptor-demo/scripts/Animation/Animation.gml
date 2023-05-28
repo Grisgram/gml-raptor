@@ -498,7 +498,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__invoke_triggers(__loop_triggers);
 				if (repeats > 0) {
 					__repeat_counter++;
-					__finished = __repeat_counter == repeats;
+					__finished = __repeat_counter >= repeats;
 					if (__finished) { 
 						ANIMATIONS.remove(self);
 						__invoke_triggers(__finished_triggers);
@@ -572,6 +572,30 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	
+	/// @function		finish()
+	/// @description	Fast forward until the end of the animation, invoking all triggers on the way.
+	///					The function uses the current delta_time as time step until the end of the animation is reached.
+	///					If the animation is paused, the paused state is lifted for the operation.
+	///					Repeats will be set to 1, so only the current iteration will be finished.
+	///					Both variables (paused and repeats) are set back to their original values when the end of the
+	///					sequence is reached.
+	///					ATTENTION! This function uses a "while" loop to process frame-by-frame as fast as possible
+	///					Use with care in animation sequences (followed_by... etc) as this function will only
+	///					fast-forward the _current_ animation, not the entire sequence (which is technically impossible)
+	static finish = function() {
+		if (__finished) return;
+		
+		var paused_before  = __paused;
+		var repeats_before = repeats;
+		repeats = 1;
+		
+		while (!__finished)
+			step();
+			
+		repeats = repeats_before;
+		__paused = paused_before;
+	}
+	
 	/// @function		abort()
 	/// @description	Stop immediately, but finished trigger WILL fire!
 	static abort = function() {
@@ -622,7 +646,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static toString = function() {
 		var me = "";
 		with (owner) me = MY_NAME;
-		return sprintf("{0}: delay={1}; duration={2}; repeats={3};", me, delay, duration, repeats);
+		return $"{me}: delay={delay}; duration={duration}; repeats={repeats};";
 	}
 
 	reset();
