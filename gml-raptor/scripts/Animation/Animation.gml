@@ -175,13 +175,13 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	}
 	
 	static __invoke_triggers = function(array) {
-		for (var i = 0; i < array_length(array); i++)
+		for (var i = 0, len = array_length(array); i < len; i++)
 			array[@ i](data);
 	}
 	
 	static __invoke_frame_triggers = function(frame) {
 		var t;
-		for (var i = 0; i < array_length(__frame_triggers); i++) {
+		for (var i = 0, len = array_length(__frame_triggers); i < len; i++) {
 			t = __frame_triggers[@ i];
 			if (t.frame == frame || (t.interval && (frame % t.frame == 0))) t.trigger(data, frame);
 		}
@@ -477,16 +477,27 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__invoke_triggers(__started_triggers);
 			}
 
+			// calc the new frame...
 			__frame_counter = floor(__time * room_speed);
-			__total_frames  = floor(__time_total * room_speed);
+			// ...then detect if we have a frame skip...
+			if (__frame_counter > __frame_expected) {
+				__frame_expected = __frame_counter - __frame_expected;
+				// ...and run all skipped frame triggers
+				for (var i = 1; i <= __frame_expected; i++)
+					__invoke_frame_triggers(__total_frames + i);
+			}
+			// finally, set the new expected frame
+			__frame_expected = __frame_counter + 1;
 			
+			// now calculate the regular frame triggers (all missed are already invoked)
+			__total_frames  = floor(__time_total * room_speed);
 			__invoke_frame_triggers(__total_frames);
 			
 			if (animcurve != undefined) {
 				var pit = __play_forward ? __time : (duration_rt - __time);
 				animcurve.update(pit, duration_rt);
 				
-				for (var i = 0; i < array_length(animcurve.channel_names); i++) {
+				for (var i = 0, len = array_length(animcurve.channel_names); i < len; i++) {
 					__cname  = animcurve.channel_names[i];
 					__cvalue = animcurve.channel_values[i];
 				
@@ -498,7 +509,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__invoke_triggers(__loop_triggers);
 				if (repeats > 0) {
 					__repeat_counter++;
-					__finished = __repeat_counter == repeats;
+					__finished = __repeat_counter >= repeats;
 					if (__finished) { 
 						ANIMATIONS.remove(self);
 						__invoke_triggers(__finished_triggers);
@@ -506,12 +517,13 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 					}
 				}
 				__frame_counter		= 0;
+				__frame_expected	= 1;
 				__delay_counter		= 0;
 				__time				= 0;
 				__active			= (delay == 0);
 			}
 		} else {
-			__delay_counter = __time * room_speed;
+			__delay_counter = floor(__time * room_speed);
 			if (__delay_counter >= delay) {
 				__active	 = true;
 				__time		 = 0;
@@ -572,6 +584,32 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	
+	/// @function		finish()
+	/// @description	Fast forward until the end of the animation, invoking all triggers on the way.
+	///					The function uses the current delta_time as time step until the end of the animation is reached.
+	///					If the animation is paused, the paused state is lifted for the operation.
+	///					Repeats will be set to 1, so only the current iteration will be finished.
+	///					Both variables (paused and repeats) are set back to their original values when the end of the
+	///					sequence is reached.
+	///					ATTENTION! This function uses a "while" loop to process frame-by-frame as fast as possible
+	///					Use with care in animation sequences (followed_by... etc) as this function will only
+	///					fast-forward the _current_ animation, not the entire sequence, so with the next frame, a sequence
+	///					will continue with the next animation in the sequence at normal speed.
+	static finish = function() {
+		if (__finished) return;
+		
+		var paused_before  = __paused;
+		var repeats_before = repeats;
+		repeats = 1;
+		__paused = false;
+		
+		while (!__finished)
+			step();
+			
+		repeats = repeats_before;
+		__paused = paused_before;
+	}
+	
 	/// @function		abort()
 	/// @description	Stop immediately, but finished trigger WILL fire!
 	static abort = function() {
@@ -606,6 +644,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__time_total		= 0;
 		__delay_counter		= 0;
 		__frame_counter		= 0;
+		__frame_expected	= 1;
 		__total_frames		= 0;
 		__repeat_counter	= 0;
 		__active			= delay == 0;
@@ -622,7 +661,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static toString = function() {
 		var me = "";
 		with (owner) me = MY_NAME;
-		return sprintf("{0}: delay={1}; duration={2}; repeats={3};", me, delay, duration, repeats);
+		return $"{me}: delay={delay}; duration={duration}; repeats={repeats};";
 	}
 
 	reset();
@@ -641,25 +680,63 @@ function animation_clear_pool() {
 
 /// @function		animation_get_all(owner = self)
 /// @description	Get all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner whose animations you want to retrieve.
+///					NOTE: Set the owner to <undefined> to retrieve ALL existing animations!
 function animation_get_all(owner = self) {
 	return __listpool_get_all_owner_objects(ANIMATIONS, owner);
 }
 
 /// @function		animation_abort_all(owner = self)
 /// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner that shall have its animations removed.
+///					NOTE: Set the owner to <undefined> to abort ALL existing animations!
 function animation_abort_all(owner = self) {
 	var removers = animation_get_all(owner);
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
+			log($"{MY_NAME}: Animation cleanup: anims_to_remove={array_length(removers)};");
 		
-	for (var i = 0; i < array_length(removers); i++) {
+	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
 		with (to_remove) 
 			abort();
+	}
+}
+
+/// @function		animation_pause_all(owner = self)
+/// @description	Set all registered animations for the specified owner to paused state.
+///					NOTE: Set the owner to <undefined> to pause ALL existing animations!
+///					This bulk function is very handy if you have a "pause/resume" feature in your
+///					game and you want to "freeze" the scene.
+function animation_pause_all(owner = self) {
+	var to_set = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: Animation bulk pause: anims_to_set={array_length(to_set)};");
+	
+	for (var i = 0, len = array_length(to_set); i < len; i++) {
+		var next = to_set[@ i];
+		with (next) 
+			pause();
+	}
+}
+
+/// @function		animation_resume_all(owner = self)
+/// @description	Set all registered animations for the specified owner to running state.
+///					NOTE: Set the owner to <undefined> to resume ALL existing animations!
+///					This bulk function is very handy if you have a "pause/resume" feature in your
+///					game and you want to "unfreeze" the scene.
+function animation_resume_all(owner = self) {
+	var to_set = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: Animation bulk resume: anims_to_set={array_length(to_set)};");
+	
+	for (var i = 0, len = array_length(to_set); i < len; i++) {
+		var next = to_set[@ i];
+		with (next) 
+			resume();
 	}
 }
 
@@ -669,14 +746,11 @@ function animation_abort_all(owner = self) {
 ///					If the name is also specified, true is only returned, if the names match.
 ///					This is useful if you need to know, whether an object is currently running
 ///					one specific animation.
-/// @param {instance}	owner	The owner to check.
-/// @param {string}		name	The name of the animation to check.
-/// @returns {bool}		true, if at least one animation for the specified owner/name is active
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
 	for (var i = 0; i < ds_list_size(lst); i++) {
 		var item = lst[| i];
-		if (item.owner == owner && (name == undefined || name == item.name))
+		if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			return true;
 	}
 

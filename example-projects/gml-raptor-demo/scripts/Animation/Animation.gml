@@ -750,7 +750,7 @@ function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
 	for (var i = 0; i < ds_list_size(lst); i++) {
 		var item = lst[| i];
-		if (item.owner == owner && (name == undefined || name == item.name))
+		if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			return true;
 	}
 

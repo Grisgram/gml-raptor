@@ -21,7 +21,7 @@ function animcurve_get_ext(curve_id) {
 		channel_values = array_create(array_length(channels));
 		values = {};
 	
-		for (var i = 0; i < array_length(channels); i++) {
+		for (var i = 0, len = array_length(channels); i < len; i++) {
 			channel_names[i] = channels[i].name;
 			// create a dynamic method named by the value
 			// so you can access values by curve.values.x()...
@@ -33,7 +33,7 @@ function animcurve_get_ext(curve_id) {
 	
 		/// @function					channel_exists(name)
 		channel_exists = function(name) {
-			for (var i = 0; i < array_length(channel_names); i++)
+			for (var i = 0, len = array_length(channel_names); i < len; i++) 
 				if (channel_names[i] == name)
 					return true;
 			return false;
@@ -41,7 +41,7 @@ function animcurve_get_ext(curve_id) {
 	
 		/// @function					get_channel(name)
 		get_channel = function(name) {
-			for (var i = 0; i < array_length(channel_names); i++)
+			for (var i = 0, len = array_length(channel_names); i < len; i++) 
 				if (channel_names[i] == name)
 					return channels[i];
 			return undefined;		
@@ -72,7 +72,7 @@ function animcurve_get_ext(curve_id) {
 		/// @description	update all channel values
 		update = function(current_value, max_value) {
 			var pit = clamp(current_value, 0, max_value) / max_value;
-			for (var i = 0; i < array_length(channels); i++) 
+			for (var i = 0, len = array_length(channels); i < len; i++) 
 				channel_values[i] = animcurve_channel_evaluate(channels[i], pit);
 		}
 	}

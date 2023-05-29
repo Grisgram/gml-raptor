@@ -108,13 +108,14 @@ function ListPool(_name = "listPool") constructor {
 /// @function		__listpool_get_all_owner_objects(_listpool, owner)
 /// @description	INTERNAL FUNCTION. Retrieves all objects from a listpool for
 ///					a specified owner. Crashes if the objects do not have an "owner" member!
+///					NOTE: You may set the "owner" parameter to <undefined> to retrieve ALL objects
 function __listpool_get_all_owner_objects(_listpool, owner) {
 	var rv = [];
-
+	
 	var lst = _listpool.list;
-	for (var i = 0; i < ds_list_size(lst); i++) {
+	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
 		var item = lst[| i];
-		if (item.owner == owner)
+		if (owner == undefined || item.owner.id == owner.id)
 			array_push(rv, item);
 	}
 
