@@ -175,13 +175,13 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	}
 	
 	static __invoke_triggers = function(array) {
-		for (var i = 0; i < array_length(array); i++)
+		for (var i = 0, len = array_length(array); i < len; i++)
 			array[@ i](data);
 	}
 	
 	static __invoke_frame_triggers = function(frame) {
 		var t;
-		for (var i = 0; i < array_length(__frame_triggers); i++) {
+		for (var i = 0, len = array_length(__frame_triggers); i < len; i++) {
 			t = __frame_triggers[@ i];
 			if (t.frame == frame || (t.interval && (frame % t.frame == 0))) t.trigger(data, frame);
 		}
@@ -477,16 +477,27 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__invoke_triggers(__started_triggers);
 			}
 
+			// calc the new frame...
 			__frame_counter = floor(__time * room_speed);
-			__total_frames  = floor(__time_total * room_speed);
+			// ...then detect if we have a frame skip...
+			if (__frame_counter > __frame_expected) {
+				__frame_expected = __frame_counter - __frame_expected;
+				// ...and run all skipped frame triggers
+				for (var i = 1; i <= __frame_expected; i++)
+					__invoke_frame_triggers(__total_frames + i);
+			}
+			// finally, set the new expected frame
+			__frame_expected = __frame_counter + 1;
 			
+			// now calculate the regular frame triggers (all missed are already invoked)
+			__total_frames  = floor(__time_total * room_speed);
 			__invoke_frame_triggers(__total_frames);
 			
 			if (animcurve != undefined) {
 				var pit = __play_forward ? __time : (duration_rt - __time);
 				animcurve.update(pit, duration_rt);
 				
-				for (var i = 0; i < array_length(animcurve.channel_names); i++) {
+				for (var i = 0, len = array_length(animcurve.channel_names); i < len; i++) {
 					__cname  = animcurve.channel_names[i];
 					__cvalue = animcurve.channel_values[i];
 				
@@ -506,12 +517,13 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 					}
 				}
 				__frame_counter		= 0;
+				__frame_expected	= 1;
 				__delay_counter		= 0;
 				__time				= 0;
 				__active			= (delay == 0);
 			}
 		} else {
-			__delay_counter = __time * room_speed;
+			__delay_counter = floor(__time * room_speed);
 			if (__delay_counter >= delay) {
 				__active	 = true;
 				__time		 = 0;
@@ -632,6 +644,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__time_total		= 0;
 		__delay_counter		= 0;
 		__frame_counter		= 0;
+		__frame_expected	= 1;
 		__total_frames		= 0;
 		__repeat_counter	= 0;
 		__active			= delay == 0;
