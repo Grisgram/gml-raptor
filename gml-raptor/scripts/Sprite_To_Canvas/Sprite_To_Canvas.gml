@@ -102,6 +102,7 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		var rv = sprite_create_from_surface(canvas.GetSurfaceID(),0,0,image_width,image_height,false,false,xoffset+bordersize,yoffset+bordersize);
 		for (var i = 1, len = array_length(subimages); i < len; i++) 
 			sprite_add_from_surface(rv,canvas.GetSurfaceID(),subimages[@i],0,image_width,image_height,false,false);
+		sprite_set_speed(rv, animation_fps, spritespeed_framespersecond); // copy animation speed from original
 		return rv;
 	}
 	

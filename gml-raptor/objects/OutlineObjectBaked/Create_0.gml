@@ -14,12 +14,41 @@ __free = function() {
 		sprite_delete(dynsprite);
 }
 
+__create_baked_dynsprite = function() {
+	dynsprite = canvas.create_sprite();
+	sprite_set_bbox_mode(dynsprite, bboxmode_manual); 
+	sprite_set_bbox(dynsprite,
+		sprite_get_bbox_left  (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
+		sprite_get_bbox_top   (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
+		sprite_get_bbox_right (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
+		sprite_get_bbox_bottom(sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2));
+}
+
+__get_cached_prebake_sprite = function(cachename) {
+	if (variable_struct_exists(__OUTLINE_SHADER_PREBAKE_CACHE, cachename)) {
+		canvas		= __OUTLINE_SHADER_PREBAKE_CACHE[$ cachename];
+		__create_baked_dynsprite();
+		return true;
+	}
+	return false;
+}
+
 /// @function bake()
 bake = function() {
-	__free();
 	origsprite = sprite_index;
-	show_debug_message("Pre-Baking sprite '{0}' with {1} frames", sprite_get_name(sprite_index), image_number);
-	var begintime = current_time;
+	var cachename = string(sprite_get_name(sprite_index)); // use string(..) because of possible -1 return
+	if (cachename == "-1") cachename = "";
+	var can_cache = (cachename ?? "") != "";
+	if (can_cache) {
+		if (__get_cached_prebake_sprite(cachename)) 
+			return; // we have it in the cache, no need to process the sprite
+			
+		show_debug_message($"Pre-Baking sprite '{cachename}' with {image_number} frames");
+	} else
+		show_debug_message("*WARNING* This sprite can not be cached!");
+	
+	__free();
+	var begintime			= current_time;
 	var shader				= shd_outline;
 	var u_texel				= shader_get_uniform(shader, "u_vTexel");
 	var u_outline_color_1	= shader_get_uniform(shader, "u_vOutlineColour1");
@@ -41,7 +70,7 @@ bake = function() {
 	shader_set_uniform_f(u_thickness		, outliner.outline_strength, outliner.alpha_fading ? 1 : 0); // thickness x, y
 	shader_set_uniform_f(u_vPulse			, outliner.outline_strength, outliner.outline_strength, 1, 0);
 
-	draw_surface(canvas.canvas.GetSurfaceID(),outliner.outline_strength,outliner.outline_strength);
+	draw_surface(canvas.canvas.GetSurfaceID(), outliner.outline_strength, outliner.outline_strength);
 
 	shader_reset();
 	target.Finish();			
@@ -51,14 +80,11 @@ bake = function() {
 	// ...and inject the pre-baked
 	canvas.canvas = target;
 	
-	dynsprite = canvas.create_sprite();
-	sprite_set_bbox_mode(dynsprite, bboxmode_manual); 
-	sprite_set_bbox(dynsprite,
-		sprite_get_bbox_left  (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
-		sprite_get_bbox_top   (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
-		sprite_get_bbox_right (sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2),
-		sprite_get_bbox_bottom(sprite_index) + __browser_flip * (2 * outliner.outline_strength + TEXTURE_PAGE_BORDER_SIZE / 2));
+	__create_baked_dynsprite();
 	
+	if (can_cache)
+		__OUTLINE_SHADER_PREBAKE_CACHE[$ cachename] = canvas;
+
 	show_debug_message("Pre-Baking took {0}ms", current_time - begintime);
 }
 
@@ -67,7 +93,6 @@ __draw = function() {
 	var before = sprite_index;
 	sprite_index = (outline_always || (outline_on_mouse_over && mouse_is_over)) ? dynsprite : origsprite;
 	if (sprite_index != before && (os_browser != browser_not_a_browser)) image_yscale *= __browser_flip;
-	image_index = canvas.get_image_index(delta_time, image_speed);
 
 	draw_self();
 }
