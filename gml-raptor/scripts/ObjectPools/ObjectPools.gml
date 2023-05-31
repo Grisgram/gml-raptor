@@ -20,7 +20,7 @@
 	The object pool will invoke those members, if they exist after activation and
 	before deactivation respectively.
 
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 	
 */
@@ -30,7 +30,8 @@ __OBJECT_POOLS = ds_map_create();
 
 function __get_pool_list(pool_name) {
 	if (!ds_map_exists(__OBJECT_POOLS, pool_name)) {
-		log(sprintf("Creating new object pool '{0}'", pool_name));
+		if (DEBUG_LOG_OBJECT_POOLS)
+			log(sprintf("Creating new object pool '{0}'", pool_name));
 		ds_map_add_list(__OBJECT_POOLS, pool_name, ds_list_create());
 	}
 	
@@ -54,7 +55,8 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 	var i = 0; repeat(ds_list_size(pool)) {
 		var rv = pool[| i];
 		if (rv.object_index == object) {
-			log(sprintf("Found instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
+			if (DEBUG_LOG_OBJECT_POOLS)
+				log(sprintf("Found instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
 			instance_activate_object(rv);
 			var xp = (variable_instance_exists(self, "x") ? x : 0) ?? 0;
 			var yp = (variable_instance_exists(self, "y") ? y : 0) ?? 0;
@@ -69,7 +71,8 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 		i++;
 	}
 	
-	log(sprintf("Creating new instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
+	if (DEBUG_LOG_OBJECT_POOLS)
+		log(sprintf("Creating new instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
 	var rv;
 	var xp = (variable_instance_exists(self, "x") ? x : 0) ?? 0;
 	var yp = (variable_instance_exists(self, "y") ? y : 0) ?? 0;
@@ -91,7 +94,8 @@ function pool_return_instance(instance = self) {
 	if (variable_instance_exists(instance, "__object_pool_name")) {
 		var pool_name = instance.__object_pool_name;
 		with (instance)
-			log(sprintf("Sending instance '{0}' back to pool '{1}'", MY_NAME, pool_name));
+			if (DEBUG_LOG_OBJECT_POOLS)
+				log(sprintf("Sending instance '{0}' back to pool '{1}'", MY_NAME, pool_name));
 		__pool_invoke_deactivate(instance);
 		var pool = __get_pool_list(pool_name);
 		instance_deactivate_object(instance);
@@ -107,6 +111,12 @@ function pool_return_instance(instance = self) {
 /// @param {instance} instance
 function pool_assign_instance(pool_name, instance) {
 	instance.__object_pool_name = pool_name;
+}
+
+/// @function		pool_get_size(pool_name)
+/// @description	Gets current size of the pool
+function pool_get_size(pool_name) {
+	return ds_list_size(__get_pool_list(pool_name));
 }
 
 /// @function					pool_clear(pool_name)

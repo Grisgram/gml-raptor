@@ -1,7 +1,7 @@
 /*
 	Utility methods to work with structs.
 	
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
@@ -39,8 +39,6 @@ function implement(_interface) {
 	}
 	
 	var i = new sclass();
-	if (variable_struct_exists(i, __CONSTRUCTOR_NAME))
-		variable_struct_remove(i, __CONSTRUCTOR_NAME); // Remove constructor hint as this is an interface now
 	struct_integrate(self, i);
 	if (!variable_struct_exists(self, __INTERFACES_NAME))
 		self[$ __INTERFACES_NAME] = [];
@@ -108,10 +106,10 @@ function struct_integrate(target, sources) {
 	return target;
 }
 
-/// @function struct_get(struct, key, default_if_missing, create_if_missing = true)
+/// @function struct_get_ext(struct, key, default_if_missing, create_if_missing = true)
 /// @description	Save-gets a struct member, returning a default if it does not exist,
 ///					and even allows you to create that member in the struct, if it is missing
-function struct_get(struct, key, default_if_missing, create_if_missing = true) {
+function struct_get_ext(struct, key, default_if_missing, create_if_missing = true) {
 	if (variable_struct_exists(struct, key))
 		return struct[$ key];
 		

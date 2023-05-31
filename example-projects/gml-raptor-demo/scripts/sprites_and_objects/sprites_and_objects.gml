@@ -67,4 +67,3 @@ function replace_sprite(on_object, replace_with, keep_size = true, keep_location
 	}
 }
 
-

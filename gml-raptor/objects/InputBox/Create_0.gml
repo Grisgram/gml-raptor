@@ -34,6 +34,7 @@ __cursor_x = 0;
 __cursor_y = 0;
 __cursor_height = 0;
 __first_draw = true;
+__first_cursor_draw = true;
 __backup_color_text = c_white;
 
 __key_repeat_frame = 0;
@@ -54,6 +55,10 @@ set_focus = function(from_tab = false) {
 	if (from_tab) set_cursor_pos(string_length(text));
 	selection_length = 0;
 	__last_selection_length = -1;
+	if (select_all_on_focus) {
+		__draw_cursor();
+		select_all();
+	}
 	force_redraw();
 	__invoke_got_focus();
 }
@@ -78,6 +83,7 @@ lose_focus = function() {
 select_all = function() {
 	selection_start = string_length(text);
 	selection_length = -string_length(text);
+	cursor_pos = selection_start;
 	set_cursor_pos(string_length(text), true);
 }
 
@@ -257,8 +263,9 @@ draw_scribble_text = function() {
 
 /// @function __draw_cursor()
 __draw_cursor = function() {
-	if (__has_focus && __cursor_visible) {
-		if (__last_cursor_visible != __cursor_visible) {
+	if (__first_cursor_draw || (__has_focus && __cursor_visible)) {
+		if (__first_cursor_draw || __last_cursor_visible != __cursor_visible) {
+			__first_cursor_draw = false;
 			// make draw calculations only once, if visible changed in last frame
 			__last_cursor_visible = __cursor_visible;
 			var scrib = (text == "" ? __create_scribble_object(scribble_text_align, "A", true) : __scribble_text);

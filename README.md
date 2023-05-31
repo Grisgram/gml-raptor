@@ -1,12 +1,5 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"><br/>
-<img src="https://user-images.githubusercontent.com/19487451/180134446-1223e79f-0963-4438-954c-331d8827283e.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134457-003f837a-2e33-44af-a5fa-1f92f6aa8b22.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134463-51a17e65-f2de-415e-aadd-8ee6aa8ed7d8.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134472-8e9a940f-41f0-48f4-964d-8e46dc9222b3.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134486-7b55554d-aef1-4379-9e55-02290021b8fe.png">
-<img src="https://user-images.githubusercontent.com/19487451/180134498-d648abcb-ac41-4050-ac04-79046a634a66.png">
-</p>
-<h1 align="center">🔹🔷 VERSION 2️⃣.5️⃣ 🔷🔹</h1>
+<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
+<h1 align="center">2️⃣.6️⃣</h1>
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
@@ -19,6 +12,12 @@
 Just want to see the demo without cloning?<br/>
 Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!<br/>
 If you like what you see, please don't forget to ⭐ the repository and consider following me here and on itch! The more reach `raptor` gets, the faster it can evolve even more!
+
+----
+
+<p align="center">
+In case you are a night owl like me and you want to support my work,<br/>especially the <a href="https://github.com/Grisgram/gml-raptor">gml-raptor platform for GameMaker</a>,<br/>spend me a coffee through PayPal. <p align="center"><a href="https://www.paypal.com/donate/?hosted_button_id=PL8VA5UFCPMK6" target="_blank"><img src="https://github.com/Grisgram/Grisgram/blob/main/images/paypal_donate.gif" /></a></p><p align="center">Thank you!</p>
+</p>
 
 ## Main Features
 
@@ -33,7 +32,7 @@ You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag | HighScorer |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|2023.2|2.5|8.6.0|4.2.0|1.4|1.3|1.4|
+|2023.4|2.6|8.6.0|4.2.0|3.1|1.3.1|1.4.1|
 
 ## How Releases are organized
 When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
@@ -97,4 +96,5 @@ If you prefer to look up the most recent version (or any specific version) for y
 ### Contact me
 Beside the communication channel here, you can reach me as @Grisgram on the [GameMakerKitchen Discord](https://discord.gg/8krYCqr).
 
+(c)2022-2023 [coldrock.games](https://www.coldrock.games)
 

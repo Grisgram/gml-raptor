@@ -1,7 +1,7 @@
 /*
 	Utility methods to work with buffers.
 	
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
@@ -65,8 +65,6 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 ///						NOTE: This function works with (and modifies) the buffer directly! No copy is made!
 /// @param {buffer}	buffer		The buffer to encrypt/decrypt
 /// @param {string} cryptkey	A (hopefully) long string that makes the crypt mask
-///
-/// @grisgram 2022-01-21
 function encrypt_buffer(buffer, cryptkey) {
 	var keyIdx = 1;
 	var i = 0;

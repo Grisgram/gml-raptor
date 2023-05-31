@@ -30,6 +30,7 @@ __knob_y				= 0;
 __knob_image_index		= 0;
 __mouse_over_knob		= false;
 __knob_grabbed			= false;
+__initial_value_set		= false;
 __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
 __knob_over_color		= draw_color_mouse_over;
@@ -38,8 +39,6 @@ __knob_over_color		= draw_color_mouse_over;
 check_mouse_over_knob = function() {
 	xcheck = GUI_MOUSE_X;
 	ycheck = GUI_MOUSE_Y;
-	//xcheck = (draw_on_gui ? GUI_MOUSE_X : MOUSE_X);
-	//ycheck = (draw_on_gui ? GUI_MOUSE_Y : MOUSE_Y);
 
 	var over_before = __mouse_over_knob;
 	
@@ -73,9 +72,10 @@ set_value = function(new_value) {
 	value = clamp(new_value, min_value, max_value);
 	calculate_value_percent();
 	if (value != old_val) {
-		if (auto_text == slider_autotext.text_is_value)		text = string(value); else
+		if (auto_text == slider_autotext.text_is_value)		text = string(round(value)); else
 		if (auto_text == slider_autotext.text_is_percent)	text = string_format(value_percent * 100,3,0) + "%";
-		if (on_value_changed != undefined) on_value_changed(value, old_val);
+		if (__initial_value_set && on_value_changed != undefined) on_value_changed(value, old_val);
+		__initial_value_set = true; // this skips the FIRST value assignment on creation
 	}
 }
 
@@ -91,9 +91,11 @@ __set_draw_colors = function() {
 draw_knob = function() {
 	__set_draw_colors();
 	if (orientation_horizontal) {
+		__tilesize = sprite_width / (max_value - min_value + 1);
 		__knob_x = x - sprite_xoffset + nine_slice_data.left + (value - min_value) * __tilesize;
 		__knob_y = y - sprite_yoffset + nine_slice_data.top  + nine_slice_data.height / 2;
 	} else {
+		__tilesize = sprite_height / (max_value - min_value + 1);
 		__knob_x = x - sprite_xoffset + nine_slice_data.left   + nine_slice_data.width / 2;
 		__knob_y = y - sprite_yoffset + nine_slice_data.bottom - (value - min_value) * __tilesize;
 	}

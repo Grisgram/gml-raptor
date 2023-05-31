@@ -3,7 +3,7 @@
 /// Based on juju adams' selective outline and improved with alpha fading and variable thickness
 /// even on HTML5 target
 ///
-///		(c)2022 Grisgram aka Haerion@GameMakerKitchen Discord
+///		(c)2022- coldrock.games, @grisgram at github
 ///		Please respect the MIT License for this Library.
 ///
 ///
@@ -18,8 +18,10 @@ varying vec2 v_vSurfaceUV;
 
 uniform sampler2D u_sSpriteSurface;
 uniform vec2 u_vTexel;
-uniform vec2 u_vOutlineColour;
+uniform vec2 u_vOutlineColour1;
+uniform vec2 u_vOutlineColour2;
 uniform vec2 u_vThickness;
+uniform vec4 u_vPulse;
 
 vec4 unpackGMColour(vec2 colourAlpha, float aVal)
 {
@@ -41,46 +43,57 @@ void main()
 	float alphaVal = 0.0;		// set by both for loops below (decides alpha fading)
     float edgeAlphaMax = 0.0;
 
+	// Pulse implementation: vec4(min,max,freq,time)
+	// one wave (one frequency) goes min-max-min
+	float pmin  = u_vPulse[0];
+	float pmax  = u_vPulse[1];
+	float pfreq = u_vPulse[2];
+	float ptime = u_vPulse[3];
+
+	float pit = mod(ptime, pfreq) / pfreq;
+	if (pit > 0.5) pit = 1.0 - pit;	
+	float thickness = ceil(pmin + (pmax - pmin) * pit);
+
 	// The "continue" and "breaks" in the loops below are for HTML/WEBGL compatibility
 	// A WebGL shader must be compiled with a constant range in "for" loops.
 	// So I defined a max-width of 10 for the outline but skip all values 
 	// below and above the desired range. A minor performance loss and a great comfort gain
 
 	if (u_vThickness.y == 1.0) { // Alpha fading = true
-		float pxCount = u_vThickness.x * u_vThickness.x * 2.0;
+		float pxCount = thickness * thickness * 2.0;
 		float pxHit = 0.0; 
 		float curA = 0.0;
 	    for(float dX = -MAX_OUTLINE_STRENGTH; dX <= MAX_OUTLINE_STRENGTH; dX += 1.0)
 	    {
-			if (dX < -u_vThickness.x) continue;
+			if (dX < -thickness) continue;
 			
 	        for(float dY = -MAX_OUTLINE_STRENGTH; dY <= MAX_OUTLINE_STRENGTH; dY += 1.0)
 	        {
-				if (dY < -u_vThickness.x) continue;
+				if (dY < -thickness) continue;
 				
 				curA = texture2D(u_sSpriteSurface, v_vSurfaceUV + vec2(dX, dY)*u_vTexel).a;
 				if (curA >= ALPHA_THRESHOLD) pxHit++;
 	            edgeAlphaMax = max(edgeAlphaMax, curA);
 				
-				if (dY > u_vThickness.x) break;
+				if (dY > thickness) break;
 	        }
 			
-			if (dX > u_vThickness.x) break;
+			if (dX > thickness) break;
 	    }
 		alphaVal = 0.25 + pxHit/pxCount;
 	} else { // no alpha fading
 	    for(float dX = -MAX_OUTLINE_STRENGTH; dX <= MAX_OUTLINE_STRENGTH; dX += 1.0)
 	    {
-			if (dX < -u_vThickness.x) continue;
+			if (dX < -thickness) continue;
 			
 	        for(float dY = -MAX_OUTLINE_STRENGTH; dY <= MAX_OUTLINE_STRENGTH; dY += 1.0)
 	        {
-				if (dY < -u_vThickness.x) continue;
+				if (dY < -thickness) continue;
 	            edgeAlphaMax = max(edgeAlphaMax, texture2D(u_sSpriteSurface, v_vSurfaceUV + vec2(dX, dY)*u_vTexel).a);
-				if (dY > u_vThickness.x) break;
+				if (dY > thickness) break;
 	        }
 			
-			if (dX > u_vThickness.x) break;
+			if (dX > thickness) break;
 	    }
 		alphaVal = edgeAlphaMax;
 	}
@@ -93,7 +106,10 @@ void main()
     {
         if ((edgeAlphaMax >= ALPHA_THRESHOLD) && (appSurfBrightness < BRIGHTNESS_THRESHOLD))
         {
-            gl_FragColor = unpackGMColour(u_vOutlineColour, alphaVal);
+			vec4 c1 = unpackGMColour(u_vOutlineColour1, alphaVal);
+			vec4 c2 = unpackGMColour(u_vOutlineColour2, alphaVal);
+			pit *= 2.0;
+            gl_FragColor = c1 * (1.0 - pit) + c2 * pit;
         }
     }
     else

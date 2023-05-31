@@ -2,7 +2,7 @@
 	Utility methods to work with files.
 	Requires juju's SNAP library and indieviduals Buffers scripts to work.
 	
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
@@ -261,6 +261,11 @@ function __file_get_constructed_class(from) {
 		//log(sprintf("Constructing '{0}'", constname));
 		var class = asset_get_index(constname);
 		rv = new class();
+		if (variable_struct_exists(rv, __INTERFACES_NAME)) {
+			var interfaces = rv[$ __INTERFACES_NAME];
+			for (var i = 0, len = array_length(interfaces); i < len; i++)
+				with(rv) implement(interfaces[@i]);
+		}
 	} else {
 		rv = {};
 	}

@@ -5,7 +5,7 @@
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Canvas",
-    "path": "folders/_third_party_packages_/Canvas.yy",
+    "name": "System",
+    "path": "folders/_third_party_packages_/Canvas/System.yy",
   },
 }

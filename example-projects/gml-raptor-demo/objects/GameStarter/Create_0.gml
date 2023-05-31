@@ -16,7 +16,6 @@ spinner_text			= "Connecting to server...";
 
 async_wait_timeout		= -1;
 async_wait_counter		= 0;
-async_min_wait_time		= 90;
 draw_spinner			= false; // true while waiting for min-time
 wait_for_async_tasks	= false;
 

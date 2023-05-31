@@ -43,6 +43,7 @@
   "physicsShapePoints": [],
   "physicsStartAwake": true,
   "properties": [
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"select_all_on_focus","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_text_changed","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_got_focus","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_lost_focus","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},

@@ -5,7 +5,7 @@
 	This script loads race table files and provides getters and setters for
 	the fields of loot tables.
 	
-	(c)2022 Mike Barthold, indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
@@ -148,7 +148,7 @@ function race_table_reset(table_name, recursive = false) {
 		var tbl = variable_struct_get(__RACE_GLOBAL, table_name);
 		var items = tbl.items;
 		var names = variable_struct_get_names(items);
-		for (var i = 0; i < array_length(names); i++) {
+		for (var i = 0, len = array_length(names); i < len; i++) {
 			var name = names[@ i];
 			if (recursive && string_starts_with(name, "="))
 				race_table_reset(string_skip_start(name, 1), recursive);
@@ -225,7 +225,7 @@ function race_table_foreach_item(table_name, func, args = undefined) {
 	var table = is_struct(table_name) ? table_name : race_get_table(table_name);
     var names = race_table_get_item_names(table);
 	var items = race_table_get_items(table);
-	for (var i = 0; i < array_length(names); i++) {
+	for (var i = 0, len = array_length(names); i < len; i++) {
         var name = names[i];
 		func(name, variable_struct_get(items, name), args);
 	}

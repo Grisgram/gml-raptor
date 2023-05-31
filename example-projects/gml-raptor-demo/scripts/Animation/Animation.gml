@@ -53,7 +53,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	owner				= _obj_owner;
 	finished_state		= _finished_state;
 	delay				= _delay;
-	duration			= _duration
+	duration			= _duration;
+	duration_rt			= _duration / room_speed;
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= {};
@@ -67,10 +68,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 
 	func_x				= function(value) { if (__relative_distance) owner.x = __start_x + __move_xdistance * value; else owner.x	= value; };
 	func_y				= function(value) { if (__relative_distance) owner.y = __start_y + __move_ydistance * value; else owner.y	= value; };
-	func_hspeed			= function(value) { owner.hspeed		= value; };
-	func_vspeed			= function(value) { owner.vspeed		= value; };
-	func_speed			= function(value) { owner.speed			= value; };
-	func_directon		= function(value) { owner.direction		= value; };
+	func_hspeed			= function(value) { if (__relative_speed) owner.hspeed		= __start_hspeed	 + __hspeed_distance	* value; else owner.hspeed		= value; };
+	func_vspeed			= function(value) { if (__relative_speed) owner.vspeed		= __start_vspeed	 + __vspeed_distance	* value; else owner.vspeed		= value; };
+	func_speed			= function(value) { if (__relative_speed) owner.speed		= __start_speed		 + __speed_distance		* value; else owner.speed		= value; };
+	func_directon		= function(value) { if (__relative_speed) owner.direction	= __start_direction	 + __direction_distance * value; else owner.direction	= value; };
 	func_image_alpha	= function(value) { owner.image_alpha	= value; };
 	func_image_blend	= function(value) { owner.image_blend	= merge_color(__blend_start, __blend_end, value); };
 	func_image_xscale	= function(value) { if (__relative_scale) owner.image_xscale = __start_xscale + __scale_xdistance * value; else owner.image_xscale	= value; };
@@ -109,6 +110,12 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	
 	__relative_angle	= false;
 	__rotation_distance	= 0;
+	
+	__relative_speed	= false;
+	__hspeed_distance	= 0;
+	__vspeed_distance	= 0;
+	__speed_distance	= 0;
+	__direction_distance= 0;
 
 	#region TRIGGERS
 	static __frame_trigger_class = function(_frame, _trigger, _interval) constructor {
@@ -168,13 +175,13 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	}
 	
 	static __invoke_triggers = function(array) {
-		for (var i = 0; i < array_length(array); i++)
+		for (var i = 0, len = array_length(array); i < len; i++)
 			array[@ i](data);
 	}
 	
 	static __invoke_frame_triggers = function(frame) {
 		var t;
-		for (var i = 0; i < array_length(__frame_triggers); i++) {
+		for (var i = 0, len = array_length(__frame_triggers); i < len; i++) {
 			t = __frame_triggers[@ i];
 			if (t.frame == frame || (t.interval && (frame % t.frame == 0))) t.trigger(data, frame);
 		}
@@ -273,6 +280,50 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__relative_angle	= true;
 		__start_angle		= owner.image_angle;
 		__rotation_distance = degrees - __start_angle;
+		return self;
+	}
+
+	/// @function		set_speed_distance(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
+	/// @description	use this function if the animcurve holds a standard 0..1 value
+	///					for hspeed/vspeed or speed/direction and the curve value shall be a multiplier for the total
+	///					distance you supply here (a "change by" curve).
+	///					Think in pairs when using this function. Either supply h/vspeed values or speed/direction,
+	///					as all of those influence each other.
+	/// @param {real}	_hspeed		The amount to change hspeed over time
+	/// @param {real}	_vspeed		The amount to change vspeed over time
+	/// @param {real}	_speed		The amount to change speed over time
+	/// @param {real}	_direction  The amount to change direction over time
+	static set_speed_distance = function(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0) {
+		__relative_speed		= true;
+		__hspeed_distance		= _hspeed;
+		__vspeed_distance		= _vspeed;
+		__speed_distance		= _speed;
+		__direction_distance	= _direction;
+		return self;
+	}
+
+	/// @function		set_speed_target(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
+	/// @description	use this function if the animcurve holds a standard 0..1 value
+	///					for hspeed/vspeed or speed/direction and the curve value shall be a multiplier for the total
+	///					distance you supply here (a "change to" curve).
+	///					Think in pairs when using this function. Either supply h/vspeed values or speed/direction,
+	///					as all of those influence each other.
+	/// @param {real}	_hspeed		The value to set for hspeed over time
+	/// @param {real}	_vspeed		The value to set for vspeed over time
+	/// @param {real}	_speed		The value to set for speed over time
+	/// @param {real}	_direction  The value to set for direction over time
+	static set_speed_target = function(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0) {
+		__relative_speed		= true;
+		
+		__start_hspeed			= owner.hspeed;
+		__start_vspeed			= owner.vspeed;
+		__start_speed			= owner.speed;
+		__start_direction		= owner.direction;
+		
+		__hspeed_distance		= _hspeed - __start_hspeed;
+		__vspeed_distance		= _vspeed - __start_vspeed;
+		__speed_distance		= _speed  - __start_speed;
+		__direction_distance	= _direction - __start_direction;
 		return self;
 	}
 
@@ -416,21 +467,37 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static step = function() {
 		if (__finished || __paused) return;
 		
+		__time_step  =  delta_time / 1000000;
+		__time		 += __time_step;
+		__time_total += __time_step;
+		
 		if (__active) {
 			if (__first_step) {
 				__first_step = false;
 				__invoke_triggers(__started_triggers);
 			}
 
-			__total_frames++;
-			__frame_counter++;
+			// calc the new frame...
+			__frame_counter = floor(__time * room_speed);
+			// ...then detect if we have a frame skip...
+			if (__frame_counter > __frame_expected) {
+				__frame_expected = __frame_counter - __frame_expected;
+				// ...and run all skipped frame triggers
+				for (var i = 1; i <= __frame_expected; i++)
+					__invoke_frame_triggers(__total_frames + i);
+			}
+			// finally, set the new expected frame
+			__frame_expected = __frame_counter + 1;
+			
+			// now calculate the regular frame triggers (all missed are already invoked)
+			__total_frames  = floor(__time_total * room_speed);
 			__invoke_frame_triggers(__total_frames);
 			
 			if (animcurve != undefined) {
-				var pit = __play_forward ? __frame_counter : (duration - __frame_counter);
-				animcurve.update(pit, duration);
+				var pit = __play_forward ? __time : (duration_rt - __time);
+				animcurve.update(pit, duration_rt);
 				
-				for (var i = 0; i < array_length(animcurve.channel_names); i++) {
+				for (var i = 0, len = array_length(animcurve.channel_names); i < len; i++) {
 					__cname  = animcurve.channel_names[i];
 					__cvalue = animcurve.channel_values[i];
 				
@@ -442,7 +509,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__invoke_triggers(__loop_triggers);
 				if (repeats > 0) {
 					__repeat_counter++;
-					__finished = __repeat_counter == repeats;
+					__finished = __repeat_counter >= repeats;
 					if (__finished) { 
 						ANIMATIONS.remove(self);
 						__invoke_triggers(__finished_triggers);
@@ -450,12 +517,18 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 					}
 				}
 				__frame_counter		= 0;
+				__frame_expected	= 1;
 				__delay_counter		= 0;
+				__time				= 0;
 				__active			= (delay == 0);
 			}
 		} else {
-			__delay_counter++;
-			__active = __delay_counter >= delay;
+			__delay_counter = floor(__time * room_speed);
+			if (__delay_counter >= delay) {
+				__active	 = true;
+				__time		 = 0;
+				__time_total = 0;
+			}
 			__first_step = __active;
 		}
 	}
@@ -511,6 +584,32 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	
+	/// @function		finish()
+	/// @description	Fast forward until the end of the animation, invoking all triggers on the way.
+	///					The function uses the current delta_time as time step until the end of the animation is reached.
+	///					If the animation is paused, the paused state is lifted for the operation.
+	///					Repeats will be set to 1, so only the current iteration will be finished.
+	///					Both variables (paused and repeats) are set back to their original values when the end of the
+	///					sequence is reached.
+	///					ATTENTION! This function uses a "while" loop to process frame-by-frame as fast as possible
+	///					Use with care in animation sequences (followed_by... etc) as this function will only
+	///					fast-forward the _current_ animation, not the entire sequence, so with the next frame, a sequence
+	///					will continue with the next animation in the sequence at normal speed.
+	static finish = function() {
+		if (__finished) return;
+		
+		var paused_before  = __paused;
+		var repeats_before = repeats;
+		repeats = 1;
+		__paused = false;
+		
+		while (!__finished)
+			step();
+			
+		repeats = repeats_before;
+		__paused = paused_before;
+	}
+	
 	/// @function		abort()
 	/// @description	Stop immediately, but finished trigger WILL fire!
 	static abort = function() {
@@ -535,9 +634,17 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__start_xscale		= owner.image_xscale;
 		__start_yscale		= owner.image_yscale;
 		__start_angle		= owner.image_angle;
-		
+		__start_hspeed		= owner.hspeed;
+		__start_vspeed		= owner.vspeed;
+		__start_speed		= owner.speed;
+		__start_direction	= owner.direction;
+	
+		__time				= 0;
+		__time_step			= 0;
+		__time_total		= 0;
 		__delay_counter		= 0;
 		__frame_counter		= 0;
+		__frame_expected	= 1;
 		__total_frames		= 0;
 		__repeat_counter	= 0;
 		__active			= delay == 0;
@@ -554,7 +661,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static toString = function() {
 		var me = "";
 		with (owner) me = MY_NAME;
-		return sprintf("{0}: delay={1}; duration={2}; repeats={3};", me, delay, duration, repeats);
+		return $"{me}: delay={delay}; duration={duration}; repeats={repeats};";
 	}
 
 	reset();
@@ -573,25 +680,63 @@ function animation_clear_pool() {
 
 /// @function		animation_get_all(owner = self)
 /// @description	Get all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner whose animations you want to retrieve.
+///					NOTE: Set the owner to <undefined> to retrieve ALL existing animations!
 function animation_get_all(owner = self) {
 	return __listpool_get_all_owner_objects(ANIMATIONS, owner);
 }
 
 /// @function		animation_abort_all(owner = self)
 /// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
-/// @param {instance} owner  The owner that shall have its animations removed.
+///					NOTE: Set the owner to <undefined> to abort ALL existing animations!
 function animation_abort_all(owner = self) {
 	var removers = animation_get_all(owner);
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log(MY_NAME + sprintf(": Animation cleanup: anims_to_remove={0};", array_length(removers)));
+			log($"{MY_NAME}: Animation cleanup: anims_to_remove={array_length(removers)};");
 		
-	for (var i = 0; i < array_length(removers); i++) {
+	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
 		with (to_remove) 
 			abort();
+	}
+}
+
+/// @function		animation_pause_all(owner = self)
+/// @description	Set all registered animations for the specified owner to paused state.
+///					NOTE: Set the owner to <undefined> to pause ALL existing animations!
+///					This bulk function is very handy if you have a "pause/resume" feature in your
+///					game and you want to "freeze" the scene.
+function animation_pause_all(owner = self) {
+	var to_set = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: Animation bulk pause: anims_to_set={array_length(to_set)};");
+	
+	for (var i = 0, len = array_length(to_set); i < len; i++) {
+		var next = to_set[@ i];
+		with (next) 
+			pause();
+	}
+}
+
+/// @function		animation_resume_all(owner = self)
+/// @description	Set all registered animations for the specified owner to running state.
+///					NOTE: Set the owner to <undefined> to resume ALL existing animations!
+///					This bulk function is very handy if you have a "pause/resume" feature in your
+///					game and you want to "unfreeze" the scene.
+function animation_resume_all(owner = self) {
+	var to_set = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: Animation bulk resume: anims_to_set={array_length(to_set)};");
+	
+	for (var i = 0, len = array_length(to_set); i < len; i++) {
+		var next = to_set[@ i];
+		with (next) 
+			resume();
 	}
 }
 
@@ -601,14 +746,11 @@ function animation_abort_all(owner = self) {
 ///					If the name is also specified, true is only returned, if the names match.
 ///					This is useful if you need to know, whether an object is currently running
 ///					one specific animation.
-/// @param {instance}	owner	The owner to check.
-/// @param {string}		name	The name of the animation to check.
-/// @returns {bool}		true, if at least one animation for the specified owner/name is active
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
 	for (var i = 0; i < ds_list_size(lst); i++) {
 		var item = lst[| i];
-		if (item.owner == owner && (name == undefined || name == item.name))
+		if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			return true;
 	}
 

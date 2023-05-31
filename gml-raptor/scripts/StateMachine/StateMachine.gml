@@ -117,9 +117,10 @@ function StateMachine(_owner) constructor {
 	/// @function		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
 	/// @description	Defines a new state for the StateMachine. 
 	///					NOTE: If a state with that name already exists, it is overwritten!
-	/// @param {func} _on_enter  Optional. Callback to invoke when this state gets entered
-	/// @param {func} step       Optional. Callback to invoke every frame while in this state
-	/// @param {func} _on_leave  Optional. Callback to invoke when this state shall be left
+	/// @param {string} _name		The name of the state
+	/// @param {func}	_on_enter	Optional. Callback to invoke when this state gets entered
+	/// @param {func}	_on_step	Optional. Callback to invoke every frame while in this state
+	/// @param {func}	_on_leave	Optional. Callback to invoke when this state shall be left
 	static add_state = function(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined) {
 		if (DEBUG_LOG_STATEMACHINE)
 			with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}'", _name));

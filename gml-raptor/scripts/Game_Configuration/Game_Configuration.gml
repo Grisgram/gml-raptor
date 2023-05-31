@@ -17,7 +17,7 @@
 	NOTE: HTML5 games never receive an onGameEnd callback!
 	------------------------------------------------------
 
-	(c)2022 Mike Barthold, risingdemons/indievidualgames, aka @grisgram at github
+	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
@@ -52,6 +52,7 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 	
+	DEBUG_LOG_OBJECT_POOLS		= false;
 	DEBUG_LOG_LIST_POOLS		= false;
 	DEBUG_LOG_STATEMACHINE		= false;
 	DEBUG_LOG_RACE				= false;
