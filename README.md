@@ -32,7 +32,7 @@ You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag | HighScorer |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|2023.4|2.6|8.6.0|4.2.0|3.0.2|1.3.1|1.4.1|
+|2023.4|2.6|8.6.0|4.2.0|3.1|1.3.1|1.4.1|
 
 ## How Releases are organized
 When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
