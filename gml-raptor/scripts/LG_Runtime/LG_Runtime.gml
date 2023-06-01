@@ -65,7 +65,7 @@ function __LG_load_file(localeName) {
 	if (__LG_locale_exists(localeName)) {
 		log("Loading locale '" + localeName + "'...");
 		var json = file_read_text_file_absolute(__LG_get_locale_filename(localeName));
-		__LG_STRINGS = snap_from_json(json);
+		__LG_STRINGS = SnapFromJSON(json);
 		log("Locale '" + localeName + "' loaded successfully.");
 		return true;
 	}

@@ -119,7 +119,7 @@ function race_add_table(table_name, table_struct, overwrite_existing = true) {
 	if (overwrite_existing || !variable_struct_exists(__RACE_CACHE, table_name)) {
 		race_table_set_name(table_struct, table_name);
 		variable_struct_set(__RACE_CACHE, table_name, table_struct);
-		var dc = snap_deep_copy(table_struct);
+		var dc = SnapDeepCopy(table_struct);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);					
 		if (DEBUG_LOG_RACE)
 			log(sprintf("Added global race table '{0}'", table_name));
@@ -155,7 +155,7 @@ function race_table_reset(table_name, recursive = false) {
 			if (string_starts_with(name, __RACE_TEMP_TABLE_PREFIX))
 				__race_table_delete_temp(name);
 		}
-		var dc = snap_deep_copy(cache);
+		var dc = SnapDeepCopy(cache);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);
 		if (DEBUG_LOG_RACE)
 			log(sprintf("Race table '{0}' has been reset", table_name));
@@ -175,7 +175,7 @@ function race_table_reset(table_name, recursive = false) {
 /// @returns {string}			The name of the clone or undefined, if table_name does not exist or is not loaded.
 function race_table_clone(table_name) {
 	if (race_table_exists(table_name)) {
-		var deepcopy = snap_deep_copy(race_get_table(table_name));
+		var deepcopy = SnapDeepCopy(race_get_table(table_name));
 		// find a free new name for the deep copy
 		var newname = __race_get_unique_deepcopy_name(table_name);
 		race_add_table(newname, deepcopy);

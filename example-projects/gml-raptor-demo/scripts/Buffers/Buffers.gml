@@ -68,11 +68,13 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 function encrypt_buffer(buffer, cryptkey) {
 	var keyIdx = 1;
 	var i = 0;
+	var len = string_length(cryptkey);
 
 	repeat (buffer_get_size(buffer)) {
 		var byte = buffer_peek(buffer, i, buffer_u8);
+		var endkey = ord(string_char_at(cryptkey, len - keyIdx));
 		var key = ord(string_char_at(cryptkey, keyIdx++));
-		var crypted = byte^key;
+		var crypted = byte^key^endkey;
 		buffer_poke(buffer, i++, buffer_u8, crypted);
 		if (keyIdx > string_length(cryptkey))
 			keyIdx = 1;
