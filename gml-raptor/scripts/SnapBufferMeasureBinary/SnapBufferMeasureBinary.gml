@@ -24,7 +24,7 @@ function SnapBufferMeasureBinary(_value)
 	var len = 0;
     if (is_method(_value)) //Implicitly also a struct so we have to check this first
     {
-		len = string_length(_value) + 2;
+		len = string_byte_length(_value) + 2;
     }
     else if (is_struct(_value))
     {
@@ -39,7 +39,7 @@ function SnapBufferMeasureBinary(_value)
         {
             var _name = _names[_i];
             if (!is_string(_name)) show_error("SNAP:\nKeys must be strings\n ", true);
-			len += string_length(_name) + 1;
+			len += string_byte_length(_name) + 1;
             len += SnapBufferMeasureBinary(_struct[$ _name]);
             
             ++_i;
@@ -61,7 +61,7 @@ function SnapBufferMeasureBinary(_value)
     }
     else if (is_string(_value))
     {
-		len = string_length(_value) + 2;
+		len = string_byte_length(_value) + 2;
     }
     else if (is_real(_value))
     {
@@ -95,6 +95,6 @@ function SnapBufferMeasureBinary(_value)
     {
         show_message("Datatype \"" + typeof(_value) + "\" not supported");
     }
-    
+    log(len);
     return len;
 }
