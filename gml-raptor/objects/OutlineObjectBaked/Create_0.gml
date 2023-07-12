@@ -88,11 +88,19 @@ bake = function() {
 	show_debug_message("Pre-Baking took {0}ms", current_time - begintime);
 }
 
+__flicker_saver = 0;
 __draw = function() {
 	if (canvas == undefined) bake();
 	var before = sprite_index;
-	sprite_index = (outline_always || (outline_on_mouse_over && mouse_is_over)) ? dynsprite : origsprite;
-	if (sprite_index != before && (os_browser != browser_not_a_browser)) image_yscale *= __browser_flip;
+	var after = (outline_always || (outline_on_mouse_over && mouse_is_over)) ? dynsprite : origsprite;
+	var changed = after != before;
+	if (__flicker_saver == 0 && changed) {
+		__flicker_saver++;
+		sprite_index = after;
+	} else {
+		if (!changed)
+			__flicker_saver = max(0, __flicker_saver - 1);
+	}
 
 	draw_self();
 }
