@@ -125,16 +125,16 @@ function file_read_struct(filename, cryptkey = "", add_to_cache = false) {
 /// @returns {bool}				true, if the save succeeded, otherwise false.
 /// @description				Saves a given struct as a plain text json file. This json is NOT "user friendly" formatted!
 ///								To create a user-friendly json use the SNAP library (https://github.com/JujuAdams/SNAP)
-///								and the function snap_to_json with the second parameter (_pretty) set to true to get a json string
+///								and the function SnapToJSON with the second parameter (_pretty) set to true to get a json string
 ///								and then send this json string to file_write_text_file(...).
 function file_write_struct_plain(filename, struct) {
 	__ensure_file_cache();
 	TRY
 		log("Saving plain text struct to " + filename);
-		file_write_text_file(filename, snap_to_json(struct, true));
+		file_write_text_file(filename, SnapToJSON(struct, true));
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			log(sprintf("Updated cache for file '{0}' (struct)", filename));
-			variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(struct));
+			variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
 		}
 		return true;
 	CATCH return false; ENDTRY
@@ -152,7 +152,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 	if (file_exists(working_directory + filename)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			log(sprintf("Cache hit for file '{0}'", filename));
-			return snap_deep_copy(variable_struct_get(__FILE_CACHE, filename));
+			return SnapDeepCopy(variable_struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			log("Loading plain text struct from " + filename);
@@ -160,11 +160,11 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 			log(sprintf("Read {0} characters from file", (string_is_empty(contents) ? "0" : string_length(contents))));
 			var rv = undefined;
 			if (!string_is_empty(contents)) {
-				var indata = snap_from_json(contents);
+				var indata = SnapFromJSON(contents);
 				rv = __file_reconstruct_root(indata);
 				if (add_to_cache) {
 					log(sprintf("Added file '{0}' to cache (struct)", filename));
-					variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+					variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
 				}
 			}
 			return rv;
@@ -185,13 +185,16 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 	__ensure_file_cache();
 	TRY
 		log("Saving encrypted struct to " + filename);
-		var buffer = snap_to_binary(struct);
+		var len = SnapBufferMeasureBinary(struct);
+		var buffer = buffer_create(len, buffer_grow, 1);
+		buffer_fill(buffer, 0, buffer_u8, 0, len);
+		buffer = SnapBufferWriteBinary(buffer, struct);
 		encrypt_buffer(buffer, cryptkey);
 		buffer_save(buffer, working_directory + filename);
 		buffer_delete(buffer);
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			log(sprintf("Updated cache for file '{0}' (encrypted struct)", filename));
-			variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(struct));
+			variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
 		}
 		return true;
 	CATCH return false; ENDTRY
@@ -210,7 +213,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	if (file_exists(working_directory + filename)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			log(sprintf("Cache hit for file '{0}' (buffer deep copy)", filename));
-			return snap_deep_copy(variable_struct_get(__FILE_CACHE, filename));
+			return SnapDeepCopy(variable_struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			log("Loading encrypted struct from " + filename);
@@ -220,13 +223,13 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 			var rv = undefined;
 			if (bufsize > 0) {
 				encrypt_buffer(buffer, cryptkey);
-				var indata = snap_from_binary(buffer, 0, true);
+				var indata = SnapBufferReadBinary(buffer, 0);
 				rv = __file_reconstruct_root(indata);
 				buffer_delete(buffer);
 		
 				if (add_to_cache) {
 					log(sprintf("Added file '{0}' to cache (encrypted struct)", filename));
-					variable_struct_set(__FILE_CACHE, filename, snap_deep_copy(rv));
+					variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
 				}
 			}
 			return rv;

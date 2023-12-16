@@ -16,7 +16,7 @@
 function race_result_entry(item_name, data_struct, inst = undefined) constructor {
 	name = item_name;
 	type = data_struct.type;
-	data = (RACE_LOOT_DATA_DEEP_COPY ? snap_deep_copy(data_struct) : data_struct);
+	data = (RACE_LOOT_DATA_DEEP_COPY ? SnapDeepCopy(data_struct) : data_struct);
 	attributes = variable_struct_exists(data, "attributes") ? data.attributes : {};
 	instance = inst;
 }
@@ -52,7 +52,7 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 	} else if (string_starts_with(typename, "+")) {
 		// deep copy, THEN go into recursion
 		var tblname = string_skip_start(typename, 1);
-		var deepcopy = snap_deep_copy(race_get_table(tblname));
+		var deepcopy = SnapDeepCopy(race_get_table(tblname));
 		// find a free new name for the deep copy
 		var newname = __race_get_unique_deepcopy_name(tblname);
 		race_set_type(table, name, "=" + newname);

@@ -8,19 +8,22 @@
 /// @returns		A new CanvasSprite object holding the sprite, frame sizes, animation speed, etc
 function sprite_to_canvas(_sprite, _frame = -1, _bordersize = 0) {
 	_bordersize += 2; // 1 pixel on each side as "reserve" to avoid low-alpha pre-rendering overlaps
+	
+	var __browser_flip		= (os_browser != browser_not_a_browser) ? -1 : 1;
 	var __double_border		= 2 * _bordersize;
 	var __subimage_count	= _frame == -1 ? sprite_get_number(_sprite) : 1;
 	var __subimage_width	= sprite_get_width(_sprite) + __double_border;
 	var __subimage_height	= sprite_get_height(_sprite) + __double_border;
 	var __xoffset			= sprite_get_xoffset(_sprite);
 	var __yoffset			= sprite_get_yoffset(_sprite);
+	var __render_y			= (__browser_flip > 0 ? 0 : -__subimage_height + 2 * __yoffset + 2 * _bordersize); // THANKS HTML! **$%&#"$§#@"§#@@**
 
 	var canvas = new Canvas(__subimage_width * __subimage_count, __subimage_height);
 	
 	canvas.Start();
 	
 	var f = max(0, _frame); repeat(__subimage_count) {
-		draw_sprite(_sprite, f, f * __subimage_width + __xoffset + _bordersize, __yoffset + _bordersize);
+		draw_sprite_ext(_sprite, f, f * __subimage_width + __xoffset + _bordersize, __yoffset + _bordersize - __render_y, 1, __browser_flip, 0, c_white, 1);
 		f++;
 	}
 	
@@ -52,8 +55,9 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 	time_step		= 1000000 / animation_fps;
 
 	__matrix		= undefined;
+	
 	__browser_flip	= (os_browser != browser_not_a_browser) ? -1 : 1;
-	__render_y		= (__browser_flip > 0 ? 0 : -image_height + 2 * yoffset + 2 * bordersize); // THANKS HTML! **$%&#"$�#@"�#@@**
+	__render_y		= (__browser_flip > 0 ? 0 : -image_height + 2 * yoffset + 2 * bordersize); // THANKS HTML! **$%&#"$§#@"§#@@**
 
 	var xp = 0; repeat(image_count) {
 		array_push(subimages, xp);

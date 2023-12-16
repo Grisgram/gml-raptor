@@ -18,12 +18,12 @@
   "exportToGame": true,
   "extensionVersion": "1.0.0",
   "files": [
-    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"","constants":[],"copyToTargets":3035461389054378158,"filename":"browser_click_handler.js","final":"","functions":[
+    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"browser_click_handler.js","constants":[],"copyToTargets":3035461389054378158,"filename":"browser_click_handler.js","final":"","functions":[
         {"resourceType":"GMExtensionFunction","resourceVersion":"1.0","name":"browser_click_handler_init_js","argCount":0,"args":[],"documentation":"","externalName":"browser_click_handler_init_js","help":"","hidden":false,"kind":11,"returnType":2,},
       ],"init":"","kind":5,"order":[
         {"name":"browser_click_handler_init_js","path":"extensions/browser_click_handler/browser_click_handler.yy",},
       ],"origname":"extensions\\js.js","ProxyFiles":[],"uncompress":false,"usesRunnerInterface":false,},
-    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"","constants":[
+    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"browser_click_handler.gml","constants":[
         {"resourceType":"GMExtensionConstant","resourceVersion":"1.0","name":"browser_click_handler","hidden":true,"value":"global.g_browser_click_handler",},
       ],"copyToTargets":113497714299118,"filename":"browser_click_handler.gml","final":"","functions":[
         {"resourceType":"GMExtensionFunction","resourceVersion":"1.0","name":"gmcallback_browser_click_handler","argCount":0,"args":[],"documentation":"","externalName":"gmcallback_browser_click_handler","help":"","hidden":false,"kind":11,"returnType":2,},

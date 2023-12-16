@@ -18,7 +18,7 @@
   "exportToGame": true,
   "extensionVersion": "1.0.0",
   "files": [
-    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"","constants":[],"copyToTargets":44,"filename":"ImageLoadBar.js","final":"","functions":[
+    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"ImageLoadBar.js","constants":[],"copyToTargets":44,"filename":"ImageLoadBar.js","final":"","functions":[
         {"resourceType":"GMExtensionFunction","resourceVersion":"1.0","name":"ImageLoadBar_hook","argCount":6,"args":[
             2,
             2,
