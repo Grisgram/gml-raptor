@@ -18,7 +18,7 @@
   "exportToGame": true,
   "extensionVersion": "1.0.0",
   "files": [
-    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"","constants":[],"copyToTargets":-1,"filename":"browser_hdpi.js","final":"","functions":[
+    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"browser_hdpi.js","constants":[],"copyToTargets":-1,"filename":"browser_hdpi.js","final":"","functions":[
         {"resourceType":"GMExtensionFunction","resourceVersion":"1.0","name":"browser_get_device_pixel_ratio","argCount":0,"args":[],"documentation":"","externalName":"browser_get_device_pixel_ratio","help":"browser_get_device_pixel_ratio()","hidden":false,"kind":5,"returnType":2,},
         {"resourceType":"GMExtensionFunction","resourceVersion":"1.0","name":"browser_stretch_canvas_ext","argCount":3,"args":[
             2,
@@ -33,7 +33,7 @@
         {"name":"browser_stretch_canvas_ext","path":"extensions/browser_hdpi/browser_hdpi.yy",},
         {"name":"browser_scrollbars_enable","path":"extensions/browser_hdpi/browser_hdpi.yy",},
       ],"origname":"","ProxyFiles":[],"uncompress":false,"usesRunnerInterface":false,},
-    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"","constants":[],"copyToTargets":-1,"filename":"browser_hdpi.gml","final":"","functions":[
+    {"resourceType":"GMExtensionFile","resourceVersion":"1.0","name":"browser_hdpi.gml","constants":[],"copyToTargets":-1,"filename":"browser_hdpi.gml","final":"","functions":[
         {"resourceType":"GMExtensionFunction","resourceVersion":"1.0","name":"browser_stretch_canvas","argCount":2,"args":[
             2,
             2,
