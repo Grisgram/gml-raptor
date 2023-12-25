@@ -96,5 +96,5 @@ If you prefer to look up the most recent version (or any specific version) for y
 ### Contact me
 Beside the communication channel here, you can reach me as @Grisgram on the [GameMakerKitchen Discord](https://discord.gg/8krYCqr).
 
-(c)2022-2023 [coldrock.games](https://www.coldrock.games)
+(c)2022-2024 [coldrock.games](https://www.coldrock.games)
 
