@@ -19,6 +19,7 @@
 /// @description translate the current keyboard_key to a string that is
 ///				 as-equal-as-possible to the gamemaker constant names (like vk_home)
 function keyboard_to_string(_key_to_translate = undefined) {
+	if (_key_to_translate == "") return "";
 	var _key = _key_to_translate == undefined ? keyboard_key : _key_to_translate;
 
 	if ((_key >= ord("A")) && (_key <= ord("Z")))

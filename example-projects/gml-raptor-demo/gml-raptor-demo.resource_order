@@ -17,6 +17,7 @@
     {"name":"controls","order":1,"path":"folders/_gml_raptor_/UI/controls.yy",},
     {"name":"default_sprites","order":2,"path":"folders/_gml_raptor_/UI/default_sprites.yy",},
     {"name":"messagebox","order":3,"path":"folders/_gml_raptor_/UI/messagebox.yy",},
+    {"name":"shaders","order":4,"path":"folders/_gml_raptor_/UI/shaders.yy",},
     {"name":"_gml_raptor_packages_","order":16,"path":"folders/_gml_raptor_packages_.yy",},
     {"name":"gml-highscorer","order":2,"path":"folders/_gml_raptor_packages_/gml-highscorer.yy",},
     {"name":"outline-shader-drawer","order":1,"path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",},
@@ -76,7 +77,6 @@
     {"name":"play-state-demo","order":2,"path":"folders/Sprites/play-state-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"shaders","order":4,"path":"folders/_gml_raptor_/UI/shaders.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"Slider","order":8,"path":"objects/Slider/Slider.yy",},
