@@ -255,7 +255,7 @@ if (!variable_global_exists("___ACTIVE_TRANSITION_STEP"))
 if (!variable_global_exists("_TRANSITION_RUNNING"))
 	TRANSITION_RUNNING = false;
 
-/// @function		transit(_transition)
+/// @function		transit(_transition, skip_if_another_running = false)
 /// @description	Perform an animated transition to another room
 ///					See RoomTransitions script for more info
 transit = function(_transition, skip_if_another_running = false) {

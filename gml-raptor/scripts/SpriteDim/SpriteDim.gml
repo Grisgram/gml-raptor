@@ -20,7 +20,7 @@ function SpriteDim(sprite = -1) constructor {
 		origin_y = 0;
 	}
 	
-	static toString = function() {
+	toString = function() {
 		return sprintf("{{0}x{1}}", width, height);
 	}
 }

@@ -71,7 +71,7 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 		return is_between(xp, left, left + width - 1) && is_between(yp, top, top + height - 1);
 	}
 	
-	static toString = function() {
+	toString = function() {
 		return sprintf("{{0}/{1}; {2}x{3}}", left, top, width, height);
 	}
 }

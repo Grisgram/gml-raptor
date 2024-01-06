@@ -13,7 +13,7 @@
 
 /// @function							seq_create_with_attributes(sequence, layer, x, y)
 /// @description						Create a sequence instance with the specified parameters and return the instance.
-///										This function will add the indievidual indie_attributes struct to the instance.
+///										This function will add the __raptor_attributes struct to the instance.
 /// @param {objecttype} sequence		The object type to create an instance of
 /// @param {layer} layer				The layer on which to create the instance
 /// @param {real} x						x-position
@@ -32,7 +32,7 @@ function seq_create_with_attributes(sequence, layer, x, y) {
 /// @description					A convenience shortcut function that creates a sequence on the layer and
 ///									position of the instance and even replaces the specified objecttype in 
 ///									the sequence with the instance.
-///									This function will add the indievidual indie_attributes struct to the instance.
+///									This function will add the __raptor_attributes struct to the instance.
 /// @param {objecttype} sequence	The object type to create an instance of
 /// @param {objecttype} object		The object type IN the sequence to be replaced
 /// @param {instance} instance		The instance to replace it with

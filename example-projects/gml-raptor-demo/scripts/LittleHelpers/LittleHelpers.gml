@@ -48,16 +48,44 @@ function percent_mult(of, total) {
 }
 
 /// @function					is_child_of(child, parent)
-/// @description				True, if the child is exactly parent type or derived from it
-/// @param {object_index} child
-/// @param {object} parent
+/// @description				True, if the child is parent or derived anywhere from parent.
+/// @param {object_index} child An object instance or object_index of the child to analyze
+/// @param {object} parent		The object_index (just the type) of the parent to find
 /// @returns {bool}
+#macro OBJECT_HAS_NO_PARENT	-100
 function is_child_of(child, parent) {
-	var ci;
-	with(child) ci = object_index;
+	var to_find;
+	if (instance_exists(child)) {
+		to_find = child.object_index;
+		if (IS_HTML || !instance_exists(parent)) {
+			if (object_get_name(to_find) == object_get_name(parent)) return true;
+		} else
+			if (to_find == parent.object_index) return true;
+	} else {
+		to_find = child;
+		if (IS_HTML) {
+			if (object_get_name(to_find) == object_get_name(parent)) return true;
+		} else
+			if (child == parent) return true;
+	}
 	
-	return object_is_ancestor(ci, parent);
-	//return child == parent || object_is_ancestor(child, parent);
+	while (to_find != OBJECT_HAS_NO_PARENT && !object_is_ancestor(to_find, parent)) 
+		to_find = object_get_parent(to_find);
+	
+	return to_find != OBJECT_HAS_NO_PARENT;
+}
+
+/// @function					name_of(_instance)
+/// @description				If _instance is undefined, undefined is returned,
+///								otherwise MY_NAME or object_get_name of the instance is returned,
+///								depending on the _with_ref_id parameter.
+///								To cover the undefined scenario, this function is normally used like this:
+///								var instname = name_of(my_instance) ?? "my default";
+/// @param {object_index} _instance	The instance to retrieve the name of.
+function name_of(_instance, _with_ref_id = true) {
+	if (_instance != undefined)
+		with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
+	return undefined;
 }
 
 /// @function		run_delayed(owner, delay, func, data = undefined)
@@ -95,6 +123,26 @@ function run_delayed(owner, delay, func, data = undefined) {
 /// @returns {Animation}	The animation processing the delay
 function run_delayed_ex(owner, delay, func, data = undefined) {
 	animation_abort_all(owner);
+	return run_delayed(owner, delay, func, data);
+}
+
+/// @function		run_delayed_exf(owner, delay, func, data = undefined)
+/// @description	Read _exf as "exclusive with finish"
+///					Executes a specified function EXCLUSIVELY in <delay> frames from now.
+///					Exclusively means in this case, animation_finish_all is invoked before
+///					starting the delayed waiter.
+///					Behind the scenes this uses the __animation_empty function which
+///					is part of the ANIMATIONS ListPool, so if you clear all animations,
+///					or use animation_run_ex while this is waiting for launch, 
+///					you will also abort this one here.
+///					Keep that in mind.
+/// @param {instance} owner	The owner of the delayed runner
+/// @param {int} delay		Number of frames to wait
+/// @param {func} func		The function to execute
+/// @param {struct} data	An optional data struct to be forwarded to func. Defaults to undefined.
+/// @returns {Animation}	The animation processing the delay
+function run_delayed_exf(owner, delay, func, data = undefined) {
+	animation_finish_all(owner);
 	return run_delayed(owner, delay, func, data);
 }
 

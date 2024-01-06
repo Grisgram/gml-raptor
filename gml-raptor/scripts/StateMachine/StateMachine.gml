@@ -104,11 +104,22 @@ function StateMachine(_owner) constructor {
 		lock_end_leave = undefined;
 	}
 	
+	/// @function lock_animation(_animation, _buffer_state_change = true)
+	/// @description	runs an animation locked, which means, no state change
+	///					is allowed until it is finished.
+	///					If a state change occurs while running, and you have set the
+	///					_buffer_state_change argument to true, then this state is remembered
+	///					and will be set as soon as the animation finishes.
+	///					Multiple state changes are ignored, only the first is remembered,
+	///					because normally they form kind of a "sequence", and the FIRST change
+	///					is the next to occur, not the LAST.
 	static lock_animation = function(_animation, _buffer_state_change = true) {
 		locking_animation = _animation;
 		lock_state_buffered = _buffer_state_change;
 		with (owner)
 			_animation.add_finished_trigger(function() {
+				// with(states) works, because this is run WITH(OWNER), and the owner
+				// is a stateful object, which owns a "states" member (this statemachine)
 				with (states)
 					__release_anim_lock();
 			});
@@ -271,11 +282,21 @@ function StateMachine(_owner) constructor {
 	/// @description		Get the state instance with the given name
 	/// @returns {State} 	The requested state or undefined, if there is none.
 	static get_state = function(name) {
+		if (name == undefined)
+			return undefined;
+			
 		for (var i = 0; i < array_length(__states); i++) {
 			if (__states[i].name == name)
 				return __states[i];
 		}
 		return undefined;
+	}
+	
+	/// @function get_active_state()
+	/// @description		Get the state instance of the currently active state
+	/// @returns {State} 	The requested state or undefined, if there is none.
+	static get_active_state = function() {
+		return get_state(active_state_name());
 	}
 	
 	/// @function rename_state(old_name, new_name)
@@ -340,9 +361,8 @@ function StateMachine(_owner) constructor {
 		STATEMACHINES.remove(self);
 	}
 	
-	static toString = function() {
-		var me = "";
-		with (owner) me = MY_NAME;
+	toString = function() {
+		var me = name_of(owner) ?? "";
 		return sprintf("{0}: state='{1}'; locked='{2}'; paused={3};", me, active_state_name(), locking_animation, __objectpool_paused);
 	}
 	
@@ -383,7 +403,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 		return on_step != undefined ? on_step(data, frame) : undefined;
 	}
 	
-	static toString = function() {
+	toString = function() {
 		return sprintf("[{0}]", name);
 	}
 

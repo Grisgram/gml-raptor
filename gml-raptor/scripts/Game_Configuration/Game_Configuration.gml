@@ -34,13 +34,24 @@
 #macro release:GAME_SETTINGS_FILENAME	"game_settings.gsx"
 #macro release:FILE_CRYPT_KEY			"replace-this-string-for-your-own-safety"
 
+// Global functionality setup for the game
+// If you set this to any existing room (not as string! the asset), you can override the variable from the 
+// GameStarter object without having to edit it
+#macro ROOM_AFTER_STARTER		undefined
+
+// Highscore setup for the game
+#macro USE_HIGHSCORES			false
 #macro HIGHSCORE_TABLE_NAME		"Highscores"
 #macro HIGHSCORE_TABLE_LENGTH	10
+#macro HIGHSCORE_TABLE_SCORING	scoring.score_high
 #macro HIGHSCORES				global._HIGHSCORES
-// If your game does not record highscores, set this to undefined, but DO NOT DELETE the macro!
-HIGHSCORES						= new HighScoreTable(HIGHSCORE_TABLE_NAME, HIGHSCORE_TABLE_LENGTH, scoring.score_high);
-// Fill the highscore table with empty data. If you don't want that, just delete the line
-repeat (HIGHSCORE_TABLE_LENGTH) HIGHSCORES.register_highscore("- no entry -",0);
+
+if (USE_HIGHSCORES) {
+	HIGHSCORES = new HighScoreTable(HIGHSCORE_TABLE_NAME, HIGHSCORE_TABLE_LENGTH, HIGHSCORE_TABLE_SCORING);
+	repeat (HIGHSCORE_TABLE_LENGTH) HIGHSCORES.register_highscore("- no entry -",0);
+} else {
+	HIGHSCORES = undefined;
+}
 
 /// @function function onGameStart()
 /// @description	When this runs, load_settings() has already been called and 
@@ -57,6 +68,7 @@ function onGameStart() {
 	DEBUG_LOG_STATEMACHINE		= false;
 	DEBUG_LOG_RACE				= false;
 	DEBUG_LOG_PARTICLES			= false;
+	DEBUG_LOG_BROADCASTS		= false;
 	
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script

@@ -3,7 +3,7 @@
 	Adapt them to your needs for the current game in the onGameStart callback
 	of the Game_Configuration script (in the _GAME_SETUP_ folder)
 	
-	(c)2022 Mike Barthold, indievidualgames.com
+	(c)2022- coldrock.games aka @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT	
 */
 

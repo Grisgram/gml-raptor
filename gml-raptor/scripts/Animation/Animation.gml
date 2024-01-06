@@ -39,7 +39,7 @@ ANIMATIONS		= new ListPool("ANIMATIONS");
 
 #macro LOOP_INFINITE	-1
 
-/// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
+/// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
 /// @description	Holds an animation. set repeats to -1 to loop forever until you call abort()
 /// @param {instance}	_obj_owner  The object to be animated
 /// @param {int}		_delay      How many frames to wait until animation starts
@@ -49,7 +49,8 @@ ANIMATIONS		= new ListPool("ANIMATIONS");
 /// @param {string}		_finished_state	If the owner is stateful (or owns a StateMachine named "states"),
 ///										you can supply the name of a state here to set when this animation
 ///										finishes (A finished_trigger will be added for you).
-function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) constructor {
+/// @param {struct}		_data		A user defined data struct that will be delivered to all trigger functions
+function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) constructor {
 	owner				= _obj_owner;
 	finished_state		= _finished_state;
 	delay				= _delay;
@@ -57,7 +58,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	duration_rt			= _duration / room_speed;
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
-	data				= {};
+	data				= _data ?? {};
 	name				= undefined;
 	
 	parent_animation	= undefined; // used for looping through followed_by and loop_to methods
@@ -658,9 +659,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	static toString = function() {
-		var me = "";
-		with (owner) me = MY_NAME;
+	toString = function() {
+		var me = name_of(owner) ?? "";
 		return $"{me}: delay={delay}; duration={duration}; repeats={repeats};";
 	}
 
@@ -685,6 +685,23 @@ function animation_get_all(owner = self) {
 	return __listpool_get_all_owner_objects(ANIMATIONS, owner);
 }
 
+/// @function		animation_finish_all(owner = self)
+/// @description	Finish all registered animations for the specified owner.
+///					NOTE: Set the owner to <undefined> to finish ALL existing animations!
+function animation_finish_all(owner = self) {
+	var removers = animation_get_all(owner);
+	
+	if (DEBUG_LOG_LIST_POOLS)
+		with (owner) 
+			log($"{MY_NAME}: animation_finish_all cleanup: anims_to_remove={array_length(removers)};");
+		
+	for (var i = 0, len = array_length(removers); i < len; i++) {
+		var to_remove = removers[@ i];
+		with (to_remove) 
+			finish();
+	}
+}
+
 /// @function		animation_abort_all(owner = self)
 /// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
 ///					NOTE: Set the owner to <undefined> to abort ALL existing animations!
@@ -693,7 +710,7 @@ function animation_abort_all(owner = self) {
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log($"{MY_NAME}: Animation cleanup: anims_to_remove={array_length(removers)};");
+			log($"{MY_NAME}: animation_abort_all cleanup: anims_to_remove={array_length(removers)};");
 		
 	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
@@ -757,23 +774,32 @@ function is_in_animation(owner = self, name = undefined) {
 	return false;
 }
 
-/// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
+/// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
 /// @description		convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
-function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) {
-	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state);
+function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
+	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
-/// @function			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
+/// @function			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
 /// @description		Runs an animation EXCLUSIVE (i.e. calls "animation_abort_all()" for the owner first.
 ///						Convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
-function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) {
+function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
 	animation_abort_all(_obj_owner);
-	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state);
+	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
-/// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1)
+/// @function			animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @description		Runs an animation EXCLUSIVE WITH FINISH (i.e. calls "animation_finish_all()" for the owner first.
+///						Convenience constructor wrapper if you don't need to keep your own pointer
+/// @returns {Animation}
+function animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
+	animation_finish_all(_obj_owner);
+	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
+}
+
+/// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1, _data = {})
 /// @description		Convenience function to create a delay/duration/callback animation
 ///						without an animcurve, but you have still ALL callbacks available
 ///						(started, finished, frames, etc). It just has no animation.
@@ -781,6 +807,6 @@ function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 
 ///						actually design a real animation.
 ///						Can be seen as a comfortable ALARM implementation with more options than the builtin alarms.
 /// @returns {Animation}
-function __animation_empty(_obj_owner, _delay, _duration, _repeats = 1) {
-	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats);
+function __animation_empty(_obj_owner, _delay, _duration, _repeats = 1, _data = {}) {
+	return new Animation(_obj_owner, _delay, _duration, undefined, _repeats, undefined, _data);
 }

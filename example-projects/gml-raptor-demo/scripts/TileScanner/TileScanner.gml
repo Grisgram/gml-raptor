@@ -87,9 +87,11 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 	}
 	#endregion
 	
-	/// @function		scan_layer = function()
+	/// @function		scan_layer()
 	/// @description	Returns (and fills) the "tiles" array of this TileScanner
 	static scan_layer = function() {
+		// purge any existing arrays
+		tiles = array_create(map_width * map_height, undefined);
 		var xp = 0, yp = 0;
 		repeat (map_height) {
 			repeat (map_width) {
@@ -102,17 +104,36 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return tiles;
 	}
 	
-	/// @function		find_tiles = function(indices...)
+	/// @function		find_tiles(indices...)
 	/// @description	scans the layer for tiles. Specify up to 16 tile indices you want to find.
 	///					Returns an array of TileInfo structs.
 	static find_tiles = function() {
-		return array_filter(tiles, function(element) {
-			for (var a = 0; a < argument_count; a++) 
-				if (element.index == argument[@ a]) return true;
-			return false;
-		});
+		var rv = [];
+		for (var i = 0, len = array_length(tiles); i < len; i++)
+			for (var a = 0, alen = argument_count; a < alen; a++)
+				if (tiles[@i].index == argument[@a])
+					array_push(rv, tiles[@i]);
+		return rv;		
 	}
-		
+	
+	/// @function get_tile_at(map_x, map_y)
+	/// @description Gets the TileInfo object at the specified map coordinates.
+	///				 To get a tile from pixel coordinates, use get_tile_at_px(...)
+	static get_tile_at = function(map_x, map_y) {
+		var idx = map_y * map_width + map_x;
+		if (idx >= 0 && idx < array_length(tiles))
+			return tiles[@idx];
+		return undefined;
+	}
+	
+	/// @function get_tile_at_px(_x, _y)
+	/// @description Gets the TileInfo object at the specified pixel coordinates.
+	///				 To get a tile from map coordinates, use get_tile_at(...)
+	static get_tile_at_px = function(_x, _y) {
+		var map_x = floor(_x / cell_width);
+		var map_y = floor(_y / cell_height);
+		return get_tile_at(map_x, map_y);
+	}
 }
 
 /// @function		TileInfo()

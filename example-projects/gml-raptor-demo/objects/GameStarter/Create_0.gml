@@ -3,6 +3,8 @@
 #macro GAMESTARTER		global._GAMESTARTER
 GAMESTARTER				= self;
 
+goto_room_after_init	= ROOM_AFTER_STARTER ?? goto_room_after_init;
+
 // spinner animation
 spinner_font			= undefined;
 spinner_sprite			= sprLoadingSpinner;

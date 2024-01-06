@@ -13,5 +13,7 @@
 	...etc...
 */
 
+if (protect_ui_events) GUI_EVENT;
+
 states.set_state("ev:key_up_" + keyboard_to_string(keyboard_lastkey));
 
