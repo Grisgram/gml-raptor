@@ -46,7 +46,7 @@ global.__unique_count_up_id	= 0;
 #macro __GUI_MOUSE_EVENT_LOCK	(variable_instance_exists(self, "draw_on_gui") && draw_on_gui && !gui_mouse.event_redirection_active)
 
 // All controls skip their events, if this is true
-#macro __SKIP_CONTROL_EVENT		(__GUI_MOUSE_EVENT_LOCK || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP)
+#macro __SKIP_CONTROL_EVENT		(__GUI_MOUSE_EVENT_LOCK || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP || (variable_instance_exists(self, "is_enabled") && !is_enabled))
 
 // Instead of repeating the same if again and again in each mouse event, just use this macro;
 #macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;

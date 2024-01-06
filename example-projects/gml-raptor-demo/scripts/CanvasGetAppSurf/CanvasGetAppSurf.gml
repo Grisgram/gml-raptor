@@ -18,7 +18,7 @@ function CanvasGetAppSurf(_new = false) {
 		return new Canvas(
 			surface_get_width(application_surface), 
 			surface_get_height(application_surface), true)
-			.CopySurface(application_surface, 0, 0);	
+			.CopySurface(application_surface, 0, 0, false, true);	
 	}
 	
 	return _appSurf;

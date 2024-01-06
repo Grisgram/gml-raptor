@@ -5,7 +5,7 @@
 /// @param {Real} height
 /// @param {Boolean} forceInit
 /// @param {Constant.SurfaceFormatType} surfaceFormat
-function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unorm) constructor {
+function Canvas(_width, _height, _forceInit = false, _format = undefined) constructor {
 	
 		#region Variables
 		static __sys = __CanvasSystem();
@@ -15,9 +15,15 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 		__buffer = -1;
 		__cacheBuffer = -1;
 		__status = CanvasStatus.NO_DATA;
-		__writeToCache = true;
+		__writeToCache = __CANVAS_AUTO_WRITE_TO_CACHE;
 		__index = -1;
-		__depthDisabled = surface_get_depth_disable();
+		
+		switch(__CANVAS_SURFACE_DEPTH_MODE) {
+			case 0: __depthDisabled = surface_get_depth_disable(); break;	
+			case 1: __depthDisabled = false; break;
+			case 2: __depthDisabled = true; break;
+		}
+		
 		// Add to refList
 		__refContents = {
 			buff: __buffer,
@@ -286,7 +292,7 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 					Finish();
 				}
 				
-				var _tempSurf = surface_create(_width, _height, __format);
+				var _tempSurf = __CanvasSurfaceCreate(_width, _height, __format);
 				surface_copy(_tempSurf, 0, 0, __surface);
 				surface_resize(__surface, _width, _height);
 				buffer_resize(__buffer, _width*_height*__format);
@@ -485,7 +491,7 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 			if (!IsAvailable()) __CanvasError("Canvas not initalized or in use! Please ensure data is ready before using .SaveAsImage()");
 			CheckSurface();
 			if (__format != surface_rgba8unorm) {
-				var _surf = surface_create(__width, __height);
+				var _surf = __CanvasSurfaceCreate(__width, __height);
 				surface_copy(_surf, 0, 0, __surface);
 				surface_save(_surf, _filename);
 				surface_free(_surf);
@@ -544,46 +550,54 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 			if (_x >= __width || _x < 0) || (_y >= __height || _y < 0) return 0;
 			var _r, _g, _b, _result, _col;
 			
-			switch(__format) {
-				case surface_rgba8unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
-					_r = _col & 0xFF;
-					_g = (_col >> 8) & 0xFF;
-					_b = (_col >> 16) & 0xFF;
-					_result = _b << 16 | _g << 8 | _r;
-				break;
-				case surface_r8unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u8);
-					_r = _col;
-					_result = _r;
-				break;
-				case surface_rg8unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
-					_r = _col & 0xFF;
-					_g = (_col >> 8) & 0xFF;
-					_result = (_g & 0xFF) << 8 | (_r & 0xFF);
-				break;
-				case surface_rgba4unorm: 
-					var _col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
-					_r = _col & 0x80;
-					_g = (_col >> 4) & 0x80;
-					_b = (_col >> 8) & 0x80;
-					_result = (_b & 0x80) << 8 | (_g & 0x80) << 4 | (_r & 0x80);
-				break;
-				case surface_rgba16float:
-				case surface_rgba32float: 
-					__CanvasError("GetPixel() does not support " + string(__CanvasSurfFormat(__format)) + ". Please use GetPixelArray()");
-				break;
-				case surface_r32float: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f32);
-					_r = _col;
-					_result = _r;
-				break;
-				case surface_r16float: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f16);
-					_r = _col;
-					_result = _r;
-				break;
+			if (__sys.supportsFormats) {
+				switch(__format) {
+					case surface_rgba8unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
+						_r = _col & 0xFF;
+						_g = (_col >> 8) & 0xFF;
+						_b = (_col >> 16) & 0xFF;
+						_result = _b << 16 | _g << 8 | _r;
+					break;
+					case surface_r8unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u8);
+						_r = _col;
+						_result = _r;
+					break;
+					case surface_rg8unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+						_r = _col & 0xFF;
+						_g = (_col >> 8) & 0xFF;
+						_result = (_g & 0xFF) << 8 | (_r & 0xFF);
+					break;
+					case surface_rgba4unorm: 
+						var _col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+						_r = _col & 0x80;
+						_g = (_col >> 4) & 0x80;
+						_b = (_col >> 8) & 0x80;
+						_result = (_b & 0x80) << 8 | (_g & 0x80) << 4 | (_r & 0x80);
+					break;
+					case surface_rgba16float:
+					case surface_rgba32float: 
+						__CanvasError("GetPixel() does not support " + string(__CanvasSurfFormat(__format)) + ". Please use GetPixelArray()");
+					break;
+					case surface_r32float: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f32);
+						_r = _col;
+						_result = _r;
+					break;
+					case surface_r16float: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f16);
+						_r = _col;
+						_result = _r;
+					break;
+				}
+			} else {
+				_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
+				_r = _col & 0xFF;
+				_g = (_col >> 8) & 0xFF;
+				_b = (_col >> 16) & 0xFF;
+				_result = _b << 16 | _g << 8 | _r;	
 			}
 			return _result;
 		}
@@ -595,44 +609,52 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 			if (_x >= __width || _x < 0) || (_y >= __height || _y < 0) return [0,0,0,0];
 			var _r = 0, _g = 0, _b = 0, _a = 0, _col;
 			
-			switch(__format) {
-				case surface_rgba8unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
-					_r = _col & 0xFF;
-					_g = (_col >> 8) & 0xFF;
-					_b = (_col >> 16)  & 0xFF;
-					_a = (_col >> 24) / 0xFF;
-				break;
-				case surface_r8unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u8);
-					_r = _col;
-				break;
-				case surface_rg8unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
-					_r = _col & 0xFF;
-					_g = (_col >> 8) & 0xFF;
-				break;
-				case surface_rgba4unorm: 
-					_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
-					_r = _col & 0x80;
-					_g = (_col >> 4) & 0x80;
-					_b = (_col >> 8) & 0x80;
-				break;
-				case surface_rgba16float:
-					_r = buffer_peek(__buffer, (_x + (_y * __width)) * 2, buffer_f16);
-					_g = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_f16);
-					_b = buffer_peek(__buffer, (_x + (_y * __width)) * 6, buffer_f16);
-					_a = buffer_peek(__buffer, (_x + (_y * __width)) * 8, buffer_f16);
-				case surface_r16float: 
-					_r = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f16);
-				case surface_rgba32float: 
-					_r = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_f32);
-					_g = buffer_peek(__buffer, (_x + (_y * __width)) * 8, buffer_f32);
-					_b = buffer_peek(__buffer, (_x + (_y * __width)) * 12, buffer_f32);
-					_a = buffer_peek(__buffer, (_x + (_y * __width)) * 16, buffer_f32);
-				case surface_r32float: 
-					_r = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f32);
-				break;
+			if (__sys.supportsFormats) {
+				switch(__format) {
+					case surface_rgba8unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
+						_r = _col & 0xFF;
+						_g = (_col >> 8) & 0xFF;
+						_b = (_col >> 16)  & 0xFF;
+						_a = (_col >> 24) / 0xFF;
+					break;
+					case surface_r8unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u8);
+						_r = _col;
+					break;
+					case surface_rg8unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+						_r = _col & 0xFF;
+						_g = (_col >> 8) & 0xFF;
+					break;
+					case surface_rgba4unorm: 
+						_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u16);
+						_r = _col & 0x80;
+						_g = (_col >> 4) & 0x80;
+						_b = (_col >> 8) & 0x80;
+					break;
+					case surface_rgba16float:
+						_r = buffer_peek(__buffer, (_x + (_y * __width)) * 2, buffer_f16);
+						_g = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_f16);
+						_b = buffer_peek(__buffer, (_x + (_y * __width)) * 6, buffer_f16);
+						_a = buffer_peek(__buffer, (_x + (_y * __width)) * 8, buffer_f16);
+					case surface_r16float: 
+						_r = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f16);
+					case surface_rgba32float: 
+						_r = buffer_peek(__buffer, (_x + (_y * __width)) * 4, buffer_f32);
+						_g = buffer_peek(__buffer, (_x + (_y * __width)) * 8, buffer_f32);
+						_b = buffer_peek(__buffer, (_x + (_y * __width)) * 12, buffer_f32);
+						_a = buffer_peek(__buffer, (_x + (_y * __width)) * 16, buffer_f32);
+					case surface_r32float: 
+						_r = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_f32);
+					break;
+				}
+			} else {
+				_col = buffer_peek(__buffer, (_x + (_y * __width)) * __bufferSize, buffer_u32);
+				_r = _col & 0xFF;
+				_g = (_col >> 8) & 0xFF;
+				_b = (_col >> 16)  & 0xFF;
+				_a = (_col >> 24) / 0xFF;	
 			}
 			return [_r, _g, _b, _a];
 		}
@@ -856,7 +878,7 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 				}
 				var _oldDepthDisabled = surface_get_depth_disable();
 				surface_depth_disable(__depthDisabled);
-				__surface = surface_create(__width, __height, __format);
+				__surface = __CanvasSurfaceCreate(__width, __height, __format);
 				surface_depth_disable(_oldDepthDisabled);
 				__refContents.surf = __surface;
 			}
@@ -886,23 +908,28 @@ function Canvas(_width, _height, _forceInit = false, _format = surface_rgba8unor
 			}
 		}
 		
-		static __UpdateFormat = function(_format) {
-			__format = _format;
-			if (!surface_format_is_supported(_format)) {
-				__CanvasError("Surface format " + string(__CanvasSurfFormat(_format)) + " not supported on this platform!");
-			}
-			
-			switch(_format) {
-				case surface_rgba8unorm: __bufferSize = 4; break;
-				case surface_r8unorm: __bufferSize = 1; break;
-				case surface_rg8unorm: __bufferSize = 2; break;
-				case surface_rgba4unorm: __bufferSize = 2; break;
-				case surface_rgba16float: __bufferSize = 8; break;
-				case surface_r16float: __bufferSize = 2; break;
-				case surface_rgba32float: __bufferSize = 16; break;
-				case surface_r32float: __bufferSize = 4; break;
-				default: __CanvasError("Invalid surface format! Got " + string(_format)); break;
-			}	
+			static __UpdateFormat = function(_format) {
+				__format = _format ?? 0;
+				__bufferSize = 4;
+				
+				if (__sys.supportsFormats) {
+					__format = _format ?? surface_rgba8unorm;
+					if (!surface_format_is_supported(__format)) {
+						__CanvasError("Surface format " + string(__CanvasSurfFormat(__format)) + " not supported on this platform!");
+					}
+					
+					switch(__format) {
+						case surface_rgba8unorm: __bufferSize = 4; break;
+						case surface_r8unorm: __bufferSize = 1; break;
+						case surface_rg8unorm: __bufferSize = 2; break;
+						case surface_rgba4unorm: __bufferSize = 2; break;
+						case surface_rgba16float: __bufferSize = 8; break;
+						case surface_r16float: __bufferSize = 2; break;
+						case surface_rgba32float: __bufferSize = 16; break;
+						case surface_r32float: __bufferSize = 4; break;
+						default: __CanvasError("Invalid surface format! Got " + string(__format)); break;
+					}	
+				}
 		}
 		
 		#endregion

@@ -18,6 +18,39 @@ function instance_create(xp, yp, layer_name_or_depth, object, struct = undefined
 			instance_create_depth(xp, yp, layer_name_or_depth, object, struct);
 }
 
+/// @function		instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined)
+/// @description	Clones an instance and returns the clone.
+///					"Cloning" for this function means:
+///					* A new instance of the same type is created at the same position and layer/depth
+///					* The Create event will run normally on the clone
+///					* "green" variables (x,y,scale,rotation,blend,alpha,...) are copied to the clone
+///					* All other variable values are *not* copied
+function instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined) {
+	var rv;
+	with (_instance) {
+		var myname = object_get_name(object_index);
+		var idx = asset_get_index(myname);
+		rv = instance_create(x, y, layer_name_or_depth ?? (layer != -1 ? layer_get_name(layer) : depth), idx, struct);
+		rv.sprite_index = sprite_index;
+		rv.image_alpha  = image_alpha;
+		rv.image_angle  = image_angle;
+		rv.image_blend  = image_blend;
+		rv.image_index  = image_index;
+		rv.image_speed  = image_speed;
+		rv.image_xscale = image_xscale;
+		rv.image_yscale = image_yscale;
+		rv.direction	= direction;
+		rv.speed		= speed;
+	}
+	return rv;
+}
+
+/// @function		is_object_instance(_inst)
+/// @description	Checks whether a variable holds a living (not deactivated) object instance
+function is_object_instance(_inst) {
+	return _inst != undefined && instance_exists(_inst) && _inst.id == _inst;
+}
+	
 /// @function		scale_sprite_to(target_width, target_height)
 /// @description	Scale an instances' sprite so that it has the desired dimensions.
 function scale_sprite_to(target_width, target_height) {

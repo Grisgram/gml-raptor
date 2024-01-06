@@ -1,6 +1,6 @@
 /*
 	Utility methods to work with files.
-	Requires juju's SNAP library and indieviduals Buffers scripts to work.
+	Requires juju's SNAP library and gml-raptor Buffers scripts to work.
 	
 	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
@@ -22,7 +22,7 @@ function __ensure_file_cache() {
 		__FILE_CACHE = {};
 }
 
-/// @function					file_read_text_file_absolute(filename)
+/// @function					file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_cache = false)
 /// @param {string} filename	The name (full path) of the file to read
 /// @param {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
 /// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
@@ -38,11 +38,12 @@ function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_c
 		return variable_struct_get(__FILE_CACHE, filename);
 	}
 	
+	var file = undefined;
 	TRY
 		log("Loading text file " + filename);
 	    var _buffer = buffer_load(filename);
 		var bufsize = buffer_get_size(_buffer);
-		log(sprintf("Loaded {0} bytes from file", bufsize));
+		log($"Loaded {bufsize} bytes from file");
 		var _string = undefined;
 		if (bufsize > 0) {
 		    if (remove_utf8_bom && (buffer_get_size(_buffer) >= 4) && (buffer_peek(_buffer, 0, buffer_u32) & 0xFFFFFF == 0xBFBBEF))
@@ -59,10 +60,11 @@ function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_c
 			}
 		}
 	    return _string;
-	CATCH return undefined; ENDTRY
+	CATCH return undefined; 
+	ENDTRY
 }
 
-/// @function					file_read_text_file(filename)
+/// @function					file_read_text_file(filename, remove_utf8_bom = true, add_to_cache = false)
 /// @param {string} filename	The name (relative path starting in working_directory) of the file to read
 /// @param {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
 /// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
@@ -70,7 +72,7 @@ function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_c
 ///								checks whether the file exists, and if not, an empty string is returned.
 ///								crashes, if the file is not a text file
 function file_read_text_file(filename, remove_utf8_bom = true, add_to_cache = false) {
-	return file_read_text_file_absolute(working_directory + filename, remove_utf8_bom);
+	return file_read_text_file_absolute(working_directory + filename, remove_utf8_bom, add_to_cache);
 }
 
 /// @function					file_write_text_file(filename, text)

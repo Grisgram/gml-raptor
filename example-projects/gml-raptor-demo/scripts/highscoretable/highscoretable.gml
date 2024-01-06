@@ -234,7 +234,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 	}
 
 	// Dumps the entire table
-	static toString = function() {
+	toString = function() {
 		
 		var max_name_len = 0;
 		var max_score_len = -1;

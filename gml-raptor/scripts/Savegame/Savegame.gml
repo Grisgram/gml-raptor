@@ -12,7 +12,7 @@
 #macro SAVEGAME_LOAD_IN_PROGRESS		global.__savegame_load_in_progress
 
 // The GLOBALDATA struct is persisted with the savegame
-#macro GLOBALDATA			global.__game_data
+#macro GLOBALDATA			global.__global_data
 GLOBALDATA = {};
 
 // This macro is used internally on objects that push their own data
@@ -54,6 +54,7 @@ GLOBALDATA = {};
 										
 #macro __SAVEGAME_ENGINE_SEED			"seed"
 #macro __SAVEGAME_ENGINE_VERSION		"file_version"
+#macro __SAVEGAME_ENGINE_ROOM_NAME		"room_name"
 										
 #macro __SAVEGAME_ONSAVING_NAME			"onGameSaving"
 #macro __SAVEGAME_ONSAVED_NAME			"onGameSaved"

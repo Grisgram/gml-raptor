@@ -7,18 +7,31 @@ edges = new Edges(self);
 
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
-__startup_x			= x;
-__startup_y			= y;
-__startup_xscale	= image_xscale;
-__startup_yscale	= image_yscale;
+__startup_x					= x;
+__startup_y					= y;
+__startup_xscale			= image_xscale;
+__startup_yscale			= image_yscale;
+							
+__last_sprite_index			= undefined;
+__last_text					= "";
+__scribble_text				= undefined;
+__text_x					= 0;
+__text_y					= 0;
+							
+__force_redraw				= false;
 
-__last_sprite_index = undefined;
-__last_text			= "";
-__scribble_text		= undefined;
-__text_x			= 0;
-__text_y			= 0;
+__disabled_surface			= undefined;
+__disabled_surface_width	= 0;
+__disabled_surface_height	= 0;
 
-__force_redraw		= false;
+cleanup_disabled_surface = function() {
+	if (__disabled_surface == undefined) return;
+	
+	__disabled_surface.Free();
+	__disabled_surface			= undefined;
+	__disabled_surface_width	= 0;
+	__disabled_surface_height	= 0;
+}
 
 /// @function					force_redraw()
 /// @description				force recalculate of all positions next frame
@@ -131,11 +144,47 @@ __draw_self = function() {
 		__finalize_scribble_text();
 
 	if (sprite_index != -1) {
-		image_blend = (mouse_is_over ? draw_color_mouse_over : draw_color);
-		draw_self();
-		image_blend = c_white;
+		if (!is_enabled) {
+			__disabled_surface_width = sprite_width;
+			__disabled_surface_height = sprite_height;
+			shader_set(GrayScaleShader);
+			draw_self();
+			shader_reset();
+		} else {
+			image_blend = (mouse_is_over ? draw_color_mouse_over : draw_color);
+			draw_self();
+			image_blend = c_white;
+		}
 	}
 	
-	if (text != "") draw_scribble_text();
+	if (text != "") {
+		if (is_enabled) {
+			// cleanup so the next disable will create a new surface (contents might have changed)
+			if (__disabled_surface != undefined) 
+				cleanup_disabled_surface();
+				
+			draw_scribble_text();
+		} else {
+			if (__disabled_surface == undefined) {
+				if (__disabled_surface_height == 0) {
+					__disabled_surface_width = __scribble_text.get_width();
+					__disabled_surface_height = __scribble_text.get_height();
+				}
+				__disabled_surface = new Canvas(__disabled_surface_width, __disabled_surface_height);
+				var backx = __text_x;
+				var backy = __text_y;
+				__text_x -= x;
+				__text_y -= y;
+				__disabled_surface.Start();
+				draw_scribble_text();
+				__disabled_surface.Finish();
+				__text_x = backx;
+				__text_y = backy;
+			}
+			shader_set(GrayScaleShader);
+			__disabled_surface.Draw(x - sprite_xoffset, y - sprite_yoffset);
+			shader_reset();
+		}
+	}
 }
 

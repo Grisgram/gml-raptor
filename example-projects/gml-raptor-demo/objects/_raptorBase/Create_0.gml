@@ -2,3 +2,4 @@
 
 if (log_create_destroy)
 	log(MY_NAME + " created.");
+

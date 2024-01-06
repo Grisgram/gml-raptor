@@ -52,6 +52,13 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		if (!surface_exists(__outline_surface_2)) __outline_surface_2 = surface_create(1, 1);
 	}
 
+	/// @function set_outline_color(_color)
+	static set_outline_color = function(_color) {
+		outline_color	= make_color_rgb(color_get_red(_color),color_get_green(_color),color_get_blue(_color));
+		pulse_color_1	= outline_color;
+		pulse_color_2	= outline_color;
+	}
+
 	/// @function		set_shader_pulse(_min_strength, _max_strength, _color_1, _color_2, _frequency)
 	static set_shader_pulse = function(_min_strength, _max_strength, _color_1, _color_2, _frequency) {
 		pulse_min		= _min_strength;

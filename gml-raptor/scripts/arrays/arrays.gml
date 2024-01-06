@@ -131,12 +131,12 @@ function array_null_or_empty(array) {
 	return (array == undefined || !is_array(array) || array_length(array) == 0);
 }
 
-/// @function		array_contains(array, value)
+/// @function		array_contains_recursive(array, value, recursive = true)
 /// @description	Searches the array for the specified value.
 /// @param {array} array	The array to search
 /// @param {any} value		The value to find
 /// @returns {bool}			True, if value is contained in array, otherwise false
-function array_contains(array, value, recursive = true) {
+function array_contains_recursive(array, value, recursive = true) {
 	if (array_null_or_empty(array))
 		return false;
 		

@@ -95,6 +95,5 @@ function SnapBufferMeasureBinary(_value)
     {
         show_message("Datatype \"" + typeof(_value) + "\" not supported");
     }
-    log(len);
     return len;
 }

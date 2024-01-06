@@ -131,7 +131,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return (x == other_coord3.x) && (y == other_coord3.y) && (z == other_coord3.z);
 	}
 
-	static toString = function() {
+	toString = function() {
 		return sprintf("{{0}/{1}/{2}}", x, y, z);
 	}
 }
