@@ -69,6 +69,12 @@ function Sender() constructor {
 	///					So, plan your broadcast names accordingly to be able to filter
 	///					as you need!
 	static add_receiver = function(_owner, _name, _message_filter, _callback) {
+		if (_owner == undefined || !variable_instance_exists(_owner, "depth")) {
+			if (DEBUG_LOG_BROADCASTS)
+				log($"** WARNING ** add_receiver '{_name}' ignored, because 'owner' is undefined or has no depth!");
+			return;
+		}
+		
 		var rcv = new __receiver(_owner, _name, _message_filter, _callback);
 		remove_receiver(_name);
 		array_push(receivers, rcv);
@@ -136,6 +142,15 @@ function Sender() constructor {
 		bc.uniqueid = bcid;
 		__in_send = true;
 		removers = [];
+		array_sort(receivers, function(elm1, elm2)
+		{
+			TRY 
+				return elm1.owner.depth - elm2.owner.depth; 
+			CATCH 
+				return 0; 
+			ENDTRY
+		});
+		
 		for (var i = 0, len = array_length(receivers); i < len; i++) {
 			var r = receivers[@ i];
 			if (r.filter_hit(_title)) {
@@ -199,6 +214,10 @@ function __receiver(_owner, _name, _message_filter, _callback) constructor {
 		}
 		
 		return false;
+	}
+	
+	toString = function() {
+		return $"{name_of(owner)}@{owner.depth}";
 	}
 }
 
