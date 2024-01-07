@@ -13,7 +13,7 @@
   "option_sci_usesci": false,
   "option_spine_licence": true,
   "option_steam_app_id": "0",
-  "option_template_description": "gml-raptor game template (HTML-ready) with packages:\r\n- animated-flag\r\n- outline-shader-drawer\r\n- highscorer\r\n\r\nAlso included are these libs from Juju Adams:\r\n- Scribble\r\n- Snap\r\n",
+  "option_template_description": "gml-raptor game template (HTML-ready) with packages:\r\n- animated-flag\r\n- outline-shader-drawer\r\n- highscorer\r\n\r\nAlso included are these libs from third parties:\r\n- Scribble\r\n- SNAP\r\n- Canvas",
   "option_template_icon": "template_icon.png",
   "option_template_image": "template_image.png",
   "option_window_colour": 255,

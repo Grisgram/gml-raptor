@@ -7,19 +7,21 @@
 */
 
 // Those macros are also taken from input but renamed to avoid conflicts if the game uses input library too
-#macro __KEY_TRANSLATE_DESKTOP  ((os_type == os_macosx)  || (os_type == os_linux) || (os_type == os_windows))
-#macro __KEY_TRANSLATE_APPLE    ((os_type == os_macosx)  || (os_type == os_ios)   || (os_type == os_tvos))
+#macro __KEY_TRANSLATE_DESKTOP  ((os_type == os_macosx) || (os_type == os_linux) || (os_type == os_windows))
+#macro __KEY_TRANSLATE_APPLE    ((os_type == os_macosx) || (os_type == os_ios)   || (os_type == os_tvos))
 
 #macro __KEY_TRANSLATE_OPERAGX  (os_type == os_operagx)
 #macro __KEY_TRANSLATE_WEB      ((os_browser != browser_not_a_browser) || __KEY_TRANSLATE_OPERAGX)
 
-#macro __KEY_TRANSLATE_PHYS_KEYBOARD (__KEY_TRANSLATE_DESKTOP || __KEY_TRANSLATE_WEB || (os_type == os_switch) ||  (os_type == os_uwp))
+#macro __KEY_TRANSLATE_PHYS_KEYBOARD (__KEY_TRANSLATE_DESKTOP || __KEY_TRANSLATE_WEB || (os_type == os_switch) || (os_type == os_uwp))
 
 /// @function keyboard_to_string()
 /// @description translate the current keyboard_key to a string that is
 ///				 as-equal-as-possible to the gamemaker constant names (like vk_home)
 function keyboard_to_string(_key_to_translate = undefined) {
+	if (_key_to_translate == "") return "";
 	var _key = _key_to_translate == undefined ? keyboard_key : _key_to_translate;
+	if (_key == undefined) return "";
 
 	if ((_key >= ord("A")) && (_key <= ord("Z")))
     {
