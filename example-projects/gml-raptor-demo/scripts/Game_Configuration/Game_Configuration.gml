@@ -35,16 +35,18 @@
 #macro release:FILE_CRYPT_KEY			"/�0^^4 0= 4!/! �-:-71!/!9_15I-I�|)-(4/�,!/!1^0/�,�-v|_/�,4551( 11=�=0/�,!v!"
 
 // Global functionality setup for the game
-// If you set this to any existing room (not as string! the asset), you can override the variable from the 
-// GameStarter object without having to edit it
-#macro ROOM_AFTER_STARTER		undefined
+
+// Startup Room - The value of this constant is taken by the GameStarter object
+// Set the constant to undefined to use the instance variable of GameStarter in rmStartup
+#macro ROOM_AFTER_STARTER			rmMain
 
 // Highscore setup for the game
-#macro USE_HIGHSCORES			false
-#macro HIGHSCORE_TABLE_NAME		"Highscores"
-#macro HIGHSCORE_TABLE_LENGTH	10
-#macro HIGHSCORE_TABLE_SCORING	scoring.score_high
-#macro HIGHSCORES				global._HIGHSCORES
+#macro USE_HIGHSCORES				false
+#macro HIGHSCORE_TABLE_NAME			"Highscores"
+#macro HIGHSCORE_TABLE_LENGTH		10
+#macro HIGHSCORE_TABLE_SCORING		scoring.score_high
+#macro HIGHSCORES					global._HIGHSCORES
+#macro HIGHSCORES_UI_LAYER			"ui_highscores"
 
 if (USE_HIGHSCORES) {
 	HIGHSCORES = new HighScoreTable(HIGHSCORE_TABLE_NAME, HIGHSCORE_TABLE_LENGTH, HIGHSCORE_TABLE_SCORING);
@@ -97,6 +99,6 @@ function onGameStart() {
 
 /// @function function onGameEnd()
 function onGameEnd() {
+	
 }
-
 

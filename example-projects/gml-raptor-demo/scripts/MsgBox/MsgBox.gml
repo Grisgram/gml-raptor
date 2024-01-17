@@ -80,7 +80,7 @@ function __msgbox_x_button_default_callback() {
 /// @param {string} message_text	text to show
 /// @returns {struct}				the messagebox struct
 function MessageBox(window_object, layer_name, message_title, message_text) constructor {
-	if (window_object != MessageBoxWindow && !object_is_ancestor(window_object, MessageBoxWindow)) {
+	if (!is_child_of(window_object, MessageBoxWindow)) {
 		log("*ERROR* Invalid Window Object for MessageBox. MUST be a child of MessageBoxWindow!");
 	}
 	title = string_starts_with(message_title, "=") ? LG(message_title) : message_title;

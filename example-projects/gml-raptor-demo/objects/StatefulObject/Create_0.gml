@@ -73,3 +73,16 @@ __reset_single_sprite_animation = function() {
 }
 
 __reset_single_sprite_animation();
+
+__shall_forward_mouse_event = function(_state) {
+	if (mouse_events_are_unique) {
+		with (StatefulObject) {
+			if (mouse_events_are_unique && is_in_state(_state)) {
+				log($"Interrupted mouse event {_state} for {MY_NAME}");
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}

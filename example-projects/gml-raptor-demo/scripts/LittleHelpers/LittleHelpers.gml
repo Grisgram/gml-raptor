@@ -52,7 +52,8 @@ function percent_mult(of, total) {
 /// @param {object_index} child An object instance or object_index of the child to analyze
 /// @param {object} parent		The object_index (just the type) of the parent to find
 /// @returns {bool}
-#macro OBJECT_HAS_NO_PARENT	-100
+#macro __OBJECT_HAS_NO_PARENT	-100
+#macro __OBJECT_DOES_NOT_EXIST	-1
 function is_child_of(child, parent) {
 	var to_find;
 	if (instance_exists(child)) {
@@ -69,10 +70,15 @@ function is_child_of(child, parent) {
 			if (child == parent) return true;
 	}
 	
-	while (to_find != OBJECT_HAS_NO_PARENT && !object_is_ancestor(to_find, parent)) 
-		to_find = object_get_parent(to_find);
+	TRY
+		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST && !object_is_ancestor(to_find.object_index, parent)) {
+			to_find = instance_exists(to_find) ? object_get_parent(to_find) : object_get_parent(to_find.object_index);
+		}
+	CATCH
+		return false;
+	ENDTRY
 	
-	return to_find != OBJECT_HAS_NO_PARENT;
+	return to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST;
 }
 
 /// @function					name_of(_instance)
@@ -167,5 +173,5 @@ function if_null(value, value_if_null) {
 ///					Due to a html bug you can not simply compare inst1==inst2,
 ///					but you have to compare their ids instead.
 function eq(inst1, inst2) {
-	TRY return string(inst1.id)==string(inst2.id) CATCH return false; ENDTRY
+	TRY return name_of(inst1) == name_of(inst2); CATCH return false; ENDTRY
 }

@@ -9,7 +9,7 @@
 #macro EXIT_GAME	if (os_type == os_windows || os_type == os_android || os_type == os_macosx || os_type == os_linux) game_end();
 
 // detect if running the html5 target
-#macro IS_HTML		(os_browser != browser_not_a_browser)
+#macro IS_HTML		(browser_not_a_browser != os_browser)
 
 // detect if running on a mobile device - works even for html runtime (mobile browsers)!
 #macro IS_MOBILE	(os_type == os_android || os_type == os_ios)
@@ -17,6 +17,13 @@
 // detect if the scribble library is loaded
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
 #macro SCRIBBLE_COLORS		__scribble_config_colours()
+
+// detect if the canvas library is loaded
+#macro IS_CANVAS_LOADED		script_exists(asset_get_index("Canvas"))
+#macro CANVAS_SCREENSHOT	(IS_CANVAS_LOADED ? CanvasGetAppSurf(true) : undefined)
+
+// detect if the SNAP library is loaded
+#macro IS_SNAP_LOADED		script_exists(asset_get_index("SnapToJSON"))
 
 /// better human readable version of this instance's name (for logging mostly)
 #macro MY_ID	string(real(id))
@@ -28,6 +35,8 @@
 
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed
+
+#macro TODAY_ISO_STR	$"{current_year}-{(string_replace_all(string_format(current_month, 2, 0), " ", "0"))}-{(string_replace_all(string_format(current_day, 2, 0), " ", "0"))}"
 
 // An empty function can be used in various places, like as a disabling override on enter/leave states in the statemachine
 #macro EMPTY_FUNC		function(){}

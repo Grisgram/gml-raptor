@@ -607,7 +607,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @function toString
 	/// @description a json-compatible string representation
 	toString = function() {
-		return snap_to_json(array);
+		return SnapToJSON(array);
 	}
 
 }

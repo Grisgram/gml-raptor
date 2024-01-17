@@ -175,7 +175,7 @@ function SlideTransition(_target_room, _slide_frames, _animcurve) : __RoomTransi
 	
 	in_draw_gui = function() {
 		// a bit explanation here:
-		// 1) why "frame_counter - 1" in the line beloW? Because surface in html is delayed 1 frame
+		// 1) why "frame_counter - 1" in the line below? Because surface in html is delayed 1 frame
 		// 2) why "return" in first_in -> for the same reason, we need to skip 1 frame if html
 		animcurve.update(max(frame_counter - 1, 0), slide_frames);
 		

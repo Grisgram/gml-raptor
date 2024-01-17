@@ -1,7 +1,7 @@
 /*
 	Utility methods to work with strings.
 	
-	(c)2022- coldrock.games, @grisgram at github
+	(c)2022- coldrock.games aka @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
@@ -42,6 +42,40 @@ function string_skip_end(str, count) {
 	if (count > 0 && len > count)
 		return string_copy(str, 1, len - count);
 		
+	return "";
+}
+
+/// @function					string_first(str, count)
+/// @description				Returns the first <count> characters of a string.
+///								If the length of the string is less than count characters, the 
+///								entire string is returned
+/// @param {string} str			The string
+/// @param {integer} count		The number of characters to return.
+function string_first(str, count) {
+	var len = string_length(str);
+	if (count > 0) {
+		if (len > count)
+			return string_copy(str, 1, count);
+		else
+			return str;
+	}
+	return "";
+}
+
+/// @function					string_last(str, count)
+/// @description				Returns the last <count> characters of a string.
+///								If the length of the string is less than count characters, the 
+///								entire string is returned
+/// @param {string} str			The string
+/// @param {integer} count		The number of characters to return.
+function string_last(str, count) {
+	var len = string_length(str);
+	if (count > 0) {
+		if (len > count)
+			return string_copy(str, len - count + 1, count);
+		else
+			return str;
+	}
 	return "";
 }
 

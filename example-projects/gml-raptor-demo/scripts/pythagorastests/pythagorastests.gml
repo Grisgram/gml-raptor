@@ -13,16 +13,32 @@ function unit_test_Pythagoras() {
 		test.assert_equals(45, p.beta);
 	};
 
-	ut.tests.xy_ok_2		= function(test, data) {
+	ut.tests.xy_ok_q0		= function(test, data) {
 		var x1 = 10, y1 = 10, x2 = 40, y2 = 25;
 		var p = pyth_xy(x1, y1, x2, y2);
 		test.assert_equals(90 - p.beta, p.alpha);
+		test.assert_equals(p.angle, p.alpha);
 	};
 
-	ut.tests.xy_ok_3		= function(test, data) {
+	ut.tests.xy_ok_q1		= function(test, data) {
 		var x1 = 40, y1 = 10, x2 = 10, y2 = 25;
 		var p = pyth_xy(x1, y1, x2, y2);
 		test.assert_equals(90 - p.beta, p.alpha);
+		test.assert_equals(p.angle, 180 - p.alpha);
+	};
+
+	ut.tests.xy_ok_q2		= function(test, data) {
+		var x1 = 40, y1 = 25, x2 = 10, y2 = 10;
+		var p = pyth_xy(x1, y1, x2, y2);
+		test.assert_equals(90 - p.beta, p.alpha);
+		test.assert_equals(p.angle, 180 + p.alpha);
+	};
+
+	ut.tests.xy_ok_q3		= function(test, data) {
+		var x1 = 10, y1 = 25, x2 = 40, y2 = 10;
+		var p = pyth_xy(x1, y1, x2, y2);
+		test.assert_equals(90 - p.beta, p.alpha);
+		test.assert_equals(p.angle, 360 - p.alpha);
 	};
 
 	ut.run();

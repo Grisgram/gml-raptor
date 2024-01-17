@@ -6,7 +6,7 @@ event_inherited();
 	Use the declared instance variable add_to_savegame and set it to false
 	if you want to skip specific instances from being saved.
 	
-	The indie platform defines these objects as children of Saveable:
+	The raptor platform defines these objects as children of Saveable:
 	- LGTextObject
 	- StatefulObject -> RaceObject
 	- RaceTable

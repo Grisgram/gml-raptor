@@ -1,5 +1,5 @@
 function unit_test_Strings() {
-	if (!script_exists(asset_get_index("string_split"))) {
+	if (!script_exists(asset_get_index("string_skip_start"))) {
 		log("Skipped unit tests for \"Strings\": Not in project.");
 		return;
 	}
@@ -9,11 +9,6 @@ function unit_test_Strings() {
 	ut.tests.sprintf_ok		= function(test, data) {
 		var t = sprintf("{{0}+{1}={2}}", 1, 1, 2);
 		test.assert_equals("{1+1=2}", t);
-	};
-
-	ut.tests.trim_ok		= function(test, data) {
-		var t = string_trim(" \t\na\nb\t  , ");
-		test.assert_equals("a\nb\t  ,", t);
 	};
 
 	ut.tests.skip_start_ok	= function(test, data) {
@@ -64,6 +59,18 @@ function unit_test_Strings() {
 		test.assert_equals("00ff", string_get_hex(255,4,false));
 		test.assert_equals("c000", string_get_hex(49152,,false));
 	};
+
+	ut.tests.string_first_ok = function(test, data) {
+		test.assert_equals("Ghost", string_first("Ghostbusters", 5));
+		test.assert_equals("Ghostbusters", string_first("Ghostbusters", 99));
+		test.assert_equals("", string_first("Ghostbusters", 0));
+	}
+
+	ut.tests.string_last_ok = function(test, data) {
+		test.assert_equals("busters", string_last("Ghostbusters", 7));
+		test.assert_equals("Ghostbusters", string_last("Ghostbusters", 99));
+		test.assert_equals("", string_last("Ghostbusters", 0));
+	}
 
 	ut.run();
 }

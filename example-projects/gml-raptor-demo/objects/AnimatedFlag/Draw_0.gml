@@ -1,3 +1,5 @@
+/// @description Draw vertex primitve
+event_inherited();
 
 ripple = wave_speed * (-current_time / 500) * (room_speed / animation_fps);
 

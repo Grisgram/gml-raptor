@@ -46,6 +46,8 @@ ROOMCONTROLLER = self;
 if (particle_layer_names == undefined || (is_string(particle_layer_names) && string_is_empty(particle_layer_names))) {
 	PARTSYS = undefined;
 } else {
+	setup_particle_types();
+
 	if (is_string(particle_layer_names)) {
 		PARTSYS = new ParticleManager(particle_layer_names);
 	} else if (is_array(particle_layer_names)) {

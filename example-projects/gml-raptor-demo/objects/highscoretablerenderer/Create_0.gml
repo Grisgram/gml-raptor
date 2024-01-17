@@ -1,4 +1,6 @@
 /// @description call set_table to use this object!
+event_inherited();
+
 __table = undefined;
 __surface = undefined;
 
