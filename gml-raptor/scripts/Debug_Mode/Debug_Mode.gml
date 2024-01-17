@@ -1,7 +1,20 @@
 // Control the debug mode of the game
 
-#macro DEBUG_MODE_ACTIVE			true
-#macro release:DEBUG_MODE_ACTIVE	false
+#macro DEBUG_MODE_ACTIVE				true
+#macro beta:DEBUG_MODE_ACTIVE			false
+#macro release:DEBUG_MODE_ACTIVE		false
+
+#macro CONFIGURATION_DEV				true
+#macro CONFIGURATION_BETA				false
+#macro CONFIGURATION_RELEASE			false
+
+#macro beta:CONFIGURATION_DEV			false
+#macro beta:CONFIGURATION_BETA			true
+#macro beta:CONFIGURATION_RELEASE		false
+
+#macro release:CONFIGURATION_DEV		false
+#macro release:CONFIGURATION_BETA		false
+#macro release:CONFIGURATION_RELEASE	true
 
 #macro DEBUG_MODE_WINDOW_WIDTH	global.__DEBUG_MODE_WINDOW_WIDTH
 #macro DEBUG_MODE_WINDOW_HEIGHT	global.__DEBUG_MODE_WINDOW_HEIGHT

@@ -8,6 +8,8 @@
 
 #macro __POOL_EMITTERS		"__particle_emitter_pool"
 
+#macro __DEFAULT_EMITTER_OBJECT	ParticleEmitter
+
 /// @function					ParticleManager(particle_layer_name)
 /// @description				Helps in organizing particles for a level
 /// @param {string} particle_layer_name
@@ -16,7 +18,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	log(sprintf("ParticleManager created for layer '{0}'", particle_layer_name));
 	system = part_system_create_layer(particle_layer_name, false);
 	
-	__emitter_object	= ParticleEmitter;
+	__emitter_object	= __DEFAULT_EMITTER_OBJECT;
 	__layer_name		= particle_layer_name;
 	__system_index		= system_index;
 	__particle_types	= {};
@@ -32,9 +34,15 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	}
 	
 	/// @function		set_emitter_object(_emitter_object)
-	/// @description	Set an object type to use when attaching emitters (default = ParticleEmitter)
+	/// @description	Set an object type to use when attaching or cloning emitters (default = ParticleEmitter)
 	static set_emitter_object = function(_emitter_object) {
 		__emitter_object = _emitter_object;
+	}
+	
+	/// @function		reset_emitter_object()
+	/// @description	Reset the emitter object to the default ParticleEmitter
+	static reset_emitter_object = function() {
+		__emitter_object = __DEFAULT_EMITTER_OBJECT;
 	}
 	
 	/// @function					particle_type_get(name)
@@ -96,13 +104,13 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		return rv;
 	}
 	
-	/// @function		attach_emitter(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, 
+	/// @function		emitter_attach(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, 
 	///								   follow_this_instance = true, use_object_pools = true)
 	/// @description	Attach a new ParticleEmitter instance on the specified layer to an instance
 	///					with optional follow-setting.
-	///					NOTE: If you need more than one emitter of this kind, look at attach_emitter_clone
+	///					NOTE: If you need more than one emitter of this kind, look at emitter_attach_clone
 	/// @returns {ParticleEmitter}	the created object instance on the layer for cleanup if you no longer need it
-	static attach_emitter = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
+	static emitter_attach = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
 									 follow_this_instance = true, use_object_pools = true) {
 		var ix  = __system_index;
 		var xp	= instance.x;
@@ -139,9 +147,9 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description	Attach a clone of an existing emitter to a new ParticleEmitter instance 
 	///					on the specified layer to an instance with optional follow-setting.
 	/// @returns {ParticleEmitter}	the created object instance on the layer for cleanup if you no longer need it
-	static attach_emitter_clone = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, 
+	static emitter_attach_clone = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, 
 										   follow_this_instance = true, use_object_pools = true) {
-		return attach_emitter(emitter_clone(name_or_emitter), instance, layer_name_or_depth, particle_type_name, follow_this_instance, use_object_pools);
+		return emitter_attach(emitter_clone(name_or_emitter), instance, layer_name_or_depth, particle_type_name, follow_this_instance, use_object_pools);
 	}
 	
 	/// @function					emitter_exists(name)
@@ -221,7 +229,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	}
 
 	/// @function		emitter_get_range_max(name_or_emitter)
-	/// @description	Gets the min coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
+	/// @description	Gets the max coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_max = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);

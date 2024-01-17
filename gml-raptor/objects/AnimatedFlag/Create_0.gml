@@ -1,4 +1,5 @@
 /// @description Docs inside!
+event_inherited();
 
 /*
 	How to use the animated flag object

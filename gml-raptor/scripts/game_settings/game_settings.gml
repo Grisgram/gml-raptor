@@ -16,21 +16,23 @@ function GameSettings() constructor {
 	
 	audio = AUDIOSETTINGS;
 	use_system_cursor = false;
-	if (HIGHSCORES != undefined) {
+	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
-		last_highscore_name = "";
-	}
 }
 
 function load_settings() {
+	log("Loading settings...");
 	GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,FILE_CRYPT_KEY) ?? new GameSettings();
-	if (HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
+	if (USE_HIGHSCORES && HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
 		HIGHSCORES.assign_data(GAMESETTINGS.highscoredata);
 	AUDIOSETTINGS = GAMESETTINGS.audio;
+	log($"Settings loaded.");
 }
 
 function save_settings() {
+	log("Saving settings...");
 	if (HIGHSCORES != undefined)
 		GAMESETTINGS.highscoredata = HIGHSCORES.data;
 	file_write_struct(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY);
+	log($"Settings saved.");
 }

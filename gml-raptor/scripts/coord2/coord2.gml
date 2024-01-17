@@ -21,7 +21,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @description			set both values in one step
 	/// @param {real} xp
 	/// @param {real} yp
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static set = function(xp, yp) {
 		x = xp;
 		y = yp;
@@ -32,7 +32,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @description			multiply both values in one step
 	/// @param {real} factor_x
 	/// @param {real} factor_y
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static mul = function(factor_x, factor_y) {
 		x *= factor_x;
 		y *= factor_y;
@@ -42,7 +42,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @function				mulxy(factor)
 	/// @description			multiply both values in one step
 	/// @param {real} factor
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static mul_xy = function(factor) {
 		x *= factor;
 		y *= factor;
@@ -52,7 +52,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @function				plus(other_coord2)
 	/// @description			Add the values of other_coord2 into this one
 	/// @param {Coord2} other_coord2
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static plus = function(other_coord2) {
 		x += other_coord2.x;
 		y += other_coord2.y;
@@ -62,7 +62,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @function				minus(other_coord2)
 	/// @description			Subtract the values in other_coord2 from this one
 	/// @param {Coord2} other_coord2
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static minus = function(other_coord2) {
 		x -= other_coord2.x;
 		y -= other_coord2.y;
@@ -73,7 +73,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @description			add a value to the current values
 	/// @param {real} add_x
 	/// @param {real} add_y
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static add = function(add_x, add_y) {
 		x += add_x;
 		y += add_y;
@@ -83,7 +83,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @function				addxy(value)
 	/// @description			add the same value to the current values
 	/// @param {real} value
-	/// @returns {Coord2} self for command chaining
+	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static add_xy = function(value) {
 		x += value;
 		y += value;
@@ -91,12 +91,12 @@ function Coord2(xp = 0, yp = 0) constructor {
 	}
 
 	/// @function					length_xy()
-	/// @description				hypotenuse
+	/// @description				2D-hypotenuse
 	/// @returns {real} length			
 	static length_xy = function() { return sqrt(sqr(x) + sqr(y)); }
 	
 	/// @function		static angle_xy()
-	/// @description	gets alpha (angle from horizontal to hypo). 0� right ccw
+	/// @description	gets alpha (angle from horizontal to hypo). 0 degrees is right ccw
 	static angle_xy = function() {
 		var angle = abs(darcsin(y / length_xy()));
 		if (x >= 0) {

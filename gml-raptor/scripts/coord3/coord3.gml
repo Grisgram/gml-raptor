@@ -23,7 +23,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @param {real} xp
 	/// @param {real} yp
 	/// @param {real} zp
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static set = function(xp, yp, zp) {
 		x = xp;
 		y = yp;
@@ -36,7 +36,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @param {real} factor_x
 	/// @param {real} factor_y
 	/// @param {real} factor_z
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static mul = function(factor_x, factor_y, factor_z) {
 		x *= factor_x;
 		y *= factor_y;
@@ -47,7 +47,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @function				mul_xyz(factor)
 	/// @description			multiply all values in one step
 	/// @param {real} factor
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static mul_xyz = function(factor) {
 		x *= factor;
 		y *= factor;
@@ -60,7 +60,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @param {real} add_x
 	/// @param {real} add_y
 	/// @param {real} add_z
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static add = function(add_x, add_y, add_z) {
 		x += add_x;
 		y += add_y;
@@ -71,7 +71,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @function				add_xyz(factor_x, factor_y)
 	/// @description			add the same value to the current values
 	/// @param {real} value
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static add_xyz = function(value) {
 		x += value;
 		y += value;
@@ -82,7 +82,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @function				plus(other_coord3)
 	/// @description			Add the values of other_coord3 into this one
 	/// @param {Coord3} other_coord3
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static plus = function(other_coord3) {
 		x += other_coord3.x;
 		y += other_coord3.y;
@@ -93,7 +93,7 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	/// @function				minus(other_coord3)
 	/// @description			Subtract the values in other_coord3 from this one
 	/// @param {Coord3} other_coord3
-	/// @returns {Coord3} self for command chaining
+	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static minus = function(other_coord3) {
 		x -= other_coord3.x;
 		y -= other_coord3.y;
