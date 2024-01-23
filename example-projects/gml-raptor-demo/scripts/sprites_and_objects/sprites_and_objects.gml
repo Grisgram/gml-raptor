@@ -60,6 +60,18 @@ function scale_sprite_to(target_width, target_height) {
 	image_yscale = target_height / h1;
 }
 
+/// @function is_mouse_over(_instance)
+/// @description	Checks whether the current mouse position in the world (_is_gui = false) or
+///					in the GUI coordinate space (_is_gui = true) is within the bounds of _instance
+///					_is_gui defaults to false, because all controls have their "mouse_is_over" anyway
+///					and in normal situations you want to know whether the mouse touches a specific
+///					game object, not a control
+function is_mouse_over(_instance, _is_gui = false) {
+	var xcheck = _is_gui ? GUI_MOUSE_X : MOUSE_X;
+	var ycheck = _is_gui ? GUI_MOUSE_Y : MOUSE_Y;
+	return position_meeting(xcheck, ycheck, _instance);
+}
+
 /// @function		replace_sprite(on_object, replace_with, keep_size = true, keep_location = true)
 /// @description	Replaces the current sprite with the specified one.
 ///					The method checks if "replace_with" is undefined or noone,

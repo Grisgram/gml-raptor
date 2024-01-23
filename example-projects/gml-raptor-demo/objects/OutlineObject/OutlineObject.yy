@@ -15,7 +15,10 @@
     "name": "outline-shader-drawer",
     "path": "folders/_gml_raptor_packages_/outline-shader-drawer.yy",
   },
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "StatefulObject",
+    "path": "objects/StatefulObject/StatefulObject.yy",
+  },
   "persistent": false,
   "physicsAngularDamping": 0.1,
   "physicsDensity": 0.5,

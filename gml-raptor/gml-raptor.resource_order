@@ -274,6 +274,7 @@
     {"name":"HighScoreEntry","order":1,"path":"scripts/HighScoreEntry/HighScoreEntry.yy",},
     {"name":"SnapBufferWriteGrid","order":6,"path":"scripts/SnapBufferWriteGrid/SnapBufferWriteGrid.yy",},
     {"name":"SnapBufferWriteNSV","order":1,"path":"scripts/SnapBufferWriteNSV/SnapBufferWriteNSV.yy",},
+    {"name":"Game_Exception_Handler","order":17,"path":"scripts/Game_Exception_Handler/Game_Exception_Handler.yy",},
     {"name":"__scribble_get_krutidev_matra_lookup_map","order":12,"path":"scripts/__scribble_get_krutidev_matra_lookup_map/__scribble_get_krutidev_matra_lookup_map.yy",},
     {"name":"Sequences","order":22,"path":"scripts/Sequences/Sequences.yy",},
     {"name":"!_NEW_GAME_README_!","order":18,"path":"notes/!_NEW_GAME_README_!/!_NEW_GAME_README_!.yy",},

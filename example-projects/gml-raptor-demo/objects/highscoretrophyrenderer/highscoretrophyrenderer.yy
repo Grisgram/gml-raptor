@@ -14,7 +14,10 @@
     "name": "gml-highscorer",
     "path": "folders/_gml_raptor_packages_/gml-highscorer.yy",
   },
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "_raptorBase",
+    "path": "objects/_raptorBase/_raptorBase.yy",
+  },
   "persistent": false,
   "physicsAngularDamping": 0.1,
   "physicsDensity": 0.5,

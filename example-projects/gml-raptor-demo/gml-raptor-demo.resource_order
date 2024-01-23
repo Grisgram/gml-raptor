@@ -97,6 +97,7 @@
     {"name":"StatefulObject","order":15,"path":"objects/StatefulObject/StatefulObject.yy",},
     {"name":"sprDefaultSliderKnob","order":12,"path":"sprites/sprDefaultSliderKnob/sprDefaultSliderKnob.yy",},
     {"name":"__GML_RAPTOR_VERSION__","order":31,"path":"scripts/__GML_RAPTOR_VERSION__/__GML_RAPTOR_VERSION__.yy",},
+    {"name":"Game_Exception_Handler","order":18,"path":"scripts/Game_Exception_Handler/Game_Exception_Handler.yy",},
     {"name":"scribble_kerning_pair_set","order":19,"path":"scripts/scribble_kerning_pair_set/scribble_kerning_pair_set.yy",},
     {"name":"SnapMD5","order":8,"path":"scripts/SnapMD5/SnapMD5.yy",},
     {"name":"Game_Settings","order":13,"path":"scripts/Game_Settings/Game_Settings.yy",},

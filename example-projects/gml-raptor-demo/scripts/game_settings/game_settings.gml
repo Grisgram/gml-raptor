@@ -16,10 +16,8 @@ function GameSettings() constructor {
 	
 	audio = AUDIOSETTINGS;
 	use_system_cursor = false;
-	if (HIGHSCORES != undefined) {
+	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
-		last_highscore_name = "";
-	}
 }
 
 function load_settings() {

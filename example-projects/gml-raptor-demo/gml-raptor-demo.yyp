@@ -136,6 +136,7 @@
     {"id":{"name":"StatefulObject","path":"objects/StatefulObject/StatefulObject.yy",},},
     {"id":{"name":"sprDefaultSliderKnob","path":"sprites/sprDefaultSliderKnob/sprDefaultSliderKnob.yy",},},
     {"id":{"name":"__GML_RAPTOR_VERSION__","path":"scripts/__GML_RAPTOR_VERSION__/__GML_RAPTOR_VERSION__.yy",},},
+    {"id":{"name":"Game_Exception_Handler","path":"scripts/Game_Exception_Handler/Game_Exception_Handler.yy",},},
     {"id":{"name":"scribble_kerning_pair_set","path":"scripts/scribble_kerning_pair_set/scribble_kerning_pair_set.yy",},},
     {"id":{"name":"SnapMD5","path":"scripts/SnapMD5/SnapMD5.yy",},},
     {"id":{"name":"AudioHelper","path":"scripts/AudioHelper/AudioHelper.yy",},},

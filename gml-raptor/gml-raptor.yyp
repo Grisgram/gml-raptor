@@ -333,6 +333,7 @@
     {"id":{"name":"HighScoreEntry","path":"scripts/HighScoreEntry/HighScoreEntry.yy",},},
     {"id":{"name":"SnapBufferWriteGrid","path":"scripts/SnapBufferWriteGrid/SnapBufferWriteGrid.yy",},},
     {"id":{"name":"SnapBufferWriteNSV","path":"scripts/SnapBufferWriteNSV/SnapBufferWriteNSV.yy",},},
+    {"id":{"name":"Game_Exception_Handler","path":"scripts/Game_Exception_Handler/Game_Exception_Handler.yy",},},
     {"id":{"name":"AudioHelper","path":"scripts/AudioHelper/AudioHelper.yy",},},
     {"id":{"name":"__scribble_get_krutidev_matra_lookup_map","path":"scripts/__scribble_get_krutidev_matra_lookup_map/__scribble_get_krutidev_matra_lookup_map.yy",},},
     {"id":{"name":"Sequences","path":"scripts/Sequences/Sequences.yy",},},

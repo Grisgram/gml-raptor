@@ -32,13 +32,21 @@ if (IS_HTML) {
 	LG_init();
 }
 
-log(sprintf("Game seed is {0}", random_get_seed()));
-log(sprintf("Detecting scribble library: {0}found!", IS_SCRIBBLE_LOADED ? "" : "NOT "));
-log(sprintf("Detecting Canvas library: {0}found!", IS_CANVAS_LOADED ? "" : "NOT "));
-log(sprintf("Detecting SNAP library: {0}found!", IS_SNAP_LOADED ? "" : "NOT "));
+log($"Game seed is {random_get_seed()}");
+log($"Detecting scribble library: {(IS_SCRIBBLE_LOADED ? "" : "NOT ")}found!");
+log($"Detecting Canvas library: {(IS_CANVAS_LOADED ? "" : "NOT ")}found!");
+log($"Detecting SNAP library: {(IS_SNAP_LOADED ? "" : "NOT ")}found!");
 
-log("Checking for Debug mode: " + (DEBUG_MODE_ACTIVE ? "ACTIVE" : "DISABLED"));
+log($"Checking for Debug mode: {(DEBUG_MODE_ACTIVE ? "ACTIVE" : "DISABLED")}");
 check_debug_mode();
+
+if (USE_CRASHDUMP_HANDLER) {
+	log("Activating crash dump handler");
+	exception_unhandled_handler(Game_Exception_Handler);
+} else {
+	log("Crash dump handler is disabled");
+	exception_unhandled_handler(undefined);
+}
 
 load_settings();
 log("Invoking onGameStart()");

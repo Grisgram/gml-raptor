@@ -22,7 +22,7 @@ function __ensure_file_cache() {
 		__FILE_CACHE = {};
 }
 
-/// @function					file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_cache = false)
+/// @function					file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
 /// @param {string} filename	The name (full path) of the file to read
 /// @param {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
 /// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
@@ -30,7 +30,7 @@ function __ensure_file_cache() {
 /// @description				reads an entire file and returns the contents as string
 ///								checks whether the file exists, and if not, an empty string is returned.
 ///								crashes, if the file is not a text file
-function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_cache = false) {
+function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	__ensure_file_cache();
 	
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
@@ -42,7 +42,8 @@ function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_c
 	TRY
 		log("Loading text file " + filename);
 	    var _buffer = buffer_load(filename);
-		var bufsize = buffer_get_size(_buffer);
+		var bufsize = max(0, buffer_get_size(_buffer));
+		if (cryptkey != "") encrypt_buffer(_buffer, cryptkey);
 		log($"Loaded {bufsize} bytes from file");
 		var _string = undefined;
 		if (bufsize > 0) {
@@ -64,33 +65,30 @@ function file_read_text_file_absolute(filename, remove_utf8_bom = true, add_to_c
 	ENDTRY
 }
 
-/// @function					file_read_text_file(filename, remove_utf8_bom = true, add_to_cache = false)
+/// @function					file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
 /// @param {string} filename	The name (relative path starting in working_directory) of the file to read
 /// @param {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
 /// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
 /// @description				reads an entire file and returns the contents as string
 ///								checks whether the file exists, and if not, an empty string is returned.
 ///								crashes, if the file is not a text file
-function file_read_text_file(filename, remove_utf8_bom = true, add_to_cache = false) {
-	return file_read_text_file_absolute(working_directory + filename, remove_utf8_bom, add_to_cache);
+function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
+	return file_read_text_file_absolute(working_directory + filename, cryptkey, remove_utf8_bom, add_to_cache);
 }
 
-/// @function					file_write_text_file(filename, text)
+/// @function					file_write_text_file(filename, text, cryptkey = "")
 /// @param {string} filename	The name (relative path starting in working_directory) of the output file
 /// @param {string} text		The string to write out to the file
 /// @returns {bool}				true, if the save succeeded, otherwise false.
 /// @description				Saves a given text as a plain text file. Can write any string, not only json.
-function file_write_text_file(filename, text) {
+function file_write_text_file(filename, text, cryptkey = "") {
 	__ensure_file_cache();
 	TRY
 		var buffer = buffer_create(string_byte_length(text) + 1, buffer_fixed, 1);
 		buffer_write(buffer, buffer_string, text);
+		if (cryptkey != "") encrypt_buffer(buffer, cryptkey);
 		buffer_save(buffer, working_directory + filename);
 		buffer_delete(buffer);
-		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			log(sprintf("Updated cache for file '{0}'", filename));
-			variable_struct_set(__FILE_CACHE, filename, text);
-		}
 		return true;
 	CATCH return false; ENDTRY
 }
@@ -220,8 +218,8 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 		TRY
 			log("Loading encrypted struct from " + filename);
 			var buffer = buffer_load(working_directory + filename);
-			var bufsize = buffer_get_size(buffer);
-			log(sprintf("Read {0} bytes into the buffer", bufsize));
+			var bufsize = max(0, buffer_get_size(buffer));
+			log($"Read {bufsize} bytes into the buffer");
 			var rv = undefined;
 			if (bufsize > 0) {
 				encrypt_buffer(buffer, cryptkey);
