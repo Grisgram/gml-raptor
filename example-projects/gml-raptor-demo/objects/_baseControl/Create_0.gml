@@ -11,7 +11,14 @@ __startup_x					= x;
 __startup_y					= y;
 __startup_xscale			= image_xscale;
 __startup_yscale			= image_yscale;
-							
+__startup_mycenterx			= SELF_VIEW_CENTER_X;
+__startup_mycentery			= SELF_VIEW_CENTER_Y;
+__startup_myright			= SELF_VIEW_RIGHT_EDGE;
+__startup_mybottom			= SELF_VIEW_BOTTOM_EDGE;
+
+__xrescale					= 0;
+__yrescale					= 0;
+
 __last_sprite_index			= undefined;
 __last_text					= "";
 __scribble_text				= undefined;
@@ -94,23 +101,32 @@ __draw_self = function() {
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
 		__finalize_scribble_text();
+		var textwidth	= __scribble_text.get_width();
+		var textheight	= __scribble_text.get_height();
 
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0;
 		var nine = -1;
 		if (sprite_index != -1) {
 			nine = sprite_get_nineslice(sprite_index);
 			if (nine != -1 && nine.enabled) {
-				nineleft = nine.left;
-				nineright = nine.right;
-				ninetop = nine.top;
-				ninebottom = nine.bottom;
+				nineleft	= nine.left;
+				nineright	= nine.right;
+				ninetop		= nine.top;
+				ninebottom	= nine.bottom;
 			}
-			var distx = nineleft + nineright;
-			var disty = ninetop + ninebottom;
+			var distx		= nineleft + nineright;
+			var disty		= ninetop + ninebottom;
 		
 			if (autosize) {
-				image_xscale = max(__startup_xscale, (max(min_width, __scribble_text.get_width())  + distx) / sprite_get_width(sprite_index));
-				image_yscale = max(__startup_yscale, (max(min_height,__scribble_text.get_height()) + disty) / sprite_get_height(sprite_index));
+				image_xscale = max(__startup_xscale, (max(min_width, textwidth)  + distx) / sprite_get_width(sprite_index));
+				image_yscale = max(__startup_yscale, (max(min_height,textheight) + disty) / sprite_get_height(sprite_index));
+				__xrescale = image_xscale / __startup_xscale;
+				__yrescale = image_yscale / __startup_yscale;
+				// set our position based on the new scale and alignment
+				if		(string_contains(scribble_text_align, "[fa_center]")) x = __startup_mycenterx - sprite_width  / 2;
+				else if (string_contains(scribble_text_align, "[fa_right]" )) x = __startup_myright	  - sprite_width ;
+				if		(string_contains(scribble_text_align, "[fa_middle]")) y = __startup_mycentery - sprite_height / 2;
+				else if (string_contains(scribble_text_align, "[fa_bottom]")) y = __startup_mybottom  - sprite_height;
 			}
 			edges.update(nine);
 
@@ -120,8 +136,8 @@ __draw_self = function() {
 			// No sprite - update edges by hand
 			edges.left = x;
 			edges.top = y;
-			edges.width  = text != "" ? __scribble_text.get_width() : 0;
-			edges.height = text != "" ? __scribble_text.get_height() : 0;
+			edges.width  = text != "" ? textwidth : 0;
+			edges.height = text != "" ? textheight : 0;
 			edges.right = edges.left + edges.width - 1;
 			edges.bottom = edges.top + edges.height - 1;
 			edges.center_x = x + edges.width / 2;
@@ -133,10 +149,10 @@ __draw_self = function() {
 		__text_y = edges.ninesliced.center_y + text_yoffset;
 
 		// text offset behaves differently when right or bottom aligned
-		if      (string_pos("[fa_left]",   scribble_text_align) != 0) __text_x = edges.ninesliced.left   + text_xoffset;
-		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = edges.ninesliced.right  - text_xoffset;
-		if      (string_pos("[fa_top]",    scribble_text_align) != 0) __text_y = edges.ninesliced.top    + text_yoffset;
-		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = edges.ninesliced.bottom - text_yoffset;
+		if      (string_contains(scribble_text_align, "[fa_left]"  )) __text_x = edges.ninesliced.left   + text_xoffset;
+		else if (string_contains(scribble_text_align, "[fa_right]" )) __text_x = edges.ninesliced.right  - text_xoffset;
+		if      (string_contains(scribble_text_align, "[fa_top]"   )) __text_y = edges.ninesliced.top    + text_yoffset;
+		else if (string_contains(scribble_text_align, "[fa_bottom]")) __text_y = edges.ninesliced.bottom - text_yoffset;
 
 		__last_text = text;
 		__last_sprite_index = sprite_index;
