@@ -2,7 +2,8 @@
 
 // Inherit the parent event
 original_offset = undefined;
-original_scale = undefined;
+original_scale	= undefined;
+unscaled		= undefined;
 
 // Radio-style buttons behave differently! We need to control this
 __auto_change_checked = true;
@@ -27,7 +28,6 @@ update_graphics = function(_force_redraw = true) {
 		
 	if (original_offset == undefined)
 		original_offset = new Coord2(text_xoffset, text_yoffset);
-		
 		
 	if (draw_checkbox_on_the_left)
 		text_xoffset = original_offset.x + unscaled.width + distance_to_text;
@@ -59,4 +59,24 @@ update_graphics(false);
 __set_default_image();
 
 event_inherited();
+
+__apply_autosize_alignment = function(distx, disty) {
+	image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + unscaled.width  + distx) / unscaled.width);
+	image_yscale = max(__startup_yscale, (max(min_height,__text_height) + unscaled.height + disty) / unscaled.height);
+	__xrescale = image_xscale / __startup_xscale;
+	__yrescale = image_yscale / __startup_yscale;
+}
+
+__apply_post_positioning = function() {
+	if (draw_checkbox_on_the_left) {
+		__text_x = x + __text_width + text_xoffset;
+		if		(string_contains(scribble_text_align, "[fa_left]"))   __text_x -= __text_width;
+		else if	(string_contains(scribble_text_align, "[fa_center]")) __text_x -= __text_width / 2;
+	} else {
+		__text_x = x - __text_width - distance_to_text;
+		if		(string_contains(scribble_text_align, "[fa_center]")) __text_x += __text_width / 2;
+		else if (string_contains(scribble_text_align, "[fa_right]" )) __text_x += __text_width;
+	}	
+}
+
 force_redraw();
