@@ -16,9 +16,6 @@ __startup_mycentery			= SELF_VIEW_CENTER_Y;
 __startup_myright			= SELF_VIEW_RIGHT_EDGE;
 __startup_mybottom			= SELF_VIEW_BOTTOM_EDGE;
 
-__xrescale					= 0;
-__yrescale					= 0;
-
 __last_sprite_index			= undefined;
 __last_text					= "";
 __scribble_text				= undefined;
@@ -80,8 +77,6 @@ __adopt_object_properties = function() {
 		__scribble_text.blend(image_blend, image_alpha);
 	}
 	if (adopt_object_properties == adopt_properties.full) {
-		//__scribble_text.scale_to_box(edges.width, edges.height);
-		//__scribble_text.fit_to_box(edges.width, edges.height);
 		__scribble_text.transform(image_xscale, image_yscale, image_angle);
 	}
 }
@@ -140,8 +135,6 @@ __draw_self = function() {
 			if (autosize) {
 				image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + distx) / sprite_get_width(sprite_index));
 				image_yscale = max(__startup_yscale, (max(min_height,__text_height) + disty) / sprite_get_height(sprite_index));
-				__xrescale = image_xscale / __startup_xscale;
-				__yrescale = image_yscale / __startup_yscale;
 				__apply_autosize_alignment(distx, disty);
 			}
 			edges.update(nine);

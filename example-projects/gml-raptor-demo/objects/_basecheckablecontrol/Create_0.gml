@@ -63,8 +63,6 @@ event_inherited();
 __apply_autosize_alignment = function(distx, disty) {
 	image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + unscaled.width  + distx) / unscaled.width);
 	image_yscale = max(__startup_yscale, (max(min_height,__text_height) + unscaled.height + disty) / unscaled.height);
-	__xrescale = image_xscale / __startup_xscale;
-	__yrescale = image_yscale / __startup_yscale;
 }
 
 __apply_post_positioning = function() {

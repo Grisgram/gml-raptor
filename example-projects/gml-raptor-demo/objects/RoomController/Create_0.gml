@@ -46,8 +46,6 @@ ROOMCONTROLLER = self;
 if (particle_layer_names == undefined || (is_string(particle_layer_names) && string_is_empty(particle_layer_names))) {
 	PARTSYS = undefined;
 } else {
-	setup_particle_types();
-
 	if (is_string(particle_layer_names)) {
 		PARTSYS = new ParticleManager(particle_layer_names);
 	} else if (is_array(particle_layer_names)) {
@@ -56,6 +54,10 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 			PARTSYS[@ i] = new ParticleManager(particle_layer_names[@ i], i);
 	} else
 		PARTSYS = undefined;
+	
+	if (PARTSYS != undefined)
+		setup_particle_types();
+
 }
 
 display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);

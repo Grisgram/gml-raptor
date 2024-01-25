@@ -72,7 +72,9 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description				register (or get existing) emitter for leak-free destroying at end of level
 	static emitter_get = function(name_or_emitter, default_particle_if_new = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		
+		if (string_is_empty(name_or_emitter))
+			return new __emitter(undefined);
+			
 		var rv = variable_struct_exists(__emitters, name_or_emitter) ? 
 			variable_struct_get(__emitters, name_or_emitter) : 
 			new __emitter(part_emitter_create(system), default_particle_if_new);
@@ -254,7 +256,6 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @function			cleanup()
 	/// @description		you MUST call this in the cleanup event of your controller!
 	static cleanup = function() {
-		part_system_destroy(system);
 		var names = variable_struct_get_names(__particle_types);
 		var i = 0; repeat(array_length(names)) {
 			if (variable_struct_exists(__particle_types, names[i]) && 
@@ -265,18 +266,22 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			i++;
 		}
 		__particle_types = {};
-		
-		names = variable_struct_get_names(__emitters);
-		i = 0; repeat(array_length(names)) {
-			if (variable_struct_exists(__emitters, names[i]) && 
-				variable_struct_get   (__emitters, names[i]) != undefined) {
-				var emitter = variable_struct_get(__emitters, names[i]).emitter;
-				part_emitter_clear(system, emitter);
-				part_emitter_destroy(system, emitter);
-				variable_struct_set(__emitters, names[i], undefined);
+
+		if (part_system_exists(system)) {
+			names = variable_struct_get_names(__emitters);
+			i = 0; repeat(array_length(names)) {
+				if (variable_struct_exists(__emitters, names[i]) && 
+					variable_struct_get   (__emitters, names[i]) != undefined) {
+					var emitter = variable_struct_get(__emitters, names[i]).emitter;
+					part_emitter_clear(system, emitter);
+					part_emitter_destroy(system, emitter);
+					variable_struct_set(__emitters, names[i], undefined);
+				}
+				i++;
 			}
-			i++;
+			part_system_destroy(system);
 		}
+		
 		__emitters = {};
 		__emitter_ranges = {};
 	}
@@ -324,12 +329,17 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	///						ATTENTION! You must setup part_emitter_region again if this
 	///						emitter is going to be reused in the future!
 	static stream_stop = function(name_or_emitter) {
+		if (!part_system_exists(system))
+			return;
+			
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var emi = emitter_get(name_or_emitter).emitter;
-		part_emitter_clear(system, emi);
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
-		if (rng != undefined)
-			part_emitter_region(system, emi, rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
+		if (emi != undefined) {
+			part_emitter_clear(system, emi);
+			var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+			if (rng != undefined)
+				part_emitter_region(system, emi, rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
+		}
 	}
 	
 	/// @function			burst(name_or_emitter, particle_count = 32, particle_name = undefined)
