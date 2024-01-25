@@ -70,7 +70,8 @@
       "demo_label": "Dieser String wurde mittels String Reference in json aufgelöst.\nSieh in die locale_de.json bei \"main_menu/header_text\" im Included Files\\locale Ordner!",
       "version_label": "Sieh dir die version.json Datei im Included Files Ordner an!",
       "inputbox": "Gib etwas Text ein und teste die UX:\n[ci_accent]Cursortasten[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Pos1, End[/] (mit und ohne Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] zum Selektieren,\n[ci_accent]Strg-C, Strg-X, Strg-V[/] etc\n\nDie InputBox ist sehr komfortabel!",
-      "playground_button": "Grisgram's Spielwiese.\nDieser Raum ist nicht übersetzt, keine Benutzerführung.\nHier teste ich einige Features von raptor, was auch immer gerade\nin Entwicklung ist."
+      "playground_button": "Grisgram's Spielwiese.\nDieser Raum ist nicht übersetzt, keine Benutzerführung.\nHier teste ich einige Features von raptor, was auch immer gerade\nin Entwicklung ist.",
+      "animation": "Hier siehst du eine Animation, die mit nur einer Zeile Code\nerstellt wurde, basierend auf AnimCurves.\nDie Partikel-Emitter sind gänzlich ohne Code erstellt.\nDie Partikel selbst wurden mit dem ParticleEditor generiert.\nSchau ins [ci_accent]raptor-wiki[/] für mehr Information!"
     },
     "start_playground": "[scale,1.25]Dev Playground"
   },

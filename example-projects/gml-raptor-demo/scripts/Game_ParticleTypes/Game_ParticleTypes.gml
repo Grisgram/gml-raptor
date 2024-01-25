@@ -32,7 +32,8 @@ function setup_particle_types() {
 		part_type_shape(ptSteamBurst, pt_shape_cloud);
 		part_type_size(ptSteamBurst, 0.12, 0.21, 0.02, 0);
 		part_type_scale(ptSteamBurst, 1, 1);
-		part_type_color3(ptSteamBurst, make_color_rgb(71.82, 70.69, 254.91), make_color_rgb(198.84, 11.09, 11.76), make_color_rgb(216.09, 63.48, 76.47));
+		part_type_color2(ptSteamBurst, make_color_rgb(56,56,56), make_color_rgb(157,157,157));
+		//part_type_color3(ptSteamBurst, make_color_rgb(71.82, 70.69, 254.91), make_color_rgb(198.84, 11.09, 11.76), make_color_rgb(216.09, 63.48, 76.47));
 		part_type_alpha3(ptSteamBurst, 0.71, 0.47, 0.16);
 		part_type_life(ptSteamBurst, 5.63, 12.68);
 		part_type_orientation(ptSteamBurst, 0, 359, 1, 0, false);
@@ -49,7 +50,8 @@ function setup_particle_types() {
 		part_type_shape(ptSmoke, pt_shape_cloud);
 		part_type_size(ptSmoke, 0.49, 1.62, 0, 0.31);
 		part_type_scale(ptSmoke, 1, 1);
-		part_type_color3(ptSmoke, make_color_rgb(71.82, 70.69, 254.91), make_color_rgb(198.84, 11.09, 11.76), make_color_rgb(216.09, 63.48, 76.47));
+		part_type_color2(ptSmoke, make_color_rgb(56,56,56), make_color_rgb(157,157,157));
+		//part_type_color3(ptSmoke, make_color_rgb(71.82, 70.69, 254.91), make_color_rgb(198.84, 11.09, 11.76), make_color_rgb(216.09, 63.48, 76.47));
 		part_type_alpha3(ptSmoke, 0.43, 0.28, 0.00);
 		part_type_life(ptSmoke, 29.58, 54.93);
 		part_type_orientation(ptSmoke, 0, 0, 0, 0, false);

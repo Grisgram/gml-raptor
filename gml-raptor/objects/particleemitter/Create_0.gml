@@ -33,6 +33,11 @@
 	RoomController).
 */
 
+// Inherit the parent event
+event_inherited();
+
+__clone_created = !stream_with_clone;
+__my_emitter = emitter_name;
 __follow_offset = new Coord2(0, 0);
 
 __raptor_onPoolActivate = function() {
@@ -64,9 +69,9 @@ __update_position = function(ps = undefined, force = false) {
 		y = follow_instance.y + __follow_offset.y * follow_instance.image_yscale;
 		if (x != xprevious || y != yprevious || force) {
 			ps = ps ?? __get_partsys();
-			ps.emitter_move_range_to(emitter_name, x, y);
+			ps.emitter_move_range_to(__my_emitter, x, y);
 			if (scale_with_instance)
-				ps.emitter_scale_to(emitter_name, self);
+				ps.emitter_scale_to(__my_emitter, self);
 		}
 	}
 }
@@ -80,19 +85,33 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	var pc = particles_per_frame ?? stream_particle_count;
 	
 	stream_particle_count = pc;
-	
-	if (string_is_empty(pn) || string_is_empty(emitter_name)) {
+	if (string_is_empty(__my_emitter)) {
 		if (DEBUG_LOG_PARTICLES)
-			log(MY_NAME + " ignored stream() call - no emitter name or particle name");
+			log(MY_NAME + " ignored stream() call - no emitter name");
 		return;
 	}
 	
 	var ps = __get_partsys();
+	if (!__clone_created) {
+		__my_emitter = ps.emitter_clone(emitter_name).emitter_name;
+		ps.emitter_move_range_to(__my_emitter, x, y);
+		__clone_created = true;
+	}
+	
+	if (string_is_empty(pn))
+		pn = ps.emitter_get(__my_emitter).default_particle;
+	
+	if (string_is_empty(pn)) {
+		if (DEBUG_LOG_PARTICLES)
+			log(MY_NAME + " ignored stream() call - no particle name");
+		return;
+	}
+	
 	__update_position(ps, true);
 	if (DEBUG_LOG_PARTICLES)
-		log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
-	ps.stream_stop(emitter_name);
-	ps.stream(emitter_name, pn, pc);
+		log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(__my_emitter), __my_emitter));
+	ps.stream_stop(__my_emitter);
+	ps.stream(__my_emitter, pc, pn);
 	return self;
 }
 
@@ -100,9 +119,9 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 /// @description	Stops streaming
 stop = function() {
 	if (DEBUG_LOG_PARTICLES)
-		log(MY_NAME + sprintf(": Stopped streaming through '{0}'", emitter_name));
+		log(MY_NAME + sprintf(": Stopped streaming through '{0}'", __my_emitter));
 	var ps = __get_partsys();	
-	ps.stream_stop(emitter_name);
+	ps.stream_stop(__my_emitter);
 	return self;
 }
 
@@ -123,24 +142,15 @@ burst = function(particle_count = undefined, particle_name = undefined, stop_str
 	if (stop_streaming) stop();
 	__update_position(ps, true);
 	if (DEBUG_LOG_PARTICLES)
-		log(MY_NAME + sprintf(": Bursting {0} '{1}' particles at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(emitter_name), emitter_name));
-	ps.burst(emitter_name, pn, pc);
+		log(MY_NAME + sprintf(": Bursting {0} '{1}' particles at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(__my_emitter), __my_emitter));
+	ps.burst(__my_emitter, pc, pn);
 	return self;
 }
 
 prev_x = x;
 prev_y = y;
 
-if (!string_is_empty(emitter_name)) {
+if (!string_is_empty(__my_emitter)) {
 	var initps = __get_partsys();	
-	initps.emitter_move_range_to(emitter_name, x, y);
-}
-
-// Inherit the parent event
-event_inherited();
-
-if (stream_on_create) {
-	if (stream_start_delay > 0 && DEBUG_LOG_PARTICLES)
-		log(MY_NAME + sprintf(": Will start streaming in {0} frames", stream_start_delay));
-	run_delayed(self, stream_start_delay, function() { stream(); });
+	initps.emitter_move_range_to(__my_emitter, x, y);
 }

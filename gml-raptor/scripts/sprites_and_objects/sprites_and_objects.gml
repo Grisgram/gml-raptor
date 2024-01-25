@@ -69,10 +69,7 @@ function scale_sprite_to(target_width, target_height) {
 function is_mouse_over(_instance, _is_gui = false) {
 	var xcheck = _is_gui ? GUI_MOUSE_X : MOUSE_X;
 	var ycheck = _is_gui ? GUI_MOUSE_Y : MOUSE_Y;
-	with (_instance)
-		return point_in_rectangle(xcheck, ycheck, 
-			SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE,
-			SELF_VIEW_RIGHT_EDGE, SELF_VIEW_BOTTOM_EDGE);
+	return position_meeting(xcheck, ycheck, _instance);
 }
 
 /// @function		replace_sprite(on_object, replace_with, keep_size = true, keep_location = true)

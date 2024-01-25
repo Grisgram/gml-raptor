@@ -70,7 +70,8 @@
       "demo_label": "This string is resolved via string reference in json.\nLook at the locale_en.json in the Included Files\\locale folder at \"main_menu/header_text\"!",
       "version_label": "Look at the version.json File in the Included Files folder!",
       "inputbox": "Enter some text and test the UX:\n[ci_accent]Cursor keys[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Home, End[/] (with and without Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] to select,\n[ci_accent]Ctrl-C, Ctrl-X, Ctrl-V[/] etc\n\nThe InputBox offers quite some comfort!",
-      "playground_button": "Grisgram's domain.\nIn this room I test some features of raptor.\nIt's not translated, no user guidance, it's... my playground!"
+      "playground_button": "Grisgram's domain.\nIn this room I test some features of raptor.\nIt's not translated, no user guidance, it's... my playground!",
+      "animation": "You see here an animation that is done with a single line of code,\nbased on AnimCurves.\nThe particle emitters are codeless and are done with the\nParticleEditor tool (see [ci_accent]raptor wiki[/] for more information)"
     },
     "start_playground": "[scale,1.25]Dev Playground"
   },

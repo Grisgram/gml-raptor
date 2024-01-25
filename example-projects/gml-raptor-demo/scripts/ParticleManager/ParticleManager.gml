@@ -72,13 +72,11 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description				register (or get existing) emitter for leak-free destroying at end of level
 	static emitter_get = function(name_or_emitter, default_particle_if_new = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		if (string_is_empty(name_or_emitter))
-			return new __emitter(undefined);
 			
 		var rv = variable_struct_exists(__emitters, name_or_emitter) ? 
 			variable_struct_get(__emitters, name_or_emitter) : 
 			new __emitter(part_emitter_create(system), default_particle_if_new);
-			
+
 		variable_struct_set(__emitters, name_or_emitter, rv);
 		rv.emitter_name = name_or_emitter;
 		return rv;
@@ -88,19 +86,12 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description				clone an emitter (and its range) to a new name
 	static emitter_clone = function(name_or_emitter, new_name = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		if (!variable_struct_exists(__emitter_ranges, name_or_emitter))
-			return undefined;
 		
 		new_name = new_name ?? name_or_emitter + SUID;
 		var origemi = emitter_get(name_or_emitter);
 		var rv = emitter_get(new_name, origemi.default_particle);
 		var orig = variable_struct_get(__emitter_ranges, name_or_emitter);
-		var rng = new __emitter_range(new_name, 
-			orig.minco.x, orig.maxco.x,
-			orig.minco.y, orig.maxco.y,
-			orig.eshape,
-			orig.edist
-		);
+		var rng = new __emitter_range(new_name).clone_from(orig);
 		
 		variable_struct_set(__emitter_ranges, new_name, rng);
 		return rv;
@@ -165,11 +156,13 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	static emitter_set_range = function(name_or_emitter, xmin, xmax, ymin, ymax, shape, distribution) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var emi = emitter_get(name_or_emitter); // creates the emitter if it does not exist
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter) ?? new __emitter_range(name_or_emitter, xmin, xmax, ymin, ymax, shape, distribution);
+		var rng = variable_struct_get(__emitter_ranges, name_or_emitter) ?? 
+			new __emitter_range(name_or_emitter).with_values(
+				xmin, xmax, ymin, ymax, 
+				shape, distribution
+			);
 		rng.minco.set(xmin, ymin);
 		rng.maxco.set(xmax, ymax);
-		rng.baseminco.set(xmin, ymin);
-		rng.basemaxco.set(xmax, ymax);
 		rng.eshape = shape;
 		rng.edist = distribution;
 		part_emitter_region(system, emi.emitter, xmin, xmax, ymin, ymax, shape, distribution);
@@ -378,19 +371,48 @@ function __emitter(part_emitter, default_particle_name = "") constructor {
 	default_particle = default_particle_name;
 }
 
-function __emitter_range(name, xmin, xmax, ymin, ymax, shape, distribution) constructor {
-	ctor = {
-		minco: new Coord2(xmin, ymin),
-		maxco: new Coord2(xmax, ymax)
-	};
+function __emitter_range(name) constructor {
 	ename = name;
-	center = new Coord2((xmax - xmin) / 2, (ymax - ymin) / 2);
-	minco = new Coord2(xmin, ymin);
-	maxco = new Coord2(xmax, ymax);
-	baseminco = minco.clone2();
-	basemaxco = maxco.clone2();
-	eshape = shape;
-	edist = distribution;
+	
+	ctor		= undefined;
+	center		= undefined;
+	minco		= undefined;
+	maxco		= undefined;
+	baseminco	= undefined;
+	basemaxco	= undefined;
+	eshape		= undefined;
+	edist		= undefined;
+	
+	static clone_from = function(_original) {
+		ctor		= {
+			minco: _original.ctor.minco.clone2(),
+			maxco: _original.ctor.maxco.clone2()
+		};
+		center		= _original.center.clone2();
+		minco		= _original.minco.clone2();
+		maxco		= _original.maxco.clone2();
+		baseminco	= _original.baseminco.clone2();
+		basemaxco	= _original.basemaxco.clone2();
+		eshape		= _original.eshape;
+		edist		= _original.edist;
+		return self;
+	}
+	
+	/// @function with_values(xmin, xmax, ymin, ymax, shape, distribution)
+	static with_values = function(xmin, xmax, ymin, ymax, shape, distribution) {
+		ctor = {
+			minco: new Coord2(xmin, ymin),
+			maxco: new Coord2(xmax, ymax)
+		};
+		center = new Coord2((xmax - xmin) / 2, (ymax - ymin) / 2);
+		minco = new Coord2(xmin, ymin);
+		maxco = new Coord2(xmax, ymax);
+		baseminco = minco.clone2();
+		basemaxco = maxco.clone2();
+		eshape = shape;
+		edist = distribution;
+		return self;
+	}
 	
 	/// @function		scale_to(instance)
 	static scale_to = function(instance) {

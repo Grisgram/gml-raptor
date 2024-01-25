@@ -101,6 +101,9 @@ GUI_MOUSE_Y = device_mouse_y_to_gui(0);
 WINDOW_SIZE_X = window_get_width();
 WINDOW_SIZE_Y = window_get_height();
 
+#macro DELTA_TIME_SECS			global.__delta_time_secs
+DELTA_TIME_SECS = 0;
+
 #endregion
 
 

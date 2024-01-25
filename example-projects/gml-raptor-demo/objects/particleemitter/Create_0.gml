@@ -33,6 +33,10 @@
 	RoomController).
 */
 
+// Inherit the parent event
+event_inherited();
+
+__clone_created = !stream_with_clone;
 __my_emitter = emitter_name;
 __follow_offset = new Coord2(0, 0);
 
@@ -81,14 +85,28 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	var pc = particles_per_frame ?? stream_particle_count;
 	
 	stream_particle_count = pc;
-	
-	if (string_is_empty(pn) || string_is_empty(__my_emitter)) {
+	if (string_is_empty(__my_emitter)) {
 		if (DEBUG_LOG_PARTICLES)
-			log(MY_NAME + " ignored stream() call - no emitter name or particle name");
+			log(MY_NAME + " ignored stream() call - no emitter name");
 		return;
 	}
 	
 	var ps = __get_partsys();
+	if (!__clone_created) {
+		__my_emitter = ps.emitter_clone(emitter_name).emitter_name;
+		ps.emitter_move_range_to(__my_emitter, x, y);
+		__clone_created = true;
+	}
+	
+	if (string_is_empty(pn))
+		pn = ps.emitter_get(__my_emitter).default_particle;
+	
+	if (string_is_empty(pn)) {
+		if (DEBUG_LOG_PARTICLES)
+			log(MY_NAME + " ignored stream() call - no particle name");
+		return;
+	}
+	
 	__update_position(ps, true);
 	if (DEBUG_LOG_PARTICLES)
 		log(MY_NAME + sprintf(": Started streaming {0} '{1}' ppf at {2} through '{3}'", pc, pn, ps.emitter_get_range_min(__my_emitter), __my_emitter));
@@ -132,19 +150,7 @@ burst = function(particle_count = undefined, particle_name = undefined, stop_str
 prev_x = x;
 prev_y = y;
 
-if (stream_with_clone)
-	__my_emitter = __get_partsys().emitter_clone(emitter_name).emitter_name;
-
 if (!string_is_empty(__my_emitter)) {
 	var initps = __get_partsys();	
 	initps.emitter_move_range_to(__my_emitter, x, y);
-}
-
-// Inherit the parent event
-event_inherited();
-
-if (stream_on_create) {
-	if (stream_start_delay > 0 && DEBUG_LOG_PARTICLES)
-		log(MY_NAME + sprintf(": Will start streaming in {0} frames", stream_start_delay));
-	run_delayed(self, stream_start_delay, function() { stream(); });
 }

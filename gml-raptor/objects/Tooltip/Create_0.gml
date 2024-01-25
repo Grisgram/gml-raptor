@@ -10,6 +10,12 @@ __frame_countdown = -1;
 __last_activation_delay_frames = -1;
 __counting_up = false;
 
+__apply_autosize_alignment = function() {
+}
+
+__apply_post_positioning = function() {
+}
+
 /// @function					update_tooltip_text()
 /// @description				Invoked when the tooltip becomes visible. Returns own text by default.
 ///								Override, if you need to check for changed text on every shown-event
