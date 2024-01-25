@@ -80,6 +80,8 @@ __adopt_object_properties = function() {
 		__scribble_text.blend(image_blend, image_alpha);
 	}
 	if (adopt_object_properties == adopt_properties.full) {
+		//__scribble_text.scale_to_box(edges.width, edges.height);
+		//__scribble_text.fit_to_box(edges.width, edges.height);
 		__scribble_text.transform(image_xscale, image_yscale, image_angle);
 	}
 }

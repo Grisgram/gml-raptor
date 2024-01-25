@@ -72,7 +72,6 @@ function Edges(obj = undefined) constructor {
 				other.ninesliced.center_x	= other.center_x;
 				other.ninesliced.center_y	= other.center_y;				
 			}
-			
 		}
 	}
 	
