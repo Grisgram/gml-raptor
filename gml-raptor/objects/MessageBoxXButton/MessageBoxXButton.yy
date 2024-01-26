@@ -18,8 +18,8 @@
     "path": "folders/_gml_raptor_/UI/messagebox.yy",
   },
   "parentObjectId": {
-    "name": "ImageButton",
-    "path": "objects/ImageButton/ImageButton.yy",
+    "name": "RaptorImageButton",
+    "path": "objects/RaptorImageButton/RaptorImageButton.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,

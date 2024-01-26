@@ -2,22 +2,16 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "Label",
-  "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,},
-  ],
+  "eventList": [],
   "managed": true,
-  "overriddenProperties": [
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"value":"16",},
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"value":"16",},
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"value":"[fa_middle][fa_left]",},
-  ],
+  "overriddenProperties": [],
   "parent": {
-    "name": "controls",
-    "path": "folders/_gml_raptor_/UI/controls.yy",
+    "name": "_gml_raptor_ui_",
+    "path": "folders/_gml_raptor_ui_.yy",
   },
   "parentObjectId": {
-    "name": "_baseControlWithTooltip",
-    "path": "objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",
+    "name": "RaptorLabel",
+    "path": "objects/RaptorLabel/RaptorLabel.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,
@@ -32,10 +26,7 @@
   "physicsShape": 1,
   "physicsShapePoints": [],
   "physicsStartAwake": true,
-  "properties": [
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"remove_sprite_at_runtime","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"word_wrap","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"False","varType":3,},
-  ],
+  "properties": [],
   "solid": false,
   "spriteId": {
     "name": "sprDefaultLabelFilled",

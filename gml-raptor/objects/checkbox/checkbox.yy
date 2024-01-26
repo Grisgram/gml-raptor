@@ -6,12 +6,12 @@
   "managed": true,
   "overriddenProperties": [],
   "parent": {
-    "name": "controls",
-    "path": "folders/_gml_raptor_/UI/controls.yy",
+    "name": "_gml_raptor_ui_",
+    "path": "folders/_gml_raptor_ui_.yy",
   },
   "parentObjectId": {
-    "name": "_baseCheckableControl",
-    "path": "objects/_baseCheckableControl/_baseCheckableControl.yy",
+    "name": "RaptorCheckBox",
+    "path": "objects/RaptorCheckBox/RaptorCheckBox.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,

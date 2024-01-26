@@ -10,7 +10,7 @@
   "managed": true,
   "overriddenProperties": [
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"value":"[fa_middle][fa_center]",},
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"Window","path":"objects/Window/Window.yy",},"propertyId":{"name":"window_is_movable","path":"objects/Window/Window.yy",},"value":"True",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_is_movable","path":"objects/RaptorWindow/RaptorWindow.yy",},"value":"True",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"value":"320",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"value":"200",},
   ],
@@ -19,8 +19,8 @@
     "path": "folders/_gml_raptor_/UI/messagebox.yy",
   },
   "parentObjectId": {
-    "name": "Window",
-    "path": "objects/Window/Window.yy",
+    "name": "RaptorWindow",
+    "path": "objects/RaptorWindow/RaptorWindow.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,

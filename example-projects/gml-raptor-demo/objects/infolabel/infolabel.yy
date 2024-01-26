@@ -6,8 +6,9 @@
   "managed": true,
   "overriddenProperties": [
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"",},
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"Label","path":"objects/Label/Label.yy",},"propertyId":{"name":"remove_sprite_at_runtime","path":"objects/Label/Label.yy",},"value":"False",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"Label","path":"objects/Label/Label.yy",},"propertyId":null,"value":"False",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorLabel","path":"objects/RaptorLabel/RaptorLabel.yy",},"propertyId":{"name":"remove_sprite_at_runtime","path":"objects/RaptorLabel/RaptorLabel.yy",},"value":"False",},
   ],
   "parent": {
     "name": "menu",

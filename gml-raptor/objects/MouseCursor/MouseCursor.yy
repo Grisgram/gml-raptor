@@ -2,22 +2,16 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "MouseCursor",
-  "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":75,"eventType":8,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":12,"isDnD":false,},
-  ],
+  "eventList": [],
   "managed": true,
   "overriddenProperties": [],
   "parent": {
-    "name": "controls",
-    "path": "folders/_gml_raptor_/UI/controls.yy",
+    "name": "_gml_raptor_ui_",
+    "path": "folders/_gml_raptor_ui_.yy",
   },
   "parentObjectId": {
-    "name": "_raptorBase",
-    "path": "objects/_raptorBase/_raptorBase.yy",
+    "name": "RaptorMouseCursor",
+    "path": "objects/RaptorMouseCursor/RaptorMouseCursor.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,
@@ -32,16 +26,7 @@
   "physicsShape": 1,
   "physicsShapePoints": [],
   "physicsStartAwake": true,
-  "properties": [
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_type","filters":[
-        "GMObject",
-      ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"MouseCursorCompanion","varType":5,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_offset_x","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_offset_y","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"sprite_to_use","filters":[
-        "GMSprite",
-      ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":5,},
-  ],
+  "properties": [],
   "solid": false,
   "spriteId": {
     "name": "sprDefaultMouseCursor",

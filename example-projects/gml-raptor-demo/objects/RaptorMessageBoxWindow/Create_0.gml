@@ -104,6 +104,7 @@ __draw_self = function() {
 				with (__button) {
 					y = ypos - sprite_height + sprite_yoffset;
 					x = xpos + sprite_xoffset;
+					update_startup_coordinates();
 					xpos += sprite_width + buttondist;
 					button_min_y = min(button_min_y, y);
 					force_redraw();
