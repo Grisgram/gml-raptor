@@ -7,14 +7,20 @@ edges = new Edges(self);
 
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
-__startup_x					= x;
-__startup_y					= y;
-__startup_xscale			= image_xscale;
-__startup_yscale			= image_yscale;
-__startup_mycenterx			= SELF_VIEW_CENTER_X;
-__startup_mycentery			= SELF_VIEW_CENTER_Y;
-__startup_myright			= SELF_VIEW_RIGHT_EDGE;
-__startup_mybottom			= SELF_VIEW_BOTTOM_EDGE;
+/// @function update_startup_coordinates()
+/// @description Invoke this if you did create the control dynamically at runtime 
+///				 to set the current position as the startup position after placing it in the scene
+update_startup_coordinates = function() {
+	__startup_x				= x;
+	__startup_y				= y;
+	__startup_xscale		= image_xscale;
+	__startup_yscale		= image_yscale;
+	__startup_mycenterx		= SELF_VIEW_CENTER_X;
+	__startup_mycentery		= SELF_VIEW_CENTER_Y;
+	__startup_myright		= SELF_VIEW_RIGHT_EDGE;
+	__startup_mybottom		= SELF_VIEW_BOTTOM_EDGE;
+}
+update_startup_coordinates();
 
 __last_sprite_index			= undefined;
 __last_text					= "";

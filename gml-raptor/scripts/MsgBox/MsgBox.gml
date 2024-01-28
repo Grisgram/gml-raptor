@@ -32,6 +32,10 @@ function __msgbox_button(obj, btn_text, cb, layer_name, react_on_key) constructo
 		with (__button) {
 			text = other.button_text;
 			on_left_click = __msgbox_callback_wrapper;
+			text_color = MESSAGEBOX_BUTTON_TEXT_COLOR;
+			draw_color = MESSAGEBOX_BUTTON_DRAW_COLOR;
+			text_color_mouse_over = MESSAGEBOX_BUTTON_TEXT_MOUSEOVER;
+			draw_color_mouse_over = MESSAGEBOX_BUTTON_DRAW_MOUSEOVER;
 		}
 		return __button;
 	}

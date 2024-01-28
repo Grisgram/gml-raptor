@@ -5,7 +5,7 @@
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "messagebox",
-    "path": "folders/_gml_raptor_/UI/messagebox.yy",
+    "name": "raptormessagebox",
+    "path": "folders/_gml_raptor_/UI/raptormessagebox.yy",
   },
 }

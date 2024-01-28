@@ -102,9 +102,9 @@ function onGameStart() {
 	//scribble_font_set_default("acme28");
 
 	// Custom named scribble colors - use the format that fits best for you! 
-	//scribble_color_set("my_col", make_color_rgb(0xE5,0xE5,0xE5)); // 0x... hex, can also use 165,165,165 - doesn't matter
-	//scribble_color_set("my_col", #E5E5E5); // #RRGGBB
-	//scribble_color_set("my_col", $E5E5E5); // $BBGGRR
+	//scribble_color_set("my_col1", make_color_rgb(0xE5,0xE5,0xE5)); // 0x... hex, can also use 165,165,165 - doesn't matter
+	//scribble_color_set("my_col2", #E5E5E5); // #RRGGBB
+	//scribble_color_set("my_col3", $E5E5E5); // $BBGGRR
 	
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
