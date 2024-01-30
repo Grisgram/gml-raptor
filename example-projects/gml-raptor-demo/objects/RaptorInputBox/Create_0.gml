@@ -42,6 +42,10 @@ __wait_for_key_repeat = false;
 __repeat_interval_mode = false;
 __repeating_key = undefined;
 
+enum character_filter {
+	none, allowed, forbidden
+}
+
 /// @function					set_focus()
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
@@ -252,7 +256,7 @@ draw_scribble_text = function() {
 		}
 		if (selection_length != 0) {
 			draw_set_color(text_color_focus);
-			draw_set_alpha(0.5);
+			draw_set_alpha(0.25);
 			draw_rectangle(__selection_rect.left, __selection_rect.top, __selection_rect.get_right(), __selection_rect.get_bottom(), false);
 			draw_set_alpha(1);
 			draw_set_color(c_white);

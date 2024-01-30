@@ -16,12 +16,12 @@ function race_demo_start_click() {
 	// This command resets the table to a state as if it would've been loaded freshly from the file
 	race_table_reset(table);
 	
-	race_set_enabled(table, "gemWhite", chkEnableGemWhite	.is_checked);
-	race_set_enabled(table, "gemRed",	chkEnableGemRed		.is_checked);
-	race_set_enabled(table, "gemPurple",chkEnableGemPurple	.is_checked);
-	race_set_enabled(table, "gemGreen", chkEnableGemGreen	.is_checked);
-	race_set_enabled(table, "gemBlue",	chkEnableGemBlue	.is_checked);
-	race_set_enabled(table, "gemYellow",chkEnableGemYellow	.is_checked);
+	race_set_enabled(table, "gemWhite", chkEnableGemWhite	.checked);
+	race_set_enabled(table, "gemRed",	chkEnableGemRed		.checked);
+	race_set_enabled(table, "gemPurple",chkEnableGemPurple	.checked);
+	race_set_enabled(table, "gemGreen", chkEnableGemGreen	.checked);
+	race_set_enabled(table, "gemBlue",	chkEnableGemBlue	.checked);
+	race_set_enabled(table, "gemYellow",chkEnableGemYellow	.checked);
 	
 	race_set_chance (table, "gemWhite", real(txtChanceGemWhite	.text));
 	race_set_chance (table, "gemRed",	real(txtChanceGemRed	.text));
@@ -46,10 +46,6 @@ function push_chances_to_textboxes() {
 	txtChanceGemGreen	.text = string_format(race_get_chance(table, "gemGreen" ), 0, 2);
 	txtChanceGemBlue	.text = string_format(race_get_chance(table, "gemBlue"  ), 0, 2);
 	txtChanceGemYellow	.text = string_format(race_get_chance(table, "gemYellow"), 0, 2);
-}
-
-function gem_checkbox_clicked(sender) {
-	sender.toggle_checked();
 }
 
 function race_demo_exit_click() {

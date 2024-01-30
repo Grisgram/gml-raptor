@@ -44,6 +44,24 @@ __delete_char = function() {
 		__cut_selection();
 }
 
+__filter_character = function( _char) {
+	if (!array_contains(forbidden_characters, _char)) {
+		switch (input_filter) {
+			case character_filter.none:
+				return _char;
+			case character_filter.allowed:
+				if (string_contains(filtered_characters, _char))
+					return _char;
+				break;
+			case character_filter.forbidden:
+				if (!string_contains(filtered_characters, _char))
+					return _char;
+				break;
+		}
+	}
+	return "";
+}
+
 __add_text = function() {
 	if (keyboard_string == "")
 		return;
@@ -52,20 +70,21 @@ __add_text = function() {
 	if (string_length(text) >= max_length)
 		return;
 
-	var i = 0; repeat(array_length(forbidden_characters)) {
-		keyboard_string = string_replace(keyboard_string, forbidden_characters[i++], "");
+	var finalstring = "";
+	var i = 0; repeat(string_length(keyboard_string)) {
+		finalstring += __filter_character(string_copy(keyboard_string, ++i, 1));
 	}
 	
-	if (keyboard_string != "") {
+	if (finalstring != "") {
 		var txbefore = text;
-		var cb = keyboard_string;
+		var cb = finalstring;
 		text = string_copy(text, 1, cursor_pos) + cb +
 			string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos - string_length(cb) + 1);
 		cursor_pos = clamp(cursor_pos + string_length(cb), 1, string_length(text));
 		__reset_cursor_blink();
-		keyboard_string = "";
 		__invoke_text_changed(txbefore, text);
 	}
+	keyboard_string = "";
 }
 
 __copy_text = function() {
