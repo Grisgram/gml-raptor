@@ -87,7 +87,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	stream_particle_count = pc;
 	if (string_is_empty(__my_emitter)) {
 		if (DEBUG_LOG_PARTICLES)
-			log($"{MY_NAME} ignored stream() call - no emitter name");
+			wlog($"{MY_NAME} ignored stream() call - no emitter name");
 		return;
 	}
 	
@@ -103,13 +103,13 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	
 	if (string_is_empty(pn)) {
 		if (DEBUG_LOG_PARTICLES)
-			log($"{MY_NAME} ignored stream() call - no particle name");
+			wlog($"{MY_NAME} ignored stream() call - no particle name");
 		return;
 	}
 	
 	__update_position(ps, true);
 	if (DEBUG_LOG_PARTICLES)
-		log($"{MY_NAME}: Started streaming {pc} '{pn}' ppf at {ps.emitter_get_range_min(__my_emitter)} through '{__my_emitter}'");
+		dlog($"{MY_NAME}: Started streaming {pc} '{pn}' ppf at {ps.emitter_get_range_min(__my_emitter)} through '{__my_emitter}'");
 	ps.stream_stop(__my_emitter);
 	ps.stream(__my_emitter, pc, pn);
 	return self;
@@ -119,7 +119,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 /// @description	Stops streaming
 stop = function() {
 	if (DEBUG_LOG_PARTICLES)
-		log($"{MY_NAME}: Stopped streaming through '{__my_emitter}'");
+		dlog($"{MY_NAME}: Stopped streaming through '{__my_emitter}'");
 	var ps = __get_partsys();	
 	ps.stream_stop(__my_emitter);
 	return self;
@@ -142,7 +142,7 @@ burst = function(particle_count = undefined, particle_name = undefined, stop_str
 	if (stop_streaming) stop();
 	__update_position(ps, true);
 	if (DEBUG_LOG_PARTICLES)
-		log($"{MY_NAME}: Bursting {pc} '{pn}' particles at {ps.emitter_get_range_min(__my_emitter)} through '{__my_emitter}'");
+		dlog($"{MY_NAME}: Bursting {pc} '{pn}' particles at {ps.emitter_get_range_min(__my_emitter)} through '{__my_emitter}'");
 	ps.burst(__my_emitter, pc, pn);
 	return self;
 }

@@ -33,7 +33,7 @@ is_in_state = function(name) {
 ///											  with image_speed = 0 at the last frame!
 /// @param {func}	_finished_callback	A function to call, when the animation is finished
 sprite_animate_once = function(_sprite_index, _sprite_index_after = undefined, _finished_callback = undefined) {
-	log($"Running single animation of sprite '{sprite_get_name(_sprite_index)}'");
+	vlog($"Running single animation of sprite '{sprite_get_name(_sprite_index)}'");
 	__reset_single_sprite_animation();
 	sprite_index = _sprite_index;
 	image_index = 0;
@@ -45,23 +45,23 @@ sprite_animate_once = function(_sprite_index, _sprite_index_after = undefined, _
 
 __single_sprite_animation_finished = function() {
 	var after = __single_sprite_animation_sprite_after != undefined ? sprite_get_name(__single_sprite_animation_sprite_after) : "none";
-	log($"Single animation of sprite '{sprite_get_name(sprite_index)}' finished: follow_up='{after}';");
+	vlog($"Single animation of sprite '{sprite_get_name(sprite_index)}' finished: follow_up='{after}';");
 	__single_sprite_animation_running = false;
 	if (__single_sprite_animation_sprite_after != undefined) {
 		sprite_index = __single_sprite_animation_sprite_after;
 		image_index = 0;
-		log($"Sprite set to '{sprite_get_name(sprite_index)}' at frame 0");
+		vlog($"Sprite set to '{sprite_get_name(sprite_index)}' at frame 0");
 	} else {
 		image_speed = 0;
 		image_index = image_number - 1;
-		log($"Sprite frozen at last frame at the end of single animation");
+		vlog($"Sprite frozen at last frame at the end of single animation");
 	}
 	
 	var cb = __single_sprite_animation_callback;
 	__reset_single_sprite_animation();
 
 	if (cb != undefined) {
-		log($"Running single animation finish callback");
+		vlog($"Running single animation finish callback");
 		cb();
 	}	
 }
@@ -78,7 +78,7 @@ __shall_forward_mouse_event = function(_state) {
 	if (mouse_events_are_unique) {
 		with (StatefulObject) {
 			if (mouse_events_are_unique && is_in_state(_state)) {
-				log($"Interrupted mouse event {_state} for {MY_NAME}");
+				vlog($"Interrupted mouse event {_state} for {MY_NAME}");
 				return false;
 			}
 		}

@@ -2,5 +2,5 @@
 
 GUI_EVENT;
 
-log($"{MY_NAME}: onRightDown");
+vlog($"{MY_NAME}: onRightDown");
 await_click = true;

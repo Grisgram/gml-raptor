@@ -29,10 +29,6 @@
 #macro MY_ID	string(real(id))
 #macro MY_NAME	$"{object_get_name(object_index)}({real(id)})"
 
-/// shorter to write debug output
-#macro log	show_debug_message
-#macro logd var __log__d_=function(){var line="***VALUE DUMP***";for(var _i_logd_i=0;_i_logd_i<argument_count;_i_logd_i++)line+="|"+string(argument[_i_logd_i]);show_debug_message(line);}__log__d_
-
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed
 
@@ -76,5 +72,5 @@ MOUSE_CURSOR = undefined;
 #macro ENDTRY   }
 
 // Unit test automation
-#macro __RUN_UNIT_TESTS					show_debug_message("Unit tests disabled");
+#macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
 #macro unit_testing:__RUN_UNIT_TESTS	UnitTestAll();game_end();

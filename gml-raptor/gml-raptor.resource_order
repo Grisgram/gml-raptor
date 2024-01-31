@@ -128,6 +128,7 @@
     {"name":"UnitTestAll","order":4,"path":"scripts/UnitTestAll/UnitTestAll.yy",},
     {"name":"RaptorMouseCursorCompanion","order":6,"path":"objects/RaptorMouseCursorCompanion/RaptorMouseCursorCompanion.yy",},
     {"name":"RaptorImageButton","order":2,"path":"objects/RaptorImageButton/RaptorImageButton.yy",},
+    {"name":"RingBuffer","order":33,"path":"scripts/RingBuffer/RingBuffer.yy",},
     {"name":"Pythagoras","order":20,"path":"scripts/Pythagoras/Pythagoras.yy",},
     {"name":"scribble_anim_jitter","order":2,"path":"scripts/scribble_anim_jitter/scribble_anim_jitter.yy",},
     {"name":"Canvas","order":2,"path":"scripts/Canvas/Canvas.yy",},

@@ -166,6 +166,7 @@
     {"id":{"name":"UnitTestAll","path":"scripts/UnitTestAll/UnitTestAll.yy",},},
     {"id":{"name":"RaptorMouseCursorCompanion","path":"objects/RaptorMouseCursorCompanion/RaptorMouseCursorCompanion.yy",},},
     {"id":{"name":"RaptorImageButton","path":"objects/RaptorImageButton/RaptorImageButton.yy",},},
+    {"id":{"name":"RingBuffer","path":"scripts/RingBuffer/RingBuffer.yy",},},
     {"id":{"name":"Pythagoras","path":"scripts/Pythagoras/Pythagoras.yy",},},
     {"id":{"name":"SnapBufferReadNSV","path":"scripts/SnapBufferReadNSV/SnapBufferReadNSV.yy",},},
     {"id":{"name":"scribble_anim_jitter","path":"scripts/scribble_anim_jitter/scribble_anim_jitter.yy",},},

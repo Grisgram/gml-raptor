@@ -129,7 +129,7 @@ __screen_shaking = false;
 /// @returns {camera_action_data} struct
 screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	if (__screen_shaking) {
-		log($"Screen_shake ignored. Already shaking!");
+		dlog($"Screen_shake ignored. Already shaking!");
 		return undefined;
 	}
 	__screen_shaking = true;
@@ -267,11 +267,11 @@ if (!variable_global_exists("__transition_running"))
 ///					See RoomTransitions script for more info
 transit = function(_transition, skip_if_another_running = false) {
 	if (skip_if_another_running && TRANSITION_RUNNING) {
-		log($"*WARNING* Transition ignored, another one is running");
+		wlog($"*WARNING* Transition ignored, another one is running");
 		return;
 	}
 	
-	log($"Starting transit to '{room_get_name(_transition.target_room)}'");
+	ilog($"Starting transit to '{room_get_name(_transition.target_room)}'");
 	
 	__ACTIVE_TRANSITION		 = _transition;
 	__ACTIVE_TRANSITION_STEP = 0;

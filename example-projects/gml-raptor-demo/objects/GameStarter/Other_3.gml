@@ -1,6 +1,6 @@
 /// @description destroy all
 
-log($"Invoking onGameEnd()");
+mlog($"Invoking onGameEnd()");
 onGameEnd();
 save_settings();
 

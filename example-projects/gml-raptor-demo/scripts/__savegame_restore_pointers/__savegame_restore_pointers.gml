@@ -33,7 +33,7 @@ function __savegame_restore_struct_pointers(_source)
         if (is_string(_value) && string_starts_with(_value, __SAVEGAME_REF_MARKER))
 		{
 			_value = string_replace(_value, __SAVEGAME_REF_MARKER, "");
-			//log($"Restoring instance id in struct: {_value}");
+			//vlog($"Restoring instance id in struct: {_value}");
 			variable_struct_set(_source, _name, savegame_get_instance_of(_value));
 		} 
 		else if (is_array(_value))
@@ -61,7 +61,7 @@ function __savegame_restore_array_pointers(_source)
         if (is_string(_value) && string_starts_with(_value, __SAVEGAME_REF_MARKER))
 		{
 			_value = string_replace(_value, __SAVEGAME_REF_MARKER, "");
-			//log($"Restoring instance id in array: {_value}");
+			//vlog($"Restoring instance id in array: {_value}");
 			_source[@ _i] = savegame_get_instance_of(_value);
 		} 
 		else if (is_struct(_value))

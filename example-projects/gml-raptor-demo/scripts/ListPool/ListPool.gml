@@ -36,7 +36,7 @@ function ListPool(_name = "listPool") constructor {
 				obj.__listpool_processible = true;
 			ds_list_add(list, obj);
 			if (DEBUG_LOG_LIST_POOLS)
-				log($"'{name}' item added: newSize={size()};");
+				vlog($"'{name}' item added: newSize={size()};");
 		}
 	}
 
@@ -94,13 +94,13 @@ function ListPool(_name = "listPool") constructor {
 	/// @description	For debugging purposes. Prints all objects to the console
 	static dump = function() {
 		var i = 0;
-		log($"---- LIST POOL '{name}' DUMP START ----");
+		ilog($"---- LIST POOL '{name}' DUMP START ----");
 		repeat(ds_list_size(list)) {
 			var item = ds_list_find_value(list, i);
-			log($"#{i}: {item}");
+			ilog($"#{i}: {item}");
 			i++;
 		}
-		log($"---- LIST POOL '{name}' DUMP  END  ----");
+		ilog($"---- LIST POOL '{name}' DUMP  END  ----");
 	}
 
 }

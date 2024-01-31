@@ -18,8 +18,8 @@ function Game_Exception_Handler(_unhandled) {
 		if (IS_HTML) return 0;
 		var error = string(_unhandled);
 		file_write_text_file(CRASH_DUMP_FILENAME, error, FILE_CRYPT_KEY);
-		log($"Crash dump written to disk!");
+		flog($"Crash dump written to disk!");
 	} catch (_ignored) { 
-		log($"Crash dump could not be written to disk!");
+		flog($"Crash dump could not be written to disk!");
 	}
 }

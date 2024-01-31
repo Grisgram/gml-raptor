@@ -60,7 +60,7 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 	var filename = RACE_ROOT_FOLDER + filename_to_load + (string_ends_with(filename_to_load, ".json") ? "" : ".json");
 	if (!file_exists(filename)) {
 		if (DEBUG_LOG_RACE)
-			log($"*ERROR* race table file '{filename}' not found!");
+			elog($"*ERROR* race table file '{filename}' not found!");
 		return;
 	}
 	
@@ -71,14 +71,14 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 		var tablecnt = array_length(names);
 			
 		if (DEBUG_LOG_RACE)
-			log($"Successfully loaded {tablecnt} table(s) from '{filename}'{(overwrite_existing ? " WITH OVERWRITE" : "")}");
+			ilog($"Successfully loaded {tablecnt} table(s) from '{filename}'{(overwrite_existing ? " WITH OVERWRITE" : "")}");
 		for (var i = 0; i < tablecnt; i++) {
 			var table = variable_struct_get(tablefile, names[i]);
 			race_add_table(names[i], table, overwrite_existing);
 		}
 	} else
 		if (DEBUG_LOG_RACE)
-			log($"*ERROR* Failed to load race table file '{filename}'!")
+			elog($"*ERROR* Failed to load race table file '{filename}'!")
 }
 
 /// @function					race_get_table(table_name)
@@ -122,7 +122,7 @@ function race_add_table(table_name, table_struct, overwrite_existing = true) {
 		var dc = SnapDeepCopy(table_struct);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);					
 		if (DEBUG_LOG_RACE)
-			log($"Added global race table '{table_name}'");
+			dlog($"Added global race table '{table_name}'");
 	}
 }
 
@@ -158,11 +158,11 @@ function race_table_reset(table_name, recursive = false) {
 		var dc = SnapDeepCopy(cache);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);
 		if (DEBUG_LOG_RACE)
-			log($"Race table '{table_name}' has been reset");
+			vlog($"Race table '{table_name}' has been reset");
 		return dc;
 	} else 
 		if (DEBUG_LOG_RACE)
-			log($"**ERROR** Race table '{table_name}' reset failed. Table not found!");
+			elog($"**ERROR** Race table '{table_name}' reset failed. Table not found!");
 	return undefined;
 }
 
@@ -193,7 +193,7 @@ function __race_table_delete_temp(table_name) {
 	if (!string_starts_with(table_name, __RACE_TEMP_TABLE_PREFIX) || !race_table_exists(table_name))
 		return;
 	if (DEBUG_LOG_RACE)
-		log($"Deleting temp race table '{table_name}'");
+		dlog($"Deleting temp race table '{table_name}'");
 	variable_struct_remove(__RACE_GLOBAL, table_name);
 }
 
@@ -202,11 +202,11 @@ function __race_table_delete_temp(table_name) {
 /// @description						Dumps the table and all items to the debug console.
 function race_table_dump(table_name) {
 	var tname = is_struct(table_name) ? race_table_get_name(table_name) : table_name;
-	log($"[TABLE DUMP: {tname}]");
+	ilog($"[TABLE DUMP: {tname}]");
 	race_table_foreach_item(table_name, function(name, item) {
-		log($"{name}: {item}");
+		ilog($"{name}: {item}");
 	});
-	log($"[/TABLE DUMP]");
+	ilog($"[/TABLE DUMP]");
 }
 
 /// @function							race_table_foreach_item(table_name, func, args)
@@ -581,9 +581,9 @@ function __race_log_onQueryStarted(first_query_table, current_query_table, file_
 		return;
 		
 	if (file_name == "")
-		log($"{MY_NAME}: onQueryStarted: initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}';");
+		vlog($"{MY_NAME}: onQueryStarted: initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}';");
 	else
-		log($"{MY_NAME}: onQueryStarted: initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}'; file='{file_name}';");
+		vlog($"{MY_NAME}: onQueryStarted: initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}'; file='{file_name}';");
 }
 
 function __race_log_onQueryHit(item_dropped, first_query_table, current_query_table, file_name = "") {
@@ -591,9 +591,9 @@ function __race_log_onQueryHit(item_dropped, first_query_table, current_query_ta
 		return;
 
 	if (file_name = "")
-		log($"{MY_NAME}: onQueryHit: item='{item_dropped.name}'; initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}';");
+		vlog($"{MY_NAME}: onQueryHit: item='{item_dropped.name}'; initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}';");
 	else
-		log($"{MY_NAME}: onQueryHit: item='{item_dropped.name}'; initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}'; file='{file_name}'");
+		vlog($"{MY_NAME}: onQueryHit: item='{item_dropped.name}'; initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}'; file='{file_name}'");
 }
 #endregion
 

@@ -17,7 +17,7 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 			if (object_activation && layer_get_element_type(lid) == layerelementtype_instance) {
 				if (vis) instance_activate_layer(lid); else instance_deactivate_layer(lid);
 			}
-			log($"Setting layer visibility: layer='{lname}'; visible={vis};");
+			dlog($"Setting layer visibility: layer='{lname}'; visible={vis};");
 		}
 	}
 }

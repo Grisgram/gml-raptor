@@ -2,7 +2,7 @@
 
 GUI_EVENT;
 
-log($"{MY_NAME}: onLeftDown");
+vlog($"{MY_NAME}: onLeftDown");
 await_click = true;
 
 var elapsed = current_time - double_click_waiter;

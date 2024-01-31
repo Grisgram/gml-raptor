@@ -2,5 +2,5 @@
 
 GUI_EVENT;
 
-log($"{MY_NAME}: onMiddleDown");
+vlog($"{MY_NAME}: onMiddleDown");
 await_click = true;

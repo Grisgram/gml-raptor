@@ -8,7 +8,7 @@ for (var i = 0; i < array_length(ACTIVE_MESSAGE_BOX.__buttons); i++) {
 	}
 }
 if (btnstruct != undefined) {
-	log($"Invoking MessageBox Button callback through hotkey 'escape'.");
+	vlog($"Invoking MessageBox Button callback through hotkey 'escape'.");
 	with (btnstruct.__button)
 		__msgbox_callback_wrapper();
 } else {
@@ -16,5 +16,5 @@ if (btnstruct != undefined) {
 		with (ACTIVE_MESSAGE_BOX)
 			__msgbox_x_button_default_callback();
 	else
-		log($"No MessageBox Button defined for hotkey 'escape' in __buttons array!");
+		wlog($"No MessageBox Button defined for hotkey 'escape' in __buttons array!");
 }
