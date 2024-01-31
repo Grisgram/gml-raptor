@@ -1,6 +1,6 @@
 /// @description 
 
-#macro GAMESTARTER		global._GAMESTARTER
+#macro GAMESTARTER		global.__gamestarter
 GAMESTARTER				= self;
 
 goto_room_after_init	= ROOM_AFTER_STARTER ?? goto_room_after_init;

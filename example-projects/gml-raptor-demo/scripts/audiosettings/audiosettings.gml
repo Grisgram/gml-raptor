@@ -4,7 +4,7 @@
 	save code of your settings file.
 */
 
-#macro AUDIOSETTINGS		global._AUDIOSETTINGS
+#macro AUDIOSETTINGS		global.__audiosettings
 AUDIOSETTINGS				= new AudioSettings();
 
 #macro ALL_AUDIOSETTINGS_DEFAULT	(AUDIOSETTINGS.music_enabled && AUDIOSETTINGS.sound_enabled && AUDIOSETTINGS.ambience_enabled && \

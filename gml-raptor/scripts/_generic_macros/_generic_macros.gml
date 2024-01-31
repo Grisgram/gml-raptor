@@ -61,7 +61,7 @@ global.__unique_count_up_id	= 0;
 #macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;
 
 // Used by the MouseCursor object but must exist always, as the RoomController checks it
-#macro MOUSE_CURSOR		global._MOUSE_CURSOR
+#macro MOUSE_CURSOR		global.__mouse_cursor
 MOUSE_CURSOR = undefined;
 
 // try/catch/finally support

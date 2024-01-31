@@ -250,16 +250,16 @@ camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true,
 	----------------------
 */
 #region TRANSITION CONTROL
-#macro __ACTIVE_TRANSITION		global.___ACTIVE_TRANSITION
-if (!variable_global_exists("___ACTIVE_TRANSITION"))
+#macro __ACTIVE_TRANSITION		global.__active_transition
+if (!variable_global_exists("__active_transition"))
 	__ACTIVE_TRANSITION	= undefined;
 
-#macro __ACTIVE_TRANSITION_STEP		global.___ACTIVE_TRANSITION_STEP
-if (!variable_global_exists("___ACTIVE_TRANSITION_STEP"))
+#macro __ACTIVE_TRANSITION_STEP		global.__active_transition_step
+if (!variable_global_exists("__active_transition_step"))
 	__ACTIVE_TRANSITION_STEP = -1; // Step 0 = out, Step 1 = in and -1 means inactive
 
-#macro TRANSITION_RUNNING		global._TRANSITION_RUNNING
-if (!variable_global_exists("_TRANSITION_RUNNING"))
+#macro TRANSITION_RUNNING		global.__transition_running
+if (!variable_global_exists("__transition_running"))
 	TRANSITION_RUNNING = false;
 
 /// @function		transit(_transition, skip_if_another_running = false)

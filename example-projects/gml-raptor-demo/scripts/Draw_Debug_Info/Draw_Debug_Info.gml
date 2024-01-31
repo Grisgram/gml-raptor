@@ -3,7 +3,7 @@
 	
 	- The current RoomController object is a child of RoomController and is visible
 	- DEBUG_MODE_ACTIVE = true; (activates toggling debug info with the F12 key)
-	- global.__DEBUG_SHOWN is true (toggled by the F12 key)
+	- global.__debug_shown is true (toggled by the F12 key)
 	
 	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT

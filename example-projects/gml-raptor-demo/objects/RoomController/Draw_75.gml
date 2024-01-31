@@ -7,5 +7,5 @@ if (__ACTIVE_TRANSITION != undefined) {
 	}
 }
 
-if (!global.__DEBUG_SHOWN) exit;
+if (!global.__debug_shown) exit;
 drawDebugInfo();

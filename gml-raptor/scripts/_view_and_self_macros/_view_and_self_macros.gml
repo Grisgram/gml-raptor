@@ -49,10 +49,10 @@ function macro_camera_viewport_index_switch_back() {
 
 // set the camera min/max positions. These are used by the ROOMCONTROLLERS' camera functions
 // By default, the ROOMCONTROLLER sets these to 0/0-room_width/height when created
-#macro CAM_MIN_X			global.__CAM_MIN_X
-#macro CAM_MAX_X			global.__CAM_MAX_X
-#macro CAM_MIN_Y			global.__CAM_MIN_Y
-#macro CAM_MAX_Y			global.__CAM_MAX_Y
+#macro CAM_MIN_X			global.__cam_min_x
+#macro CAM_MAX_X			global.__cam_max_x
+#macro CAM_MIN_Y			global.__cam_min_y
+#macro CAM_MAX_Y			global.__cam_max_y
 
 CAM_MIN_X					= 0;
 CAM_MAX_X					= 0;

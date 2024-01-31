@@ -59,7 +59,7 @@
 #macro HIGHSCORE_TABLE_NAME			"Highscores"
 #macro HIGHSCORE_TABLE_LENGTH		10
 #macro HIGHSCORE_TABLE_SCORING		scoring.score_high
-#macro HIGHSCORES					global._HIGHSCORES
+#macro HIGHSCORES					global.__highscores
 #macro HIGHSCORES_UI_LAYER			"ui_highscores"
 
 if (USE_HIGHSCORES) {

@@ -6,7 +6,7 @@
   "option_windows_borderless": false,
   "option_windows_company_info": "risingdemons.com",
   "option_windows_copy_exe_to_dest": false,
-  "option_windows_copyright_info": "",
+  "option_windows_copyright_info": "(c)2023- coldrock.games",
   "option_windows_description_info": "A short demo containing gml-raptor elements, including StateMachine and Animation classes",
   "option_windows_disable_sandbox": false,
   "option_windows_display_cursor": true,

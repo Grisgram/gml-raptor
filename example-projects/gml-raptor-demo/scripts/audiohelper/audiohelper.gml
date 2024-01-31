@@ -9,7 +9,7 @@ function __default_room_audio(_room, _room_music = undefined, _ambience_sound = 
 	ambience = _ambience_sound;
 }
 
-#macro __DEFAULT_ROOM_AUDIO		global.___DEFAULT_ROOM_AUDIO
+#macro __DEFAULT_ROOM_AUDIO		global.__default_room_audio
 __DEFAULT_ROOM_AUDIO			= [];
 
 function __room_audio_session() constructor {
@@ -47,7 +47,7 @@ function __room_audio_session() constructor {
 	}
 }
 
-#macro __ACTIVE_AUDIO_SESSION		global.___ACTIVE_AUDIO_SESSION
+#macro __ACTIVE_AUDIO_SESSION		global.__active_audio_session
 __ACTIVE_AUDIO_SESSION				= new __room_audio_session();
 
 function set_room_default_audio(_room, _music, _ambience) {

@@ -9,7 +9,7 @@
 	The value_percent ranges from 0 to 1, so for display you should multiply it by 100.
 */
 
-#macro __SLIDER_IN_FOCUS		global._SLIDER_IN_FOCUS
+#macro __SLIDER_IN_FOCUS		global.__slider_in_focus
 __SLIDER_IN_FOCUS				= undefined;
 
 enum slider_autotext {

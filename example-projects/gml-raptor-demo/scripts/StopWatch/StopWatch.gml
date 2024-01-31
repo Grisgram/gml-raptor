@@ -8,7 +8,7 @@
 		By default, it will be converted to ms (from µs) and printed to the log.
 */
 
-#macro __RAPTOR_STOPWATCH		global.___RAPTOR_STOPWATCH
+#macro __RAPTOR_STOPWATCH		global.__raptor_stopwatch
 __RAPTOR_STOPWATCH				= [];
 
 

@@ -16,16 +16,16 @@
 #macro release:CONFIGURATION_BETA		false
 #macro release:CONFIGURATION_RELEASE	true
 
-#macro DEBUG_MODE_WINDOW_WIDTH	global.__DEBUG_MODE_WINDOW_WIDTH
-#macro DEBUG_MODE_WINDOW_HEIGHT	global.__DEBUG_MODE_WINDOW_HEIGHT
+#macro DEBUG_MODE_WINDOW_WIDTH	global.__debug_mode_window_width
+#macro DEBUG_MODE_WINDOW_HEIGHT	global.__debug_mode_window_height
 
-#macro DEBUG_SHOW_OBJECT_FRAMES	global.__DEBUG_SHOW_OBJECT_FRAMES
-#macro DEBUG_LOG_OBJECT_POOLS	global.__DEBUG_LOG_OBJECT_POOLS
-#macro DEBUG_LOG_LIST_POOLS		global.__DEBUG_LOG_LIST_POOLS
-#macro DEBUG_LOG_STATEMACHINE	global.__DEBUG_LOG_STATEMACHINE
-#macro DEBUG_LOG_PARTICLES		global.__DEBUG_LOG_PARTICLES
-#macro DEBUG_LOG_RACE			global.__DEBUG_LOG_RACE
-#macro DEBUG_LOG_BROADCASTS		global.__DEBUG_LOG_BROADCASTS
+#macro DEBUG_SHOW_OBJECT_FRAMES	global.__debug_show_object_frames
+#macro DEBUG_LOG_OBJECT_POOLS	global.__debug_log_object_pools
+#macro DEBUG_LOG_LIST_POOLS		global.__debug_log_list_pools
+#macro DEBUG_LOG_STATEMACHINE	global.__debug_log_statemachine
+#macro DEBUG_LOG_PARTICLES		global.__debug_log_particles
+#macro DEBUG_LOG_RACE			global.__debug_log_race
+#macro DEBUG_LOG_BROADCASTS		global.__debug_log_broadcasts
 
 DEBUG_SHOW_OBJECT_FRAMES	= false;
 DEBUG_LOG_BROADCASTS		= true;
@@ -38,12 +38,12 @@ DEBUG_LOG_PARTICLES			= true;
 DEBUG_MODE_WINDOW_WIDTH		= 1280;
 DEBUG_MODE_WINDOW_HEIGHT	= 720;
 
-global.__DEBUG_SHOWN		= false;
-global.__DEBUG_CHECK_DONE	= false;
+global.__debug_shown		= false;
+global.__debug_check_done	= false;
 
 function check_debug_mode() {
-	if (DEBUG_MODE_ACTIVE && !global.__DEBUG_CHECK_DONE) {
-		global.__DEBUG_CHECK_DONE = true;
+	if (DEBUG_MODE_ACTIVE && !global.__debug_check_done) {
+		global.__debug_check_done = true;
 		if (code_is_compiled())
 			show_message(
 				"*************************************************\n" +

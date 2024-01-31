@@ -7,7 +7,7 @@ if (__ACTIVE_TRANSITION != undefined) {
 	}
 }
 
-if (!global.__DEBUG_SHOWN) exit;
+if (!global.__debug_shown) exit;
 
 if (DEBUG_SHOW_OBJECT_FRAMES) {
 	for (var i = 0; i < instance_count; i++;) {
