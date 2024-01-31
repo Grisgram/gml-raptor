@@ -13,7 +13,7 @@ GUI_POPUP_VISIBLE = false;
 /// @description						shows all popup layers
 /// @param {string="popup_"} _layer_group_name	starts_with for layers to show
 function show_popup(_layer_group_name = "popup_*") {
-	log("Showing popup view");
+	log($"Showing popup view");
 	if (!GUI_POPUP_VISIBLE) {
 		layer_set_all_visible(_layer_group_name, true);
 		GUI_POPUP_LAYER_GROUP = _layer_group_name;
@@ -25,7 +25,7 @@ function show_popup(_layer_group_name = "popup_*") {
 /// @function				hide_popup()
 /// @description			hides all popup layers shown through show_popup
 function hide_popup() {
-	log("Hiding popup view");
+	log($"Hiding popup view");
 	if (GUI_POPUP_VISIBLE) {
 		layer_set_all_visible(GUI_POPUP_LAYER_GROUP, false);
 		var _layer_group_name = GUI_POPUP_LAYER_GROUP;

@@ -35,7 +35,7 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 
 	buffer_seek(buffer, buffer_seek_start, 0);
 	var i = 0;
-	log("-- [BUFFER_DUMP_START] (" + string(buffer_get_size(buffer)) + " bytes) --");
+	log($"-- [BUFFER_DUMP_START] ({buffer_get_size(buffer)} bytes) --");
 	var outline = "0000: ";
 	var human = "";
 	repeat (buffer_get_size(buffer)) {
@@ -43,14 +43,14 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 		outline += convert(byte, 2) + " ";
 		human += readable(byte);
 		if (i mod bytes_per_line == 0) {
-			log(outline + " " + human);
+			log($"{outline} {human}");
 			outline = convert(i, 4) + ": ";
 			human = "";
 		}
 	}
 	var length = bytes_per_line * 3 - 3 * (i mod bytes_per_line) + 1;
-	log(outline + string_repeat(" ", length) + human);
-	log("-- [BUFFER_DUMP_END] --");
+	log($"{outline} {string_repeat(" ", length)} {human}");
+	log($"-- [BUFFER_DUMP_END] --");
 }
 
 /// @function			encrypt_buffer(buffer, cryptkey)

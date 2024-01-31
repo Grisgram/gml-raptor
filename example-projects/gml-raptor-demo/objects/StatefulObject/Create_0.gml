@@ -54,7 +54,7 @@ __single_sprite_animation_finished = function() {
 	} else {
 		image_speed = 0;
 		image_index = image_number - 1;
-		log("Sprite frozen at last frame at the end of single animation");
+		log($"Sprite frozen at last frame at the end of single animation");
 	}
 	
 	var cb = __single_sprite_animation_callback;

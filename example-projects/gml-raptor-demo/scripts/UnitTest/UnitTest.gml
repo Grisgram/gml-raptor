@@ -74,7 +74,7 @@ function UnitTest(name = "UnitTest") constructor {
 	#region ASSERTS
 	static __assert_condition = function(condition, expected, actual, message) {
 		if (!condition) {
-			log(sprintf("FAIL: {0} *ASSERT*: expected='{1}'; actual='{2}'; message='{3}';", __current_test_name, expected, actual, message));
+			log($"FAIL: {__current_test_name} *ASSERT*: expected='{expected}'; actual='{actual}'; message='{message}';");
 			__current_test_ok = false;
 		}		
 	}
@@ -133,7 +133,7 @@ function UnitTest(name = "UnitTest") constructor {
 	/// @function					run()
 	/// @description				runs all tests and prints the results to the log
 	static run = function() {
-		log(sprintf("[--- START TEST SUITE '{0}' ---]", __test_suite_name));
+		log($"[--- START TEST SUITE '{__test_suite_name}' ---]");
 		suite_start();
 		var fail_count = 0;
 		var names = variable_struct_get_names(tests);
@@ -148,18 +148,18 @@ function UnitTest(name = "UnitTest") constructor {
 			variable_struct_get(tests, __current_test_name)(self, data_for_test);
 			test_finish(__current_test_name);
 			if (__current_test_ok) {
-				log(" OK : " + __current_test_name);
+				log($" OK : {__current_test_name}");
 			} else {
 				fail_count++;
 			}
 		}
 		suite_finish();
-		log("[--- TEST RESULTS ---]");
+		log($"[--- TEST RESULTS ---]");
 		var total = array_length(names);
-		log(sprintf("Tests      : {0}", total));
-		log(sprintf("Successful : {0}", total - fail_count));
-		log(sprintf("Failed     : {0}", fail_count));
-		log(sprintf("[---  END  TEST SUITE '{0}' ---]", __test_suite_name));
+		log($"Tests      : {total}");
+		log($"Successful : {(total - fail_count)}");
+		log($"Failed     : {fail_count}");
+		log($"[---  END  TEST SUITE '{__test_suite_name}' ---]");
 	}
 
 }

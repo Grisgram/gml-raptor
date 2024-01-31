@@ -60,7 +60,7 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 	var filename = RACE_ROOT_FOLDER + filename_to_load + (string_ends_with(filename_to_load, ".json") ? "" : ".json");
 	if (!file_exists(filename)) {
 		if (DEBUG_LOG_RACE)
-			log(sprintf("*ERROR* race table file '{0}' not found!", filename));
+			log($"*ERROR* race table file '{filename}' not found!");
 		return;
 	}
 	
@@ -71,14 +71,14 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 		var tablecnt = array_length(names);
 			
 		if (DEBUG_LOG_RACE)
-			log(sprintf("Successfully loaded {0} table(s) from '{1}'{2}", tablecnt, filename, (overwrite_existing ? " WITH OVERWRITE" : "")));
+			log($"Successfully loaded {tablecnt} table(s) from '{filename}'{(overwrite_existing ? " WITH OVERWRITE" : "")}");
 		for (var i = 0; i < tablecnt; i++) {
 			var table = variable_struct_get(tablefile, names[i]);
 			race_add_table(names[i], table, overwrite_existing);
 		}
 	} else
 		if (DEBUG_LOG_RACE)
-			log("*ERROR* Failed to load race table file '" + filename + "'!")
+			log($"*ERROR* Failed to load race table file '{filename}'!")
 }
 
 /// @function					race_get_table(table_name)
@@ -122,7 +122,7 @@ function race_add_table(table_name, table_struct, overwrite_existing = true) {
 		var dc = SnapDeepCopy(table_struct);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);					
 		if (DEBUG_LOG_RACE)
-			log(sprintf("Added global race table '{0}'", table_name));
+			log($"Added global race table '{table_name}'");
 	}
 }
 
@@ -158,11 +158,11 @@ function race_table_reset(table_name, recursive = false) {
 		var dc = SnapDeepCopy(cache);
 		variable_struct_set(__RACE_GLOBAL, table_name, dc);
 		if (DEBUG_LOG_RACE)
-			log(sprintf("Race table '{0}' has been reset", table_name));
+			log($"Race table '{table_name}' has been reset");
 		return dc;
 	} else 
 		if (DEBUG_LOG_RACE)
-			log(sprintf("*ERROR* Race table '{0}' reset failed. Table not found!", table_name));
+			log($"**ERROR** Race table '{table_name}' reset failed. Table not found!");
 	return undefined;
 }
 
@@ -193,7 +193,7 @@ function __race_table_delete_temp(table_name) {
 	if (!string_starts_with(table_name, __RACE_TEMP_TABLE_PREFIX) || !race_table_exists(table_name))
 		return;
 	if (DEBUG_LOG_RACE)
-		log(sprintf("Deleting temp race table '{0}'", table_name));
+		log($"Deleting temp race table '{table_name}'");
 	variable_struct_remove(__RACE_GLOBAL, table_name);
 }
 
@@ -202,11 +202,11 @@ function __race_table_delete_temp(table_name) {
 /// @description						Dumps the table and all items to the debug console.
 function race_table_dump(table_name) {
 	var tname = is_struct(table_name) ? race_table_get_name(table_name) : table_name;
-	log(sprintf("[TABLE DUMP: {0}]", tname));
+	log($"[TABLE DUMP: {tname}]");
 	race_table_foreach_item(table_name, function(name, item) {
-		log(name + ": " + string(item));
+		log($"{name}: {item}");
 	});
-	log("[/TABLE DUMP]");
+	log($"[/TABLE DUMP]");
 }
 
 /// @function							race_table_foreach_item(table_name, func, args)
@@ -581,15 +581,9 @@ function __race_log_onQueryStarted(first_query_table, current_query_table, file_
 		return;
 		
 	if (file_name == "")
-		log(MY_NAME + sprintf(": onQueryStarted: initial='{0}'; current='{1}';", 
-			race_table_get_name(first_query_table),
-			race_table_get_name(current_query_table)));
+		log($"{MY_NAME}: onQueryStarted: initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}';");
 	else
-		log(MY_NAME + sprintf(": onQueryStarted: initial='{0}'; current='{1}'; file='{2}';", 
-			race_table_get_name(first_query_table),
-			race_table_get_name(current_query_table),
-			file_name));
-
+		log($"{MY_NAME}: onQueryStarted: initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}'; file='{file_name}';");
 }
 
 function __race_log_onQueryHit(item_dropped, first_query_table, current_query_table, file_name = "") {
@@ -597,16 +591,9 @@ function __race_log_onQueryHit(item_dropped, first_query_table, current_query_ta
 		return;
 
 	if (file_name = "")
-		log(MY_NAME + sprintf(": onQueryHit: item='{0}'; initial='{1}'; current='{2}';", 
-			item_dropped.name,
-			race_table_get_name(first_query_table),
-			race_table_get_name(current_query_table)));
+		log($"{MY_NAME}: onQueryHit: item='{item_dropped.name}'; initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}';");
 	else
-		log(MY_NAME + sprintf(": onQueryHit: item='{0}'; initial='{1}'; current='{2}'; file='{3}'", 
-			item_dropped.name,
-			race_table_get_name(first_query_table),
-			race_table_get_name(current_query_table),
-			file_name));
+		log($"{MY_NAME}: onQueryHit: item='{item_dropped.name}'; initial='{race_table_get_name(first_query_table)}'; current='{race_table_get_name(current_query_table)}'; file='{file_name}'");
 }
 #endregion
 

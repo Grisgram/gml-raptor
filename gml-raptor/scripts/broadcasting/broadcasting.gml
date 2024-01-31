@@ -184,7 +184,7 @@ function Sender() constructor {
 	/// @description	Removes all receivers.	
 	static clear = function() {
 		if (DEBUG_LOG_BROADCASTS)
-			log("Broadcast receiver list cleared");
+			log($"Broadcast receiver list cleared");
 		receivers = [];
 	}
 

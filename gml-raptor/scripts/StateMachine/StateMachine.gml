@@ -44,13 +44,13 @@ function StateMachine(_owner) constructor {
 	
 	__listpool_processible = false;
 	
-	if (DEBUG_LOG_STATEMACHINE) with(owner) log(MY_NAME + ": StateMachine created");
+	if (DEBUG_LOG_STATEMACHINE) with(owner) log($"{MY_NAME}: StateMachine created");
 	
 	for (var i = 1; i < argument_count; i++) {
 		var st = argument[@ i];
 		st.data = data;
 		if (DEBUG_LOG_STATEMACHINE)
-			with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}' on creation", state.name));
+			with(owner) log($"{MY_NAME}: StateMachine added state '{st.name}' on creation");
 		array_push(__states, st);
 	}
 	
@@ -134,10 +134,10 @@ function StateMachine(_owner) constructor {
 	/// @param {func}	_on_leave	Optional. Callback to invoke when this state shall be left
 	static add_state = function(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined) {
 		if (DEBUG_LOG_STATEMACHINE)
-			with(owner) log(MY_NAME + sprintf(": StateMachine added state '{0}'", _name));
+			with(owner) log($"{MY_NAME}: StateMachine added state '{_name}'");
 		if (get_state(_name) != undefined) {
 			if (DEBUG_LOG_STATEMACHINE)
-				with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: '{0}' overwrites an existing state!", _name));
+				with(owner) log($"{MY_NAME}: *WARNING*: Name collision: '{_name}' overwrites an existing state!");
 			delete_state(_name);
 		}
 		var st = new State(_name, _on_enter, _on_step, _on_leave);
@@ -153,10 +153,10 @@ function StateMachine(_owner) constructor {
 	static add_state_shared = function(_state) {
 		var _name = _state.name;
 		if (DEBUG_LOG_STATEMACHINE)
-			with(owner) log(MY_NAME + sprintf(": StateMachine added shared state '{0}'", _name));
+			with(owner) log($"{MY_NAME}: StateMachine added shared state '{_name}'");
 		if (get_state(_name) != undefined) {
 			if (DEBUG_LOG_STATEMACHINE)
-				with(owner) log(MY_NAME + sprintf(": WARNING: Name collision: Shared state '{0}' overwrites an existing state!", _name));
+				with(owner) log($"{MY_NAME}: *WARNING*: Name collision: Shared state '{_name}' overwrites an existing state!");
 			delete_state(_name);
 		}
 		array_push(__states, _state);
@@ -168,7 +168,7 @@ function StateMachine(_owner) constructor {
 		if (rv != undefined && is_string(rv)) {
 			if (!has_active_state() || rv != active_state.name) {
 				if (DEBUG_LOG_STATEMACHINE)
-					with(owner) log(MY_NAME + sprintf(": '{0}.{1}' resulted in state change '{2}'", other.active_state.name, action, rv));
+					with(owner) log($"{MY_NAME}: '{other.active_state.name}.{action}' resulted in state change '{rv}'");
 				set_state(rv);
 			}
 		}
@@ -199,11 +199,11 @@ function StateMachine(_owner) constructor {
 		if (active_state == undefined || __allow_re_enter || active_state.name != name) {
 			if (active_state != undefined && state_exists(name)) {
 				if (DEBUG_LOG_STATEMACHINE)
-					with(owner) log(MY_NAME + sprintf(": Leaving state '{0}'{1}", other.active_state.name, leave_override != undefined ? " (with leave-override)" : ""));
+					with(owner) log($"{MY_NAME}: Leaving state '{other.active_state.name}'{(leave_override != undefined ? " (with leave-override)" : "")}");
 				active_state.data = data;
 				if (!active_state.leave(name, leave_override)) {
 					if (DEBUG_LOG_STATEMACHINE)
-						with(owner) log(MY_NAME + sprintf(": State change '{0}'->'{1}' aborted by leave callback!", other.active_state.name, name));
+						with(owner) log($"{MY_NAME}: State change '{other.active_state.name}'->'{name}' aborted by leave callback!");
 					return self;
 				}
 			}
@@ -224,7 +224,7 @@ function StateMachine(_owner) constructor {
 
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner) 
-							log(MY_NAME + sprintf(": Entering state '{0}'{1}", other.active_state.name, enter_override != undefined ? " (with enter-override)" : ""));
+							log($"{MY_NAME}: Entering state '{other.active_state.name}'{(enter_override != undefined ? " (with enter-override)" : "")}");
 					
 					__state_frame = 0;
 					rv = active_state.enter(prev_name, enter_override);
@@ -239,7 +239,7 @@ function StateMachine(_owner) constructor {
 				if (!string_starts_with(name, "ev:"))
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner)
-							log(MY_NAME + ": *WARNING* Could not activate state '" + name + "'. State not found!");
+							log($"{MY_NAME}: *WARNING* Could not activate state '{name}'. State not found!");
 			}
 		}
 		return self;
@@ -357,7 +357,7 @@ function StateMachine(_owner) constructor {
 		if (on_destroy != undefined)
 			on_destroy();
 		if (DEBUG_LOG_STATEMACHINE)
-			with(owner) log(MY_NAME + ": StateMachine destroyed");
+			with(owner) log($"{MY_NAME}: StateMachine destroyed");
 		STATEMACHINES.remove(self);
 	}
 	

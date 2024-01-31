@@ -130,7 +130,7 @@ function update_audio_volume() {
 /// @description	Plays a sound of type music (attached to music_volume setting)
 function play_music(mus, gain = 1.0, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 9) {
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_music(mus)) {
-		log("Play music ignored. Same music already playing.");
+		log($"Play music ignored. Same music already playing.");
 		return;
 	}
 		
@@ -153,7 +153,7 @@ function stop_music() {
 /// @description	Plays a sound of type ambience (attached to ambience_volume setting)
 function play_ambience(amb, gain = 1.0, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 8) {
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_ambience(amb)) {
-		log("Play ambience ignored. Same ambience already playing.");
+		log($"Play ambience ignored. Same ambience already playing.");
 		return;
 	}
 		

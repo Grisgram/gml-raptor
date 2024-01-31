@@ -1,6 +1,6 @@
 function unit_test_Pythagoras() {
 	if (!script_exists(asset_get_index("Pythagoras"))) {
-		log("Skipped unit tests for \"Pythagoras\": Not in project.");
+		log($"Skipped unit tests for 'Pythagoras': Not in project.");
 		return;
 	}
 

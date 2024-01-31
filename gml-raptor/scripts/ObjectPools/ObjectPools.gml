@@ -31,7 +31,7 @@ __OBJECT_POOLS = ds_map_create();
 function __get_pool_list(pool_name) {
 	if (!ds_map_exists(__OBJECT_POOLS, pool_name)) {
 		if (DEBUG_LOG_OBJECT_POOLS)
-			log(sprintf("Creating new object pool '{0}'", pool_name));
+			log($"Creating new object pool '{pool_name}'");
 		ds_map_add_list(__OBJECT_POOLS, pool_name, ds_list_create());
 	}
 	
@@ -56,7 +56,7 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 		var rv = pool[| i];
 		if (rv.object_index == object) {
 			if (DEBUG_LOG_OBJECT_POOLS)
-				log(sprintf("Found instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
+				log($"Found instance of '{object_get_name(object)}' in pool '{pool_name}'");
 			instance_activate_object(rv);
 			var xp = (variable_instance_exists(self, "x") ? x : 0) ?? 0;
 			var yp = (variable_instance_exists(self, "y") ? y : 0) ?? 0;
@@ -72,7 +72,7 @@ function pool_get_instance(pool_name, object, at_layer_if_new = undefined) {
 	}
 	
 	if (DEBUG_LOG_OBJECT_POOLS)
-		log(sprintf("Creating new instance of '{0}' in pool '{1}'", object_get_name(object), pool_name));
+		log($"Creating new instance of '{object_get_name(object)}' in pool '{pool_name}'");
 	var rv;
 	var xp = (variable_instance_exists(self, "x") ? x : 0) ?? 0;
 	var yp = (variable_instance_exists(self, "y") ? y : 0) ?? 0;
@@ -95,14 +95,14 @@ function pool_return_instance(instance = self) {
 		var pool_name = instance.__object_pool_name;
 		with (instance)
 			if (DEBUG_LOG_OBJECT_POOLS)
-				log(sprintf("Sending instance '{0}' back to pool '{1}'", MY_NAME, pool_name));
+				log($"Sending instance '{MY_NAME}' back to pool '{pool_name}'");
 		__pool_invoke_deactivate(instance);
 		var pool = __get_pool_list(pool_name);
 		instance_deactivate_object(instance);
 		ds_list_add(pool, instance);
 		return;
 	}
-	log("*ERROR* Tried to return instance to a pool, but this instance was not aquired from a pool!");
+	log($"**ERROR** Tried to return instance to a pool, but this instance was not aquired from a pool!");
 }
 
 /// @function					pool_assign_instance(pool_name, instance)

@@ -1,6 +1,6 @@
 function unit_test_Strings() {
 	if (!script_exists(asset_get_index("string_skip_start"))) {
-		log("Skipped unit tests for \"Strings\": Not in project.");
+		log($"Skipped unit tests for 'Strings': Not in project.");
 		return;
 	}
 

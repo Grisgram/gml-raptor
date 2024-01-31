@@ -48,12 +48,12 @@ onQueryHit = function(item_dropped, first_query_table, current_query_table) {
 set_table = function(table_name) {
 	if (!race_table_exists(table_name)) {
 		if (DEBUG_LOG_RACE)
-			log(MY_NAME + " could not find race table '" + table_name + "'. Make sure, it is loaded or check room instance creation order. RaceController must be instantiated first!");
+			log($"{MY_NAME} could not find race table '{table_name}'. Make sure, it is loaded or check room instance creation order. RaceController must be instantiated first!");
 		return;
 	}
 	
 	if (DEBUG_LOG_RACE)
-		log(MY_NAME + " received race table to use: raceTable='" + table_name + "';");
+		log($"{MY_NAME} received race table to use: raceTable='{table_name}';");
 	race_table_name = table_name;
 	race_table = race_get_table(table_name);
 }

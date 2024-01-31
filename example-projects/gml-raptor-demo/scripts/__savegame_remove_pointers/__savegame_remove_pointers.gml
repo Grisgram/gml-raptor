@@ -33,20 +33,20 @@ function __savegame_deep_copy_remove(source) constructor {
 			
 			if (string_length(strid) == 10 && string_starts_with(strid, "ref ")) {
 				strid = string(real(_value));
-				//log("Found top level instance id in struct: " + strid);
+				//log($"Found top level instance id in struct: {strid}");
 				rv.value = __SAVEGAME_REF_MARKER + strid;
 				rv.success = true;
 			} else {			
 				var refstr = string(_value[$ "id"]);
 				if (string_starts_with(refstr, "ref ")) {
-					log("Found instance id in struct: " + strid);
+					log($"Found instance id in struct: {strid}");
 					rv.value = __SAVEGAME_REF_MARKER + strid;
 					rv.success = true;
 				}
 			}
-		} catch(ignored) {
+		} catch(_ignored) {
 			// not an object...
-			log("*WARNING* False positive object reference detected. Assuming normal real value.");
+			log($"*WARNING* False positive object reference detected. Assuming normal real value.");
 		}
 		return rv;
 	}

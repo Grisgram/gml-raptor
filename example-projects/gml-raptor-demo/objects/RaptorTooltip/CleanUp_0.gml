@@ -2,7 +2,7 @@
 
 var ttname = object_get_name(object_index);
 if (variable_struct_exists(TOOLTIP_INSTANCES, ttname)) {
-	log(MY_NAME + sprintf(": Removing tooltip instance: tooltip='{0};", ttname));
+	log($"{MY_NAME}: Removing tooltip instance: tooltip='{ttname};");
 	variable_struct_remove(TOOLTIP_INSTANCES, ttname);
 }
 

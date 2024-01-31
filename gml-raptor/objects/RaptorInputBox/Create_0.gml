@@ -42,6 +42,10 @@ __wait_for_key_repeat = false;
 __repeat_interval_mode = false;
 __repeating_key = undefined;
 
+enum character_filter {
+	none, allowed, forbidden
+}
+
 /// @function					set_focus()
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
@@ -49,7 +53,7 @@ set_focus = function(from_tab = false) {
 		return;
 	
 	with (InputBox) lose_focus();
-	log(MY_NAME + ": got focus");
+	log($"{MY_NAME}: got focus");
 	__has_focus = true;
 	text_color = text_color_focus;
 	if (from_tab) set_cursor_pos(string_length(text));
@@ -69,7 +73,7 @@ lose_focus = function() {
 	if (!__has_focus) 
 		return;
 	
-	log(MY_NAME + ": lost focus");
+	log($"{MY_NAME}: lost focus");
 	__has_focus = false;
 	text_color = __backup_color_text;
 	selection_length = 0;
@@ -252,7 +256,7 @@ draw_scribble_text = function() {
 		}
 		if (selection_length != 0) {
 			draw_set_color(text_color_focus);
-			draw_set_alpha(0.5);
+			draw_set_alpha(0.25);
 			draw_rectangle(__selection_rect.left, __selection_rect.top, __selection_rect.get_right(), __selection_rect.get_bottom(), false);
 			draw_set_alpha(1);
 			draw_set_color(c_white);

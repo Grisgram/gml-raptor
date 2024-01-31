@@ -1,6 +1,6 @@
 function unit_test_LinqArray() {
 	if (!script_exists(asset_get_index("LinqArray"))) {
-		log("Skipped unit tests for \"LingArray\": Not in project.");
+		log($"Skipped unit tests for 'LingArray': Not in project.");
 		return;
 	}
 

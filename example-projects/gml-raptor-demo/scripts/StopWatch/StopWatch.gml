@@ -22,6 +22,6 @@ function stopwatch_stop(_index = 0, _write_to_log = true, _convert_to_ms = true)
 	var rv = get_timer() - __RAPTOR_STOPWATCH[@ _index];
 	if (_convert_to_ms) rv /= 1000;
 	if (_write_to_log)
-		log("Stopwatch {0}: {1}{2}s", _index, rv, _convert_to_ms ? "m" : "µ");
+		log($"Stopwatch {_index}: {rv}{(_convert_to_ms ? "m" : "µ")}s");
 	return rv;
 }

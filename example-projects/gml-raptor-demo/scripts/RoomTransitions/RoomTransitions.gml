@@ -45,7 +45,7 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	/// @function		do_transit()
 	/// @description	Perform transit to next room
 	static do_transit = function() {
-		log(sprintf("Out-Animation finished for transit to '{0}'", room_get_name(target_room)));
+		log($"Out-Animation finished for transit to '{room_get_name(target_room)}'");
 		__ACTIVE_TRANSITION_STEP = 1;
 		frame_counter = 0;
 		__destroy_fx_layer();
@@ -56,7 +56,7 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	/// @function		transit_finished()
 	/// @description	Call this, when transit is done
 	static transit_finished = function() {
-		log(sprintf("Transit to '{0}' finished", room_get_name(target_room)));
+		log($"Transit to '{room_get_name(target_room)}' finished");
 		__ACTIVE_TRANSITION		 = undefined;
 		__ACTIVE_TRANSITION_STEP = -1;
 		TRANSITION_RUNNING = false;

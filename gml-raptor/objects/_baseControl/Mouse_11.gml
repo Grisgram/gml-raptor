@@ -11,5 +11,5 @@ force_redraw();
 
 // We break out of this to avoid the log if we are invisible/hidden/blocked
 GUI_EVENT;
-log(MY_NAME + ": onMouseLeave");
+log($"{MY_NAME}: onMouseLeave");
 

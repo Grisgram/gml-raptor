@@ -58,7 +58,7 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 		race_set_type(table, name, "=" + newname);
 		variable_struct_set(__RACE_GLOBAL, newname, deepcopy);
 		if (DEBUG_LOG_RACE)
-			log("Added dynamic global race table: '" + newname + "'");
+			log($"Added dynamic global race table: '{newname}'");
 		__race_queryRecursive(race_table_object, race_controller, deepcopy, result, uniques);
 	} else {
 		if (typename != __RACE_NULL_ITEM) {
@@ -70,7 +70,7 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 function __race_dropItem(race_controller, item_struct, layer_to_drop, pool_name) {
 	var itemtype = race_item_get_type(item_struct.data);
 	if (DEBUG_LOG_RACE)
-		log(sprintf("Dropping item: object='{0}'; layer='{1}'; pool='{2};", itemtype, layer_to_drop, pool_name));
+		log($"Dropping item: object='{itemtype}'; layer='{layer_to_drop}'; pool='{pool_name};");
 	var dropx = variable_instance_exists(self, "x") ? x : 0;
 	var dropy = variable_instance_exists(self, "y") ? y : 0;
 	var drop = undefined;
@@ -90,7 +90,7 @@ function __race_dropItem(race_controller, item_struct, layer_to_drop, pool_name)
 		onQueryHit(item_struct, RACE_TABLE_QUERIED, RACE_TABLE_CURRENT);
 	}
 	if (DEBUG_LOG_RACE)
-		log(sprintf("Dropped item: instance='{0}'; object='{1}'; layer='{2}';", instname, itemtype, layer_to_drop));
+		log($"Dropped item: instance='{instname}'; object='{itemtype}'; layer='{layer_to_drop}';");
 
 	if (race_controller != noone) {
 		with (race_controller)
@@ -122,7 +122,7 @@ function __race_queryRecursive(race_table_object, race_controller, table, result
 		var name = names[i];
 		if (race_is_enabled(table, name) && race_is_always(table, name)) {
 			if (DEBUG_LOG_RACE)
-				log("Adding always-enabled item to loot result: " + name);
+				log($"Adding always-enabled item to loot result: {name}");
 			always_enabled_count++;
 			__race_addToResult(race_table_object, race_controller, table, result, uniques, name);
 		}
@@ -189,7 +189,7 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 		}
 	} else 
 		if (DEBUG_LOG_RACE)
-			log("*ERROR* Race table '" + table_name + "' not loaded or does not exist!");
+			log($"**ERROR** Race table '{table_name}' not loaded or does not exist!");
 		
 	// query is done, reset globals
 	RACE_TABLE_QUERIED = undefined;

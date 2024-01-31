@@ -27,7 +27,7 @@
 
 /// better human readable version of this instance's name (for logging mostly)
 #macro MY_ID	string(real(id))
-#macro MY_NAME	object_get_name(object_index) + "(" + string(real(id)) + ")"
+#macro MY_NAME	$"{object_get_name(object_index)}({real(id)})"
 
 /// shorter to write debug output
 #macro log	show_debug_message
@@ -76,5 +76,5 @@ MOUSE_CURSOR = undefined;
 #macro ENDTRY   }
 
 // Unit test automation
-#macro __RUN_UNIT_TESTS					show_debug_message("Unit tests disabled.");
+#macro __RUN_UNIT_TESTS					show_debug_message("Unit tests disabled");
 #macro unit_testing:__RUN_UNIT_TESTS	UnitTestAll();game_end();
