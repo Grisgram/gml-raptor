@@ -9,7 +9,7 @@ if (!debug_mode)
 	randomize();
 
 // Now we have a game controller and can create the real logger
-__RAPTOR_LOGGER.set_formatter(new LOG_FORMATTER());
+RAPTOR_LOGGER.set_formatter(new LOG_FORMATTER());
 
 // Look for version file
 mlog($"Starting up...");

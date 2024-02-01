@@ -26,6 +26,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"_unit_tests_","folderPath":"folders/_gml_raptor_/_unit_tests_.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Audio","folderPath":"folders/_gml_raptor_/Audio.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"LG","folderPath":"folders/_gml_raptor_/LG.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Logger","folderPath":"folders/_gml_raptor_/Logger.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Race","folderPath":"folders/_gml_raptor_/Race.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"objects","folderPath":"folders/_gml_raptor_/Race/objects.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Savegame","folderPath":"folders/_gml_raptor_/Savegame.yy",},
@@ -99,7 +100,6 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"play-state-demo","folderPath":"folders/Sprites/play-state-demo.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Logger","folderPath":"folders/_gml_raptor_/Logger.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_2.4_settings.gsx","ConfigValues":{"release":{"CopyToMask":"3035426170322551022",},},"CopyToMask":-1,"filePath":"datafiles",},

@@ -2,18 +2,18 @@
     A simple logging subsystem with a RingBuffer and formatted log-output.
 */
 
-#macro __RAPTOR_LOGGER		global.__raptor_logger
-__RAPTOR_LOGGER = new RaptorLogger();
+#macro RAPTOR_LOGGER	global.__raptor_logger
+RAPTOR_LOGGER = new RaptorLogger();
 
-#macro ENSURE_LOGGER		if (!variable_global_exists("__raptor_logger"))	global.__raptor_logger = new RaptorLogger();
+#macro ENSURE_LOGGER	if (!variable_global_exists("__raptor_logger"))	global.__raptor_logger = new RaptorLogger();
 
-#macro vlog	__RAPTOR_LOGGER.log_verbose
-#macro dlog	__RAPTOR_LOGGER.log_debug
-#macro ilog	__RAPTOR_LOGGER.log_info
-#macro wlog	__RAPTOR_LOGGER.log_warning
-#macro elog	__RAPTOR_LOGGER.log_error
-#macro flog	__RAPTOR_LOGGER.log_fatal
-#macro mlog	__RAPTOR_LOGGER.log_master
+#macro vlog				RAPTOR_LOGGER.log_verbose
+#macro dlog				RAPTOR_LOGGER.log_debug
+#macro ilog				RAPTOR_LOGGER.log_info
+#macro wlog				RAPTOR_LOGGER.log_warning
+#macro elog				RAPTOR_LOGGER.log_error
+#macro flog				RAPTOR_LOGGER.log_fatal
+#macro mlog				RAPTOR_LOGGER.log_master
 
 function RaptorLogger() constructor {
 
@@ -21,6 +21,17 @@ function RaptorLogger() constructor {
 
 	static set_formatter = function(_formatter) {
 		__formatter = _formatter;
+	}
+	
+	static get_log_buffer = function(_as_single_string = true) {
+		var buf = __formatter.__buffer.snapshot();
+		if (_as_single_string) {
+			var rv = "";
+			for (var i = 0, len = array_length(buf); i < len; i++) 
+				rv += $"{buf[@i]}\n";
+			return rv;
+		} else
+			return buf;
 	}
 	
 	/// @function set_log_level(_new_level)

@@ -9,6 +9,7 @@
     {"name":"_unit_tests_","order":1,"path":"folders/_gml_raptor_/_unit_tests_.yy",},
     {"name":"Audio","order":30,"path":"folders/_gml_raptor_/Audio.yy",},
     {"name":"LG","order":2,"path":"folders/_gml_raptor_/LG.yy",},
+    {"name":"Logger","order":37,"path":"folders/_gml_raptor_/Logger.yy",},
     {"name":"Race","order":3,"path":"folders/_gml_raptor_/Race.yy",},
     {"name":"objects","order":1,"path":"folders/_gml_raptor_/Race/objects.yy",},
     {"name":"Savegame","order":24,"path":"folders/_gml_raptor_/Savegame.yy",},
@@ -79,7 +80,6 @@
     {"name":"play-state-demo","order":2,"path":"folders/Sprites/play-state-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"Logger","order":37,"path":"folders/_gml_raptor_/Logger.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"CanvasIsCanvas","order":4,"path":"scripts/CanvasIsCanvas/CanvasIsCanvas.yy",},

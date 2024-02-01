@@ -14,9 +14,11 @@ function RaptorLogFormatterBase() constructor {
 	format_event = function(_level, _message) {}
 
 	static write_log = function(_level, _message) {
-		__logline = format_event(__log_levels[@_level], _message);
-		if (_level > 0)			 __buffer.add(__logline);
-		if (_level >= __log_level) show_debug_message(__logline);
+		if (_level > 0 || __log_level == 0) {
+			__logline = format_event(__log_levels[@_level], _message);
+			__buffer.add(__logline);
+			if (_level >= __log_level) show_debug_message(__logline);
+		}
 	}
 
 	// change the loglevel at runtime
