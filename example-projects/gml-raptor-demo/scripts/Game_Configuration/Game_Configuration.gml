@@ -22,7 +22,7 @@
 */
 
 // This macro is only used once in a html game when the game initalizes
-#macro HTML_LOCALES			["en"]
+#macro HTML_LOCALES			["en", "de"]
 
 // You need to set a global prefix for each of the raptor-files generated, because
 // in HTML, especially for itch.io games, you need a UNIQUE filename over all your products,
@@ -78,14 +78,7 @@ function onGameStart() {
 	DEBUG_SHOW_OBJECT_FRAMES	= false;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
-	
-	DEBUG_LOG_OBJECT_POOLS		= false;
-	DEBUG_LOG_LIST_POOLS		= false;
-	DEBUG_LOG_STATEMACHINE		= false;
-	DEBUG_LOG_RACE				= false;
-	DEBUG_LOG_PARTICLES			= false;
-	DEBUG_LOG_BROADCASTS		= false;
-	
+		
 	// set up named colors for the game
 	// You can define your own CI_colors in the CI_Colors script
 	set_app_theme(ci_theme.coldrock);

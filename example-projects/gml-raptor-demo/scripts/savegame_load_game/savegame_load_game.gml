@@ -151,7 +151,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
 		// Now all instances are loaded... restore object links
 		// RaceTable <-> RaceController
-		dlog($"Restoring RaceController links...");
+		ilog($"Restoring RaceController links...");
 		var tables = variable_struct_get_names(awaiting_race_controller_link);
 		for (var tbl = 0; tbl < array_length(tables); tbl++) {
 			var cid = tables[tbl];
@@ -165,7 +165,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 			}
 		}
 
-		dlog($"Restoring object instance pointers...");
+		ilog($"Restoring object instance pointers...");
 		__savegame_restore_pointers(savegame);
 	}
 	

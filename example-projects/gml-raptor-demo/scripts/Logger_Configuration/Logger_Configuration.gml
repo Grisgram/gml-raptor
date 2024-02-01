@@ -21,13 +21,8 @@
 //
 // The levels are: 0-Verbose, 1-Debug, 2-Info, 3-Warning, 4-Error, 5-Fatal
 //
-// In the default configuration, all lines are written to the log (= Developer mode), while
-// in beta it's at least an informational message and production only prints warnings and errors
-// to avoid giving away too much information to the end user when he looks at the logs of your product.
-//
-// !PLEASE NOTE! In the RingBuffer, ALL lines are stored in case of a crash and written (encrypted with your
-// FILE_CRYPT_KEY) to disk. If you report that crash log to your server, you have the FULL INFORMATION available!
-// (Debug+ -- no verbose lines)
+// !PLEASE NOTE! In the RingBuffer, ALL lines (excpect verbose) are stored in case of a crash and written 
+// (encrypted with your FILE_CRYPT_KEY) to disk. If you report that crash log to your server, you have the FULL INFORMATION available!
 // It's just the live log, you are filtering here (as an example, in a browser game, you only write Waring++ to the log
 // if the user is live-watching the console)
 //
@@ -36,3 +31,23 @@
 #macro LOG_LEVEL			0
 #macro beta:LOG_LEVEL		2
 #macro release:LOG_LEVEL	3
+
+// Raptor module logs
+// In addition to the LOG_LEVEL, you can turn off some modules entirely from logging anything.
+// Some of them log lots of lines in verbose and debug mode and need to be turned on only if you hunt a bug
+// that _might_ be located in one of raptor's modules
+#macro DEBUG_LOG_BROADCASTS				true
+#macro DEBUG_LOG_OBJECT_POOLS			true
+#macro DEBUG_LOG_LIST_POOLS				true
+#macro DEBUG_LOG_STATEMACHINE			true
+#macro DEBUG_LOG_RACE					true
+#macro DEBUG_LOG_PARTICLES				true
+
+// To avoid, that you "forget" to turn a module off, by default there's a set of these macros, where every log
+// is disabled for release mode
+#macro release:DEBUG_LOG_BROADCASTS		false
+#macro release:DEBUG_LOG_OBJECT_POOLS	false
+#macro release:DEBUG_LOG_LIST_POOLS		false
+#macro release:DEBUG_LOG_STATEMACHINE	false
+#macro release:DEBUG_LOG_RACE			false
+#macro release:DEBUG_LOG_PARTICLES		false
