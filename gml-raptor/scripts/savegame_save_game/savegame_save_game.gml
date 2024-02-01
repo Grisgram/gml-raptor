@@ -17,7 +17,7 @@
 function savegame_save_game(filename, cryptkey = "", data_only = false) {
 
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
-	log($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
+	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	
 	SAVEGAME_SAVE_IN_PROGRESS = true;
 	var savegame = {};
@@ -112,7 +112,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 		}
 	}
 	
-	log($"Removing object instance pointers...");
+	ilog($"Removing object instance pointers...");
 	var struct_to_save = __savegame_remove_pointers(savegame);
 	
 	file_write_struct(filename, struct_to_save, cryptkey);		
@@ -126,6 +126,6 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 		}
 	}
 	
-	log($"[----- SAVING GAME FINISHED -----]");
+	ilog($"[----- SAVING GAME FINISHED -----]");
 
 }

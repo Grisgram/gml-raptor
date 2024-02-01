@@ -24,7 +24,7 @@ function seq_create_with_attributes(sequence, layer, x, y) {
 	var inst = layer_sequence_get_instance(seq);
 	inst.name = sequence_get(sequence).name;
 	inst[$ SEQUENCE_CUSTOM_ATTRIBUTES] = {};
-	log($"Created sequence: sequence='{sequence_get(sequence).name}'; elementID={inst.elementID};");
+	vlog($"Created sequence: sequence='{sequence_get(sequence).name}'; elementID={inst.elementID};");
 	return inst;
 }
 
@@ -41,7 +41,7 @@ function seq_create_with_attributes(sequence, layer, x, y) {
 function seq_create_for_instance(sequence,object,instance,store_as_name = "") {
 	var inst = seq_create_with_attributes(sequence,instance.layer,instance.x,instance.y);
 	with(instance)
-		log($"Replacing instance in sequence: sequence='{inst.name}', instance='{MY_NAME}'");
+		vlog($"Replacing instance in sequence: sequence='{inst.name}', instance='{MY_NAME}'");
 	seq_modify_instance(inst,object,instance,store_as_name);
 	return inst;
 }
@@ -119,6 +119,6 @@ function seq_get_stored_instances(sequence) {
 /// @description				Shortcut for layer_sequence_destroy(sequence.elementID)
 /// @param {struct} sequence	The instance of the sequence to destroy
 function seq_destroy(sequence) {
-	log($"Destroying sequence: sequence='{sequence.name}'; elementID={sequence.elementID};");
+	vlog($"Destroying sequence: sequence='{sequence.name}'; elementID={sequence.elementID};");
 	layer_sequence_destroy(sequence.elementID);
 }

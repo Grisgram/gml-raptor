@@ -17,11 +17,11 @@
 function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
-	log($"[----- LOADING GAME FROM '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
+	ilog($"[----- LOADING GAME FROM '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	
 	var savegame = file_read_struct(filename, cryptkey);
 	if (savegame == undefined) {
-		log($"*ERROR* Could not load savegame '{filename}'!");
+		elog($"*ERROR* Could not load savegame '{filename}'!");
 		return false;
 	}
 
@@ -36,7 +36,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	var current_room_name = room_get_name(room);
 	var room_name = struct_get_ext(engine, __SAVEGAME_ENGINE_ROOM_NAME, current_room_name);
 	if (room_name != current_room_name) {
-		log($"Switching to room '{room_name}'");
+		ilog($"Switching to room '{room_name}'");
 		room_goto(asset_get_index(room_name));
 	}
 	
@@ -106,13 +106,13 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 				// auto-load variables of platform objects
 				// RaceController
 				if (obj == "RaceController" || object_is_ancestor(object_index, RaceController)) {
-					log($"Restoring RaceController...");
+					dlog($"Restoring RaceController...");
 					race_table_file_name = variable_struct_get(inst, "race_table_file_name");
 				}
 				
 				// RaceTable
 				if (obj == "RaceTable" || object_is_ancestor(object_index, RaceTable)) {
-					log($"Restoring RaceTable...");
+					dlog($"Restoring RaceTable...");
 					race_table_name		= variable_struct_get(inst, "race_table_name");
 					race_drop_on_layer	= variable_struct_get(inst, "race_drop_on_layer");
 					set_table(race_table_name);
@@ -136,7 +136,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 						var method_name = sprintf(SAVEGAME_UPGRADE_METHOD_PATTERN, i);
 						if (variable_instance_exists(self, method_name) &&
 							variable_instance_get(self, method_name) != undefined) {
-							log($"{MY_NAME} Upgrading object to version {i}");
+							ilog($"{MY_NAME} Upgrading object to version {i}");
 							self[$ method_name]();
 						}
 					}
@@ -151,21 +151,21 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
 		// Now all instances are loaded... restore object links
 		// RaceTable <-> RaceController
-		log($"Restoring RaceController links...");
+		ilog($"Restoring RaceController links...");
 		var tables = variable_struct_get_names(awaiting_race_controller_link);
 		for (var tbl = 0; tbl < array_length(tables); tbl++) {
 			var cid = tables[tbl];
 			var tblinst = variable_struct_get(awaiting_race_controller_link, cid);
 			if (variable_struct_exists(__SAVEGAME_INSTANCES, cid)) {
 				tblinst.race_controller = variable_struct_get(__SAVEGAME_INSTANCES, cid);
-				log($"Successfully restored RaceController link.");
+				ilog($"Successfully restored RaceController link.");
 				tblinst.set_table(tblinst.race_table_name); // Ensure the table is set correct now
 			} else {
-				log($"*ERROR* Could not restore RaceController link: ID {cid} not found!");
+				elog($"*ERROR* Could not restore RaceController link: ID {cid} not found!");
 			}
 		}
 
-		log($"Restoring object instance pointers...");
+		ilog($"Restoring object instance pointers...");
 		__savegame_restore_pointers(savegame);
 	}
 	
@@ -184,7 +184,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 		}
 	}
 	
-	log($"[----- LOADING GAME FINISHED -----]");
+	ilog($"[----- LOADING GAME FINISHED -----]");
 
 	return true;
 }

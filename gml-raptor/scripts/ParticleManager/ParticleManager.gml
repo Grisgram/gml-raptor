@@ -15,7 +15,7 @@
 /// @param {string} particle_layer_name
 /// @returns {struct} ParticleManager
 function ParticleManager(particle_layer_name, system_index = 0) constructor {
-	log($"ParticleManager created for layer '{particle_layer_name}'");
+	ilog($"ParticleManager created for layer '{particle_layer_name}'");
 	system = part_system_create_layer(particle_layer_name, false);
 	
 	__emitter_object	= __DEFAULT_EMITTER_OBJECT;
@@ -177,7 +177,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
 		if (rng == undefined) {
 			if (DEBUG_LOG_PARTICLES)
-				log($"*WARNING* Buffering range_by for '{name_or_emitter}', until the range exists!");
+				dlog($"Buffering range_by for '{name_or_emitter}', until the range exists!");
 			variable_struct_set(__buffered_delta, name_or_emitter, new Coord2(xdelta, ydelta));
 			return;
 		}
@@ -195,7 +195,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
 		if (rng == undefined) {
 			if (DEBUG_LOG_PARTICLES)
-				log($"*WARNING* Buffering range_to for '{name}', until the range exists!");
+				dlog($"Buffering range_to for '{name_or_emitter}', until the range exists!");
 			variable_struct_set(__buffered_target, name_or_emitter, new Coord2(newx, newy));
 			return;
 		}
@@ -284,14 +284,22 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		var r = variable_struct_get(__buffered_target, name);
 		if (r != undefined) {
 			emitter_move_range_to(name, r.x, r.y);
-			if (DEBUG_LOG_PARTICLES)
-				log($"range_to buffering apply {(variable_struct_exists(__buffered_target, name) ? "FAILED" : "successful")}");
+			if (DEBUG_LOG_PARTICLES) {
+				if (variable_struct_exists(__buffered_target, name))
+					vlog($"range_to buffering applied successfully");
+				else
+					dlog($"range_to buffering apply FAILED");
+			}
 		}
 		r = variable_struct_get(__buffered_delta, name);
 		if (r != undefined) {
 			emitter_move_range_by(name, r.x, r.y);
-			if (DEBUG_LOG_PARTICLES)
-				log($"range_by buffering apply {(variable_struct_exists(__buffered_delta, name) ? "FAILED" : "successful")}");
+			if (DEBUG_LOG_PARTICLES) {
+				if (variable_struct_exists(__buffered_delta, name))
+					vlog($"range_by buffering applied successfully");
+				else
+					dlog($"range_by buffering apply FAILED");
+			}
 		}
 	}
 	

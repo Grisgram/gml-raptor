@@ -148,7 +148,7 @@ function UnitTest(name = "UnitTest") constructor {
 			variable_struct_get(tests, __current_test_name)(self, data_for_test);
 			test_finish(__current_test_name);
 			if (__current_test_ok) {
-				vlog($" OK : {__current_test_name}");
+				ilog($" OK : {__current_test_name}");
 			} else {
 				fail_count++;
 			}

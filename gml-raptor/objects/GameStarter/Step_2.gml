@@ -30,7 +30,7 @@ if (!wait_for_async_tasks && !trampoline_done) {
 	visible = false; // turn off the draw event to save this now unneccesary funct
 	draw_spinner = false;
 	trampoline_done = true;
-	log($"GameStarter trampoline to next room");
+	vlog($"GameStarter trampoline to next room");
 	pool_clear_all();
 	if (fade_in_frames_first_room != 0) {
 		var rc = instance_create_layer(0,0,layer,RoomController);

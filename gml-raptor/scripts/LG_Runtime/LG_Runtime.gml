@@ -21,7 +21,7 @@ __LG_INIT_ERROR_SHOWN = false;
 ///					as it gets called through the LG_init() process.
 function __LG_load_avail_languages() {
 	if (!directory_exists(working_directory + LG_ROOT_FOLDER)) {
-		log($"No locale folder found!");
+		flog($"No locale folder found!");
 		EXIT_GAME;
 		return false;
 	}
@@ -33,11 +33,11 @@ function __LG_load_avail_languages() {
 	while (f != "") {
 		array_push(LG_AVAIL_LOCALES, string_copy(f, substring_first, 2));
 		LG_AVAIL_LOCALES[@ i++] = string_copy(f, substring_first, 2);
-		log($"Found language: '{string_copy(f, substring_first, 2)}'");
+		ilog($"Found language: '{string_copy(f, substring_first, 2)}'");
 		f = file_find_next();
 	}
 	file_find_close();
-	log($"{array_length(LG_AVAIL_LOCALES)} language(s) found for this game");
+	ilog($"{array_length(LG_AVAIL_LOCALES)} language(s) found for this game");
 	return true;
 }
 
@@ -63,10 +63,10 @@ function __LG_locale_exists(localeName) {
 /// @description				Checks, whether a file for the specified locale exists.
 function __LG_load_file(localeName) {
 	if (__LG_locale_exists(localeName)) {
-		log($"Loading locale '{localeName}'...");
+		dlog($"Loading locale '{localeName}'...");
 		var json = file_read_text_file_absolute(__LG_get_locale_filename(localeName));
 		__LG_STRINGS = SnapFromJSON(json);
-		log($"Locale '{localeName}' loaded successfully");
+		dlog($"Locale '{localeName}' loaded successfully");
 		return true;
 	}
 	return false;
@@ -119,7 +119,7 @@ function LG_init(locale_to_use = undefined) {
 		if (current_exists)
 			__LG_load_file(LG_CURRENT_LOCALE);
 		if (!default_exists && !current_exists) {
-			log($"**ERROR** Neither default nor current OS locale exists! Aborting.");
+			flog($"**ERROR** Neither default nor current OS locale exists! Aborting.");
 			EXIT_GAME;
 		}
 	}	
@@ -301,6 +301,8 @@ function LG_resolve(str) {
 	}
 	return str;
 }
+
+ENSURE_LOGGER
 
 __LG_HTML_NEED_CHECK = IS_HTML;
 __LG_INITIALIZED = IS_HTML; // for html, we start initialized, there is a second check __LG_HTML_INITIALIZED 

@@ -1,6 +1,6 @@
 function unit_test_Highscorer() {
 	if (!script_exists(asset_get_index("HighScoreTable"))) {
-		log($"Skipped unit tests for 'Highscorer': Not in project.");
+		ilog($"Skipped unit tests for 'Highscorer': Not in project.");
 		return;
 	}
 	

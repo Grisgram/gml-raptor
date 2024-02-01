@@ -7,6 +7,6 @@ if (variable_global_exists("__room_particle_system") && !string_is_empty(__my_em
 
 if (stream_on_create) {
 	if (stream_start_delay > 0 && DEBUG_LOG_PARTICLES)
-		log($"{MY_NAME}: Will start streaming in {stream_start_delay} frames");
+		ilog($"{MY_NAME}: Will start streaming in {stream_start_delay} frames");
 	run_delayed(self, stream_start_delay, function() { stream(); });
 }

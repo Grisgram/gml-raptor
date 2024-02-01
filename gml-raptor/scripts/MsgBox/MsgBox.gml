@@ -39,7 +39,7 @@ function __msgbox_button(obj, btn_text, cb, layer_name, react_on_key) constructo
 
 // "self" is the button here - its called from the button
 function __msgbox_callback_wrapper() {
-	log($"{MY_NAME}: Invoking callback.");
+	vlog($"{MY_NAME}: Invoking callback.");
 	var btnstruct = undefined;
 	for (var i = 0; i < array_length(ACTIVE_MESSAGE_BOX.__buttons); i++) {
 		if (ACTIVE_MESSAGE_BOX.__buttons[i].__button.id == id) {
@@ -52,7 +52,7 @@ function __msgbox_callback_wrapper() {
 		if (is_method(btnstruct.callback))
 			btnstruct.callback();
 	} else
-		log($"*ERROR* Could not find MessageBox Button in __buttons array!");
+		elog($"*ERROR* Could not find MessageBox Button in __buttons array!");
 }
 
 function __msgbox_x_button_default_callback() {
@@ -60,11 +60,11 @@ function __msgbox_x_button_default_callback() {
 	if (ACTIVE_MESSAGE_BOX.x_button_uses_escape_callback) {
 		var esc = ACTIVE_MESSAGE_BOX.__find_button_with_hotkey(msgbox_key.escape);
 		if (esc != undefined && esc.callback != undefined) {
-			log($"MessageBox closed through X-Button redirect to escape-key-callback.");
+			vlog($"MessageBox closed through X-Button redirect to escape-key-callback.");
 			callback_to_use = esc.callback;
 		}
 	} else if (ACTIVE_MESSAGE_BOX.x_button_callback != undefined) {
-		log($"MessageBox closed through X-Button callback.");
+		vlog($"MessageBox closed through X-Button callback.");
 		callback_to_use = ACTIVE_MESSAGE_BOX.x_button_callback;
 	}
 	ACTIVE_MESSAGE_BOX.close();
@@ -81,7 +81,7 @@ function __msgbox_x_button_default_callback() {
 /// @returns {struct}				the messagebox struct
 function MessageBox(window_object, layer_name, message_title, message_text) constructor {
 	if (!is_child_of(window_object, MessageBoxWindow)) {
-		log($"**ERROR** Invalid Window Object for MessageBox. MUST be a child of MessageBoxWindow!");
+		elog($"**ERROR** Invalid Window Object for MessageBox. MUST be a child of MessageBoxWindow!");
 	}
 	title = string_starts_with(message_title, "=") ? LG(message_title) : message_title;
 	text  = string_starts_with(message_text, "=")  ? LG(message_text)  : message_text;
@@ -134,6 +134,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	}
 
 	static show = function() {
+		dlog($"Showing MessageBox");
 		__prev_messagebox = ACTIVE_MESSAGE_BOX;
 		ACTIVE_MESSAGE_BOX = self;
 		
@@ -213,7 +214,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			instance_destroy(__x_button);
 		ACTIVE_MESSAGE_BOX = __prev_messagebox;
 		BROADCASTER.send(self, __RAPTOR_BROADCAST_MSGBOX_CLOSED);
-		log($"MessageBox closed.");
+		dlog($"MessageBox closed");
 		if (ACTIVE_MESSAGE_BOX == undefined)
 			hide_popup();
 	}

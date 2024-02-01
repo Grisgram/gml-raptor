@@ -61,13 +61,13 @@ global.__unique_count_up_id	= 0;
 MOUSE_CURSOR = undefined;
 
 // try/catch/finally support
-#macro TRY						try {
+#macro TRY		try {
 #macro CATCH	} catch (__exception) { \
-					log(__exception.message); \
-					log(__exception.longMessage); \
-					log(__exception.script); \
+					elog(__exception.message); \
+					elog(__exception.longMessage); \
+					elog(__exception.script); \
 					for (var __st_i = 0; __st_i < array_length(__exception.stacktrace);__st_i++) \
-						log(__exception.stacktrace[@ __st_i]); 
+						elog(__exception.stacktrace[@ __st_i]); 
 #macro FINALLY	} finally {
 #macro ENDTRY   }
 

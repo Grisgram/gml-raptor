@@ -693,7 +693,7 @@ function animation_finish_all(owner = self) {
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log($"{MY_NAME}: animation_finish_all cleanup: anims_to_remove={array_length(removers)};");
+			vlog($"{MY_NAME}: animation_finish_all cleanup: anims_to_remove={array_length(removers)};");
 		
 	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
@@ -710,7 +710,7 @@ function animation_abort_all(owner = self) {
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log($"{MY_NAME}: animation_abort_all cleanup: anims_to_remove={array_length(removers)};");
+			vlog($"{MY_NAME}: animation_abort_all cleanup: anims_to_remove={array_length(removers)};");
 		
 	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
@@ -729,7 +729,7 @@ function animation_pause_all(owner = self) {
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log($"{MY_NAME}: Animation bulk pause: anims_to_set={array_length(to_set)};");
+			vlog($"{MY_NAME}: Animation bulk pause: anims_to_set={array_length(to_set)};");
 	
 	for (var i = 0, len = array_length(to_set); i < len; i++) {
 		var next = to_set[@ i];
@@ -748,7 +748,7 @@ function animation_resume_all(owner = self) {
 	
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
-			log($"{MY_NAME}: Animation bulk resume: anims_to_set={array_length(to_set)};");
+			vlog($"{MY_NAME}: Animation bulk resume: anims_to_set={array_length(to_set)};");
 	
 	for (var i = 0, len = array_length(to_set); i < len; i++) {
 		var next = to_set[@ i];

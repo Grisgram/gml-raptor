@@ -32,7 +32,7 @@ activate = function(delay_frames = -1) {
 	}
 	if (!__counting_up)
 		__last_activation_delay_frames = __frame_countdown;
-	log($"{MY_NAME}: Tooltip activated: delay_frames={__frame_countdown};");
+	vlog($"{MY_NAME}: Tooltip activated: delay_frames={__frame_countdown};");
 	__counting_up = false;
 	__active = true;
 }

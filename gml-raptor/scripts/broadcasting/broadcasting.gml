@@ -72,7 +72,7 @@ function Sender() constructor {
 	static add_receiver = function(_owner, _name, _message_filter, _callback) {
 		if (_owner == undefined || !variable_instance_exists(_owner, "depth")) {
 			if (DEBUG_LOG_BROADCASTS)
-				log($"** WARNING ** add_receiver '{_name}' ignored, because 'owner' is undefined or has no depth!");
+				wlog($"** WARNING ** add_receiver '{_name}' ignored, because 'owner' is undefined or has no depth!");
 			return;
 		}
 		
@@ -80,7 +80,7 @@ function Sender() constructor {
 		remove_receiver(_name);
 		array_push(receivers, rcv);
 		if (DEBUG_LOG_BROADCASTS)
-			log($"Broadcast receiver added: name='{_name}'; filter='{_message_filter}';");
+			vlog($"Broadcast receiver added: name='{_name}'; filter='{_message_filter}';");
 	}
 
 	/// @function		remove_receiver(_name)
@@ -93,11 +93,11 @@ function Sender() constructor {
 				if (__in_send) { // we do not modify the array during send, so we buffer the remove.
 					array_push(removers, r.name);
 					if (DEBUG_LOG_BROADCASTS)
-						log($"Broadcast receiver remove of '{_name}' delayed. Currently sending a message");
+						vlog($"Broadcast receiver remove of '{_name}' delayed. Currently sending a message");
 				} else {
 					array_delete(receivers, i, 1);
 					if (DEBUG_LOG_BROADCASTS)
-						log($"Broadcast receiver removed: name='{_name}';");
+						vlog($"Broadcast receiver removed: name='{_name}';");
 				}
 				return true;
 			}
@@ -127,7 +127,7 @@ function Sender() constructor {
 			var ownername = "<dead instance>";
 			if (is_object_instance(_owner)) ownername = name_of(_owner);
 			if (DEBUG_LOG_BROADCASTS)
-				log($"{cnt} broadcast receiver(s) removed for owner {ownername}");
+				vlog($"{cnt} broadcast receiver(s) removed for owner {ownername}");
 		}
 		return cnt;
 	}
@@ -156,7 +156,7 @@ function Sender() constructor {
 			var r = receivers[@ i];
 			if (r.filter_hit(_title)) {
 				if (DEBUG_LOG_BROADCASTS)
-					log($"Sending broadcast #{bcid}: title='{_title}'; to='{r.name}';");
+					dlog($"Sending broadcast #{bcid}: title='{_title}'; to='{r.name}';");
 				var rv = undefined;
 				if (is_object_instance(r.owner))
 					with (r.owner) rv = r.callback(bc);
@@ -167,12 +167,12 @@ function Sender() constructor {
 			}
 			if (bc.handled) {
 				if (DEBUG_LOG_BROADCASTS)
-					log($"Broadcast #{bcid}: '{_title}' was handled by '{r.name}'");
+					dlog($"Broadcast #{bcid}: '{_title}' was handled by '{r.name}'");
 				break;
 			}
 		}
 		if (DEBUG_LOG_BROADCASTS)
-			log($"Broadcast #{bcid}: '{_title}' finished");
+			vlog($"Broadcast #{bcid}: '{_title}' finished");
 		__in_send = false;
 		for (var i = 0, len = array_length(removers); i < len; i++) {
 			remove_receiver(removers[@ i]);
@@ -184,7 +184,7 @@ function Sender() constructor {
 	/// @description	Removes all receivers.	
 	static clear = function() {
 		if (DEBUG_LOG_BROADCASTS)
-			log($"Broadcast receiver list cleared");
+			ilog($"Broadcast receiver list cleared");
 		receivers = [];
 	}
 
