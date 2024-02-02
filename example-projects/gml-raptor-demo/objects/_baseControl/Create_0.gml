@@ -45,6 +45,18 @@ cleanup_disabled_surface = function() {
 	__disabled_surface_height	= 0;
 }
 
+/// @function set_enabled(_enabled)
+/// @description if you set the enabled state through this function, the on_enabled_changed callback
+///				 gets invoked, if the state is different from the current state
+set_enabled = function(_enabled) {
+	var need_invoke = (is_enabled != _enabled);
+	is_enabled = _enabled;
+	if (need_invoke && on_enabled_changed != undefined) {
+		vlog($"Enabled changed for {MY_NAME}");
+		on_enabled_changed(self);
+	}
+}
+
 /// @function					force_redraw()
 /// @description				force recalculate of all positions next frame
 force_redraw = function() {

@@ -10,9 +10,17 @@ __auto_change_checked = true;
 __down_draw_offset = undefined;
 __up_draw_offset = new Coord2();
 
+/// @function set_checked(_checked)
+/// @description if you set the enabled state through this function, the on_checked_changed callback
+///				 gets invoked, if the state is different from the current state
 set_checked = function(_checked) {
+	var need_invoke = (checked != _checked);
 	checked = _checked;
 	__set_default_image();
+	if (need_invoke && on_checked_changed != undefined) {
+		vlog($"Checked changed for {MY_NAME}");
+		on_checked_changed(self);
+	}
 }
 
 update_graphics = function(_force_redraw = true) {
