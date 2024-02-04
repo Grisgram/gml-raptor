@@ -13,10 +13,13 @@ GAMESETTINGS = undefined;
 // DO NOT ADD FUNCTIONS HERE! Only data!
 function GameSettings() constructor {
 	construct("GameSettings");
+
+	// --- Custom / additional default settings values ---
 	
+	// ---------------------------------------------------	
+
 	audio				= AUDIOSETTINGS;
 	use_system_cursor	= false;
-	
 	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
 }
@@ -27,11 +30,17 @@ function load_settings() {
 	if (USE_HIGHSCORES && HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
 		HIGHSCORES.assign_data(GAMESETTINGS.highscoredata);
 	AUDIOSETTINGS = GAMESETTINGS.audio;
+	// --- Custom / additional actions after loading settings ---
+	
+	// ----------------------------------------------------------	
 	vlog($"Settings loaded");
 }
 
 function save_settings() {
 	dlog($"Saving settings...");
+	// --- Custom / additional actions when saving settings ---
+	
+	// --------------------------------------------------------
 	if (HIGHSCORES != undefined)
 		GAMESETTINGS.highscoredata = HIGHSCORES.data;
 	file_write_struct(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY);
