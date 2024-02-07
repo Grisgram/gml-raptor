@@ -106,6 +106,7 @@
     {"name":"Game_Settings","order":13,"path":"scripts/Game_Settings/Game_Settings.yy",},
     {"name":"SnapToCSV","order":3,"path":"scripts/SnapToCSV/SnapToCSV.yy",},
     {"name":"scribble_font_get_glyph_ranges","order":10,"path":"scripts/scribble_font_get_glyph_ranges/scribble_font_get_glyph_ranges.yy",},
+    {"name":"PersistentGameController","order":5,"path":"objects/PersistentGameController/PersistentGameController.yy",},
     {"name":"sprDefaultLabelShadowed","order":9,"path":"sprites/sprDefaultLabelShadowed/sprDefaultLabelShadowed.yy",},
     {"name":"scribble_super_create","order":1,"path":"scripts/scribble_super_create/scribble_super_create.yy",},
     {"name":"string_height_scribble_ext","order":3,"path":"scripts/string_height_scribble_ext/string_height_scribble_ext.yy",},
