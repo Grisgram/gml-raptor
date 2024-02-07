@@ -468,7 +468,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static step = function() {
 		if (__finished || __paused) return;
 		
-		__time_step  =  delta_time / 1000000;
+		__time_step  =  DELTA_TIME_SECS;
 		__time		 += __time_step;
 		__time_total += __time_step;
 		
@@ -765,7 +765,7 @@ function animation_resume_all(owner = self) {
 ///					one specific animation.
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0; i < ds_list_size(lst); i++) {
+	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
 		var item = lst[| i];
 		if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			return true;
@@ -797,6 +797,27 @@ function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 
 function animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
 	animation_finish_all(_obj_owner);
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
+}
+
+/// @function			animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @description		Similar to animation run, it even returns an animation, but you don't need an object to animate,
+///						instead, a sprite_index is enough and a pooled instance of __sprite_anim_runner will be used to
+///						run the animation. It returns to the pool, when the animation is finished.
+///						Works even for ANIMATION CHAINS! That's why this function returns the created animation and not
+///						the pooled runner object. You can obtain the pooled runner object from the .owner property of the
+///						animation returned.
+/// @returns {Animation}
+function animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
+	var runner = pool_get_instance(__RAPTOR_SPRITE_ANIM_POOL, __sprite_anim_runner, _layer_name_or_depth);
+	if (is_string(_layer_name_or_depth))
+		layer_add_instance(layer_get_id(_layer_name_or_depth), runner);
+	else
+		runner.depth = _layer_name_or_depth;
+	
+	runner.sprite_index = _sprite;
+	runner.x = _x;
+	runner.y = _y;
+	return animation_run(runner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
 /// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1, _data = {})

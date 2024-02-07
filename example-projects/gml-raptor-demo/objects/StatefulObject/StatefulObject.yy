@@ -50,8 +50,8 @@
   "managed": true,
   "overriddenProperties": [],
   "parent": {
-    "name": "_generic_objects_",
-    "path": "folders/_gml_raptor_/_generic_objects_.yy",
+    "name": "Animations",
+    "path": "folders/_gml_raptor_/Animations.yy",
   },
   "parentObjectId": {
     "name": "Saveable",
