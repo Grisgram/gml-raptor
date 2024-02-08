@@ -85,38 +85,17 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	}
 	title = string_starts_with(message_title, "=") ? LG(message_title) : message_title;
 	text  = string_starts_with(message_text, "=")  ? LG(message_text)  : message_text;
-	font  = undefined;
-	
-	// coloring
-	text_color					= undefined;
-	title_color					= undefined;
-	draw_color					= undefined;
-	text_color_mouse_over		= undefined;
-	draw_color_mouse_over		= undefined;
 	
 	distance_between_buttons	= undefined;
 	button_offset_from_bottom	= undefined;
 	text_distance_top_bottom	= undefined;
-	
-	allow_window_drag = true;
-	
-	scribble_text_align = undefined;
-	text_xoffset = 0;
-	text_yoffset = 0;
-
-	scribble_title_align = undefined;
-	title_xoffset = 0;
-	title_yoffset = 0;
-	
-	x_button_visible = true;
-	x_button_object = MessageBoxXButton;
+		
 	x_button_uses_escape_callback = true;
 	x_button_callback = undefined;
 	
 	__window_object = window_object;
 	__layer_name = layer_name;
 	__buttons = [];
-	__x_button = undefined;
 	__prev_messagebox = undefined;
 	
 	window = undefined;
@@ -141,51 +120,17 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		for (var i = 0; i < array_length(__buttons); i++)
 			with (__buttons[i]) create_instance();
 		
-		if (x_button_visible) {
-			__x_button = instance_create_layer(0, 0, __layer_name, x_button_object);
-			with (__x_button) {
-				on_enter_sound = MESSAGEBOX_XBUTTON_ENTER_SOUND;
-				on_leave_sound = MESSAGEBOX_XBUTTON_LEAVE_SOUND;
-				on_click_sound = MESSAGEBOX_XBUTTON_CLICK_SOUND;
-			}
-		}
-		
 		window = instance_create_layer(0, 0, __layer_name, __window_object);
 		
-		if (x_button_visible) {
-			with (__x_button) {
-				message_window = other.window;
-				if (other.x_button_object == MessageBoxXButton)
-					draw_color = other.title_color;
-			}
-		}
-
 		with (window) {
 			text    = other.text;
 			title   = other.title;
 			buttons = other.__buttons;
 			
-			window_is_movable = other.allow_window_drag;
-
-			if (other.font		  != undefined) font_to_use = other.font;
-			if (other.text_color  != undefined) text_color  = other.text_color;
-			if (other.title_color != undefined) title_color = other.title_color;
-			if (other.draw_color  != undefined) draw_color  = other.draw_color;
-			if (other.text_color_mouse_over  != undefined) text_color_mouse_over  = other.text_color_mouse_over;
-			if (other.draw_color_mouse_over  != undefined) draw_color_mouse_over  = other.draw_color_mouse_over;
-			
 			if (other.distance_between_buttons  != undefined) distance_between_buttons  = other.distance_between_buttons;
 			if (other.button_offset_from_bottom != undefined) button_offset_from_bottom = other.button_offset_from_bottom;
 			if (other.text_distance_top_bottom != undefined) text_distance_top_bottom = other.text_distance_top_bottom;
 			
-			if (other.scribble_text_align  != undefined) scribble_text_align  = other.scribble_text_align;
-			if (other.scribble_title_align != undefined) scribble_title_align = other.scribble_title_align;
-			
-			text_xoffset  = other.text_xoffset;
-			text_yoffset  = other.text_yoffset;
-			title_xoffset = other.title_xoffset;
-			title_yoffset = other.title_yoffset;
-
 			__draw_self(); // force variable update...
 			if (draw_on_gui) {
 				x = UI_VIEW_CENTER_X - SELF_CENTER_X;
@@ -207,11 +152,9 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 	}
 	
 	static close = function() {
-		instance_destroy(window);
 		for (var i = 0; i < array_length(__buttons); i++)
 			instance_destroy(__buttons[i].__button);
-		if (__x_button != undefined)
-			instance_destroy(__x_button);
+		window.close();
 		ACTIVE_MESSAGE_BOX = __prev_messagebox;
 		BROADCASTER.send(self, __RAPTOR_BROADCAST_MSGBOX_CLOSED);
 		dlog($"MessageBox closed");

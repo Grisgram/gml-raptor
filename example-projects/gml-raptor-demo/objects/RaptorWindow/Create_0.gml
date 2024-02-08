@@ -19,10 +19,15 @@ event_inherited();
 
 #macro __WINDOW_RESIZE_BORDER_WIDTH		8
 
+title = LG_resolve(title);
+
 __last_title		= "";
 __title_x			= 0;
 __title_y			= 0;
 __scribble_title	= undefined;
+
+__x_button			= undefined;
+__x_button_closing	= undefined;
 
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
@@ -40,6 +45,23 @@ __size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,-
 
 if (window_is_sizable && image_number > 1)
 	image_index = 1;
+
+if (window_x_button_visible && !is_null(window_x_button_object)) {
+	__x_button = instance_create(0, 0, layer_or_depth(layer), window_x_button_object);
+	//__x_button.depth = depth - 1;
+	__x_button.attach_to_window(self);
+	__x_button_closing = __x_button.on_left_click;
+	__x_button.on_left_click = function(sender) {
+		// This is the original left click handler on the x button that might have been set
+		// at design time but was overwritten by this function
+		if (!is_null(__x_button_closing))
+			__x_button_closing(__x_button);
+		// Launch the closing callback set on the window
+		if (!is_null(on_closing)) 
+			on_closing(self);
+		close();
+	}
+}
 
 __do_sizing = function() {
 	var recalc = true;
@@ -81,7 +103,6 @@ __do_sizing = function() {
 	if (recalc) {
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
-		title = $"{image_xscale} - {image_yscale}";
 		__setup_drag_rect();
 	}
 }
@@ -180,6 +201,10 @@ __setup_drag_rect = function() {
 	//	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
 }
 
+close = function() {
+	instance_destroy(self);
+}
+
 /// @function					scribble_add_title_effects(titletext)
 /// @description				called when a scribble element is created to allow adding custom effects.
 ///								overwrite (redefine) in child controls
@@ -194,7 +219,8 @@ scribble_add_title_effects = function(titletext) {
 /// @param {string} str			
 __create_scribble_title_object = function(align, str) {
 	return scribble(align + str, MY_NAME)
-			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, title_color);
+			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
+				mouse_is_over ? title_color_mouse_over : title_color);
 }
 
 /// @function					__draw_self()
@@ -224,7 +250,7 @@ __draw_self = function() {
 			disty = ninetop + ninebottom;
 			image_xscale = max(__startup_xscale, (max(min_width, max(__scribble_text.get_width(),  __scribble_title.get_width()))  + distx) / sprite_get_width(sprite_index));
 			image_yscale = max(__startup_yscale, (max(min_height,max(__scribble_text.get_height(), __scribble_title.get_height())) + disty) / sprite_get_height(sprite_index));
-vlog("*** draw ***");
+
 			__setup_drag_rect();
 			edges.update(nine);
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
@@ -267,7 +293,8 @@ vlog("*** draw ***");
 		draw_self();
 		image_blend = c_white;
 	}
-	if (text  != "") __scribble_text .draw(__text_x,  __text_y);
+	
+	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
 	
 }

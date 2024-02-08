@@ -1,19 +1,17 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "Window",
+  "name": "WindowXButton",
   "eventList": [],
   "managed": true,
-  "overriddenProperties": [
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"value":"WindowXButton",},
-  ],
+  "overriddenProperties": [],
   "parent": {
     "name": "_gml_raptor_ui_",
     "path": "folders/_gml_raptor_ui_.yy",
   },
   "parentObjectId": {
-    "name": "RaptorWindow",
-    "path": "objects/RaptorWindow/RaptorWindow.yy",
+    "name": "RaptorWindowXButton",
+    "path": "objects/RaptorWindowXButton/RaptorWindowXButton.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,
@@ -31,8 +29,8 @@
   "properties": [],
   "solid": false,
   "spriteId": {
-    "name": "sprDefaultWindow",
-    "path": "sprites/sprDefaultWindow/sprDefaultWindow.yy",
+    "name": "sprDefaultXButton",
+    "path": "sprites/sprDefaultXButton/sprDefaultXButton.yy",
   },
   "spriteMaskId": null,
   "visible": true,

@@ -8,6 +8,7 @@
 // Code it like this (first line of event): if (__HIDDEN_BEHIND_POPUP) exit;
 
 GUI_POPUP_VISIBLE = false;
+GUI_POPUP_LAYER_GROUP = undefined;
 
 /// @function							show_popup(_layer_group_name = "popup_")
 /// @description						shows all popup layers

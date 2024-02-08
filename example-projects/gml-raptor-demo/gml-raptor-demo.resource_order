@@ -243,6 +243,7 @@
     {"name":"sprDefaultLabelFilled","order":8,"path":"sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",},
     {"name":"MessageBox_Configuration","order":12,"path":"scripts/MessageBox_Configuration/MessageBox_Configuration.yy",},
     {"name":"__shd_scribble_bake_shadow","order":4,"path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},
+    {"name":"WindowXButton","order":13,"path":"objects/WindowXButton/WindowXButton.yy",},
     {"name":"__scribble_class_null_element","order":4,"path":"scripts/__scribble_class_null_element/__scribble_class_null_element.yy",},
     {"name":"scribble_typewriter_add_character_delay","order":6,"path":"scripts/scribble_typewriter_add_character_delay/scribble_typewriter_add_character_delay.yy",},
     {"name":"CoordTranslator","order":9,"path":"scripts/CoordTranslator/CoordTranslator.yy",},

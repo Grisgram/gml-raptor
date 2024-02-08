@@ -10,7 +10,7 @@
 #macro MESSAGEBOX_LAYER					"MessageBox"
 
 // Asset name of the Window object to use for Messageboxes
-#macro MESSAGEBOX_WINDOW				MessageBoxWindow
+#macro MESSAGEBOX_WINDOW				RaptorMessageBoxWindow
 #macro MESSAGEBOX_BUTTON				TextButton
 
 // The sprite to use to the X-Button on a messagebox - ORIGIN ALIGN MIDDLE-RIGHT!

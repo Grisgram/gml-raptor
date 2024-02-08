@@ -12,7 +12,7 @@ if (btnstruct != undefined) {
 	with (btnstruct.__button)
 		__msgbox_callback_wrapper();
 } else {
-	if (!ACTIVE_MESSAGE_BOX.x_button_uses_escape_callback && ACTIVE_MESSAGE_BOX.x_button_callback != undefined)
+	if (!ACTIVE_MESSAGE_BOX.x_button_uses_escape_callback && !is_null(ACTIVE_MESSAGE_BOX.x_button_callback))
 		with (ACTIVE_MESSAGE_BOX)
 			__msgbox_x_button_default_callback();
 	else

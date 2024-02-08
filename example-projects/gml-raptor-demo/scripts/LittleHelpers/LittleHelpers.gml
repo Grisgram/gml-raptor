@@ -168,6 +168,21 @@ function if_null(value, value_if_null) {
 	return value;
 }
 
+/// @function		is_null(value)
+/// @description	Tests if the specified value is undefined or noone, or,
+///					if it is a string, is empty.
+///					In any of those cases true is returned, otherwise
+///					false is returned.
+/// @param {any} value	The value to test
+/// @returns {bool}	value is nullish or not
+function is_null(value) {
+	if (value == undefined || value == noone)
+		return true;
+	if (is_string(value))
+		return string_is_empty(value);
+	return false;
+}
+
 /// @function		eq(inst1, inst2)
 /// @description	Compare, whether two object instances are the same instance
 ///					Due to a html bug you can not simply compare inst1==inst2,

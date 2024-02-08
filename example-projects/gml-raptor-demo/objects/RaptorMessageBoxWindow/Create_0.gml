@@ -127,7 +127,7 @@ __draw_self = function() {
 		image_blend = c_white;
 	}
 	
-	if (text  != "") __scribble_text .draw(__text_x,  __text_y);
+	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
 
 }
