@@ -54,16 +54,24 @@
 
 MOUSE_CURSOR			= self;
 
+enum mouse_cursor_type {
+	pointer, sizing
+}
+
 event_inherited();
 
 window_set_cursor(cr_none);
 // on top of everything else
-depth = 16000;
+depth = -15998;
 visible = true;
 
-sprite_index = sprite_to_use ?? sprite_index;
-
 companion = undefined;
+
+/// @function set_cursor(_sprite_index, _image_index = 0)
+set_cursor = function(_mouse_cursor_type, _image_index = 0) {
+	sprite_index = (_mouse_cursor_type == mouse_cursor_type.pointer ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
+	image_index = _image_index;
+}
 
 /// @function set_companion(_companion_sprite, _type = undefined)
 set_companion = function(_companion_sprite, _type = undefined) {

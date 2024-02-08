@@ -1,25 +1,183 @@
 /// @description override draw_self (window)
 
+/*
+	Rules for the "size direction" variable are like the numpad on keyboard:
+	
+		7  8  9
+		+-----+
+		|     |
+	  4 |     | 6
+		|     |
+		+-----+
+		1  2  3
+	
+	if size direction != 0, then odd directions (1,3,7,9) cause the diagonal arrow to appear,
+	4 and 6 the horizontal one and 2 and 8 the vertical one
+*/
+
 event_inherited();
 
-#macro __WINDOW_RESIZE_BORDER_WIDTH		4
+#macro __WINDOW_RESIZE_BORDER_WIDTH		8
 
-__last_title = "";
-__title_x = 0;
-__title_y = 0;
-__scribble_title = undefined;
+__last_title		= "";
+__title_x			= 0;
+__title_y			= 0;
+__scribble_title	= undefined;
 
-__in_drag_mode = false;
-__drag_rect = new Rectangle();
+__in_drag_mode		= false;
+__drag_rect			= new Rectangle();
 
-/// @function					__setup_drag_rect(ninetop)
-/// @description				setup drag and resize rects
-/// @param {int} ninetop
-__setup_drag_rect = function(ninetop) {
-	if (draw_on_gui) {
-		__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
+__size_rect_top		= new Rectangle();
+__size_rect_bottom	= new Rectangle();
+__size_rect_left	= new Rectangle();
+__size_rect_right	= new Rectangle();
+__in_size_mode		= false;
+__size_direction	= 0;
+// _rc = raptor cursor:Image index of the sizable sprite
+__size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
+// _dc = default cursor (gamemaker cr_ constants)
+__size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,-1,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
+
+if (window_is_sizable && image_number > 1)
+	image_index = 1;
+
+__do_sizing = function() {
+	var recalc = true;
+	switch (__size_direction) {
+		case 1:
+			scale_sprite_to(max(min_width,sprite_width - GUI_MOUSE_DELTA_X), max(min_height,sprite_height + GUI_MOUSE_DELTA_Y));
+			x += GUI_MOUSE_DELTA_X;
+			break;
+		case 2:
+			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height + GUI_MOUSE_DELTA_Y));
+			break;
+		case 3:
+			scale_sprite_to(max(min_width,sprite_width + GUI_MOUSE_DELTA_X), max(min_height,sprite_height + GUI_MOUSE_DELTA_Y));
+			break;
+		case 4:
+			scale_sprite_to(max(min_width,sprite_width - GUI_MOUSE_DELTA_X), max(min_height,sprite_height                    ));
+			x += GUI_MOUSE_DELTA_X;
+			break;
+		case 6:
+			scale_sprite_to(max(min_width,sprite_width + GUI_MOUSE_DELTA_X), max(min_height,sprite_height                    ));			
+			break;
+		case 7:
+			scale_sprite_to(max(min_width,sprite_width - GUI_MOUSE_DELTA_X), max(min_height,sprite_height - GUI_MOUSE_DELTA_Y));
+			x += GUI_MOUSE_DELTA_X;
+			y += GUI_MOUSE_DELTA_Y;
+			break;
+		case 8:
+			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height - GUI_MOUSE_DELTA_Y));
+			y += GUI_MOUSE_DELTA_Y;
+			break;
+		case 9:
+			scale_sprite_to(max(min_width,sprite_width + GUI_MOUSE_DELTA_X), max(min_height,sprite_height - GUI_MOUSE_DELTA_Y));
+			y += GUI_MOUSE_DELTA_Y;
+			break;
+		default:
+			recalc = false;
+			break;
+	}
+	if (recalc) {
+		__startup_xscale = image_xscale;
+		__startup_yscale = image_yscale;
+		title = $"{image_xscale} - {image_yscale}";
+		__setup_drag_rect();
+	}
+}
+
+// Find the windows' sizing areas
+// we need to check all 4 borders and in each of them the adjacent sides to find the diagonals
+__find_sizing_area = function() {
+
+	if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+		
+		if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 7;
+		else if (__size_rect_right.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 9;
+		else
+			__size_direction = 8;
+			
+	} else if (__size_rect_bottom.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+		
+		if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 1;
+		else if (__size_rect_right.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 3;
+		else 
+			__size_direction = 2;
+		
+	} else if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+		
+		if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 7;
+		else if (__size_rect_bottom.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 1;
+		else
+			__size_direction = 4;
+
+	} else if (__size_rect_right.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+
+		if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 9;
+		else if (__size_rect_bottom.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 3;
+		else
+			__size_direction = 6;
+
 	} else
-		__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
+		__size_direction = 0;
+	
+	__set_sizing_cursor();
+}
+
+__set_sizing_cursor = function() {
+	if (MOUSE_CURSOR != undefined)
+		if (__size_direction == 0)
+			MOUSE_CURSOR.set_cursor(mouse_cursor_type.pointer);
+		else
+			MOUSE_CURSOR.set_cursor(mouse_cursor_type.sizing, __size_images_rc[@__size_direction]);
+	else
+		window_set_cursor(__size_images_dc[@__size_direction]);
+}
+
+/// @function				__setup_drag_rect(ninetop)
+/// @description			setup drag and resize rects
+/// @param {int} ninetop
+__setup_drag_rect = function() {
+	var size_offset = (window_is_sizable ? __WINDOW_RESIZE_BORDER_WIDTH : 0);
+	__drag_rect.set(
+		SELF_VIEW_LEFT_EDGE + size_offset, 
+		SELF_VIEW_TOP_EDGE + size_offset, 
+		SELF_WIDTH - 2 * size_offset, 
+		titlebar_height
+	);
+	
+	__size_rect_top.set(
+		SELF_VIEW_LEFT_EDGE, 
+		SELF_VIEW_TOP_EDGE, 
+		SELF_WIDTH, 
+		__WINDOW_RESIZE_BORDER_WIDTH
+	);
+	
+	__size_rect_bottom.set(
+		SELF_VIEW_LEFT_EDGE, 
+		SELF_VIEW_BOTTOM_EDGE - __WINDOW_RESIZE_BORDER_WIDTH,
+		SELF_WIDTH, 
+		__WINDOW_RESIZE_BORDER_WIDTH
+	);
+
+	__size_rect_left.set(
+		SELF_VIEW_LEFT_EDGE,
+		SELF_VIEW_TOP_EDGE,
+		__WINDOW_RESIZE_BORDER_WIDTH,
+		SELF_HEIGHT
+	);
+
+	__size_rect_right.set(
+		SELF_VIEW_RIGHT_EDGE - __WINDOW_RESIZE_BORDER_WIDTH,
+		SELF_VIEW_TOP_EDGE,
+		__WINDOW_RESIZE_BORDER_WIDTH,
+		SELF_HEIGHT
+	);
+
+	//if (draw_on_gui) {
+	//	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
+	//} else
+	//	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
 }
 
 /// @function					scribble_add_title_effects(titletext)
@@ -66,11 +224,8 @@ __draw_self = function() {
 			disty = ninetop + ninebottom;
 			image_xscale = max(__startup_xscale, (max(min_width, max(__scribble_text.get_width(),  __scribble_title.get_width()))  + distx) / sprite_get_width(sprite_index));
 			image_yscale = max(__startup_yscale, (max(min_height,max(__scribble_text.get_height(), __scribble_title.get_height())) + disty) / sprite_get_height(sprite_index));
-			// TODO: Warum hab ich das getan? Das ergibt keinen Sinn... Einfach löschen wenn Spiel fertig und es keine bekannten Bugs gibt
-			//__startup_xscale = image_xscale;
-			//__startup_yscale = image_yscale;
-		
-			__setup_drag_rect(ninetop);
+vlog("*** draw ***");
+			__setup_drag_rect();
 			edges.update(nine);
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
 		} else {

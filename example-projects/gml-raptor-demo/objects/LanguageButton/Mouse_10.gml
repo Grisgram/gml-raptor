@@ -3,5 +3,6 @@ event_inherited();
 
 if (!visible) exit;
 
-window_set_cursor(cr_handpoint);
+if (MOUSE_CURSOR == undefined)
+	window_set_cursor(cr_handpoint);
 
