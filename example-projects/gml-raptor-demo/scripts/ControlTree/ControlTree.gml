@@ -98,7 +98,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 	
 	static step_out = function() {
-		return parent;
+		return parent_tree;
 	}
 	
 	/// @function layout()
@@ -128,7 +128,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 	
 	static draw_children = function() {
-		vlog($"**** drawing children {array_length(children)} ****");
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			var inst = child.instance;

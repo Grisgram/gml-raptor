@@ -203,10 +203,8 @@ __draw_self = function() {
 		__finalize_scribble_text();
 
 	if (data.control_tree_layout == undefined || 
-		(data.control_tree != undefined && data.control_tree.parent == undefined))
+		(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
 		__draw_instance();
-	else
-		vlog($"** exit because layout={data.control_tree_layout == undefined}, tree={data.control_tree == undefined}");
 	
 }
 

@@ -124,7 +124,8 @@ __draw_self = function() {
 		__last_sprite_height	= sprite_height;
 	}
 
-	if (data.control_tree_layout == undefined)
+	if (data.control_tree_layout == undefined || 
+		(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
 		__draw_instance();
 
 }
@@ -139,4 +140,6 @@ __draw_instance = function() {
 	
 	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
+	
+	control_tree.draw_children();
 }

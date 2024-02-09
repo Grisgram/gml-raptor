@@ -10,7 +10,7 @@ function UiDemoSizableTree(_control) {
 		.add_control(Label,dock.none,anchor.none,0.5,,{ text: "Ich bin ein Label"})
 		.new_line()
 		.add_control(ImageButton,dock.none,anchor.none,,,{
-			sprite_to_use: sprLoadingSpinner, 
+			sprite_to_use: sprLG_de, 
 			on_left_click: function() {
 				msg_show_ok("It's dynamic!", "Boom! (mic drop)");
 			}

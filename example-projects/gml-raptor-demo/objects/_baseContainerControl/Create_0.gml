@@ -1,7 +1,6 @@
 /// @description build object hierarchy
 event_inherited();
 
-
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// put the tree to save data
 	if (!is_instanceof(control_tree, ControlTree)) {
@@ -22,7 +21,6 @@ onLayoutStarting = function() {
 __original_draw_instance = __draw_instance;
 
 __draw_instance = function() {
-	vlog($"**** {MY_NAME} drawing self ****");
 	__original_draw_instance();
 	control_tree.draw_children();
 }

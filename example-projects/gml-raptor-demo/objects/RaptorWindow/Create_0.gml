@@ -28,6 +28,7 @@ __scribble_title	= undefined;
 
 __x_button			= undefined;
 __x_button_closing	= undefined;
+__startup_depth		= depth;
 
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
@@ -298,7 +299,8 @@ __draw_self = function() {
 		__last_title			= title;
 	}
 
-	if (data.control_tree_layout == undefined)
+	if (data.control_tree_layout == undefined || 
+		(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
 		__draw_instance();
 	
 }
@@ -313,4 +315,6 @@ __draw_instance = function() {
 	
 	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
+	
+	control_tree.draw_children();
 }
