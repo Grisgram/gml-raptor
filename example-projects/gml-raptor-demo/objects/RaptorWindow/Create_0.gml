@@ -47,7 +47,7 @@ if (window_is_sizable && image_number > 1)
 	image_index = 1;
 
 if (window_x_button_visible && !is_null(window_x_button_object)) {
-	__x_button = instance_create(0, 0, layer_or_depth(layer), window_x_button_object);
+	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
 	//__x_button.depth = depth - 1;
 	__x_button.attach_to_window(self);
 	__x_button_closing = __x_button.on_left_click;
@@ -201,6 +201,14 @@ __setup_drag_rect = function() {
 	//	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
 }
 
+onLayoutStarting = function() {
+	data.client_area.set(
+		__WINDOW_RESIZE_BORDER_WIDTH, 
+		titlebar_height + __WINDOW_RESIZE_BORDER_WIDTH / 2, 
+		sprite_width - 2 * __WINDOW_RESIZE_BORDER_WIDTH,
+		sprite_height - titlebar_height - 1.5 * __WINDOW_RESIZE_BORDER_WIDTH);
+}
+
 close = function() {
 	instance_destroy(self);
 }
@@ -226,7 +234,7 @@ __create_scribble_title_object = function(align, str) {
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (__force_redraw || x != xprevious || y != yprevious || __last_text != text || __last_title != title || sprite_index != __last_sprite_index) {
+	if (CONTROL_NEED_LAYOUT || __last_title != title) {
 		__force_redraw = false;
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
@@ -283,11 +291,19 @@ __draw_self = function() {
 		if      (string_pos("[fa_top]",    scribble_title_align) != 0) __title_y = SELF_VIEW_TOP_EDGE      + title_yoffset;
 		else if (string_pos("[fa_bottom]", scribble_title_align) != 0) __title_y = titlebar_height         - title_yoffset;
 
-		__last_text = text;
-		__last_sprite_index = sprite_index;
-		__last_title = title;
+		__last_text				= text;
+		__last_sprite_index		= sprite_index;
+		__last_sprite_width		= sprite_width;
+		__last_sprite_height	= sprite_height;
+		__last_title			= title;
 	}
+
+	if (data.control_tree_layout == undefined)
+		__draw_instance();
 	
+}
+
+__draw_instance = function() {
 	if (sprite_index != -1) {
 		image_blend = draw_color;
 		draw_self();
@@ -297,5 +313,4 @@ __draw_self = function() {
 	
 	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
-	
 }

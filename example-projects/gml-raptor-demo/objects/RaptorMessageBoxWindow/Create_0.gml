@@ -10,7 +10,7 @@ button_offset_from_bottom = 12;
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (__force_redraw || x != xprevious || y != yprevious || __last_text != text || __last_title != title || sprite_index != __last_sprite_index) {
+	if (CONTROL_NEED_LAYOUT || __last_title != title) {
 		__force_redraw = false;
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
@@ -67,9 +67,9 @@ __draw_self = function() {
 		if      (string_pos("[fa_top]",    scribble_title_align) != 0) __title_y = SELF_VIEW_TOP_EDGE      + title_yoffset;
 		else if (string_pos("[fa_bottom]", scribble_title_align) != 0) __title_y = titlebar_height         - title_yoffset;
 
-		__last_text = text;
-		__last_sprite_index = sprite_index;
-		__last_title = title;
+		__last_text				= text;
+		__last_sprite_index		= sprite_index;
+		__last_title			= title;
 		
 		var maxh = 0;
 		var sumwidth = distance_between_buttons * (array_length(buttons) - 1);
@@ -119,8 +119,17 @@ __draw_self = function() {
 		else if (string_pos("[fa_right]",  scribble_text_align) != 0) __text_x = SELF_VIEW_RIGHT_EDGE - text_xoffset - nineright;
 		if      (string_pos("[fa_middle]", scribble_text_align) != 0) __text_y = area_top + (button_min_y - area_top) / 2 + text_yoffset;
 		else if (string_pos("[fa_bottom]", scribble_text_align) != 0) __text_y = button_min_y - text_yoffset;
+		
+		__last_sprite_width		= sprite_width;
+		__last_sprite_height	= sprite_height;
 	}
-	
+
+	if (data.control_tree_layout == undefined)
+		__draw_instance();
+
+}
+
+__draw_instance = function() {
 	if (sprite_index != -1) {
 		image_blend = draw_color;
 		draw_self();
@@ -130,5 +139,4 @@ __draw_self = function() {
 	
 	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
-
 }

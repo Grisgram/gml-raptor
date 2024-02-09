@@ -21,8 +21,8 @@
     "path": "folders/_gml_raptor_/UI/controls.yy",
   },
   "parentObjectId": {
-    "name": "_baseControl",
-    "path": "objects/_baseControl/_baseControl.yy",
+    "name": "_baseContainerControl",
+    "path": "objects/_baseContainerControl/_baseContainerControl.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,
@@ -51,7 +51,7 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"window_is_sizable","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":3,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_xoffset","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_yoffset","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":0,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"titlebar_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"32","varType":0,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"titlebar_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"34","varType":0,},
   ],
   "solid": false,
   "spriteId": {

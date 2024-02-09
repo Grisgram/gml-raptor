@@ -22,10 +22,6 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 	}
 }
 
-function layer_or_depth(_layer) {
-	return (layer == -1) ? depth : layer_get_name(_layer);
-}
-
 function __set_tile_data(data, tile_idx = undefined, flip = undefined, rotate = undefined, mirror = undefined) {
 	if (tile_idx != undefined) data = tile_set_index(data, tile_idx);
 	if (flip     != undefined) data = tile_set_flip(data, flip);

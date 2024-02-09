@@ -1,0 +1,5 @@
+/// @description event
+event_inherited();
+
+if (!is_null(control_tree))
+	control_tree.clean_up();

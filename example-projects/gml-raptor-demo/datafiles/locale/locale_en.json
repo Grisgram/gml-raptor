@@ -73,7 +73,8 @@
       "playground_button": "Grisgram's domain.\nIn this room I test some features of raptor.\nIt's not translated, no user guidance, it's... my playground!",
       "animation": "You see here an animation that is done with a single line of code,\nbased on AnimCurves.\nThe particle emitters are codeless and are done with the\nParticleEditor tool (see [ci_accent]raptor wiki[/] for more information)"
     },
-    "start_playground": "[scale,1.25]Dev Playground"
+    "start_playground": "[scale,1.25]Dev Playground",
+    "start_uidemo": "[scale,1.25]Start UI Demo"
   },
   "play": {
     "how_to_play_states": {
@@ -96,5 +97,10 @@
       "race_start_button": "[scale,1.25]Run",
       "race_exit_button": "[scale,1.25]Exit Demo"
     }
+  },
+  "ui_demo": {
+    "show_sizeable": "[scale,1.25]Sizable Window (empty)",
+    "sizable_window_title": "A sizable window",
+    "control_tree": "[scale,1.25]Control Layouts"
   }
 }

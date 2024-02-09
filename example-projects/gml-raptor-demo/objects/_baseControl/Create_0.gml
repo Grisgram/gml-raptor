@@ -1,11 +1,21 @@
 /// @description scribblelize text
 
+#macro CONTROL_NEED_LAYOUT (__force_redraw || x != xprevious || y != yprevious || \
+							__last_text != text || sprite_index != __last_sprite_index || \
+							sprite_width != __last_sprite_width || sprite_height != __last_sprite_height)
+
 event_inherited();
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
 edges = new Edges(self);
 
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
+
+if (!SAVEGAME_LOAD_IN_PROGRESS) {
+	// layout data is part of the savegame, if this one gets saved
+	data.control_tree = undefined;
+	data.control_tree_layout = undefined;
+}
 
 /// @function update_startup_coordinates()
 /// @description Invoke this if you did create the control dynamically at runtime 
@@ -23,6 +33,8 @@ update_startup_coordinates = function() {
 update_startup_coordinates();
 
 __last_sprite_index			= undefined;
+__last_sprite_width			= sprite_width;
+__last_sprite_height		= sprite_height;
 __last_text					= "";
 __scribble_text				= undefined;
 __text_x					= 0;
@@ -126,7 +138,7 @@ __apply_post_positioning = function() {
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (__force_redraw || x != xprevious || y != yprevious || __last_text != text || sprite_index != __last_sprite_index) {
+	if (CONTROL_NEED_LAYOUT) {
 		__force_redraw = false;
 
 		if (sprite_index == -1)
@@ -183,11 +195,22 @@ __draw_self = function() {
 
 		__apply_post_positioning();
 
-		__last_text = text;
-		__last_sprite_index = sprite_index;
+		__last_text				= text;
+		__last_sprite_index		= sprite_index;
+		__last_sprite_width		= sprite_width;
+		__last_sprite_height	= sprite_height;
 	} else
 		__finalize_scribble_text();
 
+	if (data.control_tree_layout == undefined || 
+		(data.control_tree != undefined && data.control_tree.parent == undefined))
+		__draw_instance();
+	else
+		vlog($"** exit because layout={data.control_tree_layout == undefined}, tree={data.control_tree == undefined}");
+	
+}
+
+__draw_instance = function() {
 	if (sprite_index != -1) {
 		if (!is_enabled) {
 			__disabled_surface_width = sprite_width;
@@ -232,4 +255,3 @@ __draw_self = function() {
 		}
 	}
 }
-

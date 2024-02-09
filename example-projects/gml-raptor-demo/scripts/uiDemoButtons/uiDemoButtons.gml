@@ -1,0 +1,27 @@
+/*
+    short description here
+*/
+
+function messageboxButton_click() {
+	msg_show_ok_cancel("=main_menu/demo_message/title", "=main_menu/demo_message/text",
+		function() {
+			msg_show_ok("=main_menu/demo_message/click_title","=main_menu/demo_message/ok_clicked");
+		},
+		function() {
+			msg_show_ok("=main_menu/demo_message/click_title","=main_menu/demo_message/cancel_clicked");
+		}
+	);
+}
+
+
+function ui_demo_exit_click() {
+	room_goto(rmMain);
+}
+
+function ui_demo_sizable_window_click() {
+	instance_create(SELF_VIEW_RIGHT_EDGE + 64, SELF_VIEW_TOP_EDGE, SELF_LAYER_OR_DEPTH, DemoSizeableWindow);
+}
+
+function ui_demo_control_tree_click() {
+	instance_create(SELF_VIEW_RIGHT_EDGE + 64, SELF_VIEW_TOP_EDGE, SELF_LAYER_OR_DEPTH, DemoSizeableTree);
+}

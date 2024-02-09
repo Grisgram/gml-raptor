@@ -89,9 +89,32 @@ function is_child_of(child, parent) {
 ///								var instname = name_of(my_instance) ?? "my default";
 /// @param {object_index} _instance	The instance to retrieve the name of.
 function name_of(_instance, _with_ref_id = true) {
-	if (_instance != undefined)
+	if (!is_null(_instance))
 		with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
 	return undefined;
+}
+
+/// @function					layer_of(_instance)
+/// @description				retrieve the layer name or depth of _instance
+///								if instance is nullish, -1 is returned (gms default for "no layer")
+function layer_of(_instance) {
+	if (!is_null(_instance))
+		with(_instance) return SELF_LAYER_OR_DEPTH;
+	return -1;
+}
+
+/// @function construct_or_invoke(_script)
+/// @description	Now, that's an ugly one, I know, but at the moment of writing this, GameMaker
+///					has no way to tell normal functions apart from constructors.
+///					There's not other way, to find out, as to fall in a catch if constructing fails.
+function construct_or_invoke(_script,_fake) {
+	var res;
+	try {
+		res = new _script(_fake);
+	} catch (_) {
+		res = _script(_fake);
+	}
+	return res;
 }
 
 /// @function		run_delayed(owner, delay, func, data = undefined)
