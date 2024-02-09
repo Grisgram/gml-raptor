@@ -125,6 +125,7 @@ __draw_self = function() {
 		image_blend = draw_color;
 		draw_self();
 		image_blend = c_white;
+		if (!is_null(__x_button)) with(__x_button) __draw_self();
 	}
 	
 	if (text  != "") __scribble_text .draw(__text_x,  __text_y );

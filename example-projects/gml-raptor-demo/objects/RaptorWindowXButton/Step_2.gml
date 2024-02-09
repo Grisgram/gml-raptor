@@ -1,6 +1,6 @@
 /// @description align to my window
-
 event_inherited();
+
 with (message_window) {
 	if (!other.__nine_slice_calculated) {
 		var nine = sprite_get_nineslice(sprite_index);
