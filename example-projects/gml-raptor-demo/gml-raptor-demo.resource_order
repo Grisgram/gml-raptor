@@ -81,9 +81,9 @@
     {"name":"menu","order":1,"path":"folders/Sprites/menu.yy",},
     {"name":"play-race-demo","order":3,"path":"folders/Sprites/play-race-demo.yy",},
     {"name":"play-state-demo","order":2,"path":"folders/Sprites/play-state-demo.yy",},
+    {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"CanvasIsCanvas","order":4,"path":"scripts/CanvasIsCanvas/CanvasIsCanvas.yy",},

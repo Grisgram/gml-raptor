@@ -4,7 +4,7 @@ if (!gui_mouse.event_redirection_active || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_
 
 if (mouse_is_over) {
 	if (!__MOUSE_OVER_FOCUS_WINDOW)
-		take_focus();
+		take_focus(true);
 	if (!has_focus) exit;
 	
 	if (window_is_movable && __drag_rect.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {

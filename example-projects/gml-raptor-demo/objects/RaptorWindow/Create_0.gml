@@ -33,6 +33,7 @@ title				= LG_resolve(title);
 
 has_focus			= false;
 __can_draw_focus	= image_number > image_index;
+__focus_index		= -1;
 
 __last_title		= "";
 __title_x			= 0;
@@ -74,6 +75,8 @@ if (window_x_button_visible && !is_null(window_x_button_object)) {
 		close();
 	}
 }
+
+#region sizable window
 
 __do_sizing = function() {
 	var recalc = true;
@@ -214,21 +217,97 @@ __setup_drag_rect = function() {
 	//	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
 }
 
-lose_focus = function() {
-	has_focus = false;
-	depth = __startup_depth;
+#endregion
+
+#region focus chain
+
+__focus_next_in_chain = function() {
+	var win = undefined;
+	var maxidx = -1;
+	with(RaptorWindow) {
+		if (!eq(self, other) && __focus_index > maxidx) {
+			maxidx = __focus_index;
+			win = self;
+		}
+	}
+	if (maxidx > -1 && win != undefined)
+		with(win) take_focus();
 }
 
-take_focus = function() {
-	if (__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING) return;
+__reorder_focus_index = function(_old_idx) {
+	with(RaptorWindow) {
+		if (!eq(self, other) && __focus_index > _old_idx)
+			__focus_index--;
+	}
+	// to avoid a (theoretically possible) endless loop here,
+	// we stop after n iterations, where n = instance_number(RaptorWindow)
+	var maxiter = instance_number(RaptorWindow);
+	var curiter = 0;
+	var have_doubles = true;
+	while (have_doubles) {
+		var seen = [];
+		have_doubles = false;
+		with(RaptorWindow) {
+			if (!array_contains(seen, __focus_index))
+				array_push(seen, __focus_index);
+			else {
+				have_doubles = true;
+				__focus_index--;
+			}
+		}
+		// exit after n iterations
+		if (++curiter == maxiter)
+			break;
+	}
+	// last step: set the depth of the windows
+	with(RaptorWindow) {
+		depth = __startup_depth - 1 - __focus_index;
+	}
+	// -- debug output --
+	//vlog($"--- FOCUS INDEX REPORT ---");
+	//with(RaptorWindow)
+	//	vlog($"--- {__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+}
+
+lose_focus = function() {
+	has_focus = false;
+	//depth = __startup_depth;
+}
+
+take_focus = function(_only_if_topmost = false) {
+	if (__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING) 
+		return;
+	
+	//if (_only_if_topmost) {
+	//	var allwins = ds_list_create();
+	//	if (instance_place_list(GUI_MOUSE_X, GUI_MOUSE_Y, RaptorWindow, allwins, false) > 1) {
+	//		var mindepth = 16000;
+	//		for (var i = 0, len = ds_list_size(allwins); i < len; i++) {
+	//			if (allwins[|i].has_focus) continue;
+	//			mindepth = min(mindepth, allwins[|i].depth);
+	//		}
+	//		ds_list_destroy(allwins);
+	//		if (mindepth != depth)
+	//			return;
+	//	}
+	//}
+	
+	vlog($"Window {MY_NAME} taking focus");
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = true;
+	
 	with(RaptorWindow) lose_focus();
 	has_focus = true;
-	depth = __startup_depth - 1;
-	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
+	//depth = __startup_depth - 1;
 	__RAPTOR_FOCUS_WINDOW = self;
+	var maxidx = instance_number(RaptorWindow) - 1;
+	var myidx = (__focus_index >= 0 ? __focus_index : maxidx);
+	__focus_index = maxidx;
+	__reorder_focus_index(myidx);
+	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
 }
 take_focus(); // we take focus on creation
+
+#endregion
 
 close = function() {
 	instance_destroy(self);

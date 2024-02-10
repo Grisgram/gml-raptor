@@ -44,6 +44,8 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"is_enabled","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_enabled_changed","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"font_to_use","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":2,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"startup_width","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"-1","varType":0,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"startup_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"-1","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"min_width","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"min_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"scribble_text_align","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"[fa_middle][fa_center]","varType":2,},
@@ -54,8 +56,6 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"adopt_object_properties","filters":[],"listItems":[
         "\"Item 0\"",
       ],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"adopt_properties.none","varType":4,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"startup_width","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"-1","varType":0,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"startup_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"-1","varType":0,},
   ],
   "solid": false,
   "spriteId": null,

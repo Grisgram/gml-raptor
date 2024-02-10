@@ -99,6 +99,7 @@ __draw_self = function() {
 		var ypos = SELF_VIEW_BOTTOM_EDGE - button_offset_from_bottom;
 		var buttondist = distance_between_buttons;
 		var button_min_y = ypos;
+		gpu_set_depth(depth - 1);
 		for (var i = 0; i < array_length(buttons); i++) {
 			with (buttons[i]) {
 				with (__button) {
@@ -112,6 +113,7 @@ __draw_self = function() {
 				}
 			}
 		}
+		gpu_set_depth(depth);
 		
 		// re-position the text and title to the new width and height
 		var area_top = edges.ninesliced.top;

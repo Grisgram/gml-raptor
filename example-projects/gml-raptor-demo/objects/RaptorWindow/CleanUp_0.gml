@@ -8,6 +8,6 @@ if (!is_null(__x_button)) {
 
 if (eq(self, __RAPTOR_FOCUS_WINDOW)) {
 	__RAPTOR_FOCUS_WINDOW = undefined;
-	with (RaptorWindow) take_focus();
+	__focus_next_in_chain();
 }
 	
