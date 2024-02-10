@@ -42,6 +42,7 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_color","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"scribble_title_align","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"[fa_middle][fa_left]","varType":2,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"focus_border_color","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_ACCENT","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"window_x_button_visible","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"window_x_button_object","filters":[
         "GMObject",

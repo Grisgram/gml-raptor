@@ -10,7 +10,7 @@ button_offset_from_bottom = 12;
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (CONTROL_NEED_LAYOUT || __last_title != title) {
+	if (__CONTROL_NEEDS_LAYOUT || __last_title != title) {
 		__force_redraw = false;
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
@@ -122,24 +122,10 @@ __draw_self = function() {
 		
 		__last_sprite_width		= sprite_width;
 		__last_sprite_height	= sprite_height;
+		
+		__update_client_area();		
 	}
 
-	if (data.control_tree_layout == undefined || 
-		(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
+	if (__CONTROL_DRAWS_SELF)
 		__draw_instance();
-
-}
-
-__draw_instance = function() {
-	if (sprite_index != -1) {
-		image_blend = draw_color;
-		draw_self();
-		image_blend = c_white;
-		if (!is_null(__x_button)) with(__x_button) __draw_self();
-	}
-	
-	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
-	if (title != "") __scribble_title.draw(__title_x, __title_y);
-	
-	control_tree.draw_children();
 }

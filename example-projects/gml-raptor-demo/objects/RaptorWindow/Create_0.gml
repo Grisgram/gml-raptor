@@ -19,7 +19,20 @@ event_inherited();
 
 #macro __WINDOW_RESIZE_BORDER_WIDTH		8
 
-title = LG_resolve(title);
+#macro __MOUSE_OVER_FOCUS_WINDOW		(__RAPTOR_FOCUS_WINDOW != undefined && __RAPTOR_FOCUS_WINDOW.mouse_is_over)
+
+#macro __RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING		global.__raptor_window_focus_change_running
+#macro __RAPTOR_FOCUS_WINDOW					global.__raptor_focus_window
+__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING	= false;
+__RAPTOR_FOCUS_WINDOW					= undefined;
+
+if (window_is_sizable && image_number > 2)
+	image_index = 2;
+
+title				= LG_resolve(title);
+
+has_focus			= false;
+__can_draw_focus	= image_number > image_index;
 
 __last_title		= "";
 __title_x			= 0;
@@ -28,6 +41,7 @@ __scribble_title	= undefined;
 
 __x_button			= undefined;
 __x_button_closing	= undefined;
+
 __startup_depth		= depth;
 
 __in_drag_mode		= false;
@@ -43,9 +57,6 @@ __size_direction	= 0;
 __size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
 // _dc = default cursor (gamemaker cr_ constants)
 __size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,-1,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
-
-if (window_is_sizable && image_number > 1)
-	image_index = 1;
 
 if (window_x_button_visible && !is_null(window_x_button_object)) {
 	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
@@ -111,7 +122,7 @@ __do_sizing = function() {
 // Find the windows' sizing areas
 // we need to check all 4 borders and in each of them the adjacent sides to find the diagonals
 __find_sizing_area = function() {
-
+	if (!has_focus) return;
 	if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
 		
 		if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 7;
@@ -147,6 +158,7 @@ __find_sizing_area = function() {
 }
 
 __set_sizing_cursor = function() {
+	if (!has_focus) return;
 	if (MOUSE_CURSOR != undefined)
 		if (__size_direction == 0)
 			MOUSE_CURSOR.set_cursor(mouse_cursor_type.pointer);
@@ -202,13 +214,21 @@ __setup_drag_rect = function() {
 	//	__drag_rect.set(SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, SELF_WIDTH, titlebar_height);
 }
 
-onLayoutStarting = function() {
-	data.client_area.set(
-		__WINDOW_RESIZE_BORDER_WIDTH, 
-		titlebar_height + __WINDOW_RESIZE_BORDER_WIDTH / 2, 
-		sprite_width - 2 * __WINDOW_RESIZE_BORDER_WIDTH,
-		sprite_height - titlebar_height - 1.5 * __WINDOW_RESIZE_BORDER_WIDTH);
+lose_focus = function() {
+	has_focus = false;
+	depth = __startup_depth;
 }
+
+take_focus = function() {
+	if (__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING) return;
+	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = true;
+	with(RaptorWindow) lose_focus();
+	has_focus = true;
+	depth = __startup_depth - 1;
+	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
+	__RAPTOR_FOCUS_WINDOW = self;
+}
+take_focus(); // we take focus on creation
 
 close = function() {
 	instance_destroy(self);
@@ -220,6 +240,14 @@ close = function() {
 /// @param {struct} titletext
 scribble_add_title_effects = function(titletext) {
 	// example: titletext.blend(c_blue, 1); // where ,1 is alpha
+}
+
+__update_client_area = function() {
+	data.client_area.set(
+		__WINDOW_RESIZE_BORDER_WIDTH, 
+		titlebar_height + __WINDOW_RESIZE_BORDER_WIDTH / 2, 
+		sprite_width - 2 * __WINDOW_RESIZE_BORDER_WIDTH,
+		sprite_height - titlebar_height - 1.5 * __WINDOW_RESIZE_BORDER_WIDTH);
 }
 
 /// @function					__create_scribble_title_object(align, str)
@@ -235,7 +263,7 @@ __create_scribble_title_object = function(align, str) {
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (CONTROL_NEED_LAYOUT || __last_title != title) {
+	if (__CONTROL_NEEDS_LAYOUT || __last_title != title) {
 		__force_redraw = false;
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
@@ -297,12 +325,12 @@ __draw_self = function() {
 		__last_sprite_width		= sprite_width;
 		__last_sprite_height	= sprite_height;
 		__last_title			= title;
+		
+		__update_client_area();		
 	}
 
-	if (data.control_tree_layout == undefined || 
-		(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
+	if (__CONTROL_DRAWS_SELF)
 		__draw_instance();
-	
 }
 
 __draw_instance = function() {
@@ -310,11 +338,23 @@ __draw_instance = function() {
 		image_blend = draw_color;
 		draw_self();
 		image_blend = c_white;
+		if (has_focus && __can_draw_focus)
+			draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
 		if (!is_null(__x_button)) with(__x_button) __draw_self();
 	}
 	
 	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
 	
+	if (__first_draw) {
+		__first_draw = false;
+		control_tree.layout();
+	}
+
 	control_tree.draw_children();
+	
+	// this code draws the client area in red, if one day there's a bug with alignment
+	//draw_set_color(c_red);
+	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	//draw_set_color(c_white);
 }

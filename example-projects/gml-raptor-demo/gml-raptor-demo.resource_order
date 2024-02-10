@@ -83,6 +83,7 @@
     {"name":"play-state-demo","order":2,"path":"folders/Sprites/play-state-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
+    {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"CanvasIsCanvas","order":4,"path":"scripts/CanvasIsCanvas/CanvasIsCanvas.yy",},
@@ -290,6 +291,7 @@
     {"name":"LinqArray","order":13,"path":"scripts/LinqArray/LinqArray.yy",},
     {"name":"sprDefaultMouseCursorSizing","order":18,"path":"sprites/sprDefaultMouseCursorSizing/sprDefaultMouseCursorSizing.yy",},
     {"name":"__scribble_gen_5_finalize_bidi","order":5,"path":"scripts/__scribble_gen_5_finalize_bidi/__scribble_gen_5_finalize_bidi.yy",},
+    {"name":"sprSnowflake","order":1,"path":"sprites/sprSnowflake/sprSnowflake.yy",},
     {"name":"CanvasDrawer","order":5,"path":"objects/CanvasDrawer/CanvasDrawer.yy",},
     {"name":"scribble_anim_cycle","order":1,"path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},
     {"name":"PlayRoomController","order":1,"path":"objects/PlayRoomController/PlayRoomController.yy",},

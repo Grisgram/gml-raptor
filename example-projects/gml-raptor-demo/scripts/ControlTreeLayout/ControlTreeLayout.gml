@@ -22,8 +22,8 @@ function ControlTreeLayout() constructor {
 		return self;
 	}
 	
-	/// @function spread_to_control(_inst, _control)
-	static spread_to_control = function(_inst, _control) {
+	/// @function align_in_control(_inst, _control)
+	static align_in_control = function(_inst, _control) {
 		update_control_size(_control);
 		if (spreadx != -1) {
 			var sx = spreadx;

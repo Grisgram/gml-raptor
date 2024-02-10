@@ -1,6 +1,8 @@
 /// @description build object hierarchy
 event_inherited();
 
+__first_draw = true;
+
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// put the tree to save data
 	if (!is_instanceof(control_tree, ControlTree)) {
@@ -12,15 +14,13 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 }
 
-/// @function onLayoutStarting()
-/// @description	Invoked when layouting the container starts.
-//					Adapt any values for the layout, if needed, here (like the client_area)
-onLayoutStarting = function() {
-}
-
 __original_draw_instance = __draw_instance;
 
 __draw_instance = function() {
 	__original_draw_instance();
+	if (__first_draw) {
+		__first_draw = false;
+		control_tree.layout();
+	}
 	control_tree.draw_children();
 }

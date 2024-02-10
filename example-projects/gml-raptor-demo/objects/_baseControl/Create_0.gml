@@ -1,8 +1,11 @@
 /// @description scribblelize text
 
-#macro CONTROL_NEED_LAYOUT (__force_redraw || x != xprevious || y != yprevious || \
+#macro __CONTROL_NEEDS_LAYOUT (__force_redraw || x != xprevious || y != yprevious || \
 							__last_text != text || sprite_index != __last_sprite_index || \
 							sprite_width != __last_sprite_width || sprite_height != __last_sprite_height)
+
+#macro __CONTROL_DRAWS_SELF (data.control_tree_layout == undefined || \
+							(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
 
 event_inherited();
 gui_mouse = new GuiMouseTranslator();
@@ -138,7 +141,7 @@ __apply_post_positioning = function() {
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (CONTROL_NEED_LAYOUT) {
+	if (__CONTROL_NEEDS_LAYOUT) {
 		__force_redraw = false;
 
 		if (sprite_index == -1)
@@ -202,10 +205,8 @@ __draw_self = function() {
 	} else
 		__finalize_scribble_text();
 
-	if (data.control_tree_layout == undefined || 
-		(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
+	if (__CONTROL_DRAWS_SELF)
 		__draw_instance();
-	
 }
 
 __draw_instance = function() {

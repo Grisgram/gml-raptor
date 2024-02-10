@@ -40,7 +40,7 @@
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			GAME_FILE_PREFIX + "_game_settings.json"
+#macro GAME_SETTINGS_FILENAME			GAME_FILE_PREFIX + GML_RAPTOR_VERSION + "_game_settings.json"
 #macro FILE_CRYPT_KEY					""
 // To avoid conflicts between encrypted and plaing settings files, give
 // the file in release mode a different name

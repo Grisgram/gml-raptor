@@ -104,6 +104,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"play-state-demo","folderPath":"folders/Sprites/play-state-demo.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"ui-demo","folderPath":"folders/Sprites/ui-demo.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_2.4_settings.gsx","ConfigValues":{"release":{"CopyToMask":"3035426170322551022",},},"CopyToMask":-1,"filePath":"datafiles",},
@@ -152,6 +153,7 @@
     {"id":{"name":"SnapToCSV","path":"scripts/SnapToCSV/SnapToCSV.yy",},},
     {"id":{"name":"scribble_font_get_glyph_ranges","path":"scripts/scribble_font_get_glyph_ranges/scribble_font_get_glyph_ranges.yy",},},
     {"id":{"name":"PersistentGameController","path":"objects/PersistentGameController/PersistentGameController.yy",},},
+    {"id":{"name":"sprUiDemoBackground","path":"sprites/sprUiDemoBackground/sprUiDemoBackground.yy",},},
     {"id":{"name":"sprDefaultLabelShadowed","path":"sprites/sprDefaultLabelShadowed/sprDefaultLabelShadowed.yy",},},
     {"id":{"name":"scribble_super_create","path":"scripts/scribble_super_create/scribble_super_create.yy",},},
     {"id":{"name":"string_height_scribble_ext","path":"scripts/string_height_scribble_ext/string_height_scribble_ext.yy",},},
@@ -363,6 +365,7 @@
     {"id":{"name":"LinqArray","path":"scripts/LinqArray/LinqArray.yy",},},
     {"id":{"name":"sprDefaultMouseCursorSizing","path":"sprites/sprDefaultMouseCursorSizing/sprDefaultMouseCursorSizing.yy",},},
     {"id":{"name":"__scribble_gen_5_finalize_bidi","path":"scripts/__scribble_gen_5_finalize_bidi/__scribble_gen_5_finalize_bidi.yy",},},
+    {"id":{"name":"sprSnowflake","path":"sprites/sprSnowflake/sprSnowflake.yy",},},
     {"id":{"name":"CanvasDrawer","path":"objects/CanvasDrawer/CanvasDrawer.yy",},},
     {"id":{"name":"scribble_anim_cycle","path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},},
     {"id":{"name":"PlayRoomController","path":"objects/PlayRoomController/PlayRoomController.yy",},},

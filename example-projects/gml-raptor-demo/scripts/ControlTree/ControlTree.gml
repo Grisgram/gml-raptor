@@ -41,9 +41,15 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
 		if (!is_child_of(_control, _baseContainerControl))
-			throw("Binding target of a ControlTree must be a _baseContainerControl (Panel, Window, ...)!");
+			throw("Binding target of a ControlTree must be a _baseContainerControl (Window, Panel, ...)!");
 			
 		control = _control;
+		return self;
+	}
+	
+	/// @function set_margin_all(_margin)
+	static set_margin_all = function(_margin) {
+		set_margin(_margin, _margin, _margin, _margin);
 		return self;
 	}
 	
@@ -53,6 +59,12 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		margin_top		= _margin_top;
 		margin_right	= _margin_right;
 		margin_bottom	= _margin_bottom;
+		return self;
+	}
+	
+	/// @function set_padding_all(_padding)
+	static set_padding_all = function(_padding) {
+		set_padding(_padding, _padding, _padding, _padding);
 		return self;
 	}
 	
@@ -101,12 +113,17 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return parent_tree;
 	}
 	
+	static finish = function() {
+		layout();
+		return self;
+	}
+	
 	/// @function layout()
 	/// @description	performs layouting of all child controls. invoked when the control
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function() {
-		control.onLayoutStarting();
+		vlog($"*** {name_of(control)}");
 		control_size.set(control.sprite_width, control.sprite_height);
 		var runx = control.x + control.data.client_area.left + margin_left;
 		var runy = control.y + control.data.client_area.top  + margin_top;
@@ -116,7 +133,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var inst = child.instance;
 			inst.x = runx + padding_left + inst.sprite_xoffset;
 			inst.y = runy + padding_top  + inst.sprite_yoffset;
-			inst.data.control_tree_layout.spread_to_control(inst, control);
+			inst.data.control_tree_layout.align_in_control(inst, control);
 			if (is_child_of(inst, _baseContainerControl))
 				inst.data.control_tree.layout();
 			if (child.newline_after) {

@@ -9,7 +9,7 @@
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"title","path":"objects/RaptorWindow/RaptorWindow.yy",},"value":"=ui_demo/sizable_window_title",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"value":"320",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"value":"200",},
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseContainerControl","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"propertyId":{"name":"control_tree","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"value":"UiDemoSizableTree",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseContainerControl","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"propertyId":{"name":"control_tree","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"value":"CreateUiDemoSizableTree",},
   ],
   "parent": {
     "name": "ui_demo",

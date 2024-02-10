@@ -19,9 +19,9 @@ function ui_demo_exit_click() {
 }
 
 function ui_demo_sizable_window_click() {
-	instance_create(SELF_VIEW_RIGHT_EDGE + 64, SELF_VIEW_TOP_EDGE, SELF_LAYER_OR_DEPTH, DemoSizeableWindow);
+	instance_create(VIEW_CENTER_X - 128, VIEW_CENTER_Y - 128, SELF_LAYER_OR_DEPTH, DemoSizeableWindow);
 }
 
 function ui_demo_control_tree_click() {
-	instance_create(SELF_VIEW_RIGHT_EDGE + 64, SELF_VIEW_TOP_EDGE, SELF_LAYER_OR_DEPTH, DemoSizeableTree);
+	instance_create(VIEW_CENTER_X - 128, VIEW_CENTER_Y - 128, SELF_LAYER_OR_DEPTH, DemoSizeableTree);
 }
