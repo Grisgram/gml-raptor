@@ -27,13 +27,23 @@ function ControlTreeLayout() constructor {
 		update_control_size(_control);
 		if (spreadx != -1) {
 			var sx = spreadx;
+			var netto = _control.data.client_area.width -
+						_control.data.control_tree.margin_left -
+						_control.data.control_tree.padding_left -
+						_control.data.control_tree.margin_right -
+						_control.data.control_tree.padding_right;
 			with(_inst) 
-				scale_sprite_to(_control.sprite_width * sx, sprite_height);
+				scale_sprite_to(netto * sx, sprite_height);
 		}
 		if (spready != -1) {
 			var sy = spready;
+			var netto = _control.data.client_area.width -
+						_control.data.control_tree.margin_top -
+						_control.data.control_tree.padding_top -
+						_control.data.control_tree.margin_bottom -
+						_control.data.control_tree.padding_bottom;
 			with(_inst)
-				scale_sprite_to(sprite_width, _control.sprite_height * sy);
+				scale_sprite_to(sprite_width, netto * sy);
 		}
 	}
 	

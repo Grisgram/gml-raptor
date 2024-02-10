@@ -113,24 +113,20 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return parent_tree;
 	}
 	
-	static finish = function() {
-		layout();
-		return self;
-	}
-	
 	/// @function layout()
 	/// @description	performs layouting of all child controls. invoked when the control
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function() {
-		vlog($"*** {name_of(control)}");
 		control_size.set(control.sprite_width, control.sprite_height);
 		var runx = control.x + control.data.client_area.left + margin_left;
 		var runy = control.y + control.data.client_area.top  + margin_top;
+		var maxh = 0;
 		
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			var inst = child.instance;
+			maxh = max(maxh, inst.sprite_height + 1 + padding_bottom + margin_bottom);
 			inst.x = runx + padding_left + inst.sprite_xoffset;
 			inst.y = runy + padding_top  + inst.sprite_yoffset;
 			inst.data.control_tree_layout.align_in_control(inst, control);
@@ -138,7 +134,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				inst.data.control_tree.layout();
 			if (child.newline_after) {
 				runx = control.x + control.data.client_area.left + margin_left;
-				runy += inst.sprite_height + 1 + padding_bottom + margin_bottom;
+				runy += maxh;
+				maxh = 0;
 			} else
 				runx += inst.sprite_width + 1 + padding_right + margin_right;
 		}

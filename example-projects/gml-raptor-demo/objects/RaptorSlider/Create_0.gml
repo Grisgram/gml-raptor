@@ -18,9 +18,14 @@ enum slider_autotext {
 	text_is_percent = 2
 }
 
+var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+var h = (startup_height >= 0 ? startup_height : sprite_height);
+sprite_index = if_null(rail_sprite, sprite_index);
+scale_sprite_to(w, h);
+
 event_inherited();
 
-replace_sprite(self, rail_sprite);
+//replace_sprite(self, rail_sprite);
 
 value_percent			= 0;
 

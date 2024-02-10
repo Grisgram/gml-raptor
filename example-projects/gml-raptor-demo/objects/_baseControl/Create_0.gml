@@ -20,6 +20,16 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	data.control_tree_layout = undefined;
 }
 
+/// @function set_startup_size()
+/// @description Set the initial size of the control based on the max value of
+///				 startup_width/height, min_width/height and designer width/height (room editor)
+set_startup_size = function() {
+	scale_sprite_to(
+		max(startup_width , sprite_width , min_width),
+		max(startup_height, sprite_height, min_height)
+	);
+}
+
 /// @function update_startup_coordinates()
 /// @description Invoke this if you did create the control dynamically at runtime 
 ///				 to set the current position as the startup position after placing it in the scene
@@ -33,6 +43,7 @@ update_startup_coordinates = function() {
 	__startup_myright		= SELF_VIEW_RIGHT_EDGE;
 	__startup_mybottom		= SELF_VIEW_BOTTOM_EDGE;
 }
+set_startup_size();
 update_startup_coordinates();
 
 __last_sprite_index			= undefined;

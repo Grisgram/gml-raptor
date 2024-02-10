@@ -103,16 +103,50 @@ function layer_of(_instance) {
 	return -1;
 }
 
-/// @function construct_or_invoke(_script)
+/// @function construct_or_invoke(_script, args...)
 /// @description	Now, that's an ugly one, I know, but at the moment of writing this, GameMaker
 ///					has no way to tell normal functions apart from constructors.
 ///					There's not other way, to find out, as to fall in a catch if constructing fails.
-function construct_or_invoke(_script,_fake) {
+function construct_or_invoke(_script) {
 	var res;
 	try {
-		res = new _script(_fake);
+		switch (argument_count) {
+			case  1: res = new _script(); break;
+			case  2: res = new _script(argument[1]); break;
+			case  3: res = new _script(argument[1],argument[2]); break;
+			case  4: res = new _script(argument[1],argument[2],argument[3]); break;
+			case  5: res = new _script(argument[1],argument[2],argument[3],argument[4]); break;
+			case  6: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5]); break;
+			case  7: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+			case  8: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+			case  9: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+			case 10: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+			case 11: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+			case 12: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+			case 13: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+			case 14: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+			case 15: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+			case 16: res = new _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+		}
 	} catch (_) {
-		res = _script(_fake);
+		switch (argument_count) {
+			case  1: res = _script(); break;
+			case  2: res = _script(argument[1]); break;
+			case  3: res = _script(argument[1],argument[2]); break;
+			case  4: res = _script(argument[1],argument[2],argument[3]); break;
+			case  5: res = _script(argument[1],argument[2],argument[3],argument[4]); break;
+			case  6: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5]); break;
+			case  7: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+			case  8: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+			case  9: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+			case 10: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+			case 11: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+			case 12: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+			case 13: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+			case 14: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+			case 15: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+			case 16: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+		}
 	}
 	return res;
 }

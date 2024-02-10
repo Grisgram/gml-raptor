@@ -54,6 +54,8 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"adopt_object_properties","filters":[],"listItems":[
         "\"Item 0\"",
       ],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"adopt_properties.none","varType":4,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"startup_width","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"-1","varType":0,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"startup_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"-1","varType":0,},
   ],
   "solid": false,
   "spriteId": null,
