@@ -38,6 +38,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	padding_right	= _padding ?? 0;
 	padding_bottom	= _padding ?? 0;
 	
+	__last_instance	= undefined;
+	__last_entry	= undefined;
+	__last_layout	= undefined;
+	
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
 		if (!is_child_of(_control, _baseContainerControl))
@@ -78,7 +82,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 	
 	/// @function add_control(_objtype, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined)
-	static add_control = function(_objtype, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined) {
+	static add_control = function(_objtype, _init_struct = undefined) {
 		
 		var inst = instance_create(control.x, control.y, layer_of(control), _objtype, _init_struct);
 		if (!is_child_of(inst, _baseControl)) {
@@ -87,29 +91,48 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
-		inst.data.control_tree_layout = new ControlTreeLayout().set_layout_data(_dock, _anchor, _spreadx, _spready);
+		inst.data.control_tree_layout = new ControlTreeLayout();
+
+		__last_entry = new ControlTreeEntry(inst);
+		array_push(children, __last_entry);
 		
-		var entry = new ControlTreeEntry(inst);
-		array_push(children, entry);
-		
+		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
 			inst.data.control_tree.parent_tree = self;
+			inst.data.control_tree.__last_layout = inst.data.control_tree_layout;
 			return inst.data.control_tree;
-		} else
+		} else {
+			__last_layout = inst.data.control_tree_layout;
 			return self;
+		}
 	}
 	
-	static new_line = function() {
-		if (array_length(children) > 0) {
-			var e = array_pop(children);
-			e.newline_after = true;
-			array_push(children, e);
-		} else
-			throw("new_line() may not be the first layout action!");
-		
+	/// @function set_spread(_spreadx = -1, _spready = -1)
+	static set_spread = function(_spreadx = -1, _spready = -1) {
+		__last_layout.spreadx = _spreadx;
+		__last_layout.spready = _spready;
 		return self;
 	}
 	
+	/// @function set_dock(_dock)
+	static set_dock = function(_dock) {
+		__last_layout.dock = _dock;
+		return self;
+	}
+	
+	/// @function set_anchor(_anchor)
+	static set_anchor = function(_anchor) {
+		__last_layout.anchor = _anchor;
+		return self;
+	}
+	
+	/// @function new_line()
+	static new_line = function() {
+		__last_entry.newline_after = true;
+		return self;
+	}
+	
+	/// @function step_out()
 	static step_out = function() {
 		return parent_tree;
 	}
@@ -138,18 +161,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				runy += maxh;
 				maxh = 0;
 			} else
-				runx += inst.sprite_width + 1 + padding_right + margin_right;
+				runx = inst.x + inst.sprite_width - inst.sprite_xoffset + 1 + i + padding_right + margin_right;
 		}
 	}
 	
 	static draw_children = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
-			var inst = child.instance;
-			if (is_child_of(inst, _baseContainerControl))
-				inst.data.control_tree.draw_children();
-			else
-				inst.__draw_instance();
+			child.instance.__draw_instance();
 		}
 	}
 	

@@ -8,32 +8,36 @@ function UiDemoSizableTreeChild(_control) : ControlTree(_control) constructor {
 function CreateUiDemoSizableTree(_control) {
 	return new UiDemoSizableTreeChild(_control)
 		.set_margin_all(8)
-		.add_control(Label,dock.none,anchor.none,0.5,,{ text: "Ich bin ein Label oben"})
+		.add_control(Label, { text: "Ich bin ein Label oben"}).set_spread(0.5)
+		.add_control(Label, { text: "und ich rechts davon"}).set_spread(0.5)
 		.new_line()
-		.add_control(ImageButton,dock.none,anchor.none,,,{
-			sprite_to_use: sprLG_de, 
-			on_left_click: function() {
-				msg_show_ok("It's dynamic!", "Boom! (mic drop)");
-			}
-		})		
-		.add_control(ImageButton,dock.none,anchor.none,,,{
-			startup_width: 128,
-			startup_height: 128,
-			sprite_to_use: sprSnowflake, 
-			on_left_click: function() {
-				msg_show_ok("It's dynamic!", "Boom! (mic drop)");
-			}
-		})
-		.add_control(ImageButton,dock.none,anchor.none,,,{
-			sprite_to_use: sprLG_de, 
-			on_left_click: function() {
-				msg_show_ok("It's dynamic!", "Boom! (mic drop)");
-			}
-		})
+		.add_control(Panel, {startup_height:80,image_blend:c_red})
+			.set_spread(1)
+			.set_padding(41,0,0,0)
+			.add_control(ImageButton, {
+				sprite_to_use: sprLG_de, 
+				on_left_click: function() {
+					msg_show_ok("It's dynamic 1!", "Boom! (mic drop)");
+				}
+			})
+			.add_control(ImageButton, {
+				startup_width: 64,
+				startup_height: 64,
+				sprite_to_use: sprSnowflake, 
+				on_left_click: function() {
+					msg_show_ok("It's dynamic 2!", "Boom! (mic drop)");
+				}
+			})
+			.add_control(ImageButton, {
+				sprite_to_use: sprLG_de, 
+				on_left_click: function() {
+					msg_show_ok("It's dynamic 3!", "Boom! (mic drop)");
+				}
+			})
+			.step_out()
 		.new_line()
-		.add_control(Label,dock.none,anchor.none,0.5,,{ text: "Ich bin ein Label unten"})
+		.add_control(Label, { text: "Ich bin ein Label unten"}).set_spread(0.5)
 		.new_line()
-		.add_control(RaptorSlider,dock.none,anchor.none,1)
-
+		.add_control(RaptorSlider).set_spread(1)
 	;
 }

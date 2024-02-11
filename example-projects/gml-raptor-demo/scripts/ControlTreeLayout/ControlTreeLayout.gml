@@ -12,15 +12,6 @@ function ControlTreeLayout() constructor {
 	spready		= -1;
 	
 	control_size = new Coord2();
-
-	/// @function set_layout_data(_dock, _anchor, _spreadx, _spready)
-	static set_layout_data = function(_dock, _anchor, _spreadx, _spready) {
-		docking		= _dock;
-		anchoring	= _anchor;
-		spreadx		= _spreadx;
-		spready		= _spready;
-		return self;
-	}
 	
 	/// @function align_in_control(_inst, _control)
 	static align_in_control = function(_inst, _control) {

@@ -17,10 +17,17 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 __original_draw_instance = __draw_instance;
 
 __draw_instance = function() {
+	data.client_area.set(0, 0, sprite_width, sprite_height);
 	__original_draw_instance();
 	if (__first_draw) {
+		vlog($"**** {data.client_area}");
 		__first_draw = false;
 		control_tree.layout();
 	}
 	control_tree.draw_children();
+
+	// this code draws the client area in red, if one day there's a bug with alignment
+	//draw_set_color(c_red);
+	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	//draw_set_color(c_white);
 }
