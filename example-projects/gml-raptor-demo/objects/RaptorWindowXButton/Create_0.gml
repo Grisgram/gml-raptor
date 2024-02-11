@@ -15,8 +15,10 @@ __nine_top = 0;
 /// @function attach_to_window(_window)
 attach_to_window = function(_window) {
 	message_window = _window;
-	if (is_null(message_window) || !is_child_of(message_window, RaptorWindow))
+	if (is_null(message_window) || !is_child_of(message_window, RaptorWindow)) {
 		instance_destroy(self);
+		return;
+	}
 	draw_on_gui = _window.draw_on_gui;
 }
 

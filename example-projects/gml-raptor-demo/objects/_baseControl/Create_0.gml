@@ -83,6 +83,51 @@ set_enabled = function(_enabled) {
 	}
 }
 
+/// @function is_topmost_control()
+/// @description True, if this control is the topmost (= lowest depth) at the specified position
+__topmost_list = ds_list_create();
+is_topmost_control = function(_x, _y) {
+	ds_list_clear(__topmost_list);
+	if (instance_position_list(_x, _y, _baseControl, __topmost_list, false) > 0) {
+		var mindepth = DEPTH_BOTTOM_MOST;
+		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
+			var w = __topmost_list[|i];
+			mindepth = min(mindepth, w.depth);
+		}
+		return (mindepth == depth);
+	}
+	return false;
+}
+
+/// @function __mouse_enter_topmost_control()
+/// @description Private function invoked from the mouse_leave event
+///				 to find other controls at that mouse position and let
+///				 the topmost of them receive the enter event
+__mouse_enter_topmost_control = function() {
+	ds_list_clear(__topmost_list);
+	if (instance_position_list(CTL_MOUSE_X, CTL_MOUSE_Y, _baseControl, __topmost_list, false) > 0) {
+		// pass 1: find topmost depth at this position
+		var mindepth = DEPTH_BOTTOM_MOST;
+		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
+			var w = __topmost_list[|i];
+			if (!eq(w, self))
+				mindepth = min(mindepth, w.depth);
+		}
+		// pass 2: launch the mouse enter event on all the topmost's
+		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
+			var w = __topmost_list[|i];
+			if (w.depth == mindepth && !w.mouse_is_over) {
+				with(w) {
+					vlog($"{MY_NAME}: onMouseEnter");
+					mouse_is_over = true;
+					force_redraw();
+				}
+			}
+		}
+	} else
+		vlog($"{MY_NAME}: onMouseLeave");
+}
+
 /// @function					force_redraw()
 /// @description				force recalculate of all positions next frame
 force_redraw = function() {

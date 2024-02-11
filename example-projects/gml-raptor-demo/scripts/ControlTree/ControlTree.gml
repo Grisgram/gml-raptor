@@ -154,6 +154,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			inst.x = runx + padding_left + inst.sprite_xoffset;
 			inst.y = runy + padding_top  + inst.sprite_yoffset;
 			inst.data.control_tree_layout.align_in_control(inst, control);
+			
 			if (is_child_of(inst, _baseContainerControl))
 				inst.data.control_tree.layout();
 			if (child.newline_after) {
@@ -168,6 +169,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static draw_children = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
+			child.instance.depth = control.depth; // set AFTER first draw! (gms draw chain... trust me)
 			child.instance.__draw_instance();
 		}
 	}

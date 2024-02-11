@@ -50,7 +50,7 @@ function GuiMouseTranslator() constructor {
 					other.gui_last_left_is_down		= other.gui_left_is_down;
 					other.gui_last_middle_is_down	= other.gui_middle_is_down;
 					other.gui_last_right_is_down	= other.gui_right_is_down;
-					event_perform(ev_mouse, ev_mouse_enter) 
+					event_perform(ev_mouse, ev_mouse_enter);
 				} else 
 					event_perform(ev_mouse, ev_mouse_leave);
 					
