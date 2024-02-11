@@ -1,5 +1,5 @@
 /// @description draw_self
 event_inherited();
 
-if (!draw_on_gui) exit;
-draw_knob();
+if (draw_on_gui) 
+	draw_knob();

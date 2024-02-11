@@ -38,6 +38,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	padding_right	= _padding ?? 0;
 	padding_bottom	= _padding ?? 0;
 	
+	__on_opened		= undefined;
 	__last_instance	= undefined;
 	__last_entry	= undefined;
 	__last_layout	= undefined;
@@ -49,6 +50,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			
 		control = _control;
 		return self;
+	}
+	
+	static get_root_control = function() {
+		var rv = self;
+		while (rv.parent_tree != undefined)
+			rv = rv.parent_tree;
+		return rv.control;
 	}
 	
 	/// @function set_margin_all(_margin)
@@ -81,7 +89,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function add_control(_objtype, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined)
+	/// @function add_control(_objtype, _init_struct = undefined)
 	static add_control = function(_objtype, _init_struct = undefined) {
 		
 		var inst = instance_create(control.x, control.y, layer_of(control), _objtype, _init_struct);
@@ -89,6 +97,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			instance_destroy(inst);
 			throw("ControlTree accepts only raptor controls (child of _baseControl) as children!");
 		}
+		inst.__container = control;
 		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
 		inst.data.control_tree_layout = new ControlTreeLayout();
@@ -126,6 +135,24 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
+	/// @function set_name(_name)
+	/// @description Give a child control a name to retrieve it later through get_element(_name)
+	static set_name = function(_name) {
+		__last_entry.element_name = _name;
+		return self;
+	}
+	
+	/// @function get_element(_name)
+	/// @description Retrieve a child control by its name. Returns the instance or undefined
+	static get_element = function(_name) {
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			var child = children[@i];
+			if (child.element_name == _name)
+				return child.instance;
+		}
+		return undefined;
+	}
+	
 	/// @function new_line()
 	static new_line = function() {
 		__last_entry.newline_after = true;
@@ -137,11 +164,24 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return parent_tree;
 	}
 	
-	/// @function layout()
+	/// @function on_window_opened(_callback)
+	static on_window_opened = function(_callback) {
+		__on_opened = _callback;
+		return self;
+	}
+	
+	/// @function invoke_on_opened()
+	static invoke_on_opened = function() {
+		if (__on_opened != undefined)
+			__on_opened(control);
+		return self;
+	}
+	
+	/// @function layout(_forced = false)
 	/// @description	performs layouting of all child controls. invoked when the control
 	///					changes its size or position.
 	///					also calls layout() on all children
-	static layout = function() {
+	static layout = function(_forced = false) {
 		control_size.set(control.sprite_width, control.sprite_height);
 		var runx = control.x + control.data.client_area.left + margin_left;
 		var runy = control.y + control.data.client_area.top  + margin_top;
@@ -151,6 +191,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var child = children[@i];
 			var inst = child.instance;
 			maxh = max(maxh, inst.sprite_height + 1 + padding_bottom + margin_bottom);
+			if (_forced) inst.force_redraw();
 			inst.x = runx + padding_left + inst.sprite_xoffset;
 			inst.y = runy + padding_top  + inst.sprite_yoffset;
 			inst.data.control_tree_layout.align_in_control(inst, control);

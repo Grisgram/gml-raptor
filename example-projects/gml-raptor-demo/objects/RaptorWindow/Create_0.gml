@@ -429,11 +429,15 @@ __draw_instance = function() {
 	if (title != "") __scribble_title.draw(__title_x, __title_y);
 	
 	if (__first_draw) {
-		control_tree.layout();
-		__first_draw = false;
+		control_tree.layout(true);
 	}
-	
+
 	control_tree.draw_children();
+	
+	if (__first_draw) {
+		__first_draw = false;
+		control_tree.invoke_on_opened();
+	}
 
 	// this code draws the client area in red, if one day there's a bug with alignment
 	//draw_set_color(c_red);

@@ -14,6 +14,12 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 }
 
+/// @function get_element(_name)
+/// @description Retrieve a child control by its name. Returns the instance or undefined
+get_element = function(_name) {
+	return control_tree.get_element(_name);
+}
+
 __original_draw_instance = __draw_instance;
 
 __draw_instance = function() {
@@ -21,11 +27,15 @@ __draw_instance = function() {
 	__original_draw_instance();
 	
 	if (__first_draw) {
-		control_tree.layout();
-		__first_draw = false;
+		control_tree.layout(true);
 	}
 
 	control_tree.draw_children();
+	
+	if (__first_draw) {
+		__first_draw = false;
+		control_tree.invoke_on_opened();
+	}
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
 	//draw_set_color(c_red);

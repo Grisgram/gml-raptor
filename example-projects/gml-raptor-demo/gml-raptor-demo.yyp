@@ -428,6 +428,7 @@
     {"id":{"name":"RadioButton","path":"objects/RadioButton/RadioButton.yy",},},
     {"id":{"name":"spr1pxBlack64","path":"sprites/spr1pxBlack64/spr1pxBlack64.yy",},},
     {"id":{"name":"fntArial","path":"fonts/fntArial/fntArial.yy",},},
+    {"id":{"name":"DemoLoginWindow","path":"objects/DemoLoginWindow/DemoLoginWindow.yy",},},
     {"id":{"name":"scribble_font_scale","path":"scripts/scribble_font_scale/scribble_font_scale.yy",},},
     {"id":{"name":"scribble_super_glyph_copy","path":"scripts/scribble_super_glyph_copy/scribble_super_glyph_copy.yy",},},
     {"id":{"name":"Tooltip","path":"objects/Tooltip/Tooltip.yy",},},

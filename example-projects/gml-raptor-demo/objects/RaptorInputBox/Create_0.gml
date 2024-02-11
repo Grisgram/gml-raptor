@@ -46,7 +46,7 @@ enum character_filter {
 	none, allowed, forbidden
 }
 
-/// @function					set_focus()
+/// @function					set_focus(from_tab = false)
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
 	if (__has_focus) 

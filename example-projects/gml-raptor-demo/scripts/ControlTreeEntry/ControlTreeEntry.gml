@@ -8,5 +8,6 @@ function ControlTreeEntry(_instance = undefined) constructor {
 	
 	instance		= _instance;
 	newline_after	= false;
+	element_name	= "";
 	
 }

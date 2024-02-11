@@ -56,7 +56,7 @@ __text_y					= 0;
 __text_width				= 0;
 __text_height				= 0;
 							
-__force_redraw				= false;
+__force_redraw				= true; // first draw is forced
 
 __disabled_surface			= undefined;
 __disabled_surface_width	= 0;
@@ -81,6 +81,16 @@ set_enabled = function(_enabled) {
 		vlog($"Enabled changed for {MY_NAME}");
 		on_enabled_changed(self);
 	}
+}
+
+__container = undefined; // if this is part of a window, it's the parent container
+/// @function get_window()
+/// @description If this control is embedded in a window, this function returns
+///				 the window instance, otherwise undefined
+get_window = function() {
+	if (__container != undefined)
+		return __container.control_tree.get_root_control();
+	return undefined;
 }
 
 /// @function is_topmost_control()

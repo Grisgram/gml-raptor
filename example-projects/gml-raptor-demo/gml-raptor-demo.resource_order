@@ -344,6 +344,7 @@
     {"name":"scribble_anim_wheel","order":8,"path":"scripts/scribble_anim_wheel/scribble_anim_wheel.yy",},
     {"name":"RadioButton","order":7,"path":"objects/RadioButton/RadioButton.yy",},
     {"name":"spr1pxBlack64","order":19,"path":"sprites/spr1pxBlack64/spr1pxBlack64.yy",},
+    {"name":"DemoLoginWindow","order":2,"path":"objects/DemoLoginWindow/DemoLoginWindow.yy",},
     {"name":"scribble_font_scale","order":13,"path":"scripts/scribble_font_scale/scribble_font_scale.yy",},
     {"name":"scribble_super_glyph_copy","order":2,"path":"scripts/scribble_super_glyph_copy/scribble_super_glyph_copy.yy",},
     {"name":"Tooltip","order":10,"path":"objects/Tooltip/Tooltip.yy",},
