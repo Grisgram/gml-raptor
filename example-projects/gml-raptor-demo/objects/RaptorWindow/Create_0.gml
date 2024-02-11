@@ -57,7 +57,7 @@ __size_direction	= 0;
 // _rc = raptor cursor:Image index of the sizable sprite
 __size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
 // _dc = default cursor (gamemaker cr_ constants)
-__size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,-1,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
+__size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,cr_default,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
 
 if (window_x_button_visible && !is_null(window_x_button_object)) {
 	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
@@ -348,7 +348,7 @@ __create_scribble_title_object = function(align, str) {
 __draw_self = function() {
 	if (__CONTROL_NEEDS_LAYOUT || __last_title != title) {
 		__force_redraw = false;
-		
+
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
 		scribble_add_text_effects(__scribble_text);
 

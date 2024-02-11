@@ -12,7 +12,7 @@ button_offset_from_bottom = 12;
 __draw_self = function() {
 	if (__CONTROL_NEEDS_LAYOUT || __last_title != title) {
 		depth = layer_get_depth(layer_get_id(MESSAGEBOX_LAYER));
-		
+
 		__force_redraw = false;
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);

@@ -64,6 +64,10 @@ enum mouse_cursor_type {
 	pointer, sizing
 }
 
+enum mouse_cursor_sizing {
+	we, ns, nwse, nesw
+}
+
 event_inherited();
 
 window_set_cursor(cr_none);
@@ -73,10 +77,10 @@ visible = true;
 
 companion = undefined;
 
-/// @function set_cursor(_sprite_index, _image_index = 0)
-set_cursor = function(_mouse_cursor_type, _image_index = 0) {
+/// @function set_cursor(_mouse_cursor_type, _mouse_cursor_sizing = 0)
+set_cursor = function(_mouse_cursor_type, _mouse_cursor_sizing = 0) {
 	sprite_index = (_mouse_cursor_type == mouse_cursor_type.pointer ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
-	image_index = _image_index;
+	image_index = _mouse_cursor_sizing;
 }
 
 /// @function set_companion(_companion_sprite, _type = undefined)
