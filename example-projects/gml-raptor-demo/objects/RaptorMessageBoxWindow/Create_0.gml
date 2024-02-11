@@ -11,6 +11,8 @@ button_offset_from_bottom = 12;
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
 	if (__CONTROL_NEEDS_LAYOUT || __last_title != title) {
+		depth = layer_get_depth(layer_get_id(MESSAGEBOX_LAYER));
+		
 		__force_redraw = false;
 		
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
@@ -99,7 +101,7 @@ __draw_self = function() {
 		var ypos = SELF_VIEW_BOTTOM_EDGE - button_offset_from_bottom;
 		var buttondist = distance_between_buttons;
 		var button_min_y = ypos;
-		gpu_set_depth(depth - 1);
+		
 		for (var i = 0; i < array_length(buttons); i++) {
 			with (buttons[i]) {
 				with (__button) {
@@ -113,7 +115,6 @@ __draw_self = function() {
 				}
 			}
 		}
-		gpu_set_depth(depth);
 		
 		// re-position the text and title to the new width and height
 		var area_top = edges.ninesliced.top;

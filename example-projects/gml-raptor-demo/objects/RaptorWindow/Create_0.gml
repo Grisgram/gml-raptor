@@ -82,34 +82,34 @@ __do_sizing = function() {
 	var recalc = true;
 	switch (__size_direction) {
 		case 1:
-			scale_sprite_to(max(min_width,sprite_width - GUI_MOUSE_DELTA_X), max(min_height,sprite_height + GUI_MOUSE_DELTA_Y));
-			x += GUI_MOUSE_DELTA_X;
+			scale_sprite_to(max(min_width,sprite_width - CTL_MOUSE_DELTA_X), max(min_height,sprite_height + CTL_MOUSE_DELTA_Y));
+			x += CTL_MOUSE_DELTA_X;
 			break;
 		case 2:
-			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height + GUI_MOUSE_DELTA_Y));
+			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height + CTL_MOUSE_DELTA_Y));
 			break;
 		case 3:
-			scale_sprite_to(max(min_width,sprite_width + GUI_MOUSE_DELTA_X), max(min_height,sprite_height + GUI_MOUSE_DELTA_Y));
+			scale_sprite_to(max(min_width,sprite_width + CTL_MOUSE_DELTA_X), max(min_height,sprite_height + CTL_MOUSE_DELTA_Y));
 			break;
 		case 4:
-			scale_sprite_to(max(min_width,sprite_width - GUI_MOUSE_DELTA_X), max(min_height,sprite_height                    ));
-			x += GUI_MOUSE_DELTA_X;
+			scale_sprite_to(max(min_width,sprite_width - CTL_MOUSE_DELTA_X), max(min_height,sprite_height                    ));
+			x += CTL_MOUSE_DELTA_X;
 			break;
 		case 6:
-			scale_sprite_to(max(min_width,sprite_width + GUI_MOUSE_DELTA_X), max(min_height,sprite_height                    ));			
+			scale_sprite_to(max(min_width,sprite_width + CTL_MOUSE_DELTA_X), max(min_height,sprite_height                    ));			
 			break;
 		case 7:
-			scale_sprite_to(max(min_width,sprite_width - GUI_MOUSE_DELTA_X), max(min_height,sprite_height - GUI_MOUSE_DELTA_Y));
-			x += GUI_MOUSE_DELTA_X;
-			y += GUI_MOUSE_DELTA_Y;
+			scale_sprite_to(max(min_width,sprite_width - CTL_MOUSE_DELTA_X), max(min_height,sprite_height - CTL_MOUSE_DELTA_Y));
+			x += CTL_MOUSE_DELTA_X;
+			y += CTL_MOUSE_DELTA_Y;
 			break;
 		case 8:
-			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height - GUI_MOUSE_DELTA_Y));
-			y += GUI_MOUSE_DELTA_Y;
+			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height - CTL_MOUSE_DELTA_Y));
+			y += CTL_MOUSE_DELTA_Y;
 			break;
 		case 9:
-			scale_sprite_to(max(min_width,sprite_width + GUI_MOUSE_DELTA_X), max(min_height,sprite_height - GUI_MOUSE_DELTA_Y));
-			y += GUI_MOUSE_DELTA_Y;
+			scale_sprite_to(max(min_width,sprite_width + CTL_MOUSE_DELTA_X), max(min_height,sprite_height - CTL_MOUSE_DELTA_Y));
+			y += CTL_MOUSE_DELTA_Y;
 			break;
 		default:
 			recalc = false;
@@ -126,31 +126,31 @@ __do_sizing = function() {
 // we need to check all 4 borders and in each of them the adjacent sides to find the diagonals
 __find_sizing_area = function() {
 	if (!has_focus) return;
-	if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+	if (__size_rect_top.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
 		
-		if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 7;
-		else if (__size_rect_right.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 9;
+		if (__size_rect_left.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 7;
+		else if (__size_rect_right.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 9;
 		else
 			__size_direction = 8;
 			
-	} else if (__size_rect_bottom.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+	} else if (__size_rect_bottom.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
 		
-		if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 1;
-		else if (__size_rect_right.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 3;
+		if (__size_rect_left.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 1;
+		else if (__size_rect_right.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 3;
 		else 
 			__size_direction = 2;
 		
-	} else if (__size_rect_left.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+	} else if (__size_rect_left.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
 		
-		if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 7;
-		else if (__size_rect_bottom.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 1;
+		if (__size_rect_top.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 7;
+		else if (__size_rect_bottom.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 1;
 		else
 			__size_direction = 4;
 
-	} else if (__size_rect_right.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) {
+	} else if (__size_rect_right.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
 
-		if (__size_rect_top.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 9;
-		else if (__size_rect_bottom.intersects_point(GUI_MOUSE_X, GUI_MOUSE_Y)) __size_direction = 3;
+		if (__size_rect_top.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 9;
+		else if (__size_rect_bottom.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 3;
 		else
 			__size_direction = 6;
 
@@ -271,38 +271,41 @@ __reorder_focus_index = function(_old_idx) {
 
 lose_focus = function() {
 	has_focus = false;
-	//depth = __startup_depth;
 }
 
 take_focus = function(_only_if_topmost = false) {
 	if (__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING) 
 		return;
 	
-	//if (_only_if_topmost) {
-	//	var allwins = ds_list_create();
-	//	if (instance_place_list(GUI_MOUSE_X, GUI_MOUSE_Y, RaptorWindow, allwins, false) > 1) {
-	//		var mindepth = 16000;
-	//		for (var i = 0, len = ds_list_size(allwins); i < len; i++) {
-	//			if (allwins[|i].has_focus) continue;
-	//			mindepth = min(mindepth, allwins[|i].depth);
-	//		}
-	//		ds_list_destroy(allwins);
-	//		if (mindepth != depth)
-	//			return;
-	//	}
-	//}
+	if (_only_if_topmost) {
+		var allwins = ds_list_create();
+		if (instance_position_list(CTL_MOUSE_X, CTL_MOUSE_Y, RaptorWindow, allwins, false) > 1) {
+			var mindepth = DEPTH_BOTTOM_MOST;
+			for (var i = 0, len = ds_list_size(allwins); i < len; i++) {
+				var w = allwins[|i];
+				if (w.has_focus) continue;
+				mindepth = min(mindepth, w.depth);
+			}
+			ds_list_destroy(allwins);
+			if (mindepth != depth)
+				return;
+		}
+	}
 	
 	vlog($"Window {MY_NAME} taking focus");
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = true;
 	
 	with(RaptorWindow) lose_focus();
 	has_focus = true;
-	//depth = __startup_depth - 1;
 	__RAPTOR_FOCUS_WINDOW = self;
 	var maxidx = instance_number(RaptorWindow) - 1;
 	var myidx = (__focus_index >= 0 ? __focus_index : maxidx);
 	__focus_index = maxidx;
 	__reorder_focus_index(myidx);
+	// this mouse_is_over check is for the case, that a popup (like a MessageBox)
+	// was visible on top of self. due to HIDDEN_BEHIND_POPUP, self would not register
+	// a mouse_enter when the popup closes. This corrects the bool.
+	mouse_is_over = instance_position(CTL_MOUSE_X, CTL_MOUSE_Y, self);
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
 }
 take_focus(); // we take focus on creation

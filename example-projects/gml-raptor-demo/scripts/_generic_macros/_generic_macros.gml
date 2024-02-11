@@ -56,6 +56,9 @@ global.__unique_count_up_id	= 0;
 // Instead of repeating the same if again and again in each mouse event, just use this macro;
 #macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;
 
+#macro DEPTH_BOTTOM_MOST		 16000
+#macro DEPTH_TOP_MOST			-15998
+
 // Used by the MouseCursor object but must exist always, as the RoomController checks it
 #macro MOUSE_CURSOR		global.__mouse_cursor
 MOUSE_CURSOR = undefined;

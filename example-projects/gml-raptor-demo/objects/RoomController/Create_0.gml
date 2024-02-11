@@ -84,6 +84,14 @@ display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 #macro MOUSE_DELTA_Y			global.__world_mouse_ymove
 #macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
 
+#macro CTL_MOUSE_X_PREVIOUS		(draw_on_gui ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
+#macro CTL_MOUSE_Y_PREVIOUS		(draw_on_gui ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
+#macro CTL_MOUSE_X				(draw_on_gui ? GUI_MOUSE_X : MOUSE_X)
+#macro CTL_MOUSE_Y				(draw_on_gui ? GUI_MOUSE_Y : MOUSE_Y)
+#macro CTL_MOUSE_DELTA_X		(draw_on_gui ? GUI_MOUSE_DELTA_X : MOUSE_DELTA_X)
+#macro CTL_MOUSE_DELTA_Y		(draw_on_gui ? GUI_MOUSE_DELTA_Y : MOUSE_DELTA_Y)
+#macro CTL_MOUSE_HAS_MOVED		(draw_on_gui ? GUI_MOUSE_HAS_MOVED : MOUSE_HAS_MOVED)
+
 MOUSE_X		= mouse_x;
 MOUSE_Y		= mouse_y;
 GUI_MOUSE_X = device_mouse_x_to_gui(0);

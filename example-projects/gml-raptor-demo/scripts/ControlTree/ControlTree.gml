@@ -77,14 +77,15 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function add_control(_control, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined)
-	static add_control = function(_control, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined) {
+	/// @function add_control(_objtype, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined)
+	static add_control = function(_objtype, _dock, _anchor, _spreadx = -1, _spready = -1, _init_struct = undefined) {
 		
-		var inst = instance_create(control.x, control.y, layer_of(control), _control, _init_struct);
+		var inst = instance_create(control.x, control.y, layer_of(control), _objtype, _init_struct);
 		if (!is_child_of(inst, _baseControl)) {
 			instance_destroy(inst);
 			throw("ControlTree accepts only raptor controls (child of _baseControl) as children!");
 		}
+		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
 		inst.data.control_tree_layout = new ControlTreeLayout().set_layout_data(_dock, _anchor, _spreadx, _spready);
 		

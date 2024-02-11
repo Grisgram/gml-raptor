@@ -42,8 +42,8 @@ __knob_over_color		= draw_color_mouse_over;
 
 /// @function check_mouse_over_knob()
 check_mouse_over_knob = function() {
-	xcheck = GUI_MOUSE_X;
-	ycheck = GUI_MOUSE_Y;
+	xcheck = CTL_MOUSE_X;
+	ycheck = CTL_MOUSE_Y;
 
 	var over_before = __mouse_over_knob;
 	
