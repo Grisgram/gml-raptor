@@ -29,8 +29,8 @@
   "properties": [],
   "solid": false,
   "spriteId": {
-    "name": "sprDefaultButton",
-    "path": "sprites/sprDefaultButton/sprDefaultButton.yy",
+    "name": "sprDefaultInputBox",
+    "path": "sprites/sprDefaultInputBox/sprDefaultInputBox.yy",
   },
   "spriteMaskId": null,
   "visible": true,

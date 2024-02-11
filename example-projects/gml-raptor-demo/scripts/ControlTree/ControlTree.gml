@@ -39,9 +39,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	padding_bottom	= _padding ?? 0;
 	
 	__on_opened		= undefined;
+	__on_closed		= undefined;
 	__last_instance	= undefined;
 	__last_entry	= undefined;
 	__last_layout	= undefined;
+	__root_tree		= self;
 	
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
@@ -53,10 +55,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 	
 	static get_root_control = function() {
-		var rv = self;
-		while (rv.parent_tree != undefined)
-			rv = rv.parent_tree;
-		return rv.control;
+		return __root_tree.control;
 	}
 	
 	/// @function set_margin_all(_margin)
@@ -108,6 +107,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
 			inst.data.control_tree.parent_tree = self;
+			inst.data.control_tree.__root_tree = __root_tree;
 			inst.data.control_tree.__last_layout = inst.data.control_tree_layout;
 			return inst.data.control_tree;
 		} else {
@@ -170,6 +170,12 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
+	/// @function on_window_closed(_callback)
+	static on_window_closed = function(_callback) {
+		__on_closed = _callback;
+		return self;
+	}
+
 	/// @function invoke_on_opened()
 	static invoke_on_opened = function() {
 		if (__on_opened != undefined)
@@ -177,6 +183,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
+	/// @function invoke_on_closed()
+	static invoke_on_closed = function() {
+		if (__on_closed != undefined)
+			__on_closed(control);
+		return self;
+	}
+
 	/// @function layout(_forced = false)
 	/// @description	performs layouting of all child controls. invoked when the control
 	///					changes its size or position.
@@ -210,8 +223,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static draw_children = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
-			child.instance.depth = control.depth; // set AFTER first draw! (gms draw chain... trust me)
 			child.instance.__draw_instance();
+			child.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
 		}
 	}
 	

@@ -138,6 +138,7 @@
     {"name":"__shd_scribble_msdf","order":5,"path":"shaders/__shd_scribble_msdf/__shd_scribble_msdf.yy",},
     {"name":"ControlTreeLayout","order":1,"path":"scripts/ControlTreeLayout/ControlTreeLayout.yy",},
     {"name":"SnapNumberToString","order":10,"path":"scripts/SnapNumberToString/SnapNumberToString.yy",},
+    {"name":"sprDefaultInputBox","order":27,"path":"sprites/sprDefaultInputBox/sprDefaultInputBox.yy",},
     {"name":"GameController","order":7,"path":"objects/GameController/GameController.yy",},
     {"name":"Enemy","order":1,"path":"objects/Enemy/Enemy.yy",},
     {"name":"acBouncyChuck_2","order":4,"path":"animcurves/acBouncyChuck_2/acBouncyChuck_2.yy",},

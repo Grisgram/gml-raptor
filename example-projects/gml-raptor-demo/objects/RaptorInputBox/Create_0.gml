@@ -49,7 +49,7 @@ enum character_filter {
 /// @function					set_focus(from_tab = false)
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
-	if (__has_focus) 
+	if (__has_focus || !is_enabled) 
 		return;
 	
 	with (InputBox) lose_focus();
@@ -289,7 +289,7 @@ __draw_cursor = function() {
 			}
 		}
 		draw_set_color(text_color);
-		draw_line_width(__cursor_x, __cursor_y, __cursor_x, __cursor_y + __cursor_height, 2);
+		draw_line_width(__cursor_x, __cursor_y, __cursor_x, __cursor_y + __cursor_height, TEXT_CURSOR_WIDTH);
 		draw_set_color(c_white);
 	}
 }

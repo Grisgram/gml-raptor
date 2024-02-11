@@ -7,13 +7,31 @@ control_tree
 	.add_control(Label, {text:"=ui_demo/login_top_message"})
 	.new_line()
 	.add_control(Label, {text:"=ui_demo/login_user",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(.3)
-	.add_control(InputBox, {tab_index:0, text:"", scribble_text_align:"[fa_middle][fa_left]", startup_width:240}).set_name("txtUser")
+	.add_control(InputBox, {
+		text_color: APP_THEME_BRIGHT,
+		text_color_focus: APP_THEME_BRIGHT,
+		tab_index: 0, 
+		text: "", 
+		startup_width: 240,
+		startup_height: 32
+	}).set_name("txtUser")
 	.new_line()
+	
 	.add_control(Label, {text:"=ui_demo/login_pwd",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(.3)
-	.add_control(InputBox, {tab_index:1, text:"", scribble_text_align:"[fa_middle][fa_left]", startup_width:240, password_char:"*"}).set_name("txtPwd")
+	.add_control(InputBox, {
+		text_color: APP_THEME_BRIGHT,
+		text_color_focus: APP_THEME_BRIGHT,
+		tab_index: 1, 
+		text: "", 
+		startup_width: 240, 
+		startup_height: 32,
+		password_char: "*"
+	}).set_name("txtPwd")
 	.new_line()
+	
 	.add_control(CheckBox, {text:"=ui_demo/login_remember", checked: true}).set_name("chkRemember")
 	.new_line()
+	
 	.add_control(Panel, {startup_height:80})
 		.set_spread(1)
 		.set_padding(32,16,32,48)
@@ -35,7 +53,13 @@ control_tree
 				get_window().close();
 			}
 		})
-		.on_window_opened(function() {
-			get_element("txtUser").set_focus();
-		})
+		.step_out()
+		
+	.on_window_opened(function(_who) {
+		vlog($"--- {MY_NAME} on_window_opened ---");
+		get_element("txtUser").set_focus();
+	})
+	.on_window_closed(function(_who) {
+		vlog($"--- {MY_NAME} on_window_closed ---");
+	})
 ;

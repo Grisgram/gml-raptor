@@ -29,8 +29,8 @@
   "properties": [],
   "solid": false,
   "spriteId": {
-    "name": "spr1pxWhite192",
-    "path": "sprites/spr1pxWhite192/spr1pxWhite192.yy",
+    "name": "spr1pxTrans",
+    "path": "sprites/spr1pxTrans/spr1pxTrans.yy",
   },
   "spriteMaskId": null,
   "visible": true,

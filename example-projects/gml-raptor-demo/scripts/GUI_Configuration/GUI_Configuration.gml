@@ -18,6 +18,7 @@ enum adopt_properties {
 #macro TOOLTIP_DELAY_FRAMES		30
 								
 #macro TEXT_CURSOR_BLINK_SPEED	30
+#macro TEXT_CURSOR_WIDTH		4
 #macro TEXT_KEY_REPEAT_DELAY	30
 #macro TEXT_KEY_REPEAT_INTERVAL	room_speed / 30
 

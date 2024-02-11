@@ -261,7 +261,7 @@ __reorder_focus_index = function(_old_idx) {
 	}
 	// last step: set the depth of the windows
 	with(RaptorWindow) {
-		depth = __startup_depth - 1 - __focus_index;
+		depth = __startup_depth - 1 - 2 * __focus_index;
 	}
 	// -- debug output --
 	//vlog($"--- FOCUS INDEX REPORT ---");
@@ -313,6 +313,7 @@ take_focus(); // we take focus on creation
 #endregion
 
 close = function() {
+	control_tree.invoke_on_closed();
 	instance_destroy(self);
 }
 
