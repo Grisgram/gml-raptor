@@ -228,7 +228,7 @@
     {"id":{"name":"SnapBufferReadYAML","path":"scripts/SnapBufferReadYAML/SnapBufferReadYAML.yy",},},
     {"id":{"name":"rmStartup","path":"rooms/rmStartup/rmStartup.yy",},},
     {"id":{"name":"Eye","path":"objects/Eye/Eye.yy",},},
-    {"id":{"name":"SnapBufferMeasureBinary","path":"scripts/SnapBufferMeasureBinary/SnapBufferMeasureBinary.yy",},},
+    {"id":{"name":"JujuPlusPlus","path":"scripts/JujuPlusPlus/JujuPlusPlus.yy",},},
     {"id":{"name":"SnapBufferReadINI","path":"scripts/SnapBufferReadINI/SnapBufferReadINI.yy",},},
     {"id":{"name":"Structs","path":"scripts/Structs/Structs.yy",},},
     {"id":{"name":"__scribble_font_add_sprite","path":"scripts/__scribble_font_add_sprite/__scribble_font_add_sprite.yy",},},

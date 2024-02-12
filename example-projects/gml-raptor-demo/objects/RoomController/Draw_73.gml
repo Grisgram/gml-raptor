@@ -23,15 +23,15 @@ if (DEBUG_SHOW_OBJECT_FRAMES) {
 				draw_rectangle(
 					trans.x - sprite_xoffset, 
 					trans.y - sprite_yoffset,			
-					trans.x - sprite_xoffset + sprite_width, 
-					trans.y - sprite_yoffset + sprite_height,
+					trans.x - sprite_xoffset + sprite_width - 1, 
+					trans.y - sprite_yoffset + sprite_height - 1,
 					true);
 			} else {			
 				draw_rectangle(
 					x - sprite_xoffset, 
 					y - sprite_yoffset,			
-					x - sprite_xoffset + sprite_width, 
-					y - sprite_yoffset + sprite_height,
+					x - sprite_xoffset + sprite_width - 1, 
+					y - sprite_yoffset + sprite_height - 1,
 					true);
 			}
 		}

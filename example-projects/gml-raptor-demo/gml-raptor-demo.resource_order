@@ -173,7 +173,7 @@
     {"name":"__scribble_get_krutidev_matra_lookup_map","order":12,"path":"scripts/__scribble_get_krutidev_matra_lookup_map/__scribble_get_krutidev_matra_lookup_map.yy",},
     {"name":"rmStartup","order":1,"path":"rooms/rmStartup/rmStartup.yy",},
     {"name":"Eye","order":6,"path":"objects/Eye/Eye.yy",},
-    {"name":"SnapBufferMeasureBinary","order":23,"path":"scripts/SnapBufferMeasureBinary/SnapBufferMeasureBinary.yy",},
+    {"name":"JujuPlusPlus","order":23,"path":"scripts/JujuPlusPlus/JujuPlusPlus.yy",},
     {"name":"Structs","order":30,"path":"scripts/Structs/Structs.yy",},
     {"name":"__scribble_font_add_sprite","order":9,"path":"scripts/__scribble_font_add_sprite/__scribble_font_add_sprite.yy",},
     {"name":"scribble_super_glyph_copy_all","order":3,"path":"scripts/scribble_super_glyph_copy_all/scribble_super_glyph_copy_all.yy",},

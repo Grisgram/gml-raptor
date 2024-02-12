@@ -437,11 +437,15 @@ __draw_instance = function() {
 	
 	if (__first_draw) {
 		__first_draw = false;
+		// layout and draw a second time upon opening
+		// (first layouting has no recent data to build a delta)
+		control_tree.layout(true);
+		control_tree.draw_children();
 		control_tree.invoke_on_opened();
 	}
 
 	// this code draws the client area in red, if one day there's a bug with alignment
-	//draw_set_color(c_red);
-	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
-	//draw_set_color(c_white);
+	draw_set_color(c_red);
+	draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	draw_set_color(c_white);
 }

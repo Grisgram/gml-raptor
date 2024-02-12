@@ -33,11 +33,8 @@ scale_sprite_to(w, h);
 if (orientation_horizontal)
 	text_yoffset = (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
 else {
-	scribble_text_align = $"[fa_middle][fa_left]";
-	var scrib = scribble(scribble_text_align + string(max_value), MY_NAME)
-				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, text_color);
-	var left_dist = scrib.get_bbox().width;// max(scrib.get_width(), scrib.get_bbox().width);
-	text_xoffset = (auto_text_position == slider_text.v_right ? sprite_width : (-sprite_width - left_dist));
+	var dims = scribble_measure_text(string(max_value));
+	text_xoffset = (auto_text_position == slider_text.v_right ? sprite_width : -dims.x);
 }
 
 event_inherited();

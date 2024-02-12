@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "SnapBufferMeasureBinary",
+  "name": "JujuPlusPlus",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

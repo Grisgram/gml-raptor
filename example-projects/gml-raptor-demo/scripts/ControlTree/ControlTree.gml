@@ -145,10 +145,15 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @function get_element(_name)
 	/// @description Retrieve a child control by its name. Returns the instance or undefined
 	static get_element = function(_name) {
+		var rv = undefined;
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			if (child.element_name == _name)
-				return child.instance;
+				rv = child.instance;
+			else if (is_child_of(child.instance, _baseContainerControl))
+				rv = child.instance.control_tree.get_element(_name);
+			if (rv != undefined) 
+				return rv;
 		}
 		return undefined;
 	}
@@ -196,29 +201,45 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
 		control_size.set(control.sprite_width, control.sprite_height);
-		var runx = control.x + control.data.client_area.left + margin_left;
-		var runy = control.y + control.data.client_area.top  + margin_top;
+		var startx = control.x + control.data.client_area.left + margin_left;
+		var starty = control.y + control.data.client_area.top  + margin_top;
+		var runx = startx;
+		var runy = starty;
 		var maxh = 0;
+		var maxw = 0;
+		var lidx = 0;
 		
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			var inst = child.instance;
-			maxh = max(maxh, inst.sprite_height + 1 + padding_bottom + margin_bottom);
+			maxh = max(maxh, inst.sprite_height + padding_bottom + margin_bottom);
 			if (_forced) inst.force_redraw();
 			inst.x = runx + padding_left + inst.sprite_xoffset;
 			inst.y = runy + padding_top  + inst.sprite_yoffset;
-			inst.data.control_tree_layout.align_in_control(inst, control);
+			//inst.data.control_tree_layout.align_in_control(lidx, inst, control);
 			
-			if (is_child_of(inst, _baseContainerControl))
-				inst.data.control_tree.layout();
-				
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.data.control_tree.layout(_forced);
+				//inst.data.control_tree_layout.align_in_control(lidx, inst, control);
+				inst.__update_client_area();
+			} //else
+			
+			inst.data.control_tree_layout.align_in_control(lidx, inst, control);
+
+			runx = inst.x + inst.sprite_width - inst.sprite_xoffset + padding_right + margin_right;
+			maxw = max(maxw, runx - startx);
+			lidx++;
 			if (child.newline_after) {
-				runx = control.x + control.data.client_area.left + margin_left;
-				runy += maxh;
+				runx = startx;
+				runy += maxh + margin_top;
 				maxh = 0;
-			} else
-				runx = inst.x + inst.sprite_width - inst.sprite_xoffset + 1 + i + padding_right + margin_right;
+				lidx = 0;
+			}
+				
 		}
+		
+		if (control.__auto_size_with_content)
+			with(control) scale_sprite_to(maxw, runy + maxh - starty);
 	}
 	
 	static draw_children = function() {

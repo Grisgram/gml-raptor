@@ -41,8 +41,7 @@ function CreateUiDemoSizableTree(_control) {
 		.add_control(Slider, {
 			startup_width: 24, 
 			knob_xscale: 2.0,
-			auto_text_position: slider_text.v_left,
-			orientation_horizontal: false
+			auto_text_position: slider_text.h_below
 		}).set_spread(,.5)
 	;
 }

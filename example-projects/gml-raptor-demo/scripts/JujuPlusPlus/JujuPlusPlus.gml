@@ -1,9 +1,24 @@
-/// @return The number of bytes a buffer should have if this _value would've been written to a buffer through SnapBufferWriteBinary
-/// 
-/// @param struct/array                The value to measure
-/// 
-/// @Grisgram 2023-06-01
+/*
+	This script contains some utility functions that adapt, overwrite
+	or extend some of juju's libraries a bit to my needs.
+*/
 
+/// @function scribble_measure_text(_string, _font, _scribble_text_align)
+/// @description	Get a Coord2 containing the width and height the text needs,
+///					if rendered with the specified _font (or the scribble_default_font if omitted)
+function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) {
+	var scrib = scribble(_string, $"measure{SUID}")
+			.starting_format(_font == undefined ? scribble_font_get_default() : font_to_use, c_white);
+			
+	_coord2 ??= new Coord2();
+	
+	var bb = scrib.get_bbox();
+	_coord2.set(bb.width, bb.height);
+	
+	return _coord2;
+}
+
+#region SnapMeasureBinary
 /*
     0x00  -  terminator
     0x01  -  struct
@@ -19,6 +34,10 @@
     0x0B  -  instance ID reference
 */
 
+/// @function SnapBufferMeasureBinary(_value)
+/// @description	The number of bytes a buffer should have if this _value would've 
+///					been written to a buffer through SnapBufferWriteBinary
+/// @param {struct/array} _value	The value to measure
 function SnapBufferMeasureBinary(_value)
 {
 	var len = 0;
@@ -97,3 +116,6 @@ function SnapBufferMeasureBinary(_value)
     }
     return len;
 }
+
+#endregion
+

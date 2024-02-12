@@ -1,7 +1,8 @@
 /// @description build object hierarchy
 event_inherited();
 
-__first_draw = true;
+__first_draw			 = true;
+__auto_size_with_content = false;
 
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// put the tree to save data
@@ -20,10 +21,14 @@ get_element = function(_name) {
 	return control_tree.get_element(_name);
 }
 
+__update_client_area = function() {
+	data.client_area.set(0, 0, sprite_width, sprite_height);
+}
+
 __original_draw_instance = __draw_instance;
 
 __draw_instance = function() {
-	data.client_area.set(0, 0, sprite_width, sprite_height);
+	__update_client_area();
 	__original_draw_instance();
 	
 	if (__first_draw) {
@@ -34,6 +39,10 @@ __draw_instance = function() {
 	
 	if (__first_draw) {
 		__first_draw = false;
+		// layout and draw a second time upon opening
+		// (first layouting has no recent data to build a delta)
+		control_tree.layout(true);
+		control_tree.draw_children();
 		control_tree.invoke_on_opened();
 	}
 	

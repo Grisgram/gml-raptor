@@ -10,19 +10,22 @@ function ControlTreeLayout() constructor {
 	anchoring	= anchor.none;
 	spreadx		= -1;
 	spready		= -1;
+	line_index	= 0;
 	
 	control_size = new Coord2();
 	
 	/// @function align_in_control(_inst, _control)
-	static align_in_control = function(_inst, _control) {
+	static align_in_control = function(_line_idx, _inst, _control) {
 		update_control_size(_control);
+		line_index = _line_idx;
+		
 		if (spreadx != -1) {
 			var sx = spreadx;
 			var netto = _control.data.client_area.width -
-						_control.data.control_tree.margin_left -
-						_control.data.control_tree.padding_left -
-						_control.data.control_tree.margin_right -
-						_control.data.control_tree.padding_right;
+						_control.data.control_tree.margin_left * (line_index + 1) -
+						_control.data.control_tree.padding_left * (line_index + 1) -
+						_control.data.control_tree.margin_right * (line_index + 1) -
+						_control.data.control_tree.padding_right * (line_index + 1);
 			with(_inst) 
 				scale_sprite_to(netto * sx, sprite_height);
 		}
