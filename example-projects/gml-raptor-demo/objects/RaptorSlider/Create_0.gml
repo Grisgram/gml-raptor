@@ -18,15 +18,27 @@ enum slider_autotext {
 	text_is_percent = 2
 }
 
+enum slider_text {
+	h_above = 1,
+	h_below = 2,
+	v_left  = 4,
+	v_right = 8
+}
+
 var w = (startup_width  >= 0 ? startup_width  : sprite_width);
 var h = (startup_height >= 0 ? startup_height : sprite_height);
 sprite_index = if_null(rail_sprite, sprite_index);
 scale_sprite_to(w, h);
 
 if (orientation_horizontal)
-	text_yoffset = -sprite_height;
-else
-	text_xoffset = sprite_width;
+	text_yoffset = (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
+else {
+	scribble_text_align = $"[fa_middle][fa_left]";
+	var scrib = scribble(scribble_text_align + string(max_value), MY_NAME)
+				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, text_color);
+	var left_dist = scrib.get_bbox().width;// max(scrib.get_width(), scrib.get_bbox().width);
+	text_xoffset = (auto_text_position == slider_text.v_right ? sprite_width : (-sprite_width - left_dist));
+}
 
 event_inherited();
 

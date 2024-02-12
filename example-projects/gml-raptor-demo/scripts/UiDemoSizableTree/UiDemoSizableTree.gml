@@ -38,6 +38,11 @@ function CreateUiDemoSizableTree(_control) {
 		.new_line()
 		.add_control(Label, { text: "Ich bin ein Label unten"}).set_spread(0.5)
 		.new_line()
-		.add_control(Slider, {startup_height: 24, knob_xscale: 2.0}).set_spread(1)
+		.add_control(Slider, {
+			startup_width: 24, 
+			knob_xscale: 2.0,
+			auto_text_position: slider_text.v_left,
+			orientation_horizontal: false
+		}).set_spread(,.5)
 	;
 }

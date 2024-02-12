@@ -211,6 +211,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			
 			if (is_child_of(inst, _baseContainerControl))
 				inst.data.control_tree.layout();
+				
 			if (child.newline_after) {
 				runx = control.x + control.data.client_area.left + margin_left;
 				runy += maxh;
@@ -225,6 +226,19 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var child = children[@i];
 			child.instance.__draw_instance();
 			child.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
+		}
+	}
+	
+	static move_children = function(_by_x, _by_y) {
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			var child = children[@i];
+			var inst = child.instance;
+			inst.x += _by_x;
+			inst.y += _by_y;
+			inst.__text_x += _by_x;
+			inst.__text_y += _by_y;
+			if (is_child_of(inst, _baseContainerControl))
+				inst.data.control_tree.move_children(_by_x, _by_y);
 		}
 	}
 	

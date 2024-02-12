@@ -7,6 +7,7 @@ if (draw_on_gui)
 if (__in_drag_mode) {
 	x += CTL_MOUSE_DELTA_X;
 	y += CTL_MOUSE_DELTA_Y;
+	control_tree.move_children(CTL_MOUSE_DELTA_X, CTL_MOUSE_DELTA_Y);
 } else if (__in_size_mode) {
 	__do_sizing();
 }

@@ -52,6 +52,7 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_xscale","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"1","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_yscale","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"1","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"auto_text","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"slider_autotext.text_is_value","varType":4,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"auto_text_position","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"slider_text.h_above","varType":4,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"orientation_horizontal","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
   ],
   "solid": false,
