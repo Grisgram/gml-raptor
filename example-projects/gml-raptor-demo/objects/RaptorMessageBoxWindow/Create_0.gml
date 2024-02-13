@@ -7,6 +7,11 @@ text_distance_top_bottom = 64;
 distance_between_buttons = 12;
 button_offset_from_bottom = 12;
 
+control_tree = undefined;
+data.control_tree_layout = undefined;
+data.control_tree = control_tree;
+data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
+
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {

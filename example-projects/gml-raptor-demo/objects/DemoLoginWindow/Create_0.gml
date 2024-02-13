@@ -11,13 +11,14 @@ control_tree
 		}).set_spread(1)
 	.new_line()
 	
-	.add_control(Panel).set_spread(.5).set_padding(0,0,16,0)
+	.add_control(Panel).set_spread(.5).set_padding(0,0,8,0)
 		.add_control(Label, {text:"=ui_demo/login_user",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(1)
 		.step_out()
-	.add_control(Panel).set_spread(.5).set_padding(16,0,16,0)
+	.add_control(Panel).set_spread(.5).set_padding(8,0,8,0)
 		.add_control(InputBox, {
 			text_color: APP_THEME_BRIGHT,
 			text_color_focus: APP_THEME_BRIGHT,
+			text_color_mouse_over: APP_THEME_BRIGHT,
 			tab_index: 0, 
 			text: "", 
 			//startup_width: 120,
@@ -26,13 +27,14 @@ control_tree
 		.step_out()
 	.new_line()
 	
-	.add_control(Panel).set_spread(.5).set_padding(0,0,16,0)
+	.add_control(Panel).set_spread(.5).set_padding(0,0,8,0)
 		.add_control(Label, {text:"=ui_demo/login_pwd",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(1)
 		.step_out()
-	.add_control(Panel).set_spread(.5).set_padding(16,0,16,0)	
+	.add_control(Panel).set_spread(.5).set_padding(8,0,8,0)	
 		.add_control(InputBox, {
 			text_color: APP_THEME_BRIGHT,
 			text_color_focus: APP_THEME_BRIGHT,
+			text_color_mouse_over: APP_THEME_BRIGHT,
 			tab_index: 1, 
 			text: "", 
 			//startup_width: 120, 
@@ -41,7 +43,7 @@ control_tree
 		}).set_name("txtPwd").set_spread(1)
 		.step_out()
 	.new_line()
-	
+
 	.add_control(CheckBox, {text:"=ui_demo/login_remember", checked: true}).set_name("chkRemember")
 	.new_line()
 	

@@ -11,7 +11,6 @@ event_inherited();
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
 edges = new Edges(self);
-
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
@@ -101,6 +100,7 @@ is_topmost_control = function(_x, _y) {
 	if (instance_position_list(_x, _y, _baseControl, __topmost_list, false) > 0) {
 		var mindepth = DEPTH_BOTTOM_MOST;
 		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
+			if (is_child_of(__topmost_list[|i], RaptorTooltip)) continue;
 			var w = __topmost_list[|i];
 			mindepth = min(mindepth, w.depth);
 		}
@@ -163,7 +163,7 @@ draw_scribble_text = function() {
 /// @param {string} align			
 /// @param {string} str			
 __create_scribble_object = function(align, str) {
-	return scribble(align + str, MY_NAME)
+	return scribble($"{align}{str}", MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 mouse_is_over ? text_color_mouse_over : text_color);
 }

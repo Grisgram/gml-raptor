@@ -211,7 +211,7 @@ __create_scribble_object = function(align, str, test_only = false) {
 	do {
 		var pw = !string_is_empty(password_char);
 		var scstr = (pw ? string_repeat(string_copy(password_char,1,1), max_chars) : string_copy(str, 1, max_chars));
-		sbc = scribble(align + scstr, MY_NAME)
+		sbc = scribble($"{align}{scstr}", MY_NAME)
 				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 								 mouse_is_over ? text_color_mouse_over : text_color);
 		bb = sbc.get_bbox();

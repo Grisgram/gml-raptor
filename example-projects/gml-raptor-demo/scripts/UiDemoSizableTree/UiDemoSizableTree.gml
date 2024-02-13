@@ -39,9 +39,9 @@ function CreateUiDemoSizableTree(_control) {
 		.add_control(Label, { text: "Ich bin ein Label unten"}).set_spread(0.5)
 		.new_line()
 		.add_control(Slider, {
-			startup_width: 24, 
+			startup_height: 24, 
 			knob_xscale: 2.0,
 			auto_text_position: slider_text.h_below
-		}).set_spread(,.5)
+		}).set_spread(1)
 	;
 }

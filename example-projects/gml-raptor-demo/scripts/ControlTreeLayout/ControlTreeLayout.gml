@@ -10,32 +10,40 @@ function ControlTreeLayout() constructor {
 	anchoring	= anchor.none;
 	spreadx		= -1;
 	spready		= -1;
-	line_index	= 0;
+	line_items	=  0;
 	
 	control_size = new Coord2();
 	
 	/// @function align_in_control(_inst, _control)
-	static align_in_control = function(_line_idx, _inst, _control) {
+	static align_in_control = function(_element_count, _inst, _control) {
 		update_control_size(_control);
-		line_index = _line_idx;
+		_control.__update_client_area();
+		line_items = _element_count;
 		
 		if (spreadx != -1) {
 			var sx = spreadx;
-			var netto = _control.data.client_area.width -
-						_control.data.control_tree.margin_left * (line_index + 1) -
-						_control.data.control_tree.padding_left * (line_index + 1) -
-						_control.data.control_tree.margin_right * (line_index + 1) -
-						_control.data.control_tree.padding_right * (line_index + 1);
+			
+			var maxv = (_control.data.client_area.width / line_items) -
+						_control.data.control_tree.margin_left -
+						_control.data.control_tree.margin_right -
+						_control.data.control_tree.padding_left -
+						_control.data.control_tree.padding_right;
+			
+			var netto = min(maxv, _control.data.client_area.width * sx);
+
 			with(_inst) 
-				scale_sprite_to(netto * sx, sprite_height);
+				scale_sprite_to(netto, sprite_height);
 		}
 		if (spready != -1) {
 			var sy = spready;
-			var netto = _control.data.client_area.width -
+			var maxv = (_control.data.client_area.height / line_items) -
 						_control.data.control_tree.margin_top -
-						_control.data.control_tree.padding_top -
 						_control.data.control_tree.margin_bottom -
+						_control.data.control_tree.padding_top -
 						_control.data.control_tree.padding_bottom;
+			
+			var netto = min(maxv, _control.data.client_area.height * sy);
+			
 			with(_inst)
 				scale_sprite_to(sprite_width, netto * sy);
 		}

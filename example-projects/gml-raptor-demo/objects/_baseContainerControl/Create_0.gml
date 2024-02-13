@@ -29,20 +29,16 @@ __original_draw_instance = __draw_instance;
 
 __draw_instance = function() {
 	__update_client_area();
-	__original_draw_instance();
 	
 	if (__first_draw) {
-		control_tree.layout(true);
+		control_tree.layout();
 	}
 
+	__original_draw_instance();
 	control_tree.draw_children();
 	
 	if (__first_draw) {
 		__first_draw = false;
-		// layout and draw a second time upon opening
-		// (first layouting has no recent data to build a delta)
-		control_tree.layout(true);
-		control_tree.draw_children();
 		control_tree.invoke_on_opened();
 	}
 	
