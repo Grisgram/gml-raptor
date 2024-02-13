@@ -37,7 +37,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	padding_top		= _padding ?? 0;
 	padding_right	= _padding ?? 0;
 	padding_bottom	= _padding ?? 0;
-	
+
+	render_area		= new Rectangle(); // client area minus all applied dockings (= free undocked render space)
+
 	__on_opened		= undefined;
 	__on_closed		= undefined;
 	__last_instance	= undefined;
@@ -48,7 +50,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	__force_next	= false;
 	__finished		= false;
-	__line_counts	= []
+	__line_counts	= [];
 	
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
@@ -136,13 +138,20 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	/// @function set_dock(_dock)
 	static set_dock = function(_dock) {
-		__last_layout.dock = _dock;
+		__last_layout.docking = _dock;
+		return self;
+	}
+	
+	/// @function set_align(_valign = fa_top, _halign = fa_left)
+	static set_align = function(_valign = fa_top, _halign = fa_left) {
+		__last_layout.valign = _valign;
+		__last_layout.halign = _halign;
 		return self;
 	}
 	
 	/// @function set_anchor(_anchor)
 	static set_anchor = function(_anchor) {
-		__last_layout.anchor = _anchor;
+		__last_layout.anchoring = _anchor;
 		return self;
 	}
 	
@@ -178,6 +187,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	/// @function step_out()
 	static step_out = function() {
+		__last_entry.stepout_after = true;
 		return parent_tree;
 	}
 	
@@ -238,8 +248,15 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			finish();
 		
 		control_size.set(control.sprite_width, control.sprite_height);
-		var startx	= control.x + control.data.client_area.left;
-		var starty	= control.y + control.data.client_area.top ;
+		render_area.set(
+			control.x + control.data.client_area.left, 
+			control.y + control.data.client_area.top , 
+			control.data.client_area.width, 
+			control.data.client_area.height
+		);
+		
+		var startx	= render_area.left;
+		var starty	= render_area.top ;
 		var runx	= startx;
 		var runy	= starty;
 		var maxh	= 0;
@@ -249,24 +266,47 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		__force_next = false;
 		
 		for (var i = 0, len = array_length(children); i < len; i++) {			
-			var child = children[@i];
-			var inst = child.instance;
-			var itemcount = __line_counts[@child.line_index];
-			var oldinstx = inst.x;
-			var oldinsty = inst.y;
-			var oldsizex = inst.sprite_width;
-			var oldsizey = inst.sprite_height;
+			var child		= children[@i];
+			var inst		= child.instance;
+			var ilayout		= inst.data.control_tree_layout;
+			var itemcount	= __line_counts[@child.line_index];
+			var oldinstx	= inst.x;
+			var oldinsty	= inst.y;
+			var oldsizex	= inst.sprite_width;
+			var oldsizey	= inst.sprite_height;
 			
 			if (_forced) inst.force_redraw();
-			inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
-			inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
+			
+			// align, dock, anchor, spread priority:
+			// 1. dock, 2. align, 3. anchor and spreading only if no dock or anchor is applied
+			
+			// Before rendering recursive, check, if we need to align manually with the runner
+			var skip_runner = (ilayout.docking != dock.none);
+			
+			//var skip_runner = ilayout.apply_docking(render_area, inst, control);
+
+			if (!skip_runner) {
+				inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
+				inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
+			}
 			
 			if (is_child_of(inst, _baseContainerControl)) {
 				inst.data.control_tree.layout(_forced);
 				inst.__update_client_area();
+				// after a child container, render area might have changed
 			}
+
 			
-			inst.data.control_tree_layout.align_in_control(itemcount, inst, control);
+			skip_runner = ilayout.apply_docking(render_area, inst, control);
+
+			//if (!skip_runner) {
+			//	inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
+			//	inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
+			//}
+
+			// apply_spreading will exit if anchor or dock is set, so no worries here
+			ilayout.apply_spreading(itemcount, render_area, inst, control);
+			
 			maxh = max(maxh, inst.sprite_height + padding_bottom + margin_bottom);
 
 			runx = inst.x + inst.sprite_width - inst.sprite_xoffset + padding_right + margin_right;
@@ -276,7 +316,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				runy += maxh;
 				maxh = 0;
 			}
+			if (child.stepout_after)
+				runy += margin_bottom + padding_bottom;
 		}
+		// apply last line's margin and padding
+		//runy += margin_bottom + padding_bottom;
+		
+		__reorder_bottom_dock();
+		__reorder_right_dock();
 		
 		if (_forced || control.__auto_size_with_content)
 			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, runy + maxh - starty));
@@ -289,6 +336,38 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	static __reorder_bottom_dock = function() {
+		var dtop = render_area.get_bottom();
+		var bottoms = [];
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child		= children[@i];
+			var inst		= child.instance;
+			if (inst.data.control_tree_layout.docking == dock.bottom)
+				array_push(bottoms, inst);
+		}
+		while (array_length(bottoms) > 0) {
+			var inst = array_shift(bottoms);
+			inst.y = dtop + margin_top + padding_top;
+			dtop += inst.sprite_height + margin_bottom + padding_bottom;
+		}
+	}
+	
+	static __reorder_right_dock = function() {
+		var dright = render_area.get_right();
+		var rights = [];
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child		= children[@i];
+			var inst		= child.instance;
+			if (inst.data.control_tree_layout.docking == dock.right)
+				array_push(rights, inst);
+		}
+		while (array_length(rights) > 0) {
+			var inst = array_shift(rights);
+			inst.x = dright + margin_left + padding_left;
+			dright += inst.sprite_width + margin_right + padding_right;
+		}
+	}
+
 	static draw_children = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];

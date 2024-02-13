@@ -7,41 +7,33 @@ function UiDemoSizableTreeChild(_control) : ControlTree(_control) constructor {
 
 function CreateUiDemoSizableTree(_control) {
 	return new UiDemoSizableTreeChild(_control)
-		.set_margin_all(8)
-		.add_control(Label, { text: "Ich bin ein Label oben"}).set_spread(0.5)
-		.add_control(Label, { text: "und ich rechts davon"}).set_spread(0.5)
-		.new_line()
-		.add_control(Panel, {startup_height:80,image_blend:c_red})
-			.set_spread(1)
-			.set_padding(41,0,0,0)
-			.add_control(ImageButton, {
-				sprite_to_use: sprLG_de, 
-				on_left_click: function() {
-					msg_show_ok("It's dynamic 1!", "Boom! (mic drop)");
-				}
-			})
-			.add_control(ImageButton, {
-				startup_width: 64,
-				startup_height: 64,
-				sprite_to_use: sprSnowflake, 
-				on_left_click: function() {
-					msg_show_ok("It's dynamic 2!", "Boom! (mic drop)");
-				}
-			})
-			.add_control(ImageButton, {
-				sprite_to_use: sprLG_de, 
-				on_left_click: function() {
-					msg_show_ok("It's dynamic 3!", "Boom! (mic drop)");
-				}
-			})
+		.set_margin_all(8).set_padding_all(4)
+		.add_control(Label, { 
+				text: "TOP-DOCK",
+				remove_sprite_at_runtime: false,
+				scribble_text_align: "[fa_middle][fa_center]"
+			}).set_dock(dock.top)
+		.add_control(Label, { 
+				text: "BOTTOM-DOCK",
+				remove_sprite_at_runtime: false,
+				scribble_text_align: "[fa_middle][fa_center]"
+			}).set_dock(dock.bottom)
+		.add_control(Label, { 
+				text: "RIGHT-DOCK",
+				remove_sprite_at_runtime: false,
+				scribble_text_align: "[fa_middle][fa_center]"
+			}).set_dock(dock.right)
+		.add_control(Label, { 
+				text: "LEFT-DOCK",
+				remove_sprite_at_runtime: false,
+				scribble_text_align: "[fa_middle][fa_center]"
+			}).set_dock(dock.left)
+		.add_control(Panel).set_dock(dock.fill)
+			.add_control(Label, {
+				text: "CENTER-FILL-DOCK",
+				remove_sprite_at_runtime: false,
+				scribble_text_align: "[fa_middle][fa_center]"
+			}).set_spread(1).set_margin_all(16)
 			.step_out()
-		.new_line()
-		.add_control(Label, { text: "Ich bin ein Label unten"}).set_spread(0.5)
-		.new_line()
-		.add_control(Slider, {
-			startup_height: 24, 
-			knob_xscale: 2.0,
-			auto_text_position: slider_text.h_below
-		}).set_spread(1)
-	;
+		;
 }

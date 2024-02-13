@@ -438,7 +438,11 @@ __draw_instance = function() {
 	}
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
-	//draw_set_color(c_red);
-	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
-	//draw_set_color(c_white);
+	draw_set_color(c_red);
+	draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	
+	draw_set_color(c_yellow);
+	draw_rectangle(control_tree.render_area.left, control_tree.render_area.top, control_tree.render_area.get_right(), control_tree.render_area.get_bottom(), true);
+	
+	draw_set_color(c_white);
 }
