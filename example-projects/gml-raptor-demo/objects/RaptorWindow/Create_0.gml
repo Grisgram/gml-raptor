@@ -17,8 +17,6 @@
 
 event_inherited();
 
-#macro __WINDOW_RESIZE_BORDER_WIDTH		8
-
 #macro __MOUSE_OVER_FOCUS_WINDOW		(__RAPTOR_FOCUS_WINDOW != undefined && __RAPTOR_FOCUS_WINDOW.mouse_is_over)
 
 #macro __RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING		global.__raptor_window_focus_change_running
@@ -176,7 +174,7 @@ __set_sizing_cursor = function() {
 /// @description			setup drag and resize rects
 /// @param {int} ninetop
 __setup_drag_rect = function() {
-	var size_offset = (window_is_sizable ? __WINDOW_RESIZE_BORDER_WIDTH : 0);
+	var size_offset = (window_is_sizable ? window_resize_border_width : 0);
 	__drag_rect.set(
 		SELF_VIEW_LEFT_EDGE + size_offset, 
 		SELF_VIEW_TOP_EDGE + size_offset, 
@@ -188,27 +186,27 @@ __setup_drag_rect = function() {
 		SELF_VIEW_LEFT_EDGE, 
 		SELF_VIEW_TOP_EDGE, 
 		SELF_WIDTH, 
-		__WINDOW_RESIZE_BORDER_WIDTH
+		window_resize_border_width
 	);
 	
 	__size_rect_bottom.set(
 		SELF_VIEW_LEFT_EDGE, 
-		SELF_VIEW_BOTTOM_EDGE - __WINDOW_RESIZE_BORDER_WIDTH,
+		SELF_VIEW_BOTTOM_EDGE - window_resize_border_width,
 		SELF_WIDTH, 
-		__WINDOW_RESIZE_BORDER_WIDTH
+		window_resize_border_width
 	);
 
 	__size_rect_left.set(
 		SELF_VIEW_LEFT_EDGE,
 		SELF_VIEW_TOP_EDGE,
-		__WINDOW_RESIZE_BORDER_WIDTH,
+		window_resize_border_width,
 		SELF_HEIGHT
 	);
 
 	__size_rect_right.set(
-		SELF_VIEW_RIGHT_EDGE - __WINDOW_RESIZE_BORDER_WIDTH,
+		SELF_VIEW_RIGHT_EDGE - window_resize_border_width,
 		SELF_VIEW_TOP_EDGE,
-		__WINDOW_RESIZE_BORDER_WIDTH,
+		window_resize_border_width,
 		SELF_HEIGHT
 	);
 }
@@ -323,10 +321,10 @@ scribble_add_title_effects = function(titletext) {
 
 __update_client_area = function() {
 	data.client_area.set(
-		__WINDOW_RESIZE_BORDER_WIDTH, 
-		titlebar_height + __WINDOW_RESIZE_BORDER_WIDTH / 2, 
-		sprite_width - 2 * __WINDOW_RESIZE_BORDER_WIDTH,
-		sprite_height - titlebar_height - 1.5 * __WINDOW_RESIZE_BORDER_WIDTH);
+		window_resize_border_width, 
+		titlebar_height + window_resize_border_width / 2, 
+		sprite_width - 2 * window_resize_border_width,
+		sprite_height - titlebar_height - 1.5 * window_resize_border_width);
 }
 
 /// @function					__create_scribble_title_object(align, str)
@@ -440,7 +438,7 @@ __draw_instance = function() {
 	}
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
-	draw_set_color(c_red);
-	draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
-	draw_set_color(c_white);
+	//draw_set_color(c_red);
+	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	//draw_set_color(c_white);
 }

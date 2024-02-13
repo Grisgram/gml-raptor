@@ -260,12 +260,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			if (_forced) inst.force_redraw();
 			inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
 			inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
-			//inst.data.control_tree_layout.align_in_control(itemcount, inst, control);
 			
 			if (is_child_of(inst, _baseContainerControl)) {
 				inst.data.control_tree.layout(_forced);
 				inst.__update_client_area();
-			} //else
+			}
 			
 			inst.data.control_tree_layout.align_in_control(itemcount, inst, control);
 			maxh = max(maxh, inst.sprite_height + padding_bottom + margin_bottom);
@@ -282,11 +281,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		if (_forced || control.__auto_size_with_content)
 			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, runy + maxh - starty));
 			
+		// if anything in our size or position changed, force update of the text display to avoid rubberbanding
 		if (inst.x != oldinstx || inst.y != oldinsty || 
 			inst.sprite_width != oldsizex || inst.sprite_height != oldsizey) {
-				//inst.force_redraw();
-				//inst.__draw_self();
-				vlog($"--- {name_of(inst)} changed!");
+				inst.force_redraw();
+				inst.__draw_self();
 		}
 	}
 	

@@ -133,7 +133,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			
 			force_redraw();
 			__draw_self(); // force variable update...
-			vlog($"--- {SELF_WIDTH} {SELF_HEIGHT}");
+			
 			if (draw_on_gui) {
 				x = UI_VIEW_CENTER_X - SELF_CENTER_X;
 				y = UI_VIEW_CENTER_Y - SELF_CENTER_Y - UI_VIEW_HEIGHT / 6;

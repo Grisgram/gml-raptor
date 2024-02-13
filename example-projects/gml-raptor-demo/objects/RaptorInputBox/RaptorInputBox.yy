@@ -54,7 +54,11 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"max_length","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"64","varType":1,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"tab_index","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"password_char","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"\"\"","varType":2,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"input_filter","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"character_filter.none","varType":4,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"input_filter","filters":[],"listItems":[
+        "character_filter.none",
+        "character_filter.allowed",
+        "character_filter.forbidden",
+      ],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"character_filter.none","varType":6,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"filtered_characters","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"","varType":2,},
   ],
   "solid": false,
