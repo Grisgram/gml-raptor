@@ -13,6 +13,6 @@ if (__in_drag_mode) {
 	control_tree.move_children_after_sizing(CTL_MOUSE_DELTA_X, CTL_MOUSE_DELTA_Y);
 }
 
-if (mouse_is_over && window_is_sizable) {
+if (mouse_is_over && window_is_sizable && !__size_mode_locked) {
 	__find_sizing_area();
 }

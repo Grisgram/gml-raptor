@@ -51,7 +51,9 @@ __size_rect_bottom	= new Rectangle();
 __size_rect_left	= new Rectangle();
 __size_rect_right	= new Rectangle();
 __in_size_mode		= false;
+__size_mode_locked	= false;
 __size_direction	= 0;
+
 // _rc = raptor cursor:Image index of the sizable sprite
 __size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
 // _dc = default cursor (gamemaker cr_ constants)
@@ -75,45 +77,65 @@ if (window_x_button_visible && !is_null(window_x_button_object)) {
 }
 
 #region sizable window
+__dx = 0;
+__dy = 0;
 
 __do_sizing = function() {
+	if (!__in_size_mode || __size_mode_locked) 
+		return;
+	
 	var recalc = true;
+	var neww = sprite_width;
+	var newh = sprite_height;
+	__dx = CTL_MOUSE_DELTA_X;
+	__dy = CTL_MOUSE_DELTA_Y;
 	switch (__size_direction) {
 		case 1:
-			scale_sprite_to(max(min_width,sprite_width - CTL_MOUSE_DELTA_X), max(min_height,sprite_height + CTL_MOUSE_DELTA_Y));
-			x += CTL_MOUSE_DELTA_X;
+			neww -= __dx;
+			newh += __dy;
+			x += __dx;
 			break;
 		case 2:
-			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height + CTL_MOUSE_DELTA_Y));
+			newh += __dy;
 			break;
 		case 3:
-			scale_sprite_to(max(min_width,sprite_width + CTL_MOUSE_DELTA_X), max(min_height,sprite_height + CTL_MOUSE_DELTA_Y));
+			neww += __dx;
+			newh += __dy;
 			break;
 		case 4:
-			scale_sprite_to(max(min_width,sprite_width - CTL_MOUSE_DELTA_X), max(min_height,sprite_height                    ));
-			x += CTL_MOUSE_DELTA_X;
+			neww -= __dx;
+			x += __dx;
 			break;
 		case 6:
-			scale_sprite_to(max(min_width,sprite_width + CTL_MOUSE_DELTA_X), max(min_height,sprite_height                    ));			
+			neww += __dx;
 			break;
 		case 7:
-			scale_sprite_to(max(min_width,sprite_width - CTL_MOUSE_DELTA_X), max(min_height,sprite_height - CTL_MOUSE_DELTA_Y));
-			x += CTL_MOUSE_DELTA_X;
-			y += CTL_MOUSE_DELTA_Y;
+			neww -= __dx;
+			newh -= __dy;
+			x += __dx;
+			y += __dy;
 			break;
 		case 8:
-			scale_sprite_to(max(min_width,sprite_width                    ), max(min_height,sprite_height - CTL_MOUSE_DELTA_Y));
-			y += CTL_MOUSE_DELTA_Y;
+			newh -= __dy;
+			y += __dy;
 			break;
 		case 9:
-			scale_sprite_to(max(min_width,sprite_width + CTL_MOUSE_DELTA_X), max(min_height,sprite_height - CTL_MOUSE_DELTA_Y));
-			y += CTL_MOUSE_DELTA_Y;
+			neww += __dx;
+			newh -= __dy;
+			y += __dy;
 			break;
 		default:
 			recalc = false;
 			break;
 	}
 	if (recalc) {
+		__in_size_mode = (neww >= min_width && newh >= min_height);
+		__size_mode_locked = !__in_size_mode;
+		vlog($"--- {neww}/{min_width} {newh}/{min_height} -> {__size_mode_locked} ---");
+		neww = max(neww, min_width);
+		newh = max(newh, min_height);
+		scale_sprite_to(neww, newh);
+		
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
 		__setup_drag_rect();
@@ -125,31 +147,34 @@ __do_sizing = function() {
 // we need to check all 4 borders and in each of them the adjacent sides to find the diagonals
 __find_sizing_area = function() {
 	if (!has_focus) return;
-	if (__size_rect_top.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
+	__dx = CTL_MOUSE_X;
+	__dy = CTL_MOUSE_Y;
+	
+	if (__size_rect_top.intersects_point(__dx, __dy)) {
 		
-		if (__size_rect_left.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 7;
-		else if (__size_rect_right.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 9;
+		if (__size_rect_left.intersects_point(__dx, __dy)) __size_direction = 7;
+		else if (__size_rect_right.intersects_point(__dx, __dy)) __size_direction = 9;
 		else
 			__size_direction = 8;
 			
-	} else if (__size_rect_bottom.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
+	} else if (__size_rect_bottom.intersects_point(__dx, __dy)) {
 		
-		if (__size_rect_left.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 1;
-		else if (__size_rect_right.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 3;
+		if (__size_rect_left.intersects_point(__dx, __dy)) __size_direction = 1;
+		else if (__size_rect_right.intersects_point(__dx, __dy)) __size_direction = 3;
 		else 
 			__size_direction = 2;
 		
-	} else if (__size_rect_left.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
+	} else if (__size_rect_left.intersects_point(__dx, __dy)) {
 		
-		if (__size_rect_top.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 7;
-		else if (__size_rect_bottom.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 1;
+		if (__size_rect_top.intersects_point(__dx, __dy)) __size_direction = 7;
+		else if (__size_rect_bottom.intersects_point(__dx, __dy)) __size_direction = 1;
 		else
 			__size_direction = 4;
 
-	} else if (__size_rect_right.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
+	} else if (__size_rect_right.intersects_point(__dx, __dy)) {
 
-		if (__size_rect_top.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 9;
-		else if (__size_rect_bottom.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) __size_direction = 3;
+		if (__size_rect_top.intersects_point(__dx, __dy)) __size_direction = 9;
+		else if (__size_rect_bottom.intersects_point(__dx, __dy)) __size_direction = 3;
 		else
 			__size_direction = 6;
 
@@ -438,11 +463,11 @@ __draw_instance = function(_force = false) {
 	}
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
-	//draw_set_color(c_red);
-	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	draw_set_color(c_red);
+	draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
 	
-	//draw_set_color(c_yellow);
-	//draw_rectangle(control_tree.render_area.left, control_tree.render_area.top, control_tree.render_area.get_right(), control_tree.render_area.get_bottom(), true);
+	draw_set_color(c_yellow);
+	draw_rectangle(control_tree.render_area.left, control_tree.render_area.top, control_tree.render_area.get_right(), control_tree.render_area.get_bottom(), true);
 	
-	//draw_set_color(c_white);
+	draw_set_color(c_white);
 }

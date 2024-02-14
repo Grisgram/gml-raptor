@@ -43,6 +43,7 @@ function ControlTreeLayout() constructor {
 	
 	static __apply_dock_top = function(_area, _inst, _control) {
 		var tree = _control.data.control_tree;
+		var runner = tree.runner;
 		
 		var neww = _area.width - 
 				tree.margin_left - tree.margin_right -
@@ -55,6 +56,7 @@ function ControlTreeLayout() constructor {
 			tree.margin_top + tree.margin_bottom +
 			tree.padding_top + tree.padding_bottom;
 				
+		runner.top += areadiff;
 		_area.top += areadiff;
 		_area.height -= areadiff;
 		if (_area.height < 0)
@@ -65,6 +67,7 @@ function ControlTreeLayout() constructor {
 	
 	static __apply_dock_bottom = function(_area, _inst, _control) {
 		var tree = _control.data.control_tree;
+		var runner = tree.runner;
 		
 		var neww = _area.width - 
 				tree.margin_left - tree.margin_right -
@@ -80,6 +83,7 @@ function ControlTreeLayout() constructor {
 			tree.margin_top + tree.margin_bottom +
 			tree.padding_top + tree.padding_bottom;
 				
+		runner.bottom -= areadiff;
 		_area.height -= areadiff;
 		if (_area.height < 0)
 			wlog($"** WARNING ** Negative docking area vertical {_area.height}! Your controls take up too much space!");
@@ -89,6 +93,7 @@ function ControlTreeLayout() constructor {
 
 	static __apply_dock_left = function(_area, _inst, _control) {
 		var tree = _control.data.control_tree;
+		var runner = tree.runner;
 		
 		var newh = _area.height - 
 				tree.margin_top - tree.margin_bottom -
@@ -100,7 +105,8 @@ function ControlTreeLayout() constructor {
 		var areadiff = _inst.sprite_width + 
 			tree.margin_left + tree.margin_right +
 			tree.padding_left + tree.padding_right;
-				
+
+		runner.left += areadiff;
 		_area.left += areadiff;
 		_area.width -= areadiff;
 		if (_area.width < 0)
@@ -111,6 +117,7 @@ function ControlTreeLayout() constructor {
 
 	static __apply_dock_right = function(_area, _inst, _control) {
 		var tree = _control.data.control_tree;
+		var runner = tree.runner;
 
 		var newh = _area.height - 
 				tree.margin_top - tree.margin_bottom -
@@ -125,7 +132,8 @@ function ControlTreeLayout() constructor {
 		var areadiff = _inst.sprite_width + 
 			tree.margin_left + tree.margin_right +
 			tree.padding_left + tree.padding_right;
-				
+		
+		runner.right -= areadiff;
 		_area.width -= areadiff;
 		if (_area.width < 0)
 			wlog($"** WARNING ** Negative docking area horizontal {_area.width}! Your controls take up too much space!");

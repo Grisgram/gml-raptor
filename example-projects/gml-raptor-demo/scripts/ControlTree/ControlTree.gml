@@ -295,30 +295,38 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		runner.right	= render_area.get_right();
 		runner.bottom	= render_area.get_bottom();
 		
-		var maxh	= 0;
-		var maxw	= 0;
+		var maxh		= 0;
+		var maxw		= 0;
+		var child		= undefined;
+		var inst		= undefined;
+		var ilayout		= undefined;
+		var itemcount	= 0;
+		var oldinstx	= 0;
+		var oldinsty	= 0;
+		var oldsizex	= 0;
+		var oldsizey	= 0;
 		
 		_forced |= __force_next;
 		__force_next = false;
-		
+
 		for (var i = 0, len = array_length(children); i < len; i++) {			
-			var child		= children[@i];
-			var inst		= child.instance;
-			var ilayout		= inst.data.control_tree_layout;
-			var itemcount	= __line_counts[@child.line_index];
-			var oldinstx	= inst.x;
-			var oldinsty	= inst.y;
-			var oldsizex	= inst.sprite_width;
-			var oldsizey	= inst.sprite_height;
+			child		= children[@i];
+			inst		= child.instance;
+			ilayout		= inst.data.control_tree_layout;
+			itemcount	= __line_counts[@child.line_index];
+			oldinstx	= inst.x;
+			oldinsty	= inst.y;
+			oldsizex	= inst.sprite_width;
+			oldsizey	= inst.sprite_height;
 			
 			if (_forced) inst.force_redraw();
 			
-			var has_align = (ilayout.valign != fa_top || ilayout.halign != fa_left);
-			
-			if (ilayout.docking == dock.none && !has_align) {
+			if (ilayout.docking == dock.none) {
 				// if no alignment and no docking, place it "runner-style"
-				inst.x = runner.left + margin_left + padding_left + inst.sprite_xoffset;
-				inst.y = runner.top + margin_top  + padding_top  + inst.sprite_yoffset;
+				if (ilayout.halign == fa_left)
+					inst.x = runner.left + margin_left + padding_left + inst.sprite_xoffset;
+				if (ilayout.valign == fa_top)
+					inst.y = runner.top + margin_top  + padding_top  + inst.sprite_yoffset;
 			}
 			
 			if (is_child_of(inst, _baseContainerControl)) {
@@ -344,8 +352,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			if (child.stepout_after)
 				runner.top += margin_bottom + padding_bottom;
 		}
-		// apply last line's margin and padding
-		
+						
 		if (reorder_docks) {
 			__reorder_bottom_dock();
 			__reorder_right_dock();
@@ -357,8 +364,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 			
 		// if anything in our size or position changed, force update of the text display to avoid rubberbanding
-		if (inst.x != oldinstx || inst.y != oldinsty || 
-			inst.sprite_width != oldsizex || inst.sprite_height != oldsizey) {
+		if (inst != undefined && 
+			(inst.x != oldinstx || inst.y != oldinsty || 
+			 inst.sprite_width != oldsizex || inst.sprite_height != oldsizey)) {
 				inst.force_redraw();
 				inst.__draw_self();
 		}

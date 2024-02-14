@@ -46,11 +46,11 @@ control_tree
 
 	.add_control(CheckBox, {text:"=ui_demo/login_remember", checked: true})
 		.set_name("chkRemember")
-		.set_dock(dock.bottom)
 		.set_padding_all(8)
+		.set_align(fa_bottom, fa_center)
 	.new_line()
 	
-	.add_control(Panel).set_dock(dock.bottom).set_padding_all(8)//.set_margin(0,0,0,8)
+	.add_control(Panel, {startup_height:48}).set_dock(dock.bottom).set_padding_all(8)//.set_margin(0,0,0,8)
 		.add_control(Panel).set_spread(.5).set_padding_all(8)//.set_padding(0,0,16,0)
 			.add_control(TextButton, {
 				text:"=ui_demo/login_button", 
