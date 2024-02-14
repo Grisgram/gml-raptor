@@ -39,6 +39,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	padding_bottom	= _padding ?? 0;
 
 	render_area		= new Rectangle(); // client area minus all applied dockings (= free undocked render space)
+	reorder_docks	= true;
 
 	__on_opened		= undefined;
 	__on_closed		= undefined;
@@ -63,6 +64,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	static get_root_control = function() {
 		return __root_tree.control;
+	}
+	
+	static is_root_tree = function() {
+		return eq(__root_tree, self);
 	}
 	
 	/// @function set_margin_all(_margin)
@@ -139,6 +144,18 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @function set_dock(_dock)
 	static set_dock = function(_dock) {
 		__last_layout.docking = _dock;
+		__last_layout.docking_reverse = (_dock == dock.right || _dock == dock.bottom);
+		return self;
+	}
+	
+	/// @function set_dock_reorder(_reorder)
+	/// @description True by default. Reorder dock means a more "natural" feeling of
+	///				 adding right- and bottom docked elements.
+	///				 When you design a form, you think "left-to-right" and "top-to-bottom",
+	///				 so you likely want to appear the first bottom added ABOVE the second bottom
+	///				 If you do not want that, just turn reorder off.
+	static set_dock_reorder = function(_reorder) {
+		reorder_docks = _reorder;
 		return self;
 	}
 	
@@ -320,10 +337,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				runy += margin_bottom + padding_bottom;
 		}
 		// apply last line's margin and padding
-		//runy += margin_bottom + padding_bottom;
 		
-		__reorder_bottom_dock();
-		__reorder_right_dock();
+		if (reorder_docks) {
+			__reorder_bottom_dock();
+			__reorder_right_dock();
+		}
 		
 		if (_forced || control.__auto_size_with_content)
 			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, runy + maxh - starty));
@@ -334,6 +352,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				inst.force_redraw();
 				inst.__draw_self();
 		}
+		return self;
 	}
 	
 	static __reorder_bottom_dock = function() {
@@ -369,6 +388,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static draw_children = function() {
+		if (!__finished) layout(true);
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			child.instance.__draw_instance();
@@ -389,6 +409,21 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	static move_children_after_sizing = function(_by_x, _by_y) {
+		if (is_root_tree()) layout(true);
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			var child = children[@i];
+			var inst = child.instance;
+			if (inst.data.control_tree_layout.docking != dock.left &&
+				inst.data.control_tree_layout.docking != dock.top) {
+				inst.__text_x += _by_x/2;
+				inst.__text_y += _by_y/2;
+				if (is_child_of(inst, _baseContainerControl))
+					inst.data.control_tree.move_children_after_sizing(_by_x, _by_y);
+			}
+		}
+	}
+
 	static clean_up = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];

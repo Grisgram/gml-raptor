@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "UiDemoSizableTree",
+  "name": "UiDemoDocking",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

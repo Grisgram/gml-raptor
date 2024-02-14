@@ -92,6 +92,24 @@ get_window = function() {
 	return undefined;
 }
 
+/// @function get_parent()
+/// @description If this control is embedded in a control tree, this function returns
+///				 the parent control of this one (i.e. a Panel or something similar)
+get_parent = function() {
+	if (__container != undefined)
+		return __container;//.control_tree.control;
+	return undefined;
+}
+
+/// @function get_parent_tree()
+/// @description If this control is embedded in a control tree, this function returns
+///				 the parent control tree of this one
+get_parent_tree = function() {
+	if (__container != undefined)
+		return __container.control_tree;//.parent_tree;
+	return undefined;
+}
+
 /// @function is_topmost_control()
 /// @description True, if this control is the topmost (= lowest depth) at the specified position
 __topmost_list = ds_list_create();
@@ -142,6 +160,7 @@ __mouse_enter_topmost_control = function() {
 /// @description				force recalculate of all positions next frame
 force_redraw = function() {
 	__force_redraw = true;
+	return self;
 }
 
 /// @function					scribble_add_text_effects(scribbletext)
@@ -170,7 +189,7 @@ __create_scribble_object = function(align, str) {
 
 /// @function					__adopt_object_properties()
 /// @description				copy blend, alpha, scale and angle from the object to the text
-__adopt_object_properties = function() {
+__adopt_object_properties = function() {	
 	if (adopt_object_properties == adopt_properties.alpha ||
 		adopt_object_properties == adopt_properties.full) {
 		__scribble_text.blend(image_blend, image_alpha);
@@ -183,6 +202,7 @@ __adopt_object_properties = function() {
 /// @function					__finalize_scribble_text()
 /// @description				add blend and transforms to the final text
 __finalize_scribble_text = function() {
+	__scribble_text.transform(1, 1, text_angle);
 	if (adopt_object_properties != adopt_properties.none)
 		__adopt_object_properties();
 	scribble_add_text_effects(__scribble_text);
@@ -207,6 +227,8 @@ __apply_post_positioning = function() {
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
+	var was_forced = __force_redraw;
+	
 	if (__CONTROL_NEEDS_LAYOUT) {
 		__force_redraw = false;
 
@@ -268,14 +290,17 @@ __draw_self = function() {
 		__last_sprite_index		= sprite_index;
 		__last_sprite_width		= sprite_width;
 		__last_sprite_height	= sprite_height;
+		
+		was_forced = true;
 	} else
 		__finalize_scribble_text();
 
 	if (__CONTROL_DRAWS_SELF)
-		__draw_instance();
+		__draw_instance(was_forced);
 }
 
-__draw_instance = function() {
+__draw_instance = function(_force = false) {
+	
 	if (sprite_index != -1) {
 		if (!is_enabled) {
 			__disabled_surface_width = sprite_width;

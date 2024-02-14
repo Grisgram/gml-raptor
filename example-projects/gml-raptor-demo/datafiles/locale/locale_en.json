@@ -101,7 +101,7 @@
   "ui_demo": {
     "show_sizeable": "[scale,1.25]Sizable Window (empty)",
     "sizable_window_title": "A sizable window",
-    "control_tree": "[scale,1.25]Control Layouts",
+    "control_tree": "[scale,1.25]Control Docking",
     "show_login": "[scale,1.25]Demo Login",
     "login_window_title": "Login",
     "login_top_message": "To continue, login here",
@@ -109,6 +109,7 @@
     "login_pwd": "Password:",
     "login_button": "Login",
     "login_remember": "Remember user name and password",
-    "login_entered_values": "Demonstrating read-out of control in a dynamic window:"
+    "login_entered_values": "Demonstrating read-out of control in a dynamic window:",
+    "add_dock_plus": "+"
   }
 }
