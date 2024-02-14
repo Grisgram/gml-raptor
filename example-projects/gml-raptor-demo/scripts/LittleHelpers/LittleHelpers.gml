@@ -245,5 +245,5 @@ function is_null(value) {
 ///					Due to a html bug you can not simply compare inst1==inst2,
 ///					but you have to compare their ids instead.
 function eq(inst1, inst2) {
-	TRY return name_of(inst1) == name_of(inst2); CATCH return false; ENDTRY
+	try { return name_of(inst1) == name_of(inst2); } catch (_) { return false; }
 }

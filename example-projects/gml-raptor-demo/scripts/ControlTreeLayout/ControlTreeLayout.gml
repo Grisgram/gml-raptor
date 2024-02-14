@@ -20,15 +20,12 @@ function ControlTreeLayout() constructor {
 #region Docking
 	/// @function apply_docking(_area, _inst, _control)
 	static apply_docking = function(_area, _inst, _control) {
-				//inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
-				//inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
-		
 		var neww = _inst.sprite_width;
 		var newh = _inst.sprite_height;
 		var tree = _control.data.control_tree;
 		
 		switch (docking) {
-			case dock.none:		return false;
+			case dock.none:		return;
 			case dock.left:		newh = __apply_dock_left	(_area, _inst, _control); break;
 			case dock.right:	newh = __apply_dock_right	(_area, _inst, _control); break;
 			case dock.top:		neww = __apply_dock_top		(_area, _inst, _control); break;
@@ -42,8 +39,6 @@ function ControlTreeLayout() constructor {
 		
 		with (_inst)
 			scale_sprite_to(neww, newh);
-			
-		return true;
 	}
 	
 	static __apply_dock_top = function(_area, _inst, _control) {
@@ -115,8 +110,6 @@ function ControlTreeLayout() constructor {
 	}
 
 	static __apply_dock_right = function(_area, _inst, _control) {
-		var neww = _inst.sprite_width;
-		var newh = _inst.sprite_height;
 		var tree = _control.data.control_tree;
 
 		var newh = _area.height - 
@@ -166,6 +159,46 @@ function ControlTreeLayout() constructor {
 		return rv;
 	}
 
+#endregion
+
+#region Alignment
+	static apply_alignment = function(_inst, _control) {
+		var tree = _control.data.control_tree;
+		var runner = tree.runner;
+
+		//_inst.x = runner.left + margin_left + padding_left + inst.sprite_xoffset;
+		//_inst.y = runner.top + margin_top  + padding_top  + inst.sprite_yoffset;
+		
+		// The switches here ignore fa_top and fa_left because this is "runner-style" and
+		// has already been set by the layout() function of the tree.
+		// We only care about middle/center/right/bottom here as this function gets invoked
+		// AFTER the final size of the instance is set
+		switch (valign) {
+			case fa_middle:
+				_inst.y = tree.render_area.top + tree.render_area.height / 2 - _inst.sprite_height / 2;
+				break;
+			case fa_bottom:
+				var opp = (runner.bottom == tree.render_area.get_bottom() ? 0 :
+							tree.margin_top + tree.padding_top);
+				var dist = _inst.sprite_height + tree.margin_bottom + tree.padding_bottom + opp;
+				runner.bottom -= dist;
+				_inst.y = runner.bottom;
+				break;
+		}
+		switch (halign) {
+			case fa_center:
+				_inst.x = tree.render_area.left + tree.render_area.width / 2 - _inst.sprite_width / 2;
+				break;
+			case fa_right:
+				var opp = (runner.right == tree.render_area.get_right() ? 0 :
+							tree.margin_left + tree.padding_left);
+				var dist = _inst.sprite_width + tree.margin_right + tree.padding_right + opp;
+				runner.right -= dist;
+				_inst.x = runner.right;
+				break;
+		}
+	}
+	
 #endregion
 
 #region Spreading

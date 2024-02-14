@@ -41,6 +41,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	render_area		= new Rectangle(); // client area minus all applied dockings (= free undocked render space)
 	reorder_docks	= true;
 
+	// holds rendering coordinates
+	runner  = {
+		left:	0,
+		top :	0,
+		right:	0,
+		bottom: 0
+	}
+	
 	__on_opened		= undefined;
 	__on_closed		= undefined;
 	__last_instance	= undefined;
@@ -52,7 +60,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	__force_next	= false;
 	__finished		= false;
 	__line_counts	= [];
-	
+
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
 		if (!is_child_of(_control, _baseContainerControl))
@@ -62,10 +70,17 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
+	/// @function get_root_control()
 	static get_root_control = function() {
 		return __root_tree.control;
 	}
 	
+	/// @function get_root_tree()
+	static get_root_tree = function() {
+		return __root_tree;
+	}
+	
+	/// @function is_root_tree()
 	static is_root_tree = function() {
 		return eq(__root_tree, self);
 	}
@@ -272,10 +287,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			control.data.client_area.height
 		);
 		
-		var startx	= render_area.left;
-		var starty	= render_area.top ;
-		var runx	= startx;
-		var runy	= starty;
+		var startx		= render_area.left;
+		var starty		= render_area.top ;
+		
+		runner.left		= startx;
+		runner.top		= starty;
+		runner.right	= render_area.get_right();
+		runner.bottom	= render_area.get_bottom();
+		
 		var maxh	= 0;
 		var maxw	= 0;
 		
@@ -294,47 +313,36 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			
 			if (_forced) inst.force_redraw();
 			
-			// align, dock, anchor, spread priority:
-			// 1. dock, 2. align, 3. anchor and spreading only if no dock or anchor is applied
+			var has_align = (ilayout.valign != fa_top || ilayout.halign != fa_left);
 			
-			// Before rendering recursive, check, if we need to align manually with the runner
-			var skip_runner = (ilayout.docking != dock.none);
-			
-			//var skip_runner = ilayout.apply_docking(render_area, inst, control);
-
-			if (!skip_runner) {
-				inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
-				inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
+			if (ilayout.docking == dock.none && !has_align) {
+				// if no alignment and no docking, place it "runner-style"
+				inst.x = runner.left + margin_left + padding_left + inst.sprite_xoffset;
+				inst.y = runner.top + margin_top  + padding_top  + inst.sprite_yoffset;
 			}
 			
 			if (is_child_of(inst, _baseContainerControl)) {
 				inst.data.control_tree.layout(_forced);
 				inst.__update_client_area();
-				// after a child container, render area might have changed
 			}
-
 			
-			skip_runner = ilayout.apply_docking(render_area, inst, control);
-
-			//if (!skip_runner) {
-			//	inst.x = runx + margin_left + padding_left + inst.sprite_xoffset;
-			//	inst.y = runy + margin_top  + padding_top  + inst.sprite_yoffset;
-			//}
-
+			ilayout.apply_docking(render_area, inst, control);
 			// apply_spreading will exit if anchor or dock is set, so no worries here
 			ilayout.apply_spreading(itemcount, render_area, inst, control);
+			// after spreading, alignment might need a calculation
+			ilayout.apply_alignment(inst, control);
 			
 			maxh = max(maxh, inst.sprite_height + padding_bottom + margin_bottom);
 
-			runx = inst.x + inst.sprite_width - inst.sprite_xoffset + padding_right + margin_right;
-			maxw = max(maxw, runx - startx);
+			runner.left = inst.x + inst.sprite_width - inst.sprite_xoffset + padding_right + margin_right;
+			maxw = max(maxw, runner.left - startx);
 			if (child.newline_after) {
-				runx = startx;
-				runy += maxh;
+				runner.left = startx;
+				runner.top += maxh;
 				maxh = 0;
 			}
 			if (child.stepout_after)
-				runy += margin_bottom + padding_bottom;
+				runner.top += margin_bottom + padding_bottom;
 		}
 		// apply last line's margin and padding
 		
@@ -343,8 +351,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			__reorder_right_dock();
 		}
 		
-		if (_forced || control.__auto_size_with_content)
-			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, runy + maxh - starty));
+		if (_forced || control.__auto_size_with_content) {
+			var newheight = runner.top + maxh - starty;
+			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, newheight));
+		}
 			
 		// if anything in our size or position changed, force update of the text display to avoid rubberbanding
 		if (inst.x != oldinstx || inst.y != oldinsty || 
