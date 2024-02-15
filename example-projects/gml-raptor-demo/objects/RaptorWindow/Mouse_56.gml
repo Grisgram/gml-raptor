@@ -2,7 +2,7 @@
 
 __size_mode_locked = false;
 
-GUI_EVENT;
+//GUI_EVENT;
 //if (!gui_mouse.event_redirection_active) exit;
 
 if (__in_drag_mode) {

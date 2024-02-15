@@ -79,7 +79,7 @@ control_tree
 			}).set_spread(.5).set_align(fa_middle, fa_left)
 			.step_out()
 		.step_out()
-		
+
 	.on_window_opened(function(_who) {
 		vlog($"--- {MY_NAME} on_window_opened ---");
 		get_element("txtUser").set_focus();

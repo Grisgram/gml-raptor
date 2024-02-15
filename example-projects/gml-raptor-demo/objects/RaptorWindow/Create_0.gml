@@ -85,61 +85,45 @@ __do_sizing = function() {
 		return;
 	
 	var recalc = true;
+	var xpx  = false;
+	var xpy  = false;
+	var oldw = sprite_width;
+	var oldh = sprite_height;
 	var neww = sprite_width;
 	var newh = sprite_height;
 	__dx = CTL_MOUSE_DELTA_X;
 	__dy = CTL_MOUSE_DELTA_Y;
 	switch (__size_direction) {
-		case 1:
-			neww -= __dx;
-			newh += __dy;
-			x += __dx;
-			break;
-		case 2:
-			newh += __dy;
-			break;
-		case 3:
-			neww += __dx;
-			newh += __dy;
-			break;
-		case 4:
-			neww -= __dx;
-			x += __dx;
-			break;
-		case 6:
-			neww += __dx;
-			break;
-		case 7:
-			neww -= __dx;
-			newh -= __dy;
-			x += __dx;
-			y += __dy;
-			break;
-		case 8:
-			newh -= __dy;
-			y += __dy;
-			break;
-		case 9:
-			neww += __dx;
-			newh -= __dy;
-			y += __dy;
-			break;
+		case 1:	neww -= __dx;	newh += __dy;	x += __dx;				xpx = true ; xpy = true ; break;
+		case 2:					newh += __dy;							xpx = false; xpy = true ; break;
+		case 3:	neww += __dx;	newh += __dy;							xpx = true ; xpy = true ; break;
+		case 4:	neww -= __dx;					x += __dx;				xpx = true ; xpy = false; break;
+		case 6:	neww += __dx;											xpx = true ; xpy = false; break;
+		case 7:	neww -= __dx;	newh -= __dy;	x += __dx;	y += __dy;	xpx = true ; xpy = true ; break;
+		case 8:					newh -= __dy;				y += __dy;	xpx = false; xpy = true ; break;
+		case 9:	neww += __dx;	newh -= __dy;				y += __dy;	xpx = true ; xpy = true ; break;
 		default:
 			recalc = false;
 			break;
 	}
 	if (recalc) {
-		__in_size_mode = (neww >= min_width && newh >= min_height);
-		__size_mode_locked = !__in_size_mode;
-		vlog($"--- {neww}/{min_width} {newh}/{min_height} -> {__size_mode_locked} ---");
-		neww = max(neww, min_width);
-		newh = max(newh, min_height);
+		//neww = max(neww, min_width);
+		//newh = max(newh, min_height);
+		neww = max(neww, __startup_xscale);
+		newh = max(newh, __startup_yscale);
 		scale_sprite_to(neww, newh);
 		
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
 		__setup_drag_rect();
 		control_tree.layout();
+		
+		vlog($"{xpx}|{__dx}:{abs(oldw-neww)} {xpy}|{__dy}:{abs(oldh-newh)}");
+		if ((xpx && __dx != 0) || (xpy && __dy != 0))
+			__in_size_mode = (xpx && __dx != 0 && abs(oldw-neww) != 0) || (xpy && __dy != 0 && abs(oldh-newh) != 0);
+		if (!__in_size_mode) vlog($"--- STOP ---");
+		//__size_mode_locked = !__in_size_mode;
+		return __in_size_mode;
 	}
 }
 
