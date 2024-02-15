@@ -18,14 +18,16 @@ function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
 				min_width: 32,
 				min_height: 32,
 				on_left_click: function() {
-					vlog($"{MY_NAME}");
+					vlog($"--- {MY_NAME} ---");
 					if (text_angle == 0) scale_sprite_to(sprite_width, sprite_height + 8);
 					else scale_sprite_to(sprite_width + 8, sprite_height);
+					get_parent_tree().layout();
 				},
 				on_right_click: function() {
-					vlog($"{MY_NAME}");
+					vlog($"--- {MY_NAME} ---");
 					if (text_angle == 0) scale_sprite_to(sprite_width, sprite_height - 8);
 					else scale_sprite_to(sprite_width - 8, sprite_height);
+					get_parent_tree().layout();
 				}
 			}).set_dock(_dock);
 	}

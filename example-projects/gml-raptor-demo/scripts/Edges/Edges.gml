@@ -89,8 +89,7 @@ function Edges(obj = undefined) constructor {
 	}
 	
 	toString = function() {
-		return sprintf("{Edges l/t/r/b={0}/{1}/{2}/{3}; w/h={4}/{5}; center={6}/{7}}",
-			left, top, right, bottom, width, height, center_x, center_y);
+		return $"Edges l/t/r/b={left}/{top}/{right}/{bottom}, w/h={width}/{height}, center={center_x}/{center_y}";
 	}
 	
 	update();
