@@ -171,6 +171,9 @@ function ControlTreeLayout() constructor {
 
 #region Alignment
 	static apply_alignment = function(_inst, _control) {
+		if (docking != dock.none || anchoring != anchor.none)
+			return; // we can only align if we are the master of our size
+			
 		var tree = _control.data.control_tree;
 		var runner = tree.runner;
 
@@ -182,6 +185,9 @@ function ControlTreeLayout() constructor {
 		// We only care about middle/center/right/bottom here as this function gets invoked
 		// AFTER the final size of the instance is set
 		switch (valign) {
+			//case fa_top:
+			//	_inst.y = runner.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
+			//	break;
 			case fa_middle:
 				_inst.y = tree.render_area.top + tree.render_area.height / 2 - _inst.sprite_height / 2;
 				break;
@@ -194,6 +200,9 @@ function ControlTreeLayout() constructor {
 				break;
 		}
 		switch (halign) {
+			//case fa_left:
+			//	_inst.x = runner.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
+			//	break;
 			case fa_center:
 				_inst.x = tree.render_area.left + tree.render_area.width / 2 - _inst.sprite_width / 2;
 				break;

@@ -3,6 +3,7 @@
 */
 
 function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
+	construct("UiDemoDockableTreeChild");
 	
 	reorder_docks = false;
 	
@@ -25,8 +26,8 @@ function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
 				},
 				on_right_click: function() {
 					vlog($"--- {MY_NAME} ---");
-					if (text_angle == 0) scale_sprite_to(sprite_width, sprite_height - 8);
-					else scale_sprite_to(sprite_width - 8, sprite_height);
+					if (text_angle == 0) scale_sprite_to(sprite_width, max(min_height, sprite_height - 8));
+					else scale_sprite_to(max(min_height, sprite_width - 8), sprite_height);
 					get_parent_tree().layout();
 				}
 			}).set_dock(_dock);
@@ -57,12 +58,14 @@ function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
 
 function CreateUiDemoDocking(_control) {
 	return new UiDemoDockableTreeChild(_control)
-		.set_margin_all(2).set_padding_all(2)
+		.set_margin_all(2)
+		.set_padding_all(2)
 		.add_top()
 		.add_bottom()
 		.add_left()
 		.add_right()
 		.add_fill()
+			.set_name("fill")
 			.add_control(TextButton, {
 				text: "=ui_demo/add_dock_plus",
 				startup_width: 32, min_width: 32,
@@ -83,6 +86,6 @@ function CreateUiDemoDocking(_control) {
 				startup_height: 32,
 				on_left_click: function() { get_parent_tree().add_bottom(); }
 			}).set_dock(dock.bottom).set_padding_all(2)
-			.step_out();
+			.step_out()
 		;
 }

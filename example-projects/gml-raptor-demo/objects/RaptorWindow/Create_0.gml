@@ -442,6 +442,7 @@ __draw_instance = function(_force = false) {
 	
 		if (__first_draw) {
 			__first_draw = false;
+			control_tree.layout();
 			control_tree.invoke_on_opened();
 		}
 	}

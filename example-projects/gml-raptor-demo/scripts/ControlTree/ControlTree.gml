@@ -142,6 +142,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			inst.data.control_tree.parent_tree = self;
 			inst.data.control_tree.__root_tree = __root_tree;
 			inst.data.control_tree.__last_layout = inst.data.control_tree_layout;
+			inst.data.control_tree.__last_entry = __last_entry;
 			return inst.data.control_tree;
 		} else {
 			__last_layout = inst.data.control_tree_layout;
@@ -163,13 +164,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_dock_reorder(_reorder)
+	/// @function set_reorder_docks(_reorder)
 	/// @description True by default. Reorder dock means a more "natural" feeling of
 	///				 adding right- and bottom docked elements.
 	///				 When you design a form, you think "left-to-right" and "top-to-bottom",
 	///				 so you likely want to appear the first bottom added ABOVE the second bottom
 	///				 If you do not want that, just turn reorder off.
-	static set_dock_reorder = function(_reorder) {
+	static set_reorder_docks = function(_reorder) {
 		reorder_docks = _reorder;
 		return self;
 	}
@@ -358,7 +359,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			__reorder_right_dock();
 		}
 		
-		if (_forced || control.__auto_size_with_content) {
+		if ((_forced || control.__auto_size_with_content) &&
+			control.data.control_tree_layout.docking == dock.none) {
 			var newheight = runner.top + maxh - starty;
 			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, newheight));
 		}
@@ -372,7 +374,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		return self;
 	}
-	
+
 	static __reorder_bottom_dock = function() {
 		var dtop = render_area.get_bottom();
 		var bottoms = [];
@@ -406,7 +408,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static draw_children = function() {
-		if (!__finished) layout(true);
+		if (!__finished) layout();
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			child.instance.__draw_instance();
@@ -428,14 +430,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 	
 	static move_children_after_sizing = function(_by_x, _by_y) {
-		if (is_root_tree()) layout(true);
+		if (is_root_tree()) layout();
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			var inst = child.instance;
 			if (inst.data.control_tree_layout.docking != dock.left &&
 				inst.data.control_tree_layout.docking != dock.top) {
-				inst.__text_x += _by_x/2;
-				inst.__text_y += _by_y/2;
+				inst.__text_x += _by_x;
+				inst.__text_y += _by_y;
 				if (is_child_of(inst, _baseContainerControl))
 					inst.data.control_tree.move_children_after_sizing(_by_x, _by_y);
 			}
