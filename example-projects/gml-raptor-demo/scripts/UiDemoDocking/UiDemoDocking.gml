@@ -19,13 +19,11 @@ function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
 				min_width: 32,
 				min_height: 32,
 				on_left_click: function() {
-					vlog($"--- {MY_NAME} ---");
 					if (text_angle == 0) scale_sprite_to(sprite_width, sprite_height + 8);
 					else scale_sprite_to(sprite_width + 8, sprite_height);
 					get_parent_tree().layout();
 				},
 				on_right_click: function() {
-					vlog($"--- {MY_NAME} ---");
 					if (text_angle == 0) scale_sprite_to(sprite_width, max(min_height, sprite_height - 8));
 					else scale_sprite_to(max(min_height, sprite_width - 8), sprite_height);
 					get_parent_tree().layout();
@@ -71,11 +69,11 @@ function CreateUiDemoDocking(_control) {
 				startup_width: 32, min_width: 32,
 				on_left_click: function() { get_parent_tree().add_left(); }
 			}).set_dock(dock.left).set_padding_all(2)
-			.add_control(TextButton, {
-				text: "=ui_demo/add_dock_plus",
-				startup_width: 32, min_width: 32,
-				on_left_click: function() { get_parent_tree().add_right(); }
-			}).set_dock(dock.right).set_padding_all(2)
+			//.add_control(TextButton, {
+			//	text: "=ui_demo/add_dock_plus",
+			//	startup_width: 32, min_width: 32,
+			//	on_left_click: function() { get_parent_tree().add_right(); }
+			//}).set_dock(dock.right).set_padding_all(2)
 			.add_control(TextButton, {
 				text: "=ui_demo/add_dock_plus",
 				startup_height: 32,

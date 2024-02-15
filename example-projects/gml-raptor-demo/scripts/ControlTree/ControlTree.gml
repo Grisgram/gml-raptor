@@ -161,6 +161,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static set_dock = function(_dock) {
 		__last_layout.docking = _dock;
 		__last_layout.docking_reverse = (_dock == dock.right || _dock == dock.bottom);
+		if (_dock != dock.none) 
+			__last_entry.line_index = -1;
+			
 		return self;
 	}
 	
@@ -279,7 +282,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static layout = function(_forced = false) {
 		if (!__finished)
 			finish();
-		
+		if (string_starts_with(name_of(control),"Panel("))
+			vlog($"--- LAYOUT {name_of(control)} forced {_forced}");
 		control_size.set(control.sprite_width, control.sprite_height);
 		render_area.set(
 			control.x + control.data.client_area.left, 
@@ -314,7 +318,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			child		= children[@i];
 			inst		= child.instance;
 			ilayout		= inst.data.control_tree_layout;
-			itemcount	= __line_counts[@child.line_index];
+			itemcount	= (child.line_index >= 0 ? __line_counts[@child.line_index] : 0);
 			oldinstx	= inst.x;
 			oldinsty	= inst.y;
 			oldsizex	= inst.sprite_width;
@@ -350,7 +354,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				runner.top += maxh;
 				maxh = 0;
 			}
-			if (child.stepout_after)
+			if (child.stepout_after && control.data.control_tree_layout.docking == dock.none)
 				runner.top += margin_bottom + padding_bottom;
 		}
 						

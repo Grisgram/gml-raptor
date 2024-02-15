@@ -74,8 +74,10 @@ function ControlTreeLayout() constructor {
 				tree.padding_left - tree.padding_right;
 						
 		_inst.x = _area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
-		_inst.y = _area.get_bottom() - 
-			tree.margin_top - tree.padding_top - 
+		
+		var opp = (runner.bottom == _area.get_bottom() ? 0 :
+					tree.margin_top + tree.padding_top);		
+		_inst.y = _area.get_bottom() - opp -
 			tree.margin_bottom - tree.padding_bottom - 
 			_inst.sprite_height - _inst.sprite_yoffset;
 				
@@ -122,11 +124,13 @@ function ControlTreeLayout() constructor {
 		var newh = _area.height - 
 				tree.margin_top - tree.margin_bottom -
 				tree.padding_top - tree.padding_bottom;
-						
-		_inst.x = _area.get_right() - 
-			tree.margin_left - tree.padding_left - 
+
+		var opp = (runner.right == _area.get_right() ? 0 :
+					tree.margin_left + tree.padding_left);
+		_inst.x = _area.get_right() - opp -
 			tree.margin_right - tree.padding_right - 
 			_inst.sprite_width - _inst.sprite_xoffset;
+			
 		_inst.y = _area.top + tree.margin_top + tree.padding_top + _inst.sprite_yoffset;
 				
 		var areadiff = _inst.sprite_width + 

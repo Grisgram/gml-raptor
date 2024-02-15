@@ -291,11 +291,10 @@ __draw_self = function() {
 		__last_sprite_width		= sprite_width;
 		__last_sprite_height	= sprite_height;
 		
-		was_forced = true;
 	} else
 		__finalize_scribble_text();
 
-	if (__CONTROL_DRAWS_SELF)
+	if (was_forced || __CONTROL_DRAWS_SELF)
 		__draw_instance(was_forced);
 }
 
