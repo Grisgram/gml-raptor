@@ -34,11 +34,6 @@ if (!variable_instance_exists(self, "__original_draw_instance"))
 __draw_instance = function(_force = false) {
 	__update_client_area();
 
-	if (string_starts_with(MY_NAME,"Panel(")) {
-		if (_force == true)
-		vlog($"---  DRAW  {MY_NAME} forced {_force} \"{text}\"");
-	}
-
 	if (__first_draw || _force) {
 		control_tree.layout();
 	}

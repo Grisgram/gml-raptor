@@ -59,6 +59,11 @@ __size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
 // _dc = default cursor (gamemaker cr_ constants)
 __size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,cr_default,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
 
+if (center_on_open) {
+	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
+	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
+}
+
 if (window_x_button_visible && !is_null(window_x_button_object)) {
 	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
 	//__x_button.depth = depth - 1;
@@ -107,18 +112,19 @@ __do_sizing = function() {
 			break;
 	}
 	if (recalc) {
-		//neww = max(neww, min_width);
-		//newh = max(newh, min_height);
-		neww = max(neww, __startup_xscale);
-		newh = max(newh, __startup_yscale);
+		neww = max(neww, min_width);
+		newh = max(newh, min_height);
 		scale_sprite_to(neww, newh);
-		
+
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
 		__setup_drag_rect();
 		control_tree.layout();
 		
-		vlog($"{xpx}|{__dx}:{abs(oldw-neww)} {xpy}|{__dy}:{abs(oldh-newh)}");
+		__dx = sprite_width  - oldw;
+		__dy = sprite_height - oldh;
+		
+		vlog($"{xpx}|{__dx}:{neww-oldw} {xpy}|{__dy}:{newh-oldh}");
 		if ((xpx && __dx != 0) || (xpy && __dy != 0))
 			__in_size_mode = (xpx && __dx != 0 && abs(oldw-neww) != 0) || (xpy && __dy != 0 && abs(oldh-newh) != 0);
 		if (!__in_size_mode) vlog($"--- STOP ---");
@@ -267,9 +273,10 @@ __reorder_focus_index = function(_old_idx) {
 		depth = __startup_depth - 1 - 2 * __focus_index;
 	}
 	// -- debug output --
-	//vlog($"--- FOCUS INDEX REPORT ---");
+	//ilog($"--- FOCUS INDEX REPORT START ---");
 	//with(RaptorWindow)
-	//	vlog($"--- {__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+	//	ilog($"--- {__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+	//ilog($"--- FOCUS INDEX REPORT END   ---");
 }
 
 lose_focus = function() {
@@ -424,6 +431,8 @@ __draw_instance = function(_force = false) {
 	if (control_tree != undefined) {
 		if (__first_draw || _force) {
 			control_tree.layout();
+			if (!is_null(on_opening))
+				on_opening(self);
 		}
 
 		if (sprite_index != -1) {

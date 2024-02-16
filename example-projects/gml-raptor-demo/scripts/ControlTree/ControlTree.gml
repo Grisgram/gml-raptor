@@ -282,15 +282,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static layout = function(_forced = false) {
 		if (!__finished)
 			finish();
-		if (string_starts_with(name_of(control),"Panel("))
-			vlog($"--- LAYOUT {name_of(control)} forced {_forced}");
+
 		control_size.set(control.sprite_width, control.sprite_height);
-		render_area.set(
-			control.x + control.data.client_area.left, 
-			control.y + control.data.client_area.top , 
-			control.data.client_area.width, 
-			control.data.client_area.height
-		);
+		update_render_area();
 		
 		var startx		= render_area.left;
 		var starty		= render_area.top ;
@@ -379,6 +373,16 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 
+	/// @function update_render_area()
+	static update_render_area = function() {
+		render_area.set(
+			control.x + control.data.client_area.left, 
+			control.y + control.data.client_area.top , 
+			control.data.client_area.width, 
+			control.data.client_area.height
+		);
+	}
+
 	static __reorder_bottom_dock = function() {
 		var dtop = render_area.get_bottom();
 		var bottoms = [];
@@ -420,6 +424,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function move_children(_by_x, _by_y)
 	static move_children = function(_by_x, _by_y) {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
@@ -433,6 +438,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function move_children_after_sizing(_by_x, _by_y)
 	static move_children_after_sizing = function(_by_x, _by_y) {
 		if (is_root_tree()) layout();
 		for (var i = 0, len = array_length(children); i < len; i++) {

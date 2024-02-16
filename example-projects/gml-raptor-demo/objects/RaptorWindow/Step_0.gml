@@ -11,7 +11,7 @@ if (__in_drag_mode) {
 } else if (__in_size_mode) {
 	__do_sizing();
 	//if (__do_sizing())
-		control_tree.move_children_after_sizing(CTL_MOUSE_DELTA_X, CTL_MOUSE_DELTA_Y);
+		//control_tree.move_children_after_sizing(CTL_MOUSE_DELTA_X, CTL_MOUSE_DELTA_Y);
 } else
 
 if (mouse_is_over && window_is_sizable && !__size_mode_locked) {
