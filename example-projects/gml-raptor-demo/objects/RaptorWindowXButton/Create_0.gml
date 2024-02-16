@@ -22,3 +22,21 @@ attach_to_window = function(_window) {
 	draw_on_gui = _window.draw_on_gui;
 }
 
+update_position = function() {
+	with (message_window) {
+		if (!other.__nine_slice_calculated) {
+			var nine = sprite_get_nineslice(sprite_index);
+			if (nine != -1) {
+				other.__nine_right = nine.right;
+				other.__nine_top = nine.top;
+			}
+			other.__nine_slice_calculated = true;
+		}
+		other.depth = depth;
+		other.__window_right = SELF_VIEW_RIGHT_EDGE - other.__nine_right;
+		other.__window_top = SELF_VIEW_TOP_EDGE + titlebar_height / 2;
+	}
+
+	x = __window_right;
+	y = __window_top;
+}

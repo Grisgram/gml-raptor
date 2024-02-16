@@ -40,6 +40,7 @@ __scribble_title	= undefined;
 
 __x_button			= undefined;
 __x_button_closing	= undefined;
+__have_x_button		= false;
 
 __startup_depth		= depth;
 
@@ -51,7 +52,6 @@ __size_rect_bottom	= new Rectangle();
 __size_rect_left	= new Rectangle();
 __size_rect_right	= new Rectangle();
 __in_size_mode		= false;
-__size_mode_locked	= false;
 __size_direction	= 0;
 
 // _rc = raptor cursor:Image index of the sizable sprite
@@ -65,6 +65,7 @@ if (center_on_open) {
 }
 
 if (window_x_button_visible && !is_null(window_x_button_object)) {
+	__have_x_button = true;
 	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
 	//__x_button.depth = depth - 1;
 	__x_button.attach_to_window(self);
@@ -86,27 +87,23 @@ __dx = 0;
 __dy = 0;
 
 __do_sizing = function() {
-	if (!__in_size_mode || __size_mode_locked) 
+	if (!__in_size_mode) 
 		return;
 	
 	var recalc = true;
-	var xpx  = false;
-	var xpy  = false;
-	var oldw = sprite_width;
-	var oldh = sprite_height;
 	var neww = sprite_width;
 	var newh = sprite_height;
 	__dx = CTL_MOUSE_DELTA_X;
 	__dy = CTL_MOUSE_DELTA_Y;
 	switch (__size_direction) {
-		case 1:	neww -= __dx;	newh += __dy;	x += __dx;				xpx = true ; xpy = true ; break;
-		case 2:					newh += __dy;							xpx = false; xpy = true ; break;
-		case 3:	neww += __dx;	newh += __dy;							xpx = true ; xpy = true ; break;
-		case 4:	neww -= __dx;					x += __dx;				xpx = true ; xpy = false; break;
-		case 6:	neww += __dx;											xpx = true ; xpy = false; break;
-		case 7:	neww -= __dx;	newh -= __dy;	x += __dx;	y += __dy;	xpx = true ; xpy = true ; break;
-		case 8:					newh -= __dy;				y += __dy;	xpx = false; xpy = true ; break;
-		case 9:	neww += __dx;	newh -= __dy;				y += __dy;	xpx = true ; xpy = true ; break;
+		case 1:	neww -= __dx;	newh += __dy;	x += __dx;				break;
+		case 2:					newh += __dy;							break;
+		case 3:	neww += __dx;	newh += __dy;							break;
+		case 4:	neww -= __dx;					x += __dx;				break;
+		case 6:	neww += __dx;											break;
+		case 7:	neww -= __dx;	newh -= __dy;	x += __dx;	y += __dy;	break;
+		case 8:					newh -= __dy;				y += __dy;	break;
+		case 9:	neww += __dx;	newh -= __dy;				y += __dy;	break;
 		default:
 			recalc = false;
 			break;
@@ -119,17 +116,7 @@ __do_sizing = function() {
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
 		__setup_drag_rect();
-		control_tree.layout();
-		
-		__dx = sprite_width  - oldw;
-		__dy = sprite_height - oldh;
-		
-		vlog($"{xpx}|{__dx}:{neww-oldw} {xpy}|{__dy}:{newh-oldh}");
-		if ((xpx && __dx != 0) || (xpy && __dy != 0))
-			__in_size_mode = (xpx && __dx != 0 && abs(oldw-neww) != 0) || (xpy && __dy != 0 && abs(oldh-newh) != 0);
-		if (!__in_size_mode) vlog($"--- STOP ---");
-		//__size_mode_locked = !__in_size_mode;
-		return __in_size_mode;
+		control_tree.layout();		
 	}
 }
 
@@ -273,10 +260,10 @@ __reorder_focus_index = function(_old_idx) {
 		depth = __startup_depth - 1 - 2 * __focus_index;
 	}
 	// -- debug output --
-	//ilog($"--- FOCUS INDEX REPORT START ---");
+	//ilog($"[--- FOCUS INDEX REPORT START ---]");
 	//with(RaptorWindow)
-	//	ilog($"--- {__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
-	//ilog($"--- FOCUS INDEX REPORT END   ---");
+	//	ilog($"{__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+	//ilog($"[--- FOCUS INDEX REPORT END   ---]");
 }
 
 lose_focus = function() {
@@ -419,7 +406,8 @@ __draw_self = function() {
 		__last_sprite_height	= sprite_height;
 		__last_title			= title;
 		
-		__update_client_area();		
+		__update_client_area();
+		if (__have_x_button) with(__x_button) update_position();
 	}
 
 	if (__CONTROL_DRAWS_SELF)
@@ -441,7 +429,9 @@ __draw_instance = function(_force = false) {
 			image_blend = c_white;
 			if (has_focus && __can_draw_focus)
 				draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
-			if (!is_null(__x_button)) with(__x_button) __draw_self();
+			if (!is_null(__x_button)) with(__x_button) {
+				__draw_self();
+			}
 		}
 	
 		if (text  != "") __scribble_text .draw(__text_x,  __text_y );

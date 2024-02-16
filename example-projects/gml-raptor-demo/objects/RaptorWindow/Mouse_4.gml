@@ -11,7 +11,7 @@ if (mouse_is_over) {
 	if (window_is_movable && __drag_rect.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {
 		vlog($"Window drag started");
 		__in_drag_mode = true;
-	} else if (!__size_mode_locked && __size_direction != 0) {
+	} else if (__size_direction != 0) {
 		vlog($"Window resize started");
 		__in_size_mode = true;
 	}

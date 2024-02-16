@@ -83,10 +83,10 @@ control_tree
 		.step_out()
 
 	.on_window_opened(function(_who) {
-		vlog($"--- {MY_NAME} on_window_opened ---");
+		vlog($"UiDemo: {MY_NAME} on_window_opened");
 		get_element("txtUser").set_focus();
 	})
 	.on_window_closed(function(_who) {
-		vlog($"--- {MY_NAME} on_window_closed ---");
+		vlog($"UiDemo: {MY_NAME} on_window_closed");
 	})
 ;
