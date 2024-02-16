@@ -56,11 +56,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	__last_entry	= undefined;
 	__last_layout	= undefined;
 	__root_tree		= self;
-	__current_line	= 0;
-	
 	__force_next	= false;
-	__finished		= false;
-	__line_counts	= [];
 
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
@@ -118,9 +114,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	/// @function add_control(_objtype, _init_struct = undefined)
 	static add_control = function(_objtype, _init_struct = undefined) {
-		// Finished is a flag telling the layouter, whether it needs to count lines before rendering
-		// Every change of the structure forces this to false, to recalculation will happen
-		__finished = false;
+		// a new control can affect the whole render tree, so force redraw next frame
+		__force_next = true;
 		
 		var inst = instance_create(control.x, control.y, layer_of(control), _objtype, _init_struct);
 		if (!is_child_of(inst, _baseControl)) {
@@ -133,10 +128,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		inst.data.control_tree_layout = new ControlTreeLayout();
 
 		__last_entry = new ControlTreeEntry(inst);
-		__last_entry.line_index = __current_line;
 		array_push(children, __last_entry);
-		
-		//vlog($"{name_of(control)} added {name_of(inst)} in line {__current_line}");
 		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
@@ -151,6 +143,12 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function set_position(_xpos, _ypos)
+	static set_position = function(_xpos, _ypos) {
+		__last_layout.xpos = _xpos;
+		__last_layout.ypos = _ypos;
+	}
+	
 	/// @function set_spread(_spreadx = -1, _spready = -1)
 	static set_spread = function(_spreadx = -1, _spready = -1) {
 		__last_layout.spreadx = _spreadx;
@@ -162,9 +160,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static set_dock = function(_dock) {
 		__last_layout.docking = _dock;
 		__last_layout.docking_reverse = (_dock == dock.right || _dock == dock.bottom);
-		if (_dock != dock.none) 
-			__last_entry.line_index = -1;
-			
 		return self;
 	}
 	
@@ -215,41 +210,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return undefined;
 	}
 	
-	/// @function new_line()
-	static new_line = function() {
-		__last_entry.newline_after = true;
-		__current_line++;
-		return self;
-	}
-	
 	/// @function step_out()
 	static step_out = function() {
-		__last_entry.stepout_after = true;
 		return parent_tree;
 	}
-	
-	static finish = function() {
-		__force_next = true;
-		__finished = true;
-		__line_counts = [];
-		var cnt = 0;
-		var last_line = 0;
-		for (var i = 0, len = array_length(children); i < len; i++) {			
-			if (children[@i].line_index == last_line) {
-				cnt++;
-			} else {
-				array_push(__line_counts, cnt);
-				last_line++;
-				cnt = 1;
-			}
-		}
-		// push the last line too!
-		array_push(__line_counts, cnt);
 		
-		if (parent_tree == undefined)
-			vlog($"Finished layout of {name_of(control)} with line counts {__line_counts}");
-	}
-	
 	/// @function on_window_opened(_callback)
 	static on_window_opened = function(_callback) {
 		__on_opened = _callback;
@@ -281,26 +246,18 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
-		if (!__finished)
-			finish();
 
 		control_size.set(control.sprite_width, control.sprite_height);
 		update_render_area();
 		
-		var startx		= render_area.left;
-		var starty		= render_area.top ;
-		
-		runner.left		= startx;
-		runner.top		= starty;
+		runner.left		= render_area.left;
+		runner.top		= render_area.top ;
 		runner.right	= render_area.get_right();
 		runner.bottom	= render_area.get_bottom();
 		
-		var maxh		= 0;
-		var maxw		= 0;
 		var child		= undefined;
 		var inst		= undefined;
 		var ilayout		= undefined;
-		var itemcount	= 0;
 		var oldinstx	= 0;
 		var oldinsty	= 0;
 		var oldsizex	= 0;
@@ -313,46 +270,29 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			child		= children[@i];
 			inst		= child.instance;
 			ilayout		= inst.data.control_tree_layout;
-			itemcount	= (child.line_index >= 0 ? __line_counts[@child.line_index] : 0);
 			oldinstx	= inst.x;
 			oldinsty	= inst.y;
 			oldsizex	= inst.sprite_width;
 			oldsizey	= inst.sprite_height;
 			
 			if (_forced) inst.force_redraw();
-			
-			if (ilayout.docking == dock.none) {
-				// if no alignment and no docking, place it "runner-style"
-				if (ilayout.halign == fa_left)
-					inst.x = runner.left + margin_left + padding_left + inst.sprite_xoffset;
-				if (ilayout.valign == fa_top)
-					inst.y = runner.top + margin_top  + padding_top  + inst.sprite_yoffset;
-			}
+
+			// Positioning is ignored if any dock or alignment is set
+			ilayout.apply_positioning(render_area, inst, control);
 			
 			if (is_child_of(inst, _baseContainerControl)) {
 				inst.data.control_tree.layout(_forced);
 				inst.__update_client_area();
 			}
 			
+			// Docking is highest priority - if one is set, it gets applied here
 			ilayout.apply_docking(render_area, inst, control);
 			// apply_spreading will exit if anchor or dock is set, so no worries here
-			ilayout.apply_spreading(itemcount, render_area, inst, control);
+			ilayout.apply_spreading(render_area, inst, control);
 			// after spreading, alignment might need a calculation
 			ilayout.apply_alignment(inst, control);
 			// anchoring will intialize itself upon first rendering
 			ilayout.apply_anchoring(render_area, inst, control);
-			
-			maxh = max(maxh, inst.sprite_height + padding_bottom + margin_bottom);
-
-			runner.left = inst.x + inst.sprite_width - inst.sprite_xoffset + padding_right + margin_right;
-			maxw = max(maxw, runner.left - startx);
-			if (child.newline_after) {
-				runner.left = startx;
-				runner.top += maxh;
-				maxh = 0;
-			}
-			if (child.stepout_after && control.data.control_tree_layout.docking != dock.fill)
-				runner.top += margin_bottom + padding_bottom;
 		}
 						
 		if (reorder_docks) {
@@ -360,12 +300,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			__reorder_right_dock();
 		}
 		
-		if ((_forced || control.__auto_size_with_content) &&
-			control.data.control_tree_layout.docking != dock.fill) {
-			var newheight = runner.top + maxh - starty;
-			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, newheight));
-		}
-			
 		// if anything in our size or position changed, force update of the text display to avoid rubberbanding
 		if (inst != undefined && 
 			(inst.x != oldinstx || inst.y != oldinsty || 
@@ -419,7 +353,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static draw_children = function() {
-		if (!__finished) layout();
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			child.instance.__draw_instance();
@@ -440,7 +373,22 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				inst.data.control_tree.move_children(_by_x, _by_y);
 		}
 	}
-	
+
+	/// @function move_children_after_sizing()
+	static move_children_after_sizing = function() {
+		if (is_root_tree()) layout();
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			var child = children[@i];
+			with(child.instance) {
+				__text_x += SELF_MOVE_DELTA_X;
+				__text_y += SELF_MOVE_DELTA_Y;
+				if (is_child_of(self, _baseContainerControl))
+					data.control_tree.move_children_after_sizing();
+			}
+		}
+		control.force_redraw(false);
+	}
+
 	static clean_up = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];

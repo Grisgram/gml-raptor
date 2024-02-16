@@ -9,7 +9,6 @@ control_tree
 			text:"=ui_demo/login_top_message",
 			scribble_text_align:"[fa_middle][fa_center]"
 		}).set_spread(1).set_dock(dock.top)
-	.new_line()
 	
 	.add_control(Panel).set_spread(1).set_padding_all(12).set_dock(dock.top)
 		.add_control(Panel).set_spread(.5).set_padding(0,0,8,0)
@@ -25,7 +24,6 @@ control_tree
 				startup_height: 32
 			}).set_name("txtUser").set_spread(1)
 			.step_out()
-		.new_line()
 	
 		.add_control(Panel).set_spread(.5).set_padding(0,0,8,0)
 			.add_control(Label, {text:"=ui_demo/login_pwd",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(1)
@@ -42,7 +40,6 @@ control_tree
 			}).set_name("txtPwd").set_spread(1)
 			.step_out()
 		.step_out()
-	.new_line()
 
 	.add_control(Panel).set_dock(dock.fill)
 		.add_control(CheckBox, {text:"=ui_demo/login_remember", checked: true})
@@ -50,7 +47,6 @@ control_tree
 			.set_padding_all(8)
 			.set_align(fa_bottom, fa_center)
 		.step_out()
-	.new_line()
 	
 	.add_control(Panel, {startup_height:48}).set_dock(dock.bottom).set_padding_all(8)//.set_margin(0,0,0,8)
 		.add_control(Panel).set_spread(.5).set_padding_all(8)//.set_padding(0,0,16,0)

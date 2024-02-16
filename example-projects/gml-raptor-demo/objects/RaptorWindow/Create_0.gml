@@ -30,6 +30,7 @@ if (window_is_sizable && image_number > 2)
 title				= LG_resolve(title);
 
 has_focus			= false;
+__container			= self;
 __can_draw_focus	= image_number > image_index;
 __focus_index		= -1;
 
@@ -116,7 +117,7 @@ __do_sizing = function() {
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
 		__setup_drag_rect();
-		control_tree.layout();		
+		control_tree.layout();
 	}
 }
 

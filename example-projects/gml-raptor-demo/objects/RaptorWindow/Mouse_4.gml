@@ -1,9 +1,8 @@
 /// @description start drag/resize (if movable/sizable)
 
 GUI_EVENT;
-//if (!gui_mouse.event_redirection_active || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 
-if (mouse_is_over) {
+if (mouse_is_over && (!__have_x_button || !__x_button.mouse_is_over)) {
 	if (!__MOUSE_OVER_FOCUS_WINDOW)
 		take_focus(true);
 	if (!has_focus) exit;

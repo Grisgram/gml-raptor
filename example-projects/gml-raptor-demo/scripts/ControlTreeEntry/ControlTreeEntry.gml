@@ -7,9 +7,6 @@ function ControlTreeEntry(_instance = undefined) constructor {
 	construct("ControlTreeEntry");
 	
 	instance		= _instance;
-	newline_after	= false;
-	stepout_after	= false;
 	element_name	= "";
-	line_index		=  0;
 	
 }

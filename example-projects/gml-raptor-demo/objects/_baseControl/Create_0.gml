@@ -149,7 +149,7 @@ __mouse_enter_topmost_control = function() {
 				with(w) {
 					vlog($"{MY_NAME}: onMouseEnter");
 					mouse_is_over = true;
-					force_redraw();
+					force_redraw(false);
 				}
 			}
 		}

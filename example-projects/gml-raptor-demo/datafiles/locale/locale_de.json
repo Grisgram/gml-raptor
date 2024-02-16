@@ -116,6 +116,7 @@
     "anchor_top_message": "Demonstration des [ci_accent]Anchoring[/] (Verankerung) von Controls",
     "window_title_alignment": "Control Alignment",
     "window_title_login": "Login Dialog Demo",
-    "window_title_anchoring": "Control Anchoring"
+    "window_title_anchoring": "Control Anchoring",
+    "alignment_top_message": "Demonstration des [ci_accent]alignment[/] (Ausrichtung) von Controls"
   }
 }
