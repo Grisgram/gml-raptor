@@ -13,6 +13,7 @@
     {"name":"inst_7A529505","path":"rooms/rmUiDemo/rmUiDemo.yy",},
     {"name":"inst_42B159E","path":"rooms/rmUiDemo/rmUiDemo.yy",},
     {"name":"inst_28EC64C9","path":"rooms/rmUiDemo/rmUiDemo.yy",},
+    {"name":"inst_456485D8","path":"rooms/rmUiDemo/rmUiDemo.yy",},
   ],
   "isDnd": false,
   "layers": [
@@ -39,24 +40,28 @@
             {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_6780F786","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},"properties":[
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=main_menu/show_message",},
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"messageboxButton_click",},
-              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":32.0,"y":912.0,},
+              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":48.0,"y":912.0,},
             {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_41F202B3","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},"properties":[
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=play/ui/race_exit_button",},
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"ui_demo_exit_click",},
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_on_gui","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
               ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":1520.0,"y":912.0,},
             {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_7A529505","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},"properties":[
-                {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=ui_demo/show_sizeable",},
+                {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=ui_demo/show_alignment",},
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"ui_demo_sizable_window_click",},
-              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":384.0,"y":912.0,},
+              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":400.0,"y":864.0,},
             {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_42B159E","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},"properties":[
-                {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=ui_demo/control_tree",},
+                {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=ui_demo/show_control_tree",},
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"ui_demo_control_tree_click",},
-              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":736.0,"y":912.0,},
+              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":752.0,"y":864.0,},
             {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_28EC64C9","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},"properties":[
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=ui_demo/show_login",},
                 {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"ui_demo_login_click",},
-              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":1088.0,"y":912.0,},
+              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":400.0,"y":960.0,},
+            {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_456485D8","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},"properties":[
+                {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=ui_demo/show_anchoring",},
+                {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"value":"ui_demo_control_anchoring_click",},
+              ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":752.0,"y":960.0,},
           ],"layers":[],"properties":[],"userdefinedDepth":false,"visible":true,},
         {"resourceType":"GMRAssetLayer","resourceVersion":"1.0","name":"ui_sprites","assets":[],"depth":900,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"properties":[],"userdefinedDepth":false,"visible":true,},
       ],"properties":[],"userdefinedDepth":false,"visible":true,},

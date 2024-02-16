@@ -99,11 +99,10 @@
     }
   },
   "ui_demo": {
-    "show_sizeable": "[scale,1.25]Sizable Window (leer)",
     "sizable_window_title": "Ein vergrößerbares Fenster",
-    "control_tree": "[scale,1.25]Control Docking",
-    "show_login": "[scale,1.25]Demo Login",
-    "login_window_title": "Login",
+    "window_title_docking": "Control Docking",
+    "show_login": "[scale,1.25][?=ui_demo/window_title_login]",
+    "show_alignment": "[scale,1.25][?=ui_demo/window_title_alignment]",
     "login_top_message": "Einloggen, um fortzufahren",
     "login_user": "Benutzername:",
     "login_pwd": "Passwort:",
@@ -111,6 +110,12 @@
     "login_remember": "Benutzername und Password merken",
     "login_entered_values": "Auslesen, der eingegebenen Daten aus einem dynamischen Fenster:",
     "add_dock_plus": "+",
-    "dock_demo_info": "Klicke einen der [ci_bright]'x'[/] Buttons,\num dynamisch gedockte Elemente zu erzeugen.\n\nLinks- oder Rechts-Klicke [ci_bright]gedockte Elemente[/],\num sie zu vergrößern/verkleinern\nund dynamisches Layout zu sehen."
+    "show_anchoring": "[scale,1.25][?=ui_demo/window_title_anchoring]",
+    "dock_demo_info": "Klicke einen der [ci_bright]'x'[/] Buttons,\num dynamisch gedockte Elemente zu erzeugen.\n\nLinks- oder Rechts-Klicke [ci_bright]gedockte Elemente[/],\num sie zu vergrößern/verkleinern\nund dynamisches Layout zu sehen.",
+    "show_control_tree": "[scale,1.25][?=ui_demo/window_title_docking]",
+    "anchor_top_message": "Demonstration des [ci_accent]Anchoring[/] (Verankerung) von Controls",
+    "window_title_alignment": "Control Alignment",
+    "window_title_login": "Login Dialog Demo",
+    "window_title_anchoring": "Control Anchoring"
   }
 }

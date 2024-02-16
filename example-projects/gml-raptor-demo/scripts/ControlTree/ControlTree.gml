@@ -8,11 +8,12 @@ enum dock {
 }
 
 enum anchor {
-	none	= 0,
-	right	= 1,
-	top		= 2,
-	left	= 4,
-	bottom	= 8
+	none		= 0,
+	right		= 1,
+	top			= 2,
+	left		= 4,
+	bottom		= 8,
+	all_sides	= 15
 }
 
 function ControlTree(_control = undefined, _parent_tree = undefined, _margin = undefined, _padding = undefined) constructor {
@@ -338,6 +339,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			ilayout.apply_spreading(itemcount, render_area, inst, control);
 			// after spreading, alignment might need a calculation
 			ilayout.apply_alignment(inst, control);
+			// anchoring will intialize itself upon first rendering
+			ilayout.apply_anchoring(render_area, inst, control);
 			
 			maxh = max(maxh, inst.sprite_height + padding_bottom + margin_bottom);
 
@@ -438,22 +441,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
-	/// @function move_children_after_sizing(_by_x, _by_y)
-	static move_children_after_sizing = function(_by_x, _by_y) {
-		if (is_root_tree()) layout();
-		for (var i = 0, len = array_length(children); i < len; i++) {
-			var child = children[@i];
-			var inst = child.instance;
-			if (inst.data.control_tree_layout.docking != dock.left &&
-				inst.data.control_tree_layout.docking != dock.top) {
-				inst.__text_x += _by_x;
-				inst.__text_y += _by_y;
-				if (is_child_of(inst, _baseContainerControl))
-					inst.data.control_tree.move_children_after_sizing(_by_x, _by_y);
-			}
-		}
-	}
-
 	static clean_up = function() {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];

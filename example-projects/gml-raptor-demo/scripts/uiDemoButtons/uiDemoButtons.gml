@@ -19,13 +19,17 @@ function ui_demo_exit_click() {
 }
 
 function ui_demo_sizable_window_click() {
-	instance_create(UI_VIEW_CENTER_X - 128, UI_VIEW_CENTER_Y - 128, "ui_windows", DemoSizeableWindow);
+	instance_create(0, 0, "ui_windows", DemoAlignmentWindow);
 }
 
 function ui_demo_control_tree_click() {
-	instance_create(UI_VIEW_CENTER_X - 128, UI_VIEW_CENTER_Y - 128, "ui_windows", DemoDocking);
+	instance_create(0, 0, "ui_windows", DemoDockingWindow);
+}
+
+function ui_demo_control_anchoring_click() {
+	instance_create(0, 0, "ui_windows", DemoAnchoringWindow);
 }
 
 function ui_demo_login_click() {
-	instance_create(UI_VIEW_CENTER_X - 128, UI_VIEW_CENTER_Y - 128, "ui_windows", DemoLoginWindow);
+	instance_create(0, 0, "ui_windows", DemoLoginWindow);
 }
