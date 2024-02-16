@@ -47,9 +47,12 @@ function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
 		return __add_docked_label("BOTTOM-DOCK", dock.bottom);
 	}
 	
-	static add_fill = function() {
+	static add_fill = function(_text = "") {
 		return 
-			add_control(Panel, {control_tree: UiDemoDockableTreeChild}).set_dock(dock.fill);
+			add_control(Panel, {
+				control_tree: UiDemoDockableTreeChild,
+				text: _text
+			}).set_dock(dock.fill);
 	}
 
 }
@@ -62,18 +65,18 @@ function CreateUiDemoDocking(_control) {
 		.add_bottom()
 		.add_left()
 		.add_right()
-		.add_fill()
+		.add_fill("=ui_demo/dock_demo_info")
 			.set_name("fill")
 			.add_control(TextButton, {
 				text: "=ui_demo/add_dock_plus",
 				startup_width: 32, min_width: 32,
 				on_left_click: function() { get_parent_tree().add_left(); }
 			}).set_dock(dock.left).set_padding_all(2)
-			//.add_control(TextButton, {
-			//	text: "=ui_demo/add_dock_plus",
-			//	startup_width: 32, min_width: 32,
-			//	on_left_click: function() { get_parent_tree().add_right(); }
-			//}).set_dock(dock.right).set_padding_all(2)
+			.add_control(TextButton, {
+				text: "=ui_demo/add_dock_plus",
+				startup_width: 32, min_width: 32,
+				on_left_click: function() { get_parent_tree().add_right(); }
+			}).set_dock(dock.right).set_padding_all(2)
 			.add_control(TextButton, {
 				text: "=ui_demo/add_dock_plus",
 				startup_height: 32,

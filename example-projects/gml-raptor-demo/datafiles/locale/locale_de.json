@@ -110,6 +110,7 @@
     "login_button": "Anmelden",
     "login_remember": "Benutzername und Password merken",
     "login_entered_values": "Auslesen, der eingegebenen Daten aus einem dynamischen Fenster:",
-    "add_dock_plus": "+"
+    "add_dock_plus": "+",
+    "dock_demo_info": "Klicke einen der [ci_bright]'x'[/] Buttons,\num dynamisch gedockte Elemente zu erzeugen.\n\nLinks- oder Rechts-Klicke [ci_bright]gedockte Elemente[/],\num sie zu vergrößern/verkleinern\nund dynamisches Layout zu sehen."
   }
 }

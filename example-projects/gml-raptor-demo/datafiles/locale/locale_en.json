@@ -110,6 +110,7 @@
     "login_button": "Login",
     "login_remember": "Remember user name and password",
     "login_entered_values": "Demonstrating read-out of control in a dynamic window:",
-    "add_dock_plus": "+"
+    "add_dock_plus": "+",
+    "dock_demo_info": "Press any of the [ci_bright]'x'[/] buttons to\ndynamically add docked elements.\n\nLeft- or right-click any of the [ci_bright]docked elements[/]\nto grow/shrink them to see dynamic re-layouting."
   }
 }

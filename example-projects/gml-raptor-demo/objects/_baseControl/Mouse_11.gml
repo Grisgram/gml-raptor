@@ -8,6 +8,6 @@
 // control is visible, no matter WHEN that happens
 if (mouse_is_over) {
 	mouse_is_over = false;
-	force_redraw();
+	force_redraw(false);
 	__mouse_enter_topmost_control();
 }

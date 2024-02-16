@@ -354,7 +354,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				runner.top += maxh;
 				maxh = 0;
 			}
-			if (child.stepout_after && control.data.control_tree_layout.docking == dock.none)
+			if (child.stepout_after && control.data.control_tree_layout.docking != dock.fill)
 				runner.top += margin_bottom + padding_bottom;
 		}
 						
@@ -364,7 +364,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		
 		if ((_forced || control.__auto_size_with_content) &&
-			control.data.control_tree_layout.docking == dock.none) {
+			control.data.control_tree_layout.docking != dock.fill) {
 			var newheight = runner.top + maxh - starty;
 			with(control) scale_sprite_to(max(sprite_width, maxw), max(sprite_height, newheight));
 		}

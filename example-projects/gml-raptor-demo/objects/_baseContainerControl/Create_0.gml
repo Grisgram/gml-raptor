@@ -4,6 +4,8 @@ event_inherited();
 __first_draw			 = true;
 __auto_size_with_content = false;
 
+vlog($"{MY_NAME} created. text='{text}'");
+
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// put the tree to save data
 	if (!is_instanceof(control_tree, ControlTree)) {
@@ -26,14 +28,15 @@ __update_client_area = function() {
 }
 __update_client_area();
 
-__original_draw_instance = __draw_instance;
+if (!variable_instance_exists(self, "__original_draw_instance"))
+	__original_draw_instance = __draw_instance;
 
 __draw_instance = function(_force = false) {
 	__update_client_area();
 
 	if (string_starts_with(MY_NAME,"Panel(")) {
 		if (_force == true)
-		vlog($"---  DRAW  {MY_NAME} forced {_force}");
+		vlog($"---  DRAW  {MY_NAME} forced {_force} \"{text}\"");
 	}
 
 	if (__first_draw || _force) {

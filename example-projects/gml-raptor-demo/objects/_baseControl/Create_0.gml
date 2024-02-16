@@ -55,7 +55,8 @@ __text_y					= 0;
 __text_width				= 0;
 __text_height				= 0;
 							
-__force_redraw				= true; // first draw is forced
+__force_redraw				= true;	 // first draw is forced
+__force_redraw_text_only	= false; // flag for mouse_enter/leave event which just trigger coloring
 
 __disabled_surface			= undefined;
 __disabled_surface_width	= 0;
@@ -158,8 +159,9 @@ __mouse_enter_topmost_control = function() {
 
 /// @function					force_redraw()
 /// @description				force recalculate of all positions next frame
-force_redraw = function() {
-	__force_redraw = true;
+force_redraw = function(_redraw_all = true) {
+	__force_redraw = _redraw_all;
+	__force_redraw_text_only = !_redraw_all;
 	return self;
 }
 
@@ -202,6 +204,12 @@ __adopt_object_properties = function() {
 /// @function					__finalize_scribble_text()
 /// @description				add blend and transforms to the final text
 __finalize_scribble_text = function() {
+	if (__force_redraw_text_only) {
+		__scribble_text
+			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
+							 mouse_is_over ? text_color_mouse_over : text_color);
+		__force_redraw_text_only = false;
+	}
 	__scribble_text.transform(1, 1, text_angle);
 	if (adopt_object_properties != adopt_properties.none)
 		__adopt_object_properties();

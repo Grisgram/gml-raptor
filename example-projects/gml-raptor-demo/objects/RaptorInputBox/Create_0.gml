@@ -63,7 +63,7 @@ set_focus = function(from_tab = false) {
 		__draw_cursor();
 		select_all();
 	}
-	force_redraw();
+	force_redraw(false);
 	__invoke_got_focus();
 }
 
@@ -78,7 +78,7 @@ lose_focus = function() {
 	text_color = __backup_color_text;
 	selection_length = 0;
 	__last_selection_length = -1;
-	force_redraw();
+	force_redraw(false);
 	__invoke_lost_focus();
 }
 
