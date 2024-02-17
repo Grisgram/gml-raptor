@@ -275,23 +275,18 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			oldsizey	= inst.sprite_height;
 			
 			if (_forced) inst.force_redraw();
-
-			// Positioning is ignored if any dock or alignment is set
-			ilayout.apply_positioning(render_area, inst, control);
 			
 			if (is_child_of(inst, _baseContainerControl)) {
 				inst.data.control_tree.layout(_forced);
 				inst.update_client_area();
 			}
 			
-			// Docking is highest priority - if one is set, it gets applied here
+			ilayout.apply_positioning(render_area, inst, control);
 			ilayout.apply_docking(render_area, inst, control);
-			// apply_spreading will exit if anchor or dock is set, so no worries here
 			ilayout.apply_spreading(render_area, inst, control);
-			// after spreading, alignment might need a calculation
 			ilayout.apply_alignment(inst, control);
-			// anchoring will intialize itself upon first rendering
 			ilayout.apply_anchoring(render_area, inst, control);
+			
 		}
 						
 		if (reorder_docks) {
