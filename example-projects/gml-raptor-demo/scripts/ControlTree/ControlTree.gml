@@ -264,7 +264,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var oldsizey	= 0;
 		
 		_forced |= __force_next;
-		__force_next = false;
 
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			child		= children[@i];
@@ -353,6 +352,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static draw_children = function() {
+		if (__force_next) {
+			layout();
+			__force_next = false;
+		}
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			child.instance.__draw_instance();
