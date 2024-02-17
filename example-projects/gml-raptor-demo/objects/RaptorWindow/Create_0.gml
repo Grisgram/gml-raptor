@@ -323,7 +323,7 @@ scribble_add_title_effects = function(titletext) {
 	// example: titletext.blend(c_blue, 1); // where ,1 is alpha
 }
 
-__update_client_area = function() {
+update_client_area = function() {
 	data.client_area.set(
 		window_resize_border_width, 
 		titlebar_height + window_resize_border_width / 2, 
@@ -407,7 +407,7 @@ __draw_self = function() {
 		__last_sprite_height	= sprite_height;
 		__last_title			= title;
 		
-		__update_client_area();
+		update_client_area();
 		if (__have_x_button) with(__x_button) update_position();
 	}
 

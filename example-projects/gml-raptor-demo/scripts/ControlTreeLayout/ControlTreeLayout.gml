@@ -215,7 +215,7 @@ function ControlTreeLayout() constructor {
 			return; // we can only align if we are the master of our size
 			
 		var tree = _control.data.control_tree;
-		_control.__update_client_area();
+		_control.update_client_area();
 
 		// The switches here ignore fa_top and fa_left because this is "runner-style" and
 		// has already been set by the layout() function of the tree.
@@ -334,7 +334,7 @@ function ControlTreeLayout() constructor {
 			return; // we can only spread if we are the master of our size
 			
 		update_control_size(_control);
-		_control.__update_client_area();
+		_control.update_client_area();
 		
 		if (spreadx != -1) {
 			var netto = max(_inst.min_width, _area.width * spreadx);

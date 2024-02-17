@@ -83,6 +83,7 @@ set_enabled = function(_enabled) {
 	}
 }
 
+update_client_area = function() {} // container controls place their render dimensions here
 __container = undefined; // if this is part of a window, it's the parent container
 /// @function get_window()
 /// @description If this control is embedded in a window, this function returns

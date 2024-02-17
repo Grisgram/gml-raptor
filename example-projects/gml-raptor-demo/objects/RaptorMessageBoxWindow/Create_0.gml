@@ -131,7 +131,7 @@ __draw_self = function() {
 		__last_sprite_width		= sprite_width;
 		__last_sprite_height	= sprite_height;
 		
-		__update_client_area();		
+		update_client_area();		
 	}
 
 	if (__CONTROL_DRAWS_SELF)

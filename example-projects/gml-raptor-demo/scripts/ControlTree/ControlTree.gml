@@ -282,7 +282,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			
 			if (is_child_of(inst, _baseContainerControl)) {
 				inst.data.control_tree.layout(_forced);
-				inst.__update_client_area();
+				inst.update_client_area();
 			}
 			
 			// Docking is highest priority - if one is set, it gets applied here
