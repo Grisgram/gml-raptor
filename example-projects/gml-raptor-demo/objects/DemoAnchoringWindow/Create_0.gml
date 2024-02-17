@@ -33,6 +33,6 @@ control_tree
 //		.set_anchor(anchor.bottom | anchor.left | anchor.right)
 		.set_align(fa_top, fa_center)
 	.add_control(TextButton, { startup_width: 180, text: "BOTTOM/RIGHT" })
-//		.set_anchor(anchor.top | anchor.left)
+		.set_anchor(anchor.bottom | anchor.right)
 		.set_align(fa_top, fa_left)
 ;

@@ -262,8 +262,8 @@ function ControlTreeLayout() constructor {
 		anchor_now.delta_left	= abs(_inst.x - _area.left)	  - anchor_data.dist_left;
 		anchor_now.delta_right	= abs(_inst.x - _area.right)  - anchor_data.dist_right;
 		anchor_now.delta_bottom	= abs(_inst.y - _area.bottom) - anchor_data.dist_bottom;
-		anchor_now.width		= _control.sprite_width;
-		anchor_now.height		= _control.sprite_height;
+		anchor_now.width		= _inst.sprite_width;
+		anchor_now.height		= _inst.sprite_height;
 		anchor_now.dock_top		= (anchoring & anchor.top)		== anchor.top;	
 		anchor_now.dock_left	= (anchoring & anchor.left)		== anchor.left;	
 		anchor_now.dock_right	= (anchoring & anchor.right)	== anchor.right;
