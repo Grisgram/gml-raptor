@@ -147,6 +147,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static set_position = function(_xpos, _ypos) {
 		__last_layout.xpos = _xpos;
 		__last_layout.ypos = _ypos;
+		return self;
+	}
+	
+	static set_position_from_align = function(_valign, _halign) {
+		__last_layout.xpos_align = _halign;
+		__last_layout.ypos_align = _valign;
+		return self;
 	}
 	
 	/// @function set_spread(_spreadx = -1, _spready = -1)
@@ -176,8 +183,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	/// @function set_align(_valign = fa_top, _halign = fa_left)
 	static set_align = function(_valign = fa_top, _halign = fa_left) {
-		__last_layout.valign = _valign;
-		__last_layout.halign = _halign;
+		__last_layout.valign	 = _valign;
+		__last_layout.halign	 = _halign;
+		__last_layout.have_align = true;
 		return self;
 	}
 	
@@ -378,8 +386,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			with(child.instance) {
+				if (data.control_tree_layout.anchoring == anchor.none) {
 				__text_x += SELF_MOVE_DELTA_X;
 				__text_y += SELF_MOVE_DELTA_Y;
+				}
 				if (is_child_of(self, _baseContainerControl))
 					data.control_tree.move_children_after_sizing();
 			}

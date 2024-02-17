@@ -60,10 +60,12 @@ __size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
 // _dc = default cursor (gamemaker cr_ constants)
 __size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,cr_default,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
 
-if (center_on_open) {
+/// @function center_on_screen()
+center_on_screen = function() {
 	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
 	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
 }
+if (center_on_open) center_on_screen();
 
 if (window_x_button_visible && !is_null(window_x_button_object)) {
 	__have_x_button = true;
@@ -322,6 +324,14 @@ close = function() {
 /// @param {struct} titletext
 scribble_add_title_effects = function(titletext) {
 	// example: titletext.blend(c_blue, 1); // where ,1 is alpha
+}
+
+/// @function set_client_area(_width, _height)
+set_client_area = function(_width, _height) {
+	scale_sprite_to(
+		_width + 2 * window_resize_border_width,
+		_height + titlebar_height + 2 * window_resize_border_width);
+	update_client_area();
 }
 
 update_client_area = function() {
