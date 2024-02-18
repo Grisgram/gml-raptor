@@ -4,8 +4,6 @@ event_inherited();
 __first_draw			 = true;
 __auto_size_with_content = false;
 
-vlog($"{MY_NAME} created. text='{text}'");
-
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// put the tree to save data
 	if (!is_instanceof(control_tree, ControlTree)) {
@@ -14,7 +12,6 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	control_tree.bind_to(self);
 	data.control_tree_layout = new ControlTreeLayout();
 	data.control_tree = control_tree;
-	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 }
 
 /// @function get_element(_name)

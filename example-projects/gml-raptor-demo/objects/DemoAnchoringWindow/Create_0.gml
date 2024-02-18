@@ -1,13 +1,11 @@
 /// @description Build Window on create
 event_inherited();
 
-vlog($"--- before: {data.client_area}");
 set_client_area(800, 482);
 center_on_screen();
-vlog($"--- after: {data.client_area}");
 
-var fxoff = 193;
-var fyoff = 100;
+var fxoff = 230;
+var fyoff = 110;
 
 control_tree
 	//.set_margin_all(4)

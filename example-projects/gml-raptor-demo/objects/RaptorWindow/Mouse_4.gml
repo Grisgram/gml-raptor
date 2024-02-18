@@ -3,8 +3,9 @@
 GUI_EVENT;
 
 if (mouse_is_over && (!__have_x_button || !__x_button.mouse_is_over)) {
-	if (!__MOUSE_OVER_FOCUS_WINDOW)
+	if (!__MOUSE_OVER_FOCUS_WINDOW) {
 		take_focus(true);
+	}
 	if (!has_focus) exit;
 	
 	if (window_is_movable && __drag_rect.intersects_point(CTL_MOUSE_X, CTL_MOUSE_Y)) {

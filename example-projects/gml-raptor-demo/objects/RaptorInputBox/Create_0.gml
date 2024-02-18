@@ -55,7 +55,7 @@ set_focus = function(from_tab = false) {
 		return;
 	
 	with (InputBox) lose_focus();
-	vlog($"{MY_NAME}: got focus");
+	vlog($"{MY_NAME}: tab index {tab_index} got focus");
 	__has_focus = true;
 	text_color = text_color_focus;
 	if (from_tab) set_cursor_pos(string_length(text));
@@ -75,7 +75,7 @@ lose_focus = function() {
 	if (!__has_focus) 
 		return;
 	
-	vlog($"{MY_NAME}: lost focus");
+	vlog($"{MY_NAME}: tab index {tab_index} lost focus");
 	__has_focus = false;
 	text_color = __backup_color_text;
 	selection_length = 0;

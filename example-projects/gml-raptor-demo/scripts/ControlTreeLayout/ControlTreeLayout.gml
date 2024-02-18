@@ -16,7 +16,6 @@ function ControlTreeLayout() constructor {
 	ypos		=  0;
 	xpos_align	=  undefined;
 	ypos_align	=  undefined;
-	line_items	=  0;
 	
 	anchoring	= anchor.none;
 	anchor_init = {
@@ -39,8 +38,7 @@ function ControlTreeLayout() constructor {
 		anch_bottom	: false
 	};
 		
-	control_size = new Coord2();
-	__filler	 = new Coord2();
+	__filler		= new Coord2();
 
 #region Positioning
 	/// @function apply_positioning(_area, _inst, _control)
@@ -58,6 +56,7 @@ function ControlTreeLayout() constructor {
 			have_align = true;
 			valign = ypos_align;
 			halign = xpos_align;
+			apply_spreading(_area, _inst, _control);
 			apply_alignment(_inst, _control);
 			xpos = _inst.x - (_area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset);
 			ypos = _inst.y - (_area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset);
@@ -73,8 +72,6 @@ function ControlTreeLayout() constructor {
 		
 		_inst.x = _area.left + xpos + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
 		_inst.y = _area.top + ypos + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
-		
-		tree.__force_next = (xpos != 0 || ypos != 0);
 	}
 	
 #endregion
@@ -235,6 +232,7 @@ function ControlTreeLayout() constructor {
 #endregion
 
 #region Alignment
+	/// @function apply_alignment(_inst, _control)
 	static apply_alignment = function(_inst, _control) {
 		if (docking != dock.none || !have_align)
 			return; // we can only align if we are the master of our size
@@ -270,7 +268,6 @@ function ControlTreeLayout() constructor {
 				_inst.x = xpos + tree.render_area.get_right() - dist;
 				break;
 		}
-		tree.__force_next = true;
 	}
 #endregion
 
@@ -322,8 +319,9 @@ function ControlTreeLayout() constructor {
 			_inst.y += anchor_now.delta_bottom;
 		}
 		
-		with(_inst) scale_sprite_to(other.anchor_now.width, other.anchor_now.height);
-		_control.data.control_tree.__force_next = true;
+		with(_inst) {
+			scale_sprite_to(other.anchor_now.width, other.anchor_now.height);
+		}
 	}
 	
 	/// @function initialize_anchoring(_area, _inst, _control, _into)
@@ -349,38 +347,33 @@ function ControlTreeLayout() constructor {
 #endregion
 
 #region Spreading
-	/// @function apply_spreading(_element_count, _area, _inst, _control)
+	__spr_old = 0;
+	/// @function apply_spreading(_area, _inst, _control)
 	static apply_spreading = function(_area, _inst, _control) {
 		if (docking != dock.none || anchoring != anchor.none)
 			return; // we can only spread if we are the master of our size
 
 		var tree = _control.data.control_tree;
 
-		update_control_size(_control);
 		_control.update_client_area();
 		
 		if (spreadx != -1) {
+			__spr_old = _inst.sprite_width;
 			var netto = max(_inst.min_width, spreadx * (_area.width - 
 				tree.margin_left  - tree.margin_right - 
 				tree.padding_left - tree.padding_right));
 			with(_inst) 
 				scale_sprite_to(netto, sprite_height);
-			tree.__force_next = true;
 		}
-		if (spready != -1) {			
+		if (spready != -1) {
+			__spr_old = _inst.sprite_height;
 			var netto = max(_inst.min_height, spready * (_area.height -
 				tree.margin_top  - tree.margin_bottom - 
 				tree.padding_top - tree.padding_bottom));
-			with(_inst)
+			with(_inst) 
 				scale_sprite_to(sprite_width, netto);
-			tree.__force_next = true;
 		}
 	}
 #endregion
 
-	/// @function update_control_size(_control)
-	static update_control_size = function(_control) {
-		control_size.set(_control.sprite_width, _control.sprite_height);
-	}
-	
 }

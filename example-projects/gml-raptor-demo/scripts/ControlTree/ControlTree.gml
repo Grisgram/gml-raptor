@@ -21,7 +21,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	// This is the control, the tree is bound to. Gets set in Create of _baseContainerControl
 	control			= _control;
-	control_size	= new Coord2();
 
 	// if the parent_tree is undefined, this means, it's the top-level tree
 	// ONLY the top-level tree invokes layout() when the control moves or changes size,
@@ -142,27 +141,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			return self;
 		}
 	}
-	
-	/// @function select_control(_control)
-	static select_control = function(_control) {
-		var found = false;
-		for (var i = 0, len = array_length(children); i < len; i++) {			
-			var child		= children[@i];
-			var inst		= child.instance;
-			var ilayout		= inst.data.control_tree_layout;
-			
-			if (eq(_control, inst)) {
-				found = true;
-				__last_instance = inst;
-				__last_layout	= ilayout;
-				__last_entry	= child;
-				break;
-			}
-		}
-		if (!found) 
-			throw($"Control '{name_of(_control)}' not found in tree of '{name_of(control)}'!");
-	}
-	
+		
 	/// @function set_position(_xpos, _ypos)
 	/// @description Sets an absolute position in the client area of the parent control,
 	///              unless you set _relative to true, then the values are just added to the
@@ -234,7 +213,34 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		__last_entry.element_name = _name;
 		return self;
 	}
-	
+
+	/// @function select_element(_control)
+	/// @description Searches through the tree for the specified control
+	///				 and sets it as the active element, if found.
+	///				 "Active element" means, all ".set_*" function will apply to it
+	///				 NOTE: This function throws an exception if the control is not in the tree!
+	static select_element = function(_control_or_name) {
+		var found = false;
+		var strcompare = is_string(_control_or_name);
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child		= children[@i];
+			var inst		= child.instance;
+			var ilayout		= inst.data.control_tree_layout;
+			
+			if ((strcompare && eq(_control_or_name, child.name)) ||
+				(!strcompare && eq(_control_or_name, inst))) {
+				found = true;
+				__last_instance = inst;
+				__last_layout	= ilayout;
+				__last_entry	= child;
+				vlog($"Selected control {name_of(inst)}{(child.name != "" ? $" ({child.name})" : "")} as active tree control");
+				break;
+			}
+		}
+		if (!found) 
+			throw($"Control '{name_of(_control)}' not found in tree of '{name_of(control)}'!");
+	}
+
 	/// @function get_element(_name)
 	/// @description Retrieve a child control by its name. Returns the instance or undefined
 	static get_element = function(_name) {
@@ -288,7 +294,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
 
-		control_size.set(control.sprite_width, control.sprite_height);
 		update_render_area();
 		
 		runner.left		= render_area.left;
@@ -305,6 +310,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var oldsizey	= 0;
 		
 		_forced |= __force_next;
+		__force_next = false;
 
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			child		= children[@i];
@@ -321,7 +327,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				inst.data.control_tree.layout(_forced);
 				inst.update_client_area();
 			}
-			
+
 			ilayout.apply_positioning(render_area, inst, control);
 			ilayout.apply_docking(render_area, inst, control);
 			ilayout.apply_spreading(render_area, inst, control);
@@ -413,20 +419,19 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	/// @function move_children_after_sizing()
-	static move_children_after_sizing = function() {
-		if (is_root_tree()) layout();
+	static move_children_after_sizing = function(_force) {
+		if (_force && is_root_tree()) layout(_force);
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			with(child.instance) {
-				if (data.control_tree_layout.anchoring == anchor.none) {
 				__text_x += SELF_MOVE_DELTA_X;
 				__text_y += SELF_MOVE_DELTA_Y;
-				}
 				if (is_child_of(self, _baseContainerControl))
 					data.control_tree.move_children_after_sizing();
 			}
 		}
-		control.force_redraw(false);
+		if (_force)
+			control.force_redraw(false);
 	}
 
 	static clean_up = function() {

@@ -64,8 +64,12 @@ __size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,c
 center_on_screen = function() {
 	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
 	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
+	data.control_tree.update_render_area();
 }
-if (center_on_open) center_on_screen();
+if (center_on_open) {
+	center_on_screen();
+	update_startup_coordinates();
+}
 
 if (window_x_button_visible && !is_null(window_x_button_object)) {
 	__have_x_button = true;
@@ -91,7 +95,7 @@ __dy = 0;
 
 __do_sizing = function() {
 	if (!__in_size_mode) 
-		return;
+		return false;
 	
 	var recalc = true;
 	var neww = sprite_width;
@@ -122,6 +126,7 @@ __do_sizing = function() {
 		control_tree.update_render_area();
 		control_tree.layout();
 	}
+	return (__dx != 0 || __dy != 0);
 }
 
 // Find the windows' sizing areas
@@ -262,6 +267,8 @@ __reorder_focus_index = function(_old_idx) {
 	// last step: set the depth of the windows
 	with(RaptorWindow) {
 		depth = __startup_depth - 1 - 2 * __focus_index;
+		if (__have_x_button && !is_null(__x_button)) 
+			__x_button.depth = depth;
 	}
 	// -- debug output --
 	//ilog($"[--- FOCUS INDEX REPORT START ---]");
@@ -326,12 +333,19 @@ scribble_add_title_effects = function(titletext) {
 	// example: titletext.blend(c_blue, 1); // where ,1 is alpha
 }
 
-/// @function set_client_area(_width, _height)
-set_client_area = function(_width, _height) {
+/// @function set_client_area(_width, _height, _is_also_min_size = true)
+set_client_area = function(_width, _height, _is_also_min_size = true) {
 	scale_sprite_to(
 		_width + 2 * window_resize_border_width,
 		_height + titlebar_height + 2 * window_resize_border_width);
+	if (_is_also_min_size) {
+		min_width = sprite_width;
+		min_height = sprite_height;
+	}
+	update_startup_coordinates();
 	update_client_area();
+	__setup_drag_rect();
+	data.control_tree.update_render_area();
 	force_redraw();
 }
 
@@ -431,7 +445,6 @@ __draw_instance = function(_force = false) {
 	
 	if (control_tree != undefined) {
 		if (__first_draw || _force) {
-			vlog($"--- DRAW {data.client_area} {sprite_width} {sprite_height}");
 			control_tree.layout();
 			if (!is_null(on_opening))
 				on_opening(self);

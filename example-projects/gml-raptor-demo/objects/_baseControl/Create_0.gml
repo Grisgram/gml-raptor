@@ -8,6 +8,9 @@
 							(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
 
 event_inherited();
+// undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
+struct_get_ext(self, "__raptor_debug_frame_color", c_green);
+
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
 edges = new Edges(self);
@@ -17,6 +20,12 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// layout data is part of the savegame, if this one gets saved
 	data.control_tree = undefined;
 	data.control_tree_layout = undefined;
+	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
+}
+
+/// @function update_client_area()
+update_client_area = function() {
+	data.client_area.set(0, 0, sprite_width, sprite_height);
 }
 
 /// @function set_startup_size()
@@ -157,9 +166,10 @@ __mouse_enter_topmost_control = function() {
 			var w = __topmost_list[|i];
 			if (w.depth == mindepth && !w.mouse_is_over) {
 				with(w) {
-					vlog($"{MY_NAME}: onMouseEnter");
+					vlog($"{MY_NAME}: onMouseEnter (topmost)");
 					mouse_is_over = true;
 					force_redraw(false);
+					break;
 				}
 			}
 		}
@@ -317,6 +327,7 @@ __draw_self = function() {
 }
 
 __draw_instance = function(_force = false) {
+	//update_client_area();
 	
 	if (sprite_index != -1) {
 		if (!is_enabled) {

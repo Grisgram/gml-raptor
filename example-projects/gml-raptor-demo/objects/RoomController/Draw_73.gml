@@ -17,7 +17,9 @@ if (DEBUG_SHOW_OBJECT_FRAMES) {
 		
 			if (!visible || sprite_index < 0)
 				continue;
-			
+
+			draw_set_color(struct_get_ext(self, "__raptor_debug_frame_color", c_green));
+
 			if (variable_instance_exists(self, "draw_on_gui") && draw_on_gui) {
 				translate_gui_to_world(x,y,trans);
 				draw_rectangle(
