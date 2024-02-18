@@ -422,6 +422,7 @@
     {"id":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},},
     {"id":{"name":"SnapToYAML","path":"scripts/SnapToYAML/SnapToYAML.yy",},},
     {"id":{"name":"DevPlaygroundRoomController","path":"objects/DevPlaygroundRoomController/DevPlaygroundRoomController.yy",},},
+    {"id":{"name":"_DemoWindowBase","path":"objects/_DemoWindowBase/_DemoWindowBase.yy",},},
     {"id":{"name":"Race_Configuration","path":"scripts/Race_Configuration/Race_Configuration.yy",},},
     {"id":{"name":"RaptorMessageBoxWindow","path":"objects/RaptorMessageBoxWindow/RaptorMessageBoxWindow.yy",},},
     {"id":{"name":"sprDefaultWindow","path":"sprites/sprDefaultWindow/sprDefaultWindow.yy",},},

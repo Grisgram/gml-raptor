@@ -143,14 +143,45 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function select_control(_control)
+	static select_control = function(_control) {
+		var found = false;
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child		= children[@i];
+			var inst		= child.instance;
+			var ilayout		= inst.data.control_tree_layout;
+			
+			if (eq(_control, inst)) {
+				found = true;
+				__last_instance = inst;
+				__last_layout	= ilayout;
+				__last_entry	= child;
+				break;
+			}
+		}
+		if (!found) 
+			throw($"Control '{name_of(_control)}' not found in tree of '{name_of(control)}'!");
+	}
+	
 	/// @function set_position(_xpos, _ypos)
-	static set_position = function(_xpos, _ypos) {
-		__last_layout.xpos = _xpos;
-		__last_layout.ypos = _ypos;
+	/// @description Sets an absolute position in the client area of the parent control,
+	///              unless you set _relative to true, then the values are just added to the
+	///				 currently set xpos and ypos
+	static set_position = function(_xpos, _ypos, _relative = false) {
+		if (_relative) {
+			__last_layout.xpos += _xpos;
+			__last_layout.ypos += _ypos;
+		} else {
+			__last_layout.xpos = _xpos;
+			__last_layout.ypos = _ypos;
+		}
 		return self;
 	}
 	
-	static set_position_from_align = function(_valign, _halign) {
+	/// @function set_position_from_align(_valign, _halign, _xoffset = 0, _yoffset = 0)
+	static set_position_from_align = function(_valign, _halign, _xoffset = 0, _yoffset = 0) {
+		__last_layout.xpos += _xoffset;
+		__last_layout.ypos += _yoffset;
 		__last_layout.xpos_align = _halign;
 		__last_layout.ypos_align = _valign;
 		return self;
@@ -181,8 +212,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_align(_valign = fa_top, _halign = fa_left)
-	static set_align = function(_valign = fa_top, _halign = fa_left) {
+	/// @function set_align(_valign = fa_top, _halign = fa_left, _xoffset = 0, _yoffset = 0)
+	static set_align = function(_valign = fa_top, _halign = fa_left, _xoffset = 0, _yoffset = 0) {
+		__last_layout.xpos += _xoffset;
+		__last_layout.ypos += _yoffset;
 		__last_layout.valign	 = _valign;
 		__last_layout.halign	 = _halign;
 		__last_layout.have_align = true;
@@ -294,7 +327,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			ilayout.apply_spreading(render_area, inst, control);
 			ilayout.apply_alignment(inst, control);
 			ilayout.apply_anchoring(render_area, inst, control);
-			
 		}
 						
 		if (reorder_docks) {

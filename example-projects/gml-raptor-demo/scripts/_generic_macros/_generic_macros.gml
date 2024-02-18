@@ -51,12 +51,14 @@ global.__unique_count_up_id	= 0;
 #macro __GUI_MOUSE_EVENT_LOCK	(variable_instance_exists(self, "draw_on_gui") && draw_on_gui && !gui_mouse.event_redirection_active)
 #macro __CONTROL_IS_TARGET		(variable_instance_exists(self, "is_enabled") && is_enabled && is_topmost_control(CTL_MOUSE_X, CTL_MOUSE_Y))
 
+#macro __INSTANCE_UNREACHABLE	(__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP)
+
 // All controls skip their events, if this is true
-#macro __SKIP_CONTROL_EVENT		(__GUI_MOUSE_EVENT_LOCK || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP || !__CONTROL_IS_TARGET)
+#macro __SKIP_CONTROL_EVENT		(__GUI_MOUSE_EVENT_LOCK || __INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET)
 
 // Instead of repeating the same if again and again in each mouse event, just use this macro;
 #macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;
-#macro GUI_EVENT_UNTARGETTED	if (__GUI_MOUSE_EVENT_LOCK || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
+#macro GUI_EVENT_UNTARGETTED	if (__GUI_MOUSE_EVENT_LOCK || __INSTANCE_UNREACHABLE) exit;
 
 #macro DEPTH_BOTTOM_MOST		 16000
 #macro DEPTH_TOP_MOST			-15998

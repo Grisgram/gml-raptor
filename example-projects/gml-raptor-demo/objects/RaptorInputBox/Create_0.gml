@@ -42,6 +42,8 @@ __wait_for_key_repeat = false;
 __repeat_interval_mode = false;
 __repeating_key = undefined;
 
+if (tab_index == -1) tab_index = instance_number(RaptorInputBox) - 1;
+
 enum character_filter {
 	none, allowed, forbidden
 }

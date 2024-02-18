@@ -94,6 +94,15 @@ get_window = function() {
 	return undefined;
 }
 
+/// @function get_window_tree()
+/// @description If this control is embedded in a window, this function returns
+///				 the root tree of the control hierarchy
+get_window_tree = function() {
+	if (__container != undefined)
+		return __container.control_tree.__root_tree;
+	return undefined;
+}
+
 /// @function get_parent()
 /// @description If this control is embedded in a control tree, this function returns
 ///				 the parent control of this one (i.e. a Panel or something similar)

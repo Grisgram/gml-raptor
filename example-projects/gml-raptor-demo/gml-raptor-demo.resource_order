@@ -341,6 +341,7 @@
     {"name":"Guid","order":10,"path":"scripts/Guid/Guid.yy",},
     {"name":"RaptorSlider","order":8,"path":"objects/RaptorSlider/RaptorSlider.yy",},
     {"name":"SnapToYAML","order":3,"path":"scripts/SnapToYAML/SnapToYAML.yy",},
+    {"name":"_DemoWindowBase","order":4,"path":"objects/_DemoWindowBase/_DemoWindowBase.yy",},
     {"name":"Race_Configuration","order":11,"path":"scripts/Race_Configuration/Race_Configuration.yy",},
     {"name":"RaptorMessageBoxWindow","order":1,"path":"objects/RaptorMessageBoxWindow/RaptorMessageBoxWindow.yy",},
     {"name":"sprDefaultWindow","order":14,"path":"sprites/sprDefaultWindow/sprDefaultWindow.yy",},

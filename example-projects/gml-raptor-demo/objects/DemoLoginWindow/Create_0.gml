@@ -8,32 +8,62 @@ control_tree
 	.add_control(Label, {
 			text:"=ui_demo/login_top_message",
 			scribble_text_align:"[fa_middle][fa_center]"
-		}).set_spread(1).set_dock(dock.top)
+		}).set_dock(dock.top)
 	
-	.add_control(Panel).set_spread(1).set_padding_all(12).set_dock(dock.top)
-		.add_control(Panel).set_spread(.5).set_padding(0,0,8,0)
-			.add_control(Label, {text:"=ui_demo/login_user",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(1)
+	// button row
+	.add_control(Panel, { startup_height: 96 }).set_dock(dock.bottom)
+		.add_control(Panel).set_spread(0.5, 1).set_margin(0,0,8,0)
 			.step_out()
-		.add_control(Panel).set_spread(.5).set_padding(8,0,8,0)
+		.add_control(Panel).set_spread(0.5, 1).set_margin(8,0,0,0).set_position_from_align(fa_top, fa_right)
+			.step_out()
+		.step_out()
+		
+	// input row
+	.add_control(Panel).set_dock(dock.fill).set_margin_all(4)
+		.add_control(Panel).set_spread(0.5, 1).set_margin(4,0,4,0)
+			//.add_control(Panel).set_spread(1, 0.5).set_margin(0,0,8,0)
+			//	.step_out()
+			//.add_control(Panel).set_spread(1, 0.5).set_margin(8,0,0,0).set_position_from_align(fa_top, fa_right)
+			//	.step_out()
+			.step_out()
+		.add_control(Panel).set_spread(0.5, 1).set_margin(4,0,4,0).set_position_from_align(fa_top, fa_right)
+			//.add_control(Panel).set_spread(1, 0.5).set_margin(0,0,8,0)
+			//	.step_out()
+			//.add_control(Panel).set_spread(1, 0.5).set_margin(8,0,0,0).set_position_from_align(fa_top, fa_right)
+			//	.step_out()
+			.step_out()	
+		.step_out()
+	
+;
+return;
+
+control_tree
+	.add_control(Panel, { startup_height: 96 }).set_padding_all(12).set_dock(dock.top)
+		.add_control(Panel).set_spread(.5,.5).set_padding(8,0,0,0)
+			.set_position_from_align(fa_top, fa_left)
+			.add_control(Label, {text:"=ui_demo/login_user",scribble_text_align:"[fa_middle][fa_right]"}).set_dock(dock.fill)
+			.step_out()
+		.add_control(Panel).set_spread(.5,.5).set_padding(8,0,8,0)
+			.set_align(fa_top, fa_right)
 			.add_control(InputBox, {
 				text_color: APP_THEME_BRIGHT,
 				text_color_focus: APP_THEME_BRIGHT,
 				text_color_mouse_over: APP_THEME_BRIGHT,
-				tab_index: 0, 
 				text: "", 
 				startup_height: 32
 			}).set_name("txtUser").set_spread(1)
 			.step_out()
 	
-		.add_control(Panel).set_spread(.5).set_padding(0,0,8,0)
-			.add_control(Label, {text:"=ui_demo/login_pwd",scribble_text_align:"[fa_middle][fa_right]"}).set_spread(1)
+		.add_control(Panel).set_spread(.5,.5).set_padding(0,0,8,0)
+			.set_position_from_align(fa_bottom, fa_left)
+			.add_control(Label, {text:"=ui_demo/login_pwd",scribble_text_align:"[fa_middle][fa_right]"}).set_dock(dock.fill)
 			.step_out()
-		.add_control(Panel).set_spread(.5).set_padding(8,0,8,0)	
+		.add_control(Panel).set_spread(.5,.5).set_padding(8,0,8,0)	
+			.set_align(fa_bottom, fa_right)
 			.add_control(InputBox, {
 				text_color: APP_THEME_BRIGHT,
 				text_color_focus: APP_THEME_BRIGHT,
 				text_color_mouse_over: APP_THEME_BRIGHT,
-				tab_index: 1, 
 				text: "", 
 				startup_height: 32,
 				password_char: "*"
@@ -64,7 +94,8 @@ control_tree
 						close();
 					}
 				}
-			}).set_spread(.5).set_align(fa_middle, fa_right)
+			})
+			.set_spread(.5).set_align(fa_middle, fa_right)
 			.step_out()
 	
 		.add_control(Panel).set_spread(.5).set_padding_all(8)//.set_padding(16,0,0,0)

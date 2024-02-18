@@ -332,6 +332,7 @@ set_client_area = function(_width, _height) {
 		_width + 2 * window_resize_border_width,
 		_height + titlebar_height + 2 * window_resize_border_width);
 	update_client_area();
+	force_redraw();
 }
 
 update_client_area = function() {
@@ -430,6 +431,7 @@ __draw_instance = function(_force = false) {
 	
 	if (control_tree != undefined) {
 		if (__first_draw || _force) {
+			vlog($"--- DRAW {data.client_area} {sprite_width} {sprite_height}");
 			control_tree.layout();
 			if (!is_null(on_opening))
 				on_opening(self);

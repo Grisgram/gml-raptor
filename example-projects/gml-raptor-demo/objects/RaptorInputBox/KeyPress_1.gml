@@ -136,7 +136,7 @@ __find_next_input_box = function(shift_tab = false) {
 	var lowest_candidate = undefined;
 	var lowest_tab_index_so_far = -2;
 	with (InputBox) {
-		if (self == other)
+		if (eq(self, other) || !is_enabled || __INSTANCE_UNREACHABLE)
 			continue;
 		
 		if (tab_index == look_for_tab_index) {

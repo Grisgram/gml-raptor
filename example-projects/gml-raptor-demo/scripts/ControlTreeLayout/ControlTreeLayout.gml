@@ -33,10 +33,10 @@ function ControlTreeLayout() constructor {
 		delta_bottom: 0,
 		width		: 0,
 		height		: 0,
-		anch_top	: 0,
-		anch_left	: 0,
-		anch_right	: 0,
-		anch_bottom	: 0
+		anch_top	: false,
+		anch_left	: false,
+		anch_right	: false,
+		anch_bottom	: false
 	};
 		
 	control_size = new Coord2();
@@ -45,7 +45,7 @@ function ControlTreeLayout() constructor {
 #region Positioning
 	/// @function apply_positioning(_area, _inst, _control)
 	static apply_positioning = function(_area, _inst, _control) {
-		if (docking != dock.none || have_align)
+		if (docking != dock.none)
 			return;
 		
 		var tree = _control.data.control_tree;
@@ -58,8 +58,6 @@ function ControlTreeLayout() constructor {
 			have_align = true;
 			valign = ypos_align;
 			halign = xpos_align;
-			xpos = _inst.x;
-			ypos = _inst.y;
 			apply_alignment(_inst, _control);
 			xpos = _inst.x - (_area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset);
 			ypos = _inst.y - (_area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset);
@@ -75,7 +73,10 @@ function ControlTreeLayout() constructor {
 		
 		_inst.x = _area.left + xpos + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
 		_inst.y = _area.top + ypos + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
+		
+		tree.__force_next = (xpos != 0 || ypos != 0);
 	}
+	
 #endregion
 
 #region Docking
@@ -247,30 +248,30 @@ function ControlTreeLayout() constructor {
 		// AFTER the final size of the instance is set
 		switch (valign) {
 			case fa_top:
-				_inst.y = tree.render_area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
+				_inst.y = ypos + tree.render_area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
 				break;
 			case fa_middle:
-				_inst.y = tree.render_area.top + tree.render_area.height / 2 - _inst.sprite_height / 2;
+				_inst.y = ypos + tree.render_area.top + tree.render_area.height / 2 - _inst.sprite_height / 2;
 				break;
 			case fa_bottom:
 				var dist = _inst.sprite_height + tree.margin_bottom + tree.padding_bottom;
-				_inst.y = tree.render_area.get_bottom() - dist;
+				_inst.y = ypos + tree.render_area.get_bottom() - dist;
 				break;
 		}
 		switch (halign) {
 			case fa_left:
-				_inst.x = tree.render_area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
+				_inst.x = xpos + tree.render_area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
 				break;
 			case fa_center:
-				_inst.x = tree.render_area.left + tree.render_area.width / 2 - _inst.sprite_width / 2;
+				_inst.x = xpos + tree.render_area.left + tree.render_area.width / 2 - _inst.sprite_width / 2;
 				break;
 			case fa_right:
 				var dist = _inst.sprite_width + tree.margin_right + tree.padding_right;
-				_inst.x = tree.render_area.get_right() - dist;
+				_inst.x = xpos + tree.render_area.get_right() - dist;
 				break;
 		}
+		tree.__force_next = true;
 	}
-	
 #endregion
 
 #region Anchoring
@@ -287,80 +288,42 @@ function ControlTreeLayout() constructor {
 		if (!anchor_init.init)
 			initialize_anchoring(_area, _inst, _control);
 			
+		anchor_now.anch_top		= ((anchoring & anchor.top)		== anchor.top	);	
+		anchor_now.anch_left	= ((anchoring & anchor.left)	== anchor.left	);	
+		anchor_now.anch_right	= ((anchoring & anchor.right)	== anchor.right	);
+		anchor_now.anch_bottom	= ((anchoring & anchor.bottom)	== anchor.bottom);
+
 		with (_inst) {
-			other.anchor_now.delta_top		= __RAPTOR_ANCHOR_DIST_TOP	  - other.anchor_init.dist_top;
-			other.anchor_now.delta_left		= __RAPTOR_ANCHOR_DIST_LEFT   - other.anchor_init.dist_left;
-			other.anchor_now.delta_right	= __RAPTOR_ANCHOR_DIST_RIGHT  - other.anchor_init.dist_right;
-			other.anchor_now.delta_bottom	= __RAPTOR_ANCHOR_DIST_BOTTOM - other.anchor_init.dist_bottom;
+			other.anchor_now.delta_top		= (__RAPTOR_ANCHOR_DIST_TOP	   - other.anchor_init.dist_top		);
+			other.anchor_now.delta_left		= (__RAPTOR_ANCHOR_DIST_LEFT   - other.anchor_init.dist_left	);
+			other.anchor_now.delta_right	= (__RAPTOR_ANCHOR_DIST_RIGHT  - other.anchor_init.dist_right	);
+			other.anchor_now.delta_bottom	= (__RAPTOR_ANCHOR_DIST_BOTTOM - other.anchor_init.dist_bottom	);
 			other.anchor_now.width			= sprite_width;
 			other.anchor_now.height			= sprite_height;
 		}
-		anchor_now.anch_top		= (anchoring & anchor.top)		== anchor.top;	
-		anchor_now.anch_left	= (anchoring & anchor.left)		== anchor.left;	
-		anchor_now.anch_right	= (anchoring & anchor.right)	== anchor.right;
-		anchor_now.anch_bottom	= (anchoring & anchor.bottom)	== anchor.bottom;
-
-		if (anchor_now.anch_top) {
+		
+		//vlog($"Anchor delta TLRB: {anchor_now.delta_top} {anchor_now.delta_left} {anchor_now.delta_right} {anchor_now.delta_bottom}");		
+		
+		if (anchor_now.anch_left && anchor_now.anch_right) {
+			_inst.x -= (anchor_now.delta_left + anchor_now.delta_right) / 2;
+			anchor_now.width += anchor_now.delta_left + anchor_now.delta_right;
+		} else if (anchor_now.anch_left) {
+			_inst.x -= anchor_now.delta_left;			
+		} else if (anchor_now.anch_right) {
+			_inst.x += anchor_now.delta_right;
 		}
 		
-		if (anchor_now.anch_left) {
+		if (anchor_now.anch_top && anchor_now.anch_bottom) {
+			_inst.y -= (anchor_now.delta_top + anchor_now.delta_bottom) / 2;
+			anchor_now.height += anchor_now.delta_top + anchor_now.delta_bottom;
+		} else if (anchor_now.anch_top) {
+			_inst.y -= anchor_now.delta_top;
+		} else if (anchor_now.anch_bottom) {
+			_inst.y += anchor_now.delta_bottom;
 		}
 		
-		if (anchor_now.anch_right) {
-			if (anchor_now.anch_left) {
-			} else {
-				_inst.x += anchor_now.delta_right;
-			}
-		}
-		
-		if (anchor_now.anch_bottom) {
-		}
-
 		with(_inst) scale_sprite_to(other.anchor_now.width, other.anchor_now.height);
-
-		//vlog($"--- Anchor delta TLRB: {anchor_now.delta_top} {anchor_now.delta_left} {anchor_now.delta_right} {anchor_now.delta_bottom}");
-		
-		// anchoring takes place AFTER alignment, so we never modify x/y here,
-		// only width and height are in focus, BUT
-		// we have to calculate the anchor based on the alignment, to find out,
-		// which side of the instance needs to be adapted
-		//switch(valign) {
-		//	case fa_top:
-		//		if (anchor_now.anch_bottom) anchor_now.height += anchor_now.delta_bottom;
-		//		break;
-		//	case fa_middle:
-		//		if (anchor_now.anch_top)	anchor_now.height += anchor_now.delta_top;
-		//		if (anchor_now.anch_bottom) anchor_now.height += anchor_now.delta_bottom;
-		//		if (anchor_now.anch_top || anchor_now.anch_bottom)
-		//			_inst.y -= (anchor_now.delta_top + anchor_now.delta_bottom) / 2;
-		//		break;
-		//	case fa_bottom:
-		//		if (anchor_now.anch_top) {
-		//			anchor_now.height += anchor_now.delta_top;
-		//			_inst.y -= anchor_now.delta_top;
-		//		}
-		//		break;
-		//}
-		
-		//switch(halign) {
-		//	case fa_left:
-		//		if (anchor_now.anch_right) anchor_now.width += anchor_now.delta_right;
-		//		break;
-		//	case fa_center:
-		//		if (anchor_now.anch_left) anchor_now.width += anchor_now.delta_left;
-		//		if (anchor_now.anch_right) anchor_now.width += anchor_now.delta_right;
-		//		if (anchor_now.anch_left || anchor_now.anch_right)
-		//			_inst.x -= (anchor_now.delta_left + anchor_now.delta_right) / 2;
-		//		break;
-		//	case fa_right:
-		//		if (anchor_now.anch_left) {
-		//			anchor_now.width += anchor_now.delta_right;
-		//			_inst.x -= anchor_now.delta_right;
-		//		}
-		//		break;
-		//}
-		
-		//with(_inst) scale_sprite_to(other.anchor_now.width, other.anchor_now.height);
+		_control.data.control_tree.__force_next = true;
 	}
 	
 	/// @function initialize_anchoring(_area, _inst, _control, _into)
@@ -378,9 +341,9 @@ function ControlTreeLayout() constructor {
 			other.anchor_init.dist_bottom	= __RAPTOR_ANCHOR_DIST_BOTTOM;
 		}		
 		
-		vlog($"--- Anchor Init INST: {_inst.x}+{_inst.sprite_xoffset}+{_inst.sprite_width} {_inst.y}+{_inst.sprite_yoffset}+{_inst.sprite_height}");
-		vlog($"--- Anchor Init AREA: {_area.left} {_area.top} {_area.get_right()} {_area.get_bottom()}");
-		vlog($"--- Anchor Init TLRB: {anchor_init.dist_top} {anchor_init.dist_left} {anchor_init.dist_right} {anchor_init.dist_bottom}");
+		//vlog($"Anchor Init INST: {_inst.x}+{_inst.sprite_xoffset}+{_inst.sprite_width} {_inst.y}+{_inst.sprite_yoffset}+{_inst.sprite_height}");
+		//vlog($"Anchor Init AREA: {_area.left} {_area.top} {_area.get_right()} {_area.get_bottom()}");
+		//vlog($"Anchor Init TLRB: {anchor_init.dist_top} {anchor_init.dist_left} {anchor_init.dist_right} {anchor_init.dist_bottom}");
 	}
 	
 #endregion
@@ -390,19 +353,27 @@ function ControlTreeLayout() constructor {
 	static apply_spreading = function(_area, _inst, _control) {
 		if (docking != dock.none || anchoring != anchor.none)
 			return; // we can only spread if we are the master of our size
-			
+
+		var tree = _control.data.control_tree;
+
 		update_control_size(_control);
 		_control.update_client_area();
 		
 		if (spreadx != -1) {
-			var netto = max(_inst.min_width, _area.width * spreadx);
+			var netto = max(_inst.min_width, spreadx * (_area.width - 
+				tree.margin_left  - tree.margin_right - 
+				tree.padding_left - tree.padding_right));
 			with(_inst) 
 				scale_sprite_to(netto, sprite_height);
+			tree.__force_next = true;
 		}
 		if (spready != -1) {			
-			var netto = max(_inst.min_height, _area.height * spready);
+			var netto = max(_inst.min_height, spready * (_area.height -
+				tree.margin_top  - tree.margin_bottom - 
+				tree.padding_top - tree.padding_bottom));
 			with(_inst)
-				scale_sprite_to(sprite_width, netto * sy);
+				scale_sprite_to(sprite_width, netto);
+			tree.__force_next = true;
 		}
 	}
 #endregion
