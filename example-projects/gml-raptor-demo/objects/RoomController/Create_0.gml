@@ -42,6 +42,11 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+// Set up world UI system
+#macro UI_ROOT					global.__ui_root
+UI_ROOT	= undefined;
+
+// Set up particle systems
 #macro PARTSYS					global.__room_particle_system
 if (particle_layer_names == undefined || (is_string(particle_layer_names) && string_is_empty(particle_layer_names))) {
 	PARTSYS = undefined;

@@ -121,6 +121,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			instance_destroy(inst);
 			throw("ControlTree accepts only raptor controls (child of _baseControl) as children!");
 		}
+		inst.__raptor_visible_on_create = inst.visible;
+		inst.visible = false;
 		inst.__container = control;
 		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
@@ -141,7 +143,17 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			return self;
 		}
 	}
-		
+	
+	/// @function process_first_layout()
+	static process_first_layout = function() {
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			with(children[@i].instance) {
+				visible = __raptor_visible_on_create;
+				struct_remove(self, "__raptor_visible_on_create");
+			}
+		}
+	}
+	
 	/// @function set_position(_xpos, _ypos)
 	/// @description Sets an absolute position in the client area of the parent control,
 	///              unless you set _relative to true, then the values are just added to the

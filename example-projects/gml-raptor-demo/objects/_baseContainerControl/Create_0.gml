@@ -1,7 +1,6 @@
 /// @description build object hierarchy
 event_inherited();
 
-__first_draw			 = true;
 __auto_size_with_content = false;
 
 if (!SAVEGAME_LOAD_IN_PROGRESS) {

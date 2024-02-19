@@ -370,7 +370,11 @@ __create_scribble_title_object = function(align, str) {
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
-	if (__CONTROL_NEEDS_LAYOUT || __last_title != title) {
+	var was_forced = __force_redraw;
+	if (__first_draw)
+		control_tree.process_first_layout();
+	
+	if (__CONTROL_NEEDS_LAYOUT || __last_title != title || __first_draw) {
 		__force_redraw = false;
 
 		__scribble_text = __create_scribble_object(scribble_text_align, text);
@@ -437,11 +441,12 @@ __draw_self = function() {
 		if (__have_x_button) with(__x_button) update_position();
 	}
 
-	if (__CONTROL_DRAWS_SELF)
+	if (was_forced || __CONTROL_DRAWS_SELF)
 		__draw_instance();
 }
 
 __draw_instance = function(_force = false) {
+	update_client_area();
 	
 	if (control_tree != undefined) {
 		if (__first_draw || _force) {
