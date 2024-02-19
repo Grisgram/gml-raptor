@@ -123,8 +123,8 @@ __do_sizing = function() {
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
 		__setup_drag_rect();
-		control_tree.update_render_area();
-		control_tree.layout();
+		//control_tree.update_render_area();
+		//control_tree.layout();
 	}
 	return (__dx != 0 || __dy != 0);
 }

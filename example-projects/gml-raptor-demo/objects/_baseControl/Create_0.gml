@@ -177,7 +177,7 @@ __mouse_enter_topmost_control = function() {
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
-/// @function					force_redraw()
+/// @function					force_redraw(_redraw_all = true)
 /// @description				force recalculate of all positions next frame
 force_redraw = function(_redraw_all = true) {
 	__force_redraw = _redraw_all;

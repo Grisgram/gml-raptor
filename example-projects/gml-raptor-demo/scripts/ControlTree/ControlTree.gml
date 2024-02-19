@@ -78,7 +78,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	/// @function is_root_tree()
 	static is_root_tree = function() {
-		return eq(__root_tree, self);
+		return (__root_tree == self);
 	}
 	
 	/// @function set_margin_all(_margin)
@@ -293,7 +293,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
-
+		vlog($"--- Layout {name_of(control)}");
 		update_render_area();
 		
 		runner.left		= render_area.left;

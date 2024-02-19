@@ -89,8 +89,12 @@ function is_child_of(child, parent) {
 ///								var instname = name_of(my_instance) ?? "my default";
 /// @param {object_index} _instance	The instance to retrieve the name of.
 function name_of(_instance, _with_ref_id = true) {
-	if (!is_null(_instance))
-		with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
+	if (!is_null(_instance)) {
+		if (variable_struct_exists(_instance, "object_index"))
+			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
+		else 
+			return $"{ptr(_instance)}";
+	}
 	return undefined;
 }
 
