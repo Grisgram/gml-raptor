@@ -54,7 +54,6 @@ update_startup_coordinates = function() {
 set_startup_size();
 update_startup_coordinates();
 
-__first_draw				= true;
 __last_sprite_index			= undefined;
 __last_sprite_width			= sprite_width;
 __last_sprite_height		= sprite_height;
@@ -257,9 +256,7 @@ __apply_post_positioning = function() {
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
 	var was_forced = __force_redraw;
-	if (__first_draw && data.control_tree != undefined)
-		data.control_tree.process_first_layout();
-	
+		
 	if (__CONTROL_NEEDS_LAYOUT) {
 		__force_redraw = false;
 

@@ -371,8 +371,6 @@ __create_scribble_title_object = function(align, str) {
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
 	var was_forced = __force_redraw;
-	if (__first_draw)
-		control_tree.process_first_layout();
 	
 	if (__CONTROL_NEEDS_LAYOUT || __last_title != title || __first_draw) {
 		__force_redraw = false;
