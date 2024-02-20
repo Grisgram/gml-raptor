@@ -90,42 +90,55 @@ if (window_x_button_visible && !is_null(window_x_button_object)) {
 }
 
 #region sizable window
-__dx = 0;
-__dy = 0;
+__dx	= 0;
+__dy	= 0;
+__oldw	= 0;
+__oldh	= 0;
+__neww	= 0;
+__newh	= 0;
 
 __do_sizing = function() {
 	if (!__in_size_mode) 
 		return false;
 	
 	var recalc = true;
-	var neww = sprite_width;
-	var newh = sprite_height;
+	__oldw = sprite_width;
+	__oldh = sprite_height;
+	__neww = sprite_width;
+	__newh = sprite_height;
 	__dx = CTL_MOUSE_DELTA_X;
 	__dy = CTL_MOUSE_DELTA_Y;
 	switch (__size_direction) {
-		case 1:	neww -= __dx;	newh += __dy;	x += __dx;				break;
-		case 2:					newh += __dy;							break;
-		case 3:	neww += __dx;	newh += __dy;							break;
-		case 4:	neww -= __dx;					x += __dx;				break;
-		case 6:	neww += __dx;											break;
-		case 7:	neww -= __dx;	newh -= __dy;	x += __dx;	y += __dy;	break;
-		case 8:					newh -= __dy;				y += __dy;	break;
-		case 9:	neww += __dx;	newh -= __dy;				y += __dy;	break;
+		case 1:	__neww -= __dx;	__newh += __dy;	x += __dx;				break;
+		case 2:					__newh += __dy;							break;
+		case 3:	__neww += __dx;	__newh += __dy;							break;
+		case 4:	__neww -= __dx;					x += __dx;				break;
+		case 6:	__neww += __dx;											break;
+		case 7:	__neww -= __dx;	__newh -= __dy;	x += __dx;	y += __dy;	break;
+		case 8:					__newh -= __dy;				y += __dy;	break;
+		case 9:	__neww += __dx;	__newh -= __dy;				y += __dy;	break;
 		default:
-			recalc = false;
-			break;
+			return;
 	}
-	if (recalc) {
-		neww = max(neww, min_width);
-		newh = max(newh, min_height);
-		scale_sprite_to(neww, newh);
+	
+	__apply_window_sizing_size(max(__neww, min_width), max(__newh, min_height));
+	
+	if (__find_sizing_area() == 0) {
+		vlog($"Window resize stopped (min-size)");
+		__set_sizing_cursor();
+		__apply_window_sizing_size(__oldw, __oldh);
+		control_tree.move_children_after_sizing(true);
+		__in_size_mode = false;
+		return true;
+	} else
+		return (__neww != __oldw || __newh != __oldh);
+}
 
-		__startup_xscale = image_xscale;
-		__startup_yscale = image_yscale;
-		update_client_area();
-		__setup_drag_rect();
-	}
-	return (__dx != 0 || __dy != 0);
+__apply_window_sizing_size = function(_w, _h) {
+	scale_sprite_to(_w, _h);
+	update_startup_coordinates();
+	update_client_area();
+	__setup_drag_rect();
 }
 
 // Find the windows' sizing areas
@@ -167,6 +180,7 @@ __find_sizing_area = function() {
 		__size_direction = 0;
 	
 	__set_sizing_cursor();
+	return __size_direction;
 }
 
 __set_sizing_cursor = function() {
