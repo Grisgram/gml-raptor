@@ -129,7 +129,7 @@ __do_sizing = function() {
 		__apply_window_sizing_size(__oldw, __oldh);
 		control_tree.move_children_after_sizing(true);
 		__in_size_mode = false;
-		return true;
+		return true; // return true to get a final draw outside of this in the Step event
 	} else
 		return (__neww != __oldw || __newh != __oldh);
 }
