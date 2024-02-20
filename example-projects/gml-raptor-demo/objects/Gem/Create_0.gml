@@ -15,7 +15,7 @@ states.add_state("idle");
 // NOTE: overriding does not work recursively due to GML's object design.
 // "base.function" will always contain only the DIRECT PARENTS' IMPLEMENTATION.
 // All other levels get lost.
-override("onQueryHit", function(first_query_table, current_query_table, item_dropped) {
+override("onQueryHit",, function(first_query_table, current_query_table, item_dropped) {
 	base.onQueryHit(first_query_table, current_query_table, item_dropped);
 	
 	// As soon as onQueryHit gets invoked, "data.race_data" is already populated,

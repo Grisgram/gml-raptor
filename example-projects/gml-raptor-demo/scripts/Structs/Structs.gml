@@ -5,10 +5,11 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-#macro __CONSTRUCTOR_NAME		"##_raptor_##.__constructor"
-#macro __INTERFACES_NAME		"##_raptor_##.__interfaces"
+#macro __CONSTRUCTOR_NAME			"##_raptor_##.__constructor"
+#macro __PARENT_CONSTRUCTOR_NAME	"##_raptor_##.__parent_constructor"
+#macro __INTERFACES_NAME			"##_raptor_##.__interfaces"
 
-#macro interface				() constructor
+#macro interface	() constructor
 
 /// @function		construct(_class_name_or_asset)
 /// @description	Register a class as a constructible class to raptor.
@@ -18,6 +19,9 @@
 ///					the constructor and then perform a struct_integrate with the loaded data, so
 ///					all members receive their loaded values after the constructor executed.
 function construct(_class_name_or_asset) {
+	self[$ __PARENT_CONSTRUCTOR_NAME] = (variable_struct_exists(self, __CONSTRUCTOR_NAME) ?
+		 self[$ __CONSTRUCTOR_NAME] : undefined);
+		 
 	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
 }
 

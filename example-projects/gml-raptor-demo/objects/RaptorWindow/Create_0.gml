@@ -122,9 +122,8 @@ __do_sizing = function() {
 
 		__startup_xscale = image_xscale;
 		__startup_yscale = image_yscale;
+		update_client_area();
 		__setup_drag_rect();
-		//control_tree.update_render_area();
-		//control_tree.layout();
 	}
 	return (__dx != 0 || __dy != 0);
 }
@@ -333,20 +332,9 @@ scribble_add_title_effects = function(titletext) {
 	// example: titletext.blend(c_blue, 1); // where ,1 is alpha
 }
 
-/// @function set_client_area(_width, _height, _is_also_min_size = true)
-set_client_area = function(_width, _height, _is_also_min_size = true) {
-	scale_sprite_to(
-		_width + 2 * window_resize_border_width,
-		_height + titlebar_height + 2 * window_resize_border_width);
-	if (_is_also_min_size) {
-		min_width = sprite_width;
-		min_height = sprite_height;
-	}
-	update_startup_coordinates();
-	update_client_area();
+on_client_area_changed = function() {
 	__setup_drag_rect();
 	data.control_tree.update_render_area();
-	force_redraw();
 }
 
 update_client_area = function() {

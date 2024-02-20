@@ -93,7 +93,7 @@ function name_of(_instance, _with_ref_id = true) {
 		if (variable_struct_exists(_instance, "object_index"))
 			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
 		else 
-			return $"{ptr(_instance)}";
+			return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? ptr(_instance) : "")}";
 	}
 	return undefined;
 }

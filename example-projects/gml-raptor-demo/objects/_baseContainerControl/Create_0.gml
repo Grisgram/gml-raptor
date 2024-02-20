@@ -20,11 +20,6 @@ get_element = function(_name) {
 	return control_tree.get_element(_name);
 }
 
-update_client_area = function() {
-	data.client_area.set(0, 0, sprite_width, sprite_height);
-}
-update_client_area();
-
 if (!variable_instance_exists(self, "__original_draw_instance"))
 	__original_draw_instance = __draw_instance;
 

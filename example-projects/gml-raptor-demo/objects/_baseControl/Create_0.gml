@@ -38,6 +38,24 @@ set_startup_size = function() {
 	);
 }
 
+/// @function set_client_area(_width, _height, _is_also_min_size = true)
+set_client_area = function(_width, _height, _is_also_min_size = true) {
+	scale_sprite_to(
+		_width + 2 * window_resize_border_width,
+		_height + titlebar_height + 2 * window_resize_border_width);
+	if (_is_also_min_size) {
+		min_width = sprite_width;
+		min_height = sprite_height;
+	}
+	update_startup_coordinates();
+	update_client_area();
+	force_redraw();
+	on_client_area_changed();
+}
+
+/// @function on_client_area_changed()
+on_client_area_changed = function() {}
+
 /// @function update_startup_coordinates()
 /// @description Invoke this if you did create the control dynamically at runtime 
 ///				 to set the current position as the startup position after placing it in the scene
@@ -92,7 +110,6 @@ set_enabled = function(_enabled) {
 	}
 }
 
-update_client_area = function() {} // container controls place their render dimensions here
 __container = undefined; // if this is part of a window, it's the parent container
 /// @function get_window()
 /// @description If this control is embedded in a window, this function returns

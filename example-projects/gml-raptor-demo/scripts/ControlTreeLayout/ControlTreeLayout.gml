@@ -57,7 +57,7 @@ function ControlTreeLayout() constructor {
 			valign = ypos_align;
 			halign = xpos_align;
 			apply_spreading(_area, _inst, _control);
-			apply_alignment(_inst, _control);
+			apply_alignment(_area, _inst, _control);
 			xpos = _inst.x - (_area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset);
 			ypos = _inst.y - (_area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset);
 			
@@ -233,7 +233,7 @@ function ControlTreeLayout() constructor {
 
 #region Alignment
 	/// @function apply_alignment(_inst, _control)
-	static apply_alignment = function(_inst, _control) {
+	static apply_alignment = function(_area, _inst, _control) {
 		if (docking != dock.none || !have_align)
 			return; // we can only align if we are the master of our size
 			
@@ -246,26 +246,26 @@ function ControlTreeLayout() constructor {
 		// AFTER the final size of the instance is set
 		switch (valign) {
 			case fa_top:
-				_inst.y = ypos + tree.render_area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
+				_inst.y = ypos + _area.top + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
 				break;
 			case fa_middle:
-				_inst.y = ypos + tree.render_area.top + tree.render_area.height / 2 - _inst.sprite_height / 2;
+				_inst.y = ypos + _area.top + _area.height / 2 - _inst.sprite_height / 2;
 				break;
 			case fa_bottom:
 				var dist = _inst.sprite_height + tree.margin_bottom + tree.padding_bottom;
-				_inst.y = ypos + tree.render_area.get_bottom() - dist;
+				_inst.y = ypos + _area.get_bottom() - dist;
 				break;
 		}
 		switch (halign) {
 			case fa_left:
-				_inst.x = xpos + tree.render_area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
+				_inst.x = xpos + _area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
 				break;
 			case fa_center:
-				_inst.x = xpos + tree.render_area.left + tree.render_area.width / 2 - _inst.sprite_width / 2;
+				_inst.x = xpos + _area.left + _area.width / 2 - _inst.sprite_width / 2;
 				break;
 			case fa_right:
 				var dist = _inst.sprite_width + tree.margin_right + tree.padding_right;
-				_inst.x = xpos + tree.render_area.get_right() - dist;
+				_inst.x = xpos + _area.get_right() - dist;
 				break;
 		}
 	}

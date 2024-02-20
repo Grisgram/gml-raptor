@@ -6,6 +6,7 @@ if (__in_drag_mode) {
 }
 
 if (__in_size_mode) {
+	control_tree.move_children_after_sizing(true);
 	vlog($"Window resize stopped.");
 	__in_size_mode = false;
 }

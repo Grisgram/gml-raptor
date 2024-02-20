@@ -1,17 +1,16 @@
-/// @function					override(method_name, new_function)
+/// @function					override(method_name, _base_name, _new_function)
 /// @description				Overrides a method in the current object and creates
 ///								an instance variable "base" that contains the original function.
 ///								So it is possible to call the "inherited" method via base.method(...)
 /// @param {string} method_name
 /// @returns {func}	new function
-function override(method_name, new_function) {
-	var current_base = variable_instance_get(self, "base");
+function override(_method_name, _base_name = undefined, _new_function) {
+	_base_name ??= _method_name;
 	if (!variable_instance_exists(self, "base"))
-		variable_instance_set(self, "base", {});
+		self[$ "base"] = {};
 
-	variable_struct_set(base, "base", current_base);
-	variable_struct_set(base, method_name, variable_instance_get(self, method_name));
-	variable_instance_set(self, method_name, method(self, new_function));
+	base[$ _base_name] = method(self, self[$ _method_name]);
+	self[$ _method_name] = method(self, _new_function);
 }
 
 

@@ -293,7 +293,6 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
-		vlog($"--- Layout {name_of(control)}");
 		update_render_area();
 		
 		runner.left		= render_area.left;
@@ -329,10 +328,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			}
 
 			ilayout.apply_positioning(render_area, inst, control);
-			ilayout.apply_docking(render_area, inst, control);
-			ilayout.apply_spreading(render_area, inst, control);
-			ilayout.apply_alignment(inst, control);
-			ilayout.apply_anchoring(render_area, inst, control);
+			ilayout.apply_docking	 (render_area, inst, control);
+			ilayout.apply_spreading  (render_area, inst, control);
+			ilayout.apply_alignment  (render_area, inst, control);
+			ilayout.apply_anchoring  (render_area, inst, control);
 		}
 						
 		if (reorder_docks) {

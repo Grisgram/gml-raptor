@@ -4,7 +4,7 @@
 */
 
 function RingBuffer(_size, _default = undefined) constructor {
-
+	
 	max_size = _size;
 	buf = array_create(_size, _default);
 	next = 0;
