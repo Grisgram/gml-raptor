@@ -1,4 +1,4 @@
-/// @description log event
+/// @description track double click
 
 GUI_EVENT;
 

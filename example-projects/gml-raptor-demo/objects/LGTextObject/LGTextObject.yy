@@ -8,8 +8,8 @@
   "managed": true,
   "overriddenProperties": [],
   "parent": {
-    "name": "_generic_objects_",
-    "path": "folders/_gml_raptor_/_generic_objects_.yy",
+    "name": "LG",
+    "path": "folders/_gml_raptor_/LG.yy",
   },
   "parentObjectId": {
     "name": "Saveable",

@@ -5,7 +5,7 @@
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "_generic_objects_",
-    "path": "folders/_gml_raptor_/_generic_objects_.yy",
+    "name": "Tools",
+    "path": "folders/_gml_raptor_/Tools.yy",
   },
 }

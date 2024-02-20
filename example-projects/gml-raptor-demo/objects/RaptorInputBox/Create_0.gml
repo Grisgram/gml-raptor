@@ -28,7 +28,7 @@ __cursor_frame = 0;
 __cursor_visible = true;
 __last_cursor_visible = false;
 
-__has_focus = false;
+has_focus = false;
 
 __cursor_x = 0;
 __cursor_y = 0;
@@ -51,12 +51,12 @@ enum character_filter {
 /// @function					set_focus(from_tab = false)
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
-	if (__has_focus || !is_enabled) 
+	if (has_focus || !is_enabled) 
 		return;
 	
-	with (InputBox) lose_focus();
+	with (RaptorInputBox) lose_focus();
 	vlog($"{MY_NAME}: tab index {tab_index} got focus");
-	__has_focus = true;
+	has_focus = true;
 	text_color = text_color_focus;
 	if (from_tab) set_cursor_pos(string_length(text));
 	selection_length = 0;
@@ -72,11 +72,11 @@ set_focus = function(from_tab = false) {
 /// @function					lose_focus()
 /// @description				Remove input focus from this
 lose_focus = function() {
-	if (!__has_focus) 
+	if (!has_focus) 
 		return;
 	
 	vlog($"{MY_NAME}: tab index {tab_index} lost focus");
-	__has_focus = false;
+	has_focus = false;
 	text_color = __backup_color_text;
 	selection_length = 0;
 	__last_selection_length = -1;
@@ -234,7 +234,7 @@ draw_scribble_text = function() {
 		__draw_self();
 		return;
 	}
-	if (__has_focus) {
+	if (has_focus) {
 		if (selection_length != __last_selection_length) {
 			__last_selection_length = selection_length;
 			if (selection_length != 0) {
@@ -269,7 +269,7 @@ draw_scribble_text = function() {
 
 /// @function __draw_cursor()
 __draw_cursor = function() {
-	if (__first_cursor_draw || (__has_focus && __cursor_visible)) {
+	if (__first_cursor_draw || (has_focus && __cursor_visible)) {
 		if (__first_cursor_draw || __last_cursor_visible != __cursor_visible) {
 			__first_cursor_draw = false;
 			// make draw calculations only once, if visible changed in last frame
