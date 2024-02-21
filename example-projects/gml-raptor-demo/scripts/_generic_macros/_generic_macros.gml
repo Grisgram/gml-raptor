@@ -46,22 +46,25 @@ global.__unique_count_up_id	= 0;
 #macro GAMEFRAME	GAMECONTROLLER.image_index
 
 // Those macros define all situations that can lead to an invisible element on screen
-#macro __LAYER_OR_OBJECT_HIDDEN	(!visible || (layer != -1 && !layer_get_visible(layer)))
-#macro __HIDDEN_BEHIND_POPUP	(GUI_POPUP_VISIBLE && (layer == -1 || !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP)))
-#macro __GUI_MOUSE_EVENT_LOCK	(variable_instance_exists(self, "draw_on_gui") && draw_on_gui && !gui_mouse.event_redirection_active)
-#macro __CONTROL_IS_TARGET		(variable_instance_exists(self, "is_enabled") && is_enabled && is_topmost_control(CTL_MOUSE_X, CTL_MOUSE_Y))
+#macro __LAYER_OR_OBJECT_HIDDEN		(!visible || (layer != -1 && !layer_get_visible(layer)))
+#macro __HIDDEN_BEHIND_POPUP		(GUI_POPUP_VISIBLE && (layer == -1 || !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP)))
+#macro __GUI_MOUSE_EVENT_LOCK		(variable_instance_exists(self, "draw_on_gui") && draw_on_gui && !gui_mouse.event_redirection_active)
+#macro __CONTROL_IS_ENABLED			(variable_instance_exists(self, "is_enabled") && is_enabled)
+#macro __CONTROL_IS_TARGET_MOUSE	(__CONTROL_IS_ENABLED && is_topmost_control(CTL_MOUSE_X, CTL_MOUSE_Y))
+#macro __CONTROL_IS_TARGET_XY		(__CONTROL_IS_ENABLED && is_topmost_control(x, y))
 
-#macro __INSTANCE_UNREACHABLE	(__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP)
+#macro __INSTANCE_UNREACHABLE		(__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP)
 
 // All controls skip their events, if this is true
-#macro __SKIP_CONTROL_EVENT		(__GUI_MOUSE_EVENT_LOCK || __INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET)
+#macro __SKIP_CONTROL_EVENT			(__GUI_MOUSE_EVENT_LOCK || __INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_MOUSE)
 
 // Instead of repeating the same if again and again in each mouse event, just use this macro;
-#macro GUI_EVENT				if (__SKIP_CONTROL_EVENT) exit;
-#macro GUI_EVENT_UNTARGETTED	if (__GUI_MOUSE_EVENT_LOCK || __INSTANCE_UNREACHABLE) exit;
+#macro GUI_EVENT					if (__SKIP_CONTROL_EVENT) exit;
+#macro GUI_EVENT_NO_MOUSE			if (__INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_XY) exit;
+#macro GUI_EVENT_UNTARGETTED		if (__INSTANCE_UNREACHABLE) exit;
 
-#macro DEPTH_BOTTOM_MOST		 16000
-#macro DEPTH_TOP_MOST			-15998
+#macro DEPTH_BOTTOM_MOST			 16000
+#macro DEPTH_TOP_MOST				-15998
 
 // Used by the MouseCursor object but must exist always, as the RoomController checks it
 #macro MOUSE_CURSOR		global.__mouse_cursor

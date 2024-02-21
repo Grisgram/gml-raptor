@@ -61,7 +61,7 @@ check_mouse_over_knob = function() {
 
 	var over_before = __mouse_over_knob;
 	
-	__mouse_over_knob = __CONTROL_IS_TARGET &&
+	__mouse_over_knob = __CONTROL_IS_TARGET_MOUSE &&
 		(is_between(xcheck, __knob_x - __knob_dims.origin_x * knob_xscale, __knob_x - __knob_dims.origin_x * knob_xscale + __knob_dims.width  * knob_xscale) &&
 		 is_between(ycheck, __knob_y - __knob_dims.origin_y * knob_yscale, __knob_y - __knob_dims.origin_y * knob_yscale + __knob_dims.height * knob_yscale));
 
