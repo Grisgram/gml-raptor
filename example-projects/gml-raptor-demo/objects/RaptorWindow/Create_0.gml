@@ -39,26 +39,10 @@ __title_x			= 0;
 __title_y			= 0;
 __scribble_title	= undefined;
 
-__x_button			= undefined;
-__x_button_closing	= undefined;
-__have_x_button		= false;
-
 __startup_depth		= depth;
 
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
-
-__size_rect_top		= new Rectangle();
-__size_rect_bottom	= new Rectangle();
-__size_rect_left	= new Rectangle();
-__size_rect_right	= new Rectangle();
-__in_size_mode		= false;
-__size_direction	= 0;
-
-// _rc = raptor cursor:Image index of the sizable sprite
-__size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
-// _dc = default cursor (gamemaker cr_ constants)
-__size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,cr_default,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
 
 /// @function center_on_screen()
 center_on_screen = function() {
@@ -66,15 +50,21 @@ center_on_screen = function() {
 	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
 	data.control_tree.update_render_area();
 }
+
 if (center_on_open) {
 	center_on_screen();
 	update_startup_coordinates();
 }
 
+#region x-button
+
+__x_button			= undefined;
+__x_button_closing	= undefined;
+__have_x_button		= false;
+
 if (window_x_button_visible && !is_null(window_x_button_object)) {
 	__have_x_button = true;
 	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
-	//__x_button.depth = depth - 1;
 	__x_button.attach_to_window(self);
 	__x_button_closing = __x_button.on_left_click;
 	__x_button.on_left_click = function(sender) {
@@ -89,7 +79,26 @@ if (window_x_button_visible && !is_null(window_x_button_object)) {
 	}
 }
 
+/// @function get_x_button()
+get_x_button = function() { 
+	return __x_button; 
+}
+
+#endregion
+
 #region sizable window
+__size_rect_top		= new Rectangle();
+__size_rect_bottom	= new Rectangle();
+__size_rect_left	= new Rectangle();
+__size_rect_right	= new Rectangle();
+__in_size_mode		= false;
+__size_direction	= 0;
+
+// _rc = raptor cursor:Image index of the sizable sprite
+__size_images_rc	= [-1,3,1,2,0,-1,0,2,1,3];
+// _dc = default cursor (gamemaker cr_ constants)
+__size_images_dc	= [cr_default,cr_size_nesw,cr_size_ns,cr_size_nwse,cr_size_we,cr_default,cr_size_we,cr_size_nwse,cr_size_ns,cr_size_nesw];
+
 __dx	= 0;
 __dy	= 0;
 __oldw	= 0;
@@ -333,6 +342,7 @@ take_focus(); // we take focus on creation
 
 #endregion
 
+/// @function close()
 close = function() {
 	control_tree.invoke_on_closed();
 	instance_destroy(self);
@@ -450,7 +460,7 @@ __draw_instance = function(_force = false) {
 	
 	if (control_tree != undefined) {
 		if (__first_draw || _force) {
-			control_tree.layout();
+			control_tree.layout(true);
 			if (!is_null(on_opening))
 				on_opening(self);
 		}

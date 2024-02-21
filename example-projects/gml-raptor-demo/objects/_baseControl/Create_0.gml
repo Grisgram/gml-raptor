@@ -18,6 +18,7 @@ nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// layout data is part of the savegame, if this one gets saved
+	vlog($"--- setting up tree object in {MY_NAME}");
 	data.control_tree = undefined;
 	data.control_tree_layout = undefined;
 	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
@@ -40,9 +41,7 @@ set_startup_size = function() {
 
 /// @function set_client_area(_width, _height, _is_also_min_size = true)
 set_client_area = function(_width, _height, _is_also_min_size = true) {
-	scale_sprite_to(
-		_width + 2 * window_resize_border_width,
-		_height + titlebar_height + 2 * window_resize_border_width);
+	scale_sprite_to(_width, _height);
 	if (_is_also_min_size) {
 		min_width = sprite_width;
 		min_height = sprite_height;
@@ -213,7 +212,8 @@ scribble_add_text_effects = function(scribbletext) {
 /// @function					draw_scribble_text()
 /// @description				draw the text - redefine for additional text effects
 draw_scribble_text = function() {
-	__scribble_text.draw(__text_x, __text_y);
+	if (__scribble_text != undefined)
+		__scribble_text.draw(__text_x, __text_y);
 }
 
 /// @function					__create_scribble_object(align, str)

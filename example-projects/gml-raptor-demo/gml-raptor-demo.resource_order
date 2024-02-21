@@ -384,6 +384,7 @@
     {"name":"scribble_font_add_msdf","order":3,"path":"scripts/scribble_font_add_msdf/scribble_font_add_msdf.yy",},
     {"name":"CameraActions","order":3,"path":"scripts/CameraActions/CameraActions.yy",},
     {"name":"ProfileData","order":1,"path":"objects/ProfileData/ProfileData.yy",},
+    {"name":"MsgBoxControlTree","order":4,"path":"scripts/MsgBoxControlTree/MsgBoxControlTree.yy",},
     {"name":"Gem","order":2,"path":"objects/Gem/Gem.yy",},
     {"name":"RaptorSimpleFormatter","order":4,"path":"scripts/RaptorSimpleFormatter/RaptorSimpleFormatter.yy",},
     {"name":"scribble_font_add_all","order":1,"path":"scripts/scribble_font_add_all/scribble_font_add_all.yy",},

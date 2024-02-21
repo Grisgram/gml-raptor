@@ -472,6 +472,7 @@
     {"id":{"name":"scribble_font_add_msdf","path":"scripts/scribble_font_add_msdf/scribble_font_add_msdf.yy",},},
     {"id":{"name":"CameraActions","path":"scripts/CameraActions/CameraActions.yy",},},
     {"id":{"name":"ProfileData","path":"objects/ProfileData/ProfileData.yy",},},
+    {"id":{"name":"MsgBoxControlTree","path":"scripts/MsgBoxControlTree/MsgBoxControlTree.yy",},},
     {"id":{"name":"Gem","path":"objects/Gem/Gem.yy",},},
     {"id":{"name":"RaptorSimpleFormatter","path":"scripts/RaptorSimpleFormatter/RaptorSimpleFormatter.yy",},},
     {"id":{"name":"scribble_font_add_all","path":"scripts/scribble_font_add_all/scribble_font_add_all.yy",},},

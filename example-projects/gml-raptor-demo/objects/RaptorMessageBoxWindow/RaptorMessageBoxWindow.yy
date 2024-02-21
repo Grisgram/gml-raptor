@@ -2,17 +2,16 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "RaptorMessageBoxWindow",
-  "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":13,"eventType":9,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":27,"eventType":9,"isDnD":false,},
-  ],
+  "eventList": [],
   "managed": true,
   "overriddenProperties": [
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"Window","path":"objects/Window/Window.yy",},"propertyId":null,"value":"True",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"value":"320",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"value":"200",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"value":"RaptorMessageBoxXButton",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseContainerControl","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"propertyId":{"name":"control_tree","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"value":"new MsgBoxControlTree(self)",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_is_sizable","path":"objects/RaptorWindow/RaptorWindow.yy",},"value":"True",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_on_gui","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
   ],
   "parent": {
     "name": "raptormessagebox",

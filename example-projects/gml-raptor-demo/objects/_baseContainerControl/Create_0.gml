@@ -11,6 +11,7 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	}
 	control_tree.bind_to(self);
 	data.control_tree_layout = new ControlTreeLayout();
+	vlog($"--- upscaling!");
 	data.control_tree = control_tree;
 }
 

@@ -81,6 +81,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return (__root_tree == self);
 	}
 	
+	/// @function get_instance()
+	static get_instance = function() {
+		return __last_instance;
+	}
+	
 	/// @function set_margin_all(_margin)
 	static set_margin_all = function(_margin) {
 		set_margin(_margin, _margin, _margin, _margin);
@@ -131,7 +136,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
+			vlog($"--- setting parent_tree in {name_of(inst)} {name_of(control)}");
 			inst.data.control_tree.parent_tree = self;
+			vlog($"--- success");
 			inst.data.control_tree.__root_tree = __root_tree;
 			inst.data.control_tree.__last_layout = inst.data.control_tree_layout;
 			inst.data.control_tree.__last_entry = __last_entry;
