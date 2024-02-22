@@ -1,4 +1,4 @@
-/// @description check coordinates (GUI_EVENT)
+/// @description check coordinates (GUI_EVENT_MOUSE)
 event_inherited();
 
 if (__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;

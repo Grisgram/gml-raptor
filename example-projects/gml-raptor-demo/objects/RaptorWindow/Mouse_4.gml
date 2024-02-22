@@ -1,6 +1,6 @@
 /// @description start drag/resize (if movable/sizable)
 
-GUI_EVENT;
+GUI_EVENT_MOUSE;
 
 if (mouse_is_over && (!__have_x_button || !__x_button.mouse_is_over)) {
 	if (!__MOUSE_OVER_FOCUS_WINDOW) {

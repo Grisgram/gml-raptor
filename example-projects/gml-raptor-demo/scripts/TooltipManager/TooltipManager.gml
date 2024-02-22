@@ -17,9 +17,10 @@ TOOLTIP_LAYER		= undefined;
 function tooltip_get_instance(tooltip_object_index) {
 	var ttname = object_get_name(tooltip_object_index);
 	var inst;
-	if (variable_struct_exists(TOOLTIP_INSTANCES, ttname))
+	if (variable_struct_exists(TOOLTIP_INSTANCES, ttname)) {
 		inst = variable_struct_get(TOOLTIP_INSTANCES, ttname);
-	else {
+		instance_activate_object(inst);
+	} else {
 		vlog($"{MY_NAME}: Creating new tooltip instance: tooltip='{ttname}';");
 		inst = instance_create_layer(x, y, TOOLTIP_LAYER ?? layer, tooltip_object_index);
 		inst.visible = false;
@@ -61,6 +62,7 @@ function tooltip_hide(tooltip_object_index) {
 			if (visible || __active) {
 				vlog($"{MY_NAME}: Deactivating tooltip: tooltip='{ttname}';");
 				deactivate();
+				instance_deactivate_object(self);
 			}
 		}
 	}
@@ -74,6 +76,7 @@ function tooltip_destroy(tooltip_object_index) {
 	if (variable_struct_exists(TOOLTIP_INSTANCES, ttname)) {
 		var inst = variable_struct_get(TOOLTIP_INSTANCES, ttname);
 		vlog($"{MY_NAME}: Destroying tooltip instance: tooltip='{ttname}';");
+		instance_activate_object(inst);
 		instance_destroy(inst);
 	}
 }

@@ -155,7 +155,8 @@ is_topmost_control = function(_x, _y) {
 	if (instance_position_list(_x, _y, _baseControl, __topmost_list, false) > 0) {
 		var mindepth = DEPTH_BOTTOM_MOST;
 		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
-			if (is_child_of(__topmost_list[|i], RaptorTooltip)) continue;
+			if (is_child_of(__topmost_list[|i], RaptorTooltip) ||
+				is_child_of(__topmost_list[|i], RaptorUiRootPanel)) continue;
 			var w = __topmost_list[|i];
 			mindepth = min(mindepth, w.depth);
 		}
@@ -358,7 +359,7 @@ __draw_instance = function(_force = false) {
 		} else {
 			image_blend = (mouse_is_over ? draw_color_mouse_over : draw_color);
 			draw_self();
-			image_blend = c_white;
+			//image_blend = c_white;
 		}
 	}
 	

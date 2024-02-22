@@ -1,6 +1,6 @@
 /// @description track double click
 
-GUI_EVENT;
+GUI_EVENT_MOUSE;
 
 vlog($"{MY_NAME}: onLeftDown");
 await_click = true;

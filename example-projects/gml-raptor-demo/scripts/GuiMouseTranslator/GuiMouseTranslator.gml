@@ -30,7 +30,7 @@ function GuiMouseTranslator() constructor {
 	static update_gui_mouse_over = function() {
 		
 		with (other) {
-			if (!visible || (layer_exists(layer) && !layer_get_visible(layer))) 
+			if (!visible || (layer_exists(layer) && !layer_get_visible(layer)))
 				return;
 				
 			other.event_redirection_active = true;

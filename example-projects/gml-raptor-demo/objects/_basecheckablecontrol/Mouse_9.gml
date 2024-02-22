@@ -1,6 +1,6 @@
 /// @description set default_image_index
 
-GUI_EVENT;
+GUI_EVENT_MOUSE;
 
 if (__auto_change_checked) set_checked(!checked);
 event_inherited();
