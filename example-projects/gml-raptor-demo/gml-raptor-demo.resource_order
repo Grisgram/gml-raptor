@@ -256,6 +256,7 @@
     {"name":"GUI_Configuration","order":36,"path":"scripts/GUI_Configuration/GUI_Configuration.yy",},
     {"name":"sprDefaultLabelFilled","order":8,"path":"sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",},
     {"name":"MessageBox_Configuration","order":12,"path":"scripts/MessageBox_Configuration/MessageBox_Configuration.yy",},
+    {"name":"__raptorAcControlDraw","order":7,"path":"animcurves/__raptorAcControlDraw/__raptorAcControlDraw.yy",},
     {"name":"__shd_scribble_bake_shadow","order":4,"path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},
     {"name":"WindowXButton","order":13,"path":"objects/WindowXButton/WindowXButton.yy",},
     {"name":"__scribble_class_null_element","order":4,"path":"scripts/__scribble_class_null_element/__scribble_class_null_element.yy",},

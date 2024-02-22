@@ -81,13 +81,58 @@ __text_x					= 0;
 __text_y					= 0;
 __text_width				= 0;
 __text_height				= 0;
-							
+__text_anim_running			= false;
+animated_text_color			= text_color;
+animated_draw_color			= draw_color;
+
 __force_redraw				= true;	 // first draw is forced
 __force_redraw_text_only	= false; // flag for mouse_enter/leave event which just trigger coloring
 
 __disabled_surface			= undefined;
 __disabled_surface_width	= 0;
 __disabled_surface_height	= 0;
+
+__animate_draw_color = function(_to) {
+	if (draw_color_anim_frames == 0) {
+		animated_draw_color = _to;
+		return;
+	}
+
+	animation_abort(self, "__raptor_draw_color_anim", false);
+	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+			fromcol: animated_draw_color,
+			tocol: _to
+		})
+		.set_name("__raptor_draw_color_anim")
+		.set_function("anim_draw", function(value) {
+			owner.animated_draw_color = merge_color(data.fromcol, data.tocol, value);
+		})
+		.add_finished_trigger(function(_data) {
+			animated_draw_color = _data.tocol;
+		});
+}
+
+__animate_text_color = function(_to) {
+	if (text_color_anim_frames == 0) {
+		animated_text_color = _to;
+		return;
+	}
+	
+	__text_anim_running = true;
+	animation_abort(self, "__raptor_text_color_anim", false);
+	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+			fromcol: animated_text_color,
+			tocol: _to
+		})
+		.set_name("__raptor_text_color_anim")
+		.set_function("anim_draw", function(value) {
+			owner.animated_text_color = merge_color(data.fromcol, data.tocol, value);
+		})
+		.add_finished_trigger(function(_data) {
+			animated_text_color = _data.tocol;
+			__text_anim_running = false;
+		});
+}
 
 cleanup_disabled_surface = function() {
 	if (__disabled_surface == undefined) return;
@@ -170,6 +215,8 @@ is_topmost_control = function(_x, _y) {
 ///				 to find other controls at that mouse position and let
 ///				 the topmost of them receive the enter event
 __mouse_enter_topmost_control = function() {
+	var have_one = false;
+	
 	ds_list_clear(__topmost_list);
 	if (instance_position_list(CTL_MOUSE_X, CTL_MOUSE_Y, _baseControl, __topmost_list, false) > 0) {
 		// pass 1: find topmost depth at this position
@@ -187,11 +234,13 @@ __mouse_enter_topmost_control = function() {
 					vlog($"{MY_NAME}: onMouseEnter (topmost)");
 					mouse_is_over = true;
 					force_redraw(false);
+					have_one = true;
 					break;
 				}
 			}
 		}
-	} else
+	} 
+	if (!have_one)
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
@@ -225,7 +274,7 @@ draw_scribble_text = function() {
 __create_scribble_object = function(align, str) {
 	return scribble($"{align}{str}", MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
-							 mouse_is_over ? text_color_mouse_over : text_color);
+							 animated_text_color);
 }
 
 /// @function					__adopt_object_properties()
@@ -243,10 +292,10 @@ __adopt_object_properties = function() {
 /// @function					__finalize_scribble_text()
 /// @description				add blend and transforms to the final text
 __finalize_scribble_text = function() {
-	if (__force_redraw_text_only) {
+	if (__force_redraw_text_only || __text_anim_running) {
 		__scribble_text
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
-							 mouse_is_over ? text_color_mouse_over : text_color);
+							 animated_text_color);
 		__force_redraw_text_only = false;
 	}
 	__scribble_text.transform(1, 1, text_angle);
@@ -357,9 +406,8 @@ __draw_instance = function(_force = false) {
 			draw_self();
 			shader_reset();
 		} else {
-			image_blend = (mouse_is_over ? draw_color_mouse_over : draw_color);
+			image_blend = animated_draw_color;
 			draw_self();
-			//image_blend = c_white;
 		}
 	}
 	

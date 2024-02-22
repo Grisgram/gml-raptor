@@ -344,6 +344,7 @@ take_focus(); // we take focus on creation
 
 /// @function close()
 close = function() {
+	ilog($"{MY_NAME} closing");
 	__remove_self();
 	control_tree.invoke_on_closed();
 	control_tree.clean_up();
@@ -463,7 +464,6 @@ __draw_instance = function(_force = false) {
 	if (sprite_index != -1) {
 		image_blend = draw_color;
 		draw_self();
-		//image_blend = c_white;
 		if (has_focus && __can_draw_focus)
 			draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
 		if (!is_null(__x_button)) with(__x_button) {

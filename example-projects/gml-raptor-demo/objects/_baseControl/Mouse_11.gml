@@ -8,6 +8,8 @@
 // control is visible, no matter WHEN that happens
 if (mouse_is_over) {
 	mouse_is_over = false;
+	__animate_draw_color(draw_color);
+	__animate_text_color(text_color);
 	force_redraw(false);
 	__mouse_enter_topmost_control();
 }

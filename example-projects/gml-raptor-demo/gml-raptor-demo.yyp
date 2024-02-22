@@ -324,6 +324,7 @@
     {"id":{"name":"sprDefaultLabelFilled","path":"sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",},},
     {"id":{"name":"MessageBox_Configuration","path":"scripts/MessageBox_Configuration/MessageBox_Configuration.yy",},},
     {"id":{"name":"Spawner","path":"objects/Spawner/Spawner.yy",},},
+    {"id":{"name":"__raptorAcControlDraw","path":"animcurves/__raptorAcControlDraw/__raptorAcControlDraw.yy",},},
     {"id":{"name":"__shd_scribble_bake_shadow","path":"shaders/__shd_scribble_bake_shadow/__shd_scribble_bake_shadow.yy",},},
     {"id":{"name":"WindowXButton","path":"objects/WindowXButton/WindowXButton.yy",},},
     {"id":{"name":"__scribble_class_null_element","path":"scripts/__scribble_class_null_element/__scribble_class_null_element.yy",},},

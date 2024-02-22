@@ -136,6 +136,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		__last_entry = new ControlTreeEntry(inst);
 		array_push(children, __last_entry);
 		
+		dlog($"Control {name_of(inst)} added to tree of {name_of(control)}");
+		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
 			inst.data.control_tree.parent_tree = self;
@@ -153,7 +155,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			if (eq(_control, children[@i].instance)) {
 				array_delete(children, i, 1);
-				vlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
+				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
 				break;
 			}
 		}
@@ -300,15 +302,19 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 
 	/// @function invoke_on_opened()
 	static invoke_on_opened = function() {
-		if (__on_opened != undefined)
+		if (__on_opened != undefined) {
+			ilog($"Invoking on_window_opened callback for {name_of(control)}");
 			__on_opened(control);
+		}
 		return self;
 	}
 	
 	/// @function invoke_on_closed()
 	static invoke_on_closed = function() {
-		if (__on_closed != undefined)
+		if (__on_closed != undefined) {
+			ilog($"Invoking on_window_closed callback for {name_of(control)}");
 			__on_closed(control);
+		}
 		return self;
 	}
 
@@ -459,6 +465,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static clean_up = function() {
+		ilog($"CleanUp ControlTree of {name_of(control)}");
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			var inst = child.instance;

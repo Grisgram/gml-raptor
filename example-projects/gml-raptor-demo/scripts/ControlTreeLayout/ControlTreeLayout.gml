@@ -117,8 +117,6 @@ function ControlTreeLayout() constructor {
 		runner.top += areadiff;
 		_area.top += areadiff;
 		_area.height -= areadiff;
-		if (_area.height < 0)
-			wlog($"** WARNING ** Negative docking area vertical {_area.height}! Your controls take up too much space!");
 		
 		return neww;
 	}
@@ -145,8 +143,6 @@ function ControlTreeLayout() constructor {
 				
 		runner.bottom -= areadiff;
 		_area.height -= areadiff;
-		if (_area.height < 0)
-			wlog($"** WARNING ** Negative docking area vertical {_area.height}! Your controls take up too much space!");
 
 		return neww;
 	}
@@ -169,8 +165,6 @@ function ControlTreeLayout() constructor {
 		runner.left += areadiff;
 		_area.left += areadiff;
 		_area.width -= areadiff;
-		if (_area.width < 0)
-			wlog($"** WARNING ** Negative docking area horizontal {_area.width}! Your controls take up too much space!");
 
 		return newh;
 	}
@@ -197,8 +191,6 @@ function ControlTreeLayout() constructor {
 		
 		runner.right -= areadiff;
 		_area.width -= areadiff;
-		if (_area.width < 0)
-			wlog($"** WARNING ** Negative docking area horizontal {_area.width}! Your controls take up too much space!");
 
 		return newh;
 	}

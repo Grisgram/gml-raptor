@@ -611,14 +611,15 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__paused = paused_before;
 	}
 	
-	/// @function		abort()
-	/// @description	Stop immediately, but finished trigger WILL fire!
-	static abort = function() {
+	/// @function		abort(_run_finished_triggers = true)
+	/// @description	Stop immediately, but finished trigger WILL fire unless you set the argument to false!
+	static abort = function(_run_finished_triggers = true) {
 		var was_finished = __finished;
 		__finished = true;
 		ANIMATIONS.remove(self);
 		if (!was_finished) {
-			__invoke_triggers(__finished_triggers);
+			if (_run_finished_triggers)
+				__invoke_triggers(__finished_triggers);
 			__process_final_state(true);
 		}
 	}
@@ -702,10 +703,10 @@ function animation_finish_all(owner = self) {
 	}
 }
 
-/// @function		animation_abort_all(owner = self)
+/// @function		animation_abort_all(owner = self, _run_finished_triggers = true)
 /// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
 ///					NOTE: Set the owner to <undefined> to abort ALL existing animations!
-function animation_abort_all(owner = self) {
+function animation_abort_all(owner = self, _run_finished_triggers = true) {
 	var removers = animation_get_all(owner);
 	
 	if (DEBUG_LOG_LIST_POOLS)
@@ -715,8 +716,39 @@ function animation_abort_all(owner = self) {
 	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
 		with (to_remove) 
-			abort();
+			abort(_run_finished_triggers);
 	}
+}
+
+/// @function animation_abort(owner, name, _run_finished_triggers = true)
+/// @description Aborts one specific named animation of a specified owner.
+///				 NOTE: If multiple animations with the same name exist, 
+///				 only the first one found will be aborted!
+/// @returns {bool} True, if an animation has been aborted, otherwise false.
+function animation_abort(owner, name, _run_finished_triggers = true) {
+	var lst = ANIMATIONS.list;
+	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
+		var item = lst[| i];
+		if (eq(item.owner, owner) && name == item.name)
+		//if (item.owner.id == owner.id && (name == undefined || name == item.name))
+			with(item) { abort(_run_finished_triggers); return true; }
+	}
+	return false;
+}
+
+/// @function animation_finish(owner, name)
+/// @description Finishes one specific named animation of a specified owner.
+///				 NOTE: If multiple animations with the same name exist, 
+///				 only the first one found will be finished!
+/// @returns {bool} True, if an animation has been finished, otherwise false.
+function animation_finish(owner, name) {
+	var lst = ANIMATIONS.list;
+	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
+		var item = lst[| i];
+		if (eq(item.owner, owner) && name == item.name)
+			with(item) { finish(); return true; }
+	}
+	return false;
 }
 
 /// @function		animation_pause_all(owner = self)
