@@ -149,6 +149,17 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	static remove_control = function(_control) {
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			if (eq(_control, children[@i].instance)) {
+				array_delete(children, i, 1);
+				vlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
+				break;
+			}
+		}
+		return self;
+	}
+	
 	/// @function set_position(_xpos, _ypos)
 	/// @description Sets an absolute position in the client area of the parent control,
 	///              unless you set _relative to true, then the values are just added to the
@@ -205,6 +216,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		__last_layout.valign	 = _valign;
 		__last_layout.halign	 = _halign;
 		__last_layout.have_align = true;
+		return self;
+	}
+	
+	static remove_align = function() {
+		__last_layout.have_align = false;
 		return self;
 	}
 	
@@ -399,7 +415,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static draw_children = function() {
-		if (__force_next) {// || !__layout_done) {
+		if (__force_next) {
 			layout();
 			__layout_done = true;
 			__force_next = false;

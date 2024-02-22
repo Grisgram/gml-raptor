@@ -344,6 +344,7 @@ take_focus(); // we take focus on creation
 
 /// @function close()
 close = function() {
+	__remove_self();
 	control_tree.invoke_on_closed();
 	control_tree.clean_up();
 	instance_destroy(self);

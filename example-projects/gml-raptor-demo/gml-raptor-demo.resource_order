@@ -160,6 +160,7 @@
     {"name":"HighScoreTrophyRenderer","order":4,"path":"objects/HighScoreTrophyRenderer/HighScoreTrophyRenderer.yy",},
     {"name":"KeyTranslator","order":31,"path":"scripts/KeyTranslator/KeyTranslator.yy",},
     {"name":"AnimationTests","order":2,"path":"scripts/AnimationTests/AnimationTests.yy",},
+    {"name":"RaptorUiRootPanel","order":15,"path":"objects/RaptorUiRootPanel/RaptorUiRootPanel.yy",},
     {"name":"draw_text_scribble_ext","order":1,"path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},
     {"name":"TextButton","order":9,"path":"objects/TextButton/TextButton.yy",},
     {"name":"Strings","order":26,"path":"scripts/Strings/Strings.yy",},

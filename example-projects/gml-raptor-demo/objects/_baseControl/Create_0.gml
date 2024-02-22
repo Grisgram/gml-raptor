@@ -344,6 +344,7 @@ __draw_self = function() {
 		__draw_instance(was_forced);
 }
 
+/// @function __draw_instance(_force = false)
 __draw_instance = function(_force = false) {
 	//update_client_area();
 	

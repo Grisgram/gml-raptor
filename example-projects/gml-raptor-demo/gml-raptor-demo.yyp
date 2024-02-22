@@ -209,6 +209,7 @@
     {"id":{"name":"HighScoreTrophyRenderer","path":"objects/HighScoreTrophyRenderer/HighScoreTrophyRenderer.yy",},},
     {"id":{"name":"KeyTranslator","path":"scripts/KeyTranslator/KeyTranslator.yy",},},
     {"id":{"name":"AnimationTests","path":"scripts/AnimationTests/AnimationTests.yy",},},
+    {"id":{"name":"RaptorUiRootPanel","path":"objects/RaptorUiRootPanel/RaptorUiRootPanel.yy",},},
     {"id":{"name":"LG_Runtime","path":"scripts/LG_Runtime/LG_Runtime.yy",},},
     {"id":{"name":"draw_text_scribble_ext","path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},},
     {"id":{"name":"TextButton","path":"objects/TextButton/TextButton.yy",},},

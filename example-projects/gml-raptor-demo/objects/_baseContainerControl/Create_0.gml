@@ -24,6 +24,11 @@ get_element = function(_name) {
 if (!variable_instance_exists(self, "__original_draw_instance"))
 	__original_draw_instance = __draw_instance;
 
+__remove_self = function() {
+	if (control_tree.parent_tree != undefined)
+		control_tree.parent_tree.remove_control(self);
+}
+
 __draw_instance = function(_force = false) {
 	update_client_area();
 
@@ -34,10 +39,7 @@ __draw_instance = function(_force = false) {
 	__original_draw_instance(_force);
 	control_tree.draw_children();
 	
-	if (__first_draw) {
-		__first_draw = false;
-		control_tree.invoke_on_opened();
-	}
+	__first_draw = false;
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
 	//draw_set_color(c_red);
