@@ -13,12 +13,13 @@ struct_get_ext(self, "__raptor_debug_frame_color", c_green);
 
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
+__mouse_events_locked = false; // if rendered in a container, container draws first
+
 edges = new Edges(self);
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// layout data is part of the savegame, if this one gets saved
-	vlog($"--- setting up tree object in {MY_NAME}");
 	data.control_tree = undefined;
 	data.control_tree_layout = undefined;
 	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);

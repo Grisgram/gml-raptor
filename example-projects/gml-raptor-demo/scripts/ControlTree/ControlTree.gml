@@ -56,6 +56,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	__last_layout	= undefined;
 	__root_tree		= self;
 	__force_next	= false;
+	__layout_done	= false;
 
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
@@ -121,7 +122,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		// a new control can affect the whole render tree, so force redraw next frame
 		__force_next = true;
 		
-		var inst = instance_create(control.x, control.y, layer_of(control), _objtype, _init_struct);
+		var inst = instance_create(-100000, -100000, layer_of(control), _objtype, _init_struct);
+		//var inst = instance_create(control.x, control.y, layer_of(control), _objtype, _init_struct);
 		if (!is_child_of(inst, _baseControl)) {
 			instance_destroy(inst);
 			throw("ControlTree accepts only raptor controls (child of _baseControl) as children!");
@@ -136,9 +138,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
-			vlog($"--- setting parent_tree in {name_of(inst)} {name_of(control)}");
 			inst.data.control_tree.parent_tree = self;
-			vlog($"--- success");
 			inst.data.control_tree.__root_tree = __root_tree;
 			inst.data.control_tree.__last_layout = inst.data.control_tree_layout;
 			inst.data.control_tree.__last_entry = __last_entry;
@@ -399,8 +399,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static draw_children = function() {
-		if (__force_next) {
+		if (__force_next) {// || !__layout_done) {
 			layout();
+			__layout_done = true;
 			__force_next = false;
 		}
 		for (var i = 0, len = array_length(children); i < len; i++) {

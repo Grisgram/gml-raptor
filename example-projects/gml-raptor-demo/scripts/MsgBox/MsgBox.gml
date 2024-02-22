@@ -138,7 +138,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		// remove the distance_between after the last button, then we have total width of all buttons
 		button_total_width -= MESSAGEBOX_BUTTON_SPACE;
 		
-		window = instance_create_layer(0, 0, __layer_name, __window_object, {
+		window = instance_create(0, 0, __layer_name, __window_object, {
 			title: wintitle,
 			font_to_use: MESSAGEBOX_FONT
 		});
@@ -163,7 +163,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		for (var i = 0; i < array_length(__buttons); i++) 
 			__buttons[@i].__button = __buttons[@i].create_instance(panel);
 		panel.control.set_client_area(button_total_width, max_button_height);
-			
+
 		show_popup(MESSAGEBOX_LAYER);
 		BROADCASTER.send(self, __RAPTOR_BROADCAST_MSGBOX_OPENED);
 		return self;

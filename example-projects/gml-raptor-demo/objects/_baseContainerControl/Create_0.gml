@@ -3,6 +3,7 @@ event_inherited();
 
 __first_draw			 = true;
 __auto_size_with_content = false;
+__mouse_events_locked	 = true;
 
 if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	// put the tree to save data
@@ -11,7 +12,6 @@ if (!SAVEGAME_LOAD_IN_PROGRESS) {
 	}
 	control_tree.bind_to(self);
 	data.control_tree_layout = new ControlTreeLayout();
-	vlog($"--- upscaling!");
 	data.control_tree = control_tree;
 }
 

@@ -345,6 +345,7 @@ take_focus(); // we take focus on creation
 /// @function close()
 close = function() {
 	control_tree.invoke_on_closed();
+	control_tree.clean_up();
 	instance_destroy(self);
 }
 
@@ -457,34 +458,37 @@ __draw_self = function() {
 
 __draw_instance = function(_force = false) {
 	update_client_area();
-	
-	if (control_tree != undefined) {
-		if (__first_draw || _force) {
-			control_tree.layout(true);
-			if (!is_null(on_opening))
-				on_opening(self);
-		}
 
-		if (sprite_index != -1) {
-			image_blend = draw_color;
-			draw_self();
-			image_blend = c_white;
-			if (has_focus && __can_draw_focus)
-				draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
-			if (!is_null(__x_button)) with(__x_button) {
-				__draw_self();
-			}
+	if (sprite_index != -1) {
+		image_blend = draw_color;
+		draw_self();
+		image_blend = c_white;
+		if (has_focus && __can_draw_focus)
+			draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
+		if (!is_null(__x_button)) with(__x_button) {
+			__draw_self();
 		}
+	}
 	
-		if (text  != "") __scribble_text .draw(__text_x,  __text_y );
-		if (title != "") __scribble_title.draw(__title_x, __title_y);
+	if (text  != "") __scribble_text .draw(__text_x,  __text_y );
+	if (title != "") __scribble_title.draw(__title_x, __title_y);
 
-		control_tree.draw_children();
+	if (__first_draw || _force) {
+		control_tree.layout();
+		if (!is_null(on_opening))
+			on_opening(self);
+	}
+
+	control_tree.draw_children();
 	
-		if (__first_draw) {
-			__first_draw = false;
-			control_tree.invoke_on_opened();
-		}
+	if (__first_draw) {
+		__first_draw = false;
+		control_tree.invoke_on_opened();
+		// unlock mouse events for all children
+		run_delayed(self, 1, function() {
+			with (_baseContainerControl)
+				if (get_window() == other) __mouse_events_locked = false;
+		});
 	}
 	
 	// this code draws the client area in red, if one day there's a bug with alignment

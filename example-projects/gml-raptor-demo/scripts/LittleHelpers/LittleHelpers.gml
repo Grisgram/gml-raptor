@@ -62,6 +62,7 @@ function is_child_of(child, parent) {
 			if (object_get_name(to_find) == object_get_name(parent)) return true;
 		} else
 			if (to_find == parent.object_index) return true;
+		to_find = child;
 	} else {
 		to_find = child;
 		if (IS_HTML) {
@@ -72,7 +73,7 @@ function is_child_of(child, parent) {
 	
 	try {
 		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST && !object_is_ancestor(to_find.object_index, parent)) {
-			to_find = instance_exists(to_find) ? object_get_parent(to_find) : object_get_parent(to_find.object_index);
+			to_find = instance_exists(to_find.object_index) ? object_get_parent(to_find) : object_get_parent(to_find.object_index);
 		}
 	} catch (_) {
 		return false;

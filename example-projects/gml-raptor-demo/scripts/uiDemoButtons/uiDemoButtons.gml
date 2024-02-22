@@ -5,7 +5,9 @@
 function messageboxButton_click() {
 	msg_show_ok_cancel("=main_menu/demo_message/title", "=main_menu/demo_message/text",
 		function() {
+			//run_delayed(ROOMCONTROLLER, 60, function() {
 			msg_show_ok("=main_menu/demo_message/click_title","=main_menu/demo_message/ok_clicked");
+			//});
 		},
 		function() {
 			msg_show_ok("=main_menu/demo_message/click_title","=main_menu/demo_message/cancel_clicked");
