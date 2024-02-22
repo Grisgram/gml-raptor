@@ -219,6 +219,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
+	/// @function remove_align()
 	static remove_align = function() {
 		__last_layout.have_align = false;
 		return self;
