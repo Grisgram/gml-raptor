@@ -33,9 +33,9 @@ function check_debug_mode() {
 		if (code_is_compiled())
 			show_message(
 				"*************************************************\n" +
-				"***                                              \n" +
-				"***  D E B U G   M O D E   I S   A C T I V E     \n" +
-				"***                                              \n" +
+				"***                                           ***\n" +
+				"***  D E B U G   M O D E   I S   A C T I V E  ***\n" +
+				"***                                           ***\n" +
 				"*************************************************\n");
 	}
 }
