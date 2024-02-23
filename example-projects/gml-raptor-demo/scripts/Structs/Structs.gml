@@ -21,7 +21,7 @@
 function construct(_class_name_or_asset) {
 	self[$ __PARENT_CONSTRUCTOR_NAME] = (variable_struct_exists(self, __CONSTRUCTOR_NAME) ?
 		 self[$ __CONSTRUCTOR_NAME] : undefined);
-		 
+
 	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
 }
 
