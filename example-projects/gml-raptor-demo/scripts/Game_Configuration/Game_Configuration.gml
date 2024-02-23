@@ -36,16 +36,16 @@
 #macro USE_CRASHDUMP_HANDLER			false
 #macro beta:USE_CRASHDUMP_HANDLER		true
 #macro release:USE_CRASHDUMP_HANDLER	true
-#macro CRASH_DUMP_FILENAME				GAME_FILE_PREFIX + "_crashdump.bin"
+#macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			GAME_FILE_PREFIX + GML_RAPTOR_VERSION + "_game_settings.json"
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}{GML_RAPTOR_VERSION}_game_settings.json"
 #macro FILE_CRYPT_KEY					""
 // To avoid conflicts between encrypted and plaing settings files, give
 // the file in release mode a different name
 // Replace the production crypt key with a good salty key of your own!
-#macro release:GAME_SETTINGS_FILENAME	GAME_FILE_PREFIX + GML_RAPTOR_VERSION + "_settings.gsx"
+#macro release:GAME_SETTINGS_FILENAME	$"{GAME_FILE_PREFIX}{GML_RAPTOR_VERSION}_settings.gsx"
 #macro release:FILE_CRYPT_KEY			"/�0^^4 0= 4!/! �-:-71!/!9_15I-I�|)-(4/�,!/!1^0/�,�-v|_/�,4551( 11=�=0/�,!v!"
 
 // Global functionality setup for the game

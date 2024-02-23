@@ -84,6 +84,7 @@
     {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
+    {"name":"skins","order":13,"path":"folders/_gml_raptor_/UI/skins.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"RaptorWindowXButton","order":13,"path":"objects/RaptorWindowXButton/RaptorWindowXButton.yy",},
@@ -95,7 +96,6 @@
     {"name":"sprLoadingSpinner","order":16,"path":"sprites/sprLoadingSpinner/sprLoadingSpinner.yy",},
     {"name":"__scribble_config_colours","order":1,"path":"scripts/__scribble_config_colours/__scribble_config_colours.yy",},
     {"name":"Window","order":11,"path":"objects/Window/Window.yy",},
-    {"name":"override","order":15,"path":"scripts/override/override.yy",},
     {"name":"__shd_scribble_bake_outline_8dir","order":2,"path":"shaders/__shd_scribble_bake_outline_8dir/__shd_scribble_bake_outline_8dir.yy",},
     {"name":"MouseCursor","order":5,"path":"objects/MouseCursor/MouseCursor.yy",},
     {"name":"SnapBufferWriteTilemap","order":7,"path":"scripts/SnapBufferWriteTilemap/SnapBufferWriteTilemap.yy",},
@@ -391,6 +391,7 @@
     {"name":"RaptorSimpleFormatter","order":4,"path":"scripts/RaptorSimpleFormatter/RaptorSimpleFormatter.yy",},
     {"name":"scribble_font_add_all","order":1,"path":"scripts/scribble_font_add_all/scribble_font_add_all.yy",},
     {"name":"RaptorLogFormatterBase","order":1,"path":"scripts/RaptorLogFormatterBase/RaptorLogFormatterBase.yy",},
+    {"name":"UiSkin","order":1,"path":"scripts/UiSkin/UiSkin.yy",},
     {"name":"acSpawnerAppear","order":1,"path":"animcurves/acSpawnerAppear/acSpawnerAppear.yy",},
     {"name":"scribble_font_add_from_sprite","order":2,"path":"scripts/scribble_font_add_from_sprite/scribble_font_add_from_sprite.yy",},
     {"name":"sprEnemyScan","order":6,"path":"sprites/sprEnemyScan/sprEnemyScan.yy",},

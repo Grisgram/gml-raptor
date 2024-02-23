@@ -1,5 +1,6 @@
 /// @description event
 event_inherited();
+exit;
 
 UI_ROOT
 	.set_margin(0, 32, 32, 0)
