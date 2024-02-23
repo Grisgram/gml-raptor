@@ -53,7 +53,7 @@
     "button_load_enc": "Laden verschlüsselt",
     "info": {
       "about": "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als\nscribble_font_set_default eingetragen!",
-      "hotswap": "Klicke die Sprachbuttons\num LG_hotswap in Aktion zu sehen",
+      "hotswap": "Klicke die Sprachbuttons,\num LG_hotswap in Aktion zu sehen",
       "flag": "Die animated_flag in Aktion ->",
       "save_loc": "Die Savegame Dateien sind in\nC:/Benutzer/<dein-user-name>/appdata/local/gml_raptor_demo"
     },
@@ -95,7 +95,7 @@
       "enabled": "Aktiv",
       "chance": "Chance",
       "race_start_button": "[scale,1.25]Starten",
-      "race_exit_button": "[scale,1.25]Demo beenden"
+      "race_exit_button": "[scale,1.25]Demo Beenden"
     }
   },
   "ui_demo": {
