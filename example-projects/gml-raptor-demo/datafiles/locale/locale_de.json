@@ -93,7 +93,7 @@
       "enabled": "Aktiv",
       "chance": "Chance",
       "race_start_button": "[scale,1.25]Starten",
-      "race_exit_button": "[scale,1.25]Demo beenden"
+      "race_exit_button": "[scale,1.25]Demo Beenden"
     }
   }
 }
