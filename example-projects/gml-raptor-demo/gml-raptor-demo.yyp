@@ -38,6 +38,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"default_sprites","folderPath":"folders/_gml_raptor_/UI/default_sprites.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"raptormessagebox","folderPath":"folders/_gml_raptor_/UI/raptormessagebox.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"shaders","folderPath":"folders/_gml_raptor_/UI/shaders.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"skins","folderPath":"folders/_gml_raptor_/UI/skins.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"_gml_raptor_packages_","folderPath":"folders/_gml_raptor_packages_.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"gml-animated-flag","folderPath":"folders/_gml_raptor_packages_/gml-animated-flag.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"gml-highscorer","folderPath":"folders/_gml_raptor_packages_/gml-highscorer.yy",},
@@ -105,7 +106,6 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"ui-demo","folderPath":"folders/Sprites/ui-demo.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"skins","folderPath":"folders/_gml_raptor_/UI/skins.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_2.4_settings.gsx","ConfigValues":{"release":{"CopyToMask":"3035426170322551022",},},"CopyToMask":-1,"filePath":"datafiles",},

@@ -20,6 +20,7 @@
     {"name":"default_sprites","order":1,"path":"folders/_gml_raptor_/UI/default_sprites.yy",},
     {"name":"raptormessagebox","order":2,"path":"folders/_gml_raptor_/UI/raptormessagebox.yy",},
     {"name":"shaders","order":3,"path":"folders/_gml_raptor_/UI/shaders.yy",},
+    {"name":"skins","order":13,"path":"folders/_gml_raptor_/UI/skins.yy",},
     {"name":"_gml_raptor_packages_","order":16,"path":"folders/_gml_raptor_packages_.yy",},
     {"name":"gml-highscorer","order":2,"path":"folders/_gml_raptor_packages_/gml-highscorer.yy",},
     {"name":"outline-shader-drawer","order":1,"path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",},
@@ -84,7 +85,6 @@
     {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"skins","order":13,"path":"folders/_gml_raptor_/UI/skins.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"RaptorWindowXButton","order":13,"path":"objects/RaptorWindowXButton/RaptorWindowXButton.yy",},
