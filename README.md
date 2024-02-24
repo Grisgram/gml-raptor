@@ -1,3 +1,12 @@
+> :warning: **PLEASE READ**: I am in the process of preparing the **3.0 Release** of raptor.
+>> To accomplish this, I have to update _lots of content in the wiki!
+>> In the next two weeks or so, you might find many functions and concepts in the wiki that are _not available yet_,
+>> Stay tuned, 3.0 is a big thing!
+>> Here's a preview video of the UI rework that will land with 3.0
+>> 
+>> [![3.0 UI Preview](http://img.youtube.com/vi/yXcrEtzk1jM/0.jpg)](http://www.youtube.com/watch?v=yXcrEtzk1jM "3.0 UI preview")
+
+
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
 <h1 align="center">2️⃣.7️⃣.1️⃣</h1>
 
