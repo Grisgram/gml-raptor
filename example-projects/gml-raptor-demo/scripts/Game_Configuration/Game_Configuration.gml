@@ -95,7 +95,9 @@ function onGameStart() {
 	//scribble_font_set_default("acme28");
 	scribble_font_set_default("fntArial");
 
-	// Custom named scribble colors - use the format that fits best for you! 
+	// Custom named scribble colors - use the format that fits best for you!
+	// In version 3.0 and later, the recommended way is to set up your THEME here
+	// https://github.com/Grisgram/gml-raptor/wiki/App-Theming
 	scribble_color_set("ci_accent2", #FF972F); // #RRGGBB
 	
 	// Audio setup for rooms

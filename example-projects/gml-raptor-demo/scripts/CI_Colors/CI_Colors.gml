@@ -2,14 +2,13 @@
 	Definition of the CI colors of your software label
 */
 
+#macro CI_GLOBAL_MAIN			#FAFAFA
 #macro CI_GLOBAL_BRIGHT			#DEDEDE
 #macro CI_GLOBAL_DARK			#303030
-#macro CI_GLOBAL_MAIN			#FAFAFA
-#macro CI_GLOBAL_WHITE			#FAFAFA
-#macro CI_GLOBAL_BLACK			#070707
 #macro CI_GLOBAL_SHADOW			#808080
 #macro CI_GLOBAL_ACCENT			#FFD800
-
+#macro CI_GLOBAL_WHITE			#FAFAFA
+#macro CI_GLOBAL_BLACK			#070707
 
 #macro CI_COLDROCK_BLUE_LIGHT	#1CDCEA
 #macro CI_COLDROCK_BLUE			#004FC5
