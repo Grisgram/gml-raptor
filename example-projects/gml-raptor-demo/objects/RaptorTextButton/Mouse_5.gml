@@ -1,4 +1,4 @@
-/// @description set mouse_down_image_index
+/// @description set image_index_mouse_down
 
 GUI_EVENT_MOUSE;
 

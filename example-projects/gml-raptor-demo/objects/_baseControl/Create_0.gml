@@ -9,7 +9,7 @@
 
 event_inherited();
 // undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
-struct_get_ext(self, "__raptor_debug_frame_color", c_green);
+vigetx(self, "__raptor_debug_frame_color", c_green);
 
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;

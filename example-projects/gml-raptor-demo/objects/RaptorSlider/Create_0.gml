@@ -31,10 +31,10 @@ sprite_index = if_null(rail_sprite, sprite_index);
 scale_sprite_to(w, h);
 
 if (orientation_horizontal)
-	text_yoffset = (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
+	text_yoffset += (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
 else {
 	var dims = scribble_measure_text(string(max_value));
-	text_xoffset = (auto_text_position == slider_text.v_right ? sprite_width : -dims.x);
+	text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : -dims.x);
 }
 
 event_inherited();

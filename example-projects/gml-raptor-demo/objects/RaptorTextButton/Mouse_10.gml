@@ -1,4 +1,4 @@
-/// @description set mouse_over_image_index
+/// @description set image_index_mouse_over
 
 GUI_EVENT_MOUSE;
 

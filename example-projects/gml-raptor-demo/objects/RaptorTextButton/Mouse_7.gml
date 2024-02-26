@@ -1,4 +1,4 @@
-/// @description set default_image_index
+/// @description set image_index_default
 
 GUI_EVENT_MOUSE;
 
