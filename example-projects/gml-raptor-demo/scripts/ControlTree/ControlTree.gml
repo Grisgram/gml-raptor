@@ -151,6 +151,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function remove_control(_control)
 	static remove_control = function(_control) {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			if (eq(_control, children[@i].instance)) {
@@ -162,7 +163,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_position(_xpos, _ypos)
+	/// @function set_position(_xpos, _ypos, _relative = false)
 	/// @description Sets an absolute position in the client area of the parent control,
 	///              unless you set _relative to true, then the values are just added to the
 	///				 currently set xpos and ypos

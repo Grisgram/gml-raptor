@@ -42,6 +42,9 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"=text/not/set","varType":2,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_color","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_xoffset","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_yoffset","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"titlebar_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"34","varType":1,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"scribble_title_align","filters":[],"listItems":[
         "\"[fa_top][fa_left]\"",
         "\"[fa_top][fa_center]\"",
@@ -63,9 +66,6 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"window_is_movable","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"window_is_sizable","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":3,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"window_resize_border_width","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"8","varType":1,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_xoffset","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"title_yoffset","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"titlebar_height","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"34","varType":1,},
   ],
   "solid": false,
   "spriteId": {

@@ -1,3 +1,4 @@
+/// @function msg_show_ok(title, text, ok_callback = undefined)
 function msg_show_ok(title, text, ok_callback = undefined) {
 	var msg = __get_default_msgbox(title, text);
 	msg.add_ok(MESSAGEBOX_BUTTON, ok_callback, __MSGBOX_HOTKEY_ENTER);
@@ -6,6 +7,7 @@ function msg_show_ok(title, text, ok_callback = undefined) {
 	return msg.show();
 }
 
+/// @function msg_show_ok_cancel(title, text, ok_callback = undefined, cancel_callback = undefined)
 function msg_show_ok_cancel(title, text, ok_callback = undefined, cancel_callback = undefined) {
 	var msg = __get_default_msgbox(title, text);
 	msg.add_ok(MESSAGEBOX_BUTTON, ok_callback, __MSGBOX_HOTKEY_ENTER);
@@ -13,6 +15,7 @@ function msg_show_ok_cancel(title, text, ok_callback = undefined, cancel_callbac
 	return msg.show();
 }
 
+/// @function msg_show_yes_no(title, text, yes_callback = undefined, no_callback = undefined)
 function msg_show_yes_no(title, text, yes_callback = undefined, no_callback = undefined) {
 	var msg = __get_default_msgbox(title, text);
 	msg.add_yes(MESSAGEBOX_BUTTON, yes_callback, __MSGBOX_HOTKEY_ENTER);
@@ -20,10 +23,27 @@ function msg_show_yes_no(title, text, yes_callback = undefined, no_callback = un
 	return msg.show();
 }
 
+/// @function msg_show_yes_no_cancel(title, text, yes_callback = undefined, no_callback = undefined, cancel_callback = undefined)
 function msg_show_yes_no_cancel(title, text, yes_callback = undefined, no_callback = undefined, cancel_callback = undefined) {
 	var msg = __get_default_msgbox(title, text);
 	msg.add_yes(MESSAGEBOX_BUTTON, yes_callback, __MSGBOX_HOTKEY_ENTER);
 	msg.add_no(MESSAGEBOX_BUTTON, no_callback, __MSGBOX_HOTKEY_NONE);
+	msg.add_cancel(MESSAGEBOX_BUTTON, cancel_callback, __MSGBOX_HOTKEY_ESCAPE);
+	return msg.show();
+}
+
+/// @function msg_show_retry_ignore(title, text, retry_callback = undefined, ignore_callback = undefined)
+function msg_show_retry_ignore(title, text, retry_callback = undefined, ignore_callback = undefined) {
+	var msg = __get_default_msgbox(title, text);
+	msg.add_retry(MESSAGEBOX_BUTTON, retry_callback, __MSGBOX_HOTKEY_NONE);
+	msg.add_ignore(MESSAGEBOX_BUTTON, ignore_callback, __MSGBOX_HOTKEY_NONE);
+	return msg.show();
+}
+
+/// @function msg_show_save_cancel(title, text, save_callback = undefined, cancel_callback = undefined)
+function msg_show_save_cancel(title, text, save_callback = undefined, cancel_callback = undefined) {
+	var msg = __get_default_msgbox(title, text);
+	msg.add_save(MESSAGEBOX_BUTTON, save_callback, __MSGBOX_HOTKEY_ENTER);
 	msg.add_cancel(MESSAGEBOX_BUTTON, cancel_callback, __MSGBOX_HOTKEY_ESCAPE);
 	return msg.show();
 }

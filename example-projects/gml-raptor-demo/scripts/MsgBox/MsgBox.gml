@@ -178,7 +178,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			hide_popup();
 	}
 	
-	/// @function					add_button(button_object, button_text, on_click_callback)
+	/// @function					add_button(button_object, button_text, on_click_callback, hotkey = "")
 	/// @description				add any custom button to the window
 	/// @param {object} button_object
 	/// @param {string} button_text
@@ -193,45 +193,46 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		array_push(__buttons, new __msgbox_button(button_object, button_text, on_click_callback, __layer_name, hotkey));
 		return self;
 	}
-	/// @function					add_yes(yes_button_object, on_yes_callback)
+	
+	/// @function					add_yes(on_yes_callback, hotkey = "")
 	/// @description				add a yes-button to the window
-	/// @param {object} yes_button_object 			
-	/// @param {function} on_yes_callback
-	/// @param {string=""} hotkey
-	static add_yes = function(yes_button_object, on_yes_callback, hotkey = "") {
-		return add_button(yes_button_object, "=global_words/buttons/yes", on_yes_callback, hotkey);
+	static add_yes = function(on_yes_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/yes", on_yes_callback, hotkey);
 	}
-	/// @function					add_no(no_button_object, on_no_callback)
+	/// @function					add_no(on_no_callback, hotkey = "")
 	/// @description				add a no-button to the window
-	/// @param {object} no_button_object 			
-	/// @param {function} on_no_callback
-	/// @param {string=""} hotkey
-	static add_no = function(no_button_object, on_no_callback, hotkey = "") {
-		return add_button(no_button_object, "=global_words/buttons/no", on_no_callback, hotkey);
+	static add_no = function(on_no_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/no", on_no_callback, hotkey);
 	}
-	/// @function					add_ok(ok_button_object, on_ok_callback)
+	/// @function					add_ok(on_ok_callback, hotkey = "")
 	/// @description				add an ok-button to the window
-	/// @param {object} ok_button_object 			
-	/// @param {function} on_ok_callback
-	/// @param {string=""} hotkey
-	static add_ok = function(ok_button_object, on_ok_callback, hotkey = "") {
-		return add_button(ok_button_object, "=global_words/buttons/ok", on_ok_callback, hotkey);
+	static add_ok = function(on_ok_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/ok", on_ok_callback, hotkey);
 	}
-	/// @function					add_cancel(cancel_button_object, on_cancel_callback)
+	/// @function					add_cancel(on_cancel_callback, hotkey = "")
 	/// @description				add a cancel-button to the window
-	/// @param {object} cancel_button_object 			
-	/// @param {function} on_cancel_callback
-	/// @param {string=""} hotkey
-	static add_cancel = function(cancel_button_object, on_cancel_callback, hotkey = "") {
-		return add_button(cancel_button_object, "=global_words/buttons/cancel", on_cancel_callback, hotkey);
+	static add_cancel = function(on_cancel_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/cancel", on_cancel_callback, hotkey);
 	}
-	/// @function					add_continue(continue_button_object, on_continue_callback)
+	/// @function					add_continue(on_continue_callback, hotkey = "")
 	/// @description				add a continue-button to the window
-	/// @param {object} continue_button_object 			
-	/// @param {function} on_continue_callback
-	/// @param {string=""} hotkey
-	static add_continue = function(continue_button_object, on_continue_callback, hotkey = "") {
-		return add_button(continue_button_object, "=global_words/buttons/continue", on_continue_callback, hotkey);
+	static add_continue = function(on_continue_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/continue", on_continue_callback, hotkey);
+	}
+	/// @function					add_retry(on_retry_callback, hotkey = "")
+	/// @description				add a retry-button to the window
+	static add_retry = function(on_retry_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/retry", on_retry_callback, hotkey);
+	}
+	/// @function					add_ignore(on_ignore_callback, hotkey = "")
+	/// @description				add an ignore-button to the window
+	static add_ignore = function(on_ignore_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/ignore", on_ignore_callback, hotkey);
+	}
+	/// @function					add_save(on_save_callback, hotkey = "")
+	/// @description				add a save-button to the window
+	static add_save = function(on_save_callback, hotkey = "") {
+		return add_button(MESSAGEBOX_BUTTON, "=global_words/buttons/save", on_save_callback, hotkey);
 	}
 	
 }
