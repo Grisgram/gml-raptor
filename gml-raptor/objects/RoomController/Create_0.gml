@@ -42,6 +42,12 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+// Set up world UI system
+#macro UI_ROOT					global.__ui_root
+__ui_root_control = instance_create(0, 0, layer, RaptorUiRootPanel);
+UI_ROOT = __ui_root_control.control_tree;
+
+// Set up particle systems
 #macro PARTSYS					global.__room_particle_system
 if (particle_layer_names == undefined || (is_string(particle_layer_names) && string_is_empty(particle_layer_names))) {
 	PARTSYS = undefined;
@@ -60,7 +66,6 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 
 }
 
-display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
 /*
 	-------------------
@@ -68,6 +73,15 @@ display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 	-------------------
 */
 #region GUI CONTROL
+
+/// @function set_gui_size(_gui_width, _gui_height)
+/// @description Set the gui to a new size. This will also rescale the UI_ROOT
+set_gui_size = function(_gui_width, _gui_height) {
+	display_set_gui_size(_gui_width, _gui_height);
+	__ui_root_control.align_to_gui_layer();
+}
+set_gui_size(CAM_WIDTH, CAM_HEIGHT);
+
 #macro GUI_MOUSE_X_PREVIOUS		global.__gui_mouse_xprevious
 #macro GUI_MOUSE_Y_PREVIOUS		global.__gui_mouse_yprevious
 #macro GUI_MOUSE_X				global.__gui_mouse_x
@@ -83,6 +97,14 @@ display_set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 #macro MOUSE_DELTA_X			global.__world_mouse_xmove
 #macro MOUSE_DELTA_Y			global.__world_mouse_ymove
 #macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
+
+#macro CTL_MOUSE_X_PREVIOUS		(draw_on_gui ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
+#macro CTL_MOUSE_Y_PREVIOUS		(draw_on_gui ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
+#macro CTL_MOUSE_X				(draw_on_gui ? GUI_MOUSE_X : MOUSE_X)
+#macro CTL_MOUSE_Y				(draw_on_gui ? GUI_MOUSE_Y : MOUSE_Y)
+#macro CTL_MOUSE_DELTA_X		(draw_on_gui ? GUI_MOUSE_DELTA_X : MOUSE_DELTA_X)
+#macro CTL_MOUSE_DELTA_Y		(draw_on_gui ? GUI_MOUSE_DELTA_Y : MOUSE_DELTA_Y)
+#macro CTL_MOUSE_HAS_MOVED		(draw_on_gui ? GUI_MOUSE_HAS_MOVED : MOUSE_HAS_MOVED)
 
 MOUSE_X		= mouse_x;
 MOUSE_Y		= mouse_y;

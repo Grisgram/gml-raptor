@@ -1,9 +1,6 @@
 /*
 	These callbacks get invoked from the GameStarter object in the
 	GameStart and GameEnd events respectively.
-	If the game is currently in HTML mode, HTML_LOCALES is used to set up the locale list.
-	Note for locales: The first entry in the array is the fallback (default) language and
-	should always contain 100% of all strings!
 	
 	They have been created to encapsulate one-time-startup/-shutdown actions in
 	an isolated script file, so you do not need to modify the GameStarter object directly
@@ -12,6 +9,10 @@
 	onGameStart runs AFTER the ci_colors have been initialized.
 	It is recommended, to set at least the app_theme in the onGameStart function, so 
 	scribble gets initialized with the correct set of ci_colors.
+	
+	If the game is currently in HTML mode, HTML_LOCALES is used to set up the locale list.
+	Note for locales: The first entry in the array is the fallback (default) language and
+	should always contain 100% of all strings!
 	
 	------------------------------------------------------
 	NOTE: HTML5 games never receive an onGameEnd callback!
@@ -36,16 +37,16 @@
 #macro USE_CRASHDUMP_HANDLER			false
 #macro beta:USE_CRASHDUMP_HANDLER		true
 #macro release:USE_CRASHDUMP_HANDLER	true
-#macro CRASH_DUMP_FILENAME				GAME_FILE_PREFIX + "_crashdump.bin"
+#macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			GAME_FILE_PREFIX + "_game_settings.json"
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}{GML_RAPTOR_VERSION}_game_settings.json"
 #macro FILE_CRYPT_KEY					""
 // To avoid conflicts between encrypted and plaing settings files, give
 // the file in release mode a different name
 // Replace the production crypt key with a good salty key of your own!
-#macro release:GAME_SETTINGS_FILENAME	GAME_FILE_PREFIX + "_game_settings.gsx"
+#macro release:GAME_SETTINGS_FILENAME	$"{GAME_FILE_PREFIX}{GML_RAPTOR_VERSION}_settings.gsx"
 #macro release:FILE_CRYPT_KEY			"replace-this-string-for-your-own-safety"
 
 // Global functionality setup for the game
@@ -94,7 +95,9 @@ function onGameStart() {
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
 	//scribble_font_set_default("acme28");
 
-	// Custom named scribble colors - use the format that fits best for you! 
+	// Custom named scribble colors - use the format that fits best for you!
+	// In version 3.0 and later, the recommended way is to set up your THEME here
+	// https://github.com/Grisgram/gml-raptor/wiki/App-Theming
 	//scribble_color_set("my_col1", make_color_rgb(0xE5,0xE5,0xE5)); // 0x... hex, can also use 165,165,165 - doesn't matter
 	//scribble_color_set("my_col2", #E5E5E5); // #RRGGBB
 	//scribble_color_set("my_col3", $E5E5E5); // $BBGGRR

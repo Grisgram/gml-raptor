@@ -18,9 +18,28 @@ enum slider_autotext {
 	text_is_percent = 2
 }
 
+enum slider_text {
+	h_above = 1,
+	h_below = 2,
+	v_left  = 4,
+	v_right = 8
+}
+
+var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+var h = (startup_height >= 0 ? startup_height : sprite_height);
+sprite_index = if_null(rail_sprite, sprite_index);
+scale_sprite_to(w, h);
+
+if (orientation_horizontal)
+	text_yoffset += (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
+else {
+	var dims = scribble_measure_text(string(max_value));
+	text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : -dims.x);
+}
+
 event_inherited();
 
-replace_sprite(self, rail_sprite);
+//replace_sprite(self, rail_sprite);
 
 value_percent			= 0;
 
@@ -37,12 +56,12 @@ __knob_over_color		= draw_color_mouse_over;
 
 /// @function check_mouse_over_knob()
 check_mouse_over_knob = function() {
-	xcheck = GUI_MOUSE_X;
-	ycheck = GUI_MOUSE_Y;
+	xcheck = CTL_MOUSE_X;
+	ycheck = CTL_MOUSE_Y;
 
 	var over_before = __mouse_over_knob;
 	
-	__mouse_over_knob = 
+	__mouse_over_knob = __CONTROL_IS_TARGET_MOUSE &&
 		(is_between(xcheck, __knob_x - __knob_dims.origin_x * knob_xscale, __knob_x - __knob_dims.origin_x * knob_xscale + __knob_dims.width  * knob_xscale) &&
 		 is_between(ycheck, __knob_y - __knob_dims.origin_y * knob_yscale, __knob_y - __knob_dims.origin_y * knob_yscale + __knob_dims.height * knob_yscale));
 

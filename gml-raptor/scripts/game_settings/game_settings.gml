@@ -32,7 +32,7 @@ function load_settings() {
 	AUDIOSETTINGS = GAMESETTINGS.audio;
 	// --- Custom / additional actions after loading settings ---
 	
-	// ----------------------------------------------------------	
+	// ----------------------------------------------------------
 	vlog($"Settings loaded");
 }
 

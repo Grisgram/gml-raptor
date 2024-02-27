@@ -12,7 +12,7 @@
 /// @function		drawDebugInfo()
 function drawDebugInfo() {
 	// This is a demo debug output when you press F12 to print the size of the processing queues of the active RoomController
-	draw_text(16, 40, $"Statemachines: {STATEMACHINES.size()}\nAnimations: {ANIMATIONS.size()}");
+	draw_text(16, 40, $"Statemachines: {STATEMACHINES.size()}\nAnimations: {ANIMATIONS.size()}\nMouse:\nRM: {MOUSE_X}/{MOUSE_Y}\nUI: {GUI_MOUSE_X}/{GUI_MOUSE_Y}");
 }
 
 /// @function		onDebugViewStarted()

@@ -1,14 +1,15 @@
 /// @description scribblelize text
+__my_active_tooltip = undefined;
 
 event_inherited();
 
 /// @function					__activate_tooltip()
 /// @description				start the tooltip countdown onMouseEnter
 __activate_tooltip = function() {
-	if (tooltip_text == "" || tooltip_object == undefined)
+	if (tooltip_text == "" || __my_active_tooltip != undefined || tooltip_object == undefined)
 		return;
 
-	tooltip_show(tooltip_object, LG_resolve(tooltip_text),, self);
+	__my_active_tooltip = tooltip_show(tooltip_object, LG_resolve(tooltip_text),, self);
 }
 
 /// @function					__deactivate_tooltip()
@@ -18,6 +19,7 @@ __deactivate_tooltip = function() {
 		return;
 		
 	tooltip_hide(tooltip_object);
+	__my_active_tooltip = undefined;
 }
 
 /// @function					__destroy_tooltip()
@@ -27,4 +29,5 @@ __destroy_tooltip = function() {
 		return;
 
 	tooltip_destroy(tooltip_object);
+	__my_active_tooltip = undefined;
 }

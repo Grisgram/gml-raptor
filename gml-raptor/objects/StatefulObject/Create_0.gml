@@ -22,7 +22,7 @@ is_in_state = function(name) {
 }
 
 
-/// @function sprite_animate_once(_sprite_index, _sprite_index_after = undefined, _finished_callback)
+/// @function sprite_animate_once(_sprite_index, _sprite_index_after = undefined, _state_after = undefined, _finished_callback = undefined)
 /// @description	Switch to the given sprite and let the animation run once.
 ///					When finished, the sprite is set to _sprite_index_after or
 ///					frozen at the last frame (if no _after is set).
@@ -31,14 +31,18 @@ is_in_state = function(name) {
 /// @param {bool}	_sprite_index_after	If set, the sprite_index to set when animation finished
 ///										NOTE: If this is not set, the _sprite_index will freeze
 ///											  with image_speed = 0 at the last frame!
+/// @param {string} _state_after		The state to set on this object when the animation finished
+///										NOTE: The state is set AFTER the finished_callback has been invoked to avoid
+///										code in the "enter" event of the state interferring with the callback
 /// @param {func}	_finished_callback	A function to call, when the animation is finished
-sprite_animate_once = function(_sprite_index, _sprite_index_after = undefined, _finished_callback = undefined) {
+sprite_animate_once = function(_sprite_index, _sprite_index_after = undefined, _state_after = undefined, _finished_callback = undefined) {
 	vlog($"Running single animation of sprite '{sprite_get_name(_sprite_index)}'");
 	__reset_single_sprite_animation();
 	sprite_index = _sprite_index;
 	image_index = 0;
 	__single_sprite_animation_running		= true;
 	__single_sprite_animation_sprite_after	= _sprite_index_after;
+	__single_sprite_animation_state_after	= _state_after;
 	__single_sprite_animation_callback		= _finished_callback;
 	states.data.animation_end = false;
 }
@@ -57,19 +61,25 @@ __single_sprite_animation_finished = function() {
 		vlog($"Sprite frozen at last frame at the end of single animation");
 	}
 	
+	var sa = __single_sprite_animation_state_after;
 	var cb = __single_sprite_animation_callback;
 	__reset_single_sprite_animation();
 
 	if (cb != undefined) {
 		vlog($"Running single animation finish callback");
 		cb();
-	}	
+	}
+	if (sa != undefined) {
+		vlog($"Setting single animation state after '{sa}'");
+		set_state(sa);
+	}
 }
 
 __reset_single_sprite_animation = function() {
 	__single_sprite_animation_running		= false;
 	__single_sprite_animation_sprite_after	= undefined;
 	__single_sprite_animation_callback		= undefined;
+	__single_sprite_animation_state_after	= undefined;
 }
 
 __reset_single_sprite_animation();

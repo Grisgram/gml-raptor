@@ -5,10 +5,11 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-#macro __CONSTRUCTOR_NAME		"##_raptor_##.__constructor"
-#macro __INTERFACES_NAME		"##_raptor_##.__interfaces"
+#macro __CONSTRUCTOR_NAME			"##_raptor_##.__constructor"
+#macro __PARENT_CONSTRUCTOR_NAME	"##_raptor_##.__parent_constructor"
+#macro __INTERFACES_NAME			"##_raptor_##.__interfaces"
 
-#macro interface				() constructor
+#macro interface	() constructor
 
 /// @function		construct(_class_name_or_asset)
 /// @description	Register a class as a constructible class to raptor.
@@ -18,6 +19,9 @@
 ///					the constructor and then perform a struct_integrate with the loaded data, so
 ///					all members receive their loaded values after the constructor executed.
 function construct(_class_name_or_asset) {
+	self[$ __PARENT_CONSTRUCTOR_NAME] = (variable_struct_exists(self, __CONSTRUCTOR_NAME) ?
+		 self[$ __CONSTRUCTOR_NAME] : undefined);
+
 	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
 }
 
@@ -106,15 +110,44 @@ function struct_integrate(target, sources) {
 	return target;
 }
 
-/// @function struct_get_ext(struct, key, default_if_missing = undefined, create_if_missing = true)
+/// @function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true)
 /// @description	Save-gets a struct member, returning a default if it does not exist,
 ///					and even allows you to create that member in the struct, if it is missing
-function struct_get_ext(struct, key, default_if_missing = undefined, create_if_missing = true) {
-	if (variable_struct_exists(struct, key))
-		return struct[$ key];
+function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true) {
+	if (variable_struct_exists(_struct, _key))
+		return _struct[$ _key];
 		
-	if (create_if_missing)
-		struct[$ key] = default_if_missing;
+	if (_create_if_missing)
+		_struct[$ _key] = _default_if_missing;
 	
-	return default_if_missing;
+	return _default_if_missing;
+}
+
+/// @function vsget(_struct, _key, _default_if_missing = undefined)
+/// @description	Save-gets a struct member, returning a default if it does not exist,
+///					but does not create the missing member in the struct
+function vsget(_struct, _key, _default_if_missing = undefined) {
+	return (variable_struct_exists(_struct, _key)) ? _struct[$ _key] : _default_if_missing;
+}
+
+/// @function vigetx(_instance, _key, _default_if_missing = undefined, _create_if_missing = true)
+/// @description	Save-gets an instance member, returning a default if it does not exist,
+///					and even allows you to create that member in the instance, if it is missing
+function vigetx(_instance, _key, _default_if_missing = undefined, _create_if_missing = true) {
+	if (variable_instance_exists(_instance, _key))
+		return _instance[$ _key];
+		
+	if (_create_if_missing)
+		variable_instance_set(_instance, _key, _default_if_missing);
+	
+	return _default_if_missing;
+}
+
+/// @function viget(_instance, _key, _default_if_missing = undefined)
+/// @description	Save-gets an instance member, returning a default if it does not exist,
+///					but does not create the missing member in the instance
+function viget(_instance, _key, _default_if_missing = undefined) {
+	return (variable_instance_exists(_instance, _key)) ? 
+		variable_instance_get(_instance, _key) : 
+		_default_if_missing;
 }

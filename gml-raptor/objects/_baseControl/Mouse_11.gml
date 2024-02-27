@@ -6,10 +6,10 @@
 // reappears, it would still be in state "mouse_is_over", which is wrong.
 // The "force_redraw()" call just buffers a redraw action for the next frame, when the
 // control is visible, no matter WHEN that happens
-mouse_is_over = false;
-force_redraw();
-
-// We break out of this to avoid the log if we are invisible/hidden/blocked
-GUI_EVENT;
-vlog($"{MY_NAME}: onMouseLeave");
-
+if (mouse_is_over) {
+	mouse_is_over = false;
+	__animate_draw_color(draw_color);
+	__animate_text_color(text_color);
+	force_redraw(false);
+	__mouse_enter_topmost_control();
+}

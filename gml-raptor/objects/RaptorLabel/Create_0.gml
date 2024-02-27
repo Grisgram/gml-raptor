@@ -5,8 +5,8 @@ __original_dim = new SpriteDim(sprite_index);
 event_inherited();
 
 if (remove_sprite_at_runtime) {
-	var w = sprite_width;
-	var h = sprite_height;
+	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+	var h = (startup_height >= 0 ? startup_height : sprite_height);
 	sprite_index = spr1pxTrans;
 	image_xscale = w;
 	image_yscale = h;

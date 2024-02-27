@@ -30,13 +30,13 @@ function GuiMouseTranslator() constructor {
 	static update_gui_mouse_over = function() {
 		
 		with (other) {
-			if (!visible || (layer_exists(layer) && !layer_get_visible(layer))) 
+			if (!visible || (layer_exists(layer) && !layer_get_visible(layer)))
 				return;
 				
 			other.event_redirection_active = true;
 			
 			other.gui_mouse_is_over = point_in_rectangle(
-				GUI_MOUSE_X, GUI_MOUSE_Y,
+				CTL_MOUSE_X, CTL_MOUSE_Y,
 				SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, 
 				SELF_VIEW_RIGHT_EDGE, SELF_VIEW_BOTTOM_EDGE);
 
@@ -50,7 +50,7 @@ function GuiMouseTranslator() constructor {
 					other.gui_last_left_is_down		= other.gui_left_is_down;
 					other.gui_last_middle_is_down	= other.gui_middle_is_down;
 					other.gui_last_right_is_down	= other.gui_right_is_down;
-					event_perform(ev_mouse, ev_mouse_enter) 
+					event_perform(ev_mouse, ev_mouse_enter);
 				} else 
 					event_perform(ev_mouse, ev_mouse_leave);
 					

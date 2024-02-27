@@ -11,4 +11,9 @@ if (PARTSYS != undefined) {
 		PARTSYS.cleanup();
 }
 
+if (__ui_root_control != undefined) {
+	UI_ROOT.clean_up();
+	instance_destroy(__ui_root_control);
+}
+
 event_inherited();

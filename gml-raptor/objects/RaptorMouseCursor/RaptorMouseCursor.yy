@@ -38,9 +38,12 @@
       ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"MouseCursorCompanion","varType":5,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_offset_x","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"companion_offset_y","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"sprite_to_use","filters":[
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"mouse_cursor_sprite","filters":[
         "GMSprite",
-      ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":5,},
+      ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"sprDefaultMouseCursor","varType":5,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"mouse_cursor_sprite_sizing","filters":[
+        "GMSprite",
+      ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"sprDefaultMouseCursorSizing","varType":5,},
   ],
   "solid": false,
   "spriteId": {

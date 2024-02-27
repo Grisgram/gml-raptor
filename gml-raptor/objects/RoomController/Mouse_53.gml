@@ -1,3 +1,3 @@
 /// @description remove inputbox focus
-with (InputBox) 
+with (RaptorInputBox) 
 	if (!mouse_is_over) lose_focus();

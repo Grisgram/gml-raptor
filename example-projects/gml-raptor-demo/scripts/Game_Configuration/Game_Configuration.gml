@@ -1,9 +1,6 @@
 /*
 	These callbacks get invoked from the GameStarter object in the
 	GameStart and GameEnd events respectively.
-	If the game is currently in HTML mode, HTML_LOCALES is used to set up the locale list.
-	Note for locales: The first entry in the array is the fallback (default) language and
-	should always contain 100% of all strings!
 	
 	They have been created to encapsulate one-time-startup/-shutdown actions in
 	an isolated script file, so you do not need to modify the GameStarter object directly
@@ -12,6 +9,10 @@
 	onGameStart runs AFTER the ci_colors have been initialized.
 	It is recommended, to set at least the app_theme in the onGameStart function, so 
 	scribble gets initialized with the correct set of ci_colors.
+	
+	If the game is currently in HTML mode, HTML_LOCALES is used to set up the locale list.
+	Note for locales: The first entry in the array is the fallback (default) language and
+	should always contain 100% of all strings!
 	
 	------------------------------------------------------
 	NOTE: HTML5 games never receive an onGameEnd callback!

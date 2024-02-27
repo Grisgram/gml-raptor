@@ -64,7 +64,6 @@ CAM_MAX_Y					= 0;
 #macro UI_VIEW_WIDTH				 display_get_gui_width()
 #macro UI_VIEW_HEIGHT				 display_get_gui_height()
 #macro UI_SCALE						1
-//#macro UI_SCALE						(min(UI_VIEW_WIDTH/VIEW_WIDTH, UI_VIEW_HEIGHT/VIEW_HEIGHT))
 #macro UI_VIEW_CENTER_X				(UI_VIEW_WIDTH  / 2 / UI_SCALE)
 #macro UI_VIEW_CENTER_Y				(UI_VIEW_HEIGHT / 2 / UI_SCALE)
 #macro UI_VIEW_ASPECT_RATIO			(UI_VIEW_WIDTH  / UI_VIEW_HEIGHT)
@@ -84,6 +83,7 @@ CAM_MAX_Y					= 0;
 #macro VIEW_ASPECT_RATIO			(VIEW_WIDTH / VIEW_HEIGHT)
 
 // SELF Coordinates (object dimensions only, without absolute screen position)
+#macro SELF_LAYER_OR_DEPTH			((layer == -1) ? depth : layer_get_name(layer))
 #macro SELF_WIDTH					sprite_width
 #macro SELF_HEIGHT					sprite_height
 #macro SELF_WIDTH_UNSCALED			sprite_get_width(sprite_index)

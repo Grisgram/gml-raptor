@@ -12,7 +12,6 @@
   ],
   "managed": true,
   "overriddenProperties": [
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"value":"[fa_bottom][fa_center]",},
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
   ],
   "parent": {
@@ -51,7 +50,17 @@
       ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"sprDefaultSliderKnob","varType":5,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_xscale","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"1","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_yscale","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"1","varType":0,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"auto_text","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"slider_autotext.text_is_value","varType":4,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"auto_text","filters":[],"listItems":[
+        "slider_autotext.none",
+        "slider_autotext.text_is_value",
+        "slider_autotext.text_is_percent",
+      ],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"slider_autotext.text_is_value","varType":6,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"auto_text_position","filters":[],"listItems":[
+        "slider_text.h_above",
+        "slider_text.h_below",
+        "slider_text.v_left",
+        "slider_text.v_right",
+      ],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"slider_text.h_above","varType":6,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"orientation_horizontal","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"True","varType":3,},
   ],
   "solid": false,

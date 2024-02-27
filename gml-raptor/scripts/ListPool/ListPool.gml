@@ -94,13 +94,13 @@ function ListPool(_name = "listPool") constructor {
 	/// @description	For debugging purposes. Prints all objects to the console
 	static dump = function() {
 		var i = 0;
-		ilog($"---- LIST POOL '{name}' DUMP START ----");
+		ilog($"[--- LIST POOL '{name}' DUMP START ---]");
 		repeat(ds_list_size(list)) {
 			var item = ds_list_find_value(list, i);
 			ilog($"#{i}: {item}");
 			i++;
 		}
-		ilog($"---- LIST POOL '{name}' DUMP  END  ----");
+		ilog($"[--- LIST POOL '{name}' DUMP  END  ---]");
 	}
 
 }

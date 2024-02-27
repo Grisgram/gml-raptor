@@ -6,8 +6,8 @@
   "managed": true,
   "overriddenProperties": [],
   "parent": {
-    "name": "_gml_raptor_ui_",
-    "path": "folders/_gml_raptor_ui_.yy",
+    "name": "helpers",
+    "path": "folders/_gml_raptor_ui_/helpers.yy",
   },
   "parentObjectId": {
     "name": "RaptorGameVersionLabel",

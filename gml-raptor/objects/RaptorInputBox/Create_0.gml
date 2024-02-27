@@ -28,7 +28,7 @@ __cursor_frame = 0;
 __cursor_visible = true;
 __last_cursor_visible = false;
 
-__has_focus = false;
+has_focus = false;
 
 __cursor_x = 0;
 __cursor_y = 0;
@@ -42,19 +42,21 @@ __wait_for_key_repeat = false;
 __repeat_interval_mode = false;
 __repeating_key = undefined;
 
+if (tab_index == -1) tab_index = instance_number(RaptorInputBox) - 1;
+
 enum character_filter {
 	none, allowed, forbidden
 }
 
-/// @function					set_focus()
+/// @function					set_focus(from_tab = false)
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
-	if (__has_focus) 
+	if (has_focus || !is_enabled) 
 		return;
 	
-	with (InputBox) lose_focus();
-	vlog($"{MY_NAME}: got focus");
-	__has_focus = true;
+	with (RaptorInputBox) lose_focus();
+	vlog($"{MY_NAME}: tab index {tab_index} got focus");
+	has_focus = true;
 	text_color = text_color_focus;
 	if (from_tab) set_cursor_pos(string_length(text));
 	selection_length = 0;
@@ -63,22 +65,22 @@ set_focus = function(from_tab = false) {
 		__draw_cursor();
 		select_all();
 	}
-	force_redraw();
+	force_redraw(false);
 	__invoke_got_focus();
 }
 
 /// @function					lose_focus()
 /// @description				Remove input focus from this
 lose_focus = function() {
-	if (!__has_focus) 
+	if (!has_focus) 
 		return;
 	
-	vlog($"{MY_NAME}: lost focus");
-	__has_focus = false;
+	vlog($"{MY_NAME}: tab index {tab_index} lost focus");
+	has_focus = false;
 	text_color = __backup_color_text;
 	selection_length = 0;
 	__last_selection_length = -1;
-	force_redraw();
+	force_redraw(false);
 	__invoke_lost_focus();
 }
 
@@ -211,9 +213,9 @@ __create_scribble_object = function(align, str, test_only = false) {
 	do {
 		var pw = !string_is_empty(password_char);
 		var scstr = (pw ? string_repeat(string_copy(password_char,1,1), max_chars) : string_copy(str, 1, max_chars));
-		sbc = scribble(align + scstr, MY_NAME)
-				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
-								 mouse_is_over ? text_color_mouse_over : text_color);
+		sbc = scribble($"{align}{scstr}", MY_NAME)
+				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use,
+								 animated_text_color);
 		bb = sbc.get_bbox();
 		if (!pw && !test_only) text = scstr;
 		max_chars--;
@@ -232,7 +234,7 @@ draw_scribble_text = function() {
 		__draw_self();
 		return;
 	}
-	if (__has_focus) {
+	if (has_focus) {
 		if (selection_length != __last_selection_length) {
 			__last_selection_length = selection_length;
 			if (selection_length != 0) {
@@ -267,7 +269,7 @@ draw_scribble_text = function() {
 
 /// @function __draw_cursor()
 __draw_cursor = function() {
-	if (__first_cursor_draw || (__has_focus && __cursor_visible)) {
+	if (__first_cursor_draw || (has_focus && __cursor_visible)) {
 		if (__first_cursor_draw || __last_cursor_visible != __cursor_visible) {
 			__first_cursor_draw = false;
 			// make draw calculations only once, if visible changed in last frame
@@ -289,7 +291,7 @@ __draw_cursor = function() {
 			}
 		}
 		draw_set_color(text_color);
-		draw_line_width(__cursor_x, __cursor_y, __cursor_x, __cursor_y + __cursor_height, 2);
+		draw_line_width(__cursor_x, __cursor_y, __cursor_x, __cursor_y + __cursor_height, TEXT_CURSOR_WIDTH);
 		draw_set_color(c_white);
 	}
 }

@@ -30,11 +30,11 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	// load engine data
 	var engine = variable_struct_get(savegame, __SAVEGAME_ENGINE_HEADER);
 	random_set_seed(variable_struct_get(engine, __SAVEGAME_ENGINE_SEED));
-	var loaded_version = struct_get_ext(engine, __SAVEGAME_ENGINE_VERSION, 1);
+	var loaded_version = vsgetx(engine, __SAVEGAME_ENGINE_VERSION, 1);
 	
 	// restore room
 	var current_room_name = room_get_name(room);
-	var room_name = struct_get_ext(engine, __SAVEGAME_ENGINE_ROOM_NAME, current_room_name);
+	var room_name = vsgetx(engine, __SAVEGAME_ENGINE_ROOM_NAME, current_room_name);
 	if (room_name != current_room_name) {
 		ilog($"Switching to room '{room_name}'");
 		room_goto(asset_get_index(room_name));

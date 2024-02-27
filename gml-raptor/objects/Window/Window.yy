@@ -4,7 +4,9 @@
   "name": "Window",
   "eventList": [],
   "managed": true,
-  "overriddenProperties": [],
+  "overriddenProperties": [
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"value":"WindowXButton",},
+  ],
   "parent": {
     "name": "_gml_raptor_ui_",
     "path": "folders/_gml_raptor_ui_.yy",

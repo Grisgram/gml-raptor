@@ -1,7 +1,11 @@
 /// @description mouse_is_over=true
 
-GUI_EVENT;
+GUI_EVENT_MOUSE;
 
-vlog($"{MY_NAME}: onMouseEnter");
-mouse_is_over = true;
-force_redraw();
+if (!mouse_is_over && !__mouse_events_locked) {
+	vlog($"{MY_NAME}: onMouseEnter");
+	mouse_is_over = true;
+	__animate_draw_color(draw_color_mouse_over);
+	__animate_text_color(text_color_mouse_over);
+	force_redraw(false);
+}

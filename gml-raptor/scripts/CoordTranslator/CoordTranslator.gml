@@ -15,8 +15,7 @@
 /// @param {Coord2=undefined} coord2
 /// @returns {Coord2} the result
 function translate_gui_to_world(gui_x, gui_y, coord2 = undefined) {
-	if (coord2 == undefined)
-		coord2 = new Coord2();
+	coord2 ??= new Coord2();
 
 	var xfac = CAM_WIDTH  / UI_VIEW_WIDTH  * UI_SCALE;
 	var yfac = CAM_HEIGHT / UI_VIEW_HEIGHT * UI_SCALE;
@@ -59,8 +58,7 @@ function translate_gui_to_world_y(gui_y) {
 /// @param {Coord2=undefined} coord2
 /// @returns {Coord2} the result
 function translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined) {
-	if (coord2 == undefined)
-		coord2 = new Coord2();
+	coord2 ??= new Coord2();
 
 	var xfac = CAM_WIDTH  / UI_VIEW_WIDTH  * UI_SCALE;
 	var yfac = CAM_HEIGHT / UI_VIEW_HEIGHT * UI_SCALE;
@@ -84,8 +82,7 @@ function translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined) {
 /// @param {Coord2=undefined} coord2
 /// @returns {Coord2} the result
 function translate_world_to_gui(world_x, world_y, coord2 = undefined) {
-	if (coord2 == undefined)
-		coord2 = new Coord2();
+	coord2 ??= new Coord2();
 		
 	var xfac = UI_VIEW_WIDTH  / CAM_WIDTH  / UI_SCALE;
 	var yfac = UI_VIEW_HEIGHT / CAM_HEIGHT / UI_SCALE;
@@ -125,8 +122,8 @@ function translate_world_to_gui_y(world_y) {
 /// @param {Coord2=undefined} coord2
 /// @returns {Coord2} the result
 function translate_world_to_gui_abs(world_x, world_y, coord2 = undefined) {
-	if (coord2 == undefined)
-		coord2 = new Coord2();
+	coord2 ??= new Coord2();
+	
 	var xfac = UI_VIEW_WIDTH  / CAM_WIDTH  / UI_SCALE;
 	var yfac = UI_VIEW_HEIGHT / CAM_HEIGHT / UI_SCALE;
 	with (coord2) set(

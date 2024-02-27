@@ -5,7 +5,7 @@
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+    "name": "Animations",
+    "path": "folders/_gml_raptor_/Animations.yy",
   },
 }

@@ -33,7 +33,9 @@
   "physicsStartAwake": true,
   "properties": [
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"tooltip_text","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"\"\"","varType":2,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"tooltip_object","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"Tooltip","varType":4,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"tooltip_object","filters":[
+        "GMObject",
+      ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"Tooltip","varType":5,},
   ],
   "solid": false,
   "spriteId": null,

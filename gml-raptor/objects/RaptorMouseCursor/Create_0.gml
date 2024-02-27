@@ -50,20 +50,38 @@
 	
 */
 
+// This draw_on_gui here is fake! MouseCursor is *always* draw_on_gui, the
+// flag is ignored in the draw cycle of this object.
+// It exists for debugging purposes, if you activate debug object frames,
+// so the frame drawer finds the cursor on the ui layer and draws a correct frame
+draw_on_gui = true;
+
 #macro __RAPTOR_MOUSE_COMPANION_POOL		"__raptor_mouse_companion_pool"
 
 MOUSE_CURSOR			= self;
+
+enum mouse_cursor_type {
+	pointer, sizing
+}
+
+enum mouse_cursor_sizing {
+	we, ns, nwse, nesw
+}
 
 event_inherited();
 
 window_set_cursor(cr_none);
 // on top of everything else
-depth = 16000;
+depth = DEPTH_TOP_MOST;
 visible = true;
 
-sprite_index = sprite_to_use ?? sprite_index;
-
 companion = undefined;
+
+/// @function set_cursor(_mouse_cursor_type, _mouse_cursor_sizing = 0)
+set_cursor = function(_mouse_cursor_type, _mouse_cursor_sizing = 0) {
+	sprite_index = (_mouse_cursor_type == mouse_cursor_type.pointer ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
+	image_index = _mouse_cursor_sizing;
+}
 
 /// @function set_companion(_companion_sprite, _type = undefined)
 set_companion = function(_companion_sprite, _type = undefined) {

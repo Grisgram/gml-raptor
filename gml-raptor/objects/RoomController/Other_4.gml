@@ -8,6 +8,6 @@ if (__ACTIVE_TRANSITION != undefined)
 else
 	onTransitFinished();
 
-if (MOUSE_CURSOR != undefined && struct_get_ext(GAMESETTINGS, "use_system_cursor", false, false))
+if (MOUSE_CURSOR != undefined && vsgetx(GAMESETTINGS, "use_system_cursor", false, false))
 	with(MOUSE_CURSOR) destroy();
 	

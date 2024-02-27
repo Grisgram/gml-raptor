@@ -45,7 +45,7 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 		right = get_right();
 		bottom = get_bottom();
 	}
-	
+
 	/// @function				intersects_rect(other_rect)	
 	/// @description			Determines if the other_rect intersects at least with
 	///							one corner with this rect

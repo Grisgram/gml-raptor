@@ -1,12 +1,5 @@
 /// @description invoke on_right_click
 
-if (__SKIP_CONTROL_EVENT || click_event_finished || !await_click) exit;
+if (SKIP_EVENT_MOUSE || click_event_finished || !await_click) exit;
 
-vlog($"{MY_NAME}: onRightClick");
-await_click = false;
-play_ui_sound(on_click_sound);
-if (on_right_click != undefined) {
-	__deactivate_tooltip();
-	on_right_click(self);
-	click_event_finished = true;
-}
+perform_right_click();

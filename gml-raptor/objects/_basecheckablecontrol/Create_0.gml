@@ -56,7 +56,7 @@ update_graphics = function(_force_redraw = true) {
 __draw_me = function() {
 	__draw_self();
 	__draw_x = (draw_checkbox_on_the_left ? x : x + sprite_width - unscaled.width);
-	draw_sprite_ext(__sprite_index, __image_index, __draw_x, y, original_scale.x, original_scale.y, image_angle, (mouse_is_over ? draw_color_mouse_over : draw_color), image_alpha);
+	draw_sprite_ext(__sprite_index, __image_index, __draw_x, y, original_scale.x, original_scale.y, image_angle, animated_draw_color, image_alpha);
 	if (checked)
 		draw_sprite_ext(__sprite_index, image_index_checkmark, __draw_x + __draw_offset.x, y + __draw_offset.y, original_scale.x * __check_factor, original_scale.y * __check_factor, image_angle, checkmark_draw_color, image_alpha);
 }

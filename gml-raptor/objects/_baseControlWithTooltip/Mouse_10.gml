@@ -2,5 +2,5 @@
 
 event_inherited();
 
-GUI_EVENT;
+GUI_EVENT_MOUSE;
 __activate_tooltip();

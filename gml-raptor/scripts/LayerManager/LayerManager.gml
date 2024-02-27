@@ -6,7 +6,11 @@
 /// @param {bool}	vis					Visible yes/no
 /// @param {bool}	object_activation	if true, all objects on this layer will be 
 ///										activated/deactivated according to vis
+/// @returns {[mindepth,maxdepth]} An array containing the min and max depth of affected layers
 function layer_set_all_visible(wildcard, vis, object_activation = true) {
+	var max_depth = DEPTH_TOP_MOST;
+	var min_depth = DEPTH_BOTTOM_MOST;
+	var ldepth = 0;
 	var layers = layer_get_all();
 	for (var i = 0; i < array_length(layers); i++) {
 		var lid = layers[i];
@@ -14,12 +18,16 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 		
 		if (string_match(lname, wildcard)) {
 			layer_set_visible(lid, vis);
+			ldepth = layer_get_depth(lid);
+			min_depth = min(min_depth, ldepth);
+			max_depth = max(max_depth, ldepth);
 			if (object_activation && layer_get_element_type(lid) == layerelementtype_instance) {
 				if (vis) instance_activate_layer(lid); else instance_deactivate_layer(lid);
 			}
 			dlog($"Setting layer visibility: layer='{lname}'; visible={vis};");
 		}
 	}
+	return [min_depth, max_depth];
 }
 
 function __set_tile_data(data, tile_idx = undefined, flip = undefined, rotate = undefined, mirror = undefined) {

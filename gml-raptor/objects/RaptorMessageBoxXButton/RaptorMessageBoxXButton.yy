@@ -2,10 +2,7 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "RaptorMessageBoxXButton",
-  "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,},
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,},
-  ],
+  "eventList": [],
   "managed": true,
   "overriddenProperties": [
     {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"value":"16",},
@@ -18,8 +15,8 @@
     "path": "folders/_gml_raptor_/UI/raptormessagebox.yy",
   },
   "parentObjectId": {
-    "name": "ImageButton",
-    "path": "objects/ImageButton/ImageButton.yy",
+    "name": "RaptorWindowXButton",
+    "path": "objects/RaptorWindowXButton/RaptorWindowXButton.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,
