@@ -86,6 +86,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Objects","folderPath":"folders/Objects.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Paths","folderPath":"folders/Paths.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Rooms","folderPath":"folders/Rooms.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"_raptorTemplateRoom","folderPath":"folders/Rooms/_raptorTemplateRoom.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"main","folderPath":"folders/Rooms/main.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Scripts","folderPath":"folders/Scripts.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sequences","folderPath":"folders/Sequences.yy",},
@@ -94,7 +95,6 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Sprites","folderPath":"folders/Sprites.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"_raptorTemplateRoom","folderPath":"folders/Rooms/_raptorTemplateRoom.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"index.html","CopyToMask":3035461389054378190,"filePath":"datafiles",},

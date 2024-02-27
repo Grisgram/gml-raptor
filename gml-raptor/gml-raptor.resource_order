@@ -69,6 +69,7 @@
     {"name":"Objects","order":8,"path":"folders/Objects.yy",},
     {"name":"Paths","order":3,"path":"folders/Paths.yy",},
     {"name":"Rooms","order":9,"path":"folders/Rooms.yy",},
+    {"name":"_raptorTemplateRoom","order":5,"path":"folders/Rooms/_raptorTemplateRoom.yy",},
     {"name":"main","order":1,"path":"folders/Rooms/main.yy",},
     {"name":"Scripts","order":4,"path":"folders/Scripts.yy",},
     {"name":"Sequences","order":10,"path":"folders/Sequences.yy",},
@@ -76,7 +77,6 @@
     {"name":"Sounds","order":2,"path":"folders/Sounds.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"_raptorTemplateRoom","order":5,"path":"folders/Rooms/_raptorTemplateRoom.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"string_width_scribble","order":5,"path":"scripts/string_width_scribble/string_width_scribble.yy",},
