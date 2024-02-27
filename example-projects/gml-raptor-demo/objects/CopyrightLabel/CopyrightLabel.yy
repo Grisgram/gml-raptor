@@ -1,17 +1,19 @@
 {
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
-  "name": "GameVersionLabel",
+  "name": "CopyrightLabel",
   "eventList": [],
   "managed": true,
-  "overriddenProperties": [],
+  "overriddenProperties": [
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"=legal/copyright",},
+  ],
   "parent": {
     "name": "helpers",
     "path": "folders/_gml_raptor_ui_/helpers.yy",
   },
   "parentObjectId": {
-    "name": "RaptorGameVersionLabel",
-    "path": "objects/RaptorGameVersionLabel/RaptorGameVersionLabel.yy",
+    "name": "Label",
+    "path": "objects/Label/Label.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,

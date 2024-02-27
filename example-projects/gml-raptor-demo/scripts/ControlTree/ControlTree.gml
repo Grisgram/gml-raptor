@@ -57,6 +57,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	__root_tree		= self;
 	__force_next	= false;
 	__layout_done	= false;
+	__alive			= true; // used for cleanup
 
 	/// @function bind_to(_control)
 	static bind_to = function(_control) {
@@ -151,10 +152,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
-	/// @function remove_control(_control)
-	static remove_control = function(_control) {
+	/// @function remove_control(_control_or_name)
+	static remove_control = function(_control_or_name) {
+		var strcompare = is_string(_control_or_name);
 		for (var i = 0, len = array_length(children); i < len; i++) {
-			if (eq(_control, children[@i].instance)) {
+			var child		= children[@i];
+			var inst		= child.instance;
+			if ((strcompare && eq(_control_or_name, child.name)) ||
+				(!strcompare && eq(_control_or_name, inst))) {
 				array_delete(children, i, 1);
 				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
 				break;
@@ -241,7 +246,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 
-	/// @function select_element(_control)
+	/// @function select_element(_control_or_name)
 	/// @description Searches through the tree for the specified control
 	///				 and sets it as the active element, if found.
 	///				 "Active element" means, all ".set_*" function will apply to it
@@ -466,7 +471,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	static clean_up = function() {
-		ilog($"CleanUp ControlTree of {name_of(control)}");
+		if (!__alive) return;
+		__alive = false;
+		dlog($"CleanUp ControlTree of {name_of(control)}");
+		var have_elements = (array_length(children) > 0);
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			var inst = child.instance;
@@ -476,6 +484,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				instance_destroy(inst);
 		}
 		instance_destroy(control);
+		if (is_root_tree())
+			ilog($"{name_of(control)} ControlTree cleanup finished");
 	}
 }
 
