@@ -551,6 +551,7 @@
     {"id":{"name":"scribble_font_bake_outline_8dir_2px","path":"scripts/scribble_font_bake_outline_8dir_2px/scribble_font_bake_outline_8dir_2px.yy",},},
     {"id":{"name":"__CanvasCleanupQueue","path":"scripts/__CanvasCleanupQueue/__CanvasCleanupQueue.yy",},},
     {"id":{"name":"SnapFromGML","path":"scripts/SnapFromGML/SnapFromGML.yy",},},
+    {"id":{"name":"ControlTreeSprite","path":"objects/ControlTreeSprite/ControlTreeSprite.yy",},},
     {"id":{"name":"MessageBoxXButton","path":"objects/MessageBoxXButton/MessageBoxXButton.yy",},},
     {"id":{"name":"sprDefaultSliderRail","path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",},},
     {"id":{"name":"SnapBufferReadGML","path":"scripts/SnapBufferReadGML/SnapBufferReadGML.yy",},},

@@ -451,6 +451,7 @@
     {"name":"scribble_font_bake_outline_8dir_2px","order":2,"path":"scripts/scribble_font_bake_outline_8dir_2px/scribble_font_bake_outline_8dir_2px.yy",},
     {"name":"__CanvasCleanupQueue","order":1,"path":"scripts/__CanvasCleanupQueue/__CanvasCleanupQueue.yy",},
     {"name":"SnapFromGML","order":2,"path":"scripts/SnapFromGML/SnapFromGML.yy",},
+    {"name":"ControlTreeSprite","order":3,"path":"objects/ControlTreeSprite/ControlTreeSprite.yy",},
     {"name":"MessageBoxXButton","order":1,"path":"objects/MessageBoxXButton/MessageBoxXButton.yy",},
     {"name":"sprDefaultSliderRail","order":13,"path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",},
     {"name":"__scribble_get_generator_state","order":9,"path":"scripts/__scribble_get_generator_state/__scribble_get_generator_state.yy",},

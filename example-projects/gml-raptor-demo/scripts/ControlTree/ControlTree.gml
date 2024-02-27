@@ -152,6 +152,20 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function add_sprite(_sprite_asset, _init_struct = undefined)
+	/// @description Adds a sprite to the tree. Internally this is wrappend
+	///				 in a ControlTreeSprite object, which is a _baseControl,
+	///				 so you can use the _init_struct freely to assign all
+	///				 variables, you'd like to change, from image_angle, scale,
+	///				 blend_color, plus everything a _baseControl has in stock!
+	///				 In addition, you can align, anchor, dock it as you would 
+	///				 with any other control.
+	static add_sprite = function(_sprite_asset, _init_struct = undefined) {
+		var str = if_null(_init_struct, {});
+		str.sprite_index = _sprite_asset;
+		return add_control(ControlTreeSprite, str);
+	}
+	
 	/// @function remove_control(_control_or_name)
 	static remove_control = function(_control_or_name) {
 		var strcompare = is_string(_control_or_name);
