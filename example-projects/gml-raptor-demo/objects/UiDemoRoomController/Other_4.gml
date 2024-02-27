@@ -1,8 +1,11 @@
 /// @description event
 event_inherited();
-//exit;
 
-var _panel_height = { startup_height: 256 };
+var _panel_height = { startup_height: 256 }
+
+var _info_label = {
+	text: "=ui_demo/label_made_with_tree"
+}
 
 __button = function(_text, _click, _hk = "") {
 	return {
@@ -15,7 +18,7 @@ __button = function(_text, _click, _hk = "") {
 }
 
 UI_ROOT
-	.set_margin(80,0,80,0)
+	.set_margin(80,0,60,0)
 	.add_control(Panel, _panel_height)
 		.set_padding(0,50,0,50)
 		.set_margin(0,0,32,0)
@@ -39,6 +42,8 @@ UI_ROOT
 			.add_control(TextButton, __button("=ui_demo/show_anchoring"		, ui_demo_control_anchoring_click))
 			.set_align(fa_bottom, fa_left)
 			.step_out()
+		.add_control(Label, _info_label)
+		.set_dock(dock.left)
 		.add_control(TextButton, __button("=play/ui/race_exit_button"	, ui_demo_exit_click, "vk_escape"))
 		.set_align(fa_middle, fa_right)
 		.step_out()

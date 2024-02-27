@@ -2,7 +2,7 @@
   "legal": {
     "game_name": "gml-raptor Demo",
     "company": "Coldrock Games",
-    "copyright": "(c)2023 [?legal/company]",
+    "copyright": "(c)2023 [? legal/company]",
     "locale_author": "Haerion Coldrock aka Grisgram",
     "developer": "Haerion Coldrock aka Grisgram"
   },
@@ -117,6 +117,7 @@
     "window_title_alignment": "Control Alignment",
     "window_title_login": "Login Dialog Demo",
     "window_title_anchoring": "Control Anchoring",
-    "alignment_top_message": "Demonstration des [ci_accent]alignment[/] (Ausrichtung) von Controls"
+    "alignment_top_message": "Demonstration des [ci_accent]alignment[/] (Ausrichtung) von Controls",
+    "label_made_with_tree": "[ci_bright]Die Buttons (und dieser Text hier)[/] \nwurden ebenfalls mit dem [ci_bright]ControlTree[/] \nauf dem [ci_bright]ROOT_UI[/] erstellt!\nSieh dir den RoomController \ndieses Raums an, dann siehst du, \nwie es gemacht wurde!"
   }
 }

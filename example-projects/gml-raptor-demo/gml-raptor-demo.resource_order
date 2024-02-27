@@ -25,6 +25,7 @@
     {"name":"gml-highscorer","order":2,"path":"folders/_gml_raptor_packages_/gml-highscorer.yy",},
     {"name":"outline-shader-drawer","order":1,"path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",},
     {"name":"_gml_raptor_ui_","order":19,"path":"folders/_gml_raptor_ui_.yy",},
+    {"name":"helpers","order":15,"path":"folders/_gml_raptor_ui_/helpers.yy",},
     {"name":"messagebox","order":12,"path":"folders/_gml_raptor_ui_/messagebox.yy",},
     {"name":"_third_party_packages_","order":14,"path":"folders/_third_party_packages_.yy",},
     {"name":"Canvas","order":2,"path":"folders/_third_party_packages_/Canvas.yy",},
@@ -85,7 +86,6 @@
     {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"helpers","order":15,"path":"folders/_gml_raptor_ui_/helpers.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"RaptorWindowXButton","order":13,"path":"objects/RaptorWindowXButton/RaptorWindowXButton.yy",},

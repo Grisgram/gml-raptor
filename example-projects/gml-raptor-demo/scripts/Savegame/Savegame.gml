@@ -12,8 +12,9 @@
 #macro SAVEGAME_LOAD_IN_PROGRESS		global.__savegame_load_in_progress
 
 // The GLOBALDATA struct is persisted with the savegame
+#macro ENSURE_GLOBALDATA	if (!variable_global_exists("__global_data"))	global.__global_data = {};
 #macro GLOBALDATA			global.__global_data
-GLOBALDATA = {};
+ENSURE_GLOBALDATA
 
 // This macro is used internally on objects that push their own data
 // into the savegame. __raptordata is the root of internal data structs

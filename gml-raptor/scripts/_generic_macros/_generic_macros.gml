@@ -48,9 +48,8 @@ global.__unique_count_up_id	= 0;
 // Those macros define all situations that can lead to an invisible element on screen
 #macro __LAYER_OR_OBJECT_HIDDEN		(!visible || (layer != -1 && !layer_get_visible(layer)))
 #macro __HIDDEN_BEHIND_POPUP		(GUI_POPUP_VISIBLE && depth > GUI_POPUP_MIN_DEPTH)
-//#macro __HIDDEN_BEHIND_POPUP		(GUI_POPUP_VISIBLE && (layer == -1 || !string_match(layer_get_name(layer), GUI_POPUP_LAYER_GROUP)))
-//#macro __GUI_MOUSE_EVENT_LOCK		(variable_instance_exists(self, "draw_on_gui") && draw_on_gui && !gui_mouse.event_redirection_active)
-#macro __CONTROL_IS_ENABLED			(variable_instance_exists(self, "is_enabled") && is_enabled)
+#macro __GUI_MOUSE_EVENT_LOCK		(viget(self, "draw_on_gui", false) && !gui_mouse.event_redirection_active)
+#macro __CONTROL_IS_ENABLED			viget(self, "is_enabled", false)
 #macro __CONTROL_IS_TARGET_MOUSE	(__CONTROL_IS_ENABLED && is_topmost_control(CTL_MOUSE_X, CTL_MOUSE_Y))
 #macro __CONTROL_IS_TARGET_XY		(__CONTROL_IS_ENABLED && is_topmost_control(x, y))
 
@@ -58,7 +57,7 @@ global.__unique_count_up_id	= 0;
 
 // All controls skip their events, if this is true
 //#macro __SKIP_CONTROL_EVENT			(__GUI_MOUSE_EVENT_LOCK || __INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_MOUSE)
-#macro SKIP_EVENT_MOUSE				(__INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_MOUSE)
+#macro SKIP_EVENT_MOUSE				(__INSTANCE_UNREACHABLE || __GUI_MOUSE_EVENT_LOCK || !__CONTROL_IS_TARGET_MOUSE)
 #macro SKIP_EVENT_NO_MOUSE			(__INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_XY)
 #macro SKIP_EVENT_UNTARGETTED		(__INSTANCE_UNREACHABLE)
 

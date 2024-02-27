@@ -152,6 +152,20 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	/// @function add_sprite(_sprite_asset, _init_struct = undefined)
+	/// @description Adds a sprite to the tree. Internally this is wrappend
+	///				 in a ControlTreeSprite object, which is a _baseControl,
+	///				 so you can use the _init_struct freely to assign all
+	///				 variables, you'd like to change, from image_angle, scale,
+	///				 blend_color, plus everything a _baseControl has in stock!
+	///				 In addition, you can align, anchor, dock it as you would 
+	///				 with any other control.
+	static add_sprite = function(_sprite_asset, _init_struct = undefined) {
+		var str = if_null(_init_struct, {});
+		str.sprite_index = _sprite_asset;
+		return add_control(ControlTreeSprite, str);
+	}
+	
 	/// @function remove_control(_control_or_name)
 	static remove_control = function(_control_or_name) {
 		var strcompare = is_string(_control_or_name);
@@ -325,7 +339,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	}
 
 	/// @function layout(_forced = false)
-	/// @description	performs layouting of all child controls. invoked when the control
+	/// @description	performs layouting of all child controls. Invoked when the control
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
@@ -343,10 +357,14 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var oldinsty	= 0;
 		var oldsizex	= 0;
 		var oldsizey	= 0;
+		var auto_width	= 0;
+		var auto_height	= 0;
+		var cur_width	= 0;
+		var cur_height	= 0;
 		
 		_forced |= __force_next;
 		__force_next = false;
-
+		
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			child		= children[@i];
 			inst		= child.instance;
@@ -363,13 +381,30 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				inst.update_client_area();
 			}
 
+			// kind of "test-try" position controls so we get autosize values...
+			if (control.__auto_size_with_content) {
+				ilayout.apply_positioning(render_area, inst, control, false);
+				cur_width  = max(control.sprite_width,  ilayout.xpos + inst.sprite_width);
+				cur_height = max(control.sprite_height, ilayout.ypos + inst.sprite_height);
+				if (cur_width > auto_width || cur_height > auto_height) {
+					auto_width  = min(cur_width,  if_null(parent_tree, self).render_area.width);
+					auto_height = min(cur_height, if_null(parent_tree, self).render_area.height);
+					with(control) {
+						scale_sprite_to(auto_width, auto_height);
+						update_client_area();
+					}
+					update_render_area();
+				}
+			}
+			
+			// ... then do the real thing
 			ilayout.apply_positioning(render_area, inst, control);
 			ilayout.apply_docking	 (render_area, inst, control);
 			ilayout.apply_spreading  (render_area, inst, control);
 			ilayout.apply_alignment  (render_area, inst, control);
 			ilayout.apply_anchoring  (render_area, inst, control);
 		}
-						
+		
 		if (reorder_docks) {
 			__reorder_bottom_dock();
 			__reorder_right_dock();
