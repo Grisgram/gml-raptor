@@ -41,8 +41,8 @@ function ControlTreeLayout() constructor {
 	__filler		= new Coord2();
 
 #region Positioning
-	/// @function apply_positioning(_area, _inst, _control)
-	static apply_positioning = function(_area, _inst, _control) {
+	/// @function apply_positioning(_area, _inst, _control, _reset_align_state = true)
+	static apply_positioning = function(_area, _inst, _control, _reset_align_state = true) {
 		if (docking != dock.none)
 			return;
 		
@@ -66,8 +66,10 @@ function ControlTreeLayout() constructor {
 			halign		= hbefore;
 			
 			// delete the markers, we do this only once!
-			xpos_align = undefined;
-			ypos_align = undefined;
+			if (_reset_align_state) {
+				xpos_align = undefined;
+				ypos_align = undefined;
+			}
 		}
 		
 		_inst.x = _area.left + xpos + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
@@ -339,7 +341,6 @@ function ControlTreeLayout() constructor {
 #endregion
 
 #region Spreading
-	__spr_old = 0;
 	/// @function apply_spreading(_area, _inst, _control)
 	static apply_spreading = function(_area, _inst, _control) {
 		if (docking != dock.none || anchoring != anchor.none)
@@ -350,7 +351,6 @@ function ControlTreeLayout() constructor {
 		_control.update_client_area();
 		
 		if (spreadx != -1) {
-			__spr_old = _inst.sprite_width;
 			var netto = max(_inst.min_width, spreadx * (_area.width - 
 				tree.margin_left  - tree.margin_right - 
 				tree.padding_left - tree.padding_right));
@@ -358,7 +358,6 @@ function ControlTreeLayout() constructor {
 				scale_sprite_to(netto, sprite_height);
 		}
 		if (spready != -1) {
-			__spr_old = _inst.sprite_height;
 			var netto = max(_inst.min_height, spready * (_area.height -
 				tree.margin_top  - tree.margin_bottom - 
 				tree.padding_top - tree.padding_bottom));

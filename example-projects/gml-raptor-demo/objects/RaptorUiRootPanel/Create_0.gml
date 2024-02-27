@@ -23,4 +23,5 @@ __draw_instance = function(_force = false) {
 
 	control_tree.draw_children();
 	__first_draw = false;
+	__force_redraw = false;
 }
