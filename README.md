@@ -9,7 +9,7 @@
 
 
 <p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
-<h1 align="center">2️⃣.7️⃣.1️⃣</h1>
+<h1 align="center">3️⃣.0️⃣</h1>
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
@@ -40,37 +40,26 @@ In case you are a night owl like me and you want to support my work,<br/>especia
 ## Version list
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
 These versions of external libraries are packaged into the current `raptor` release:
-| GMS Version | raptor Version | Scribble | SNAP | OutlineShader | AnimatedFlag | HighScorer |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|2023.11|2.7.1|8.7.0|6.1.0|3.1|1.3.1|1.4.1|
+| GMS Version | raptor Version | Scribble | SNAP | Canvas | OutlineShader | AnimatedFlag | HighScorer |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|2024.2|3.0|8.7.0|6.1.0|2.1|3.1|1.3.1|1.4.1|
 
 ## How Releases are organized
-When working with an entire platform like this one, there is more to do for the author (me), than simply publishing a .zip file and call it a release.<br/>
-While the project template itself is useful and must be up-to-date when you start a *new Project*, the normal case is, that you are in the middle of development, when a new release is done here. But in this second case you have very likely adapted configuration scripts (in the _GAME_SETUP_ section of the project) and you do not want to have them overwritten when updating to the latest version.
+* Find the latest release at the [Releases](https://github.com/Grisgram/gml-raptor/releases) page
+* Downloadable items of a release are:
+  * The raptor _project template_ (see the [wiki](https://github.com/Grisgram/gml-raptor/wiki) for instructions how use templates in GameMaker)
+  * A local package containing the entire raptor with all libraries as `.yymps` file, if you don't like project templates
+  * Since `Release 3.0`, a `room-template` package
+  * Since `Release 3.0`, a `html-room-template` package
 
-To cover both of these scenarios, you will find several files and downloads for each release here:
-* A `.zip` file, containing the project template (you should *always* update this locally in your templates folder to be ready for the next project!)
-* A `*-full.yymps` local package file that contains *all files of the platform* in a single package. This includes the config files, so take care, when importing!
-* A `*-update.yymps` local package file that contains all files of the platform *except the configuration files*. It should be safe to import this, as long as you didn't modify any of the platform source code itself.
-
-**Please Note:** In rare cases it might be possible, that there is no `*-update.yymps` available for a release. This happens, when I (for whatever reason) had to update/change the basic configuration files also. I will leave a dedicated note in the Release Notes, if this is the case. You should copy the sources of your GameConfiguration out of the way before updating and have to merge manually then. But mostly such a case will only contain a new config switch or two. Nothing to worry about.
-
----
-
-**Important! Please read**
-
-There are many objects and scripts in this library and to get going with this platform, you should take the time to read the basic concepts that this platform follows in the [Wiki](https://github.com/Grisgram/gml-raptor/wiki).
-
----
-
-I tried to isolate some of the classes and make smaller repositories of it, but I failed. They work too good together and, as an example, to isolate my savegame-system out into its own repository and removing all the dependencies would've required to sacrifice lots of its functionality. Same is true for the StateMachine or the Animation system. So, after thinking about it for some time, I decided to make it public "as-it-is". It's a set of working-together parts, that allows you to speed up your game development process.
-
-If you have questions, feedback or just want to discuss specific parts of this platform, just open a new thread in the [discussions](https://github.com/Grisgram/gml-raptor/discussions) for this repository. I'll do my best to answer any questions as quick as possible!
-Feel free to fork, advance, fix and do what you want with the code in this repository, but please respect the MIT License and credit.<br/>
+> [!NOTE]
+> The room template packages help you speed up your development and have been added to make room creation with all the default layers and objects of raptor easier, by simply importing a package with one single room + room controller and just renaming them!
 
 
 ### CONTRIBUTING
 I am happy, if you want to support `raptor` to become even better, just launch a pull request, explain me your changes, and I make sure, you get credited as contributor.
+If you have questions, feedback or just want to discuss specific parts of this platform, just open a new thread in the [discussions](https://github.com/Grisgram/gml-raptor/discussions) for this repository. I'll do my best to answer any questions as quick as possible!
+Feel free to fork, advance, fix and do what you want with the code in this repository, but please respect the MIT License and credit.<br/>
 
 
 ## Other libraries
@@ -97,9 +86,8 @@ Very special thanks to `Alex` [@pamims](https://github.com/pamims) for proof rea
 ### Credits for external libraries go to 
 
 * [@JujuAdams](https://github.com/JujuAdams) and the great community at [GameMakerKitchen Discord](https://discord.gg/8krYCqr) for the [SNAP](https://github.com/JujuAdams/SNAP) Library and [Scribble](https://github.com/JujuAdams/scribble), which I packaged into this repository and the project template.
-I do my best to keep the re-packaged libraries here always at the latest version of Juju's repo.
-If you prefer to look up the most recent version (or any specific version) for yourself, you find SNAP and Scribble at the links a few lines above this one.
 
+* [@tabularElf](https://github.com/tabularelf) for his [Canvas](https://github.com/tabularelf/Canvas) library and all the great support he gave me, while raptor was being made.
 
 * [@YellowAfterLife](https://github.com/YellowAfterlife) for the [Open Link in new Tab](https://yal.cc/gamemaker-opening-links-in-new-tab-on-html5/) Browser Game extension for GameMaker, which I modified a bit to fit into the platform. This extension is also packaged into the platform and ready-to-use.
 
