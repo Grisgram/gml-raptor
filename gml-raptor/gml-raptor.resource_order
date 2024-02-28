@@ -185,7 +185,6 @@
     {"name":"__scribble_get_generator_state","order":9,"path":"scripts/__scribble_get_generator_state/__scribble_get_generator_state.yy",},
     {"name":"GameController","order":22,"path":"objects/GameController/GameController.yy",},
     {"name":"spr1pxWhite64","order":11,"path":"sprites/spr1pxWhite64/spr1pxWhite64.yy",},
-    {"name":"override","order":17,"path":"scripts/override/override.yy",},
     {"name":"Logger_Configuration","order":18,"path":"scripts/Logger_Configuration/Logger_Configuration.yy",},
     {"name":"__scribble_get_effects_slash_map","order":6,"path":"scripts/__scribble_get_effects_slash_map/__scribble_get_effects_slash_map.yy",},
     {"name":"sprDefaultWindow","order":24,"path":"sprites/sprDefaultWindow/sprDefaultWindow.yy",},

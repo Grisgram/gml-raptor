@@ -143,18 +143,6 @@ cleanup_disabled_surface = function() {
 	__disabled_surface_height	= 0;
 }
 
-/// @function set_enabled(_enabled)
-/// @description if you set the enabled state through this function, the on_enabled_changed callback
-///				 gets invoked, if the state is different from the current state
-set_enabled = function(_enabled) {
-	var need_invoke = (is_enabled != _enabled);
-	is_enabled = _enabled;
-	if (need_invoke && on_enabled_changed != undefined) {
-		vlog($"Enabled changed for {MY_NAME}");
-		on_enabled_changed(self);
-	}
-}
-
 __container = undefined; // if this is part of a window, it's the parent container
 /// @function get_window()
 /// @description If this control is embedded in a window, this function returns
@@ -192,17 +180,19 @@ get_parent_tree = function() {
 	return undefined;
 }
 
-/// @function is_topmost_control()
+/// @function is_topmost()
 /// @description True, if this control is the topmost (= lowest depth) at the specified position
+///				 NOTE: This is an override of the method in _raptorBase, which compares against _raptorBase!
+///				 This method here shall only check controls (_baseControl) to be more specific in finding topmost
 __topmost_list = ds_list_create();
-is_topmost_control = function(_x, _y) {
+is_topmost = function(_x, _y) {
 	ds_list_clear(__topmost_list);
 	if (instance_position_list(_x, _y, _baseControl, __topmost_list, false) > 0) {
 		var mindepth = DEPTH_BOTTOM_MOST;
+		var w = undefined;
 		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
-			if (is_child_of(__topmost_list[|i], RaptorTooltip) ||
-				is_child_of(__topmost_list[|i], RaptorUiRootPanel)) continue;
-			var w = __topmost_list[|i];
+			w = __topmost_list[|i];
+			if (!__can_touch_this(w)) continue;
 			mindepth = min(mindepth, w.depth);
 		}
 		return (mindepth == depth);
@@ -223,12 +213,14 @@ __mouse_enter_topmost_control = function() {
 		var mindepth = DEPTH_BOTTOM_MOST;
 		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
 			var w = __topmost_list[|i];
+			if (!__can_touch_this(w)) continue;
 			if (!eq(w, self))
 				mindepth = min(mindepth, w.depth);
 		}
 		// pass 2: launch the mouse enter event on all the topmost's
 		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
 			var w = __topmost_list[|i];
+			if (!__can_touch_this(w)) continue;
 			if (w.depth == mindepth && !w.mouse_is_over) {
 				with(w) {
 					vlog($"{MY_NAME}: onMouseEnter (topmost)");

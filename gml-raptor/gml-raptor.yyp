@@ -232,7 +232,7 @@
     {"id":{"name":"GameController","path":"objects/GameController/GameController.yy",},},
     {"id":{"name":"RaptorFrameFormatter","path":"scripts/RaptorFrameFormatter/RaptorFrameFormatter.yy",},},
     {"id":{"name":"spr1pxWhite64","path":"sprites/spr1pxWhite64/spr1pxWhite64.yy",},},
-    {"id":{"name":"override","path":"scripts/override/override.yy",},},
+    {"id":{"name":"How-to-make-packages","path":"notes/How-to-make-packages/How-to-make-packages.yy",},},
     {"id":{"name":"Logger_Configuration","path":"scripts/Logger_Configuration/Logger_Configuration.yy",},},
     {"id":{"name":"SnapBufferReadCSV","path":"scripts/SnapBufferReadCSV/SnapBufferReadCSV.yy",},},
     {"id":{"name":"__scribble_get_effects_slash_map","path":"scripts/__scribble_get_effects_slash_map/__scribble_get_effects_slash_map.yy",},},

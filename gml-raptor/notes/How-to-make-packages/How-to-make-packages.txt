@@ -1,0 +1,5 @@
+gml-raptor-ui package:
+- only the _gml_raptor_ui_ folder
+
+gml-raptor-full package:
+- just hit the "Add all" Button and go

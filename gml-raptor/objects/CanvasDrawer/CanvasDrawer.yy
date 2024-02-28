@@ -10,9 +10,7 @@
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,},
   ],
   "managed": true,
-  "overriddenProperties": [
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_raptorBase","path":"objects/_raptorBase/_raptorBase.yy",},"propertyId":{"name":"log_create_destroy","path":"objects/_raptorBase/_raptorBase.yy",},"value":"False",},
-  ],
+  "overriddenProperties": [],
   "parent": {
     "name": "_generic_objects_",
     "path": "folders/_gml_raptor_/_generic_objects_.yy",

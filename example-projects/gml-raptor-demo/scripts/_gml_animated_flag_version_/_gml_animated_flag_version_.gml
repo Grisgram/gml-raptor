@@ -1,4 +1,4 @@
-#macro GML_ANIMATED_FLAG_VERSION	"1.3.1"
+#macro GML_ANIMATED_FLAG_VERSION	"1.3.2"
 #macro GML_ANIMATED_FLAG_NAME		"gml-animated-flag "
 #macro GML_ANIMATED_FLAG_COPYRIGHT	"(c)2022* coldrock.games, @Grisgram (github)"
 
