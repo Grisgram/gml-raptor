@@ -8,7 +8,7 @@
 |:--:|
 |![trello](https://user-images.githubusercontent.com/19487451/177526365-74bd6c31-a762-4484-9723-a8d4f5108950.png)&nbsp;&nbsp;&nbsp;[View the public roadmap on Trello](https://trello.com/b/wAkyqDBz/gml-raptor-roadmap)|
 
-## Play it live at itch.io
+### PLAY IT LIVE AT ITCH.IO
 Just want to see the demo without cloning?<br/>
 Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!<br/>
 If you like what you see, please don't forget to ⭐ the repository and consider following me here and on itch! The more reach `raptor` gets, the faster it can evolve even more!
@@ -19,7 +19,7 @@ If you like what you see, please don't forget to ⭐ the repository and consider
 In case you are a night owl like me and you want to support my work,<br/>especially the <a href="https://github.com/Grisgram/gml-raptor">gml-raptor platform for GameMaker</a>,<br/>spend me a coffee through PayPal. <p align="center"><a href="https://www.paypal.com/donate/?hosted_button_id=PL8VA5UFCPMK6" target="_blank"><img src="https://github.com/Grisgram/Grisgram/blob/main/images/paypal_donate.gif" /></a></p><p align="center">Thank you!</p>
 </p>
 
-## Main Features
+### MAIN FEATURES
 
 |![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Coding & Data|![gms](https://user-images.githubusercontent.com/19487451/174742864-ca80b221-8799-42f0-851d-474ebbbf06be.png) Visuals & Objects|
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
@@ -27,14 +27,14 @@ In case you are a night owl like me and you want to support my work,<br/>especia
 |![race](https://user-images.githubusercontent.com/19487451/180134457-003f837a-2e33-44af-a5fa-1f92f6aa8b22.png) **RACE** (**RA**ndom **C**ontent **E**ngine)<br/>Loot, Random maps, Dice, all that can be random with json-based config|![animation](https://user-images.githubusercontent.com/19487451/180134463-51a17e65-f2de-415e-aadd-8ee6aa8ed7d8.png) **Animations**<br/>Runtime sprite animations with triggers and runtime tweaks|
 |![tools](https://user-images.githubusercontent.com/19487451/180134472-8e9a940f-41f0-48f4-964d-8e46dc9222b3.png) **Tools**<br/>Utils and Helpers, like Object Pools,<br/> Effects, Struct & Array enhancements, Message Broadcasting|![ui](https://user-images.githubusercontent.com/19487451/180134486-7b55554d-aef1-4379-9e55-02290021b8fe.png) **UI and Localization**<br/>Basic UI Controls objects incl. Text Input, json-localization, 100% [Scribble](https://github.com/JujuAdams/scribble)-based|
 
-## Version list
+### VERSION LIST
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | raptor Version | Scribble | SNAP | Canvas | OutlineShader | AnimatedFlag | HighScorer |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |2024.2|2024.3|8.7.0|6.1.0|2.1|3.1|1.3.1|1.4.1|
 
-## How Releases are organized
+### HOW RELEASES ARE ORGANIZED
 * Find the latest release at the [Releases](https://github.com/Grisgram/gml-raptor/releases) page
 * Downloadable items of a release are:
   * The raptor _project template_ (see the [wiki](https://github.com/Grisgram/gml-raptor/wiki) for instructions how use templates in GameMaker)
@@ -52,7 +52,7 @@ If you have questions, feedback or just want to discuss specific parts of this p
 Feel free to fork, advance, fix and do what you want with the code in this repository, but please respect the MIT License and credit.<br/>
 
 
-## Other libraries
+### OTHER LIBRARIES
 My main goal is to provide a ready-to-use project template. I am not a big friend of "oh, yes, this is the classes, but you need to download this from here and that other thing from there and make sure, you apply this and this and this setting and best do a npm xy to have this running..." what a mess!
 I do not like that. You will always find a single-download-and-run release in the template.
 
@@ -67,7 +67,7 @@ By default, these libraries of mine are included:
 * [Animated Flag](https://github.com/Grisgram/gml-animated-flag)
 * [HighScorer](https://github.com/Grisgram/gml-highscorer)
 
-## Credits
+### CREDITS
 ### Translation help and proof reading
 
 Very special thanks to `Alex` [@pamims](https://github.com/pamims) for proof reading my version of the english language and correcting it to the _real_ version of the english language! Thank you very much for volunteering here!
@@ -81,7 +81,7 @@ Very special thanks to `Alex` [@pamims](https://github.com/pamims) for proof rea
 
 * [@YellowAfterLife](https://github.com/YellowAfterlife) for the [Open Link in new Tab](https://yal.cc/gamemaker-opening-links-in-new-tab-on-html5/) Browser Game extension for GameMaker, which I modified a bit to fit into the platform. This extension is also packaged into the platform and ready-to-use.
 
-### Contact me
+### CONTACT ME
 Beside the communication channel here, you can reach me as @Grisgram on the [GameMakerKitchen Discord](https://discord.gg/8krYCqr).
 
 (c)2022-2024 [coldrock.games](https://www.coldrock.games)
