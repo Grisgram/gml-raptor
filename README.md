@@ -1,15 +1,5 @@
-> [!IMPORTANT]
-> **PLEASE READ**: I am in the process of preparing the **3.0 Release** of raptor.
-> To accomplish this, I have to update _lots of content in the wiki!
-> In the next two weeks or so, you might find many functions and concepts in the wiki that are _not available yet_,
-> Stay tuned, 3.0 is a big thing!
-> Here's a preview video of the UI rework that will land with 3.0
-> 
-> [![3.0 UI Preview](http://img.youtube.com/vi/yXcrEtzk1jM/0.jpg)](http://www.youtube.com/watch?v=yXcrEtzk1jM "3.0 UI preview")
-
-
-<p align="center"><img src="https://user-images.githubusercontent.com/19487451/177010769-5fd95602-8c3d-47ca-ab0b-7c4f964e05e2.png" style="display:block; margin:auto; width:438px"></p>
-<h1 align="center">3️⃣.0️⃣</h1>
+<p align="center"><img src="https://github.com/Grisgram/gml-raptor/assets/19487451/cdb2ceb4-c13e-4f6f-bfe9-cba63fc6cff4.png" style="display:block; margin:auto; width:438px"></p>
+<h1 align="center">Release 2024.3</h1>
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
@@ -42,7 +32,7 @@ You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | raptor Version | Scribble | SNAP | Canvas | OutlineShader | AnimatedFlag | HighScorer |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|2024.2|3.0|8.7.0|6.1.0|2.1|3.1|1.3.1|1.4.1|
+|2024.2|2024.3|8.7.0|6.1.0|2.1|3.1|1.3.1|1.4.1|
 
 ## How Releases are organized
 * Find the latest release at the [Releases](https://github.com/Grisgram/gml-raptor/releases) page
