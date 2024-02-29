@@ -9,8 +9,6 @@
 	-----------------------------
 	Do these steps before you do ANYTHING ELSE
 	
-		- Delete the raptorTemplateRoom folder, instead import the raptor-Html-Template-Room package
-		
 		- set rmMain and rmStartup (in the _GAME_SETUP_ folder)
 		  to 1920x940 resolution (room, camera, viewport)!
 		
@@ -20,11 +18,11 @@
 		
 		- In the Browser inspect the site with Shift-Ctrl-I and look at the Source of index.html
 		
-		- In line ~82/83 you find something like that:
-		  <script type="text/javascript" src="game/default-game.js?AWDAC=1242070312"></script>
+		- In line ~82/83 you find something like that (instead of "gml-raptor", your game name should be there):
+		  <script type="text/javascript" src="game/gml-raptor.js?cachebust=435882189"></script>
 		  
 		- This src part contains the correct javascript file name
-		  src="game/default-game.js?AWDAC=1242070312"
+		  src="game/gml-raptor.js?cachebust=435882189"
 		  
 		- Copy this part at the corresponding position in index.html in the included files
 

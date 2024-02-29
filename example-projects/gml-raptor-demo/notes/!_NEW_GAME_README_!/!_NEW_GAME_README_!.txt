@@ -9,20 +9,20 @@
 	-----------------------------
 	Do these steps before you do ANYTHING ELSE
 	
-		- set rmMain, rmPlay and rmStartup (green game_setup folder)
-		  to 1920x940 resolution (room, cam, viewport)!
+		- set rmMain and rmStartup (in the _GAME_SETUP_ folder)
+		  to 1920x940 resolution (room, camera, viewport)!
 		
 		- Game Options - HTML - General - Index.html back to DEFAULT!
 		
 		- Start the game
 		
-		- In the Browser inspect the site and look at the Source of index.html
+		- In the Browser inspect the site with Shift-Ctrl-I and look at the Source of index.html
 		
-		- In line ~82/83 you find something like that:
-		  <script type="text/javascript" src="game/default-game.js?AWDAC=1242070312"></script>
+		- In line ~82/83 you find something like that (instead of "gml-raptor", your game name should be there):
+		  <script type="text/javascript" src="game/gml-raptor.js?cachebust=435882189"></script>
 		  
-		- This src part contains the name of your game project and its ID
-		  src="game/default-game.js?AWDAC=1242070312"
+		- This src part contains the correct javascript file name
+		  src="game/gml-raptor.js?cachebust=435882189"
 		  
 		- Copy this part at the corresponding position in index.html in the included files
 
