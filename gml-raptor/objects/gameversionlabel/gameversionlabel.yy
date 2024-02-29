@@ -2,16 +2,21 @@
   "resourceType": "GMObject",
   "resourceVersion": "1.0",
   "name": "GameVersionLabel",
-  "eventList": [],
+  "eventList": [
+    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,},
+  ],
   "managed": true,
-  "overriddenProperties": [],
+  "overriddenProperties": [
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"value":"\"[fa_middle][fa_right]\"",},
+    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"value":"",},
+  ],
   "parent": {
     "name": "helpers",
     "path": "folders/_gml_raptor_ui_/helpers.yy",
   },
   "parentObjectId": {
-    "name": "RaptorGameVersionLabel",
-    "path": "objects/RaptorGameVersionLabel/RaptorGameVersionLabel.yy",
+    "name": "Label",
+    "path": "objects/Label/Label.yy",
   },
   "persistent": false,
   "physicsAngularDamping": 0.1,

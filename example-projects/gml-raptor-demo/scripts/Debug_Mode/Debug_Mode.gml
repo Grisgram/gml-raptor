@@ -16,6 +16,10 @@
 #macro release:CONFIGURATION_BETA		false
 #macro release:CONFIGURATION_RELEASE	true
 
+#macro CONFIGURATION_NAME				"dev"
+#macro beta:CONFIGURATION_NAME			"beta"
+#macro release:CONFIGURATION_NAME		"prod"
+
 #macro DEBUG_SHOW_OBJECT_FRAMES	global.__debug_show_object_frames
 #macro DEBUG_MODE_WINDOW_WIDTH	global.__debug_mode_window_width
 #macro DEBUG_MODE_WINDOW_HEIGHT	global.__debug_mode_window_height

@@ -2,9 +2,12 @@
   "legal": {
     "game_name": "gml-raptor Demo",
     "company": "Coldrock Games",
-    "copyright": "(c)2023 [? legal/company]",
+    "copyright": "(c) [? legal/company]",
     "locale_author": "Haerion Coldrock aka Grisgram",
-    "developer": "Haerion Coldrock aka Grisgram"
+    "developer": "Haerion Coldrock aka Grisgram",
+    "game_channel_beta": "Beta",
+    "game_channel_prod": "Production",
+    "game_channel_dev": "Development"
   },
   "credits": {
     "credits_title": "Credits"

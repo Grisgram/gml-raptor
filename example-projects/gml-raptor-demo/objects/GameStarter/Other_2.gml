@@ -1,9 +1,20 @@
 /// @description start the game engine(s)
 
+// Initialize LG on HTML frontend
+if (IS_HTML) {
+	browser_click_handler = open_link_in_new_tab;
+	LG_AVAIL_LOCALES = HTML_LOCALES;
+	LG_init();
+}
+
+#macro GAME_CHANNEL_STRING	global.__game_channel_string
+GAME_CHANNEL_STRING = LG($"=legal/game_channel_{CONFIGURATION_NAME}");
+
 #macro GAME_VERSION_STRING	global.__game_version_string
 #macro GAME_VERSION_MAJOR	global.__game_version_major
 #macro GAME_VERSION_MINOR	global.__game_version_minor
 #macro GAME_VERSION_BUILD	global.__game_version_build
+
 
 if (!debug_mode)
 	randomize();
@@ -19,20 +30,13 @@ if (file_exists(working_directory + "version.json")) {
 	GAME_VERSION_MAJOR	= verinfo.major;
 	GAME_VERSION_MINOR	= verinfo.minor;
 	GAME_VERSION_BUILD	= verinfo.build;
-	mlog($"Game version: {GAME_VERSION_STRING}");
+	mlog($"Game version: {GAME_VERSION_STRING} ({GAME_CHANNEL_STRING})");
 } else {
 	mlog($"*WARNING*: No version file found!");
 	GAME_VERSION_STRING = "0.0.0";
 	GAME_VERSION_MAJOR	= 0;
 	GAME_VERSION_MINOR	= 0;
 	GAME_VERSION_BUILD	= 0;
-}
-
-// Initialize LG on HTML frontend
-if (IS_HTML) {
-	browser_click_handler = open_link_in_new_tab;
-	LG_AVAIL_LOCALES = HTML_LOCALES;
-	LG_init();
 }
 
 ilog($"Game seed is {random_get_seed()}");
