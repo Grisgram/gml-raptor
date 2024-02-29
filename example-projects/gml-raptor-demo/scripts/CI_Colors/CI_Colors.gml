@@ -79,7 +79,8 @@ function set_app_theme(theme = ci_theme.none) {
 			break;
 	}
 	
-	__copy_scribble_colors_to_app_theme();	
+	SCRIBBLE_REFRESH;
+	__copy_scribble_colors_to_app_theme();
 }
 
 /// @function set_app_theme_custom(_white, _black, _main, _bright, _dark, _shadow, _accent)
@@ -93,6 +94,7 @@ function set_app_theme_custom(_white, _black, _main, _bright, _dark, _shadow, _a
 	SCRIBBLE_COLORS.ci_shadow	= _shadow;
 	SCRIBBLE_COLORS.ci_accent	= _accent;
 	
+	SCRIBBLE_REFRESH;
 	__copy_scribble_colors_to_app_theme();	
 }
 

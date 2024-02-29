@@ -96,6 +96,8 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
   ],
   "IncludedFiles": [
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_game_settings.gsx","CopyToMask":-1,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_game_settings.json","CopyToMask":-1,"filePath":"datafiles",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"index.html","CopyToMask":3035461389054378190,"filePath":"datafiles",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"locale_de.json","CopyToMask":-1,"filePath":"datafiles/locale",},
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"locale_en.json","CopyToMask":-1,"filePath":"datafiles/locale",},

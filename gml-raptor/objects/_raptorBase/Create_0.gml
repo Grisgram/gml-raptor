@@ -34,7 +34,7 @@ __topmost_object_list = ds_list_create();
 is_topmost = function(_x, _y) {
 	ds_list_clear(__topmost_object_list);
 	if (instance_position_list(_x, _y, _raptorBase, __topmost_object_list, false) > 0) {
-		var mindepth = DEPTH_BOTTOM_MOST;
+		var mindepth = depth;
 		var w = undefined;
 		for (var i = 0, len = ds_list_size(__topmost_object_list); i < len; i++) {
 			w = __topmost_object_list[|i];

@@ -44,7 +44,7 @@
   },
   "main_menu": {
     "header_text": "Welcome to [?legal/game_name]",
-    "version_str": "Version {0} <- This demonstrates the contents of the version.json file",
+    "version_str": "Version {0} [c_yellow]<- This demonstrates the contents of the version.json file[/]",
     "start_state_game": "[scale,1.25]Start StateMachine Demo",
     "start_race_game": "[scale,1.25]Start Race Demo",
     "show_message": "[scale,1.25]Show MessageBox",
@@ -77,7 +77,9 @@
       "animation": "You see here an animation that is done with a single line of code,\nbased on AnimCurves.\nThe particle emitters are codeless and are done with the\nParticleEditor tool (see [ci_accent]raptor wiki[/] for more information)"
     },
     "start_playground": "[scale,1.25]Dev Playground",
-    "start_uidemo": "[scale,1.25]Start UI Demo"
+    "start_uidemo": "[scale,1.25]Start UI Demo",
+    "version_label_string": "[c_yellow]<- This is the GameVersionLabel control[/]",
+    "copyright_label_string": "[c_yellow]<- This is the CopyrightLabel control[/]"
   },
   "play": {
     "how_to_play_states": {

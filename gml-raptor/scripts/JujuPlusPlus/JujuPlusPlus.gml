@@ -3,6 +3,7 @@
 	or extend some of juju's libraries a bit to my needs.
 */
 
+#region Scribble++
 /// @function scribble_measure_text(_string, _font, _coord2 = undefined)
 /// @description	Get a Coord2 containing the width and height the text needs,
 ///					if rendered with the specified _font (or the scribble_default_font if omitted)
@@ -18,7 +19,9 @@ function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) 
 	return _coord2;
 }
 
-#region SnapMeasureBinary
+#endregion
+
+#region Snap++
 /*
     0x00  -  terminator
     0x01  -  struct

@@ -29,7 +29,7 @@
 // in HTML, especially for itch.io games, you need a UNIQUE filename over all your products,
 // as the html-file-engine uses local storage, which only has one folder with all files from
 // all your products in it.
-#macro GAME_FILE_PREFIX		"gml_raptor_demo"
+#macro GAME_FILE_PREFIX		$"gml_raptor_demo_{GML_RAPTOR_VERSION}"
 
 // The crash dump handler can be found in the Game_Exception_Handler script
 // It generates crash logs in the file specified below, when an unhandled exception occurs,
@@ -41,12 +41,12 @@
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}{GML_RAPTOR_VERSION}_game_settings.json"
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings.json"
 #macro FILE_CRYPT_KEY					""
 // To avoid conflicts between encrypted and plaing settings files, give
 // the file in release mode a different name
 // Replace the production crypt key with a good salty key of your own!
-#macro release:GAME_SETTINGS_FILENAME	$"{GAME_FILE_PREFIX}{GML_RAPTOR_VERSION}_settings.gsx"
+#macro release:GAME_SETTINGS_FILENAME	$"{GAME_FILE_PREFIX}_game_settings.gsx"
 #macro release:FILE_CRYPT_KEY			"/�0^^4 0= 4!/! �-:-71!/!9_15I-I�|)-(4/�,!/!1^0/�,�-v|_/�,4551( 11=�=0/�,!v!"
 
 // Global functionality setup for the game
@@ -99,7 +99,9 @@ function onGameStart() {
 	// Custom named scribble colors - use the format that fits best for you!
 	// In version 3.0 and later, the recommended way is to set up your THEME here
 	// https://github.com/Grisgram/gml-raptor/wiki/App-Theming
-	scribble_color_set("ci_accent2", #FF972F); // #RRGGBB
+	SCRIBBLE_COLORS.ci_accent2 = #FF972F; // #RRGGBB
+	
+	SCRIBBLE_REFRESH;
 	
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);

@@ -17,6 +17,7 @@
 // detect if the scribble library is loaded
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
 #macro SCRIBBLE_COLORS		__scribble_config_colours()
+#macro SCRIBBLE_REFRESH		scribble_refresh_everything()
 
 // detect if the canvas library is loaded
 #macro IS_CANVAS_LOADED		script_exists(asset_get_index("Canvas"))
