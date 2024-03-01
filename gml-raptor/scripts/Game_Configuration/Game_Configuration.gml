@@ -29,7 +29,7 @@
 // in HTML, especially for itch.io games, you need a UNIQUE filename over all your products,
 // as the html-file-engine uses local storage, which only has one folder with all files from
 // all your products in it.
-#macro GAME_FILE_PREFIX		$"gml_raptor"
+#macro GAME_FILE_PREFIX		"gml_raptor"
 
 // The crash dump handler can be found in the Game_Exception_Handler script
 // It generates crash logs in the file specified below, when an unhandled exception occurs,

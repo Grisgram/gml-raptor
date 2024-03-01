@@ -10,4 +10,3 @@ if (eq(self, __RAPTOR_FOCUS_WINDOW)) {
 	__RAPTOR_FOCUS_WINDOW = undefined;
 	__focus_next_in_chain();
 }
-	
