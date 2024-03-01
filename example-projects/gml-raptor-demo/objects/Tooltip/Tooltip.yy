@@ -29,8 +29,8 @@
   "properties": [],
   "solid": false,
   "spriteId": {
-    "name": "sprDefaultLabelFilled",
-    "path": "sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",
+    "name": "sprDefaultTooltip",
+    "path": "sprites/sprDefaultTooltip/sprDefaultTooltip.yy",
   },
   "spriteMaskId": null,
   "visible": true,
