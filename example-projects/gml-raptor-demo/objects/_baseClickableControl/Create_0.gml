@@ -7,6 +7,11 @@ await_click = false;
 double_click_counter = 0;
 double_click_waiter = 0;
 
+__set_await_click = function(_await) {
+	await_click = _await;
+	__mouse_text_scale = (_await ? text_scale_mouse_down : 1.0);
+}
+
 /// @function check_for_hotkey(_keystring)
 check_for_hotkey = function(_keystring) {
 	if (!is_null(hotkey_left_click) && hotkey_left_click == _keystring) perform_left_click();
@@ -17,7 +22,7 @@ check_for_hotkey = function(_keystring) {
 /// @function perform_left_click()
 perform_left_click = function() {
 	vlog($"{MY_NAME}: onLeftClick");
-	await_click = false;
+	__set_await_click(false);
 	play_ui_sound(on_click_sound);
 
 	if (on_left_click != undefined) {
@@ -30,7 +35,7 @@ perform_left_click = function() {
 /// @function perform_middle_click()
 perform_middle_click = function() {
 	vlog($"{MY_NAME}: onMiddleClick");
-	await_click = false;
+	__set_await_click(false);
 	play_ui_sound(on_click_sound);
 	
 	if (on_middle_click != undefined) {
@@ -43,7 +48,7 @@ perform_middle_click = function() {
 /// @function perform_right_click()
 perform_right_click = function() {
 	vlog($"{MY_NAME}: onRightClick");
-	await_click = false;
+	__set_await_click(false);
 	play_ui_sound(on_click_sound);
 	
 	if (on_right_click != undefined) {
@@ -56,7 +61,7 @@ perform_right_click = function() {
 /// @function perform_double_click()
 perform_double_click = function() {
 	vlog($"{MY_NAME}: onDoubleClick");
-	await_click = false;
+	__set_await_click(false);
 	play_ui_sound(on_click_sound);
 
 	double_click_counter = 0;

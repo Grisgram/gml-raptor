@@ -35,7 +35,10 @@ __cursor_y = 0;
 __cursor_height = 0;
 __first_draw = true;
 __first_cursor_draw = true;
-__backup_color_text = c_white;
+__backup_text_color = c_white;
+__backup_draw_color = c_white;
+__backup_text_color_mouse_over = c_white;
+__backup_draw_color_mouse_over = c_white;
 
 __key_repeat_frame = 0;
 __wait_for_key_repeat = false;
@@ -57,7 +60,17 @@ set_focus = function(from_tab = false) {
 	with (RaptorInputBox) lose_focus();
 	vlog($"{MY_NAME}: tab index {tab_index} got focus");
 	has_focus = true;
+	__backup_text_color = text_color;
+	__backup_draw_color = draw_color;
+	__backup_text_color_mouse_over = text_color_mouse_over;
+	__backup_draw_color_mouse_over = draw_color_mouse_over;
+	animated_text_color = text_color_focus;
+	animated_draw_color = border_color_focus;
 	text_color = text_color_focus;
+	draw_color = border_color_focus;
+	text_color_mouse_over = text_color_focus;
+	draw_color_mouse_over = border_color_focus;
+	if (image_number > 0) image_index = 1;
 	if (from_tab) set_cursor_pos(string_length(text));
 	selection_length = 0;
 	__last_selection_length = -1;
@@ -77,9 +90,15 @@ lose_focus = function() {
 	
 	vlog($"{MY_NAME}: tab index {tab_index} lost focus");
 	has_focus = false;
-	text_color = __backup_color_text;
 	selection_length = 0;
 	__last_selection_length = -1;
+	text_color = __backup_text_color;
+	draw_color = __backup_draw_color;
+	text_color_mouse_over = __backup_text_color_mouse_over;
+	draw_color_mouse_over = __backup_draw_color_mouse_over;
+	animated_text_color = text_color;
+	animated_draw_color = draw_color;
+	image_index = 0;
 	force_redraw(false);
 	__invoke_lost_focus();
 }
@@ -196,7 +215,6 @@ scribble_add_text_effects = function(scribbletext) {
 	// to the end of the string, if called first time
 	if (__first_draw) {
 		__first_draw = false;
-		__backup_color_text = text_color;
 		cursor_pos = string_length(text);
 	}
 }

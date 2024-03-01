@@ -40,7 +40,6 @@
 #macro __RAPTOR_BROADCAST_MSGBOX_CLOSED			"__raptor_msgbox_closed"
 #macro __RAPTOR_BROADCAST_POPUP_SHOWN			"__raptor_popup_shown"
 #macro __RAPTOR_BROADCAST_POPUP_HIDDEN			"__raptor_popup_hidden"
-#macro __RAPTOR_BROADCAST_APPTHEME_CHANGED		"__raptor_apptheme_changed"
 // ---- RAPTOR INTERNAL BROADCASTS ----
 
 global.__raptor_broadcast_uid = 0;

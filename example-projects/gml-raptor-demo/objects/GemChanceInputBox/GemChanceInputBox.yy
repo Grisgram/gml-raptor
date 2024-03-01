@@ -37,8 +37,8 @@
   ],
   "solid": false,
   "spriteId": {
-    "name": "sprDefaultLabel",
-    "path": "sprites/sprDefaultLabel/sprDefaultLabel.yy",
+    "name": "sprDefaultInputBox",
+    "path": "sprites/sprDefaultInputBox/sprDefaultInputBox.yy",
   },
   "spriteMaskId": null,
   "visible": true,

@@ -48,6 +48,7 @@
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"sprDefaultSliderKnob","varType":5,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_MAIN","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_xscale","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"1","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"knob_yscale","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"1","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"auto_text","filters":[],"listItems":[

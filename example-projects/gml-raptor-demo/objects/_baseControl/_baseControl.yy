@@ -37,8 +37,8 @@
   "physicsShapePoints": [],
   "physicsStartAwake": true,
   "properties": [
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"text_color","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
-    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"text_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"text_color","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_MAIN","varType":7,},
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"text_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_MAIN","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"text_color_anim_frames","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0","varType":1,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"draw_color","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"draw_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"APP_THEME_WHITE","varType":7,},

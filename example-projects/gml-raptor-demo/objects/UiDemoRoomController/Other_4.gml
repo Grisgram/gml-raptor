@@ -4,7 +4,8 @@ event_inherited();
 var _panel_height = { startup_height: 256 }
 
 var _info_label = {
-	text: "=ui_demo/label_made_with_tree"
+	text: "=ui_demo/label_made_with_tree",
+	text_color: APP_THEME_WHITE
 }
 
 __button = function(_text, _click, _hk = "") {

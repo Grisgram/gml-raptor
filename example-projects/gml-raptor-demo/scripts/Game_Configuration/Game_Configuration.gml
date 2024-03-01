@@ -80,10 +80,6 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 		
-	// set up named colors for the game
-	// You can define your own CI_colors in the CI_Colors script
-	set_app_theme(ci_theme.coldrock);
-
 	// Load start data
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------
@@ -99,9 +95,9 @@ function onGameStart() {
 	// Custom named scribble colors - use the format that fits best for you!
 	// In version 3.0 and later, the recommended way is to set up your THEME here
 	// https://github.com/Grisgram/gml-raptor/wiki/App-Theming
-	SCRIBBLE_COLORS.ci_accent2 = #FF972F; // #RRGGBB
+	//SCRIBBLE_COLORS.awful_color = #FF972F; // #RRGGBB
 	
-	SCRIBBLE_REFRESH;
+	//SCRIBBLE_REFRESH;
 	
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);

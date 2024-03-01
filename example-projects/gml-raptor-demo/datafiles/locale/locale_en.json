@@ -84,7 +84,7 @@
   "play": {
     "how_to_play_states": {
       "title": "How to play",
-      "text": "Move your character with WASD keys.\n\nIn the middle of the screen, a [ci_accent]Spawner[/] will appear.\nIt spits out [ci_accent]enemies[/] every now and then.\n\nThey see you when you enter their yellow [ci_accent]Scanner range[/].\n\n[shake]Then you die.[/]\n\nIf you can touch an enemy on its back side, [shake]then the enemy dies![/]\n\n[ci_accent2]Try to survive as long as you can!"
+      "text": "Move your character with WASD keys.\n\nIn the middle of the screen, a [ci_accent]Spawner[/] will appear.\nIt spits out [ci_accent]enemies[/] every now and then.\n\nThey see you when you enter their yellow [ci_accent]Scanner range[/].\n\n[shake]Then you die.[/]\n\nIf you can touch an enemy on its back side, [shake]then the enemy dies![/]\n\n[ci_accent]Try to survive as long as you can!"
     },
     "how_to_play_race": {
       "title": "Race Demo",
@@ -116,13 +116,13 @@
     "login_entered_values": "Demonstrating read-out of control in a dynamic window:",
     "add_dock_plus": "+",
     "show_anchoring": "[scale,1.25][?=ui_demo/window_title_anchoring]",
-    "dock_demo_info": "Press any of the [ci_bright]'x'[/] buttons to\ndynamically add docked elements.\n\nLeft- or right-click any of the [ci_bright]docked elements[/]\nto grow/shrink them to see dynamic re-layouting.",
+    "dock_demo_info": "Press any of the [ci_main]'x'[/] buttons to\ndynamically add docked elements.\n\nLeft- or right-click any of the [ci_main]docked elements[/]\nto grow/shrink them to see dynamic re-layouting.",
     "show_control_tree": "[scale,1.25][?=ui_demo/window_title_docking]",
     "anchor_top_message": "Demonstrating control [ci_accent]anchoring[/]",
     "window_title_alignment": "Control Alignment",
     "window_title_login": "Login Dialog Demo",
     "window_title_anchoring": "Control Anchoring",
     "alignment_top_message": "Demonstrating control [ci_accent]alignment[/]",
-    "label_made_with_tree": "[ci_bright]The Buttons (and this text here)[/] \nhave been created and aligned through\nthe [ci_bright]ControlTree[/] at the [ci_bright]ROOT_UI[/]!\nTake a look at the source code of the \nRoomController of this room, there you\ncan see, how this has been done!\n"
+    "label_made_with_tree": "[ci_bright]The Buttons (and this text here)\nhave been created and aligned through\nthe [ci_bright]ControlTree[/] at the [ci_bright]ROOT_UI[/]!\nTake a look at the source code of the \nRoomController of this room, there you\ncan see, how this has been done!\n"
   }
 }

@@ -56,17 +56,11 @@ control_tree
 		.add_control(Panel).set_spread(0.7, 0.6).set_margin(4,0,4,0).set_align(fa_top, fa_right)
 			.add_control(Panel).set_spread(0.8, 0.5).set_margin(4,4,0,4).set_padding(8,0,0,0).set_align(fa_top, fa_left)
 				.add_control(InputBox, {
-					text_color: APP_THEME_BRIGHT,
-					text_color_focus: APP_THEME_BRIGHT,
-					text_color_mouse_over: APP_THEME_BRIGHT,
 					text: "", 
 				}).set_name("txtUser").set_spread(1).set_margin(4,4,0,4).set_align(fa_middle, fa_left)
 				.step_out()
 			.add_control(Panel).set_spread(0.8, 0.5).set_margin(4,4,0,4).set_padding(8,0,0,0).set_align(fa_bottom, fa_left)
 				.add_control(InputBox, {
-					text_color: APP_THEME_BRIGHT,
-					text_color_focus: APP_THEME_BRIGHT,
-					text_color_mouse_over: APP_THEME_BRIGHT,
 					text: "", 
 					startup_height: 32,
 					password_char: "*"

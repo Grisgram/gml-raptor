@@ -84,7 +84,7 @@
   "play": {
     "how_to_play_states": {
       "title": "Spielregeln",
-      "text": "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [ci_accent]Spawner[/].\nEr spuckt ständig [ci_accent]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [ci_accent]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[ci_accent2]Versuche, so lange wie möglich am Leben zu bleiben!"
+      "text": "Du bewegst dich mit den WASD Tasten.\n\nIn der Mitte des Bildschirms erscheint ein [ci_accent]Spawner[/].\nEr spuckt ständig [ci_accent]Gegner[/] aus.\n \nSie sehen dich, wenn du in ihren gelben [ci_accent]Scanner-Bereich[/] kommst.\n\n[shake]Dann stirbst du.[/]\n\nWenn du einen Gegner von hinten berührst, [shake]dann stirbt der Gegner![/]\n \n[ci_accent]Versuche, so lange wie möglich am Leben zu bleiben!"
     },
     "how_to_play_race": {
       "title": "Race Demo",
@@ -116,7 +116,7 @@
     "login_entered_values": "Auslesen, der eingegebenen Daten aus einem dynamischen Fenster:",
     "add_dock_plus": "+",
     "show_anchoring": "[scale,1.25][?=ui_demo/window_title_anchoring]",
-    "dock_demo_info": "Klicke einen der [ci_bright]'x'[/] Buttons,\num dynamisch gedockte Elemente zu erzeugen.\n\nLinks- oder Rechts-Klicke [ci_bright]gedockte Elemente[/],\num sie zu vergrößern/verkleinern\nund dynamisches Layout zu sehen.",
+    "dock_demo_info": "Klicke einen der [ci_main]'x'[/] Buttons,\num dynamisch gedockte Elemente zu erzeugen.\n\nLinks- oder Rechts-Klicke [ci_main]gedockte Elemente[/],\num sie zu vergrößern/verkleinern\nund dynamisches Layout zu sehen.",
     "show_control_tree": "[scale,1.25][?=ui_demo/window_title_docking]",
     "anchor_top_message": "Demonstration des [ci_accent]Anchoring[/] (Verankerung) von Controls",
     "window_title_alignment": "Control Alignment",
