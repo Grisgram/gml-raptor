@@ -5,7 +5,7 @@
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "skins",
-    "path": "folders/_gml_raptor_/UI/skins.yy",
+    "name": "skins_and_themes",
+    "path": "folders/_gml_raptor_/UI/skins_and_themes.yy",
   },
 }

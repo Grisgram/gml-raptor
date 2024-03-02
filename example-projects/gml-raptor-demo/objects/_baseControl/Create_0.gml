@@ -35,6 +35,7 @@ update_client_area = function() {
 /// @description Set the initial size of the control based on the max value of
 ///				 startup_width/height, min_width/height and designer width/height (room editor)
 set_startup_size = function() {
+	if (sprite_index == -1) return;
 	scale_sprite_to(
 		max(startup_width , sprite_width , min_width),
 		max(startup_height, sprite_height, min_height)

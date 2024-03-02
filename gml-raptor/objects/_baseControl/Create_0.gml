@@ -13,6 +13,7 @@ vigetx(self, "__raptor_debug_frame_color", c_green);
 
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
+__mouse_text_scale = 1.0;
 __mouse_events_locked = false; // if rendered in a container, container draws first
 
 edges = new Edges(self);
@@ -34,6 +35,7 @@ update_client_area = function() {
 /// @description Set the initial size of the control based on the max value of
 ///				 startup_width/height, min_width/height and designer width/height (room editor)
 set_startup_size = function() {
+	if (sprite_index == -1) return;
 	scale_sprite_to(
 		max(startup_width , sprite_width , min_width),
 		max(startup_height, sprite_height, min_height)
@@ -290,7 +292,7 @@ __finalize_scribble_text = function() {
 							 animated_text_color);
 		__force_redraw_text_only = false;
 	}
-	__scribble_text.transform(1, 1, text_angle);
+	__scribble_text.transform(__mouse_text_scale, __mouse_text_scale, text_angle);
 	if (adopt_object_properties != adopt_properties.none)
 		__adopt_object_properties();
 	scribble_add_text_effects(__scribble_text);

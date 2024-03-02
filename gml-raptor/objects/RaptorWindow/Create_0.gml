@@ -286,6 +286,7 @@ __reorder_focus_index = function(_old_idx) {
 		if (++curiter == maxiter)
 			break;
 	}
+	__focus_idx = instance_number(RaptorWindow) - 1;
 	// last step: set the depth of the windows
 	with(RaptorWindow) {
 		depth = __startup_depth - 1 - 2 * __focus_index;

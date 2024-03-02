@@ -29,8 +29,8 @@
   "properties": [],
   "solid": false,
   "spriteId": {
-    "name": "sprDefaultLabelFilled",
-    "path": "sprites/sprDefaultLabelFilled/sprDefaultLabelFilled.yy",
+    "name": "sprDefaultLabel",
+    "path": "sprites/sprDefaultLabel/sprDefaultLabel.yy",
   },
   "spriteMaskId": null,
   "visible": true,

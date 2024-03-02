@@ -3,4 +3,4 @@
 GUI_EVENT_MOUSE;
 
 vlog($"{MY_NAME}: onRightDown");
-await_click = true;
+__set_await_click(true);

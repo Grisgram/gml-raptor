@@ -18,7 +18,7 @@ function is_between_ex(val, lower_bound, upper_bound) {
 	return val > lower_bound && val < upper_bound;
 }
 
-/// @function					is_any_of(val)
+/// @function					is_any_of(val, ...)
 /// @description				after val, specify any number of parameters.
 ///								determines if val is equal to any of them.
 /// @param {any} val

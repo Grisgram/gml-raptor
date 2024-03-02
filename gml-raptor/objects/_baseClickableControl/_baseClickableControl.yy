@@ -16,10 +16,7 @@
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":1,"eventType":9,"isDnD":false,},
   ],
   "managed": true,
-  "overriddenProperties": [
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"text_color","path":"objects/_baseControl/_baseControl.yy",},"value":"APP_THEME_MAIN",},
-    {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"text_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"value":"APP_THEME_ACCENT",},
-  ],
+  "overriddenProperties": [],
   "parent": {
     "name": "UI",
     "path": "folders/_gml_raptor_/UI.yy",
@@ -42,6 +39,7 @@
   "physicsShapePoints": [],
   "physicsStartAwake": true,
   "properties": [
+    {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"text_scale_mouse_down","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"0.95","varType":0,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_left_click","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_middle_click","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},
     {"resourceType":"GMObjectProperty","resourceVersion":"1.0","name":"on_right_click","filters":[],"listItems":[],"multiselect":false,"rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"value":"undefined","varType":4,},

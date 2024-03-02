@@ -80,10 +80,6 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 		
-	// set up named colors for the game
-	// You can define your own CI_colors in the CI_Colors script
-	set_app_theme(ci_theme.none);
-
 	// Load start data
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------

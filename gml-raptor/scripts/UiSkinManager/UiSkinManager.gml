@@ -2,6 +2,10 @@
     The SkinManager holds all loaded ui skins in a ds_map and you can switch your ui on-the-fly.
 	This is especially useful if your game has... epoches or other permanently changing states that
 	demand different graphics for your ui.
+	
+	*** NOTE *** UI SKINS are a future plan for raptor! This is work in progress 
+	and will not be finished with the initial raptor3.0 release! ***
+	
 */
 
 #macro UI_SKINS				global.__ui_skins
