@@ -6,3 +6,5 @@ gameversionInfo.x += scribble_measure_text(gameversionLabel.text).x - 16;
 copyrightLabelInfo.x += scribble_measure_text(copyrightLabel.text).x - 16;
 
 if (IS_HTML) instance_destroy(exitButton);
+
+UI_THEMES.add_theme(new UiPurpleTheme());

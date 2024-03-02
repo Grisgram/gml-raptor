@@ -33,7 +33,7 @@ function languageButton_click(sender) {
 */
 #macro SAVE_FILE_NAME_PLAIN		"demosave_plain.json"
 #macro SAVE_FILE_NAME_ENC		"demosave_encrypted.dat"
-#macro SAVE_FILE_CRYPT_KEY		"~this.is.any_l0ng_string.used.as-kind-of-salt.to.encrypt.the.data!"
+#macro SAVE_FILE_CRYPT_KEY		"~this.is.any_l0ng_string.used.as-kind-of-SALT.to.encrypt.the.data!"
 
 
 function save_plain_text() {
@@ -52,5 +52,14 @@ function load_encrypted() {
 	savegame_load_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
 }
 
+function activate_blue_theme() {
+	UI_THEMES.activate_theme("default");
+	room_restart();
+}
+
+function activate_purple_theme() {
+	UI_THEMES.activate_theme("purple");
+	room_restart();
+}
 
 

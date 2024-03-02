@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "UiSkinManager",
+  "name": "UiDefaultTheme",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "skins_and_themes",
-    "path": "folders/_gml_raptor_/UI/skins_and_themes.yy",
+    "name": "themes",
+    "path": "folders/_gml_raptor_ui_/themes.yy",
   },
 }

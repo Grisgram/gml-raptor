@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "CI_Colors",
+  "name": "UiThemeManager",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "_gml_raptor_",
-    "path": "folders/_gml_raptor_.yy",
+    "name": "skins_and_themes",
+    "path": "folders/_gml_raptor_/UI/skins_and_themes.yy",
   },
 }

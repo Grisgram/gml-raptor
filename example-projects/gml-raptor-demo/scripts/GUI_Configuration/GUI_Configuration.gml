@@ -35,13 +35,13 @@ __TEXT_NAV_TAB_LOCK = 0;
 
 function gui_runtime_config() constructor {
 	construct(gui_runtime_config);
-	
+
 	tooltip_delay_frames		= TOOLTIP_DELAY_FRAMES;
-								
+
 	text_cursor_blink_speed		= TEXT_CURSOR_BLINK_SPEED;
 	text_key_repeat_delay		= TEXT_KEY_REPEAT_DELAY;
 	text_key_repeat_interval	= TEXT_KEY_REPEAT_INTERVAL;
-	
+
 	mouse_double_click_speed	= MOUSE_DBL_CLICK_SPEED_MS;
 
 	// Those members exist in html only and are set by the BrowserGameController

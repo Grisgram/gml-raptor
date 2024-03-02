@@ -102,12 +102,12 @@ draw_knob = function() {
 	__set_draw_colors();
 	if (orientation_horizontal) {
 		__tilesize = (sprite_width - __knob_dims.width) / (max_value - min_value + 1);
-		__knob_x = x - sprite_xoffset + nine_slice_data.left + (value - min_value) * __tilesize;
+		__knob_x = x - sprite_xoffset + nine_slice_data.left + (value - min_value + 1) * __tilesize;
 		__knob_y = y - sprite_yoffset + nine_slice_data.top  + nine_slice_data.height / 2;
 	} else {
 		__tilesize = (sprite_height - __knob_dims.height) / (max_value - min_value + 1);
 		__knob_x = x - sprite_xoffset + nine_slice_data.left   + nine_slice_data.width / 2;
-		__knob_y = y - sprite_yoffset + nine_slice_data.bottom - (value - min_value) * __tilesize;
+		__knob_y = y - sprite_yoffset + nine_slice_data.bottom - (value - min_value + 1) * __tilesize;
 	}
 	draw_sprite_ext(
 		knob_sprite, 0, 
