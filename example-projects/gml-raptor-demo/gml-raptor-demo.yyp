@@ -108,6 +108,7 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"ui-demo","folderPath":"folders/Sprites/ui-demo.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"data_binding","folderPath":"folders/_gml_raptor_/UI/data_binding.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_3.0_game_settings.gsx","ConfigValues":{"release":{"CopyToMask":"3035426170322551022",},},"CopyToMask":-1,"filePath":"datafiles",},
@@ -320,6 +321,7 @@
     {"id":{"name":"__scribble_font_add_msdf_from_project","path":"scripts/__scribble_font_add_msdf_from_project/__scribble_font_add_msdf_from_project.yy",},},
     {"id":{"name":"__scribble_gen_2_parser","path":"scripts/__scribble_gen_2_parser/__scribble_gen_2_parser.yy",},},
     {"id":{"name":"MainRoomController","path":"objects/MainRoomController/MainRoomController.yy",},},
+    {"id":{"name":"PropertyBinder","path":"scripts/PropertyBinder/PropertyBinder.yy",},},
     {"id":{"name":"GameStarter","path":"objects/GameStarter/GameStarter.yy",},},
     {"id":{"name":"SnapBufferReadXML","path":"scripts/SnapBufferReadXML/SnapBufferReadXML.yy",},},
     {"id":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},},
@@ -340,6 +342,7 @@
     {"id":{"name":"__SnapSystem","path":"scripts/__SnapSystem/__SnapSystem.yy",},},
     {"id":{"name":"__scribble_gen_4_build_words","path":"scripts/__scribble_gen_4_build_words/__scribble_gen_4_build_words.yy",},},
     {"id":{"name":"RaptorLabel","path":"objects/RaptorLabel/RaptorLabel.yy",},},
+    {"id":{"name":"Binding","path":"scripts/Binding/Binding.yy",},},
     {"id":{"name":"rmRace","path":"rooms/rmRace/rmRace.yy",},},
     {"id":{"name":"__CanvasSurfFormat","path":"scripts/__CanvasSurfFormat/__CanvasSurfFormat.yy",},},
     {"id":{"name":"SnapFromYAML","path":"scripts/SnapFromYAML/SnapFromYAML.yy",},},

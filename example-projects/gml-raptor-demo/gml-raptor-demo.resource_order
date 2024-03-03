@@ -87,6 +87,7 @@
     {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
+    {"name":"data_binding","order":15,"path":"folders/_gml_raptor_/UI/data_binding.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"RaptorWindowXButton","order":12,"path":"objects/RaptorWindowXButton/RaptorWindowXButton.yy",},
@@ -268,6 +269,7 @@
     {"name":"Canvas","order":3,"path":"scripts/Canvas/Canvas.yy",},
     {"name":"__scribble_gen_4_build_words","order":4,"path":"scripts/__scribble_gen_4_build_words/__scribble_gen_4_build_words.yy",},
     {"name":"RaptorLabel","order":3,"path":"objects/RaptorLabel/RaptorLabel.yy",},
+    {"name":"Binding","order":1,"path":"scripts/Binding/Binding.yy",},
     {"name":"rmRace","order":1,"path":"rooms/rmRace/rmRace.yy",},
     {"name":"__CanvasSurfFormat","order":6,"path":"scripts/__CanvasSurfFormat/__CanvasSurfFormat.yy",},
     {"name":"SnapFromYAML","order":2,"path":"scripts/SnapFromYAML/SnapFromYAML.yy",},

@@ -55,7 +55,7 @@
     "button_save_enc": "Save encrypted",
     "button_load_enc": "Load encrypted",
     "info": {
-      "about": "You see a blank gml-raptor project here.\nOnly 1 Font, no Button Sprites, this is all default.\nHover over elements, some of them\noffer a tooltip that tells you,\nwhere you can find the code in the project\nfor that specific item.\n\nOh, btw, the font is set as scribble_font_set_default in the Game_Configuration script!",
+      "about": "You see a blank gml-raptor project here.[delay,750]\nOnly 1 Font,[delay,250] no Button Sprites,[delay,250] this is all default.[delay,750]\nHover over elements, [delay,250]some of them\noffer a [c_white]Tooltip[/][delay,250] that tells you,[delay,250]\nwhere you can find the code in the project[delay,250] for that specific item.[delay,750]\n\nOh, btw, the font is set as [delay,250][c_white]scribble_font_set_default[/][delay,250]\nin the [delay,250][c_white]Game_Configuration script[/]![delay,750]\n\nThis text is presented by the [delay,250][c_white]StoryTeller[/] Control!",
       "hotswap": "Click the locale buttons,\nto see LG_hotswap in action",
       "flag": "The animated_flag in action ->",
       "save_loc": "Your Savegames are located at\nC:/Users/<your-user-name>/appdata/local/gml_raptor_demo"

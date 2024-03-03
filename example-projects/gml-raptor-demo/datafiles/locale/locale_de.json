@@ -55,7 +55,7 @@
     "button_save_enc": "Speichern verschl.",
     "button_load_enc": "Laden verschlüsselt",
     "info": {
-      "about": "Du siehst hier ein leeres gml-raptor Projekt.\nNur 1 Font, keine Button Sprites, das ist alles auf default.\nBewege die Maus über die Elemente, einige von ihnen\nhaben einen Tooltip, der dir sagt,\nwo du den Code im Projekt\nfür dieses spezifische Item findest.\n\nAchja, der Font ist im Script Game_Configuration als\nscribble_font_set_default eingetragen!",
+      "about": "Du siehst hier ein leeres gml-raptor Projekt.[delay,750]\nNur 1 Font,[delay,250] keine Button Sprites,[delay,250] das ist alles auf default.[delay,750]\nBewege die Maus über die Elemente,[delay,250] einige von ihnen\nhaben einen [c_white]Tooltip[/][delay,250], der dir sagt,[delay,250]\nwo du den Code im Projekt[delay,250] für dieses spezifische Item findest.[delay,750]\n\nAchja, der Font ist im Script [delay,250][c_white]Game_Configuration[/] als[delay,250]\n[delay,250][c_white]scribble_font_set_default[/][delay,250] eingetragen![delay,750]\n\nDieser Text wird dir freundlich präsentiert[delay,250] von der [c_white]StoryTeller[/] Control!",
       "hotswap": "Klicke die Sprachbuttons,\num LG_hotswap in Aktion zu sehen",
       "flag": "Die animated_flag in Aktion ->",
       "save_loc": "Die Savegame Dateien sind in\nC:/Benutzer/<dein-user-name>/appdata/local/gml_raptor_demo"
