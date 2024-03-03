@@ -187,6 +187,7 @@
     {"id":{"name":"ControlTreeLayout","path":"scripts/ControlTreeLayout/ControlTreeLayout.yy",},},
     {"id":{"name":"SnapNumberToString","path":"scripts/SnapNumberToString/SnapNumberToString.yy",},},
     {"id":{"name":"sprDefaultInputBox","path":"sprites/sprDefaultInputBox/sprDefaultInputBox.yy",},},
+    {"id":{"name":"StoryTeller","path":"objects/StoryTeller/StoryTeller.yy",},},
     {"id":{"name":"GameController","path":"objects/GameController/GameController.yy",},},
     {"id":{"name":"Enemy","path":"objects/Enemy/Enemy.yy",},},
     {"id":{"name":"acBouncyChuck_2","path":"animcurves/acBouncyChuck_2/acBouncyChuck_2.yy",},},
