@@ -3,10 +3,10 @@
 */
 
 // The default colors of raptor3
-#macro CI_GLOBAL_MAIN			#004FC5
-#macro CI_GLOBAL_BRIGHT			#96C3FF
-#macro CI_GLOBAL_DARK			#001699
-#macro CI_GLOBAL_ACCENT			#4992FF
+#macro CI_GLOBAL_MAIN			#4080FF
+#macro CI_GLOBAL_BRIGHT			#60AAFF
+#macro CI_GLOBAL_DARK			#3060DD
+#macro CI_GLOBAL_ACCENT			#8080FF
 
 #macro CI_GLOBAL_WHITE			#FAFAFA
 #macro CI_GLOBAL_BLACK			#070707

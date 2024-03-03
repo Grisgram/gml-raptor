@@ -6,7 +6,7 @@
 
 #macro ENSURE_THEMES			if (!variable_global_exists("__ui_themes")) UI_THEMES = new UiThemeManager();
 #macro UI_THEMES				global.__ui_themes
-#macro UI_ACTIVE_THEME			UI_THEMES.active_theme
+#macro APP_THEME				UI_THEMES.active_theme
 
 #macro __DEFAULT_UI_THEME_NAME	"default"
 

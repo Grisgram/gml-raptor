@@ -6,6 +6,6 @@
   "isDnD": false,
   "parent": {
     "name": "raptormessagebox",
-    "path": "folders/_gml_raptor_/UI/raptormessagebox.yy",
+    "path": "folders/_gml_raptor_/UI/controls/raptormessagebox.yy",
   },
 }

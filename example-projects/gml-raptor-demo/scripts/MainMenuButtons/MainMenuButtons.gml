@@ -62,4 +62,3 @@ function activate_purple_theme() {
 	room_restart();
 }
 
-
