@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "LittleHelpers",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+  "$GMScript":"",
+  "%Name":"LittleHelpers",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"LittleHelpers",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

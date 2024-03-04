@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Snap2DArrayToStructArray",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Grids & 2D Arrays & Tilemaps",
-    "path": "folders/_third_party_packages_/SNAP/Grids & 2D Arrays & Tilemaps.yy",
+  "$GMScript":"",
+  "%Name":"Snap2DArrayToStructArray",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Snap2DArrayToStructArray",
+  "parent":{
+    "name":"Grids & 2D Arrays & Tilemaps",
+    "path":"folders/_third_party_packages_/SNAP/Grids & 2D Arrays & Tilemaps.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

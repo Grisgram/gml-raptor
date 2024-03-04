@@ -1,4 +1,5 @@
 /// @ignore
+/// feather ignore all
 function __CanvasSurfFormat(_value) {
 	static _inst = new (function() constructor {
 		self[$ surface_rgba8unorm] = "surface_rgba8unorm";

@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "AudioHelper",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Audio",
-    "path": "folders/_gml_raptor_/Audio.yy",
+  "$GMScript":"",
+  "%Name":"AudioHelper",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioHelper",
+  "parent":{
+    "name":"Audio",
+    "path":"folders/_gml_raptor_/Audio.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

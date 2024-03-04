@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "MainMenuButtons",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "main",
-    "path": "folders/Rooms/main.yy",
+  "$GMScript":"",
+  "%Name":"MainMenuButtons",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"MainMenuButtons",
+  "parent":{
+    "name":"main",
+    "path":"folders/Rooms/main.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

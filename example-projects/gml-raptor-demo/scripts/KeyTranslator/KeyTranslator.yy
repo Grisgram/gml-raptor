@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "KeyTranslator",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+  "$GMScript":"",
+  "%Name":"KeyTranslator",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"KeyTranslator",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

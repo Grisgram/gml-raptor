@@ -1,10 +1,12 @@
 {
-  "resourceType": "GMShader",
-  "resourceVersion": "1.0",
-  "name": "shd_outline",
-  "parent": {
-    "name": "outline-shader-drawer",
-    "path": "folders/_gml_raptor_packages_/outline-shader-drawer.yy",
+  "$GMShader":"",
+  "%Name":"shd_outline",
+  "name":"shd_outline",
+  "parent":{
+    "name":"outline-shader-drawer",
+    "path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",
   },
-  "type": 1,
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
 }

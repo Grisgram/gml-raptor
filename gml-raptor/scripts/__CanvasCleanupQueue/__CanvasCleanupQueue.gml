@@ -7,6 +7,14 @@ function __CanvasCleanupQueue() {
 			repeat(_size) {
 				var _isCleanedProper = true;
 				var _contents = GCList[| 0];
+				
+				if (!is_struct(_contents)) {
+					var _str = "Due to unforseen issues, Canvas has somehow gotten " + string(_contents) + 
+					" instead of a weak reference.\nPlease ensure that NO DS_LIST in your game is adding to a random number (the id in question: " + string(GCList) + 
+					", which is GCList)\nbefore contacting TabularElf!!!";
+					__CanvasError(_str);
+				}
+				
 				if (surface_exists(_contents.surf)) {
 					surface_free(_contents.surf);	
 					_isCleanedProper = false;

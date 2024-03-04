@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "savegame_load_game",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Savegame",
-    "path": "folders/_gml_raptor_/Savegame.yy",
+  "$GMScript":"",
+  "%Name":"savegame_load_game",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"savegame_load_game",
+  "parent":{
+    "name":"Savegame",
+    "path":"folders/_gml_raptor_/Savegame.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

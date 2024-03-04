@@ -3,6 +3,7 @@
 	
 	Depending on the moment when you invoke this (EndDraw, EndDrawGui, ...) it will hold different content.
 */
+/// feather ignore all
 
 /// @function CanvasGetAppSurf()
 /// @param {Bool} newAppSurf

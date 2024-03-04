@@ -1,10 +1,12 @@
 {
-  "resourceType": "GMShader",
-  "resourceVersion": "1.0",
-  "name": "GrayScaleShader",
-  "parent": {
-    "name": "shaders",
-    "path": "folders/_gml_raptor_/UI/shaders.yy",
+  "$GMShader":"",
+  "%Name":"GrayScaleShader",
+  "name":"GrayScaleShader",
+  "parent":{
+    "name":"shaders",
+    "path":"folders/_gml_raptor_/UI/shaders.yy",
   },
-  "type": 1,
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
 }

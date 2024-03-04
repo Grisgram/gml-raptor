@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "StringTests",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "_unit_tests_",
-    "path": "folders/_gml_raptor_/_unit_tests_.yy",
+  "$GMScript":"",
+  "%Name":"StringTests",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"StringTests",
+  "parent":{
+    "name":"_unit_tests_",
+    "path":"folders/_gml_raptor_/_unit_tests_.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

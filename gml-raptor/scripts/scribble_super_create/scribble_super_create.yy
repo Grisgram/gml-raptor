@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "scribble_super_create",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Superfonts",
-    "path": "folders/_third_party_packages_/Scribble/Superfonts.yy",
+  "$GMScript":"",
+  "%Name":"scribble_super_create",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scribble_super_create",
+  "parent":{
+    "name":"Superfonts",
+    "path":"folders/_third_party_packages_/Scribble/Superfonts.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

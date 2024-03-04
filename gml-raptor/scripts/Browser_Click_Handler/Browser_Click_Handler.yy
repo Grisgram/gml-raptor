@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Browser_Click_Handler",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "__GAME_SETUP_",
-    "path": "folders/__GAME_SETUP_.yy",
+  "$GMScript":"",
+  "%Name":"Browser_Click_Handler",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Browser_Click_Handler",
+  "parent":{
+    "name":"__GAME_SETUP_",
+    "path":"folders/__GAME_SETUP_.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

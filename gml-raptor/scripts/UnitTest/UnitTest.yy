@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "UnitTest",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Tools",
-    "path": "folders/_gml_raptor_/Tools.yy",
+  "$GMScript":"",
+  "%Name":"UnitTest",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"UnitTest",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

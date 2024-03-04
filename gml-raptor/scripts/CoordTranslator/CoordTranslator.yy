@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "CoordTranslator",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "UI",
-    "path": "folders/_gml_raptor_/UI.yy",
+  "$GMScript":"",
+  "%Name":"CoordTranslator",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"CoordTranslator",
+  "parent":{
+    "name":"UI",
+    "path":"folders/_gml_raptor_/UI.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "MsgBox",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "raptormessagebox",
-    "path": "folders/_gml_raptor_/UI/controls/raptormessagebox.yy",
+  "$GMScript":"",
+  "%Name":"MsgBox",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"MsgBox",
+  "parent":{
+    "name":"raptormessagebox",
+    "path":"folders/_gml_raptor_/UI/controls/raptormessagebox.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

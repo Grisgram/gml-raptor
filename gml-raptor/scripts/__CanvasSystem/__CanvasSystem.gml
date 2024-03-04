@@ -1,19 +1,28 @@
 /// @ignore
+/// feather ignore all
 function __CanvasSystem() {
 	static _inst = new (function() constructor {
-		refList = ds_list_create();
-		GCList = ds_list_create();
-		time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, method(self, __CanvasGC), [], -1));
-		time_source_start(time_source_create(time_source_global, 15, time_source_units_frames, method(self, __CanvasCleanupQueue), [], -1));
-		var _version = __CanvasGMVersion();
-		supportsFormats = (_version.major >= 2024) || ((_version.major == 2023) && (_version.minor >= 2));
+		if (__CANVAS_ENABLE_GARBAGE_COLLECTOR) {
+			refList = ds_list_create();
+			GCList = ds_list_create();
+			time_source_start(time_source_create(time_source_global, 1, time_source_units_frames, method(self, __CanvasGC), [], -1));
+			time_source_start(time_source_create(time_source_global, 15, time_source_units_frames, method(self, __CanvasCleanupQueue), [], -1));
+		}
+		
+		supportsFormats = true;
+		
+		try {
+			var _result = surface_rgba8unorm;
+		} catch(_ex) {
+			supportsFormats = false;	
+		}
 	})();
 	
 	return _inst;
 } 
 
 #macro __CANVAS_CREDITS "@TabularElf - https://tabelf.link/"
-#macro __CANVAS_VERSION "v2.1.0"
+#macro __CANVAS_VERSION "v2.1.1"
 #macro __CANVAS_ON_WEB (os_browser != browser_not_a_browser)
 __CanvasTrace(__CANVAS_VERSION + " initalized! Created by " + __CANVAS_CREDITS);
 

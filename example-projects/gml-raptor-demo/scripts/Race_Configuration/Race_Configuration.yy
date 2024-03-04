@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Race_Configuration",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "__GAME_SETUP_",
-    "path": "folders/__GAME_SETUP_.yy",
+  "$GMScript":"",
+  "%Name":"Race_Configuration",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Race_Configuration",
+  "parent":{
+    "name":"__GAME_SETUP_",
+    "path":"folders/__GAME_SETUP_.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "TooltipManager",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "controls",
-    "path": "folders/_gml_raptor_/UI/controls.yy",
+  "$GMScript":"",
+  "%Name":"TooltipManager",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TooltipManager",
+  "parent":{
+    "name":"controls",
+    "path":"folders/_gml_raptor_/UI/controls.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -2,6 +2,8 @@
 if (log_create_destroy)
 	vlog($"{MY_NAME} created.");
 
+binder = new PropertyBinder(self);
+
 #region enabled
 /// @function set_enabled(_enabled)
 /// @description if you set the enabled state through this function, the on_enabled_changed callback

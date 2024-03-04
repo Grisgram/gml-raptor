@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Game_Exception_Handler",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "__GAME_SETUP_",
-    "path": "folders/__GAME_SETUP_.yy",
+  "$GMScript":"",
+  "%Name":"Game_Exception_Handler",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Game_Exception_Handler",
+  "parent":{
+    "name":"__GAME_SETUP_",
+    "path":"folders/__GAME_SETUP_.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

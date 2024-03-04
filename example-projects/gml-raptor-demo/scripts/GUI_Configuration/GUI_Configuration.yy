@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "GUI_Configuration",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "_gml_raptor_",
-    "path": "folders/_gml_raptor_.yy",
+  "$GMScript":"",
+  "%Name":"GUI_Configuration",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"GUI_Configuration",
+  "parent":{
+    "name":"_gml_raptor_",
+    "path":"folders/_gml_raptor_.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }
