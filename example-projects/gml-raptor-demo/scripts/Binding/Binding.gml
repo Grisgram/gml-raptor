@@ -26,26 +26,27 @@ function Binding(
 	
 	BINDINGS.add(self);
 	
-	dlog($"Data binding created: {name_of(target_instance)}.{target_property} is bound to {name_of(source_instance)}.{source_property}");
+	dlog($"Binding created: {name_of(target_instance)}.{target_property} is bound to {name_of(source_instance)}.{source_property}");
 	
 	__new_value = undefined;
 	__old_value = undefined;
 	static update_binding = function() {
 		__new_value = (converter != undefined ? 
-			converter(source_instance[$ source_property]) : 
+			converter(source_instance[$ source_property], source_instance) : 
 			source_instance[$ source_property]);
 			
 		if (__new_value != __old_value) {
-			variable_instance_set(target_instance, target_property, __new_value);
+			target_instance[$ target_property] = __new_value;
 			__old_value = __new_value;
 			if (on_value_changed != undefined)
-				on_value_changed(__new_value, __old_value);
+				with(target_instance)
+					on_value_changed(other.__new_value, other.__old_value);
 		}
 	}
 
 	static unbind = function() {
 		BINDINGS.remove(self);
-		dlog($"Data binding removed: {name_of(target_instance)}.{target_property} from {name_of(source_instance)}.{source_property}");
+		dlog($"Binding removed: {name_of(target_instance)}.{target_property} from {name_of(source_instance)}.{source_property}");
 	}
 
 }

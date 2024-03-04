@@ -25,7 +25,8 @@ function PropertyBinder(_myself = undefined) constructor {
 		var bnd = new Binding(
 			myself, _my_property, 
 			_source_instance, _source_property, 
-			_converter);
+			_converter,
+			_on_value_changed);
 			
 		__bindings[$ bnd.key] = bnd;
 	}
