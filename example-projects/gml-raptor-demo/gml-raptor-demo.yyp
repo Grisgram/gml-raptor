@@ -49,6 +49,8 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"messagebox","folderPath":"folders/_gml_raptor_ui_/messagebox.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"themes","folderPath":"folders/_gml_raptor_ui_/themes.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"_third_party_packages_","folderPath":"folders/_third_party_packages_.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Canvas","folderPath":"folders/_third_party_packages_/Canvas.yy",},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"System","folderPath":"folders/_third_party_packages_/Canvas/System.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Scribble","folderPath":"folders/_third_party_packages_/Scribble.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"(System - don't call these functions)","folderPath":"folders/_third_party_packages_/Scribble/(System - don't call these functions).yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Classes","folderPath":"folders/_third_party_packages_/Scribble/(System - don't call these functions)/Classes.yy",},
@@ -107,8 +109,6 @@
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"ui-demo","folderPath":"folders/Sprites/ui-demo.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Tile Sets","folderPath":"folders/Tile Sets.yy",},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Timelines","folderPath":"folders/Timelines.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Canvas","folderPath":"folders/_third_party_packages_/Canvas.yy",},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"System","folderPath":"folders/_third_party_packages_/Canvas/System.yy",},
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"gml_raptor_demo_3.0_game_settings.gsx","ConfigValues":{"release":{"CopyToMask":"3035426170322551022",},},"CopyToMask":-1,"filePath":"datafiles",},

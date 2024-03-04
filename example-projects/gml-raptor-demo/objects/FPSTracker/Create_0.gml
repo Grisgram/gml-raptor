@@ -2,7 +2,7 @@
 
 // Inherit the parent event
 event_inherited();
-binder.bind("x", flying_chuck, "x");
+
 total_frames = 0;
 total_time = 0;
 

@@ -44,6 +44,7 @@
     {"name":"inst_59093BC8","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_5E22FFE4","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_345764F6","path":"rooms/rmMain/rmMain.yy",},
+    {"name":"inst_50F4F9D4","path":"rooms/rmMain/rmMain.yy",},
   ],
   "isDnd": false,
   "layers": [
@@ -236,6 +237,7 @@
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"StoryTeller","path":"objects/StoryTeller/StoryTeller.yy",},"propertyId":{"name":"chars_per_frame","path":"objects/StoryTeller/StoryTeller.yy",},"value":"0.5",},
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"StoryTeller","path":"objects/StoryTeller/StoryTeller.yy",},"propertyId":{"name":"activation_delay","path":"objects/StoryTeller/StoryTeller.yy",},"value":"60",},
           ],"rotation":0.0,"scaleX":16.5,"scaleY":9.5,"x":1152.0,"y":624.0,},
+        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_50F4F9D4","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"Player","path":"objects/Player/Player.yy",},"properties":[],"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1392.0,"y":640.0,},
       ],"layers":[],"properties":[],"userdefinedDepth":false,"visible":true,},
     {"resourceType":"GMREffectLayer","resourceVersion":"1.0","name":"bg_gradient","depth":800,"effectEnabled":true,"effectType":"_filter_gradient","gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"properties":[
         {"name":"g_GradientColour1","type":1,"value":"#FF808080",},

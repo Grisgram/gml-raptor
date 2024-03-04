@@ -30,6 +30,8 @@
     {"name":"messagebox","order":12,"path":"folders/_gml_raptor_ui_/messagebox.yy",},
     {"name":"themes","order":16,"path":"folders/_gml_raptor_ui_/themes.yy",},
     {"name":"_third_party_packages_","order":14,"path":"folders/_third_party_packages_.yy",},
+    {"name":"Canvas","order":2,"path":"folders/_third_party_packages_/Canvas.yy",},
+    {"name":"System","order":1,"path":"folders/_third_party_packages_/Canvas/System.yy",},
     {"name":"(System - don't call these functions)","order":1,"path":"folders/_third_party_packages_/Scribble/(System - don't call these functions).yy",},
     {"name":"Classes","order":1,"path":"folders/_third_party_packages_/Scribble/(System - don't call these functions)/Classes.yy",},
     {"name":"Deprecated","order":2,"path":"folders/_third_party_packages_/Scribble/(System - don't call these functions)/Deprecated.yy",},
@@ -86,8 +88,6 @@
     {"name":"ui-demo","order":4,"path":"folders/Sprites/ui-demo.yy",},
     {"name":"Tile Sets","order":1,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":7,"path":"folders/Timelines.yy",},
-    {"name":"Canvas","order":2,"path":"folders/_third_party_packages_/Canvas.yy",},
-    {"name":"System","order":1,"path":"folders/_third_party_packages_/Canvas/System.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"RaptorWindowXButton","order":12,"path":"objects/RaptorWindowXButton/RaptorWindowXButton.yy",},
