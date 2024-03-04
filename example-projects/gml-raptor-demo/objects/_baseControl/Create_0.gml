@@ -11,6 +11,7 @@ event_inherited();
 // undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
 vigetx(self, "__raptor_debug_frame_color", c_green);
 
+binder = new PropertyBinder(self);
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
 __mouse_text_scale = 1.0;

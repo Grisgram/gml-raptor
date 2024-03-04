@@ -10,11 +10,32 @@
 	- StringToNumberConverter (returns real numbers)
 */
 
-function PropertyBinder() constructor {
+#macro BINDINGS	global.__BINDINGS
+BINDINGS		= new ListPool("BINDINGS");
+
+function PropertyBinder(_myself = undefined) constructor {
 	construct("PropertyBinder");
 	
 	__bindings = {};
 	
-	static bind = function(_my_value, _to, _converter = undefined) {
+	myself = _myself;
+	
+	/// @function bind(_my_property, _source_instance, _source_property, _converter = undefined)
+	static bind = function(_my_property, _source_instance, _source_property, _converter = undefined) {
+		var bnd = new Binding(
+			myself, _my_property, 
+			_source_instance, _source_property, 
+			_converter);
+			
+		__bindings[$ bnd.key] = bnd;
+	}
+	
+	static unbind = function(_my_property) {
+		var key = $"{name_of(myself)}.{_my_property}";
+		var bnd = vsget(__bindings, key);
+		if (bnd != undefined) {
+			with(bnd) unbind();
+			variable_struct_remove(__bindings, key);
+		}
 	}
 }

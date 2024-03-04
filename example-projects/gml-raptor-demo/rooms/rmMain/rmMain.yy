@@ -28,7 +28,7 @@
     {"name":"mainRoomController","path":"rooms/rmMain/rmMain.yy",},
     {"name":"profile_data_saveable","path":"rooms/rmMain/rmMain.yy",},
     {"name":"playGroundButton","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"inst_32975A37","path":"rooms/rmMain/rmMain.yy",},
+    {"name":"flying_chuck","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_6D94F823","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_11724BAE","path":"rooms/rmMain/rmMain.yy",},
     {"name":"steamBurster","path":"rooms/rmMain/rmMain.yy",},
@@ -164,7 +164,7 @@
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControlWithTooltip","path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",},"propertyId":{"name":"tooltip_text","path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",},"value":"=main_menu/tooltips/playground_button",},
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"value":"False",},
           ],"rotation":0.0,"scaleX":10.0,"scaleY":2.0,"x":1568.0,"y":976.0,},
-        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_32975A37","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"BouncyChuck","path":"objects/BouncyChuck/BouncyChuck.yy",},"properties":[],"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1392.0,"y":288.0,},
+        {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"flying_chuck","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"BouncyChuck","path":"objects/BouncyChuck/BouncyChuck.yy",},"properties":[],"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1392.0,"y":288.0,},
         {"resourceType":"GMRInstance","resourceVersion":"1.0","name":"inst_6D94F823","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"objectId":{"name":"ParticleEmitter","path":"objects/ParticleEmitter/ParticleEmitter.yy",},"properties":[
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"ParticleEmitter","path":"objects/ParticleEmitter/ParticleEmitter.yy",},"propertyId":{"name":"stream_on_create","path":"objects/ParticleEmitter/ParticleEmitter.yy",},"value":"True",},
             {"resourceType":"GMOverriddenProperty","resourceVersion":"1.0","name":"","objectId":{"name":"ParticleEmitter","path":"objects/ParticleEmitter/ParticleEmitter.yy",},"propertyId":{"name":"emitter_name","path":"objects/ParticleEmitter/ParticleEmitter.yy",},"value":"\"emSmoke\"",},

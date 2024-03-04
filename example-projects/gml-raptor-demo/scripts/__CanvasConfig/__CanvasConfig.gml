@@ -10,3 +10,9 @@
 	2: Forces surface depth disable to be true
 */
 #macro __CANVAS_SURFACE_DEPTH_MODE 0
+
+/* 
+	Whether to enable the garbage collector or not.
+*/
+
+#macro __CANVAS_ENABLE_GARBAGE_COLLECTOR true

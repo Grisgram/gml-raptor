@@ -17,6 +17,7 @@ function Canvas(_width, _height, _forceInit = false, _format = undefined) constr
 		__status = CanvasStatus.NO_DATA;
 		__writeToCache = __CANVAS_AUTO_WRITE_TO_CACHE;
 		__index = -1;
+		__isAppSurf = false;
 		
 		switch(__CANVAS_SURFACE_DEPTH_MODE) {
 			case 0: __depthDisabled = surface_get_depth_disable(); break;	
@@ -30,11 +31,13 @@ function Canvas(_width, _height, _forceInit = false, _format = undefined) constr
 			cbuff: __cacheBuffer,
 			surf: __surface
 		}
-		__isAppSurf = false;
-		
-		var _weakRef = weak_ref_create(self);
-		
-		ds_list_add(__sys.refList, [_weakRef, __refContents]);
+	
+			
+		if (__CANVAS_ENABLE_GARBAGE_COLLECTOR) {
+			var _weakRef = weak_ref_create(self);
+			
+			ds_list_add(__sys.refList, [_weakRef, __refContents]);
+		}
 		
 		__UpdateFormat(_format);
 		if (_forceInit) {
