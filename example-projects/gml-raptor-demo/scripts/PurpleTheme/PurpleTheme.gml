@@ -2,7 +2,7 @@
     Raptor Demo red theme (live switch)
 */
 
-function UiPurpleTheme() : UiTheme("purple") constructor {
+function PurpleTheme() : UiTheme("purple") constructor {
 
 	main	= #4F00C5;
 	bright	= #C396FF;

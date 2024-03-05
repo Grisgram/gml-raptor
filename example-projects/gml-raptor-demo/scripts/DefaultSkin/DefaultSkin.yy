@@ -1,12 +1,12 @@
 {
   "$GMScript":"",
-  "%Name":"UiPurpleTheme",
+  "%Name":"DefaultSkin",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"UiPurpleTheme",
+  "name":"DefaultSkin",
   "parent":{
-    "name":"main",
-    "path":"folders/Rooms/main.yy",
+    "name":"skins",
+    "path":"folders/_gml_raptor_ui_/skins.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

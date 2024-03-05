@@ -6,12 +6,12 @@
 	by invoking "UI_THEMES.add_theme(new YourTheme());"
 	
 	D O   N O T   D E L E T E   T H I S   T H E M E !
-	It is set/added to the UiThemeManager in the raptor core when the app starts.
+	It is set/added to the UiThemeManager in the raptor core when the game starts.
 	You may adapt the color values in here at will, or simply derive your own theme and just use
 	this file as a template. Whatever you do, just do not delete this one here!
 */
 
-function UiDefaultTheme() : UiTheme("default") constructor {
+function DefaultTheme(_name = "default") : UiTheme(_name) constructor {
 
 	main	= CI_GLOBAL_MAIN;
 	bright	= CI_GLOBAL_BRIGHT;

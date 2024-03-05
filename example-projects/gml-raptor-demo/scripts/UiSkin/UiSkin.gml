@@ -14,22 +14,27 @@ function UiSkin(_name = "default") constructor {
 	
 	control_skins = ds_map_create();
 		
-	control_skins[$ "CheckBox"]				= sprDefaultCheckbox;
-	control_skins[$ "ImageButton"]			= sprDefaultButton;
-	control_skins[$ "InputBox"]				= sprDefaultInputBox;
-	control_skins[$ "Label"]				= sprDefaultLabel;
-	control_skins[$ "MouseCursor"]			= sprDefaultMouseCursor;
-	control_skins[$ "MouseCursor_Sizing"]	= sprDefaultMouseCursorSizing;
-	control_skins[$ "MouseCursorCompanion"]	= spr1pxTrans;
-	control_skins[$ "Panel"]				= spr1pxTrans;
-	control_skins[$ "RadioButton"]			= sprDefaultRadioButton;
-	control_skins[$ "Slider_Rail"]			= sprDefaultSliderRail;
-	control_skins[$ "Slider_Knob"]			= sprDefaultSliderKnob;
-	control_skins[$ "TextButton"]			= sprDefaultButton;
-	control_skins[$ "Tooltip"]				= sprDefaultTooltip;
-	control_skins[$ "Window"]				= sprDefaultWindow;
-	control_skins[$ "WindowXButton"]		= sprDefaultXButton;
-	control_skins[$ "MessageBoxWindow"]		= sprDefaultWindow;
-	control_skins[$ "MessageBoxXButton"]	= sprDefaultXButton;
-//object_set_sprite
+	control_skins[? "CheckBox"]				= sprDefaultCheckbox;
+	control_skins[? "ImageButton"]			= sprDefaultButton;
+	control_skins[? "InputBox"]				= sprDefaultInputBox;
+	control_skins[? "Label"]				= sprDefaultLabel;
+	control_skins[? "MouseCursor"]			= sprDefaultMouseCursor;
+	control_skins[? "MouseCursor_Sizing"]	= sprDefaultMouseCursorSizing;
+	control_skins[? "MouseCursorCompanion"]	= spr1pxTrans;
+	control_skins[? "Panel"]				= spr1pxTrans;
+	control_skins[? "RadioButton"]			= sprDefaultRadioButton;
+	control_skins[? "Slider_Rail"]			= sprDefaultSliderRail;
+	control_skins[? "Slider_Knob"]			= sprDefaultSliderKnob;
+	control_skins[? "TextButton"]			= sprDefaultButton;
+	control_skins[? "Tooltip"]				= sprDefaultTooltip;
+	control_skins[? "Window"]				= sprDefaultWindow;
+	control_skins[? "WindowXButton"]		= sprDefaultXButton;
+	control_skins[? "MessageBoxWindow"]		= sprDefaultWindow;
+	control_skins[? "MessageBoxXButton"]	= sprDefaultXButton;
+	
+	/// @function delete_map()
+	static delete_map = function() {
+		ds_map_destroy(control_skins);
+	}
+
 }

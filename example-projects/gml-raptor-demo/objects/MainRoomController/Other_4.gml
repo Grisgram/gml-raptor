@@ -7,4 +7,5 @@ copyrightLabelInfo.x += scribble_measure_text(copyrightLabel.text).x - 16;
 
 if (IS_HTML) instance_destroy(exitButton);
 
-UI_THEMES.add_theme(new UiPurpleTheme());
+UI_THEMES.add_theme(new PurpleTheme());
+UI_SKINS.add_skin(new WoodSkin());

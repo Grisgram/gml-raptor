@@ -83,4 +83,4 @@ function UiThemeManager() constructor {
 
 ENSURE_LOGGER;
 ENSURE_THEMES;
-UI_THEMES.add_theme(new UiDefaultTheme(), true);
+UI_THEMES.add_theme(new DefaultTheme(), true);

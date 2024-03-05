@@ -80,7 +80,7 @@ function is_mouse_over(_instance, _is_gui = false) {
 ///					It also takes care about the alignment and scaling by default
 ///					but this behavior can be turned off through the parameters.
 /// @param {instance} on_object			The object to have the sprite changed
-/// @param {sprite asset} replace_with	The asset to set as the sprite
+/// @param {sprite_asset} replace_with	The asset to set as the sprite
 /// @param {bool=true}	keep_size		if true, image scale will be calculated so the object has
 ///										has the same size as it had with the previous sprite
 /// @param {bool=true}	keep_location	if true, x/y will be calculated based on the new sprite's
