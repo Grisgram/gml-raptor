@@ -7,6 +7,9 @@ RAPTOR_LOGGER = new RaptorLogger();
 
 #macro ENSURE_LOGGER	if (!variable_global_exists("__raptor_logger"))	global.__raptor_logger = new RaptorLogger();
 
+#macro __LOG_GAME_INIT_START	$"[--- RAPTOR INIT STARTING ---]"
+#macro __LOG_GAME_INIT_FINISH	$"[--- RAPTOR INIT FINISHED ---]"
+
 #macro vlog				RAPTOR_LOGGER.log_verbose
 #macro dlog				RAPTOR_LOGGER.log_debug
 #macro ilog				RAPTOR_LOGGER.log_info
@@ -24,7 +27,7 @@ function RaptorLogger() constructor {
 	}
 	
 	static get_log_buffer = function(_as_single_string = true) {
-		var buf = __formatter.__buffer.snapshot();
+		var buf = __formatter.get_buffer_snapshot();
 		if (_as_single_string) {
 			var rv = "";
 			for (var i = 0, len = array_length(buf); i < len; i++) 
@@ -68,6 +71,8 @@ function RaptorLogger() constructor {
 	// to print the game version to the log, which shall not be marked as fatal error.
 	static log_master = function(_message) {
 		__formatter.write_log(6, _message);
+		if (_message == __LOG_GAME_INIT_FINISH)
+			__formatter.activate_live_buffer();
 	}
 
 }

@@ -23,7 +23,7 @@ if (!debug_mode)
 RAPTOR_LOGGER.set_formatter(new LOG_FORMATTER());
 
 // Look for version file
-mlog($"Starting up...");
+mlog(__LOG_GAME_INIT_START);
 if (file_exists(working_directory + "version.json")) {
 	var verinfo = file_read_struct_plain("version.json");
 	GAME_VERSION_STRING = verinfo.version;
@@ -56,6 +56,7 @@ if (USE_CRASHDUMP_HANDLER) {
 }
 
 load_settings();
+mlog(__LOG_GAME_INIT_FINISH);
 ilog($"Invoking onGameStart()");
 onGameStart();
 
