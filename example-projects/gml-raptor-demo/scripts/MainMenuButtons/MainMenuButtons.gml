@@ -53,14 +53,20 @@ function load_encrypted() {
 }
 
 function activate_blue_theme() {
-	//UI_THEMES.activate_theme("default");
-	UI_SKINS.activate_skin("default");
-	//room_restart();
+	UI_THEMES.activate_theme("default");
+	room_restart();
 }
 
 function activate_purple_theme() {
-	//UI_THEMES.activate_theme("purple");
+	UI_THEMES.activate_theme("purple");
+	room_restart();
+}
+
+function activate_default_skin() {
+	UI_SKINS.activate_skin("default");
+}
+
+function activate_wood_skin() {
 	UI_SKINS.activate_skin("wood");
-	//room_restart();
 }
 

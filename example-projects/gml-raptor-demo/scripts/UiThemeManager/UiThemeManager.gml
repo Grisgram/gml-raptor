@@ -25,10 +25,19 @@ function UiThemeManager() constructor {
 	
 	/// @function add_theme(_theme, _activate_now = false)
 	static add_theme = function(_theme, _activate_now = false) {
+		var was_active = ((active_theme != undefined) && (active_theme.name == _theme.name));
 		_themes[$ _theme.name] = _theme;
-		ilog($"UiThemeManager registered theme '{_theme.name}'");
-		if (_activate_now)
+		ilog($"UiThemeManager registered theme '{_theme.name}' {_activate_now} {was_active}");
+		if (_activate_now || was_active)
 			activate_theme(_theme.name);
+	}
+	
+	/// @function refresh_theme()
+	/// @description Invoked from RoomController in RoomStart event to transport the
+	///				 active theme from room to room
+	static refresh_theme = function() {
+		if (active_theme != undefined)
+			activate_theme(active_theme.name);
 	}
 	
 	/// @function activate_theme(_theme_name)

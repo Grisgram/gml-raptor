@@ -27,10 +27,19 @@ function UiSkinManager() constructor {
 	
 	/// @function add_skin(_skin, _activate_now = false)
 	static add_skin = function(_skin, _activate_now = false) {
+		var was_active = ((active_skin != undefined) && (active_skin.name == _skin.name));
 		_skins[$ _skin.name] = _skin;
-		ilog($"UiSkinManager registered skin '{_skin.name}'");
-		if (_activate_now)
+		ilog($"UiSkinManager registered skin '{_skin.name}' {_activate_now} {was_active}");
+		if (_activate_now || was_active)
 			activate_skin(_skin.name);
+	}
+	
+	/// @function refresh_skin()
+	/// @description Invoked from RoomController in RoomStart event to transport the
+	///				 active skin from room to room
+	static refresh_skin = function() {
+		if (active_skin != undefined)
+			activate_skin(active_skin.name);
 	}
 	
 	/// @function activate_skin(_skin_name)
@@ -76,4 +85,5 @@ function UiSkinManager() constructor {
 }
 
 ENSURE_LOGGER;
+ENSURE_THEMES;
 ENSURE_SKINS;

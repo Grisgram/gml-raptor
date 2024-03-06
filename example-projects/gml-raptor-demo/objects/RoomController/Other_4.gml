@@ -1,5 +1,8 @@
 /// @description default audio
 
+UI_THEMES.refresh_theme();
+UI_SKINS.refresh_skin();
+
 play_music(get_default_music_for_room());
 play_ambience(get_default_ambience_for_room());
 

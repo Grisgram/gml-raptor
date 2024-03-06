@@ -12,6 +12,7 @@
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"16",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"16",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorImageButton","path":"objects/RaptorImageButton/RaptorImageButton.yy",},"propertyId":{"name":"sprite_to_use","path":"objects/RaptorImageButton/RaptorImageButton.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultXButton",},
   ],
   "parent":{
     "name":"controls",

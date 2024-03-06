@@ -51,8 +51,8 @@ function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 												mouse_cursor_sprite: sprDefaultMouseCursor,
  												mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
  											  }
-	control_skins[? "MouseCursorCompanion"]	= { sprite_index: spr1pxTrans					}
-	control_skins[? "Panel"]				= { sprite_index: spr1pxTrans					}
+	control_skins[? "MouseCursorCompanion"]	= { sprite_index: spr1pxTrans }
+	control_skins[? "Panel"]				= { sprite_index: spr1pxTrans }
 	control_skins[? "RadioButton"]			= text_control(sprDefaultRadioButton);
 	control_skins[? "Slider"]				= { 
 												sprite_index: sprDefaultSliderRail,
@@ -62,9 +62,10 @@ function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 	control_skins[? "TextButton"]			= text_control(sprDefaultButton);
 	control_skins[? "Tooltip"]				= text_control(sprDefaultTooltip);
 	control_skins[? "Window"]				= window_def(WindowXButton);
-	control_skins[? "WindowXButton"]		= { sprite_index: sprDefaultXButton				}
 	control_skins[? "MessageBoxWindow"]		= window_def(MessageBoxXButton);
-	control_skins[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton				}
+	
+	control_skins[? "WindowXButton"]		= { sprite_index: sprDefaultXButton }
+	control_skins[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton }
 
 }
 

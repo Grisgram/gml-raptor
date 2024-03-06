@@ -35,12 +35,13 @@ function WoodSkin(_name = "wood") : DefaultSkin(_name) constructor {
 			sprite_index: spr,
 			text_color: APP_THEME_WHITE,
 			text_color_mouse_over: APP_THEME_WHITE,
+			animated_text_color: APP_THEME_WHITE
 		};
 	}
 
 	control_skins[? "Label"]				= text_control(sprWoodLabel);
 	control_skins[? "TextButton"]			= text_control(sprWoodButton);
-	control_skins[? "Tooltip"]				= { sprite_index: sprWoodTooltip	}
+	control_skins[? "Tooltip"]				= { sprite_index: sprWoodTooltip }
 	control_skins[? "Window"]				= window_def;
 	control_skins[? "MessageBoxWindow"]		= window_def;
 	control_skins[? "DemoAlignmentWindow"]	= window_def;

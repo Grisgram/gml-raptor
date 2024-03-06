@@ -36,13 +36,13 @@ function UiSkin(_name = "default") constructor {
 	control_skins[? "Tooltip"]				= { sprite_index: sprDefaultTooltip				}
 	control_skins[? "Window"]				= { 
 												sprite_index: sprDefaultWindow,
-												window_x_button_object: sprDefaultXButton,
+												window_x_button_object: WindowXButton,
 												titlebar_height: 34
 											  }
 	control_skins[? "WindowXButton"]		= { sprite_index: sprDefaultXButton				}
 	control_skins[? "MessageBoxWindow"]		= { 
 												sprite_index: sprDefaultWindow,
-												window_x_button_object: sprDefaultXButton,
+												window_x_button_object: MessageBoxXButton,
 												titlebar_height: 34
 											  }
 	control_skins[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton				}

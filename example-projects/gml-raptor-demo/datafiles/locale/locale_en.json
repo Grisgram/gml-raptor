@@ -75,13 +75,15 @@
       "inputbox": "Enter some text and test the UX:\n[ci_accent]Cursor keys[/], [ci_accent]Shift+Cursor[/]\n[ci_accent]Home, End[/] (with and without Shift)\n[ci_accent]Mouse-Click[/], [ci_accent]Mouse-Drag[/] to select,\n[ci_accent]Ctrl-C, Ctrl-X, Ctrl-V[/] etc\n\nThe InputBox offers quite some comfort!",
       "playground_button": "Grisgram's domain.\nIn this room I test some features of raptor.\nIt's not translated, no user guidance, it's... my playground!",
       "animation": "You see here an animation that is done with a single line of code,\nbased on AnimCurves.\nThe particle emitters are codeless and are done with the\nParticleEditor tool (see [ci_accent]raptor wiki[/] for more information)",
-      "ui_theme": "A [ci_accent]THEME[/] is a pre-defined set of colors and can be swapped any time!\nSee the [ci_accent]APP_THEMING[/] page in the wiki!"
+      "ui_theme": "A [ci_accent]THEME[/] is a pre-defined set of colors and can be swapped any time!\nSee the [ci_accent]UI Themes[/] page in the wiki!",
+      "ui_skin": "A [ci_accent]SKIN[/] is a set of sprites and values that changes, how your UI looks.\nCan be swapped any time, even without restarting the room!\nSee the [ci_accent]UI Themes[/] page in the wiki!"
     },
     "start_playground": "[scale,1.25]Dev Playground",
     "start_uidemo": "[scale,1.25]Start UI Demo",
     "version_label_string": "[c_yellow]<- This is the GameVersionLabel control[/]",
     "copyright_label_string": "[c_yellow]<- This is the CopyrightLabel control[/]",
-    "label_choose_theme": "Choose the UI_THEME with these buttons.\nBlue is raptor's default."
+    "label_choose_theme": "Choose the UI_THEME with these buttons.\nBlue is raptor's default.",
+    "label_choose_skin": "Choose the UI_SKIN with these buttons.\nThe left one is raptor's default."
   },
   "play": {
     "how_to_play_states": {

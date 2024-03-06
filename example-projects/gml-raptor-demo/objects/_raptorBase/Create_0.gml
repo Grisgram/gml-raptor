@@ -5,7 +5,8 @@ if (log_create_destroy)
 binder = new PropertyBinder(self);
 
 #region skin
-APP_SKIN.apply_skin(self);
+APP_SKIN.apply_skin(self); // apply sprites NOW...
+run_delayed(self, 0, function() { APP_SKIN.apply_skin(self); }); //... and the full skin after all create code is done
 
 /// @function integrate_skin_data(_skindata)
 /// @description Copy all values EXCEPT SPRITE_INDEX to self
@@ -13,8 +14,12 @@ APP_SKIN.apply_skin(self);
 integrate_skin_data = function(_skindata) {
 	if (!skinable) return;
 	struct_foreach(_skindata, function(name, value) {
-		if (name != "sprite_index") 
-			self[$ name] = value;
+		if (name != "sprite_index") {
+			if (is_method(value))
+				self[$ name] = method(self, value);
+			else
+				self[$ name] = value;
+		}
 	});
 	if (vsget(_skindata, "sprite_index") != undefined && sprite_index != -1)
 		replace_sprite(_skindata.sprite_index);
