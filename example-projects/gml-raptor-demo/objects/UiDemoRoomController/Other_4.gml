@@ -11,8 +11,8 @@ var _info_label = {
 
 __button = function(_text, _click, _hk = "") {
 	return {
-		image_xscale: 10,
-		image_yscale: 2,
+		startup_width: 320,
+		startup_height: 64,
 		text: _text,
 		on_left_click: _click,
 		hotkey_left_click: _hk

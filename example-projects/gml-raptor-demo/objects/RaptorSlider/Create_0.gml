@@ -39,8 +39,6 @@ else {
 
 event_inherited();
 
-//replace_sprite(self, rail_sprite);
-
 value_percent			= 0;
 
 __knob_dims				= new SpriteDim(knob_sprite);
@@ -51,6 +49,13 @@ __knob_grabbed			= false;
 __initial_value_set		= false;
 __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
+
+on_skin_changed = function(_skindata) {
+	if (!skinable) return;
+	integrate_skin_data(_skindata);
+	__knob_dims = new SpriteDim(knob_sprite);
+	update_startup_coordinates();
+}
 
 /// @function check_mouse_over_knob()
 check_mouse_over_knob = function() {

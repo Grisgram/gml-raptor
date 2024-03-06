@@ -22,11 +22,31 @@
 
 function WoodSkin(_name = "wood") : DefaultSkin(_name) constructor {
 
-	control_skins[? "Label"]				= sprWoodLabel;
-	control_skins[? "TextButton"]			= sprWoodButton;
-	control_skins[? "Tooltip"]				= sprWoodTooltip;
-	control_skins[? "Window"]				= sprWoodWindow;
-	control_skins[? "MessageBoxWindow"]		= sprWoodWindow;
+	var window_def = { 
+		sprite_index: sprWoodWindow,
+		draw_color: APP_THEME_WHITE,
+		draw_color_mouse_over: APP_THEME_WHITE,
+		focus_border_color: APP_THEME_WHITE,
+		titlebar_height: 38
+	}
+
+	var text_control = function(spr) {
+		return {
+			sprite_index: spr,
+			text_color: APP_THEME_WHITE,
+			text_color_mouse_over: APP_THEME_WHITE,
+		};
+	}
+
+	control_skins[? "Label"]				= text_control(sprWoodLabel);
+	control_skins[? "TextButton"]			= text_control(sprWoodButton);
+	control_skins[? "Tooltip"]				= { sprite_index: sprWoodTooltip	}
+	control_skins[? "Window"]				= window_def;
+	control_skins[? "MessageBoxWindow"]		= window_def;
+	control_skins[? "DemoAlignmentWindow"]	= window_def;
+	control_skins[? "DemoAnchoringWindow"]	= window_def;
+	control_skins[? "DemoDockingWindow"]	= window_def;
+	control_skins[? "DemoLoginWindow"]		= window_def;
 
 }
 

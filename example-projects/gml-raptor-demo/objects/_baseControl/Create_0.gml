@@ -238,11 +238,15 @@ __mouse_enter_topmost_control = function() {
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
-/// @function update_skin()
-/// @description	Override this if you need to assign multiple sprites
-///					when the ui skin changes
-update_skin = function() {
-	sprite_index = APP_SKIN.control_skins[? object_get_name(object_index)];
+/// @function on_skin_changed(_skindata)
+/// @description	Invoked, when the skin changed
+on_skin_changed = function(_skindata) {
+	if (!skinable) return;
+	integrate_skin_data(_skindata);
+	animated_text_color = text_color;
+	animated_draw_color = draw_color;
+	update_startup_coordinates();
+	force_redraw();
 }
 
 /// @function					force_redraw(_redraw_all = true)

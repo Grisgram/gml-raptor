@@ -21,24 +21,50 @@
 */
 
 function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
+	var window_def = function(xbutton) { 
+		return {
+			sprite_index: sprDefaultWindow,
+			draw_color: APP_THEME_WHITE,
+			draw_color_mouse_over: APP_THEME_WHITE,
+			focus_border_color: APP_THEME_MAIN,
+			window_x_button_object: xbutton,
+			titlebar_height: 34
+		};
+	}
 
-	control_skins[? "CheckBox"]				= sprDefaultCheckbox;
-	control_skins[? "ImageButton"]			= sprDefaultButton;
-	control_skins[? "InputBox"]				= sprDefaultInputBox;
-	control_skins[? "Label"]				= sprDefaultLabel;
-	control_skins[? "MouseCursor"]			= sprDefaultMouseCursor;
-	control_skins[? "MouseCursor_Sizing"]	= sprDefaultMouseCursorSizing;
-	control_skins[? "MouseCursorCompanion"]	= spr1pxTrans;
-	control_skins[? "Panel"]				= spr1pxTrans;
-	control_skins[? "RadioButton"]			= sprDefaultRadioButton;
-	control_skins[? "Slider_Rail"]			= sprDefaultSliderRail;
-	control_skins[? "Slider_Knob"]			= sprDefaultSliderKnob;
-	control_skins[? "TextButton"]			= sprDefaultButton;
-	control_skins[? "Tooltip"]				= sprDefaultTooltip;
-	control_skins[? "Window"]				= sprDefaultWindow;
-	control_skins[? "WindowXButton"]		= sprDefaultXButton;
-	control_skins[? "MessageBoxWindow"]		= sprDefaultWindow;
-	control_skins[? "MessageBoxXButton"]	= sprDefaultXButton;
+	var text_control = function(spr) {
+		return {
+			sprite_index: spr,
+			text_color: APP_THEME_MAIN,
+			text_color_mouse_over: APP_THEME_MAIN,
+			draw_color: APP_THEME_WHITE,
+			draw_color_mouse_over: APP_THEME_WHITE,
+		};
+	}
+
+	control_skins[? "CheckBox"]				= text_control(sprDefaultCheckbox);
+	control_skins[? "ImageButton"]			= { sprite_to_use: sprDefaultButton				}
+	control_skins[? "InputBox"]				= text_control(sprDefaultInputBox);
+	control_skins[? "Label"]				= text_control(sprDefaultLabel);
+	control_skins[? "MouseCursor"]			= { 
+ 												sprite_index: sprDefaultMouseCursor,
+												mouse_cursor_sprite: sprDefaultMouseCursor,
+ 												mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
+ 											  }
+	control_skins[? "MouseCursorCompanion"]	= { sprite_index: spr1pxTrans					}
+	control_skins[? "Panel"]				= { sprite_index: spr1pxTrans					}
+	control_skins[? "RadioButton"]			= text_control(sprDefaultRadioButton);
+	control_skins[? "Slider"]				= { 
+												sprite_index: sprDefaultSliderRail,
+												rail_sprite: sprDefaultSliderRail,
+												knob_sprite: sprDefaultSliderKnob
+											  }
+	control_skins[? "TextButton"]			= text_control(sprDefaultButton);
+	control_skins[? "Tooltip"]				= text_control(sprDefaultTooltip);
+	control_skins[? "Window"]				= window_def(WindowXButton);
+	control_skins[? "WindowXButton"]		= { sprite_index: sprDefaultXButton				}
+	control_skins[? "MessageBoxWindow"]		= window_def(MessageBoxXButton);
+	control_skins[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton				}
 
 }
 

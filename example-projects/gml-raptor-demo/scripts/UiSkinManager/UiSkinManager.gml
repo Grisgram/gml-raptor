@@ -8,7 +8,10 @@
 	
 */
 
-#macro ENSURE_SKINS			if (!variable_global_exists("__ui_skins")) UI_SKINS = new UiSkinManager();
+#macro ENSURE_SKINS			if (!variable_global_exists("__ui_skins")) UI_SKINS = new UiSkinManager(); \
+							if (UI_SKINS.get_skin(__DEFAULT_UI_SKIN_NAME) == undefined) \
+								UI_SKINS.add_skin(new DefaultSkin(__DEFAULT_UI_SKIN_NAME), true);
+
 #macro UI_SKINS				global.__ui_skins
 #macro APP_SKIN				UI_SKINS.active_skin
 
@@ -66,24 +69,11 @@ function UiSkinManager() constructor {
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var key = names[@i];
 			var oidx = asset_get_index(key);
-			if (oidx > -1) {
-				var sidx = active_skin.control_skins[?key];
-				object_set_sprite(oidx, sidx);
-				with(oidx) {
-					if (sprite_index != -1 && sprite_index != spr1pxTrans) {
-						var w = sprite_width;
-						var h = sprite_height;
-						sprite_index = sidx;
-						scale_sprite_to(w, h);
-					}
-				}
-			} else
-				elog($"** ERROR ** Skin '{active_skin.name}' contains invalid object '{key}'");
+			if (oidx > -1)
+				with(oidx) APP_SKIN.apply_skin(self);
 		}
-		
 	}
 }
 
 ENSURE_LOGGER;
 ENSURE_SKINS;
-UI_SKINS.add_skin(new DefaultSkin(), true);
