@@ -142,7 +142,7 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			title: wintitle,
 			font_to_use: MESSAGEBOX_FONT
 		});
-		
+		vlog($"--- MSG {window.focus_border_color} {APP_THEME.main}");
 		var extra_size = 2 * MESSAGEBOX_INNER_MARGIN;
 		window.set_client_area(
 			max(button_total_width, text_size.x) + extra_size,

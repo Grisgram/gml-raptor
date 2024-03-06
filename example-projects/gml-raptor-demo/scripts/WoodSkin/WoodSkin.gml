@@ -22,7 +22,7 @@
 
 function WoodSkin(_name = "wood") : DefaultSkin(_name) constructor {
 
-	var window_def = { 
+	var woodwindow = { 
 		sprite_index: sprWoodWindow,
 		draw_color: APP_THEME_WHITE,
 		draw_color_mouse_over: APP_THEME_WHITE,
@@ -39,15 +39,15 @@ function WoodSkin(_name = "wood") : DefaultSkin(_name) constructor {
 		};
 	}
 
-	control_skins[? "Label"]				= text_control(sprWoodLabel);
-	control_skins[? "TextButton"]			= text_control(sprWoodButton);
-	control_skins[? "Tooltip"]				= { sprite_index: sprWoodTooltip }
-	control_skins[? "Window"]				= window_def;
-	control_skins[? "MessageBoxWindow"]		= window_def;
-	control_skins[? "DemoAlignmentWindow"]	= window_def;
-	control_skins[? "DemoAnchoringWindow"]	= window_def;
-	control_skins[? "DemoDockingWindow"]	= window_def;
-	control_skins[? "DemoLoginWindow"]		= window_def;
+	asset_skin[? "Label"]				= text_control(sprWoodLabel);
+	asset_skin[? "TextButton"]			= text_control(sprWoodButton);
+	asset_skin[? "Tooltip"]				= { sprite_index: sprWoodTooltip }
+	asset_skin[? "Window"]				= woodwindow;
+	asset_skin[? "MessageBoxWindow"]	= woodwindow;
+	asset_skin[? "DemoAlignmentWindow"]	= woodwindow;
+	asset_skin[? "DemoAnchoringWindow"]	= woodwindow;
+	asset_skin[? "DemoDockingWindow"]	= woodwindow;
+	asset_skin[? "DemoLoginWindow"]		= woodwindow;
 
 }
 

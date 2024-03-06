@@ -241,7 +241,7 @@ __mouse_enter_topmost_control = function() {
 /// @function on_skin_changed(_skindata)
 /// @description	Invoked, when the skin changed
 on_skin_changed = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	integrate_skin_data(_skindata);
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;

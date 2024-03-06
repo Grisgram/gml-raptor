@@ -51,7 +51,7 @@ __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
 
 on_skin_changed = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	integrate_skin_data(_skindata);
 	__knob_dims = new SpriteDim(knob_sprite);
 	update_startup_coordinates();

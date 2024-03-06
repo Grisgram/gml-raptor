@@ -9,7 +9,7 @@ scale_sprite_to(w, h);
 event_inherited();
 
 on_skin_changed = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	integrate_skin_data(_skindata);
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;

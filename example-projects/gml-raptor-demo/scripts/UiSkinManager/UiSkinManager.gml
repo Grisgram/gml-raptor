@@ -33,7 +33,7 @@ function UiSkinManager() constructor {
 		if (_activate_now || was_active)
 			activate_skin(_skin.name);
 	}
-	
+
 	/// @function refresh_skin()
 	/// @description Invoked from RoomController in RoomStart event to transport the
 	///				 active skin from room to room
@@ -74,7 +74,7 @@ function UiSkinManager() constructor {
 	}
 
 	static __assign_all_skin_sprites = function() {
-		var names = ds_map_keys_to_array(active_skin.control_skins);
+		var names = ds_map_keys_to_array(active_skin.asset_skin);
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var key = names[@i];
 			var oidx = asset_get_index(key);

@@ -12,7 +12,7 @@ run_delayed(self, 0, function() { APP_SKIN.apply_skin(self); }); //... and the f
 /// @description Copy all values EXCEPT SPRITE_INDEX to self
 ///				 Then, if we have a sprite, we replace it
 integrate_skin_data = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	struct_foreach(_skindata, function(name, value) {
 		if (name != "sprite_index") {
 			if (is_method(value))
@@ -28,7 +28,7 @@ integrate_skin_data = function(_skindata) {
 /// @function on_skin_changed(_skindata)
 /// @description	Invoked, when the skin changed
 on_skin_changed = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	integrate_skin_data(_skindata);
 }
 #endregion

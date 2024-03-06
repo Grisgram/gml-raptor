@@ -15,7 +15,7 @@ if (remove_sprite_at_runtime) {
 }
 
 on_skin_changed = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	if (remove_sprite_at_runtime) return;
 	integrate_skin_data(_skindata);
 	update_startup_coordinates();

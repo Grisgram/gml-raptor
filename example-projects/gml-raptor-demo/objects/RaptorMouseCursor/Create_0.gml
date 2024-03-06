@@ -78,7 +78,7 @@ visible = true;
 companion = undefined;
 
 on_skin_changed = function(_skindata) {
-	if (!skinable) return;
+	if (!skinnable) return;
 	var havedefault = (sprite_index == mouse_cursor_sprite);
 	integrate_skin_data(_skindata);
 	sprite_index = (havedefault ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);

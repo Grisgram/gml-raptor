@@ -24,48 +24,36 @@ function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 	var window_def = function(xbutton) { 
 		return {
 			sprite_index: sprDefaultWindow,
-			draw_color: APP_THEME_WHITE,
-			draw_color_mouse_over: APP_THEME_WHITE,
-			focus_border_color: APP_THEME_MAIN,
 			window_x_button_object: xbutton,
 			titlebar_height: 34
 		};
 	}
 
-	var text_control = function(spr) {
-		return {
-			sprite_index: spr,
-			text_color: APP_THEME_MAIN,
-			text_color_mouse_over: APP_THEME_MAIN,
-			draw_color: APP_THEME_WHITE,
-			draw_color_mouse_over: APP_THEME_WHITE,
-		};
-	}
+	asset_skin[? "CheckBox"]			= { sprite_index: sprDefaultCheckbox }
+	asset_skin[? "ImageButton"]			= { sprite_to_use: sprDefaultButton }
+	asset_skin[? "InputBox"]			= { sprite_index: sprDefaultInputBox }
+	asset_skin[? "Label"]				= { sprite_index: sprDefaultLabel }
 
-	control_skins[? "CheckBox"]				= text_control(sprDefaultCheckbox);
-	control_skins[? "ImageButton"]			= { sprite_to_use: sprDefaultButton				}
-	control_skins[? "InputBox"]				= text_control(sprDefaultInputBox);
-	control_skins[? "Label"]				= text_control(sprDefaultLabel);
-	control_skins[? "MouseCursor"]			= { 
- 												sprite_index: sprDefaultMouseCursor,
-												mouse_cursor_sprite: sprDefaultMouseCursor,
- 												mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
- 											  }
-	control_skins[? "MouseCursorCompanion"]	= { sprite_index: spr1pxTrans }
-	control_skins[? "Panel"]				= { sprite_index: spr1pxTrans }
-	control_skins[? "RadioButton"]			= text_control(sprDefaultRadioButton);
-	control_skins[? "Slider"]				= { 
-												sprite_index: sprDefaultSliderRail,
-												rail_sprite: sprDefaultSliderRail,
-												knob_sprite: sprDefaultSliderKnob
-											  }
-	control_skins[? "TextButton"]			= text_control(sprDefaultButton);
-	control_skins[? "Tooltip"]				= text_control(sprDefaultTooltip);
-	control_skins[? "Window"]				= window_def(WindowXButton);
-	control_skins[? "MessageBoxWindow"]		= window_def(MessageBoxXButton);
+	asset_skin[? "MouseCursor"]			= { 
+ 											sprite_index: sprDefaultMouseCursor,
+											mouse_cursor_sprite: sprDefaultMouseCursor,
+ 											mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
+ 										  }
+	asset_skin[? "MouseCursorCompanion"]= { sprite_index: spr1pxTrans }
+	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans }
+	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton }
+	asset_skin[? "Slider"]				= { 
+											sprite_index: sprDefaultSliderRail,
+											rail_sprite: sprDefaultSliderRail,
+											knob_sprite: sprDefaultSliderKnob
+										  }
+	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton }
+	asset_skin[? "Tooltip"]				= { sprite_index: sprDefaultTooltip }
+	asset_skin[? "Window"]				= window_def(WindowXButton);
+	asset_skin[? "MessageBoxWindow"]	= window_def(MessageBoxXButton);
 	
-	control_skins[? "WindowXButton"]		= { sprite_index: sprDefaultXButton }
-	control_skins[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton }
+	asset_skin[? "WindowXButton"]		= { sprite_index: sprDefaultXButton }
+	asset_skin[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton }
 
 }
 
