@@ -478,8 +478,8 @@
     {"name":"sprLoadingSpinner","order":16,"path":"sprites/sprLoadingSpinner/sprLoadingSpinner.yy",},
     {"name":"sprSnowflake","order":1,"path":"sprites/sprSnowflake/sprSnowflake.yy",},
     {"name":"sprSpawner","order":1,"path":"sprites/sprSpawner/sprSpawner.yy",},
-    {"name":"sprWoodTooltip","order":1,"path":"sprites/sprWoodTooltip/sprWoodTooltip.yy",},
     {"name":"sprWoodButton","order":2,"path":"sprites/sprWoodButton/sprWoodButton.yy",},
+    {"name":"sprWoodTooltip","order":1,"path":"sprites/sprWoodTooltip/sprWoodTooltip.yy",},
     {"name":"sprWoodWindow","order":3,"path":"sprites/sprWoodWindow/sprWoodWindow.yy",},
   ],
 }

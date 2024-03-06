@@ -44,6 +44,13 @@ __startup_depth		= depth;
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
 
+__base_skin_changed = on_skin_changed;
+on_skin_changed = function(_skindata) {
+	if (!skinnable) return;
+	__base_skin_changed(_skindata);
+	create_x_button();
+}
+
 /// @function center_on_screen()
 center_on_screen = function() {
 	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
@@ -62,22 +69,26 @@ __x_button			= undefined;
 __x_button_closing	= undefined;
 __have_x_button		= false;
 
-if (window_x_button_visible && !is_null(window_x_button_object)) {
-	__have_x_button = true;
-	__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
-	__x_button.attach_to_window(self);
-	__x_button_closing = __x_button.on_left_click;
-	__x_button.on_left_click = function(sender) {
-		// This is the original left click handler on the x button that might have been set
-		// at design time but was overwritten by this function
-		if (!is_null(__x_button_closing))
-			__x_button_closing(__x_button);
-		// Launch the closing callback set on the window
-		if (!is_null(on_closing)) 
-			on_closing(self);
-		close();
+create_x_button = function() {
+	if (__have_x_button) instance_destroy(__x_button);
+	if (window_x_button_visible && !is_null(window_x_button_object)) {
+		__have_x_button = true;
+		__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
+		__x_button.attach_to_window(self);
+		__x_button_closing = __x_button.on_left_click;
+		__x_button.on_left_click = function(sender) {
+			// This is the original left click handler on the x button that might have been set
+			// at design time but was overwritten by this function
+			if (!is_null(__x_button_closing))
+				__x_button_closing(__x_button);
+			// Launch the closing callback set on the window
+			if (!is_null(on_closing)) 
+				on_closing(self);
+			close();
+		}
 	}
 }
+create_x_button();
 
 /// @function get_x_button()
 get_x_button = function() { 
@@ -465,6 +476,7 @@ __draw_instance = function(_force = false) {
 	if (sprite_index != -1) {
 		image_blend = draw_color;
 		draw_self();
+		
 		if (has_focus && __can_draw_focus)
 			draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
 		if (!is_null(__x_button)) with(__x_button) {

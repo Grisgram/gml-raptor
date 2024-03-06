@@ -238,6 +238,17 @@ __mouse_enter_topmost_control = function() {
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
+/// @function on_skin_changed(_skindata)
+/// @description	Invoked, when the skin changed
+on_skin_changed = function(_skindata) {
+	if (!skinnable) return;
+	integrate_skin_data(_skindata);
+	animated_text_color = text_color;
+	animated_draw_color = draw_color;
+	update_startup_coordinates();
+	force_redraw();
+}
+
 /// @function					force_redraw(_redraw_all = true)
 /// @description				force recalculate of all positions next frame
 force_redraw = function(_redraw_all = true) {

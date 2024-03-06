@@ -4,7 +4,7 @@
 	in the list below.
 	
 	Activate/Switch skins through the UiSkinManager.
-	NOTE: Same as with Themes, requires a room_restart to become active, so the best 
+	NOTE: Unlike Themes, does NOT require a room_restart to become active!
 */
 
 function UiSkin(_name = "default") constructor {

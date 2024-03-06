@@ -73,43 +73,49 @@ function is_mouse_over(_instance, _is_gui = false) {
 	return position_meeting(xcheck, ycheck, _instance);
 }
 
-/// @function		replace_sprite(on_object, replace_with, keep_size = true, keep_location = true)
+/// @function		replace_sprite(replace_with, target_width = -1, target_height = -1, keep_empty = true, keep_size = true, keep_location = true)
 /// @description	Replaces the current sprite with the specified one.
 ///					The method checks if "replace_with" is undefined or noone,
 ///					so you don't need to check - just call it.
 ///					It also takes care about the alignment and scaling by default
 ///					but this behavior can be turned off through the parameters.
-/// @param {instance} on_object			The object to have the sprite changed
-/// @param {sprite asset} replace_with	The asset to set as the sprite
+/// @param {sprite_asset} replace_with	The asset to set as the sprite
+/// @param {real=-1}	target_width	If set, force a new width after replacing
+/// @param {real=-1}	target_height	If set, force a new height after replacing
+/// @param {bool=true}	keep_empty		if true, sprite will not be replaced, if current
+///										sprite_index == -1
 /// @param {bool=true}	keep_size		if true, image scale will be calculated so the object has
 ///										has the same size as it had with the previous sprite
 /// @param {bool=true}	keep_location	if true, x/y will be calculated based on the new sprite's
 ///										alignment, so the object has the same location as it had 
 ///										with the previous sprite
-function replace_sprite(on_object, replace_with, keep_size = true, keep_location = true) {
-	if (replace_with != noone && replace_with != undefined) {
-		with (on_object) {
-			if (sprite_index == -1) {
-				sprite_index = replace_with;
-				return;
-			}
+function replace_sprite(replace_with, target_width = -1, target_height = -1, 
+						keep_empty = true, keep_size = true, keep_location = true) {
+							
+	if (is_null(replace_with) || (sprite_index == -1 && keep_empty)) {
+		sprite_index = -1;
+		return;
+	}
+	
+	var sw = 0;
+	var sh = 0;
+	if (sprite_index != -1) {
+		sw = (target_width  >= 0 ? target_width  : sprite_width);
+		sh = (target_height >= 0 ? target_height : sprite_height);
+	}
 		
-			var sw = sprite_width;
-			var sh = sprite_height;
-			if (keep_location) {
-				x -= sprite_xoffset;
-				y -= sprite_yoffset;
-			}
-			sprite_index = replace_with;
-			if (keep_size) {
-				image_xscale = sw / sprite_get_width(replace_with);
-				image_yscale = sh / sprite_get_height(replace_with);
-			}
-			if (keep_location) {
-				x += sprite_xoffset;
-				y += sprite_yoffset;
-			}
-		}
+	if (keep_location) {
+		x -= sprite_xoffset;
+		y -= sprite_yoffset;
+	}
+	sprite_index = replace_with;
+		
+	if (keep_size || target_width  != -1) image_xscale = sw / sprite_get_width(replace_with);
+	if (keep_size || target_height != -1) image_yscale = sh / sprite_get_height(replace_with);
+			
+	if (keep_location) {
+		x += sprite_xoffset;
+		y += sprite_yoffset;
 	}
 }
 

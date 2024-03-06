@@ -14,6 +14,13 @@ if (remove_sprite_at_runtime) {
 	__startup_yscale = h;
 }
 
+on_skin_changed = function(_skindata) {
+	if (!skinnable) return;
+	if (remove_sprite_at_runtime) return;
+	integrate_skin_data(_skindata);
+	update_startup_coordinates();
+}
+
 scribble_add_text_effects = function(scribbletext) {
 	if (word_wrap)
 		scribbletext.wrap(nine_slice_data.width);
