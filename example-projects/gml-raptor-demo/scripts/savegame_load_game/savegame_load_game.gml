@@ -61,19 +61,19 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
 		var awaiting_race_controller_link = {};
 	
-		var instances = variable_struct_get(savegame, __SAVEGAME_OBJECT_HEADER);
+		var instances = vsget(savegame, __SAVEGAME_OBJECT_HEADER);
 		var names = variable_struct_get_names(instances);
 		for (var i = 0; i < array_length(names); i++) {
-			var inst	= variable_struct_get(instances, names[i]);
-			var obj		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_OBJ);
+			var inst	= vsget(instances, names[i]);
+			var obj		= vsget(inst, __SAVEGAME_OBJ_PROP_OBJ);
 			// since 2023.1 there's an empty struct added silently to each serialized file.
 			// we need to skip this empty mess
 			if (obj == undefined || obj == -1) continue; 
 			
-			var lname	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_LAYER);
-			var ldepth  = variable_struct_get(inst, __SAVEGAME_OBJ_PROP_DEPTH);
-			var xpos	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_X);
-			var ypos	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_Y);
+			var lname	= vsget(inst, __SAVEGAME_OBJ_PROP_LAYER);
+			var ldepth  = vsget(inst, __SAVEGAME_OBJ_PROP_DEPTH, 0);
+			var xpos	= vsget(inst, __SAVEGAME_OBJ_PROP_X, 0);
+			var ypos	= vsget(inst, __SAVEGAME_OBJ_PROP_Y, 0);
 		
 			var asset_idx = asset_get_index(obj);
 		
@@ -82,22 +82,22 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 				instance_create_depth(xpos,ypos,ldepth,asset_idx);
 		
 			with (created) {
-				direction		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_DIR);
-				speed			= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPD);
-				var sprname		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPRITE_NAME);
+				direction		= vsget(inst, __SAVEGAME_OBJ_PROP_DIR, 0);
+				speed			= vsget(inst, __SAVEGAME_OBJ_PROP_SPD, 0);
+				var sprname		= vsget(inst, __SAVEGAME_OBJ_PROP_SPRITE_NAME);
 				sprite_index	= sprname != undefined ?
 								  asset_get_index(sprname) :
-								  variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SPRITE);
-				image_index		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_IMAGE); 
-				image_speed		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_ISPEED);
-				image_alpha		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_ALPHA); 
-				image_angle		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_ANGLE); 
-				image_blend		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_BLEND); 
-				image_xscale	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_XSCALE); 
-				image_yscale	= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_YSCALE);
-				visible			= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_VIS);
-				persistent		= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_PERS);
-				solid			= variable_struct_get(inst, __SAVEGAME_OBJ_PROP_SOLID);
+								  vsget(inst, __SAVEGAME_OBJ_PROP_SPRITE);
+				image_index		= vsget(inst, __SAVEGAME_OBJ_PROP_IMAGE, 0); 
+				image_speed		= vsget(inst, __SAVEGAME_OBJ_PROP_ISPEED, 1);
+				image_alpha		= vsget(inst, __SAVEGAME_OBJ_PROP_ALPHA, 1); 
+				image_angle		= vsget(inst, __SAVEGAME_OBJ_PROP_ANGLE, 0); 
+				image_blend		= vsget(inst, __SAVEGAME_OBJ_PROP_BLEND, c_white); 
+				image_xscale	= vsget(inst, __SAVEGAME_OBJ_PROP_XSCALE, 1); 
+				image_yscale	= vsget(inst, __SAVEGAME_OBJ_PROP_YSCALE, 1);
+				visible			= vsget(inst, __SAVEGAME_OBJ_PROP_VIS, true);
+				persistent		= vsget(inst, __SAVEGAME_OBJ_PROP_PERS, false);
+				solid			= vsget(inst, __SAVEGAME_OBJ_PROP_SOLID, false);
 
 				// all instances add themselves to the instance list for link restore
 				var cid = variable_struct_get(inst, __SAVEGAME_OBJ_PROP_ID);

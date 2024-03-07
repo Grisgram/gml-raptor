@@ -46,7 +46,7 @@ ENSURE_GLOBALDATA
 #macro __SAVEGAME_OBJ_PROP_SOLID		"solid"
 #macro __SAVEGAME_OBJ_PROP_SPRITE_NAME	"__raptor_savegame_sprite_name"
 #macro __SAVEGAME_OBJ_PROP_SPRITE		"sprite_index"
-#macro __SAVEGAME_OBJ_PROP_IMAGE		"image_index"
+#macro __SAVEGAME_OBJ_PROP_IMAGE		"img_index"
 #macro __SAVEGAME_OBJ_PROP_ISPEED		"image_speed"
 #macro __SAVEGAME_OBJ_PROP_ALPHA		"image_alpha"
 #macro __SAVEGAME_OBJ_PROP_ANGLE		"image_angle"
