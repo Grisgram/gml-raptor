@@ -65,7 +65,7 @@ enum mouse_cursor_type {
 }
 
 enum mouse_cursor_sizing {
-	we, ns, nwse, nesw
+	we, ns, nwse, nesw, pan
 }
 
 event_inherited();
