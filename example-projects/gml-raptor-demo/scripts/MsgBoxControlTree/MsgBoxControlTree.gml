@@ -30,5 +30,6 @@ function MsgBoxControlTree(_control) : ControlTree(_control) constructor {
 			.set_name("lblText")
 			.step_out()
 		.step_out()
+	.build()
 ;
 }

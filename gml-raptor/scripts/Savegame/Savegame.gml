@@ -46,7 +46,7 @@ ENSURE_GLOBALDATA
 #macro __SAVEGAME_OBJ_PROP_SOLID		"solid"
 #macro __SAVEGAME_OBJ_PROP_SPRITE_NAME	"__raptor_savegame_sprite_name"
 #macro __SAVEGAME_OBJ_PROP_SPRITE		"sprite_index"
-#macro __SAVEGAME_OBJ_PROP_IMAGE		"image_index"
+#macro __SAVEGAME_OBJ_PROP_IMAGE		"img_index"
 #macro __SAVEGAME_OBJ_PROP_ISPEED		"image_speed"
 #macro __SAVEGAME_OBJ_PROP_ALPHA		"image_alpha"
 #macro __SAVEGAME_OBJ_PROP_ANGLE		"image_angle"
@@ -82,7 +82,7 @@ enum savegame_event {
 /// @param {string} name		The name to reference this struct.
 /// @param {struct} struct		The struct to save.
 function savegame_add_struct(name, struct) {
-	variable_struct_set(__SAVEGAME_STRUCTS, name, struct);
+	struct_set(__SAVEGAME_STRUCTS, name, struct);
 }
 
 /// @function					savegame_remove_struct(name)
@@ -106,14 +106,14 @@ function savegame_struct_exists(name) {
 /// @param {string} name		The name of the struct. If it does not exist, [undefined] is returned.
 /// @returns {struct}			The struct or [undefined], if it does not exist.
 function savegame_get_struct(name) {
-	return variable_struct_get(__SAVEGAME_STRUCTS, name);
+	return struct_get(__SAVEGAME_STRUCTS, name);
 }
 
 /// @function					savegame_get_struct_names()
 /// @description				Gets all stored struct names in the savegame.
 /// @returns {array}			All struct names in the savegame
 function savegame_get_struct_names() {
-	return variable_struct_get_names(__SAVEGAME_STRUCTS);
+	return struct_get_names(__SAVEGAME_STRUCTS);
 }
 
 /// @function					__savegame_clear_structs()
@@ -129,7 +129,7 @@ function __savegame_clear_structs() {
 /// @description				Gets all stored instance names (= IDs) in the savegame.
 /// @returns {array}			All instance names in the savegame
 function savegame_get_instance_names() {
-	return variable_struct_get_names(__SAVEGAME_INSTANCES);
+	return struct_get_names(__SAVEGAME_INSTANCES);
 }
 
 /// @function						savegame_get_instance_of(old_instance_id)
@@ -139,7 +139,7 @@ function savegame_get_instance_names() {
 function savegame_get_instance_of(old_instance_id) {
 	if (!is_string(old_instance_id)) old_instance_id = string(old_instance_id);
 	if (variable_struct_exists(__SAVEGAME_INSTANCES, old_instance_id))
-		return variable_struct_get(__SAVEGAME_INSTANCES, old_instance_id);
+		return struct_get(__SAVEGAME_INSTANCES, old_instance_id);
 	else
 		return noone;
 }

@@ -191,7 +191,7 @@ function LG() {
 
 		for (var i = 0; i < len - 1; i++) {
 			key = args[@ i];
-			map = variable_struct_get(map, key);
+			map = struct_get(map, key);
 			if (map == undefined)
 				break;
 		}
@@ -204,13 +204,13 @@ function LG() {
 			if (wildcard) {
 				var names;
 				var pickany = false;
-				var wildsubs = variable_struct_get(map, key);
+				var wildsubs = struct_get(map, key);
 				if (wildsubs != undefined) {
 					map = wildsubs;
 					pickany = true;
 				}
 					
-				var names = variable_struct_get_names(map);
+				var names = struct_get_names(map);
 				var matchstr = key + "*";
 				var rnds = [];
 				for (var i = 0; i < array_length(names); i++) {
@@ -220,11 +220,11 @@ function LG() {
 				}
 				if (array_length(rnds) > 0) {
 					var pick = irandom_range(0, array_length(rnds) - 1);
-					return variable_struct_get(map, rnds[@ pick]);
+					return struct_get(map, rnds[@ pick]);
 				} else
 					return undefined;
 			} else
-				return variable_struct_get(map, key);
+				return struct_get(map, key);
 		}
 		return undefined;
 	};
@@ -258,7 +258,7 @@ function LG() {
 	}
 	
 	if (!wildcard && variable_struct_exists(__LG_RESOLVE_CACHE, cacheKey)) {
-		return variable_struct_get(__LG_RESOLVE_CACHE, cacheKey);
+		return struct_get(__LG_RESOLVE_CACHE, cacheKey);
 	}
 	
 	var result = find(wildcard, args);
@@ -282,7 +282,7 @@ function LG() {
 		string_replace_all(result, "[[", "[");
 	
 	if (!wildcard) // we do not cache random picks
-		variable_struct_set(__LG_RESOLVE_CACHE, cacheKey, result);
+		struct_set(__LG_RESOLVE_CACHE, cacheKey, result);
 		
 	return result;
 }

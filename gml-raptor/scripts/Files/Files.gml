@@ -35,7 +35,7 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 	
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
 		dlog($"Cache hit for file '{filename}'");
-		return variable_struct_get(__FILE_CACHE, filename);
+		return struct_get(__FILE_CACHE, filename);
 	}
 	
 	var file = undefined;
@@ -57,7 +57,7 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 	
 			if (add_to_cache) {
 				dlog($"Added file '{filename}' to cache");
-				variable_struct_set(__FILE_CACHE, filename, _string);
+				struct_set(__FILE_CACHE, filename, _string);
 			}
 		}
 	    return _string;
@@ -134,7 +134,7 @@ function file_write_struct_plain(filename, struct) {
 		file_write_text_file(filename, SnapToJSON(struct, true));
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Updated cache for file '{filename}' (struct)");
-			variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
+			struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
 		}
 		return true;
 	CATCH return false; ENDTRY
@@ -152,7 +152,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 	if (file_exists(working_directory + filename)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Cache hit for file '{filename}'");
-			return SnapDeepCopy(variable_struct_get(__FILE_CACHE, filename));
+			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			dlog($"Loading plain text struct from '{filename}'");
@@ -164,7 +164,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 				rv = __file_reconstruct_root(indata);
 				if (add_to_cache) {
 					dlog($"Added file '{filename}' to cache (struct)");
-					variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
+					struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
 				}
 			}
 			return rv;
@@ -194,7 +194,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 		buffer_delete(buffer);
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Updated cache for file '{filename}' (encrypted struct)");
-			variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
+			struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
 		}
 		return true;
 	CATCH return false; ENDTRY
@@ -213,7 +213,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	if (file_exists(working_directory + filename)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Cache hit for file '{filename}' (buffer deep copy)");
-			return SnapDeepCopy(variable_struct_get(__FILE_CACHE, filename));
+			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			dlog($"Loading encrypted struct from '{filename}'");
@@ -229,7 +229,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 		
 				if (add_to_cache) {
 					dlog($"Added file '{filename}' to cache (encrypted struct)");
-					variable_struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
+					struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
 				}
 			}
 			return rv;
@@ -286,7 +286,7 @@ function __file_reconstruct_root(from) {
 /// @description	reconstruct a loaded data struct through its constructor
 ///					if the constructor is known.
 function __file_reconstruct_class(into, from) {
-	var names = variable_struct_get_names(from);
+	var names = struct_get_names(from);
 	
 	with (into) {
 		for (var i = 0; i < array_length(names); i++) {

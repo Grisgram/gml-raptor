@@ -35,3 +35,11 @@ function ui_demo_control_anchoring_click() {
 function ui_demo_login_click() {
 	instance_create(0, 0, "ui_windows", DemoLoginWindow);
 }
+
+function ui_demo_save() {
+	savegame_save_game("ui_demo.sav.json");
+}
+
+function ui_demo_load() {
+	savegame_load_game("ui_demo.sav.json");
+}

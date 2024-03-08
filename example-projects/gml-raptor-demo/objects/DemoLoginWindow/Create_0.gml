@@ -84,4 +84,5 @@ control_tree
 	.on_window_closed(function(_who) {
 		vlog($"UiDemo: {MY_NAME} on_window_closed");
 	})
+	.build()
 ;

@@ -95,7 +95,7 @@ function struct_join(structs) {
 function struct_integrate(target, sources) {
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
-		var names = variable_struct_get_names(from);
+		var names = struct_get_names(from);
 		with (target) {
 			for (var i = 0; i < array_length(names); i++) {
 				var name = names[i];

@@ -1,3 +1,4 @@
+ENSURE_RAPTORDATA;
 event_inherited();
 
 /// @description Docs inside! You MUST call this when overriding!

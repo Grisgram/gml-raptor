@@ -51,7 +51,7 @@ function SnapBufferMeasureBinary(_value)
     else if (is_struct(_value))
     {
         var _struct = _value;        
-        var _names	= variable_struct_get_names(_struct);
+        var _names	= struct_get_names(_struct);
         var _count	= array_length(_names);
 		
 		len += 9;

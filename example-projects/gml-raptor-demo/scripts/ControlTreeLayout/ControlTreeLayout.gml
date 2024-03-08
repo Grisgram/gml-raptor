@@ -46,7 +46,7 @@ function ControlTreeLayout() constructor {
 		if (docking != dock.none)
 			return;
 		
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		
 		if (xpos_align != undefined && ypos_align != undefined) {
 			var havebefore	= have_align;
@@ -102,7 +102,7 @@ function ControlTreeLayout() constructor {
 	}
 	
 	static __apply_dock_top = function(_area, _inst, _control) {
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		var runner = tree.runner;
 		
 		var neww = _area.width - 
@@ -124,7 +124,7 @@ function ControlTreeLayout() constructor {
 	}
 	
 	static __apply_dock_bottom = function(_area, _inst, _control) {
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		var runner = tree.runner;
 		
 		var neww = _area.width - 
@@ -150,7 +150,7 @@ function ControlTreeLayout() constructor {
 	}
 
 	static __apply_dock_left = function(_area, _inst, _control) {
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		var runner = tree.runner;
 		
 		var newh = _area.height - 
@@ -172,7 +172,7 @@ function ControlTreeLayout() constructor {
 	}
 
 	static __apply_dock_right = function(_area, _inst, _control) {
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		var runner = tree.runner;
 
 		var newh = _area.height - 
@@ -201,7 +201,7 @@ function ControlTreeLayout() constructor {
 		rv ??= new Coord2();
 		var neww = _inst.sprite_width;
 		var newh = _inst.sprite_height;
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		
 		// left
 		var neww = _area.width - 
@@ -231,7 +231,7 @@ function ControlTreeLayout() constructor {
 		if (docking != dock.none || !have_align)
 			return; // we can only align if we are the master of our size
 			
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 		_control.update_client_area();
 
 		// The switches here ignore fa_top and fa_left because this is "runner-style" and
@@ -346,7 +346,7 @@ function ControlTreeLayout() constructor {
 		if (docking != dock.none || anchoring != anchor.none)
 			return; // we can only spread if we are the master of our size
 
-		var tree = _control.data.control_tree;
+		var tree = _control.control_tree;
 
 		_control.update_client_area();
 		

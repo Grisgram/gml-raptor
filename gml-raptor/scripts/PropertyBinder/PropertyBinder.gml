@@ -50,7 +50,7 @@ function PropertyBinder(_myself = undefined) constructor {
 	
 	/// @function unbind_source(_property = undefined)
 	static unbind_source = function() {
-		var names = variable_struct_get_names(__source_bindings);
+		var names = struct_get_names(__source_bindings);
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var key = names[@i];
 			var src = __source_bindings[$ key];
@@ -63,7 +63,7 @@ function PropertyBinder(_myself = undefined) constructor {
 	/// @function unbind_all = function()
 	static unbind_all = function() {
 		unbind_source();
-		var names = variable_struct_get_names(__bindings);
+		var names = struct_get_names(__bindings);
 		for (var i = 0, len = array_length(names); i < len; i++)
 			unbind(__bindings[$ names[@i]].target_property);
 	}

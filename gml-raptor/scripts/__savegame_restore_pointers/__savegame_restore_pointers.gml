@@ -23,18 +23,18 @@ function __savegame_restore_pointers(struct) {
 
 function __savegame_restore_struct_pointers(_source)
 {
-    var _names = variable_struct_get_names(_source);
+    var _names = struct_get_names(_source);
     var _i = 0;
     repeat(array_length(_names))
     {
         var _name = _names[_i];
-        var _value = variable_struct_get(_source, _name);
+        var _value = struct_get(_source, _name);
             
         if (is_string(_value) && string_starts_with(_value, __SAVEGAME_REF_MARKER))
 		{
 			_value = string_replace(_value, __SAVEGAME_REF_MARKER, "");
 			//vlog($"Restoring instance id in struct: {_value}");
-			variable_struct_set(_source, _name, savegame_get_instance_of(_value));
+			struct_set(_source, _name, savegame_get_instance_of(_value));
 		} 
 		else if (is_array(_value))
         {

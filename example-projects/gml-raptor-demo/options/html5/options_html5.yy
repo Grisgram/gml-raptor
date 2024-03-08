@@ -4,8 +4,12 @@
   "ConfigValues":{
     "release":{
       "option_html5_icon":"fav.ico",
-      "option_html5_usesplash":"true",
+      "option_html5_usesplash":"false",
       "option_html5_splash_png":"splash.png",
+      "option_html5_index":"index.html",
+    },
+    "beta":{
+      "option_html5_icon":"fav.ico",
     },
   },
   "name":"HTML5",
@@ -33,7 +37,7 @@
   "option_html5_texture_page":"4096x4096",
   "option_html5_usebuiltinfont":true,
   "option_html5_usebuiltinparticles":true,
-  "option_html5_usesplash":true,
+  "option_html5_usesplash":false,
   "option_html5_use_facebook":false,
   "option_html5_version":"1.0.0.0",
   "option_html5_webgl":2,

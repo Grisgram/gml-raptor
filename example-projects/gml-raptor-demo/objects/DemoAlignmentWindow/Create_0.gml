@@ -18,4 +18,5 @@ control_tree
 		.add_control(TextButton, { startup_width: 180, text: "BOTTOM/LEFT"	}).set_align(fa_bottom, fa_left)
 		.add_control(TextButton, { startup_width: 180, text: "BOTTOM/CENTER"}).set_align(fa_bottom, fa_center)
 		.add_control(TextButton, { startup_width: 180, text: "BOTTOM/RIGHT"	}).set_align(fa_bottom, fa_right)
+	.build()
 ;

@@ -1,9 +1,6 @@
 /// @description Build Window on create
 event_inherited();
 
-set_client_area(800, 482);
-center_on_screen();
-
 var fxoff = 230;
 var fyoff = 110;
 
@@ -58,4 +55,5 @@ control_tree
 		.set_align(fa_middle, fa_left, fxoff, 0)
 	.add_control(TextButton, { min_width: 32, startup_width: 32, text: "RC" })
 		.set_align(fa_middle, fa_right, -fxoff, 0)
+	.build()
 ;

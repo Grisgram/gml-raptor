@@ -56,7 +56,7 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 		// find a free new name for the deep copy
 		var newname = __race_get_unique_deepcopy_name(tblname);
 		race_set_type(table, name, "=" + newname);
-		variable_struct_set(__RACE_GLOBAL, newname, deepcopy);
+		struct_set(__RACE_GLOBAL, newname, deepcopy);
 		if (DEBUG_LOG_RACE)
 			vlog($"Added dynamic global race table: '{newname}'");
 		__race_queryRecursive(race_table_object, race_controller, deepcopy, result, uniques);

@@ -28,7 +28,7 @@ __cursor_frame = 0;
 __cursor_visible = true;
 __last_cursor_visible = false;
 
-has_focus = false;
+__RAPTORDATA.has_focus = false;
 
 __cursor_x = 0;
 __cursor_y = 0;
@@ -54,12 +54,13 @@ enum character_filter {
 /// @function					set_focus(from_tab = false)
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
-	if (has_focus || !is_enabled) 
+	if (__RAPTORDATA.has_focus || !is_enabled || 
+		(get_window() != undefined && !get_window().is_focus_window())) 
 		return;
 	
 	with (RaptorInputBox) lose_focus();
 	vlog($"{MY_NAME}: tab index {tab_index} got focus");
-	has_focus = true;
+	__RAPTORDATA.has_focus = true;
 	__backup_text_color = text_color;
 	__backup_draw_color = draw_color;
 	__backup_text_color_mouse_over = text_color_mouse_over;
@@ -85,11 +86,11 @@ set_focus = function(from_tab = false) {
 /// @function					lose_focus()
 /// @description				Remove input focus from this
 lose_focus = function() {
-	if (!has_focus) 
+	if (!__RAPTORDATA.has_focus) 
 		return;
 	
 	vlog($"{MY_NAME}: tab index {tab_index} lost focus");
-	has_focus = false;
+	__RAPTORDATA.has_focus = false;
 	selection_length = 0;
 	__last_selection_length = -1;
 	text_color = __backup_text_color;
@@ -252,7 +253,7 @@ draw_scribble_text = function() {
 		__draw_self();
 		return;
 	}
-	if (has_focus) {
+	if (__RAPTORDATA.has_focus) {
 		if (selection_length != __last_selection_length) {
 			__last_selection_length = selection_length;
 			if (selection_length != 0) {
@@ -287,7 +288,7 @@ draw_scribble_text = function() {
 
 /// @function __draw_cursor()
 __draw_cursor = function() {
-	if (__first_cursor_draw || (has_focus && __cursor_visible)) {
+	if (__first_cursor_draw || (__RAPTORDATA.has_focus && __cursor_visible)) {
 		if (__first_cursor_draw || __last_cursor_visible != __cursor_visible) {
 			__first_cursor_draw = false;
 			// make draw calculations only once, if visible changed in last frame

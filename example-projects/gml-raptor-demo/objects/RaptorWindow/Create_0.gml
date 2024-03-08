@@ -24,22 +24,22 @@ event_inherited();
 __RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING	= false;
 __RAPTOR_FOCUS_WINDOW					= undefined;
 
+__RAPTORDATA.has_focus		= false;
+__RAPTORDATA.creation_depth	= depth;
+__RAPTORDATA.focus_index	= -1;
+
 if (window_is_sizable && image_number > 2)
 	image_index = 2;
 
 title				= LG_resolve(title);
 
-has_focus			= false;
 __container			= self;
 __can_draw_focus	= image_number > image_index;
-__focus_index		= -1;
 
 __last_title		= "";
 __title_x			= 0;
 __title_y			= 0;
 __scribble_title	= undefined;
-
-__startup_depth		= depth;
 
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
@@ -51,14 +51,19 @@ on_skin_changed = function(_skindata) {
 	create_x_button();
 }
 
+/// @function is_focus_window()
+is_focus_window	= function() {
+	return __RAPTORDATA.has_focus;
+}
+
 /// @function center_on_screen()
 center_on_screen = function() {
 	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
 	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
-	data.control_tree.update_render_area();
+	control_tree.update_render_area();
 }
 
-if (center_on_open) {
+if ((!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS) && center_on_open) {
 	center_on_screen();
 	update_startup_coordinates();
 }
@@ -102,6 +107,7 @@ __size_rect_top		= new Rectangle();
 __size_rect_bottom	= new Rectangle();
 __size_rect_left	= new Rectangle();
 __size_rect_right	= new Rectangle();
+__in_destroy		= false;
 __in_size_mode		= false;
 __size_direction	= 0;
 
@@ -164,7 +170,7 @@ __apply_window_sizing_size = function(_w, _h) {
 // Find the windows' sizing areas
 // we need to check all 4 borders and in each of them the adjacent sides to find the diagonals
 __find_sizing_area = function() {
-	if (!has_focus) return;
+	if (!__RAPTORDATA.has_focus) return;
 	__dx = CTL_MOUSE_X;
 	__dy = CTL_MOUSE_Y;
 	
@@ -204,7 +210,7 @@ __find_sizing_area = function() {
 }
 
 __set_sizing_cursor = function() {
-	if (!has_focus) return;
+	if (!__RAPTORDATA.has_focus) return;
 	if (MOUSE_CURSOR != undefined)
 		if (__size_direction == 0)
 			MOUSE_CURSOR.set_cursor(mouse_cursor_type.pointer);
@@ -263,8 +269,8 @@ __focus_next_in_chain = function() {
 	var win = undefined;
 	var maxidx = -1;
 	with(RaptorWindow) {
-		if (!eq(self, other) && __focus_index > maxidx) {
-			maxidx = __focus_index;
+		if (!eq(self, other) && __RAPTORDATA.focus_index > maxidx) {
+			maxidx = __RAPTORDATA.focus_index;
 			win = self;
 		}
 	}
@@ -274,8 +280,8 @@ __focus_next_in_chain = function() {
 
 __reorder_focus_index = function(_old_idx) {
 	with(RaptorWindow) {
-		if (!eq(self, other) && __focus_index > _old_idx)
-			__focus_index--;
+		if (!eq(self, other) && __RAPTORDATA.focus_index > _old_idx)
+			__RAPTORDATA.focus_index--;
 	}
 	// to avoid a (theoretically possible) endless loop here,
 	// we stop after n iterations, where n = instance_number(RaptorWindow)
@@ -286,33 +292,36 @@ __reorder_focus_index = function(_old_idx) {
 		var seen = [];
 		have_doubles = false;
 		with(RaptorWindow) {
-			if (!array_contains(seen, __focus_index))
-				array_push(seen, __focus_index);
+			if (!array_contains(seen, __RAPTORDATA.focus_index))
+				array_push(seen, __RAPTORDATA.focus_index);
 			else {
 				have_doubles = true;
-				__focus_index--;
+				__RAPTORDATA.focus_index--;
 			}
 		}
 		// exit after n iterations
 		if (++curiter == maxiter)
 			break;
 	}
-	__focus_idx = instance_number(RaptorWindow) - 1;
+	__RAPTORDATA.focus_index = instance_number(RaptorWindow) - 1;
 	// last step: set the depth of the windows
 	with(RaptorWindow) {
-		depth = __startup_depth - 1 - 2 * __focus_index;
+		
+		depth = __RAPTORDATA.creation_depth - 2 * __RAPTORDATA.focus_index;
 		if (__have_x_button && !is_null(__x_button)) 
 			__x_button.depth = depth;
+		if (!__in_destroy)
+			control_tree.update_children_depth();
 	}
 	// -- debug output --
 	//ilog($"[--- FOCUS INDEX REPORT START ---]");
 	//with(RaptorWindow)
-	//	ilog($"{__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+	//	ilog($"{__RAPTORDATA.creation_depth} {__RAPTORDATA.focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
 	//ilog($"[--- FOCUS INDEX REPORT END   ---]");
 }
 
 lose_focus = function() {
-	has_focus = false;
+	__RAPTORDATA.has_focus = false;
 }
 
 take_focus = function(_only_if_topmost = false) {
@@ -325,7 +334,7 @@ take_focus = function(_only_if_topmost = false) {
 			var mindepth = DEPTH_BOTTOM_MOST;
 			for (var i = 0, len = ds_list_size(allwins); i < len; i++) {
 				var w = allwins[|i];
-				if (w.has_focus) continue;
+				with(w) if (__RAPTORDATA.has_focus) continue;
 				mindepth = min(mindepth, w.depth);
 			}
 			ds_list_destroy(allwins);
@@ -338,11 +347,11 @@ take_focus = function(_only_if_topmost = false) {
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = true;
 	
 	with(RaptorWindow) lose_focus();
-	has_focus = true;
+	__RAPTORDATA.has_focus = true;
 	__RAPTOR_FOCUS_WINDOW = self;
 	var maxidx = instance_number(RaptorWindow) - 1;
-	var myidx = (__focus_index >= 0 ? __focus_index : maxidx);
-	__focus_index = maxidx;
+	var myidx = (__RAPTORDATA.focus_index >= 0 ? __RAPTORDATA.focus_index : maxidx);
+	__RAPTORDATA.focus_index = maxidx;
 	__reorder_focus_index(myidx);
 	// this mouse_is_over check is for the case, that a popup (like a MessageBox)
 	// was visible on top of self. due to HIDDEN_BEHIND_POPUP, self would not register
@@ -350,7 +359,8 @@ take_focus = function(_only_if_topmost = false) {
 	mouse_is_over = instance_position(CTL_MOUSE_X, CTL_MOUSE_Y, self);
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
 }
-take_focus(); // we take focus on creation
+if (!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS)
+	take_focus(); // we take focus on creation
 
 #endregion
 
@@ -373,11 +383,11 @@ scribble_add_title_effects = function(titletext) {
 
 on_client_area_changed = function() {
 	__setup_drag_rect();
-	data.control_tree.update_render_area();
+	control_tree.update_render_area();
 }
 
 update_client_area = function() {
-	data.client_area.set(
+	data.__raptordata.client_area.set(
 		window_resize_border_width, 
 		titlebar_height + window_resize_border_width / 2, 
 		sprite_width - 2 * window_resize_border_width,
@@ -477,7 +487,7 @@ __draw_instance = function(_force = false) {
 		image_blend = draw_color;
 		draw_self();
 		
-		if (has_focus && __can_draw_focus)
+		if (__RAPTORDATA.has_focus && __can_draw_focus)
 			draw_sprite_ext(sprite_index, image_index + 1, x, y, image_xscale, image_yscale, image_angle, focus_border_color, image_alpha);
 		if (!is_null(__x_button)) with(__x_button) {
 			__draw_self();
@@ -507,7 +517,7 @@ __draw_instance = function(_force = false) {
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
 	//draw_set_color(c_red);
-	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	//draw_rectangle(x+data.__raptordata.client_area.left, y+data.__raptordata.client_area.top, x+data.__raptordata.client_area.get_right(), y+data.__raptordata.client_area.get_bottom(), true);
 	
 	//draw_set_color(c_yellow);
 	//draw_rectangle(control_tree.render_area.left, control_tree.render_area.top, control_tree.render_area.get_right(), control_tree.render_area.get_bottom(), true);

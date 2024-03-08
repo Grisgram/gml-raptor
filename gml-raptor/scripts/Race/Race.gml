@@ -67,13 +67,13 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 	var tablefile = file_read_struct_plain(filename);
 	
 	if (tablefile != undefined) {
-		var names = variable_struct_get_names(tablefile);
+		var names = struct_get_names(tablefile);
 		var tablecnt = array_length(names);
 			
 		if (DEBUG_LOG_RACE)
 			ilog($"Successfully loaded {tablecnt} table(s) from '{filename}'{(overwrite_existing ? " WITH OVERWRITE" : "")}");
 		for (var i = 0; i < tablecnt; i++) {
-			var table = variable_struct_get(tablefile, names[i]);
+			var table = struct_get(tablefile, names[i]);
 			race_add_table(names[i], table, overwrite_existing);
 		}
 	} else
@@ -90,7 +90,7 @@ function race_load_file(filename_to_load, overwrite_existing = true) {
 ///								to persist it in the save game. It can be imported again through
 ///								race_add_table().
 function race_get_table(table_name) {
-	return is_string(table_name) ? variable_struct_get(__RACE_GLOBAL, table_name) : table_name;
+	return is_string(table_name) ? struct_get(__RACE_GLOBAL, table_name) : table_name;
 }
 
 /// @function					race_get_table_names()
@@ -100,7 +100,7 @@ function race_get_table(table_name) {
 ///								tables through recursive queries.
 ///								Dynamically created table names always start with $
 function race_get_table_names() {
-	return variable_struct_get_names(__RACE_GLOBAL);
+	return struct_get_names(__RACE_GLOBAL);
 }
 
 /// @function							race_add_table(table_name, table_struct, overwrite_existing = true)
@@ -118,9 +118,9 @@ function race_get_table_names() {
 function race_add_table(table_name, table_struct, overwrite_existing = true) {
 	if (overwrite_existing || !variable_struct_exists(__RACE_CACHE, table_name)) {
 		race_table_set_name(table_struct, table_name);
-		variable_struct_set(__RACE_CACHE, table_name, table_struct);
+		struct_set(__RACE_CACHE, table_name, table_struct);
 		var dc = SnapDeepCopy(table_struct);
-		variable_struct_set(__RACE_GLOBAL, table_name, dc);					
+		struct_set(__RACE_GLOBAL, table_name, dc);					
 		if (DEBUG_LOG_RACE)
 			dlog($"Added global race table '{table_name}'");
 	}
@@ -143,11 +143,11 @@ function race_table_exists(table_name) {
 ///								Referenced subtables ("=" types) are only reset if you set recursive to true.
 ///								If table_name is not found in the globals, undefined is returned.
 function race_table_reset(table_name, recursive = false) {
-	var cache = variable_struct_get(__RACE_CACHE, table_name);
+	var cache = struct_get(__RACE_CACHE, table_name);
 	if (cache != undefined) {
-		var tbl = variable_struct_get(__RACE_GLOBAL, table_name);
+		var tbl = struct_get(__RACE_GLOBAL, table_name);
 		var items = tbl.items;
-		var names = variable_struct_get_names(items);
+		var names = struct_get_names(items);
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var name = names[@ i];
 			if (recursive && string_starts_with(name, "="))
@@ -156,7 +156,7 @@ function race_table_reset(table_name, recursive = false) {
 				__race_table_delete_temp(name);
 		}
 		var dc = SnapDeepCopy(cache);
-		variable_struct_set(__RACE_GLOBAL, table_name, dc);
+		struct_set(__RACE_GLOBAL, table_name, dc);
 		if (DEBUG_LOG_RACE)
 			vlog($"Race table '{table_name}' has been reset");
 		return dc;
@@ -227,7 +227,7 @@ function race_table_foreach_item(table_name, func, args = undefined) {
 	var items = race_table_get_items(table);
 	for (var i = 0, len = array_length(names); i < len; i++) {
         var name = names[i];
-		func(name, variable_struct_get(items, name), args);
+		func(name, struct_get(items, name), args);
 	}
 }
 
@@ -243,7 +243,7 @@ function race_table_foreach_item(table_name, func, args = undefined) {
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 ///								If item_name is not found in the table, undefined is returned.
 function race_get_type(table, item_name) {
-	return variable_struct_get(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_TYPE);
+	return struct_get(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_TYPE);
 }
 
 /// @function					race_is_always(table, item_name)
@@ -254,7 +254,7 @@ function race_get_type(table, item_name) {
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 ///								If item_name is not found in the table, undefined is returned.
 function race_is_always(table, item_name) {
-	return variable_struct_get(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ALWAYS) == 1;
+	return struct_get(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ALWAYS) == 1;
 }
 
 /// @function					race_is_unique(table, item_name)
@@ -265,7 +265,7 @@ function race_is_always(table, item_name) {
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 ///								If item_name is not found in the table, undefined is returned.
 function race_is_unique(table, item_name) {
-	return variable_struct_get(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_UNIQUE) == 1;
+	return struct_get(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_UNIQUE) == 1;
 }
 
 /// @function					race_is_enabled(table, item_name)
@@ -276,7 +276,7 @@ function race_is_unique(table, item_name) {
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 ///								If item_name is not found in the table, undefined is returned.
 function race_is_enabled(table, item_name) {
-	return variable_struct_get(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ENABLED) == 1;
+	return struct_get(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ENABLED) == 1;
 }
 
 /// @function					race_get_chance(table, item_name)
@@ -287,7 +287,7 @@ function race_is_enabled(table, item_name) {
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 ///								If item_name is not found in the table, undefined is returned.
 function race_get_chance(table, item_name) {
-	return variable_struct_get(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_CHANCE);
+	return struct_get(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_CHANCE);
 }
 
 /// @function						race_get_attribute(table, item_name, attribute_name)
@@ -304,7 +304,7 @@ function race_get_attribute(table, item_name, attribute_name) {
 	if (!variable_struct_exists(item, __RACE_FIELD_ATTRIBUTES))
 		return undefined;
 	else
-		return variable_struct_get(variable_struct_get(item, __RACE_FIELD_ATTRIBUTES), attribute_name);
+		return struct_get(struct_get(item, __RACE_FIELD_ATTRIBUTES), attribute_name);
 }
 
 #endregion
@@ -320,7 +320,7 @@ function race_get_attribute(table, item_name, attribute_name) {
 ///								You can change the type of item to drop at runtime. This might become handy,
 ///								if your game state requires stronger or simply other enemies to spawn (just an example).
 function race_set_type(table, item_name, new_type) {
-	variable_struct_set(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_TYPE, new_type);
+	struct_set(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_TYPE, new_type);
 }
 
 /// @function					race_set_always(table, item_name, new_always)
@@ -330,7 +330,7 @@ function race_set_type(table, item_name, new_type) {
 /// @description				Sets the always state of an item.
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 function race_set_always(table, item_name, new_always) {
-	variable_struct_set(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ALWAYS, new_always);	
+	struct_set(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ALWAYS, new_always);	
 }
 
 /// @function					race_set_unique(table, item_name)
@@ -340,7 +340,7 @@ function race_set_always(table, item_name, new_always) {
 /// @description				Sets the unique state of an item.
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 function race_set_unique(table, item_name, new_unique) {
-	variable_struct_set(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_UNIQUE, new_unique);
+	struct_set(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_UNIQUE, new_unique);
 }
 
 /// @function					race_set_enabled(table, item_name, new_enabled)
@@ -350,7 +350,7 @@ function race_set_unique(table, item_name, new_unique) {
 /// @description				Sets the enabled state of an item.
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 function race_set_enabled(table, item_name, new_enabled) {
-	variable_struct_set(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ENABLED, new_enabled);
+	struct_set(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_ENABLED, new_enabled);
 }
 
 /// @function					race_set_chance(table, item_name, new_chance)
@@ -360,7 +360,7 @@ function race_set_enabled(table, item_name, new_enabled) {
 /// @description				Sets the drop chance of an item.
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 function race_set_chance(table, item_name, new_chance) {
-	variable_struct_set(variable_struct_get(variable_struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_CHANCE, new_chance);
+	struct_set(struct_get(struct_get(table, __RACE_FIELD_ITEMS), item_name), __RACE_FIELD_CHANCE, new_chance);
 }
 
 /// @function						race_set_attribute(table, item_name, attribute_name, value)
@@ -375,10 +375,10 @@ function race_set_attribute(table, item_name, attribute_name, value) {
 	var attr;
 	if (!variable_struct_exists(item, __RACE_FIELD_ATTRIBUTES)) {
 		attr = {};
-		variable_struct_set(item, __RACE_FIELD_ATTRIBUTES, attr);
+		struct_set(item, __RACE_FIELD_ATTRIBUTES, attr);
 	} else
-		attr = variable_struct_get(item, __RACE_FIELD_ATTRIBUTES);
-	variable_struct_set(attr, attribute_name, value);
+		attr = struct_get(item, __RACE_FIELD_ATTRIBUTES);
+	struct_set(attr, attribute_name, value);
 }
 
 #endregion
@@ -391,7 +391,7 @@ function race_set_attribute(table, item_name, attribute_name, value) {
 /// @returns {string}			The type of the item.
 /// @description				Gets the type of an item.
 function race_item_get_type(item_struct) {
-	return variable_struct_get(item_struct, __RACE_FIELD_TYPE);
+	return struct_get(item_struct, __RACE_FIELD_TYPE);
 }
 
 /// @function					race_item_is_always(item_struct)
@@ -399,7 +399,7 @@ function race_item_get_type(item_struct) {
 /// @returns {bool}				True, if this item is set to "always", otherwise false.
 /// @description				Gets the always state of an item.
 function race_item_is_always(item_struct) {
-	return variable_struct_get(item_struct, __RACE_FIELD_ALWAYS) == 1;
+	return struct_get(item_struct, __RACE_FIELD_ALWAYS) == 1;
 }
 
 /// @function					race_item_is_unique(item_struct)
@@ -407,7 +407,7 @@ function race_item_is_always(item_struct) {
 /// @returns {bool}				True, if this item is set to "unique", otherwise false.
 /// @description				Gets the unique state of an item.
 function race_item_is_unique(item_struct) {
-	return variable_struct_get(item_struct, __RACE_FIELD_UNIQUE) == 1;
+	return struct_get(item_struct, __RACE_FIELD_UNIQUE) == 1;
 }
 
 /// @function					race_item_is_enabled(item_struct)
@@ -415,7 +415,7 @@ function race_item_is_unique(item_struct) {
 /// @returns {bool}				True, if this item is set to "enabled", otherwise false.
 /// @description				Gets the enabled state of an item.
 function race_item_is_enabled(item_struct) {
-	return variable_struct_get(item_struct, __RACE_FIELD_ENABLED) == 1;
+	return struct_get(item_struct, __RACE_FIELD_ENABLED) == 1;
 }
 
 /// @function					race_item_get_chance(item_struct)
@@ -423,7 +423,7 @@ function race_item_is_enabled(item_struct) {
 /// @returns {real}				The drop chance for this item.
 /// @description				Gets the drop chance of an item.
 function race_item_get_chance(item_struct) {
-	return variable_struct_get(item_struct, __RACE_FIELD_CHANCE);
+	return struct_get(item_struct, __RACE_FIELD_CHANCE);
 }
 
 /// @function						race_item_get_attribute(item_struct, attribute_name)
@@ -437,7 +437,7 @@ function race_item_get_attribute(item_struct, attribute_name) {
 	if (!variable_struct_exists(item_struct, __RACE_FIELD_ATTRIBUTES))
 		return undefined;
 	else
-		return variable_struct_get(variable_struct_get(item_struct, __RACE_FIELD_ATTRIBUTES), attribute_name);
+		return struct_get(struct_get(item_struct, __RACE_FIELD_ATTRIBUTES), attribute_name);
 }
 
 #endregion
@@ -451,7 +451,7 @@ function race_item_get_attribute(item_struct, attribute_name) {
 ///								You can change the type of item to drop at runtime. This might become handy,
 ///								if your game state requires stronger or simply other enemies to spawn (just an example).
 function race_item_set_type(item_struct, new_type) {
-	variable_struct_set(item_struct, __RACE_FIELD_TYPE, new_type);
+	struct_set(item_struct, __RACE_FIELD_TYPE, new_type);
 }
 
 /// @function					race_item_set_always(item_struct, new_always)
@@ -459,7 +459,7 @@ function race_item_set_type(item_struct, new_type) {
 /// @param {1|0} new_always		The new always state to assign.
 /// @description				Sets the always state of an item.
 function race_item_set_always(item_struct, new_always) {
-	variable_struct_set(item_struct, __RACE_FIELD_ALWAYS, new_always);	
+	struct_set(item_struct, __RACE_FIELD_ALWAYS, new_always);	
 }
 
 /// @function					race_item_set_unique(item_struct, new_unique)
@@ -467,7 +467,7 @@ function race_item_set_always(item_struct, new_always) {
 /// @param {1|0} new_unique		The new unique state to assign.
 /// @description				Sets the unique state of an item.
 function race_item_set_unique(item_struct, new_unique) {
-	variable_struct_set(item_struct, __RACE_FIELD_UNIQUE, new_unique);
+	struct_set(item_struct, __RACE_FIELD_UNIQUE, new_unique);
 }
 
 /// @function					race_item_set_enabled(item_struct, new_enabled)
@@ -475,7 +475,7 @@ function race_item_set_unique(item_struct, new_unique) {
 /// @param {1|0} new_enabled	The new enabled state to assign.
 /// @description				Sets the enabled state of an item.
 function race_item_set_enabled(item_struct, new_enabled) {
-	variable_struct_set(item_struct, __RACE_FIELD_ENABLED, new_enabled);
+	struct_set(item_struct, __RACE_FIELD_ENABLED, new_enabled);
 }
 
 /// @function					race_item_set_chance(item_struct, new_chance)
@@ -483,7 +483,7 @@ function race_item_set_enabled(item_struct, new_enabled) {
 /// @param {real} new_chance	The drop chance to set for this item.
 /// @description				Sets the drop chance of an item.
 function race_item_set_chance(item_struct, new_chance) {
-	variable_struct_set(item_struct, __RACE_FIELD_CHANCE, new_chance);
+	struct_set(item_struct, __RACE_FIELD_CHANCE, new_chance);
 }
 
 /// @function						race_item_set_attribute(item_struct, attribute_name, value)
@@ -495,10 +495,10 @@ function race_item_set_attribute(item_struct, attribute_name, value) {
 	var attr;
 	if (!variable_struct_exists(item_struct, __RACE_FIELD_ATTRIBUTES)) {
 		attr = {};
-		variable_struct_set(item_struct, __RACE_FIELD_ATTRIBUTES, attr);
+		struct_set(item_struct, __RACE_FIELD_ATTRIBUTES, attr);
 	} else
-		attr = variable_struct_get(item_struct, __RACE_FIELD_ATTRIBUTES);
-	variable_struct_set(attr, attribute_name, value);
+		attr = struct_get(item_struct, __RACE_FIELD_ATTRIBUTES);
+	struct_set(attr, attribute_name, value);
 }
 
 #endregion
@@ -513,7 +513,7 @@ function race_item_set_attribute(item_struct, attribute_name, value) {
 /// @description				Gets a single item from the table.
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 function race_table_get_item(table, item_name) {
-	return variable_struct_get(variable_struct_get(race_get_table(table), __RACE_FIELD_ITEMS), item_name);
+	return struct_get(struct_get(race_get_table(table), __RACE_FIELD_ITEMS), item_name);
 }
 
 /// @function					race_table_get_loot_count(table)
@@ -522,7 +522,7 @@ function race_table_get_item(table, item_name) {
 /// @description				Gets the loot count of a table.
 ///								If the table is not found, undefined is returned.
 function race_table_get_loot_count(table) {
-	return variable_struct_get(race_get_table(table), __RACE_FIELD_LOOT_COUNT);
+	return struct_get(race_get_table(table), __RACE_FIELD_LOOT_COUNT);
 }
 
 /// @function					race_table_get_items(table)
@@ -531,7 +531,7 @@ function race_table_get_loot_count(table) {
 /// @description				Gets the items contained in a table.
 ///								If the table is not found, undefined is returned.
 function race_table_get_items(table) {
-	return variable_struct_get(race_get_table(table), __RACE_FIELD_ITEMS);
+	return struct_get(race_get_table(table), __RACE_FIELD_ITEMS);
 }
 
 /// @function					race_table_get_item_names(table)
@@ -540,7 +540,7 @@ function race_table_get_items(table) {
 /// @description				Gets the names of the items contained in a table.
 ///								NOTE: This method may crash if table does not exist or is not loaded!
 function race_table_get_item_names(table) {
-	return variable_struct_get_names(variable_struct_get(race_get_table(table), __RACE_FIELD_ITEMS));
+	return struct_get_names(struct_get(race_get_table(table), __RACE_FIELD_ITEMS));
 }
 
 /// @function					race_table_get_name(table)
@@ -549,7 +549,7 @@ function race_table_get_item_names(table) {
 /// @description				Gets the name of a table.
 ///								If the table is not found, undefined is returned.
 function race_table_get_name(table) {
-	return variable_struct_get(race_get_table(table), __RACE_FIELD_NAME);
+	return struct_get(race_get_table(table), __RACE_FIELD_NAME);
 }
 
 #endregion
@@ -562,7 +562,7 @@ function race_table_get_name(table) {
 /// @param {int} new_loot_count	The new loot_count to assign.
 /// @description				Sets the loot count of a table.
 function race_table_set_loot_count(table, new_loot_count) {
-	variable_struct_set(race_get_table(table), __RACE_FIELD_LOOT_COUNT, new_loot_count);
+	struct_set(race_get_table(table), __RACE_FIELD_LOOT_COUNT, new_loot_count);
 }
 
 /// @function					race_table_set_name(table, new_name)
@@ -570,7 +570,7 @@ function race_table_set_loot_count(table, new_loot_count) {
 /// @param {string} new_name	The new name to assign.
 /// @description				Sets the name of a table.
 function race_table_set_name(table, new_name) {
-	variable_struct_set(race_get_table(table), __RACE_FIELD_NAME, new_name);
+	struct_set(race_get_table(table), __RACE_FIELD_NAME, new_name);
 }
 
 #endregion
