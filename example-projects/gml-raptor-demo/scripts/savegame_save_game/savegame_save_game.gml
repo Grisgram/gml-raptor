@@ -24,28 +24,28 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	
 	// First things first: The Engine data
 	var engine = {};
-	variable_struct_set(engine, __SAVEGAME_ENGINE_SEED, random_get_seed());
-	variable_struct_set(engine, __SAVEGAME_ENGINE_VERSION, SAVEGAME_FILE_VERSION);
-	variable_struct_set(engine, __SAVEGAME_ENGINE_ROOM_NAME, room_get_name(room));
-	variable_struct_set(savegame, __SAVEGAME_ENGINE_HEADER, engine);
+	struct_set(engine, __SAVEGAME_ENGINE_SEED, random_get_seed());
+	struct_set(engine, __SAVEGAME_ENGINE_VERSION, SAVEGAME_FILE_VERSION);
+	struct_set(engine, __SAVEGAME_ENGINE_ROOM_NAME, room_get_name(room));
+	struct_set(savegame, __SAVEGAME_ENGINE_HEADER, engine);
 	
 	// save global data
-	variable_struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+	struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
 
 	// Then, add all race tables to the save game
 	var race = {};
-	variable_struct_set(savegame, __SAVEGAME_RACE_HEADER, race);
+	struct_set(savegame, __SAVEGAME_RACE_HEADER, race);
 	var racetablenames = race_get_table_names();
 	for (var i = 0; i < array_length(racetablenames); i++) {
-		variable_struct_set(race, racetablenames[i], race_get_table(racetablenames[i]));
+		struct_set(race, racetablenames[i], race_get_table(racetablenames[i]));
 	}
 	
 	// Then add all custom structs that shall be saved
-	variable_struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);
+	struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);
 	
 	var instances = {};
 	var cnt = 0;
-	variable_struct_set(savegame, __SAVEGAME_OBJECT_HEADER, instances);
+	struct_set(savegame, __SAVEGAME_OBJECT_HEADER, instances);
 	if (!data_only) {
 		with (Saveable) {
 			if (add_to_savegame) {
@@ -77,16 +77,16 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 				// auto-save variables of platform objects
 				// RaceController
 				if (obj == "RaceController" || object_is_ancestor(object_index, RaceController))
-					variable_struct_set(instdata, "race_table_file_name", race_table_file_name);
+					struct_set(instdata, "race_table_file_name", race_table_file_name);
 				
 				// RaceTable
 				if (obj == "RaceTable" || object_is_ancestor(object_index, RaceTable)) {
-					variable_struct_set(instdata, "race_table_name",		race_table_name);
-					variable_struct_set(instdata, "race_drop_on_layer",		race_drop_on_layer);
+					struct_set(instdata, "race_table_name",		race_table_name);
+					struct_set(instdata, "race_drop_on_layer",		race_drop_on_layer);
 				
 					// save the current instance id to find it later when loading
 					var cid = race_controller == noone ? noone : real(race_controller.id);
-					variable_struct_set(instdata, "race_controller", cid);
+					struct_set(instdata, "race_controller", cid);
 				}
 			
 			
@@ -103,11 +103,11 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 			
 				if (variable_instance_exists(self, __SAVEGAME_DATA_HEADER) &&
 					is_struct(variable_instance_get(self, __SAVEGAME_DATA_HEADER)))
-						variable_struct_set(instdata, __SAVEGAME_DATA_HEADER, data);
+						struct_set(instdata, __SAVEGAME_DATA_HEADER, data);
 				else
-					variable_struct_set(instdata, __SAVEGAME_DATA_HEADER, {});
+					struct_set(instdata, __SAVEGAME_DATA_HEADER, {});
 				
-				variable_struct_set(instances,instname,instdata);
+				struct_set(instances,instname,instdata);
 				cnt++;
 			}
 		}

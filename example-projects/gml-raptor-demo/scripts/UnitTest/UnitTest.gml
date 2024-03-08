@@ -127,7 +127,7 @@ function UnitTest(name = "UnitTest") constructor {
 	///								a test function receives one argument, the test_data. This is the struct
 	///								you set up in the test_start function.
 	static add_test = function(name, func) {
-		variable_struct_set(tests, name, func);
+		struct_set(tests, name, func);
 	}
 
 	/// @function					run()
@@ -136,7 +136,7 @@ function UnitTest(name = "UnitTest") constructor {
 		ilog($"[--- START TEST SUITE '{__test_suite_name}' ---]");
 		suite_start();
 		var fail_count = 0;
-		var names = variable_struct_get_names(tests);
+		var names = struct_get_names(tests);
 		array_sort(names, true);
 		var i = 0; repeat(array_length(names)) {
 			__current_test_name = names[i++];
@@ -145,7 +145,7 @@ function UnitTest(name = "UnitTest") constructor {
 			var data_for_test = test_data;
 			if (is_struct(new_data))
 				data_for_test = new_data;
-			variable_struct_get(tests, __current_test_name)(self, data_for_test);
+			struct_get(tests, __current_test_name)(self, data_for_test);
 			test_finish(__current_test_name);
 			if (__current_test_ok) {
 				ilog($" OK : {__current_test_name}");

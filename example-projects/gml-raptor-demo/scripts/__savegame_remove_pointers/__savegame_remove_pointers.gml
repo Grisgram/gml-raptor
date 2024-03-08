@@ -31,7 +31,7 @@ function __savegame_deep_copy_remove(source) constructor {
 			// if it's the ref type it looks like this: "ref 100008" (length = 10)
 			var strid = string(_value);
 			
-			if (string_length(strid) == 10 && string_starts_with(strid, "ref ")) {
+			if (string_length(strid) == 19 && string_starts_with(strid, "ref instance ")) {
 				strid = string(real(_value));
 				//vlog($"Found top level instance id in struct: {strid}");
 				rv.value = __SAVEGAME_REF_MARKER + strid;
@@ -55,12 +55,12 @@ function __savegame_deep_copy_remove(source) constructor {
     {
         var _copy = {};
         
-        var _names = variable_struct_get_names(_source);
+        var _names = struct_get_names(_source);
         var _i = 0;
         repeat(array_length(_names))
         {
             var _name = _names[_i];
-            var _value = variable_struct_get(_source, _name);
+            var _value = struct_get(_source, _name);
 			
             if (is_method(_value)) {
 				_i++;
@@ -86,7 +86,7 @@ function __savegame_deep_copy_remove(source) constructor {
                 _value = copy_struct(_value);
             }
             
-            variable_struct_set(_copy, _name, _value);
+            struct_set(_copy, _name, _value);
             
             ++_i;
         }
