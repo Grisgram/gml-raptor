@@ -58,7 +58,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 					__SAVEGAME_OBJ_PROP_Y			: y,
 					__SAVEGAME_OBJ_PROP_DIR			: direction,
 					__SAVEGAME_OBJ_PROP_SPD			: speed,
-					__SAVEGAME_OBJ_PROP_LAYER		: layer == -1 ? -1 : layer_get_name(layer),
+					__SAVEGAME_OBJ_PROP_LAYER		: (layer == -1 ? -1 : layer_get_name(layer)),
 					__SAVEGAME_OBJ_PROP_DEPTH		: depth,
 					__SAVEGAME_OBJ_PROP_VIS			: visible,
 					__SAVEGAME_OBJ_PROP_PERS		: persistent,

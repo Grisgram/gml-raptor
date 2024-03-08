@@ -1,9 +1,6 @@
 /// @description Build Window on create
 event_inherited();
 
-set_client_area(800, 482);
-center_on_screen();
-
 var fxoff = 230;
 var fyoff = 110;
 

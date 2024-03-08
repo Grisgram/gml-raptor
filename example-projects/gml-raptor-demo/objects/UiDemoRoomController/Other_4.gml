@@ -29,7 +29,8 @@ __button_save_load = function(_text, _click, _hk = "") {
 		on_middle_click: ui_demo_save,
 		hotkey_middle_click: "F2",
 		on_right_click: ui_demo_load,
-		hotkey_right_click: "F3"
+		hotkey_right_click: "F3",
+		hotkey_only_when_topmost: false
 	};
 }
 

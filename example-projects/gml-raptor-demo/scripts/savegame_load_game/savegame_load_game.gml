@@ -77,7 +77,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 		
 			var asset_idx = asset_get_index(obj);
 		
-			var created = lname != -1 ? 
+			var created = (lname != -1 && !is_null(lname)) ? 
 				instance_create_layer(xpos,ypos,lname,asset_idx) : 
 				instance_create_depth(xpos,ypos,ldepth,asset_idx);
 		
@@ -92,7 +92,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 				image_speed		= vsget(inst, __SAVEGAME_OBJ_PROP_ISPEED, 1);
 				image_alpha		= vsget(inst, __SAVEGAME_OBJ_PROP_ALPHA, 1); 
 				image_angle		= vsget(inst, __SAVEGAME_OBJ_PROP_ANGLE, 0); 
-				image_blend		= vsget(inst, __SAVEGAME_OBJ_PROP_BLEND, c_white); 
+				image_blend		= vsget(inst, __SAVEGAME_OBJ_PROP_BLEND, c_white);
 				image_xscale	= vsget(inst, __SAVEGAME_OBJ_PROP_XSCALE, 1); 
 				image_yscale	= vsget(inst, __SAVEGAME_OBJ_PROP_YSCALE, 1);
 				visible			= vsget(inst, __SAVEGAME_OBJ_PROP_VIS, true);
