@@ -54,11 +54,25 @@ update_graphics = function(_force_redraw = true) {
 }
 
 __draw_me = function() {
+	sprite_index = spr1pxTrans;
 	__draw_self();
+	sprite_index = __sprite_index;
 	__draw_x = (draw_checkbox_on_the_left ? x : x + sprite_width - unscaled.width);
-	draw_sprite_ext(__sprite_index, __image_index, __draw_x, y, original_scale.x, original_scale.y, image_angle, animated_draw_color, image_alpha);
+	draw_sprite_ext(__sprite_index, __image_index, 
+		__draw_x, y, 
+		original_scale.x, 
+		original_scale.y, 
+		image_angle, 
+		animated_draw_color, 
+		image_alpha);
 	if (checked)
-		draw_sprite_ext(__sprite_index, image_index_checkmark, __draw_x + __draw_offset.x, y + __draw_offset.y, original_scale.x * __check_factor, original_scale.y * __check_factor, image_angle, checkmark_draw_color, image_alpha);
+		draw_sprite_ext(__sprite_index, image_index_checkmark, 
+			__draw_x + __draw_offset.x, y + __draw_offset.y, 
+			original_scale.x * __check_factor, 
+			original_scale.y * __check_factor, 
+			image_angle, 
+			checkmark_draw_color, 
+			image_alpha);
 }
 
 __set_default_image = function() {
@@ -85,8 +99,10 @@ __set_default_image();
 event_inherited();
 
 __apply_autosize_alignment = function(distx, disty) {
-	image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + unscaled.width  + distx) / unscaled.width);
-	image_yscale = max(__startup_yscale, (max(min_height,__text_height) + unscaled.height + disty) / unscaled.height);
+	//image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + unscaled.width  + distx) / unscaled.width);
+	//image_yscale = max(__startup_yscale, (max(min_height,__text_height) + unscaled.height + disty) / unscaled.height);
+	image_xscale = __startup_xscale;
+	image_yscale = __startup_yscale;
 }
 
 __apply_post_positioning = function() {
