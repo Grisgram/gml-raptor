@@ -54,7 +54,8 @@ enum character_filter {
 /// @function					set_focus(from_tab = false)
 /// @description				Set input focus to this
 set_focus = function(from_tab = false) {
-	if (__RAPTORDATA.has_focus || !is_enabled) 
+	if (__RAPTORDATA.has_focus || !is_enabled || 
+		(get_window() != undefined && !get_window().is_focus_window())) 
 		return;
 	
 	with (RaptorInputBox) lose_focus();

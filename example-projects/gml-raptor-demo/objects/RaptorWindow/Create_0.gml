@@ -24,34 +24,36 @@ event_inherited();
 __RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING	= false;
 __RAPTOR_FOCUS_WINDOW					= undefined;
 
+__RAPTORDATA.has_focus		= false;
+__RAPTORDATA.creation_depth	= depth;
+__RAPTORDATA.focus_index	= -1;
+
 if (window_is_sizable && image_number > 2)
 	image_index = 2;
 
 title				= LG_resolve(title);
 
-__RAPTORDATA.has_focus			= false;
-__RAPTORDATA.creation_depth		= depth;
-
 __container			= self;
 __can_draw_focus	= image_number > image_index;
-__focus_index		= -1;
 
 __last_title		= "";
 __title_x			= 0;
 __title_y			= 0;
 __scribble_title	= undefined;
 
-__startup_depth		= depth;
-
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
-
 
 __base_skin_changed = on_skin_changed;
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	__base_skin_changed(_skindata);
 	create_x_button();
+}
+
+/// @function is_focus_window()
+is_focus_window	= function() {
+	return __RAPTORDATA.has_focus;
 }
 
 /// @function center_on_screen()
@@ -105,6 +107,7 @@ __size_rect_top		= new Rectangle();
 __size_rect_bottom	= new Rectangle();
 __size_rect_left	= new Rectangle();
 __size_rect_right	= new Rectangle();
+__in_destroy		= false;
 __in_size_mode		= false;
 __size_direction	= 0;
 
@@ -266,8 +269,8 @@ __focus_next_in_chain = function() {
 	var win = undefined;
 	var maxidx = -1;
 	with(RaptorWindow) {
-		if (!eq(self, other) && __focus_index > maxidx) {
-			maxidx = __focus_index;
+		if (!eq(self, other) && __RAPTORDATA.focus_index > maxidx) {
+			maxidx = __RAPTORDATA.focus_index;
 			win = self;
 		}
 	}
@@ -276,13 +279,10 @@ __focus_next_in_chain = function() {
 }
 
 __reorder_focus_index = function(_old_idx) {
-	var maxdepth = DEPTH_TOP_MOST;
 	with(RaptorWindow) {
-		maxdepth = max(maxdepth, depth);
-		if (!eq(self, other) && __focus_index > _old_idx)
-			__focus_index--;
+		if (!eq(self, other) && __RAPTORDATA.focus_index > _old_idx)
+			__RAPTORDATA.focus_index--;
 	}
-	maxdepth = min(maxdepth, __RAPTORDATA.creation_depth);
 	// to avoid a (theoretically possible) endless loop here,
 	// we stop after n iterations, where n = instance_number(RaptorWindow)
 	var maxiter = instance_number(RaptorWindow);
@@ -292,29 +292,32 @@ __reorder_focus_index = function(_old_idx) {
 		var seen = [];
 		have_doubles = false;
 		with(RaptorWindow) {
-			if (!array_contains(seen, __focus_index))
-				array_push(seen, __focus_index);
+			if (!array_contains(seen, __RAPTORDATA.focus_index))
+				array_push(seen, __RAPTORDATA.focus_index);
 			else {
 				have_doubles = true;
-				__focus_index--;
+				__RAPTORDATA.focus_index--;
 			}
 		}
 		// exit after n iterations
 		if (++curiter == maxiter)
 			break;
 	}
-	__focus_idx = instance_number(RaptorWindow) - 1;
+	__RAPTORDATA.focus_index = instance_number(RaptorWindow) - 1;
 	// last step: set the depth of the windows
 	with(RaptorWindow) {
-		depth = maxdepth - 2 * __focus_index;
+		
+		depth = __RAPTORDATA.creation_depth - 2 * __RAPTORDATA.focus_index;
 		if (__have_x_button && !is_null(__x_button)) 
 			__x_button.depth = depth;
+		if (!__in_destroy)
+			control_tree.update_children_depth();
 	}
 	// -- debug output --
-	//ilog($"[--- FOCUS INDEX REPORT START ---]");
-	//with(RaptorWindow)
-	//	ilog($"{__focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
-	//ilog($"[--- FOCUS INDEX REPORT END   ---]");
+	ilog($"[--- FOCUS INDEX REPORT START ---]");
+	with(RaptorWindow)
+		ilog($"{__RAPTORDATA.creation_depth} {__RAPTORDATA.focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+	ilog($"[--- FOCUS INDEX REPORT END   ---]");
 }
 
 lose_focus = function() {
@@ -347,8 +350,8 @@ take_focus = function(_only_if_topmost = false) {
 	__RAPTORDATA.has_focus = true;
 	__RAPTOR_FOCUS_WINDOW = self;
 	var maxidx = instance_number(RaptorWindow) - 1;
-	var myidx = (__focus_index >= 0 ? __focus_index : maxidx);
-	__focus_index = maxidx;
+	var myidx = (__RAPTORDATA.focus_index >= 0 ? __RAPTORDATA.focus_index : maxidx);
+	__RAPTORDATA.focus_index = maxidx;
 	__reorder_focus_index(myidx);
 	// this mouse_is_over check is for the case, that a popup (like a MessageBox)
 	// was visible on top of self. due to HIDDEN_BEHIND_POPUP, self would not register

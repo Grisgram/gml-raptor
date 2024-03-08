@@ -475,6 +475,18 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	static update_children_depth = function() {
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child	= children[@i];
+			var inst	= child.instance;
+			
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.control_tree.update_children_depth();
+			}
+			inst.depth = __root_tree.control.depth - 1;
+		}
+	}
+	
 	/// @function move_children(_by_x, _by_y)
 	static move_children = function(_by_x, _by_y) {
 		for (var i = 0, len = array_length(children); i < len; i++) {

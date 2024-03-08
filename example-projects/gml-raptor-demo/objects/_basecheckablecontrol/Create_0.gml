@@ -54,9 +54,7 @@ update_graphics = function(_force_redraw = true) {
 }
 
 __draw_me = function() {
-	sprite_index = spr1pxTrans;
 	__draw_self();
-	sprite_index = __sprite_index;
 	__draw_x = (draw_checkbox_on_the_left ? x : x + sprite_width - unscaled.width);
 	draw_sprite_ext(__sprite_index, __image_index, 
 		__draw_x, y, 
