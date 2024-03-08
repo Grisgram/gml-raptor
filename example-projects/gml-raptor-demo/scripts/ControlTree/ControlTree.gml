@@ -307,7 +307,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static step_out = function() {
 		return parent_tree;
 	}
-		
+	
+	/// @function build()
+	static build = function() {
+		__root_tree.control.__draw_self();
+		return self;
+	}
+	
 	/// @function on_window_opened(_callback)
 	static on_window_opened = function(_callback) {
 		__on_opened = _callback;

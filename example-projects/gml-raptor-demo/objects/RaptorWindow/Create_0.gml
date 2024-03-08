@@ -314,10 +314,10 @@ __reorder_focus_index = function(_old_idx) {
 			control_tree.update_children_depth();
 	}
 	// -- debug output --
-	ilog($"[--- FOCUS INDEX REPORT START ---]");
-	with(RaptorWindow)
-		ilog($"{__RAPTORDATA.creation_depth} {__RAPTORDATA.focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
-	ilog($"[--- FOCUS INDEX REPORT END   ---]");
+	//ilog($"[--- FOCUS INDEX REPORT START ---]");
+	//with(RaptorWindow)
+	//	ilog($"{__RAPTORDATA.creation_depth} {__RAPTORDATA.focus_index}: {MY_NAME}{(eq(self,other) ? " ** SELF **" : "")}");
+	//ilog($"[--- FOCUS INDEX REPORT END   ---]");
 }
 
 lose_focus = function() {

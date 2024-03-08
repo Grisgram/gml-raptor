@@ -55,4 +55,5 @@ control_tree
 		.set_align(fa_middle, fa_left, fxoff, 0)
 	.add_control(TextButton, { min_width: 32, startup_width: 32, text: "RC" })
 		.set_align(fa_middle, fa_right, -fxoff, 0)
+	.build()
 ;

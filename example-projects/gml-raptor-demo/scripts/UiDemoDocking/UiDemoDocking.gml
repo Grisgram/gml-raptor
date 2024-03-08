@@ -88,5 +88,5 @@ function CreateUiDemoDocking(_control) {
 				on_left_click: function() { get_parent_tree().add_bottom(); }
 			}).set_dock(dock.bottom).set_padding_all(2)
 			.step_out()
-		;
+		.build();
 }

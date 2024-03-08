@@ -64,4 +64,5 @@ UI_ROOT
 		.add_control(TextButton, __button_save_load("=play/ui/race_exit_button"	, ui_demo_exit_click, "vk_escape"))
 		.set_align(fa_middle, fa_right)
 		.step_out()
+	.build()
 ;
