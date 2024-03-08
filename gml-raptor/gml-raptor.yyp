@@ -519,7 +519,13 @@
   ],
   "templateType":null,
   "TextureGroups":[
-    {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","ConfigValues":{
+        "release":{
+          "groupParent":"null",
+          "compressFormat":"bz2",
+          "loadType":"default",
+        },
+      },"customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
     {"$GMTextureGroup":"","%Name":"ui","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"ui","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
   ],
 }

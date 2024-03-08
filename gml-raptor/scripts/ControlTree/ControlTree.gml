@@ -305,12 +305,12 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	/// @function step_out()
 	static step_out = function() {
-		return parent_tree;
+		return parent_tree??self;
 	}
 	
 	/// @function build()
 	static build = function() {
-		__root_tree.control.__draw_self();
+		try { __root_tree.control.__draw_self(); } catch (_) {}
 		return self;
 	}
 	
