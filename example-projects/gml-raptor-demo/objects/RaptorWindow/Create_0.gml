@@ -55,10 +55,10 @@ on_skin_changed = function(_skindata) {
 center_on_screen = function() {
 	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
 	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
-	data.control_tree.update_render_area();
+	control_tree.update_render_area();
 }
 
-if (center_on_open) {
+if (!SAVEGAME_LOAD_IN_PROGRESS && center_on_open) {
 	center_on_screen();
 	update_startup_coordinates();
 }
@@ -350,7 +350,8 @@ take_focus = function(_only_if_topmost = false) {
 	mouse_is_over = instance_position(CTL_MOUSE_X, CTL_MOUSE_Y, self);
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
 }
-take_focus(); // we take focus on creation
+if (!SAVEGAME_LOAD_IN_PROGRESS)
+	take_focus(); // we take focus on creation
 
 #endregion
 
@@ -373,11 +374,11 @@ scribble_add_title_effects = function(titletext) {
 
 on_client_area_changed = function() {
 	__setup_drag_rect();
-	data.control_tree.update_render_area();
+	control_tree.update_render_area();
 }
 
 update_client_area = function() {
-	data.client_area.set(
+	data.__raptordata.client_area.set(
 		window_resize_border_width, 
 		titlebar_height + window_resize_border_width / 2, 
 		sprite_width - 2 * window_resize_border_width,
@@ -507,7 +508,7 @@ __draw_instance = function(_force = false) {
 	
 	// this code draws the client area in red, if one day there's a bug with alignment
 	//draw_set_color(c_red);
-	//draw_rectangle(x+data.client_area.left, y+data.client_area.top, x+data.client_area.get_right(), y+data.client_area.get_bottom(), true);
+	//draw_rectangle(x+data.__raptordata.client_area.left, y+data.__raptordata.client_area.top, x+data.__raptordata.client_area.get_right(), y+data.__raptordata.client_area.get_bottom(), true);
 	
 	//draw_set_color(c_yellow);
 	//draw_rectangle(control_tree.render_area.left, control_tree.render_area.top, control_tree.render_area.get_right(), control_tree.render_area.get_bottom(), true);

@@ -4,8 +4,8 @@
 							__last_text != text || sprite_index != __last_sprite_index || \
 							sprite_width != __last_sprite_width || sprite_height != __last_sprite_height)
 
-#macro __CONTROL_DRAWS_SELF (data.control_tree_layout == undefined || \
-							(data.control_tree != undefined && data.control_tree.parent_tree == undefined))
+#macro __CONTROL_DRAWS_SELF (control_tree_layout == undefined || \
+							(control_tree != undefined && control_tree.parent_tree == undefined))
 
 event_inherited();
 // undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
@@ -19,16 +19,13 @@ __mouse_events_locked = false; // if rendered in a container, container draws fi
 edges = new Edges(self);
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
-if (!SAVEGAME_LOAD_IN_PROGRESS) {
-	// layout data is part of the savegame, if this one gets saved
-	data.control_tree = undefined;
-	data.control_tree_layout = undefined;
-	data.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
-}
+control_tree = vigetx(self, "control_tree", undefined);
+control_tree_layout = vigetx(self, "control_tree_layout", undefined);
+data.__raptordata.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 
 /// @function update_client_area()
 update_client_area = function() {
-	data.client_area.set(0, 0, sprite_width, sprite_height);
+	data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height);
 }
 
 /// @function set_startup_size()
