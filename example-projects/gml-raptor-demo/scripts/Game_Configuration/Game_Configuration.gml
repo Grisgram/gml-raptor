@@ -76,7 +76,7 @@ if (USE_HIGHSCORES) {
 function onGameStart() {
 
 	// Debug/Dev configuration
-	DEBUG_SHOW_OBJECT_FRAMES	= true;
+	DEBUG_SHOW_OBJECT_FRAMES	= false;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 		

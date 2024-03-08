@@ -1,6 +1,6 @@
 /// @description Cursor control & add text
 
-if (!has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
+if (!__RAPTORDATA.has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 
 __cut_selection = function() {
 	if (selection_length == 0)
@@ -176,7 +176,7 @@ __find_next_input_box = function(shift_tab = false) {
 }
 
 __do_key_action = function() {
-	if (!has_focus) 
+	if (!__RAPTORDATA.has_focus) 
 		return;
 	
 	keyboard_string = string_copy(keyboard_string, string_length(keyboard_string), 1);
@@ -216,5 +216,5 @@ __do_key_action = function() {
 	__start_wait_for_key_repeat(keyboard_key);
 }
 
-if (has_focus && __TEXT_NAV_TAB_LOCK == 0)
+if (__RAPTORDATA.has_focus && __TEXT_NAV_TAB_LOCK == 0)
 	__do_key_action();

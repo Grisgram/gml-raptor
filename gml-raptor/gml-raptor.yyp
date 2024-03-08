@@ -140,6 +140,7 @@
     {"id":{"name":"BrowserGameController","path":"objects/BrowserGameController/BrowserGameController.yy",},},
     {"id":{"name":"CanvasDrawer","path":"objects/CanvasDrawer/CanvasDrawer.yy",},},
     {"id":{"name":"CheckBox","path":"objects/CheckBox/CheckBox.yy",},},
+    {"id":{"name":"ControlTreeSprite","path":"objects/ControlTreeSprite/ControlTreeSprite.yy",},},
     {"id":{"name":"CopyrightLabel","path":"objects/CopyrightLabel/CopyrightLabel.yy",},},
     {"id":{"name":"Eye","path":"objects/Eye/Eye.yy",},},
     {"id":{"name":"FPSTracker","path":"objects/FPSTracker/FPSTracker.yy",},},

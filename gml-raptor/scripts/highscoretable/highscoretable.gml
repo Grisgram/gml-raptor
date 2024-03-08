@@ -33,8 +33,8 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 	}
 	
 	static assign_data = function(loaded_data) {
-		data.name = variable_struct_get(loaded_data, "name");
-		data.max_entries = variable_struct_get(loaded_data, "max_entries");
+		data.name = struct_get(loaded_data, "name");
+		data.max_entries = struct_get(loaded_data, "max_entries");
 		data.criteria = loaded_data.criteria;
 		for (var i = 0; i < array_length(loaded_data.entries); i++) {
 			var le = loaded_data.entries[@ i].data;

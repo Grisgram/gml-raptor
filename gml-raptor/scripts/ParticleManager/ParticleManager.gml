@@ -48,8 +48,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @function					particle_type_get(name)
 	/// @description				register (or get existing) part type for leak-free destroying at end of level
 	static particle_type_get = function(name) {
-		var rv = variable_struct_exists(__particle_types, name) ? variable_struct_get(__particle_types, name) : part_type_create();
-		variable_struct_set(__particle_types, name, rv);
+		var rv = variable_struct_exists(__particle_types, name) ? struct_get(__particle_types, name) : part_type_create();
+		struct_set(__particle_types, name, rv);
 		return rv;
 	}
 
@@ -63,7 +63,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description				immediately destroy a particle type
 	static particle_type_destroy = function(name) {
 		if (variable_struct_exists(__particle_types, name)) {
-			part_type_destroy(variable_struct_get(__particle_types, name));
+			part_type_destroy(struct_get(__particle_types, name));
 			variable_struct_remove(__particle_types, name);
 		}
 	}
@@ -74,10 +74,10 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 			
 		var rv = variable_struct_exists(__emitters, name_or_emitter) ? 
-			variable_struct_get(__emitters, name_or_emitter) : 
+			struct_get(__emitters, name_or_emitter) : 
 			new __emitter(part_emitter_create(system), default_particle_if_new);
 
-		variable_struct_set(__emitters, name_or_emitter, rv);
+		struct_set(__emitters, name_or_emitter, rv);
 		rv.emitter_name = name_or_emitter;
 		return rv;
 	}
@@ -90,10 +90,10 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		new_name = new_name ?? name_or_emitter + SUID;
 		var origemi = emitter_get(name_or_emitter);
 		var rv = emitter_get(new_name, origemi.default_particle);
-		var orig = variable_struct_get(__emitter_ranges, name_or_emitter);
+		var orig = struct_get(__emitter_ranges, name_or_emitter);
 		var rng = new __emitter_range(new_name).clone_from(orig);
 		
-		variable_struct_set(__emitter_ranges, new_name, rng);
+		struct_set(__emitter_ranges, new_name, rng);
 		return rv;
 	}
 	
@@ -156,7 +156,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	static emitter_set_range = function(name_or_emitter, xmin, xmax, ymin, ymax, shape, distribution) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var emi = emitter_get(name_or_emitter); // creates the emitter if it does not exist
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter) ?? 
+		var rng = struct_get(__emitter_ranges, name_or_emitter) ?? 
 			new __emitter_range(name_or_emitter).with_values(
 				xmin, xmax, ymin, ymax, 
 				shape, distribution
@@ -166,7 +166,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		rng.eshape = shape;
 		rng.edist = distribution;
 		part_emitter_region(system, emi.emitter, xmin, xmax, ymin, ymax, shape, distribution);
-		variable_struct_set(__emitter_ranges, name_or_emitter, rng);
+		struct_set(__emitter_ranges, name_or_emitter, rng);
 	}
 
 	/// @function		emitter_move_range_by(name_or_emitter, xdelta, ydelta)
@@ -174,11 +174,11 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	///					Use this, if an emitter shall follow another object on screen (like the mouse cursor)
 	static emitter_move_range_by = function(name_or_emitter, xdelta, ydelta) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+		var rng = struct_get(__emitter_ranges, name_or_emitter);
 		if (rng == undefined) {
 			if (DEBUG_LOG_PARTICLES)
 				dlog($"Buffering range_by for '{name_or_emitter}', until the range exists!");
-			variable_struct_set(__buffered_delta, name_or_emitter, new Coord2(xdelta, ydelta));
+			struct_set(__buffered_delta, name_or_emitter, new Coord2(xdelta, ydelta));
 			return;
 		}
 		__buffered_delta = undefined;
@@ -192,11 +192,11 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	///					Use this, if an emitter shall follow another object on screen (like the mouse cursor)
 	static emitter_move_range_to = function(name_or_emitter, newx, newy) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+		var rng = struct_get(__emitter_ranges, name_or_emitter);
 		if (rng == undefined) {
 			if (DEBUG_LOG_PARTICLES)
 				dlog($"Buffering range_to for '{name_or_emitter}', until the range exists!");
-			variable_struct_set(__buffered_target, name_or_emitter, new Coord2(newx, newy));
+			struct_set(__buffered_target, name_or_emitter, new Coord2(newx, newy));
 			return;
 		}
 		variable_struct_remove(__buffered_target, name_or_emitter);
@@ -210,7 +210,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description	scales the emitter range to a specified object instance
 	static emitter_scale_to = function(name_or_emitter, instance) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+		var rng = struct_get(__emitter_ranges, name_or_emitter);
 		if (rng != undefined)
 			rng.scale_to(instance);
 	}
@@ -219,7 +219,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description	Gets the min coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_min = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+		var rng = struct_get(__emitter_ranges, name_or_emitter);
 		return (rng != undefined ? rng.minco : new Coord2(-1, -1));
 	}
 
@@ -227,7 +227,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description	Gets the max coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_max = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-		var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+		var rng = struct_get(__emitter_ranges, name_or_emitter);
 		return (rng != undefined ? rng.maxco : new Coord2(-1, -1));
 	}
 
@@ -236,7 +236,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	static emitter_destroy = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		if (variable_struct_exists(__emitters, name_or_emitter)) {
-			var emitter = variable_struct_get(__emitters, name_or_emitter).emitter;
+			var emitter = struct_get(__emitters, name_or_emitter).emitter;
 			part_emitter_clear(system, emitter);
 			part_emitter_destroy(system, emitter);
 			variable_struct_remove(__emitters, name_or_emitter);
@@ -249,26 +249,26 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @function			cleanup()
 	/// @description		you MUST call this in the cleanup event of your controller!
 	static cleanup = function() {
-		var names = variable_struct_get_names(__particle_types);
+		var names = struct_get_names(__particle_types);
 		var i = 0; repeat(array_length(names)) {
 			if (variable_struct_exists(__particle_types, names[i]) && 
-				variable_struct_get   (__particle_types, names[i]) != undefined) {
-				part_type_destroy(variable_struct_get(__particle_types, names[i]));
-				variable_struct_set(__particle_types, names[i], undefined);
+				struct_get   (__particle_types, names[i]) != undefined) {
+				part_type_destroy(struct_get(__particle_types, names[i]));
+				struct_set(__particle_types, names[i], undefined);
 			}
 			i++;
 		}
 		__particle_types = {};
 
 		if (part_system_exists(system)) {
-			names = variable_struct_get_names(__emitters);
+			names = struct_get_names(__emitters);
 			i = 0; repeat(array_length(names)) {
 				if (variable_struct_exists(__emitters, names[i]) && 
-					variable_struct_get   (__emitters, names[i]) != undefined) {
-					var emitter = variable_struct_get(__emitters, names[i]).emitter;
+					struct_get   (__emitters, names[i]) != undefined) {
+					var emitter = struct_get(__emitters, names[i]).emitter;
 					part_emitter_clear(system, emitter);
 					part_emitter_destroy(system, emitter);
-					variable_struct_set(__emitters, names[i], undefined);
+					struct_set(__emitters, names[i], undefined);
 				}
 				i++;
 			}
@@ -281,7 +281,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	
 	/// @function		__apply_buffering()
 	static __apply_buffering = function(name) {
-		var r = variable_struct_get(__buffered_target, name);
+		var r = struct_get(__buffered_target, name);
 		if (r != undefined) {
 			emitter_move_range_to(name, r.x, r.y);
 			if (DEBUG_LOG_PARTICLES) {
@@ -291,7 +291,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 					dlog($"range_to buffering apply FAILED");
 			}
 		}
-		r = variable_struct_get(__buffered_delta, name);
+		r = struct_get(__buffered_delta, name);
 		if (r != undefined) {
 			emitter_move_range_by(name, r.x, r.y);
 			if (DEBUG_LOG_PARTICLES) {
@@ -337,7 +337,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		var emi = emitter_get(name_or_emitter).emitter;
 		if (emi != undefined) {
 			part_emitter_clear(system, emi);
-			var rng = variable_struct_get(__emitter_ranges, name_or_emitter);
+			var rng = struct_get(__emitter_ranges, name_or_emitter);
 			if (rng != undefined)
 				part_emitter_region(system, emi, rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 		}

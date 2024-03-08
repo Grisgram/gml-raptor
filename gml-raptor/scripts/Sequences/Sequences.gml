@@ -51,7 +51,7 @@ function seq_create_for_instance(sequence,object,instance,store_as_name = "") {
 /// @param {struct} sequence	The instance of the sequence
 /// @returns {struct}			The custom attributes
 function seq_get_custom_attributes(sequence) {
-	return variable_struct_get(sequence,SEQUENCE_CUSTOM_ATTRIBUTES);
+	return struct_get(sequence,SEQUENCE_CUSTOM_ATTRIBUTES);
 }
 
 /// @function					seq_set_attribute(sequence,name,value)
@@ -60,7 +60,7 @@ function seq_get_custom_attributes(sequence) {
 /// @param {string} name		The attribute to set
 /// @param {any} value			The value to assign
 function seq_set_attribute(sequence,name,value) {
-	variable_struct_set(seq_get_custom_attributes(sequence),name,value);
+	struct_set(seq_get_custom_attributes(sequence),name,value);
 }
 
 /// @function					seq_get_attribute(sequence,name)
@@ -69,7 +69,7 @@ function seq_set_attribute(sequence,name,value) {
 /// @param {string} name		The attribute to get
 /// @returns {any}				The value of the attribute
 function seq_get_attribute(sequence,name) {
-	return variable_struct_get(seq_get_custom_attributes(sequence),name);
+	return struct_get(seq_get_custom_attributes(sequence),name);
 }
 
 /// @function						seq_modify_instance(sequence,object,instance,store_as_name = "")
@@ -112,7 +112,7 @@ function seq_get_stored_instance(sequence,stored_name) {
 /// @param {struct} sequence	The instance of the sequence
 /// @returns {struct}			The stored instances
 function seq_get_stored_instances(sequence) {
-	return variable_struct_get(sequence,SEQUENCE_CUSTOM_INSTANCES);
+	return struct_get(sequence,SEQUENCE_CUSTOM_INSTANCES);
 }
 
 /// @function					seq_destroy(sequence)

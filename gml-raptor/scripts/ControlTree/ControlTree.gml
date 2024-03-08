@@ -132,7 +132,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		inst.__container = control;
 		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
-		inst.data.control_tree_layout = new ControlTreeLayout();
+		inst.control_tree_layout = new ControlTreeLayout();
 
 		__last_entry = new ControlTreeEntry(inst);
 		array_push(children, __last_entry);
@@ -141,13 +141,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
-			inst.data.control_tree.parent_tree = self;
-			inst.data.control_tree.__root_tree = __root_tree;
-			inst.data.control_tree.__last_layout = inst.data.control_tree_layout;
-			inst.data.control_tree.__last_entry = __last_entry;
-			return inst.data.control_tree;
+			inst.control_tree.parent_tree = self;
+			inst.control_tree.__root_tree = __root_tree;
+			inst.control_tree.__last_layout = inst.control_tree_layout;
+			inst.control_tree.__last_entry = __last_entry;
+			return inst.control_tree;
 		} else {
-			__last_layout = inst.data.control_tree_layout;
+			__last_layout = inst.control_tree_layout;
 			return self;
 		}
 	}
@@ -271,7 +271,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			var child		= children[@i];
 			var inst		= child.instance;
-			var ilayout		= inst.data.control_tree_layout;
+			var ilayout		= inst.control_tree_layout;
 			
 			if ((strcompare && eq(_control_or_name, child.name)) ||
 				(!strcompare && eq(_control_or_name, inst))) {
@@ -307,7 +307,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static step_out = function() {
 		return parent_tree;
 	}
-		
+	
+	/// @function build()
+	static build = function() {
+		__root_tree.control.__draw_self();
+		return self;
+	}
+	
 	/// @function on_window_opened(_callback)
 	static on_window_opened = function(_callback) {
 		__on_opened = _callback;
@@ -368,7 +374,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			child		= children[@i];
 			inst		= child.instance;
-			ilayout		= inst.data.control_tree_layout;
+			ilayout		= inst.control_tree_layout;
 			oldinstx	= inst.x;
 			oldinsty	= inst.y;
 			oldsizex	= inst.sprite_width;
@@ -377,7 +383,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			if (_forced) inst.force_redraw();
 			
 			if (is_child_of(inst, _baseContainerControl)) {
-				inst.data.control_tree.layout(_forced);
+				inst.control_tree.layout(_forced);
 				inst.update_client_area();
 			}
 
@@ -423,10 +429,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @function update_render_area()
 	static update_render_area = function() {
 		render_area.set(
-			control.x + control.data.client_area.left, 
-			control.y + control.data.client_area.top , 
-			control.data.client_area.width, 
-			control.data.client_area.height
+			control.x + control.data.__raptordata.client_area.left, 
+			control.y + control.data.__raptordata.client_area.top , 
+			control.data.__raptordata.client_area.width, 
+			control.data.__raptordata.client_area.height
 		);
 	}
 
@@ -436,7 +442,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			var child		= children[@i];
 			var inst		= child.instance;
-			if (inst.data.control_tree_layout.docking == dock.bottom)
+			if (inst.control_tree_layout.docking == dock.bottom)
 				array_push(bottoms, inst);
 		}
 		while (array_length(bottoms) > 0) {
@@ -452,7 +458,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		for (var i = 0, len = array_length(children); i < len; i++) {			
 			var child		= children[@i];
 			var inst		= child.instance;
-			if (inst.data.control_tree_layout.docking == dock.right)
+			if (inst.control_tree_layout.docking == dock.right)
 				array_push(rights, inst);
 		}
 		while (array_length(rights) > 0) {
@@ -475,6 +481,18 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
+	static update_children_depth = function() {
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child	= children[@i];
+			var inst	= child.instance;
+			
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.control_tree.update_children_depth();
+			}
+			inst.depth = __root_tree.control.depth - 1;
+		}
+	}
+	
 	/// @function move_children(_by_x, _by_y)
 	static move_children = function(_by_x, _by_y) {
 		for (var i = 0, len = array_length(children); i < len; i++) {
@@ -485,7 +503,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			inst.__text_x += _by_x;
 			inst.__text_y += _by_y;
 			if (is_child_of(inst, _baseContainerControl))
-				inst.data.control_tree.move_children(_by_x, _by_y);
+				inst.control_tree.move_children(_by_x, _by_y);
 		}
 	}
 
@@ -498,7 +516,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				__text_x += SELF_MOVE_DELTA_X;
 				__text_y += SELF_MOVE_DELTA_Y;
 				if (is_child_of(self, _baseContainerControl))
-					data.control_tree.move_children_after_sizing();
+					control_tree.move_children_after_sizing();
 			}
 		}
 		if (_force)
@@ -514,7 +532,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var child = children[@i];
 			var inst = child.instance;
 			if (is_child_of(inst, _baseContainerControl))
-				inst.data.control_tree.clean_up();
+				inst.control_tree.clean_up();
 			else
 				instance_destroy(inst);
 		}
