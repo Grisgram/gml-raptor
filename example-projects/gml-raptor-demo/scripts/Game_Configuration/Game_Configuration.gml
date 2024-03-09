@@ -79,7 +79,13 @@ function onGameStart() {
 	DEBUG_SHOW_OBJECT_FRAMES	= false;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
-		
+
+	// Themes - the "default" theme always exists
+	UI_THEMES.add_theme(new ColdrockTheme(), false );	// name = "coldrock"
+	UI_THEMES.add_theme(new RaptorTheme()  , false );	// name = "raptor"
+
+	UI_THEMES.activate_theme("coldrock");
+	
 	// Load start data
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------

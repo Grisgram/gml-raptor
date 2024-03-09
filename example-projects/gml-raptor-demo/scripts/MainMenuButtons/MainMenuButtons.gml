@@ -53,7 +53,12 @@ function load_encrypted() {
 }
 
 function activate_blue_theme() {
-	UI_THEMES.activate_theme("default");
+	UI_THEMES.activate_theme("coldrock");
+	room_restart();
+}
+
+function activate_raptor_theme() {
+	UI_THEMES.activate_theme("raptor");
 	room_restart();
 }
 
