@@ -831,7 +831,7 @@ function animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats =
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
-/// @function			animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @function			animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _data = {})
 /// @description		Similar to animation run, it even returns an animation, but you don't need an object to animate,
 ///						instead, a sprite_index is enough and a pooled instance of __sprite_anim_runner will be used to
 ///						run the animation. It returns to the pool, when the animation is finished.
@@ -839,7 +839,7 @@ function animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats =
 ///						the pooled runner object. You can obtain the pooled runner object from the .owner property of the
 ///						animation returned.
 /// @returns {Animation}
-function animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
+function animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _data = {}) {
 	var runner = pool_get_instance(__RAPTOR_SPRITE_ANIM_POOL, __sprite_anim_runner, _layer_name_or_depth);
 	if (is_string(_layer_name_or_depth))
 		layer_add_instance(layer_get_id(_layer_name_or_depth), runner);
@@ -849,7 +849,7 @@ function animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration
 	runner.sprite_index = _sprite;
 	runner.x = _x;
 	runner.y = _y;
-	return animation_run(runner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
+	return animation_run(runner, _delay, _duration, _animcurve, _repeats, undefined, _data);
 }
 
 /// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1, _data = {})
