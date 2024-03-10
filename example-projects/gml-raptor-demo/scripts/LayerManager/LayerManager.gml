@@ -30,6 +30,15 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 	return [min_depth, max_depth];
 }
 
+/// @function layer_set_background_color(_layer_name_or_id, _color)
+/// @description	Set the blend color of a BACKGROUND layer
+/// @param {id|string}	layername_or_id	The name or the id of the background layer
+/// @param {color}		_color			The color to set
+function layer_set_background_color(_layer_name_or_id, _color) {
+	var lay_id = is_string(_layer_name_or_id) ? layer_get_id(_layer_name_or_id) : _layer_name_or_id;
+	layer_background_blend(layer_background_get_id(lay_id), _color);
+}
+
 function __set_tile_data(data, tile_idx = undefined, flip = undefined, rotate = undefined, mirror = undefined) {
 	if (tile_idx != undefined) data = tile_set_index(data, tile_idx);
 	if (flip     != undefined) data = tile_set_flip(data, flip);

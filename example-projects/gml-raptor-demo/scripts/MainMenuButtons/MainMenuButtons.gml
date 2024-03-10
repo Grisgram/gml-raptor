@@ -38,10 +38,12 @@ function languageButton_click(sender) {
 
 function save_plain_text() {
 	savegame_save_game(SAVE_FILE_NAME_PLAIN);
+	cmdLoad.set_enabled(true);
 }
 
 function save_encrypted() {
 	savegame_save_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
+	cmdLoadEncrypted.set_enabled(true);
 }
 
 function load_plain_text() {

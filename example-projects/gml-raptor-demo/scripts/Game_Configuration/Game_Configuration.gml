@@ -83,9 +83,12 @@ function onGameStart() {
 	// Themes - the "default" theme always exists
 	UI_THEMES.add_theme(new ColdrockTheme(), false );	// name = "coldrock"
 	UI_THEMES.add_theme(new RaptorTheme()  , false );	// name = "raptor"
-
-	UI_THEMES.activate_theme("coldrock");
+	UI_THEMES.add_theme(new PurpleTheme());
 	
+	UI_THEMES.activate_theme("coldrock");
+
+	UI_SKINS.add_skin(new WoodSkin());
+
 	// Load start data
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------
