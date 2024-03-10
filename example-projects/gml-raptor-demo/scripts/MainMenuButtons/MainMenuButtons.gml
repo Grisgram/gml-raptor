@@ -38,10 +38,12 @@ function languageButton_click(sender) {
 
 function save_plain_text() {
 	savegame_save_game(SAVE_FILE_NAME_PLAIN);
+	cmdLoad.set_enabled(true);
 }
 
 function save_encrypted() {
 	savegame_save_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
+	cmdLoadEncrypted.set_enabled(true);
 }
 
 function load_plain_text() {
@@ -53,7 +55,12 @@ function load_encrypted() {
 }
 
 function activate_blue_theme() {
-	UI_THEMES.activate_theme("default");
+	UI_THEMES.activate_theme("coldrock");
+	room_restart();
+}
+
+function activate_raptor_theme() {
+	UI_THEMES.activate_theme("raptor");
 	room_restart();
 }
 

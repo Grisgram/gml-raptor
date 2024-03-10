@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"ColdrockTheme",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ColdrockTheme",
+  "parent":{
+    "name":"themes",
+    "path":"folders/_gml_raptor_ui_/themes.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

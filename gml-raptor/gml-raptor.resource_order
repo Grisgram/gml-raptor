@@ -238,7 +238,7 @@
     {"name":"HighScoreTable","order":2,"path":"scripts/HighScoreTable/HighScoreTable.yy",},
     {"name":"JujuPlusPlus","order":10,"path":"scripts/JujuPlusPlus/JujuPlusPlus.yy",},
     {"name":"KeyTranslator","order":11,"path":"scripts/KeyTranslator/KeyTranslator.yy",},
-    {"name":"LayerManager","order":12,"path":"scripts/LayerManager/LayerManager.yy",},
+    {"name":"LayerManager","order":31,"path":"scripts/LayerManager/LayerManager.yy",},
     {"name":"LG_Configuration","order":9,"path":"scripts/LG_Configuration/LG_Configuration.yy",},
     {"name":"LinqArray","order":13,"path":"scripts/LinqArray/LinqArray.yy",},
     {"name":"LinqArrayTests","order":1,"path":"scripts/LinqArrayTests/LinqArrayTests.yy",},
