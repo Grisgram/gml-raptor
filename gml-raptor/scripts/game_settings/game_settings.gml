@@ -18,15 +18,22 @@ function GameSettings() constructor {
 	
 	// ---------------------------------------------------	
 
-	audio				= AUDIOSETTINGS;
-	use_system_cursor	= false;
+	start_fullscreen		= START_FULLSCREEN;
+	borderless_fullscreen	= FULLSCREEN_IS_BORDERLESS;
+	audio					= AUDIOSETTINGS;
+	use_system_cursor		= false;
+	
 	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
 }
 
 function load_settings() {
 	dlog($"Loading settings...");
-	GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,FILE_CRYPT_KEY) ?? new GameSettings();
+	try {
+		GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,FILE_CRYPT_KEY) ?? new GameSettings();
+	} catch (_) {
+		GAMESETTINGS = new GameSettings();
+	}
 	if (USE_HIGHSCORES && HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
 		HIGHSCORES.assign_data(GAMESETTINGS.highscoredata);
 	AUDIOSETTINGS = GAMESETTINGS.audio;
