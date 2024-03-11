@@ -56,8 +56,10 @@ if (USE_CRASHDUMP_HANDLER) {
 }
 
 load_settings();
-window_enable_borderless_fullscreen(vsgetx(GAMESETTINGS, "borderless_fullscreen", FULLSCREEN_IS_BORDERLESS));
-window_set_fullscreen(vsgetx(GAMESETTINGS, "start_fullscreen", START_FULLSCREEN));
+if (!IS_HTML) {
+	window_enable_borderless_fullscreen(vsgetx(GAMESETTINGS, "borderless_fullscreen", FULLSCREEN_IS_BORDERLESS));
+	window_set_fullscreen(vsgetx(GAMESETTINGS, "start_fullscreen", START_FULLSCREEN));
+}
 
 mlog(__LOG_GAME_INIT_FINISH);
 ilog($"Invoking onGameStart()");

@@ -53,7 +53,7 @@
 
 // Set fullscreen mode
 // This is set by the GameStarter object upon game start,
-// when the game START FOR THE FIRST TIME.
+// when the game STARTS FOR THE FIRST TIME.
 // After that, this setting is taken from the GameSettings.
 // This is to allow you easily changing the startup values through your
 // Settings dialog in the window, so the user can choose, what he prefers.
