@@ -18,8 +18,11 @@ function GameSettings() constructor {
 	
 	// ---------------------------------------------------	
 
-	audio				= AUDIOSETTINGS;
-	use_system_cursor	= false;
+	start_fullscreen		= START_FULLSCREEN;
+	borderless_fullscreen	= FULLSCREEN_IS_BORDERLESS;
+	audio					= AUDIOSETTINGS;
+	use_system_cursor		= false;
+	
 	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
 }

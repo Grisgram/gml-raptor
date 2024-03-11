@@ -51,6 +51,16 @@
 
 // Global functionality setup for the game
 
+// Set fullscreen mode
+// This is set by the GameStarter object upon game start,
+// when the game START FOR THE FIRST TIME.
+// After that, this setting is taken from the GameSettings.
+// This is to allow you easily changing the startup values through your
+// Settings dialog in the window, so the user can choose, what he prefers.
+#macro START_FULLSCREEN				false
+#macro release:START_FULLSCREEN		true
+#macro FULLSCREEN_IS_BORDERLESS		true
+
 // Startup Room - The value of this constant is taken by the GameStarter object
 // Set the constant to undefined to use the instance variable of GameStarter in rmStartup
 #macro ROOM_AFTER_STARTER			rmMain
