@@ -174,7 +174,7 @@
     {"name":"RoomController","order":9,"path":"objects/RoomController/RoomController.yy",},
     {"name":"Saveable","order":2,"path":"objects/Saveable/Saveable.yy",},
     {"name":"Slider","order":7,"path":"objects/Slider/Slider.yy",},
-    {"name":"StatefulObject","order":4,"path":"objects/StatefulObject/StatefulObject.yy",},
+    {"name":"StatefulObject","order":6,"path":"objects/StatefulObject/StatefulObject.yy",},
     {"name":"StoryTeller","order":3,"path":"objects/StoryTeller/StoryTeller.yy",},
     {"name":"TextButton","order":8,"path":"objects/TextButton/TextButton.yy",},
     {"name":"Tooltip","order":9,"path":"objects/Tooltip/Tooltip.yy",},

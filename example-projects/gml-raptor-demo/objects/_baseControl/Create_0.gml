@@ -388,6 +388,7 @@ __draw_self = function() {
 		__last_sprite_index		= sprite_index;
 		__last_sprite_width		= sprite_width;
 		__last_sprite_height	= sprite_height;
+		update_client_area();
 		
 	} else
 		__finalize_scribble_text();
