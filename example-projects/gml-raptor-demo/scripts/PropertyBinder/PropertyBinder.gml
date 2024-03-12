@@ -36,7 +36,7 @@ function PropertyBinder(_myself = undefined) constructor {
 		_source_instance.binder.__source_bindings[$ bnd.key] = bnd;
 	}
 	
-	/// @function unbind = function(_my_property)
+	/// @function unbind(_my_property)
 	static unbind = function(_my_property) {
 		var key = $"{name_of(myself)}.{_my_property}";
 		var bnd = vsget(__bindings, key);
@@ -48,7 +48,8 @@ function PropertyBinder(_myself = undefined) constructor {
 		}
 	}
 	
-	/// @function unbind_source(_property = undefined)
+	/// @function unbind_source()
+	/// @description Unbind me, where this is the SOURCE (inverse direction)
 	static unbind_source = function() {
 		var names = struct_get_names(__source_bindings);
 		for (var i = 0, len = array_length(names); i < len; i++) {

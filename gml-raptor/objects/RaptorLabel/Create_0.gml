@@ -4,6 +4,19 @@ __original_dim = new SpriteDim(sprite_index);
 
 event_inherited();
 
+/// @function update_client_area()
+update_client_area = function() {
+	if (control_tree_layout == undefined || !remove_sprite_at_runtime || autosize) {
+		data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height);
+		return;
+	}
+	
+	data.__raptordata.client_area.set(0, 0, max(sprite_width, __text_width), max(sprite_height, __text_height));
+	scale_sprite_to(
+		data.__raptordata.client_area.width,
+		data.__raptordata.client_area.height);
+}
+
 if (remove_sprite_at_runtime) {
 	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
 	var h = (startup_height >= 0 ? startup_height : sprite_height);

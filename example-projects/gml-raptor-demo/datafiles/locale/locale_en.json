@@ -127,6 +127,6 @@
     "window_title_login": "Login Dialog Demo",
     "window_title_anchoring": "Control Anchoring",
     "alignment_top_message": "Demonstrating control [ci_accent]alignment[/]",
-    "label_made_with_tree": "[ci_bright]The Buttons (and this text here)\nhave been created and aligned through\nthe [ci_bright]ControlTree[/] at the [ci_bright]ROOT_UI[/]!\nTake a look at the source code of the \nRoomController of this room, there you\ncan see, how this has been done!\n"
+    "label_made_with_tree": "[ci_dark]The Buttons (and this text here)[/]\nhave been created and aligned through\nthe [ci_dark]ControlTree[/] at the [ci_dark]ROOT_UI[/]!\nTake a look at the source code of the \nRoomController of this room, there you\ncan see, how this has been done!\n"
   }
 }
