@@ -33,7 +33,7 @@ is_in_state = function(name) {
 ///											  with image_speed = 0 at the last frame!
 /// @param {string} _state_after		The state to set on this object when the animation finished
 ///										NOTE: The state is set AFTER the finished_callback has been invoked to avoid
-///										code in the "enter" event of the state interferring with the callback
+///										code in the "enter" event of the state interfering with the callback
 /// @param {func}	_finished_callback	A function to call, when the animation is finished
 sprite_animate_once = function(_sprite_index, _sprite_index_after = undefined, _state_after = undefined, _finished_callback = undefined) {
 	vlog($"Running single animation of sprite '{sprite_get_name(_sprite_index)}'");
