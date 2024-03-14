@@ -127,7 +127,7 @@
     {"name":"DemoLoginWindow","order":2,"path":"objects/DemoLoginWindow/DemoLoginWindow.yy",},
     {"name":"Enemy","order":1,"path":"objects/Enemy/Enemy.yy",},
     {"name":"EnemyScanner","order":3,"path":"objects/EnemyScanner/EnemyScanner.yy",},
-    {"name":"Eye","order":6,"path":"objects/Eye/Eye.yy",},
+    {"name":"Eye","order":11,"path":"objects/Eye/Eye.yy",},
     {"name":"GameController","order":7,"path":"objects/GameController/GameController.yy",},
     {"name":"GameStarter","order":2,"path":"objects/GameStarter/GameStarter.yy",},
     {"name":"GameVersionLabel","order":2,"path":"objects/GameVersionLabel/GameVersionLabel.yy",},

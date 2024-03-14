@@ -104,7 +104,7 @@
     {"name":"CanvasDrawer","order":5,"path":"objects/CanvasDrawer/CanvasDrawer.yy",},
     {"name":"CheckBox","order":4,"path":"objects/CheckBox/CheckBox.yy",},
     {"name":"ControlTreeSprite","order":3,"path":"objects/ControlTreeSprite/ControlTreeSprite.yy",},
-    {"name":"Eye","order":6,"path":"objects/Eye/Eye.yy",},
+    {"name":"Eye","order":11,"path":"objects/Eye/Eye.yy",},
     {"name":"FPSTracker","order":1,"path":"objects/FPSTracker/FPSTracker.yy",},
     {"name":"GameController","order":7,"path":"objects/GameController/GameController.yy",},
     {"name":"GameVersionLabel","order":2,"path":"objects/GameVersionLabel/GameVersionLabel.yy",},

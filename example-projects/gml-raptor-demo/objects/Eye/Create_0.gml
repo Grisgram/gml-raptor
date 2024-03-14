@@ -4,7 +4,6 @@
 // Inherit the parent event
 event_inherited();
 
-data.active = active;
 data.camera_index = camera_index;
 data.is_attached = false;
 data.attached_to = noone;
@@ -15,6 +14,17 @@ __update_camera = function() {
 	my_cam_height	= camera_get_view_height(CAM) / 2;
 }
 
+align_to_attached = function() {
+	if (stop_at_room_borders) {
+		x = min(room_width  - my_cam_width , max(my_cam_width , data.attached_to.x));
+		y = min(room_height - my_cam_height, max(my_cam_height, data.attached_to.y));
+	} else {
+		x = data.attached_to.x;
+		y = data.attached_to.y;
+	}
+	camera_set_view_pos(my_cam, x - my_cam_width, y - my_cam_height);
+}
+
 /// @function		attach_to(_instance)
 /// @description	Attach the eye to an object (or noone).
 ///					As long as the eye is attached, the eye (and so the camera)
@@ -22,16 +32,7 @@ __update_camera = function() {
 attach_to = function(_instance) {
 	data.attached_to = _instance;
 	data.is_attached = (_instance != undefined && _instance != noone);
-}
-
-/// @function	set_active(_active)
-set_active = function(_active) {
-	data.active = _active;
-}
-
-/// @function	is_active()
-is_active = function() {
-	return data.active;
+	if (is_enabled && data.is_attached) align_to_attached();
 }
 
 /// @function	set_camera_index(_index)
