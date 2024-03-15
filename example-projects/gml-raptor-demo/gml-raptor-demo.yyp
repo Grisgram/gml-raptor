@@ -28,6 +28,7 @@
     {"$GMFolder":"","%Name":"DataBinding","folderPath":"folders/_gml_raptor_/DataBinding.yy","name":"DataBinding","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"LG","folderPath":"folders/_gml_raptor_/LG.yy","name":"LG","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Logger","folderPath":"folders/_gml_raptor_/Logger.yy","name":"Logger","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Objects","folderPath":"folders/_gml_raptor_/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Race","folderPath":"folders/_gml_raptor_/Race.yy","name":"Race","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"objects","folderPath":"folders/_gml_raptor_/Race/objects.yy","name":"objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Savegame","folderPath":"folders/_gml_raptor_/Savegame.yy","name":"Savegame","resourceType":"GMFolder","resourceVersion":"2.0",},

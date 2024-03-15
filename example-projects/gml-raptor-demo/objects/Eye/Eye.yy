@@ -9,8 +9,8 @@
   "name":"Eye",
   "overriddenProperties":[],
   "parent":{
-    "name":"_generic_objects_",
-    "path":"folders/_gml_raptor_/_generic_objects_.yy",
+    "name":"Objects",
+    "path":"folders/_gml_raptor_/Objects.yy",
   },
   "parentObjectId":{
     "name":"Saveable",
