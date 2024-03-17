@@ -49,5 +49,5 @@
   "solid":false,
   "spriteId":null,
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }
