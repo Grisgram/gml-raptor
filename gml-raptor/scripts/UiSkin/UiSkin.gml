@@ -58,7 +58,7 @@ function UiSkin(_name = "default") constructor {
 		if (ds_map_exists(asset_skin, key)) {
 			var skindata = asset_skin[?key];
 			with(_instance) {
-				var upd = viget(self, "on_skin_changed");
+				var upd = vsget(self, "on_skin_changed");
 				if (upd != undefined) {
 					upd(skindata);
 				} else {

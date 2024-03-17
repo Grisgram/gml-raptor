@@ -27,6 +27,26 @@ function ListPool(_name = "listPool") constructor {
 			ds_list_delete(list, idx);
 	}
 	
+	/// @function remove_where(_predicate)
+	/// @description Remove all objects from the listpool where the predicate argument
+	///				 returns true. This must be a function taking one argument and it
+	///				 shall return whether to remove it (true) or not (false).
+	/// @returns {int}	 The number of entries removed
+	static remove_where = function(_predicate) {
+		var removers = [];
+		for (var i = 0, len = ds_list_size(list); i < len; i++) {
+			var val = ds_list_find_value(list, i);
+			if (_predicate(val))
+				array_push(removers, val);
+		}
+		
+		var rv = array_length(removers);
+		array_foreach(removers, function(_item, _idx) {
+			remove(_item);
+		});
+		return rv;
+	}
+	
 	/// @function		add(obj)
 	/// @description	Adds an object to the pool (if it is not already contained)
 	/// @param {any} obj	The object to add

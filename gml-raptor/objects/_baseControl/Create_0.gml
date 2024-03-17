@@ -9,7 +9,7 @@
 
 event_inherited();
 // undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
-vigetx(self, "__raptor_debug_frame_color", c_green);
+vsgetx(self, "__raptor_debug_frame_color", c_green);
 
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
@@ -19,8 +19,8 @@ __mouse_events_locked = false; // if rendered in a container, container draws fi
 edges = new Edges(self);
 nine_slice_data = new Rectangle(0, 0, sprite_width, sprite_height);
 
-control_tree = vigetx(self, "control_tree", undefined);
-control_tree_layout = vigetx(self, "control_tree_layout", undefined);
+control_tree = vsgetx(self, "control_tree", undefined);
+control_tree_layout = vsgetx(self, "control_tree_layout", undefined);
 data.__raptordata.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 
 /// @function update_client_area()

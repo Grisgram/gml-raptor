@@ -65,11 +65,11 @@ function implements(struct, _interface) {
 /// @returns {string} the new name	
 function struct_get_unique_key(struct, basename, prefix = "") {
 	var i = 0;
-	var newname;
-	do {
+	var newname = prefix + basename;
+	while (struct_exists(struct, newname)) {
 		newname = prefix + basename + string(i);
 		i++;
-	} until (!variable_struct_exists(struct, newname));
+	}
 	return newname;
 }
 
@@ -128,26 +128,4 @@ function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missi
 ///					but does not create the missing member in the struct
 function vsget(_struct, _key, _default_if_missing = undefined) {
 	return (variable_struct_exists(_struct, _key)) ? _struct[$ _key] : _default_if_missing;
-}
-
-/// @function vigetx(_instance, _key, _default_if_missing = undefined, _create_if_missing = true)
-/// @description	Save-gets an instance member, returning a default if it does not exist,
-///					and even allows you to create that member in the instance, if it is missing
-function vigetx(_instance, _key, _default_if_missing = undefined, _create_if_missing = true) {
-	if (variable_instance_exists(_instance, _key))
-		return _instance[$ _key];
-		
-	if (_create_if_missing)
-		variable_instance_set(_instance, _key, _default_if_missing);
-	
-	return _default_if_missing;
-}
-
-/// @function viget(_instance, _key, _default_if_missing = undefined)
-/// @description	Save-gets an instance member, returning a default if it does not exist,
-///					but does not create the missing member in the instance
-function viget(_instance, _key, _default_if_missing = undefined) {
-	return (variable_instance_exists(_instance, _key)) ? 
-		variable_instance_get(_instance, _key) : 
-		_default_if_missing;
 }

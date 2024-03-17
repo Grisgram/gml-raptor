@@ -88,7 +88,7 @@ function PropertyBinder(_myself = undefined) constructor {
 		}
 	}
 	
-	/// @function unbind_all = function()
+	/// @function unbind_all()
 	static unbind_all = function() {
 		unbind_source();
 		var names = struct_get_names(__bindings);

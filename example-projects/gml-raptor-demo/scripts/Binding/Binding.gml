@@ -42,8 +42,9 @@ function Binding(
 	}
 
 	static unbind = function() {
-		BINDINGS.remove(self);
-		dlog($"Binding removed: {name_of(target_instance)}.{target_property} from {name_of(source_instance)}.{source_property}");
+		var cnt = BINDINGS.remove_where(function(bnd) { 
+			return bnd.key == key; });
+		dlog($"{cnt} Binding(s) removed: {name_of(target_instance)}.{target_property} from {name_of(source_instance)}.{source_property}");
 	}
 
 }
