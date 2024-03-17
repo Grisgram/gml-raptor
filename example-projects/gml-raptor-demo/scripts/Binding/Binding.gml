@@ -22,8 +22,6 @@ function Binding(
 	converter		 = _converter;
 	on_value_changed = _on_value_changed;
 
-	__dirty		= false;
-	
 	BINDINGS.add(self);
 	
 	dlog($"Binding created: {name_of(target_instance)}.{target_property} is bound to {name_of(source_instance)}.{source_property}");
@@ -39,8 +37,7 @@ function Binding(
 			target_instance[$ target_property] = __new_value;
 			__old_value = __new_value;
 			if (on_value_changed != undefined)
-				with(target_instance)
-					on_value_changed(other.__new_value, other.__old_value);
+				on_value_changed(other.__new_value, other.__old_value);
 		}
 	}
 

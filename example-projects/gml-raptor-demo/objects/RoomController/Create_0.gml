@@ -98,13 +98,13 @@ set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 #macro MOUSE_DELTA_Y			global.__world_mouse_ymove
 #macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
 
-#macro CTL_MOUSE_X_PREVIOUS		(viget(self, "draw_on_gui", false) ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
-#macro CTL_MOUSE_Y_PREVIOUS		(viget(self, "draw_on_gui", false) ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
-#macro CTL_MOUSE_X				(viget(self, "draw_on_gui", false) ? GUI_MOUSE_X		  : MOUSE_X)
-#macro CTL_MOUSE_Y				(viget(self, "draw_on_gui", false) ? GUI_MOUSE_Y		  : MOUSE_Y)
-#macro CTL_MOUSE_DELTA_X		(viget(self, "draw_on_gui", false) ? GUI_MOUSE_DELTA_X	  : MOUSE_DELTA_X)
-#macro CTL_MOUSE_DELTA_Y		(viget(self, "draw_on_gui", false) ? GUI_MOUSE_DELTA_Y	  : MOUSE_DELTA_Y)
-#macro CTL_MOUSE_HAS_MOVED		(viget(self, "draw_on_gui", false) ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
+#macro CTL_MOUSE_X_PREVIOUS		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
+#macro CTL_MOUSE_Y_PREVIOUS		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
+#macro CTL_MOUSE_X				(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_X		  : MOUSE_X)
+#macro CTL_MOUSE_Y				(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_Y		  : MOUSE_Y)
+#macro CTL_MOUSE_DELTA_X		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_DELTA_X	  : MOUSE_DELTA_X)
+#macro CTL_MOUSE_DELTA_Y		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_DELTA_Y	  : MOUSE_DELTA_Y)
+#macro CTL_MOUSE_HAS_MOVED		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
 
 MOUSE_X		= mouse_x;
 MOUSE_Y		= mouse_y;

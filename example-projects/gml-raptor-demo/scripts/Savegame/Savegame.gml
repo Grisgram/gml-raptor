@@ -18,7 +18,7 @@ ENSURE_GLOBALDATA
 
 // This macro is used internally on objects that push their own data
 // into the savegame. __raptordata is the root of internal data structs
-#macro ENSURE_RAPTORDATA	vigetx(self, "data", {}); vsgetx(data, "__raptordata", {});
+#macro ENSURE_RAPTORDATA	vsgetx(self, "data", {}); vsgetx(data, "__raptordata", {});
 #macro __RAPTORDATA			data.__raptordata
 
 // holds custom structs for the savegame
