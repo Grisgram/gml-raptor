@@ -1,4 +1,4 @@
-/// @description Logging/Enabled
+/// @description Logging/Enabled/Skinning
 if (log_create_destroy)
 	vlog($"{MY_NAME} created.");
 

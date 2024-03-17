@@ -93,9 +93,6 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 				if (!variable_instance_exists(self, __SAVEGAME_DATA_HEADER))
 					variable_instance_set(self, __SAVEGAME_DATA_HEADER, {});
 				
-				if (!variable_instance_exists(data, "__raptordata"))
-					__RAPTORDATA = {};
-			
 				event_user(savegame_event.onGameSaving);
 				if (variable_instance_exists(self, __SAVEGAME_ONSAVING_NAME) &&
 					variable_instance_get(self, __SAVEGAME_ONSAVED_NAME) != undefined)

@@ -18,9 +18,9 @@ if (DEBUG_SHOW_OBJECT_FRAMES) {
 			if (!visible || sprite_index < 0)
 				continue;
 
-			draw_set_color(viget(self, "__raptor_debug_frame_color", c_green));
+			draw_set_color(vsget(self, "__raptor_debug_frame_color", c_green));
 
-			if (viget(self, "draw_on_gui", false)) {
+			if (vsget(self, "draw_on_gui", false)) {
 				translate_gui_to_world(x,y,trans);
 				draw_rectangle(
 					trans.x - sprite_xoffset, 

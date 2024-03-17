@@ -49,8 +49,8 @@ global.__unique_count_up_id	= 0;
 // Those macros define all situations that can lead to an invisible element on screen
 #macro __LAYER_OR_OBJECT_HIDDEN		(!visible || (layer != -1 && !layer_get_visible(layer)))
 #macro __HIDDEN_BEHIND_POPUP		(GUI_POPUP_VISIBLE && depth > GUI_POPUP_MIN_DEPTH)
-#macro __GUI_MOUSE_EVENT_LOCK		(viget(self, "draw_on_gui", false) && !gui_mouse.event_redirection_active)
-#macro __CONTROL_IS_ENABLED			(!is_child_of(self, RaptorPanel) && viget(self, "is_enabled", true))
+#macro __GUI_MOUSE_EVENT_LOCK		(vsget(self, "draw_on_gui", false) && !gui_mouse.event_redirection_active)
+#macro __CONTROL_IS_ENABLED			(!is_child_of(self, RaptorPanel) && vsget(self, "is_enabled", true))
 #macro __CONTROL_IS_TARGET_MOUSE	(__CONTROL_IS_ENABLED && is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y))
 #macro __CONTROL_IS_TARGET_XY		(__CONTROL_IS_ENABLED && is_topmost(x, y))
 

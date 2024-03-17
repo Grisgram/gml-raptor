@@ -25,6 +25,14 @@ function GameSettings() constructor {
 	
 	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
+		
+	/// @function reset()
+	/// @description Reset the settings file to a new, blank GameSettings() instance
+	static reset = function() {
+		GAMESETTINGS = new GameSettings();
+		ilog($"GameSettings reset");
+		save_settings();
+	}
 }
 
 function load_settings() {
