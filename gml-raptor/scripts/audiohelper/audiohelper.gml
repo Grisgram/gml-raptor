@@ -50,6 +50,9 @@ function __room_audio_session() constructor {
 #macro __ACTIVE_AUDIO_SESSION		global.__active_audio_session
 __ACTIVE_AUDIO_SESSION				= new __room_audio_session();
 
+/// @function set_room_default_audio(_room, _music, _ambience)
+/// @description Define a music track and an ambience track that shall start playing
+///				 automatically, when the room is entered
 function set_room_default_audio(_room, _music, _ambience) {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++) {
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == _room) {
@@ -62,6 +65,8 @@ function set_room_default_audio(_room, _music, _ambience) {
 	array_push(__DEFAULT_ROOM_AUDIO, new __default_room_audio(_room, _music, _ambience));
 }
 
+/// @function get_default_music_for_room()
+/// @description Get the sound_id of the currently playing music stream
 function get_default_music_for_room() {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++)
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == room)
@@ -69,6 +74,8 @@ function get_default_music_for_room() {
 	return undefined;
 }
 
+/// @function get_default_ambience_for_room()
+/// @description Get the sound_id of the currently playing ambience stream
 function get_default_ambience_for_room() {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++)
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == room)
@@ -119,10 +126,31 @@ function stop_sound(sound_id) {
 
 function update_audio_volume() {
 	if (__ACTIVE_AUDIO_SESSION != undefined) {
-		if (__ACTIVE_AUDIO_SESSION.music_id != undefined)
-			audio_sound_gain(__ACTIVE_AUDIO_SESSION.music_id, AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
-		if (__ACTIVE_AUDIO_SESSION.ambience_id != undefined) 
-			audio_sound_gain(__ACTIVE_AUDIO_SESSION.ambience_id, AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, 0);		
+		// --- Audio update
+		if (__ACTIVE_AUDIO_SESSION.music_id != undefined) {
+			if (AUDIOSETTINGS.music_enabled) {
+				audio_sound_gain(__ACTIVE_AUDIO_SESSION.music_id, 
+					AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, 0);
+			} else {
+				stop_music();
+			}
+		} else if (AUDIOSETTINGS.music_enabled) {
+			// restart the music, if it got enabled
+			play_music(get_default_music_for_room());
+		}
+		
+		// --- Ambience update
+		if (__ACTIVE_AUDIO_SESSION.ambience_id != undefined) {
+			if (AUDIOSETTINGS.ambience_enabled) {
+				audio_sound_gain(__ACTIVE_AUDIO_SESSION.ambience_id, 
+					AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, 0);
+			} else {
+				stop_ambience();
+			}
+		} else if (AUDIOSETTINGS.ambience_enabled) {
+			// restart the ambience, if it got enabled
+			play_ambience(get_default_ambience_for_room());
+		}
 	}
 }
 
