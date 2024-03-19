@@ -31,7 +31,7 @@ In case you are a night owl like me and you want to support my work,<br/>especia
 You need [![gmlogo](https://user-images.githubusercontent.com/19487451/177008359-37a3cdb7-2068-4ac8-84ef-4c455c2194de.png)](https://gamemaker.io)&nbsp;&nbsp;Studio 2.3+ to use `raptor`.<br/>
 These versions of external libraries are packaged into the current `raptor` release:
 | GMS Version | Scribble | SNAP | Canvas | OutlineShader | AnimatedFlag | HighScorer |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |2402|8.7.1|6.1.0|2.1|3.3|1.5|1.5|
 
 ### HOW RELEASES ARE ORGANIZED
