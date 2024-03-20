@@ -27,7 +27,7 @@ function UiThemeManager() constructor {
 	static add_theme = function(_theme, _activate_now = false) {
 		var was_active = ((active_theme != undefined) && (active_theme.name == _theme.name));
 		_themes[$ _theme.name] = _theme;
-		ilog($"UiThemeManager registered theme '{_theme.name}' {_activate_now} {was_active}");
+		ilog($"UiThemeManager registered theme '{_theme.name}'");
 		if (_activate_now || was_active)
 			activate_theme(_theme.name);
 	}
