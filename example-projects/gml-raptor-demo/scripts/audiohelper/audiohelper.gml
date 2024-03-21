@@ -3,7 +3,7 @@
 */
 
 #region DEFAULT AUDIO FOR ROOMS
-function __default_room_audio(_room, _room_music = undefined, _ambience_sound = undefined) constructor {
+function __default_room_audio_entry(_room, _room_music = undefined, _ambience_sound = undefined) constructor {
 	for_room = _room;
 	music = _room_music;
 	ambience = _ambience_sound;
@@ -28,19 +28,21 @@ function __room_audio_session() constructor {
 		return ambience_id != undefined && amb == ambience_asset;
 	}
 	
-	/// @function		stop_active_music()
-	static stop_active_music = function() {
+	/// @function		stop_active_music(fade_out_time_ms)
+	static stop_active_music = function(fade_out_time_ms) {
 		if (music_id != undefined) {
-			audio_stop_sound(music_id);
+			audio_sound_gain(music_id, 0, fade_out_time_ms);
+			run_delayed(GAMECONTROLLER, fade_out_time_ms, function(_music_id) { audio_stop_sound(_music_id); }, music_id);
 			music_id = undefined;
 			music_asset = undefined;
 		}
 	}
 	
-	/// @function		stop_active_ambience()
-	static stop_active_ambience = function() {
+	/// @function		stop_active_ambience(fade_out_time_ms)
+	static stop_active_ambience = function(fade_out_time_ms) {
 		if (ambience_id != undefined) {
-			audio_stop_sound(ambience_id);
+			audio_sound_gain(ambience_id, 0, fade_out_time_ms);
+			run_delayed(GAMECONTROLLER, fade_out_time_ms, function(_amb_id) { audio_stop_sound(_amb_id); }, ambience_id);
 			ambience_id = undefined;
 			ambience_asset = undefined;
 		}
@@ -62,7 +64,7 @@ function set_room_default_audio(_room, _music, _ambience) {
 			return;
 		}
 	}
-	array_push(__DEFAULT_ROOM_AUDIO, new __default_room_audio(_room, _music, _ambience));
+	array_push(__DEFAULT_ROOM_AUDIO, new __default_room_audio_entry(_room, _music, _ambience));
 }
 
 /// @function get_default_music_for_room()
@@ -86,7 +88,12 @@ function get_default_ambience_for_room() {
 
 /// @function		play_ui_sound(snd, gain = 1.0, pitch = 1.0, offset = 0, listener_mask = -1, priority = 7)
 /// @description	Plays a sound of type ui (attached to ui_volume setting)
-function play_ui_sound(snd, gain = 1.0, pitch = 1.0, offset = 0, listener_mask = -1, priority = 7) {
+function play_ui_sound( snd, 
+						gain		  = 1.0, 
+						pitch		  = AUDIO_UI_DEFAULT_PITCH, 
+						offset		  = 0, 
+						listener_mask = AUDIO_UI_DEFAULT_LISTENER_MASK, 
+						priority	  = AUDIO_UI_DEFAULT_PRIORITY) {
 	if (AUDIOSETTINGS.ui_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, false,
 			gain * AUDIOSETTINGS.ui_volume * AUDIOSETTINGS.master_volume, offset, pitch, listener_mask);
@@ -97,7 +104,14 @@ function play_ui_sound(snd, gain = 1.0, pitch = 1.0, offset = 0, listener_mask =
 
 /// @function		play_voice(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10)
 /// @description	Plays a sound of type voice (attached to voice_volume setting)
-function play_voice(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10) {
+function play_voice(snd, 
+					gain		  = 1.0, 
+					loop		  = false, 
+					pitch		  = AUDIO_VOICE_DEFAULT_PITCH, 
+					offset		  = 0, 
+					listener_mask = AUDIO_VOICE_DEFAULT_LISTENER_MASK, 
+					priority	  = AUDIO_VOICE_DEFAULT_PRIORITY) {
+						
 	if (AUDIOSETTINGS.voice_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, loop,
 			gain * AUDIOSETTINGS.voice_volume * AUDIOSETTINGS.master_volume, offset, pitch, listener_mask);
@@ -108,7 +122,14 @@ function play_voice(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, list
 
 /// @function		play_sound(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10)
 /// @description	Plays a sound of type sfx (attached to sound_volume setting)
-function play_sound(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10) {
+function play_sound(snd, 
+					gain		  = 1.0, 
+					loop		  = false, 
+					pitch		  = AUDIO_SOUND_DEFAULT_PITCH, 
+					offset		  = 0, 
+					listener_mask = AUDIO_SOUND_DEFAULT_LISTENER_MASK, 
+					priority	  = AUDIO_SOUND_DEFAULT_PRIORITY) {
+						
 	if (AUDIOSETTINGS.sound_enabled && snd != undefined) {
 		var sid = audio_play_sound(snd, priority, loop, 
 			gain * AUDIOSETTINGS.sound_volume * AUDIOSETTINGS.master_volume, offset, pitch, listener_mask);
@@ -124,7 +145,12 @@ function stop_sound(sound_id) {
 		audio_stop_sound(sound_id);
 }
 
-function update_audio_volume() {
+/// @function		update_audio_streams()
+/// @description	Updates both streaming channels (music and ambience) with current
+///					values for volume and their enabled state. 
+///					You must invoke this function whenever you change the enabled state
+///					or the volume of a streaming channel
+function update_audio_streams() {
 	if (__ACTIVE_AUDIO_SESSION != undefined) {
 		// --- Audio update
 		if (__ACTIVE_AUDIO_SESSION.music_id != undefined) {
@@ -154,48 +180,165 @@ function update_audio_volume() {
 	}
 }
 
-/// @function		play_music(mus, gain = 1.0, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 9)
+/// @function		play_music(mus, gain = 1.0, fade_in_time_ms = 1000, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 9)
 /// @description	Plays a sound of type music (attached to music_volume setting)
-function play_music(mus, gain = 1.0, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 9) {
+function play_music(mus, 
+					gain			= 1.0, 
+					fade_in_time_ms = AUDIO_MUSIC_DEFAULT_FADE_IN_MS, 
+					loop			= AUDIO_MUSIC_DEFAULT_LOOP, 
+					force_restart	= false, 
+					pitch			= AUDIO_MUSIC_DEFAULT_PITCH, 
+					offset			= 0, 
+					listener_mask	= AUDIO_MUSIC_DEFAULT_LISTENER_MASK, 
+					priority		= AUDIO_MUSIC_DEFAULT_PRIORITY) {
+						
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_music(mus)) {
 		vlog($"Play music ignored. Same music already playing.");
 		return;
 	}
 		
 	stop_music();
+	run_delayed(GAMECONTROLLER, (AUDIO_MUSIC_CHANGE_OVERLAY ? 0 : (AUDIO_MUSIC_DEFAULT_FADE_OUT_MS / 1000 * room_speed)),
+		function(p) {
+			__play_music_private(
+				p._mus,
+				p._gain,
+				p._fade_in_time_ms,
+				p._loop,
+				p._pitch,
+				p._offset,
+				p._listener_mask,
+				p._priority,
+				true);
+		},
+		{
+			_mus 			 : mus,
+			_gain			 : gain,
+			_fade_in_time_ms : fade_in_time_ms,
+			_loop			 : loop,
+			_pitch			 : pitch,
+			_offset		 	 : offset,
+			_listener_mask	 : listener_mask,
+			_priority		 : priority
+		});
+}
+
+/// @function play_music_overlay(mus, gain = 1.0, fade_in_time_ms = 1000, pitch = 1.0, offset = 0, listener_mask = -1)
+/// @description Play the specified music sound as overlay together with the current music.
+///				 This function will not modify, change or stop the current music. It just plays until the end, then stops.
+function play_music_overlay(mus, 
+							gain			= 1.0, 
+							fade_in_time_ms = AUDIO_MUSIC_DEFAULT_FADE_IN_MS, 
+							pitch			= AUDIO_MUSIC_DEFAULT_PITCH, 
+							offset			= 0, 
+							listener_mask	= AUDIO_MUSIC_DEFAULT_LISTENER_MASK) {
+	__play_music_private(mus,gain,fade_in_time_ms,false,pitch,offset,listener_mask,AUDIO_MUSIC_DEFAULT_PRIORITY,false);
+}
+
+function __play_music_private(mus, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
 	if (AUDIOSETTINGS.music_enabled && mus != undefined) {
-		__ACTIVE_AUDIO_SESSION.music_id = audio_play_sound(mus, priority, loop,
-			gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume, offset, pitch, listener_mask);
-		__ACTIVE_AUDIO_SESSION.music_asset = mus;
+		var finalgain = gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume;
+		var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
+		
+		var newid =
+			audio_play_sound(mus, priority, loop, startgain, offset, pitch, listener_mask);
+
+		if (fade_in_time_ms > 0)
+			audio_sound_gain(newid, finalgain, fade_in_time_ms);
+
+		if (reassign) {
+			__ACTIVE_AUDIO_SESSION.music_id = newid;
+			__ACTIVE_AUDIO_SESSION.music_asset = mus;
+		}
 	}
 }
 
-/// @function		stop_music()
+/// @function		stop_music(fade_out_time_ms = 1000)
 /// @description	Stops the currently playing music
-function stop_music() {
-	__ACTIVE_AUDIO_SESSION.stop_active_music();
+function stop_music(fade_out_time_ms = AUDIO_MUSIC_DEFAULT_FADE_OUT_MS) {
+	dlog($"Stopping music audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.music_asset ?? -1)}' in {fade_out_time_ms}ms");
+	__ACTIVE_AUDIO_SESSION.stop_active_music(fade_out_time_ms);
 
 }
 
-/// @function		play_ambience(amb, gain = 1.0, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 8)
+/// @function		play_ambience(amb, gain = 1.0, fade_in_time_ms = 1000, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 8)
 /// @description	Plays a sound of type ambience (attached to ambience_volume setting)
-function play_ambience(amb, gain = 1.0, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 8) {
+function play_ambience( amb, 
+						gain			= 1.0, 
+						fade_in_time_ms = AUDIO_AMBIENCE_DEFAULT_FADE_IN_MS, 
+						loop			= AUDIO_AMBIENCE_DEFAULT_LOOP, 
+						force_restart	= false, 
+						pitch			= AUDIO_AMBIENCE_DEFAULT_PITCH, 
+						offset			= 0, 
+						listener_mask	= AUDIO_AMBIENCE_DEFAULT_LISTENER_MASK, 
+						priority		= AUDIO_AMBIENCE_DEFAULT_PRIORITY) {
+
 	if (!force_restart && __ACTIVE_AUDIO_SESSION.is_same_ambience(amb)) {
 		vlog($"Play ambience ignored. Same ambience already playing.");
 		return;
 	}
 		
 	stop_ambience();
+	run_delayed(GAMECONTROLLER, (AUDIO_AMBIENCE_CHANGE_OVERLAY ? 0 : (AUDIO_AMBIENCE_DEFAULT_FADE_OUT_MS / 1000 * room_speed)),
+		function(p) {
+			__play_ambience_private(
+				p._amb,
+				p._gain,
+				p._fade_in_time_ms,
+				p._loop,
+				p._pitch,
+				p._offset,
+				p._listener_mask,
+				p._priority,
+				true);
+		},
+		{
+			_amb 			 : amb,
+			_gain			 : gain,
+			_fade_in_time_ms : fade_in_time_ms,
+			_loop			 : loop,
+			_pitch			 : pitch,
+			_offset		 	 : offset,
+			_listener_mask	 : listener_mask,
+			_priority		 : priority
+		});
+	
+}
+
+/// @function play_ambience_overlay(amb, gain = 1.0, fade_in_time_ms = 1000, pitch = 1.0, offset = 0, listener_mask = -1)
+/// @description Play the specified ambience sound as overlay together with the current ambience.
+///				 This function will not modify, change or stop the current ambience. It just plays until the end, then stops.
+function play_ambience_overlay( amb, 
+								gain			= 1.0, 
+								fade_in_time_ms = AUDIO_AMBIENCE_DEFAULT_FADE_IN_MS, 
+								pitch			= AUDIO_AMBIENCE_DEFAULT_PITCH, 
+								offset			= 0, 
+								listener_mask	= AUDIO_AMBIENCE_DEFAULT_LISTENER_MASK) {
+	__play_ambience_private(amb,gain,fade_in_time_ms,false,pitch,offset,listener_mask,AUDIO_AMBIENCE_DEFAULT_PRIORITY,false);
+}
+
+function __play_ambience_private(amb, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
+
 	if (AUDIOSETTINGS.ambience_enabled && amb != undefined) {
-		__ACTIVE_AUDIO_SESSION.ambience_id = audio_play_sound(amb, priority, loop, 
-			gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume, offset, pitch, listener_mask);
-		__ACTIVE_AUDIO_SESSION.ambience_asset = amb;
+		var finalgain = gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume;
+		var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
+			
+		var newid =
+			audio_play_sound(amb, priority, loop, startgain, offset, pitch, listener_mask);
+		
+		if (fade_in_time_ms > 0)
+			audio_sound_gain(newid, finalgain, fade_in_time_ms);
+		
+		if (reassign) {
+			__ACTIVE_AUDIO_SESSION.ambience_id = newid;
+			__ACTIVE_AUDIO_SESSION.ambience_asset = amb;
+		}
 	}
 }
 
-/// @function		stop_ambience()
+/// @function		stop_ambience(fade_out_time_ms = 1000)
 /// @description	Stops the currently playing ambience sounds
-function stop_ambience() {
-	__ACTIVE_AUDIO_SESSION.stop_active_ambience();
+function stop_ambience(fade_out_time_ms = AUDIO_AMBIENCE_DEFAULT_FADE_OUT_MS) {
+	dlog($"Stopping ambience audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.ambience_asset ?? -1)}' in {fade_out_time_ms}ms");
+	__ACTIVE_AUDIO_SESSION.stop_active_ambience(fade_out_time_ms);
 }
-
