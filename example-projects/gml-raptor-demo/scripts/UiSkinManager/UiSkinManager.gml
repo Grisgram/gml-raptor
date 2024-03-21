@@ -25,7 +25,7 @@ function UiSkinManager() constructor {
 	static add_skin = function(_skin, _activate_now = false) {
 		var was_active = ((active_skin != undefined) && (active_skin.name == _skin.name));
 		_skins[$ _skin.name] = _skin;
-		ilog($"UiSkinManager registered skin '{_skin.name}' {_activate_now} {was_active}");
+		ilog($"UiSkinManager registered skin '{_skin.name}'");
 		if (_activate_now || was_active)
 			activate_skin(_skin.name);
 	}

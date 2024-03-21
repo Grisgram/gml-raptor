@@ -316,6 +316,7 @@
     {"id":{"name":"AnimationTests","path":"scripts/AnimationTests/AnimationTests.yy",},},
     {"id":{"name":"AnimCurves","path":"scripts/AnimCurves/AnimCurves.yy",},},
     {"id":{"name":"Arrays","path":"scripts/Arrays/Arrays.yy",},},
+    {"id":{"name":"Audio_Configuration","path":"scripts/Audio_Configuration/Audio_Configuration.yy",},},
     {"id":{"name":"AudioHelper","path":"scripts/AudioHelper/AudioHelper.yy",},},
     {"id":{"name":"AudioSettings","path":"scripts/AudioSettings/AudioSettings.yy",},},
     {"id":{"name":"Binding","path":"scripts/Binding/Binding.yy",},},
