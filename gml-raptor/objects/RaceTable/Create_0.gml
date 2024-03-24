@@ -2,6 +2,11 @@
 
 event_inherited();
 
+__set_initial_table = function() {
+	if (race_table_name != "")
+		set_table(race_table_name);
+}
+
 #region RACE-onQuery... callbacks
 /*
 	--- USAGE OF THE onQuery... FUNCTIONS ---
@@ -87,5 +92,5 @@ query = function(drop_on_layer = "", pool_name = "") {
 race_table = undefined;
 
 // if not table name assigned, we can not autoload. user must call set_table manually.
-if (race_table_name != "")
-	set_table(race_table_name);
+if (!SAVEGAME_LOAD_IN_PROGRESS)
+	__set_initial_table();

@@ -29,6 +29,7 @@ ENSURE_GLOBALDATA
 #macro __SAVEGAME_RACE_HEADER			"race_tables"
 #macro __SAVEGAME_OBJECT_HEADER			"instances"
 #macro __SAVEGAME_STRUCT_HEADER			"structs"
+#macro __SAVEGAME_REFSTACK_HEADER		"refstack"
 #macro __SAVEGAME_ENGINE_HEADER			"engine"
 #macro __SAVEGAME_INSTANCE_PREFIX		"inst"
 #macro __SAVEGAME_DATA_HEADER			"data"
@@ -69,6 +70,7 @@ ENSURE_GLOBALDATA
 #macro __SAVEGAME_ONLOADED_FUNCTION		onGameLoaded
 
 #macro __SAVEGAME_REF_MARKER			"##_savegame_ref_##."
+#macro __SAVEGAME_STRUCT_REF_MARKER		"##_savegame_structref_##."
 
 enum savegame_event {
 	onGameSaving = 14,

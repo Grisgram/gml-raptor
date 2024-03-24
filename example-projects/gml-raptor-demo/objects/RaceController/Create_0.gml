@@ -12,8 +12,13 @@ event_inherited();
 	so this object allows you runtime control of loot tables of the current room, but it is not *required* for race to work.
 */
 
-if (race_table_file_name != "")
-	race_load_file(race_table_file_name);
+__load_startup_file = function() {
+	if (race_table_file_name != "")
+		race_load_file(race_table_file_name);
+}
+
+if (!SAVEGAME_LOAD_IN_PROGRESS)
+	__load_startup_file();
 
 #region RACE-onQuery... callbacks
 /*

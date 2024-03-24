@@ -49,7 +49,13 @@ function instance_clone(_instance = self, layer_name_or_depth = undefined, struc
 /// @function		is_object_instance(_inst)
 /// @description	Checks whether a variable holds a living (not deactivated) object instance
 function is_object_instance(_inst) {
-	return !is_null(_inst) && instance_exists(_inst) && variable_struct_exists(_inst, "object_index");
+	return	!is_null(_inst) && 
+			!is_string(_inst) &&
+			typeof(_inst) == "ref" &&
+			(is_struct(_inst) || instance_exists(_inst)) &&
+			vsget(_inst, "id") && 
+			vsget(_inst, "object_index") && 
+			!is_null(object_get_name(vsget(_inst, "object_index")));
 }
 	
 /// @function		scale_sprite_to(target_width, target_height)
