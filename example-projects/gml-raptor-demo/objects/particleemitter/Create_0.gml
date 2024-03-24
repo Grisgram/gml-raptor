@@ -38,17 +38,10 @@ event_inherited();
 
 __clone_created = !stream_with_clone;
 __my_emitter = emitter_name;
-__follow_offset = new Coord2(0, 0);
-
-__raptor_onPoolActivate = function() {
-	__follow_offset.set(0, 0);
-}
 
 __raptor_onPoolDeactivate = function() {
 	stop();
 }
-
-__raptor_onPoolActivate();
 
 __get_partsys = function() {
 	return (is_array(PARTSYS) ? PARTSYS[@ partsys_index] : PARTSYS);
@@ -57,7 +50,7 @@ __get_partsys = function() {
 /// @function		set_offset(xoff, yoff)
 /// @description	sets a static offset distance to apply when following an instance
 set_offset = function(xoff, yoff) {
-	__follow_offset.set(xoff, yoff);
+	follow_offset.set(xoff, yoff);
 	__update_position(,true);
 	return self;
 }
@@ -65,8 +58,8 @@ set_offset = function(xoff, yoff) {
 /// @function		__update_position(ps = undefined)
 __update_position = function(ps = undefined, force = false) {
 	if (follow_instance != undefined && instance_exists(follow_instance)) {
-		x = follow_instance.x + __follow_offset.x * follow_instance.image_xscale;
-		y = follow_instance.y + __follow_offset.y * follow_instance.image_yscale;
+		x = follow_instance.x + follow_offset.x * follow_instance.image_xscale;
+		y = follow_instance.y + follow_offset.y * follow_instance.image_yscale;
 		if (x != xprevious || y != yprevious || force) {
 			ps = ps ?? __get_partsys();
 			ps.emitter_move_range_to(__my_emitter, x, y);

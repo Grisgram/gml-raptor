@@ -34,7 +34,7 @@ function StateMachine(_owner) constructor {
 	__state_frame		= 0;
 	__objectpool_paused = false;
 	
-	data				= {};
+	data				= new Bindable(self);
 	
 	locking_animation	= undefined;
 	lock_state_buffered	= false;
@@ -359,6 +359,22 @@ function StateMachine(_owner) constructor {
 		if (DEBUG_LOG_STATEMACHINE)
 			with(owner) vlog($"{MY_NAME}: StateMachine destroyed");
 		STATEMACHINES.remove(self);
+	}
+	
+	/// @function set_data(_property, _value)
+	/// @description Lets you set a property in the data struct to a value.
+	///				 This method is a convenience function for the builder pattern,
+	///				 so you can declare your initial data values directly while
+	///				 building the animation
+	static set_data = function(_property, _value) {
+		data[$ _property] = _value;
+		return self;
+	}
+	
+	/// @function binder()
+	/// @description Gets the PropertyBinder for the values of this animation
+	static binder = function() {
+		return data.binder();
 	}
 	
 	toString = function() {

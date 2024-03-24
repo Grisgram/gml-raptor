@@ -8,7 +8,7 @@
 */
 
 function UiSkin(_name = "default") constructor {
-	construct("UiSkin");
+	construct(UiSkin);
 	ENSURE_THEMES;
 	
 	name = _name;

@@ -1,5 +1,6 @@
 /// @description stop emission
 
-stop();
+if (!SAVEGAME_SAVE_IN_PROGRESS && !SAVEGAME_LOAD_IN_PROGRESS)
+	stop();
+	
 event_inherited();
-

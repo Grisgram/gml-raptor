@@ -123,6 +123,21 @@ function ListPool(_name = "listPool") constructor {
 		ilog($"[--- LIST POOL '{name}' DUMP  END  ---]");
 	}
 
+	/// @function		dump_to_string()
+	/// @description	For debugging purposes. Same as dump(), but returns a string instead of
+	///					writing to the console
+	static dump_to_string = function() {
+		var i = 0;
+		var rv = ($"[--- LIST POOL '{name}' DUMP START ---]\n");
+		repeat(ds_list_size(list)) {
+			var item = ds_list_find_value(list, i);
+			rv += $"#{i}: {item}\n";
+			i++;
+		}
+		rv += $"[--- LIST POOL '{name}' DUMP  END  ---]\n";
+		return rv;
+	}
+
 }
 
 /// @function		__listpool_get_all_owner_objects(_listpool, owner)

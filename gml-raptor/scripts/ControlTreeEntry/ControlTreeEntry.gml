@@ -4,7 +4,7 @@
 
 /// @function ControlTreeEntry(_instance = undefined)
 function ControlTreeEntry(_instance = undefined) constructor {
-	construct("ControlTreeEntry");
+	construct(ControlTreeEntry);
 	
 	instance		= _instance;
 	element_name	= "";

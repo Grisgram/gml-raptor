@@ -7,6 +7,12 @@
 	
 	This function receives the value as argument and must return the converted/formatted value,
 	so that the binding target can accept it.
+	
+	About the _parent constructor parameter:
+	You can use this, to "tweak" the return value of the "parent()" function.
+	By default, the parent is the same as "myself", but in cases, where this PropertyBinder is
+	bound to a Bindable() struct, you might want to return the instance holding the Bindable, and
+	not just the Bindable. Like parent.parent. 
 */
 
 #macro BINDINGS	global.__BINDINGS
@@ -15,11 +21,13 @@ BINDINGS		= new ListPool("BINDINGS");
 #macro STRING_TO_NUMBER_CONVERTER	function(_value) { return real(_value); }
 #macro NUMBER_TO_STRING_CONVERTER	function(_value) { return string(_value); }
 
-function PropertyBinder(_myself = undefined) constructor {
-	construct("PropertyBinder");
+function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
+	construct(PropertyBinder);
 	
 	__source_bindings = {};
 	__bindings = {};
+	
+	__parent = _parent ?? _myself; 
 	
 	myself = _myself;
 	
@@ -28,7 +36,7 @@ function PropertyBinder(_myself = undefined) constructor {
 	///				 ("pull" the value)
 	static bind_pull = function(_my_property, _source_instance, _source_property, 
 						   _converter = undefined, _on_value_changed = undefined) {
-		var bnd = new Binding(
+		var bnd = new PullBinding(
 			myself, _my_property, 
 			_source_instance, _source_property, 
 			_converter,
@@ -37,6 +45,7 @@ function PropertyBinder(_myself = undefined) constructor {
 		__bindings[$ bnd.key] = bnd;
 		if (vsget(_source_instance, "binder") != undefined)
 			_source_instance.binder.__source_bindings[$ bnd.key] = bnd;
+		return self;
 	}
 	
 	/// @function bind_push(_my_property, _target_instance, _target_property, _converter = undefined, _on_value_changed = undefined)
@@ -47,29 +56,54 @@ function PropertyBinder(_myself = undefined) constructor {
 	///				 pull bindings.
 	static bind_push = function(_my_property, _target_instance, _target_property, 
 						   _converter = undefined, _on_value_changed = undefined) {
-		var bnd = new Binding(
+		var bnd = new PushBinding(
 			_target_instance, _target_property, 
 			myself, _my_property, 
 			_converter,
 			_on_value_changed);
 		
 		__source_bindings[$ bnd.key] = bnd;
-		if (vsget(_target_instance, "binder") != undefined)
+		if (vsget(_target_instance, "binder") != undefined && !is_method(_target_instance.binder))
 			_target_instance.binder.__bindings[$ bnd.key] = bnd;
+		return self;
+	}
+	
+	/// @function bind_watcher(_my_property, _on_value_changed)
+	/// @description Binds only a function on value change to a property. This is useful, if you
+	///				 do not want to mirror the bound value to any other member, but just get informed,
+	///				 when the watched value changes. The callback receives two arguments:
+	///				 (new_value, old_value)
+	static bind_watcher = function(_my_property, _on_value_changed) {
+		var bnd = new WatcherBinding(myself, _my_property, _on_value_changed);
+		__source_bindings[$ bnd.key] = bnd;
+		return self;
 	}
 	
 	/// @function unbind(_my_property)
 	static unbind = function(_my_property) {
-		var key = $"{name_of(myself)}.{_my_property}";
-		var bnd = vsget(__bindings, key);
-		if (bnd != undefined) {
-			if (vsget(bnd.source_instance, "binder") != undefined) {
-				dlog($"Removing source-binding from {name_of(bnd.source_instance)}.{_my_property}");
-				variable_struct_remove(bnd.source_instance.binder.__source_bindings, key);
+		for (var i = 0; i < 2; i++) {
+			var pre = (i == 0 ? "push" : "pull");
+			var key = $"{pre}_{name_of(myself)}.{_my_property}";
+			var bnd = vsget(__bindings, key);
+			if (bnd != undefined) {
+				if (vsget(bnd.source_instance, "binder") != undefined && !is_method(bnd.source_instance.binder)) {
+					dlog($"Removing remote source-binding from {name_of(bnd.source_instance)}.{_my_property}");
+					variable_struct_remove(bnd.source_instance.binder.__source_bindings, key);
+				}
+				variable_struct_remove(__bindings, key);
+				with(bnd) unbind();
 			}
-			variable_struct_remove(__bindings, key);
-			with(bnd) unbind();
+			var src = vsget(__source_bindings, key);
+			if (src != undefined) {
+				if (vsget(src.target_instance, "binder") != undefined && !is_method(src.target_instance.binder)) {
+					dlog($"Removing local source-binding from {name_of(src.target_instance)}.{_my_property}");
+					variable_struct_remove(src.target_instance.binder.__source_bindings, key);
+				}
+				variable_struct_remove(__source_bindings, key);
+				with(src) unbind();
+			}
 		}
+		return self;
 	}
 	
 	/// @function unbind_source()
@@ -79,7 +113,9 @@ function PropertyBinder(_myself = undefined) constructor {
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var key = names[@i];
 			var src = __source_bindings[$ key];
-			if (vsget(src.target_instance, "binder") != undefined)
+			if (vsget(src, "target_instance") != undefined &&
+				vsget(src.target_instance, "binder") != undefined && 
+				!is_method(src.target_instance.binder))
 				with(src.target_instance)
 					binder.unbind(binder.__bindings[$ key].target_property);
 			else
@@ -94,6 +130,14 @@ function PropertyBinder(_myself = undefined) constructor {
 		var names = struct_get_names(__bindings);
 		for (var i = 0, len = array_length(names); i < len; i++)
 			unbind(__bindings[$ names[@i]].target_property);
+		return self;
+	}
+	
+	/// @function parent()
+	/// @description return the parent of this binder, to keep navigating
+	///				 in the builder pattern
+	static parent = function() {
+		return __parent;
 	}
 	
 }

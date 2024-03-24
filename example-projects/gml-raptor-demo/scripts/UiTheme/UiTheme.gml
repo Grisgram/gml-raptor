@@ -33,7 +33,7 @@
 ///				 and "set_grayscales" to define (white, black, shadow) colors.
 ///				 But the best way is to derive your own theme from this and just set the colors you wish.
 function UiTheme(_name = "default") constructor {
-	construct("UiTheme");
+	construct(UiTheme);
 
 	name = _name;
 	

@@ -19,7 +19,7 @@ enum tile_orientation {
 ///					and fill the "tiles" array with data. 
 ///					If you set it to false, tiles is an empty array of undefined's until you invoke "scan_layer()"
 function TileScanner(layername_or_id = undefined, scan_on_create = true) constructor {
-	construct("TileScanner");
+	construct(TileScanner);
 	
 	if (layername_or_id != undefined)
 		set_layer(layername_or_id, scan_on_create);
@@ -104,16 +104,47 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return tiles;
 	}
 	
-	/// @function		find_tiles(indices...)
-	/// @description	scans the layer for tiles. Specify up to 16 tile indices you want to find.
-	///					Returns an array of TileInfo structs.
+	/// @function			find_tiles(indices...)
+	/// @description		scans the layer for tiles. Specify up to 16 tile indices you want to find
+	///						either directly as arguments or specify an array, containing the indices, if
+	///						you are looking for more than 16 tiles.
+	///						NOTE: If you supply an array, this must be the ONLY argument!
+	///	@returns {array}	Returns an array of TileInfo structs.
 	static find_tiles = function() {
 		var rv = [];
-		for (var i = 0, len = array_length(tiles); i < len; i++)
+		var indices = argument0;
+		if (!is_array(argument0)) {
+			indices = array_create(argument_count);
 			for (var a = 0, alen = argument_count; a < alen; a++)
-				if (tiles[@i].index == argument[@a])
-					array_push(rv, tiles[@i]);
+				indices[@a] = argument[@a];
+		}
+		
+		for (var i = 0, len = array_length(tiles); i < len; i++)
+			if (array_contains(indices, tiles[@i].index))
+				array_push(rv, tiles[@i]);
 		return rv;		
+	}
+	
+	/// @function		find_tiles_in_view(_tiles_array = undefined, _camera_index = 0, _viewport_index = 0)
+	/// @description	Returns only the tiles from the specified _tiles_array, that are currently in view
+	///					of the specified camera.
+	///					NOTE: if you do not specify a _tiles_array, the internal tiles array of the scanner is used,
+	///					which contains all tiles of the level.
+	///					But you may also supply a pre-filtered array, like a return value of find_tiles(...)
+	///	@returns {array}	Returns an array of TileInfo structs.
+	static find_tiles_in_view = function(_tiles_array = undefined, _camera_index = 0) {
+		var rv = [];
+		_tiles_array = _tiles_array ?? tiles;
+		macro_camera_viewport_index_switch_to(_camera_index, VIEWPORT_INDEX);
+		var camrect = new Rectangle(CAM_LEFT_EDGE, CAM_TOP_EDGE, CAM_WIDTH, CAM_HEIGHT);
+		var tile = undefined;
+		for (var i = 0, len = array_length(_tiles_array); i < len; i++) {
+			tile = _tiles_array[@i];
+			if (camrect.intersects_point(tile.center_px.x, tile.center_px.y))
+				array_push(rv, tile);
+		}
+		macro_camera_viewport_index_switch_back();
+		return rv;
 	}
 	
 	/// @function get_tile_at(map_x, map_y)
@@ -139,7 +170,7 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 /// @function		TileInfo()
 /// @description	Holds condensed information about a single tile
 function TileInfo() constructor {
-	construct("TileInfo");
+	construct(TileInfo);
 	
 	/// @function		set_data(tiledata, map_x, map_y, scanner)
 	/// @description	Wrap this in a function to have an empty constructor for the savegame system
@@ -149,6 +180,7 @@ function TileInfo() constructor {
 		empty		= (index <= 0);
 		position	= new Coord2(map_x, map_y);
 		position_px = new Coord2(map_x * scanner.cell_width, map_y * scanner.cell_height);
+		center_px	= position_px.clone2().add(scanner.cell_width / 2, scanner.cell_height / 2);
 		return self;
 	}
 }

@@ -16,7 +16,7 @@
 /// @function UiThemeManager()
 /// @description The global theme manager. Accessible through UI_THEMES
 function UiThemeManager() constructor {
-	construct("UiThemeManager");
+	construct(UiThemeManager);
 	
 	_themes = {
 	};
