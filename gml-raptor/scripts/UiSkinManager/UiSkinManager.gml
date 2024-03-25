@@ -14,7 +14,7 @@
 #macro __DEFAULT_UI_SKIN_NAME	"default"
 
 function UiSkinManager() constructor {
-	construct("UiSkinManager");
+	construct(UiSkinManager);
 	
 	_skins = {
 	};

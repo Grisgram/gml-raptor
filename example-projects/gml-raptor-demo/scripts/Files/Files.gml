@@ -257,8 +257,18 @@ function file_list_directory(wildcard, attributes = 0) {
 
 #region CONSTRUCTOR REGISTRATION
 /// @function		__file_get_constructed_class(from)
-function __file_get_constructed_class(from) {
-	var rv = undefined;
+/// @description	Returns a struct with 'cached' and the instance
+///					if 'cached' is true, it has been taken from cache, so
+///					no further recursion needed from the caller side
+function __file_get_constructed_class(from, restorestack) {
+	var restorename = $"restored_{name_of(from)}";
+	var rv = vsget(restorestack, restorename);
+	if (rv != undefined) 
+		return {
+			cached: true,
+			instance: rv
+		};
+	
 	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
 		var constname = from[$ __CONSTRUCTOR_NAME];
 		//vlog($"Constructing '{constname}'");
@@ -272,20 +282,26 @@ function __file_get_constructed_class(from) {
 	} else {
 		rv = {};
 	}
-	return rv;
+	restorestack[$ restorename] = rv;
+	return {
+		cached: false,
+		instance: rv
+	};
 }
 
 /// @function		__file_reconstruct_root(from)
 function __file_reconstruct_root(from) {
-	var rv = __file_get_constructed_class(from);
-	__file_reconstruct_class(rv, from);
+	var restorestack = {};
+	// The first instance here can't be from cache, as the restorestack is empty
+	var rv = __file_get_constructed_class(from, restorestack).instance;
+	__file_reconstruct_class(rv, from, restorestack);
 	return rv;
 }
 
-/// @function		__file_reconstruct_class(into, from)
+/// @function		__file_reconstruct_class(into, from, restorestack)
 /// @description	reconstruct a loaded data struct through its constructor
 ///					if the constructor is known.
-function __file_reconstruct_class(into, from) {
+function __file_reconstruct_class(into, from, restorestack) {
 	var names = struct_get_names(from);
 	
 	with (into) {
@@ -293,16 +309,20 @@ function __file_reconstruct_class(into, from) {
 			var name = names[i];
 			var member = from[$ name];
 			if (is_struct(member)) {
-				var classinst = __file_get_constructed_class(member);
+				var restored = __file_get_constructed_class(member, restorestack);
+				var classinst = restored.instance;
 				self[$ name] = classinst;
-				__file_reconstruct_class(classinst, member);
+				if (!restored.cached)
+					__file_reconstruct_class(classinst, member, restorestack);
 			} else if (is_array(member)) {
 				for (var a = 0; a < array_length(member); a++) {
 					var amem = member[@ a];
 					if (is_struct(amem)) {
-						var classinst = __file_get_constructed_class(amem);
+						var restored = __file_get_constructed_class(amem, restorestack);
+						var classinst = restored.instance;
 						member[@ a] = classinst;
-						__file_reconstruct_class(classinst, amem);
+						if (!restored.cached)
+							__file_reconstruct_class(classinst, amem, restorestack);
 					}
 				}
 				self[$ name] = from[$ name];

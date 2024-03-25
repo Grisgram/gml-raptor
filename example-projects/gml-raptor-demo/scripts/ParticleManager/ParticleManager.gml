@@ -72,7 +72,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	/// @description				register (or get existing) emitter for leak-free destroying at end of level
 	static emitter_get = function(name_or_emitter, default_particle_if_new = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
-			
+		
 		var rv = variable_struct_exists(__emitters, name_or_emitter) ? 
 			struct_get(__emitters, name_or_emitter) : 
 			new __emitter(part_emitter_create(system), default_particle_if_new);

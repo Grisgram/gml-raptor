@@ -7,18 +7,30 @@
 	file gets restored.
 */
 
-/// @func		__savegame_remove_pointers()
+/// @func		__savegame_remove_pointers(struct, refstack)
 /// @desc
 /// @arg {struct} struct	The struct to clone and remove pointers
-function __savegame_remove_pointers(struct) {
-	return new __savegame_deep_copy_remove(struct).copy;
+function __savegame_remove_pointers(struct, refstack) {
+	return new __savegame_deep_copy_remove(struct, refstack).copy;
 }
 
 /// @function		__savegame_deep_copy_remove
 /// @description	Derived from SNAP deep_copy this takes cares of methods (skip)
 ///					and instance id's that will not be copied but replaced with their id only
-function __savegame_deep_copy_remove(source) constructor {
+function __savegame_deep_copy_remove(source, _refstack) constructor {
+	refstack = _refstack;
     copy = undefined;
+
+	static to_refstack = function(_struct) {
+		var refname = $"{__SAVEGAME_STRUCT_REF_MARKER}{name_of(_struct)}";
+		ilog($"--- refstack {refname}");
+		if (!vsget(refstack, refname)) {
+			vlog($"Adding '{refname}' to refstack");
+			refstack[$ refname] = true; // Temp-add "true" struct member to avoid endless loop
+			refstack[$ refname] = copy_struct(_struct);
+		}
+		return refname;
+	}
 
 	static replace_ref = function(_value) {
 		// so IN THEORY this could be an object, but yoyo's finite wisdom decided
@@ -28,21 +40,15 @@ function __savegame_deep_copy_remove(source) constructor {
 		rv.value = _value;
 		rv.success = false;
 		try {
-			// if it's the ref type it looks like this: "ref 100008" (length = 10)
-			var strid = string(_value);
-			
-			if (string_length(strid) == 19 && string_starts_with(strid, "ref instance ")) {
-				strid = string(real(_value));
-				//vlog($"Found top level instance id in struct: {strid}");
+			if (is_object_instance(_value)) {
+				var strid = string(real(_value));
+				vlog($"Replacing instance '{name_of(_value)}' for savegame");
 				rv.value = __SAVEGAME_REF_MARKER + strid;
+				rv.success = true;				
+			} else if (is_struct(_value)) {
+				vlog($"Replacing struct ref '{name_of(_value)}' for savegame");
+				rv.value = to_refstack(_value);
 				rv.success = true;
-			} else {			
-				var refstr = string(_value[$ "id"]);
-				if (string_starts_with(refstr, "ref ")) {
-					dlog($"Found instance id in struct: {strid}");
-					rv.value = __SAVEGAME_REF_MARKER + strid;
-					rv.success = true;
-				}
 			}
 		} catch(_ignored) {
 			// not an object...
@@ -66,16 +72,13 @@ function __savegame_deep_copy_remove(source) constructor {
 				_i++;
 				continue;
 			} 
-            else if (typeof(_value) == "ref" || 
-					(!is_real(_value) && !is_struct(_value) && typeof(_value) == "struct") || 
-					(is_real(_value) && real(_value) > 100000 && instance_exists(_value)))
+            else if (is_object_instance(_value))
 			{
-				var idval = variable_instance_get(_value, "id");
-				if (_name != __SAVEGAME_OBJ_PROP_ID && idval != undefined && real(idval) > 100000) {
-					var res = replace_ref(idval);
-					if (res.success)
-						_value = res.value;
-				}
+				var res = replace_ref(_value);
+				if (res.success)
+					_value = res.value;
+				else
+					elog($"** ERROR ** Failed to replace instance '{name_of(_value)}'");
 			} 
 			else if (is_array(_value))
             {
@@ -83,7 +86,7 @@ function __savegame_deep_copy_remove(source) constructor {
             }
             else if (is_struct(_value))
             {
-                _value = copy_struct(_value);
+				_value = to_refstack(_value);
             }
             
             struct_set(_copy, _name, _value);
@@ -104,28 +107,17 @@ function __savegame_deep_copy_remove(source) constructor {
         {
             var _value = _source[_i];
             
-			if (typeof(_value) == "ref" || 
-				(!is_real(_value) && !is_struct(_value) && typeof(_value) == "struct") || 
-				(is_real(_value) && real(_value) > 100000 && instance_exists(_value)))
+            if (is_object_instance(_value))
 			{
-				var idval = variable_instance_get(_value, "id");
-				if (idval != undefined && real(idval) > 100000) {
-					var res = replace_ref(idval);
-					if (res.success)
-						_value = res.value;
-				}
+				var res = replace_ref(_value);
+				if (res.success)
+					_value = res.value;
+				else
+					elog($"** ERROR ** Failed to replace instance '{name_of(_value)}'");
 			} 
-            //if (is_real(_value) && instance_exists(_value)) 
-			//{
-			//	if (_value > 100000) {
-			//		var res = replace_ref(_value);
-			//		if (res.success)
-			//			_value = res.value;
-			//	}
-			//} 
-			else if (is_struct(_value))
+            else if (is_struct(_value))
             {
-                _value = copy_struct(_value);
+				_value = to_refstack(_value);
             }
             else if (is_array(_value))
             {

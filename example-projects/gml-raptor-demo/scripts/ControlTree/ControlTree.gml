@@ -17,7 +17,7 @@ enum anchor {
 }
 
 function ControlTree(_control = undefined, _parent_tree = undefined, _margin = undefined, _padding = undefined) constructor {
-	construct("ControlTree");
+	construct(ControlTree);
 	
 	// This is the control, the tree is bound to. Gets set in Create of _baseContainerControl
 	control			= _control;

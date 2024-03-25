@@ -19,7 +19,7 @@ function animcurve_get_ext(curve_id) {
 	with (rv) {
 		channel_names = array_create(array_length(channels));
 		channel_values = array_create(array_length(channels));
-		values = {};
+		values = new Bindable(self);
 	
 		for (var i = 0, len = array_length(channels); i < len; i++) {
 			channel_names[i] = channels[i].name;
@@ -31,6 +31,12 @@ function animcurve_get_ext(curve_id) {
 			}, function() {return curve.get_value(idx);});
 		}
 	
+		/// @function binder()
+		/// @description Gets the PropertyBinder for the values of this animation
+		static binder = function() {
+			return values.binder();
+		}
+		
 		/// @function					channel_exists(name)
 		channel_exists = function(name) {
 			for (var i = 0, len = array_length(channel_names); i < len; i++) 

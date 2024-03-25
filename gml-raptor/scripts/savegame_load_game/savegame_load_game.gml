@@ -26,9 +26,25 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	}
 
 	SAVEGAME_LOAD_IN_PROGRESS = true;
-	
+
+	// prepare refstack
+	var refstack = vsget(savegame, __SAVEGAME_REFSTACK_HEADER);
+	refstack.savegame = savegame;
+	refstack.recover = method(refstack, function(_name, _from = undefined) {
+		_from = _from ?? savegame;
+		var rv = _from[$ _name];
+		if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) {
+			rv = self[$ rv];
+			_from[$ _name] = rv;
+			var names = struct_get_names(rv);
+			for (var i = 0, len = array_length(names); i < len; i++) 
+				recover(names[@i], rv);
+		}
+		return rv;
+	});
+
 	// load engine data
-	var engine = struct_get(savegame, __SAVEGAME_ENGINE_HEADER);
+	var engine = refstack.recover(__SAVEGAME_ENGINE_HEADER);
 	random_set_seed(struct_get(engine, __SAVEGAME_ENGINE_SEED));
 	var loaded_version = vsgetx(engine, __SAVEGAME_ENGINE_VERSION, 1);
 	
@@ -41,10 +57,10 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	}
 	
 	// load global data
-	GLOBALDATA = struct_get(savegame, __SAVEGAME_GLOBAL_DATA_HEADER);
+	GLOBALDATA = refstack.recover(__SAVEGAME_GLOBAL_DATA_HEADER);
 	
 	// load all race tables
-	var race = struct_get(savegame, __SAVEGAME_RACE_HEADER);
+	var race = refstack.recover(__SAVEGAME_RACE_HEADER);
 	var racetablenames = struct_get_names(race);
 	for (var i = 0; i < array_length(racetablenames); i++) {
 		race_add_table(racetablenames[i], struct_get(race, racetablenames[i]));
@@ -52,18 +68,17 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	
 	// load the structs
 	__savegame_clear_structs();
-	__SAVEGAME_STRUCTS = struct_get(savegame, __SAVEGAME_STRUCT_HEADER);
+	__SAVEGAME_STRUCTS = refstack.recover(__SAVEGAME_STRUCT_HEADER);
 	
 	// If data_only is specified, we do skip over the instance part
 	if (!data_only) {
 		// recreate object instances
 		with (Saveable) if (add_to_savegame) instance_destroy();
 	
-		var awaiting_race_controller_link = {};
-	
-		var instances = vsget(savegame, __SAVEGAME_OBJECT_HEADER);
+		var restorestack = {};
+		var instances = refstack.recover(__SAVEGAME_OBJECT_HEADER);
 		var names = struct_get_names(instances);
-		for (var i = 0; i < array_length(names); i++) {
+		for (var i = 0, len = array_length(names); i < len; i++) {
 			var inst	= vsget(instances, names[i]);
 			var obj		= vsget(inst, __SAVEGAME_OBJ_PROP_OBJ);
 			// since 2023.1 there's an empty struct added silently to each serialized file.
@@ -103,32 +118,8 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 				var cid = struct_get(inst, __SAVEGAME_OBJ_PROP_ID);
 				struct_set(__SAVEGAME_INSTANCES, string(cid), self); // add me to the loaded list
 
-				// auto-load variables of platform objects
-				// RaceController
-				if (obj == "RaceController" || object_is_ancestor(object_index, RaceController)) {
-					dlog($"Restoring RaceController...");
-					race_table_file_name = struct_get(inst, "race_table_file_name");
-				}
-				
-				// RaceTable
-				if (obj == "RaceTable" || object_is_ancestor(object_index, RaceTable)) {
-					dlog($"Restoring RaceTable...");
-					race_table_name		= struct_get(inst, "race_table_name");
-					race_drop_on_layer	= struct_get(inst, "race_drop_on_layer");
-					set_table(race_table_name);
-					// restore of the controller id is a bit tricky...
-					// for now, just save the id and myself to a struct
-					// when all instances are loaded, assign it
-					var cid = struct_get(inst, "race_controller");
-					if (cid == noone)
-						race_controller = noone;
-					else {
-						struct_set(awaiting_race_controller_link, string(cid), self);
-					}
-				}
-
 				var loaded_data = struct_get(inst, __SAVEGAME_DATA_HEADER);
-				__file_reconstruct_class(data, loaded_data);
+				__file_reconstruct_class(data, loaded_data, restorestack);
 				
 				// Savegame versioning
 				if (SAVEGAME_FILE_VERSION > loaded_version) {
@@ -142,31 +133,17 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 					}
 				}
 				
-				if (variable_instance_exists(self, __SAVEGAME_ONLOADING_NAME) &&
-					variable_instance_get(self, __SAVEGAME_ONLOADING_NAME) != undefined) 
+				if (vsget(self, __SAVEGAME_ONLOADING_NAME))
 					__SAVEGAME_ONLOADING_FUNCTION();
 				
 			}		
 		}
 	
 		// Now all instances are loaded... restore object links
-		// RaceTable <-> RaceController
-		ilog($"Restoring RaceController links...");
-		var tables = struct_get_names(awaiting_race_controller_link);
-		for (var tbl = 0; tbl < array_length(tables); tbl++) {
-			var cid = tables[tbl];
-			var tblinst = struct_get(awaiting_race_controller_link, cid);
-			if (variable_struct_exists(__SAVEGAME_INSTANCES, cid)) {
-				tblinst.race_controller = struct_get(__SAVEGAME_INSTANCES, cid);
-				ilog($"Successfully restored RaceController link.");
-				tblinst.set_table(tblinst.race_table_name); // Ensure the table is set correct now
-			} else {
-				elog($"*ERROR* Could not restore RaceController link: ID {cid} not found!");
-			}
-		}
-
 		ilog($"Restoring object instance pointers...");
-		__savegame_restore_pointers(savegame);
+		struct_remove(savegame, __SAVEGAME_REFSTACK_HEADER);
+		refstack = {};
+		__savegame_restore_pointers(savegame, refstack);
 	}
 	
 	SAVEGAME_LOAD_IN_PROGRESS = false;

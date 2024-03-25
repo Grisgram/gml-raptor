@@ -2,8 +2,8 @@
     The ControlTree for MessageboxWindows
 */
 
-function MsgBoxControlTree(_control) : ControlTree(_control) constructor {
-	construct("MsgBoxControlTree");
+function MsgBoxControlTree(_control = undefined) : ControlTree(_control) constructor {
+	construct(MsgBoxControlTree);
 	
 	add_control(Panel, {
 			startup_height: ACTIVE_MESSAGE_BOX.__get_max_button_height() + 2 * MESSAGEBOX_INNER_MARGIN

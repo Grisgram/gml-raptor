@@ -24,13 +24,13 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	
 	// First things first: The Engine data
 	var engine = {};
-	struct_set(engine, __SAVEGAME_ENGINE_SEED, random_get_seed());
-	struct_set(engine, __SAVEGAME_ENGINE_VERSION, SAVEGAME_FILE_VERSION);
-	struct_set(engine, __SAVEGAME_ENGINE_ROOM_NAME, room_get_name(room));
-	struct_set(savegame, __SAVEGAME_ENGINE_HEADER, engine);
+	struct_set(engine,		__SAVEGAME_ENGINE_SEED		, random_get_seed());
+	struct_set(engine,		__SAVEGAME_ENGINE_VERSION	, SAVEGAME_FILE_VERSION);
+	struct_set(engine,		__SAVEGAME_ENGINE_ROOM_NAME	, room_get_name(room));
+	struct_set(savegame,	__SAVEGAME_ENGINE_HEADER	, engine);
 	
 	// save global data
-	struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+	struct_set(savegame,__SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
 
 	// Then, add all race tables to the save game
 	var race = {};
@@ -74,35 +74,16 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 					__SAVEGAME_OBJ_PROP_YSCALE		: image_yscale,
 				}
 				
-				// auto-save variables of platform objects
-				// RaceController
-				if (obj == "RaceController" || object_is_ancestor(object_index, RaceController))
-					struct_set(instdata, "race_table_file_name", race_table_file_name);
-				
-				// RaceTable
-				if (obj == "RaceTable" || object_is_ancestor(object_index, RaceTable)) {
-					struct_set(instdata, "race_table_name",		race_table_name);
-					struct_set(instdata, "race_drop_on_layer",		race_drop_on_layer);
-				
-					// save the current instance id to find it later when loading
-					var cid = race_controller == noone ? noone : real(race_controller.id);
-					struct_set(instdata, "race_controller", cid);
-				}
-			
-			
-				if (!variable_instance_exists(self, __SAVEGAME_DATA_HEADER))
-					variable_instance_set(self, __SAVEGAME_DATA_HEADER, {});
+				vsgetx(self, __SAVEGAME_DATA_HEADER, {});
 				
 				event_user(savegame_event.onGameSaving);
-				if (variable_instance_exists(self, __SAVEGAME_ONSAVING_NAME) &&
-					variable_instance_get(self, __SAVEGAME_ONSAVED_NAME) != undefined)
+				if (vsget(self, __SAVEGAME_ONSAVING_NAME))
 					__SAVEGAME_ONSAVING_FUNCTION();
 			
-				if (variable_instance_exists(self, __SAVEGAME_DATA_HEADER) &&
-					is_struct(variable_instance_get(self, __SAVEGAME_DATA_HEADER)))
-						struct_set(instdata, __SAVEGAME_DATA_HEADER, data);
+				if (is_struct(vsget(self, __SAVEGAME_DATA_HEADER)))
+					instdata[$ __SAVEGAME_DATA_HEADER] = data;
 				else
-					struct_set(instdata, __SAVEGAME_DATA_HEADER, {});
+					instdata[$ __SAVEGAME_DATA_HEADER] = {};
 				
 				struct_set(instances,instname,instdata);
 				cnt++;
@@ -111,7 +92,9 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	}
 	
 	ilog($"Removing object instance pointers...");
-	var struct_to_save = __savegame_remove_pointers(savegame);
+	var refstack = {};
+	var struct_to_save = __savegame_remove_pointers(savegame, refstack);
+	struct_to_save[$ __SAVEGAME_REFSTACK_HEADER] = refstack;
 	
 	file_write_struct(filename, struct_to_save, cryptkey);		
 	SAVEGAME_SAVE_IN_PROGRESS = false;

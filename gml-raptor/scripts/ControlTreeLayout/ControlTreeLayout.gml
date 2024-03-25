@@ -4,7 +4,7 @@
 
 /// @function ControlTreeLayout()
 function ControlTreeLayout() constructor {
-	construct("ControlTreeLayout");
+	construct(ControlTreeLayout);
 
 	docking		= dock.none;
 	valign      = fa_top;

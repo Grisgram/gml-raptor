@@ -59,7 +59,9 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	animcurve			= _animcurve != undefined ? animcurve_get_ext(_animcurve) : undefined;
 	repeats				= _repeats;
 	data				= _data ?? {};
+	data.animation		= self;
 	name				= undefined;
+	values				= new Bindable(self);
 	
 	parent_animation	= undefined; // used for looping through followed_by and loop_to methods
 	child_animation		= undefined;
@@ -90,6 +92,18 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	};
 
+	// create all value functions (empty) for unknown channels to avoid crashes
+	// in case, the animation is used as pure value animator
+	if (animcurve != undefined) {
+		for (var i = 0, len = array_length(animcurve.channel_names); i < len; i++) {
+			var cname  = animcurve.channel_names[i];
+			values[$ cname] = 0; // create the values entry
+			
+			if (vsget(self, "func_" + cname) == undefined)
+				set_function(cname, function(v) {}); // create the empty processor function
+		}
+	}
+	
 	// these variables are used in the step loop
 	__func				= undefined;
 	__cname				= "";
@@ -188,6 +202,22 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	#endregion
+
+	/// @function binder()
+	/// @description Gets the PropertyBinder for the values of this animation
+	static binder = function() {
+		return values.binder();
+	}
+
+	/// @function set_data(_property, _value)
+	/// @description Lets you set a property in the data struct to a value.
+	///				 This method is a convenience function for the builder pattern,
+	///				 so you can declare your initial data values directly while
+	///				 building the animation
+	static set_data = function(_property, _value) {
+		data[$ _property] = _value;
+		return self;
+	}
 
 	/// @function		set_name(_name)
 	/// @description	Gives this animation a specific name. Usage of names is totally optional,
@@ -501,7 +531,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				for (var i = 0, len = array_length(animcurve.channel_names); i < len; i++) {
 					__cname  = animcurve.channel_names[i];
 					__cvalue = animcurve.channel_values[i];
-				
+					
+					values[$ __cname] = __cvalue;
 					self[$ "func_" + __cname](__cvalue);
 				}
 			}
@@ -513,6 +544,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 					__finished = __repeat_counter >= repeats;
 					if (__finished) { 
 						ANIMATIONS.remove(self);
+						__unbind_me();
 						__invoke_triggers(__finished_triggers);
 						__process_final_state();
 					}
@@ -617,13 +649,19 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		var was_finished = __finished;
 		__finished = true;
 		ANIMATIONS.remove(self);
+		__unbind_me();
 		if (!was_finished) {
 			if (_run_finished_triggers)
 				__invoke_triggers(__finished_triggers);
 			__process_final_state(true);
 		}
 	}
-		
+	
+	static __unbind_me = function() {
+		if (values.binder_initialized())
+			values.binder().unbind_all();
+	}
+	
 	/// @function		reset()
 	/// @description	All back to start. Animation will RUN now (but respect the delay)!
 	///					NOTE: The animation direction (forward/backward) will NOT change 

@@ -1,3 +1,12 @@
+gml_pragma("forceinline", "seconds_to_frames");
+gml_pragma("forceinline", "ms_to_frames");
+gml_pragma("forceinline", "frames_to_ms");
+gml_pragma("forceinline", "frames_to_seconds");
+gml_pragma("forceinline", "is_between");
+gml_pragma("forceinline", "is_between_ex");
+gml_pragma("forceinline", "percent");
+gml_pragma("forceinline", "percent_mult");
+
 /// @function					is_between(val, lower_bound, upper_bound)
 /// @description				test if a value is between lower and upper (both INCLUDING!)
 /// @param {real/int} val
@@ -93,9 +102,15 @@ function name_of(_instance, _with_ref_id = true) {
 	if (!is_null(_instance)) {
 		if (variable_struct_exists(_instance, "object_index"))
 			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
-		else 
-			return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? ptr(_instance) : "")}";
+		else {
+			if (IS_HTML) {
+				var hash = string_replace(sha1_string_unicode(string(_instance)), " ", "");
+				return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? hash : "")}";
+			} else
+				return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? ptr(_instance) : "")}";
+		}
 	}
+	
 	return undefined;
 }
 
@@ -154,6 +169,22 @@ function construct_or_invoke(_script) {
 		}
 	}
 	return res;
+}
+
+function seconds_to_frames(_seconds) {
+	return (_seconds * room_speed);
+}
+
+function ms_to_frames(_milliseconds) {
+	return (_milliseconds / 1000 * room_speed);
+}
+
+function frames_to_ms(_frames) {
+	return _frames / room_speed * 1000;
+}
+
+function frames_to_seconds(_frames) {
+	return _frames / room_speed;
 }
 
 /// @function		run_delayed(owner, delay, func, data = undefined)
