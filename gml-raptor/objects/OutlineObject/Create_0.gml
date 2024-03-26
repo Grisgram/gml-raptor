@@ -1,5 +1,6 @@
 /// @description set up drawer
 event_inherited();
+gui_mouse = new GuiMouseTranslator();
 
 outliner = new outline_drawer(
 	0, 
