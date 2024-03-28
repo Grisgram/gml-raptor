@@ -116,17 +116,21 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	__blend_end			= c_white;
 	
 	__relative_distance = false;
+	__move_target		= false;
 	__move_xdistance	= 0;
 	__move_ydistance	= 0;
 	
 	__relative_scale	= false;
+	__scale_target		= false;
 	__scale_xdistance	= 0;
 	__scale_ydistance	= 0;
 	
 	__relative_angle	= false;
+	__rotation_target	= false;
 	__rotation_distance	= 0;
 	
 	__relative_speed	= false;
+	__speed_target		= false;
 	__hspeed_distance	= 0;
 	__vspeed_distance	= 0;
 	__speed_distance	= 0;
@@ -253,6 +257,9 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	ytarget  Vertical target position
 	static set_move_target = function(xtarget, ytarget) {
 		__relative_distance = true;
+		__move_target		= true;
+		__param_xtarget		= xtarget;
+		__param_ytarget		= ytarget;
 		__start_x			= owner.x;
 		__start_y			= owner.y;
 		__move_xdistance	= xtarget - __start_x;
@@ -282,11 +289,14 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	xtarget  Horizontal scale target
 	/// @param {real}	ytarget  Vertical scale target
 	static set_scale_target = function(xtarget, ytarget) {
-		__relative_scale	= true;
-		__start_xscale		= owner.image_xscale;
-		__start_yscale		= owner.image_yscale;
-		__scale_xdistance	= xtarget - __start_xscale;
-		__scale_ydistance	= ytarget - __start_yscale;
+		__relative_scale		= true;
+		__scale_target			= true;
+		__param_scale_xtarget	= xtarget;
+		__param_scale_ytarget	= ytarget;
+		__start_xscale			= owner.image_xscale;
+		__start_yscale			= owner.image_yscale;
+		__scale_xdistance		= xtarget - __start_xscale;
+		__scale_ydistance		= ytarget - __start_yscale;
 		return self;
 	}
 
@@ -308,9 +318,11 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					Both default move functions for x and y respect this setting.
 	/// @param {real}	degrees  The angle to rotate to
 	static set_rotation_target = function(degrees) {
-		__relative_angle	= true;
-		__start_angle		= owner.image_angle;
-		__rotation_distance = degrees - __start_angle;
+		__relative_angle		= true;
+		__rotation_target		= true;
+		__param_rotation_target = degrees - __start_angle;
+		__start_angle			= owner.image_angle;
+		__rotation_distance		= degrees - __start_angle;
 		return self;
 	}
 
@@ -344,17 +356,23 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {real}	_speed		The value to set for speed over time
 	/// @param {real}	_direction  The value to set for direction over time
 	static set_speed_target = function(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0) {
-		__relative_speed		= true;
+		__relative_speed			= true;
+		__speed_target				= true;
 		
-		__start_hspeed			= owner.hspeed;
-		__start_vspeed			= owner.vspeed;
-		__start_speed			= owner.speed;
-		__start_direction		= owner.direction;
+		__param_hspeed_target		= _hspeed;
+		__param_vspeed_target		= _vspeed;
+		__param_speed_target		= _speed;
+		__param_direction_target	= _direction;
 		
-		__hspeed_distance		= _hspeed - __start_hspeed;
-		__vspeed_distance		= _vspeed - __start_vspeed;
-		__speed_distance		= _speed  - __start_speed;
-		__direction_distance	= _direction - __start_direction;
+		__start_hspeed				= owner.hspeed;
+		__start_vspeed				= owner.vspeed;
+		__start_speed				= owner.speed;
+		__start_direction			= owner.direction;
+		
+		__hspeed_distance			= _hspeed - __start_hspeed;
+		__vspeed_distance			= _vspeed - __start_vspeed;
+		__speed_distance			= _speed  - __start_speed;
+		__direction_distance		= _direction - __start_direction;
 		return self;
 	}
 
@@ -566,7 +584,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	
-	/// @function		followed_by(_delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined)
+	/// @function		followed_by(_delay, _duration, _animcurve, _repeats, _finished_state = undefined)
 	/// @description	Defines a follow-up animation when this animation finishes
 	/// @param {int}		_delay      How many frames to wait until animation starts
 	/// @param {int}		_duration   Running time of (one loop) of the animation
@@ -575,7 +593,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @param {string}		_finished_state	If the owner is stateful (or owns a StateMachine named "states"),
 	///										you can supply the name of a state here to set when this animation
 	///										finishes (A finished_trigger will be added for you).
-	static followed_by = function(_delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined) {
+	static followed_by = function(_delay, _duration, _animcurve, _repeats, _finished_state = undefined) {
 		var anm = new Animation(owner, _delay, _duration, _animcurve, _repeats, _finished_state);
 		ANIMATIONS.remove(anm); // do not autostart this one
 		anm.parent_animation = self;
@@ -668,7 +686,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	///					with a reset!
 	static reset = function(_incl_triggers = false) {
 		ANIMATIONS.add(self);
-		
+
+		// Update data to current values
 		__start_x			= owner.x;
 		__start_y			= owner.y;
 		__start_xscale		= owner.image_xscale;
@@ -678,7 +697,21 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__start_vspeed		= owner.vspeed;
 		__start_speed		= owner.speed;
 		__start_direction	= owner.direction;
-	
+
+		// re-set the targets, if we need to
+		if (__move_target)
+			set_move_target(__param_xtarget, __param_ytarget);
+		
+		if (__scale_target)
+			set_scale_target(__param_scale_xtarget, __param_scale_ytarget);
+			
+		if (__rotation_target)
+			set_rotation_target(__param_rotation_target);
+			
+		if (__speed_target)
+			set_speed_target(__param_hspeed_target, __param_vspeed_target, __param_speed_target, __param_direction_target);
+
+		// reset timing
 		__time				= 0;
 		__time_step			= 0;
 		__time_total		= 0;

@@ -87,7 +87,8 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 			var bnd = vsget(__bindings, key);
 			if (bnd != undefined) {
 				if (vsget(bnd.source_instance, "binder") != undefined && !is_method(bnd.source_instance.binder)) {
-					dlog($"Removing remote source-binding from {name_of(bnd.source_instance)}.{_my_property}");
+					if (DEBUG_LOG_BINDINGS)
+						dlog($"Removing remote source-binding from {name_of(bnd.source_instance)}.{_my_property}");
 					variable_struct_remove(bnd.source_instance.binder.__source_bindings, key);
 				}
 				variable_struct_remove(__bindings, key);
@@ -96,7 +97,8 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 			var src = vsget(__source_bindings, key);
 			if (src != undefined) {
 				if (vsget(src.target_instance, "binder") != undefined && !is_method(src.target_instance.binder)) {
-					dlog($"Removing local source-binding from {name_of(src.target_instance)}.{_my_property}");
+					if (DEBUG_LOG_BINDINGS)
+						dlog($"Removing local source-binding from {name_of(src.target_instance)}.{_my_property}");
 					variable_struct_remove(src.target_instance.binder.__source_bindings, key);
 				}
 				variable_struct_remove(__source_bindings, key);

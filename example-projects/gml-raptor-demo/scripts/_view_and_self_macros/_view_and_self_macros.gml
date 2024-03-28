@@ -82,6 +82,18 @@ CAM_MAX_Y					= 0;
 #macro VIEW_CENTER					VIEW_CENTER_X, VIEW_CENTER_Y
 #macro VIEW_ASPECT_RATIO			(VIEW_WIDTH / VIEW_HEIGHT)
 
+// Room helpers
+#macro ROOM_WIDTH					room_width
+#macro ROOM_HEIGHT					room_height
+#macro ROOM_TOP_EDGE				0
+#macro ROOM_LEFT_EDGE				0
+#macro ROOM_RIGHT_EDGE				ROOM_WIDTH  - 1
+#macro ROOM_BOTTOM_EDGE				ROOM_HEIGHT - 1
+#macro ROOM_CENTER_X				(ROOM_LEFT_EDGE + ROOM_WIDTH / 2)
+#macro ROOM_CENTER_Y				(ROOM_TOP_EDGE  + ROOM_HEIGHT / 2)
+#macro ROOM_CENTER					ROOM_CENTER_X, ROOM_CENTER_Y
+#macro ROOM_ASPECT_RATIO			(ROOM_WIDTH / ROOM_HEIGHT)
+
 // SELF Coordinates (object dimensions only, without absolute screen position)
 #macro SELF_LAYER_OR_DEPTH			((layer == -1) ? depth : layer_get_name(layer))
 #macro SELF_WIDTH					sprite_width

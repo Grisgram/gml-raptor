@@ -27,7 +27,8 @@ function __Binding(
 
 	BINDINGS.add(self);
 
-	dlog($"{_prefix}_binding created: {name_of(target_instance ?? self)}.{target_property ?? source_property} is bound to {name_of(source_instance)}.{source_property}");
+	if (DEBUG_LOG_BINDINGS)
+		dlog($"{_prefix}_binding created: {name_of(target_instance ?? self)}.{target_property ?? source_property} is bound to {name_of(source_instance)}.{source_property}");
 	
 	__new_value = undefined;
 	__old_value = undefined;
@@ -47,7 +48,8 @@ function __Binding(
 	static unbind = function() {
 		var cnt = BINDINGS.remove_where(function(bnd) { 
 			return bnd.key == key; });
-		dlog($"{cnt} Binding(s) removed: {name_of(target_instance ?? self)}.{target_property ?? source_property} from {name_of(source_instance)}.{source_property}");
+		if (DEBUG_LOG_BINDINGS)
+			dlog($"{cnt} Binding(s) removed: {name_of(target_instance ?? self)}.{target_property ?? source_property} from {name_of(source_instance)}.{source_property}");
 	}
 	
 }

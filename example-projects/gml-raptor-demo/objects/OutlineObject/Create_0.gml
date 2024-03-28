@@ -17,7 +17,7 @@ if (pulse_active)
 mouse_is_over = false;
 
 __draw = function() {
-	if (outline_always || (outline_on_mouse_over && mouse_is_over))
+	if (is_enabled && (outline_always || (outline_on_mouse_over && mouse_is_over)))
 		outliner.draw_object_outline();
 	else
 		draw_self();
