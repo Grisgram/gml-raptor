@@ -23,7 +23,6 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 
 	static to_refstack = function(_struct) {
 		var refname = $"{__SAVEGAME_STRUCT_REF_MARKER}{name_of(_struct)}";
-		ilog($"--- refstack {refname}");
 		if (!vsget(refstack, refname)) {
 			vlog($"Adding '{refname}' to refstack");
 			refstack[$ refname] = true; // Temp-add "true" struct member to avoid endless loop

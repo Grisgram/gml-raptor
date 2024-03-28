@@ -47,8 +47,6 @@
     {"name":"inst_6633FE9C","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_5EF814D0","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_746B878","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"lblbroker","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"lblpullbrokerstruct","path":"rooms/rmMain/rmMain.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -271,8 +269,6 @@
             {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"activate_purple_theme",},
             {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_raptorBase","path":"objects/_raptorBase/_raptorBase.yy",},"propertyId":{"name":"skinnable","path":"objects/_raptorBase/_raptorBase.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.5,"scaleY":1.5,"x":576.0,"y":32.0,},
-        {"$GMRInstance":"","%Name":"lblbroker","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"lblbroker","objectId":{"name":"Label","path":"objects/Label/Label.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":96.0,"y":208.0,},
-        {"$GMRInstance":"","%Name":"lblpullbrokerstruct","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"lblpullbrokerstruct","objectId":{"name":"Label","path":"objects/Label/Label.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":96.0,"y":256.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMREffectLayer":"","%Name":"bg_gradient","depth":800,"effectEnabled":true,"effectType":"_filter_gradient","gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"bg_gradient","properties":[
         {"name":"g_GradientColour1","type":1,"value":"#DC808080",},

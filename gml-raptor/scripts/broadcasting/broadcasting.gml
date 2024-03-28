@@ -68,6 +68,7 @@ function Sender() constructor {
 	///					enemy_*_died
 	///					So, plan your broadcast names accordingly to be able to filter
 	///					as you need!
+	///	@return {self}	Returns self for call chaining
 	static add_receiver = function(_owner, _name, _message_filter, _callback) {
 		if (_owner == undefined || !variable_instance_exists(_owner, "depth")) {
 			if (DEBUG_LOG_BROADCASTS)
@@ -80,6 +81,8 @@ function Sender() constructor {
 		array_push(receivers, rcv);
 		if (DEBUG_LOG_BROADCASTS)
 			vlog($"Broadcast receiver added: name='{_name}'; filter='{_message_filter}';");
+		
+		return self;
 	}
 
 	/// @function		remove_receiver(_name)

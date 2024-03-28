@@ -92,7 +92,7 @@ __flicker_saver = 0;
 __draw = function() {
 	if (canvas == undefined) bake();
 	var before = sprite_index;
-	var after = (outline_always || (outline_on_mouse_over && mouse_is_over)) ? dynsprite : origsprite;
+	var after = (is_enabled && (outline_always || (outline_on_mouse_over && mouse_is_over))) ? dynsprite : origsprite;
 	var changed = after != before;
 	if (__flicker_saver == 0 && changed) {
 		__flicker_saver++;

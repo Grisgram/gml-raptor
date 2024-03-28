@@ -12,6 +12,7 @@
 	ev:key_press_numpad0
 	...etc...
 */
+event_inherited();
 
 if (protect_ui_events) GUI_EVENT_UNTARGETTED;
 
