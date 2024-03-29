@@ -117,11 +117,11 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 			var src = __source_bindings[$ key];
 			if (vsget(src, "target_instance") != undefined &&
 				vsget(src.target_instance, "binder") != undefined && 
-				!is_method(src.target_instance.binder))
+				!is_method(src.target_instance.binder)) {
 				with(src.target_instance)
 					if (vsget(binder.__bindings, key))
 						binder.unbind(binder.__bindings[$ key].target_property);
-			else
+			} else
 				with(src) unbind(); // struct push binding
 			variable_struct_remove(__source_bindings, key);
 		}
