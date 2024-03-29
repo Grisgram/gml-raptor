@@ -29,6 +29,7 @@ function GameSettings() constructor {
 	/// @function reset()
 	/// @description Reset the settings file to a new, blank GameSettings() instance
 	static reset = function() {
+		AUDIOSETTINGS = new AudioSettings();
 		GAMESETTINGS = new GameSettings();
 		ilog($"GameSettings reset");
 		save_settings();
