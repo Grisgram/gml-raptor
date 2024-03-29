@@ -30,7 +30,10 @@ function ListPool(_name = "listPool") constructor {
 	/// @function remove_where(_predicate, _data = undefined)
 	/// @description Remove all objects from the listpool where the predicate argument
 	///				 returns true. This must be a function taking one argument and it
-	///				 shall return whether to remove it (true) or not (false).
+	///				 shall return whether to remove it (true) or not (false)
+	/// @param {function} _predicate A function that shall return true, if the item is to remove, otherwise false
+	///								 The function receives 2 arguments: (value, _data)
+	/// @param {any} _data Any value you want to be passed into the _predicate as 2nd argument
 	/// @returns {int}	 The number of entries removed
 	static remove_where = function(_predicate, _data = undefined) {
 		var removers = [];
