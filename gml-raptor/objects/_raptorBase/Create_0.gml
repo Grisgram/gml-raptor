@@ -74,6 +74,6 @@ is_topmost = function(_x, _y) {
 		}
 		return (mindepth == depth);
 	}
-	return false;
+	return true;
 }
 #endregion

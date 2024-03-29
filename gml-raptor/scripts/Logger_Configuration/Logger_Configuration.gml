@@ -42,6 +42,7 @@
 #macro DEBUG_LOG_STATEMACHINE			false
 #macro DEBUG_LOG_RACE					false
 #macro DEBUG_LOG_PARTICLES				false
+#macro DEBUG_LOG_BINDINGS				false
 
 // To avoid, that you "forget" to turn a module off, by default there's a set of these macros, where every log
 // is disabled for release mode
@@ -51,3 +52,4 @@
 #macro release:DEBUG_LOG_STATEMACHINE	false
 #macro release:DEBUG_LOG_RACE			false
 #macro release:DEBUG_LOG_PARTICLES		false
+#macro release:DEBUG_LOG_BINDINGS		false

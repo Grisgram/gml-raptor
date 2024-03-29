@@ -36,12 +36,13 @@
 // In addition to the LOG_LEVEL, you can turn off some modules entirely from logging anything.
 // Some of them log lots of lines in verbose and debug mode and need to be turned on only if you hunt a bug
 // that _might_ be located in one of raptor's modules
-#macro DEBUG_LOG_BROADCASTS				false
+#macro DEBUG_LOG_BROADCASTS				true
 #macro DEBUG_LOG_OBJECT_POOLS			false
 #macro DEBUG_LOG_LIST_POOLS				false
 #macro DEBUG_LOG_STATEMACHINE			false
 #macro DEBUG_LOG_RACE					false
 #macro DEBUG_LOG_PARTICLES				false
+#macro DEBUG_LOG_BINDINGS				false
 
 // To avoid, that you "forget" to turn a module off, by default there's a set of these macros, where every log
 // is disabled for release mode
@@ -51,3 +52,4 @@
 #macro release:DEBUG_LOG_STATEMACHINE	false
 #macro release:DEBUG_LOG_RACE			false
 #macro release:DEBUG_LOG_PARTICLES		false
+#macro release:DEBUG_LOG_BINDINGS		false
