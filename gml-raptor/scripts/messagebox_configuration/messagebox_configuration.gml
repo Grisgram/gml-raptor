@@ -21,4 +21,5 @@
 // If this is undefined, the scribble_default_font will be used.
 // You set the scribble_default_font in the onGameStart method in the Game_Configuration
 // With this macro you can assign any different font for the messagebox (text + buttons)
+// NOTE: This setting is a STRING, not a font resource. Specify "fntText", not fntText!
 #macro MESSAGEBOX_FONT					undefined
