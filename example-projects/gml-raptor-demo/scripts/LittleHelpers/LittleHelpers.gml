@@ -1,11 +1,3 @@
-gml_pragma("forceinline", "seconds_to_frames");
-gml_pragma("forceinline", "ms_to_frames");
-gml_pragma("forceinline", "frames_to_ms");
-gml_pragma("forceinline", "frames_to_seconds");
-gml_pragma("forceinline", "is_between");
-gml_pragma("forceinline", "is_between_ex");
-gml_pragma("forceinline", "percent");
-gml_pragma("forceinline", "percent_mult");
 
 /// @function					is_between(val, lower_bound, upper_bound)
 /// @description				test if a value is between lower and upper (both INCLUDING!)
@@ -14,6 +6,7 @@ gml_pragma("forceinline", "percent_mult");
 /// @param {real/int} upper_bound
 /// @returns {bool} y/n
 function is_between(val, lower_bound, upper_bound) {
+	gml_pragma("forceinline");
 	return val >= lower_bound && val <= upper_bound;
 }
 
@@ -24,6 +17,7 @@ function is_between(val, lower_bound, upper_bound) {
 /// @param {real/int} upper_bound
 /// @returns {bool} y/n
 function is_between_ex(val, lower_bound, upper_bound) {
+	gml_pragma("forceinline");
 	return val > lower_bound && val < upper_bound;
 }
 
@@ -44,6 +38,7 @@ function is_any_of(val) {
 /// @param {real} total	100%
 /// @returns {real}	How many % of total is val. Example: val 30, total 50 -> returns 60(%)
 function percent(val, total) {
+	gml_pragma("forceinline");
 	return (val/total) * 100;
 }
 
@@ -53,6 +48,7 @@ function percent(val, total) {
 /// @param {real} total
 /// @returns {real}	percent value as multiplier (0..1)
 function percent_mult(of, total) {
+	gml_pragma("forceinline");
 	return (of/total);
 }
 
@@ -172,18 +168,22 @@ function construct_or_invoke(_script) {
 }
 
 function seconds_to_frames(_seconds) {
+	gml_pragma("forceinline");
 	return (_seconds * room_speed);
 }
 
 function ms_to_frames(_milliseconds) {
+	gml_pragma("forceinline");
 	return (_milliseconds / 1000 * room_speed);
 }
 
 function frames_to_ms(_frames) {
+	gml_pragma("forceinline");
 	return _frames / room_speed * 1000;
 }
 
 function frames_to_seconds(_frames) {
+	gml_pragma("forceinline");
 	return _frames / room_speed;
 }
 

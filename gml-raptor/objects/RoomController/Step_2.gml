@@ -10,7 +10,7 @@ for (var i = 0; i < array_length(__CAMERA_RUNTIME.active_camera_actions); i++) {
 			if (current_frame == 0 && started_callback != undefined)
 				started_callback(self);
 				
-			step();
+			__step();
 			callback(self);
 			
 			if (completed) 

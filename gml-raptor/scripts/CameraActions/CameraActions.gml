@@ -15,17 +15,17 @@ enum cam_align {
 	bottom_right	= 8,
 }
 
-function __get_target_for_cam_align(x_target, y_target, align = cam_align.top_left) {
+function __get_target_for_cam_align(x_target, y_target, cam_width, cam_height, align = cam_align.top_left) {
 	switch (align) {
 		case cam_align.top_left		: return { x: x_target,					y: y_target };
-		case cam_align.top_center	: return { x: x_target - CAM_WIDTH / 2, y: y_target };
-		case cam_align.top_right	: return { x: x_target - CAM_WIDTH,     y: y_target };
-		case cam_align.middle_left	: return { x: x_target,					y: y_target - CAM_HEIGHT / 2 };	
-		case cam_align.middle_center: return { x: x_target - CAM_WIDTH / 2, y: y_target - CAM_HEIGHT / 2 };
-		case cam_align.middle_right	: return { x: x_target - CAM_WIDTH,		y: y_target - CAM_HEIGHT / 2 };
-		case cam_align.bottom_left	: return { x: x_target,					y: y_target - CAM_HEIGHT };	
-		case cam_align.bottom_center: return { x: x_target - CAM_WIDTH / 2,	y: y_target - CAM_HEIGHT };
-		case cam_align.bottom_right	: return { x: x_target - CAM_WIDTH,		y: y_target - CAM_HEIGHT };
+		case cam_align.top_center	: return { x: x_target - cam_width / 2, y: y_target };
+		case cam_align.top_right	: return { x: x_target - cam_width,     y: y_target };
+		case cam_align.middle_left	: return { x: x_target,					y: y_target - cam_height / 2 };	
+		case cam_align.middle_center: return { x: x_target - cam_width / 2, y: y_target - cam_height / 2 };
+		case cam_align.middle_right	: return { x: x_target - cam_width,		y: y_target - cam_height / 2 };
+		case cam_align.bottom_left	: return { x: x_target,					y: y_target - cam_height };	
+		case cam_align.bottom_center: return { x: x_target - cam_width / 2,	y: y_target - cam_height };
+		case cam_align.bottom_right	: return { x: x_target - cam_width,		y: y_target - cam_height };
 	}
 }
 
@@ -60,6 +60,7 @@ function __camera_action_screen_shake(actiondata) {
 
 function __camera_set_pos(cam, xp, yp) {
 	gml_pragma("forceinline");
+	//camera_set_view_pos(cam,xp,yp);
 	camera_set_view_pos(cam, 
 		max(CAM_MIN_X, min(xp, CAM_MAX_X - CAM_WIDTH)),
 		max(CAM_MIN_Y, min(yp, CAM_MAX_Y - CAM_HEIGHT)));
@@ -119,6 +120,17 @@ function __camera_action_move(actiondata) {
 	var cam = view_camera[actiondata.camera_index];
 	if (actiondata.first_call) {
 		actiondata.first_call = false;
+		
+		var zoomer = __CAMERA_RUNTIME.get_zoom_action();
+		var cw = CAM_WIDTH;
+		var ch = CAM_HEIGHT;
+		if (zoomer != undefined) {
+			cw = zoomer.new_width;
+			ch = zoomer.new_height;
+		}
+		var aligned		= __get_target_for_cam_align(target_x, target_y, cw, ch, actiondata.camera_align);
+		target_x		= aligned.x;
+		target_y		= aligned.y;
 		
 		macro_camera_viewport_index_switch_to(actiondata.camera_index);
 		actiondata.cam_start_x = CAM_LEFT_EDGE;
