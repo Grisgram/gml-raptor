@@ -144,11 +144,6 @@ CAM_MAX_Y	= room_height;
 __screen_shaking = false;
 /// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
 /// @description				lets rumble! NOTE: Ignored, if already rumbling!
-/// @param {int} frames 			
-/// @param {real} xintensity
-/// @param {real} yintensity
-/// @param {int=0} camera_index
-/// @returns {camera_action_data} struct
 screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	if (__screen_shaking) {
 		dlog($"Screen_shake ignored. Already shaking!");
@@ -156,13 +151,13 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	}
 	__screen_shaking = true;
 	var a = new camera_action_data(camera_index, frames, __camera_action_screen_shake);
-	a.no_delta = {dx:0, dy:0}; // delta watcher if cam target moves while we animate
-	a.xintensity = xinstensity;
-	a.yintensity = yintensity
-	a.xshake = 0;
-	a.yshake = 0;
-	a.xrumble = 0;
-	a.yrumble = 0;
+	a.no_delta		= {dx:0, dy:0}; // delta watcher if cam target moves while we animate
+	a.xintensity	= xinstensity;
+	a.yintensity	= yintensity
+	a.xshake		= 0;
+	a.yshake		= 0;
+	a.xrumble		= 0;
+	a.yrumble		= 0;
 	camera_set_view_target(view_camera[camera_index], noone);
 	a.__internal_finished_callback = function() {ROOMCONTROLLER.__screen_shaking = false;};
 	// Return the action to our caller
@@ -171,38 +166,24 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 
 /// @function					camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
 /// @description				zoom the camera animated by X pixels
-/// @param {int} frames 			
-/// @param {real} new_width
-/// @param {bool=true} enqueue_if_running
-/// @param {int=0} camera_index
-/// @returns {camera_action_data} struct
 camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_index = 0) {
-	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running);
+	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running, true);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
-	a.first_call = true;
-	a.relative = false; // not-relative tells the action to use a.new_width for calculation
-	a.new_width = new_width;
+	a.relative	= false; // not-relative tells the action to use a.new_width for calculation
+	a.new_width	= new_width;
 	// Return the action to our caller
 	return a; 
 }
 
 /// @function					camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
 /// @description				zoom the camera animated by X pixels
-/// @param {int} frames 			
-/// @param {real} width_delta
-/// @param {real} min_width
-/// @param {real} max_width
-/// @param {bool=true} enqueue_if_running
-/// @param {int=0} camera_index
-/// @returns {camera_action_data} struct
 camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0) {
-	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running);
+	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running, true);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
-	a.first_call = true;
-	a.relative = true; // relative tells the action to use a.new_width for calculation
-	a.min_width = min_width;
-	a.max_width = max_width;
-	a.width_delta = width_delta;
+	a.relative		= true; // relative tells the action to use a.new_width for calculation
+	a.min_width		= min_width;
+	a.max_width		= max_width;
+	a.width_delta	= width_delta;
 	// Return the action to our caller
 	return a; 
 }
@@ -214,52 +195,31 @@ camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_
 ///								the default of top_left. For instance, if you specify align.middle_center here,
 ///								this function works like a kind of "look at that point", as the CENTER of the view
 ///								will be at target_x, target_y coordinates.
-/// @param {int} frames 			
-/// @param {real} target_x
-/// @param {real} target_y
-/// @param {bool=true} enqueue_if_running
-/// @param {camera_align=cam_align.top_left} alignment of the target coordinates
-/// @param {int=0} camera_index
-/// @returns {camera_action_data} struct
 camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_move, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
-	a.first_call = true;
-	a.relative = false; // not-relative tells the action to use a.target* for calculation
-	var aligned = __get_target_for_cam_align(target_x, target_y, camera_align);
-	a.target_x = aligned.x;
-	a.target_y = aligned.y;
+	a.relative		= false; // not-relative tells the action to use a.target* for calculation
+	a.target_x		= target_x;
+	a.target_y		= target_y;
+	a.camera_align	= camera_align;
 	// Return the action to our caller
 	return a; 
 }
 
 /// @function					camera_move_by(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0)
 /// @description				move the camera animated by a specified distance
-/// @param {int} frames 			
-/// @param {real} distance_x
-/// @param {real} distance_y
-/// @param {bool=true} enqueue_if_running
-/// @param {int=0} camera_index
-/// @returns {camera_action_data} struct
 camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_move, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
-	a.first_call = true;
-	a.relative = true; // relative tells the action to use a.distance* for calculation
-	a.distance_x = distance_x;
-	a.distance_y = distance_y;
+	a.relative		= true; // relative tells the action to use a.distance* for calculation
+	a.distance_x	= distance_x;
+	a.distance_y	= distance_y;
 	// Return the action to our caller
 	return a; 
 }
 
 /// @function					camera_look_at(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0)
 /// @description				move the camera animated so that target_x and target_y are in the center of the screen when finished.
-/// @param {int} frames 			
-/// @param {real} target_x
-/// @param {real} target_y
-/// @param {bool=true} enqueue_if_running
-/// @param {int=0} camera_index
-/// @returns {camera_action_data} struct
 camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0) {
 	return camera_move_to(frames, target_x, target_y, enqueue_if_running, cam_align.middle_center, camera_index);
 }

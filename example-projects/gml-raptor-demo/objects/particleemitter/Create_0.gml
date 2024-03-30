@@ -36,8 +36,10 @@
 // Inherit the parent event
 event_inherited();
 
+is_streaming	= false;
+
 __clone_created = !stream_with_clone;
-__my_emitter = emitter_name;
+__my_emitter	= emitter_name;
 
 __raptor_onPoolDeactivate = function() {
 	stop();
@@ -67,6 +69,9 @@ __update_position = function(ps = undefined, force = false) {
 				ps.emitter_scale_to(__my_emitter, self);
 		}
 	}
+	
+	if (is_streaming && !is_enabled)
+		stop();
 }
 
 /// @function		stream(particles_per_frame = undefined, particle_name = undefined)
@@ -74,6 +79,12 @@ __update_position = function(ps = undefined, force = false) {
 ///					If you don't supply any parameters, the values from the variable definitions
 ///					are used.
 stream = function(particles_per_frame = undefined, particle_name = undefined) {
+	if (!is_enabled) {
+		if (DEBUG_LOG_PARTICLES)
+			vlog($"{MY_NAME}: stream() ignored, emitter is disabled");
+		return;
+	}
+	
 	var pn = particle_name ?? stream_particle_name;
 	var pc = particles_per_frame ?? stream_particle_count;
 	
@@ -111,6 +122,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 		dlog($"{MY_NAME}: Started streaming {pc} '{pn}' ppf at {ps.emitter_get_range_min(__my_emitter)} through '{__my_emitter}'");
 	ps.stream_stop(__my_emitter);
 	ps.stream(__my_emitter, pc, pn);
+	is_streaming = true;
 	return self;
 }
 
@@ -121,6 +133,7 @@ stop = function() {
 		dlog($"{MY_NAME}: Stopped streaming through '{__my_emitter}'");
 	var ps = __get_partsys();	
 	ps.stream_stop(__my_emitter);
+	is_streaming = false;
 	return self;
 }
 
@@ -131,6 +144,12 @@ stop = function() {
 ///					If no burst_particle_name is set in the variable definitions, the
 ///					stream_particle_name is used.
 burst = function(particle_count = undefined, particle_name = undefined, stop_streaming = true) {
+	if (!is_enabled) {
+		if (DEBUG_LOG_PARTICLES)
+			vlog($"{MY_NAME}: burst() ignored, emitter is disabled");
+		return;
+	}
+	
 	var pn = particle_name ?? burst_particle_name;
 	pn = pn ?? stream_particle_name;
 	var pc = particle_count ?? burst_particle_count;

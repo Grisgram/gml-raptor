@@ -11,26 +11,29 @@
 	
 */
 
-/// @function camera_action_data(cam_index, frames, script_to_call, enqueue_if_running = false)
+/// @function camera_action_data(cam_index, frames, script_to_call, enqueue_if_running = false, _is_zoom = false)
 /// @param {int} cam_index
 /// @param {real} frames
 /// @param {asset} script_to_call
 /// @param {bool=false} enqueue_if_running
-function camera_action_data(cam_index, frames, script_to_call, enqueue_if_running = false) constructor {
-	camera_index	= cam_index;
-	camera_xstart	= camera_get_view_x(view_camera[camera_index]);
-	camera_ystart	= camera_get_view_y(view_camera[camera_index]);
-	restore_target	= camera_get_view_target(view_camera[camera_index]);
-	total_frames = frames;
-	current_frame = 0;
-	elapsed = 0;
-	callback = script_to_call;
-	started_callback = undefined;
-	finished_callback = undefined;
-	__internal_finished_callback = undefined;
-	completed = false;
-	enqueued = false;
-	
+function camera_action_data(cam_index, frames, script_to_call, enqueue_if_running = false, _is_zoom = false) constructor {
+	camera_index					= cam_index;
+	camera_align					= cam_align.top_left;
+	camera_xstart					= camera_get_view_x(view_camera[camera_index]);
+	camera_ystart					= camera_get_view_y(view_camera[camera_index]);
+	restore_target					= camera_get_view_target(view_camera[camera_index]);
+	total_frames					= frames;
+	current_frame					= 0;
+	elapsed							= 0;
+	callback						= script_to_call;
+	started_callback				= undefined;
+	finished_callback				= undefined;
+	__internal_finished_callback	= undefined;
+	completed						= false;
+	enqueued						= false;
+	is_zoom							= _is_zoom;
+	first_call						= true;
+
 	/*
 		About AnimactionCurves:
 		By default, a linear interpolation happens (acLinearMove)
@@ -66,10 +69,11 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	///					The callback will receive 1 parameter: this camera action
 	static set_finished_callback = function(callback) {
 		finished_callback = callback;
+		return self;
 	}
 
 	static __add_or_enqueue = function(enqueue_if_running = false) {
-		var rv = __CAMERA_RUNTIME.get_first_free_camera_action();
+		var rv = (is_zoom ? 0 : __CAMERA_RUNTIME.get_first_free_camera_action());
 		var existing = __CAMERA_RUNTIME.has_camera_action_with(callback);
 		var enqueue = (enqueue_if_running && existing);
 
@@ -80,8 +84,17 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 			enqueued = true;
 		} else {
 			if (!existing) {
-				__CAMERA_RUNTIME.active_camera_actions[rv] = self;
-			}
+				if (is_zoom) {
+					array_insert(__CAMERA_RUNTIME.active_camera_actions,0,self);
+					for (var i = 1; i < array_length(__CAMERA_RUNTIME.active_camera_actions); i++) {
+						var a = __CAMERA_RUNTIME.active_camera_actions[@i];
+						if (a != undefined)
+							a.__internal_index++;
+					}
+				} else
+					__CAMERA_RUNTIME.active_camera_actions[rv] = self;
+			} else
+				rv = -1;
 		}
 
 		return rv;
@@ -89,7 +102,7 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 
 	__internal_index = __add_or_enqueue(enqueue_if_running);
 
-	static step = function() {
+	static __step = function() {
 		current_frame++;
 		elapsed = min(1, current_frame / total_frames);
 		
@@ -125,6 +138,7 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 			}
 			i++;
 		}
+		return self;
 	}
 }
 
