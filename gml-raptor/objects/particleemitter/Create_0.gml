@@ -86,7 +86,13 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	
 	var ps = __get_partsys();
 	if (!__clone_created) {
-		__my_emitter = ps.emitter_clone(emitter_name).emitter_name;
+		var temp_clone;
+		if (follow_instance != undefined && instance_exists(follow_instance))
+			temp_clone = ps.emitter_attach_clone(__my_emitter, follow_instance);
+		else
+			temp_clone = ps.emitter_clone(__my_emitter);
+		temp_clone.follow_offset = follow_offset.clone2();
+		__my_emitter = temp_clone.emitter_name;
 		ps.emitter_move_range_to(__my_emitter, x, y);
 		__clone_created = true;
 	}
@@ -146,4 +152,19 @@ prev_y = y;
 if (!string_is_empty(__my_emitter)) {
 	var initps = __get_partsys();	
 	initps.emitter_move_range_to(__my_emitter, x, y);
+}
+
+__create_init_succeeded = false;
+if (variable_global_exists("__room_particle_system") && !string_is_empty(__my_emitter)) {
+	__create_init_succeeded = true;
+
+	var ps = __get_partsys();
+	ps.emitter_move_range_to(__my_emitter, x, y);
+
+	if (stream_on_create) {
+		stream_start_delay = max(stream_start_delay, 1);
+		if (stream_start_delay > 0 && DEBUG_LOG_PARTICLES)
+			ilog($"{MY_NAME}: Will start streaming in {stream_start_delay} frames");
+		run_delayed(self, stream_start_delay, function() { stream(); });
+	}
 }

@@ -129,6 +129,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			partsys_index = ix;
 			follow_instance = follow_this_instance ? instance : undefined;
 			emitter_name = name_or_emitter;
+			__my_emitter = name_or_emitter;
 			stream_particle_name = particle_type_name;
 			burst_particle_name = particle_type_name;
 			if (stream_on_create) stream(); // NOW you may stream!
@@ -137,7 +138,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		return rv;
 	}
 	
-	/// @function		attach_emitter_clone(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
+	/// @function		emitter_attach_clone(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
 	///										 follow_this_instance = true, use_object_pools = true)
 	/// @description	Attach a clone of an existing emitter to a new ParticleEmitter instance 
 	///					on the specified layer to an instance with optional follow-setting.
