@@ -33,6 +33,7 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	enqueued						= false;
 	is_zoom							= _is_zoom;
 	first_call						= true;
+	stop_at_room_borders			= true;
 
 	/*
 		About AnimactionCurves:
@@ -69,6 +70,15 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	///					The callback will receive 1 parameter: this camera action
 	static set_finished_callback = function(callback) {
 		finished_callback = callback;
+		return self;
+	}
+
+	/// @function set_stop_at_room_borders(_stop)
+	/// @description By default this is true (same as in the "Eye" object), but you
+	///				 can turn it off with this function, to allow the camera to look
+	///				 outside of the room.
+	static set_stop_at_room_borders = function(_stop) {
+		stop_at_room_borders = _stop;
 		return self;
 	}
 
