@@ -13,3 +13,6 @@ stream_particle_name	= __RAPTORDATA.stream_particle_name	;
 stream_particle_count	= __RAPTORDATA.stream_particle_count;
 burst_particle_name		= __RAPTORDATA.burst_particle_name	;
 burst_particle_count	= __RAPTORDATA.burst_particle_count	;
+
+// reassign the private member
+__my_emitter			= emitter_name;

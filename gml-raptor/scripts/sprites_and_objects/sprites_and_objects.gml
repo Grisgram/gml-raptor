@@ -51,8 +51,7 @@ function instance_clone(_instance = self, layer_name_or_depth = undefined, struc
 function is_object_instance(_inst) {
 	return	!is_null(_inst) && 
 			!is_string(_inst) &&
-			typeof(_inst) == "ref" &&
-			(is_struct(_inst) || instance_exists(_inst)) &&
+			(typeof(_inst) == "ref" || is_struct(_inst) || instance_exists(_inst)) &&
 			vsget(_inst, "id") && 
 			vsget(_inst, "object_index") && 
 			!is_null(object_get_name(vsget(_inst, "object_index")));

@@ -39,8 +39,31 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 			var names = struct_get_names(rv);
 			for (var i = 0, len = array_length(names); i < len; i++) 
 				recover(names[@i], rv);
+		} else if (is_array(rv)) {
+			recover_array(rv);
+		} else if (is_struct(rv)) {
+			var names = struct_get_names(rv);
+			for (var i = 0, len = array_length(names); i < len; i++) {
+				recover(rv[$ names[@i]], rv);
+			}
 		}
 		return rv;
+	});
+	refstack.recover_array = method(refstack, function(_array) {
+		for (var i = 0, len = array_length(_array); i < len; i++) {
+			var rv = self[$ _array[@i]];
+			_array[@i] = rv;
+			if (is_array(rv))
+				recover_array(rv);
+			else if (is_struct(rv))
+				recover_struct(rv);
+		}
+	});
+	refstack.recover_struct = method(refstack, function(_struct) {
+		var names = struct_get_names(_struct);
+		for (var i = 0, len = array_length(names); i < len; i++) {
+			recover(names[@i], _struct);
+		}
 	});
 
 	// load engine data
@@ -78,6 +101,7 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 		var restorestack = {};
 		var instances = refstack.recover(__SAVEGAME_OBJECT_HEADER);
 		var names = struct_get_names(instances);
+		
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var inst	= vsget(instances, names[i]);
 			var obj		= vsget(inst, __SAVEGAME_OBJ_PROP_OBJ);
@@ -138,12 +162,20 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 				
 			}		
 		}
-	
+
 		// Now all instances are loaded... restore object links
 		ilog($"Restoring object instance pointers...");
 		struct_remove(savegame, __SAVEGAME_REFSTACK_HEADER);
 		refstack = {};
+		savegame = __file_reconstruct_root(savegame);
 		__savegame_restore_pointers(savegame, refstack);
+		
+		var instancenames = savegame_get_instance_names();
+		for (var i = 0, len = array_length(instancenames); i < len; i++) {
+			var ini = __SAVEGAME_INSTANCES[$ instancenames[@i]];
+			__savegame_restore_pointers(ini.data, refstack);
+		}
+		
 	}
 	
 	SAVEGAME_LOAD_IN_PROGRESS = false;
