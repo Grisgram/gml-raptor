@@ -52,8 +52,7 @@ function __camera_action_screen_shake(actiondata) {
 	camera_set_view_pos(
 		view_camera[actiondata.camera_index], 
 		camera_xstart + delta.dx + actiondata.xshake, 
-		camera_ystart + delta.dy + actiondata.yshake,
-		actiondata.stop_at_room_borders);
+		camera_ystart + delta.dy + actiondata.yshake);
 		
 	if (ela >= 1)
 		camera_set_view_target(view_camera[actiondata.camera_index], actiondata.restore_target);

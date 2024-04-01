@@ -7,7 +7,7 @@
 	file gets restored.
 */
 
-/// @func		__savegame_remove_pointers()
+/// @func		__savegame_remove_pointers(struct, refstack)
 /// @desc
 /// @arg {struct} struct	The struct to clone and remove pointers
 function __savegame_restore_pointers(struct, refstack) {        
@@ -27,7 +27,7 @@ function __savegame_restore_struct_pointers(_source, refstack)
 	var cached = vsget(refstack, restorename);
 	if (cached != undefined)
 		return _source;
-		
+	
     var _names = struct_get_names(_source);
     var _i = 0;
     repeat(array_length(_names))
@@ -37,7 +37,7 @@ function __savegame_restore_struct_pointers(_source, refstack)
             
         if (is_string(_value) && string_starts_with(_value, __SAVEGAME_REF_MARKER))
 		{
-			//_value = string_replace(_value, __SAVEGAME_REF_MARKER, "");
+			_value = string_replace(_value, __SAVEGAME_REF_MARKER, "");
 			//vlog($"Restoring instance id in struct: {_value}");
 			struct_set(_source, _name, savegame_get_instance_of(_value));
 		} 

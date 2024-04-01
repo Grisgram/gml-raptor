@@ -43,6 +43,49 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 			scan_layer();
 	}
 	
+	#region savegame management
+	/// @function get_modified_tiles()
+	/// @description Gets an array of tiles that have been modified during runtime.
+	///				 ATTENTION! This is only for saving them to the savegame.
+	///				 Upon game load, invoke "restore_modified_tiles" with this array to
+	///				 recover all changes
+	static get_modified_tiles = function() {
+		var rv = [];
+		var xp = 0, yp = 0;
+		repeat (map_height) {
+			repeat (map_width) {
+				var tile = tiles[@(yp * map_width + xp)];
+				if (tile.__modified) {
+					var newtile = new TileInfo().__set_data(tile.tiledata, tile.position.x, tile.position.y, self);
+					newtile.scanner = undefined;
+					newtile.__modified = true;
+					array_push(rv, newtile);
+				}
+				xp++;
+			}
+			xp = 0;
+			yp++;
+		}		
+		return rv;
+	}
+	
+	/// @function restore_modified_tiles(_modified_tiles)
+	/// @description Recovers all changed tiles from a savegame.
+	///				 ATTENTION! This can only be used with the return value of "get_modified_tiles"!
+	static restore_modified_tiles = function(_modified_tiles) {
+		for (var i = 0, len = array_length(_modified_tiles); i < len; i++) {
+			var modtile = _modified_tiles[@i];
+			var orig = get_tile_at(modtile.position.x, modtile.position.y);
+			with (orig) {
+				__set_data(modtile.tiledata, modtile.position.x, modtile.position.y, other);
+				set_index(index);
+				if (empty) set_empty();
+				set_flags(tile_get_flip(tiledata), tile_get_rotate(tiledata), tile_get_mirror(tiledata));
+				__modified = true;
+			}
+		}
+	}
+	#endregion
 	
 	#region orientation management (private)
 	
@@ -84,6 +127,7 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 				tiledata = tile_set_mirror(tiledata, false);
 				break;
 		}
+		return tiledata;
 	}
 	#endregion
 	
@@ -95,7 +139,7 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		var xp = 0, yp = 0;
 		repeat (map_height) {
 			repeat (map_width) {
-				tiles[@(yp * map_width + xp)] = new TileInfo().set_data(tilemap_get(map_id, xp, yp), xp, yp, self);
+				tiles[@(yp * map_width + xp)] = new TileInfo().__set_data(tilemap_get(map_id, xp, yp), xp, yp, self);
 				xp++;
 			}
 			xp = 0;
@@ -120,7 +164,7 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		}
 		
 		for (var i = 0, len = array_length(tiles); i < len; i++)
-			if (array_contains(indices, tiles[@i].index))
+			if (array_contains(indices, tiles[@i].index)) 
 				array_push(rv, tiles[@i]);
 		return rv;		
 	}
@@ -167,20 +211,70 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 	}
 }
 
+#macro __TILESCANNER_UPDATE_TILE	tilemap_set(scanner.map_id, tiledata, position.x, position.y);
 /// @function		TileInfo()
 /// @description	Holds condensed information about a single tile
 function TileInfo() constructor {
 	construct(TileInfo);
 	
-	/// @function		set_data(tiledata, map_x, map_y, scanner)
+	__modified = false;
+	
+	/// @function		__set_data(_tiledata, _map_x, _map_y, _scanner)
 	/// @description	Wrap this in a function to have an empty constructor for the savegame system
-	static set_data = function(tiledata, map_x, map_y, scanner) {
-		index		= tile_get_index(tiledata);
-		orientation = scanner.__tiledata_to_orientation(tiledata);
+	static __set_data = function(_tiledata, _map_x, _map_y, _scanner) {
+		scanner		= _scanner;
+		tiledata	= _tiledata;
+		index		= tile_get_index(_tiledata);
+		orientation = scanner.__tiledata_to_orientation(_tiledata);
 		empty		= (index <= 0);
-		position	= new Coord2(map_x, map_y);
-		position_px = new Coord2(map_x * scanner.cell_width, map_y * scanner.cell_height);
+		position	= new Coord2(_map_x, _map_y);
+		position_px = new Coord2(_map_x * scanner.cell_width, _map_y * scanner.cell_height);
 		center_px	= position_px.clone2().add(scanner.cell_width / 2, scanner.cell_height / 2);
 		return self;
 	}
+		
+	/// @function set_empty()
+	/// @description Clears this tile
+	static set_empty = function() {
+		__modified = true;
+		empty = true;
+		index = 0;
+		orientation = tile_orientation.right;
+		tiledata = tile_set_empty(tiledata);
+		__TILESCANNER_UPDATE_TILE;
+		return self;
+	}
+
+	/// @function set_index(_tile_index)
+	/// @description Assign a new index to the tile
+	static set_index = function(_tile_index) {
+		__modified = true;
+		index = _tile_index;
+		tiledata = tile_set_index(tiledata, _tile_index);
+		__TILESCANNER_UPDATE_TILE;
+		return self;
+	}
+
+	/// @function set_flags(_flip = undefined, _rotate = undefined, _mirror = undefined)
+	/// @description Modify the flags of a tile (flip, rotate, mirror)
+	static set_flags = function(_flip = undefined, _rotate = undefined, _mirror = undefined) {
+		__modified = true;
+		if (_flip     != undefined) tiledata = tile_set_flip(tiledata, _flip);
+		if (_rotate   != undefined) tiledata = tile_set_rotate(tiledata, _rotate);
+		if (_mirror   != undefined) tiledata = tile_set_mirror(tiledata, _mirror);
+		orientation = scanner.__tiledata_to_orientation(tiledata);
+		__TILESCANNER_UPDATE_TILE;
+		return self;
+	}
+	
+	/// @function set_orientation(_tile_orientation)
+	/// @description Rotate a tile to a specified orientation
+	static set_orientation = function(_tile_orientation) {
+		__modified = true;
+		orientation = _tile_orientation;
+		tiledata	= scanner.__orientation_to_tiledata(tiledata, _tile_orientation);
+		__TILESCANNER_UPDATE_TILE;
+		return self;
+	}
+	
 }
