@@ -283,3 +283,18 @@ function is_null(value) {
 function eq(inst1, inst2) {
 	try { return name_of(inst1) == name_of(inst2); } catch (_) { return false; }
 }
+
+/// @function with_tag(_tag, _func)
+/// @description Executes the specified function for all object instances
+///				 that are tagged with the specified tag.
+///				 NOTE: The function is temporary bound to the instance, so
+///				 the code IN the function will run in the scope of the instance!
+function with_tag(_tag, _func) {
+	var tagged = tag_get_asset_ids(_tag, asset_object);
+	for (var i = 0, len = array_length(tagged); i < len; i++) {
+		with(tagged[@i]) {
+			var tmpfunc = method(self, _func);
+			tmpfunc();
+		}
+	}
+}
