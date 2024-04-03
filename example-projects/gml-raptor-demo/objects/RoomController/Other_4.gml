@@ -13,4 +13,18 @@ else
 
 if (MOUSE_CURSOR != undefined && vsgetx(GAMESETTINGS, "use_system_cursor", false, false))
 	with(MOUSE_CURSOR) destroy();
+
+// Continue loading then game
+if (__SAVEGAME_CONTINUE_LOAD_STATE != undefined) {
+	var loadstate = __SAVEGAME_CONTINUE_LOAD_STATE;
+	__SAVEGAME_CONTINUE_LOAD_STATE = undefined;
 	
+	ilog($"Continuing game load in new room...");
+	__continue_load_savegame(
+		loadstate._savegame,
+		loadstate._refstack,
+		loadstate._engine,
+		loadstate._data_only,
+		loadstate._loaded_version
+	);
+}
