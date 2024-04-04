@@ -41,5 +41,6 @@ function ui_demo_save() {
 }
 
 function ui_demo_load() {
-	savegame_load_game("ui_demo.sav.json");
+	savegame_load_game("ui_demo.sav.json",,new BlendTransition(rmMain, 80));
+	//savegame_load_game("ui_demo.sav.json",,new SlideTransition(rmMain, 80, acLinearXMinus));
 }

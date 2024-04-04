@@ -10,7 +10,8 @@ function startRaceDemoButton_click() {
 }
 
 function startPlaygroundButton_click() {
-	room_goto(rmDevPlayground);
+	ui_demo_load();
+	//room_goto(rmDevPlayground);
 }
 
 function startUiDemoButton_click() {

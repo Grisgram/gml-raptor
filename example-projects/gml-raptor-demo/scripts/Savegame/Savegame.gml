@@ -11,6 +11,10 @@
 #macro SAVEGAME_SAVE_IN_PROGRESS		global.__savegame_save_in_progress
 #macro SAVEGAME_LOAD_IN_PROGRESS		global.__savegame_load_in_progress
 
+// Room change on load, state preserve
+#macro __SAVEGAME_CONTINUE_LOAD_STATE	global.__savegame_load_state
+__SAVEGAME_CONTINUE_LOAD_STATE			= undefined;
+
 // The GLOBALDATA struct is persisted with the savegame
 #macro ENSURE_GLOBALDATA	if (!variable_global_exists("__global_data"))	global.__global_data = {};
 #macro GLOBALDATA			global.__global_data

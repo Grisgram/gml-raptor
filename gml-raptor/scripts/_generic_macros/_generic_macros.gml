@@ -67,6 +67,15 @@ global.__unique_count_up_id	= 0;
 #macro GUI_EVENT_NO_MOUSE			if (SKIP_EVENT_NO_MOUSE) exit;
 #macro GUI_EVENT_UNTARGETTED		if (SKIP_EVENT_UNTARGETTED) exit;
 
+#macro __DUMP_GUI_EVENT_MOUSE		ilog($"unreachable:{__INSTANCE_UNREACHABLE} event_lock:{__GUI_MOUSE_EVENT_LOCK} target:{!__CONTROL_IS_TARGET_MOUSE} enabled:{__CONTROL_IS_ENABLED} topmost={is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y)}");\
+									GUI_EVENT_MOUSE;
+
+#macro __DUMP_GUI_EVENT_NO_MOUSE	ilog($"unreachable:{__INSTANCE_UNREACHABLE} target:{!__CONTROL_IS_TARGET_XY}");\
+									GUI_EVENT_NO_MOUSE;
+
+#macro __DUMP_GUI_EVENT_UNTARGETTED	ilog($"unreachable:{__INSTANCE_UNREACHABLE} enabled:{!__INSTANCE_IS_ENABLED}");\
+									GUI_EVENT_NO_MOUSE;
+
 #macro DEPTH_BOTTOM_MOST			 16000
 #macro DEPTH_TOP_MOST				-15998
 

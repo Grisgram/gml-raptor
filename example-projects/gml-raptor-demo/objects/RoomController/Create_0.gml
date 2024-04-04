@@ -42,6 +42,12 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
+
+/// @function onGameLoadFailed(_exception)
+onGameLoadFailed = function(_exception) {
+	elog($"**ERROR** Game load failed: {_exception.message}");
+}
+
 // Set up world UI system
 #macro UI_ROOT					global.__ui_root
 __ui_root_control = instance_create(0, 0, layer, RaptorUiRootPanel);

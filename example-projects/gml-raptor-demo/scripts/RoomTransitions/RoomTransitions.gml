@@ -28,8 +28,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	fx				= undefined;
 	frame_counter	= 0;
 
-	draw_width		= GUI_RUNTIME_CONFIG.canvas_width;
-	draw_height		= GUI_RUNTIME_CONFIG.canvas_height;
+	draw_width		= CAM_WIDTH ; //GUI_RUNTIME_CONFIG.canvas_width;
+	draw_height		= CAM_HEIGHT; //GUI_RUNTIME_CONFIG.canvas_height;
 
 	static __create_fx_layer = function() {
 		fx_layer = (need_fx_layer ? layer_create(ROOMCONTROLLER.depth + 1) : undefined);

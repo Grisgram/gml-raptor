@@ -7,14 +7,15 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function					savegame_load_game(filename, cryptkey = "")
+/// @function					savegame_load_game(filename, cryptkey = "", _room_transition = undefined, data_only = false)
 /// @description				Loads a previously saved game state (see savegame_save_game).
 /// @param {string} filename	Relative path inside the working_folder where to find the file
 /// @param {string=""} cryptkey	Optional. The same key that has been used to encrypt the file.
 ///								If not provided, the file is expected to be plain text (NOT RECOMMENDED!).
+/// @param {transition} _room_transition	If set, this transition will be used when changing room on load
 /// @param {bool=false} data_only	If set to true, no instances will be loaded, only GLOBALDATA, structs and race tables
 /// @returns {bool}				True, if the game loaded successfully or false, if not.
-function savegame_load_game(filename, cryptkey = "", data_only = false) {
+function savegame_load_game(filename, cryptkey = "", _room_transition = undefined, data_only = false) {
 	
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	ilog($"[----- LOADING GAME FROM '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
@@ -75,10 +76,28 @@ function savegame_load_game(filename, cryptkey = "", data_only = false) {
 	var current_room_name = room_get_name(room);
 	var room_name = vsgetx(engine, __SAVEGAME_ENGINE_ROOM_NAME, current_room_name);
 	if (room_name != current_room_name) {
+		__SAVEGAME_CONTINUE_LOAD_STATE = {
+			_savegame: savegame,
+			_refstack: refstack,
+			_engine: engine,
+			_data_only: data_only,
+			_loaded_version: loaded_version
+		};
+		
 		ilog($"Switching to room '{room_name}'");
-		room_goto(asset_get_index(room_name));
+		if (_room_transition != undefined) {
+			_room_transition.target_room = asset_get_index(room_name);
+			ROOMCONTROLLER.transit(_room_transition);
+		} else 
+			room_goto(asset_get_index(room_name));
+		
+		return true;
+	} else {
+		return __continue_load_savegame(savegame, refstack, engine, data_only, loaded_version);
 	}
-	
+}
+
+function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_version) {
 	// load global data
 	GLOBALDATA = refstack.recover(__SAVEGAME_GLOBAL_DATA_HEADER);
 	
