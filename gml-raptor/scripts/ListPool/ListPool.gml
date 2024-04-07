@@ -17,6 +17,7 @@ function ListPool(_name = "listPool") constructor {
 	
 	name = _name;
 	list = ds_list_create();
+	__listcount = 0;
 
 	/// @function		remove(obj)
 	/// @description	Removes an object from the pool
@@ -25,6 +26,7 @@ function ListPool(_name = "listPool") constructor {
 		var idx = ds_list_find_index(list, obj);
 		if (idx != -1)
 			ds_list_delete(list, idx);
+		__listcount = ds_list_size(list);
 	}
 	
 	/// @function remove_where(_predicate, _data = undefined)
@@ -47,6 +49,7 @@ function ListPool(_name = "listPool") constructor {
 		array_foreach(removers, function(_item, _idx) {
 			remove(_item);
 		});
+		__listcount = ds_list_size(list);
 		return rv;
 	}
 	
@@ -60,13 +63,14 @@ function ListPool(_name = "listPool") constructor {
 			ds_list_add(list, obj);
 			if (DEBUG_LOG_LIST_POOLS)
 				vlog($"'{name}' item added: newSize={size()};");
+			__listcount = ds_list_size(list);
 		}
 	}
 
 	/// @function		size()
 	/// @description	Get the number of elements in the pool
 	static size = function() {
-		return ds_list_size(list);
+		return __listcount;
 	}
 	
 	/// @function		process_all(function_name = "step", ...)
@@ -80,24 +84,23 @@ function ListPool(_name = "listPool") constructor {
 	/// @param {string} function_name The function to invoke on each element
 	/// @param {any...} up to 15 additional parameters that will be forwarded to the invoked function.
 	static process_all = function(function_name = "step") {
-		var listsize = ds_list_size(list);
 		switch (argument_count) {
-			case  1: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](); break;
-			case  2: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1]); break;
-			case  3: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2]); break;
-			case  4: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3]); break;
-			case  5: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4]); break;
-			case  6: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5]); break;
-			case  7: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
-			case  8: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
-			case  9: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
-			case 10: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
-			case 11: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
-			case 12: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
-			case 13: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
-			case 14: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
-			case 15: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
-			case 16: for (var i = 0; i < listsize; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+			case  1: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](); break;
+			case  2: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1]); break;
+			case  3: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2]); break;
+			case  4: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3]); break;
+			case  5: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4]); break;
+			case  6: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5]); break;
+			case  7: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+			case  8: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+			case  9: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+			case 10: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+			case 11: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+			case 12: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+			case 13: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+			case 14: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+			case 15: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+			case 16: for (var i = 0; i < __listcount; i++) with(list[| i]) if (__listpool_processible) self[$ function_name](argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
 		}
 	}
 	
@@ -105,12 +108,14 @@ function ListPool(_name = "listPool") constructor {
 	/// @description	Remove all elements from the pool
 	static clear = function() {
 		ds_list_clear(list);
+		__listcount = 0;
 	}
 	
 	/// @function		destroy()
 	/// @description	Destroy the ds_list that is used internally
 	static destroy = function() {
 		ds_list_destroy(list);
+		__listcount = 0;
 	}
 
 	/// @function		dump()
@@ -118,9 +123,8 @@ function ListPool(_name = "listPool") constructor {
 	static dump = function() {
 		var i = 0;
 		ilog($"[--- LIST POOL '{name}' DUMP START ---]");
-		repeat(ds_list_size(list)) {
-			var item = ds_list_find_value(list, i);
-			ilog($"#{i}: {item}");
+		repeat(__listcount) {
+			ilog($"#{i}: {list[| i]}");
 			i++;
 		}
 		ilog($"[--- LIST POOL '{name}' DUMP  END  ---]");
@@ -132,9 +136,8 @@ function ListPool(_name = "listPool") constructor {
 	static dump_to_string = function() {
 		var i = 0;
 		var rv = ($"[--- LIST POOL '{name}' DUMP START ---]\n");
-		repeat(ds_list_size(list)) {
-			var item = ds_list_find_value(list, i);
-			rv += $"#{i}: {item}\n";
+		repeat(__listcount) {
+			rv += $"#{i}: {list[| i]}\n";
 			i++;
 		}
 		rv += $"[--- LIST POOL '{name}' DUMP  END  ---]\n";
@@ -151,7 +154,7 @@ function __listpool_get_all_owner_objects(_listpool, owner) {
 	var rv = [];
 	
 	var lst = _listpool.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
+	for (var i = 0; i < _listpool.__listcount; i++) {
 		var item = lst[| i];
 		if (owner == undefined || item.owner.id == owner.id)
 			array_push(rv, item);

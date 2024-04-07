@@ -61,6 +61,12 @@
 #macro release:START_FULLSCREEN		true
 #macro FULLSCREEN_IS_BORDERLESS		true
 
+// If you set this to true, ROOMCONTROLLER will store the game window size
+// 10 times a second in the WINDOW_SIZE_* variables, so you can track changes
+// to the window size. 
+// This normally only makes sense in tool apps, that run in windowed mode
+#macro WATCH_FOR_WINDOW_SIZE_CHANGE	false
+
 // Startup Room - The value of this constant is taken by the GameStarter object
 // Set the constant to undefined to use the instance variable of GameStarter in rmStartup
 #macro ROOM_AFTER_STARTER			rmMain

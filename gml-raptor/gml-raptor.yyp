@@ -285,6 +285,7 @@
     {"id":{"name":"draw_text_scribble_ext","path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},},
     {"id":{"name":"draw_text_scribble","path":"scripts/draw_text_scribble/draw_text_scribble.yy",},},
     {"id":{"name":"Edges","path":"scripts/Edges/Edges.yy",},},
+    {"id":{"name":"ExpensiveCache","path":"scripts/ExpensiveCache/ExpensiveCache.yy",},},
     {"id":{"name":"Files","path":"scripts/Files/Files.yy",},},
     {"id":{"name":"Game_Configuration","path":"scripts/Game_Configuration/Game_Configuration.yy",},},
     {"id":{"name":"Game_Exception_Handler","path":"scripts/Game_Exception_Handler/Game_Exception_Handler.yy",},},

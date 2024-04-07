@@ -307,10 +307,16 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static step_out = function() {
 		return parent_tree??self;
 	}
-	
+		
 	/// @function build()
 	static build = function() {
-		try { __root_tree.control.__draw_self(); } catch (_) {}
+		try {
+			with(__root_tree.control) {
+				animation_abort(self, "##__raptor_##.control_tree_build", false);
+				run_delayed(self, 1, function() { control_tree.layout(true); })
+					.set_name("##__raptor_##.control_tree_build");
+			}
+		} catch (_) {}
 		return self;
 	}
 	
@@ -516,7 +522,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				__text_x += SELF_MOVE_DELTA_X;
 				__text_y += SELF_MOVE_DELTA_Y;
 				if (is_child_of(self, _baseContainerControl))
-					control_tree.move_children_after_sizing();
+					control_tree.move_children_after_sizing(_force);
 			}
 		}
 		if (_force)

@@ -1,4 +1,5 @@
 /// @description Logging/Enabled/Skinning
+
 if (log_create_destroy)
 	vlog($"{MY_NAME} created.");
 
@@ -50,30 +51,41 @@ set_enabled = function(_enabled) {
 
 #region topmost
 /// @function __can_touch_this(_instance)
+__can_touch_this_child = undefined;
 __can_touch_this = function(_instance) {
-	if (is_child_of(_instance, RaptorTooltip) ||
-		is_child_of(_instance, RaptorUiRootPanel) ||
-		is_child_of(_instance, MouseCursor)) return false;
-	with(_instance) if (!__CONTROL_IS_ENABLED || __INSTANCE_UNREACHABLE) return false;
-	
+	with(_instance) {
+		__can_touch_this_child ??= 
+			is_child_of(self, RaptorTooltip) ||
+			is_child_of(self, RaptorUiRootPanel) ||
+			is_child_of(self, MouseCursor);
+		if (__can_touch_this_child || !__CONTROL_IS_ENABLED || __INSTANCE_UNREACHABLE) return false;
+	}
 	return true;
 }
 
 /// @function is_topmost()
 /// @description True, if this control is the topmost (= lowest depth) at the specified position
 __topmost_object_list = ds_list_create();
+__topmost_count = 0;
+__topmost_mindepth = depth;
+__topmost_runner = undefined;
+__topmost_cache = new ExpensiveCache();
 is_topmost = function(_x, _y) {
+	if (__topmost_cache.is_valid()) 
+		return __topmost_cache.return_value;
+		
 	ds_list_clear(__topmost_object_list);
-	if (instance_position_list(_x, _y, _raptorBase, __topmost_object_list, false) > 0) {
-		var mindepth = depth;
-		var w = undefined;
-		for (var i = 0, len = ds_list_size(__topmost_object_list); i < len; i++) {
-			w = __topmost_object_list[|i];
-			if (!__can_touch_this(w)) continue;
-			mindepth = min(mindepth, w.depth);
+	__topmost_count = instance_position_list(_x, _y, _raptorBase, __topmost_object_list, false);
+	if (__topmost_count > 0) {
+		__topmost_mindepth = depth;
+		__topmost_runner = undefined;
+		for (var i = 0; i < __topmost_count; i++) {
+			__topmost_runner = __topmost_object_list[|i];
+			if (!__can_touch_this(__topmost_runner)) continue;
+			__topmost_mindepth = min(__topmost_mindepth, __topmost_runner.depth);
 		}
-		return (mindepth == depth);
+		return __topmost_cache.set(__topmost_mindepth == depth);
 	}
-	return true;
+	return __topmost_cache.set(true);
 }
 #endregion

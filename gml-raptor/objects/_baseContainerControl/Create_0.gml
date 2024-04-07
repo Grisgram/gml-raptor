@@ -8,8 +8,8 @@ __mouse_events_locked	 = true;
 if (!is_instanceof(control_tree, ControlTree)) {
 	control_tree = construct_or_invoke(control_tree, self);
 }
-control_tree.bind_to(self);
 control_tree_layout = new ControlTreeLayout();
+control_tree.bind_to(self);
 
 /// @function get_element(_name)
 /// @description Retrieve a child control by its name. Returns the instance or undefined

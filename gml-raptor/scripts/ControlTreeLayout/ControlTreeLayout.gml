@@ -112,13 +112,12 @@ function ControlTreeLayout() constructor {
 		_inst.x = _area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
 		_inst.y = _area.top  + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
 				
-		var areadiff = _inst.sprite_height + 
-			tree.margin_top + tree.margin_bottom +
-			tree.padding_top + tree.padding_bottom;
+		var areadiff = max(_inst.min_height, _inst.sprite_height + tree.padding_top + tree.padding_bottom) + 
+			tree.margin_top + tree.margin_bottom;
 				
 		runner.top += areadiff;
 		_area.top += areadiff;
-		_area.height -= areadiff;
+		_area.height = max(0, _area.height - areadiff);
 		
 		return neww;
 	}
@@ -139,12 +138,11 @@ function ControlTreeLayout() constructor {
 			tree.margin_bottom - tree.padding_bottom - 
 			_inst.sprite_height - _inst.sprite_yoffset;
 				
-		var areadiff = _inst.sprite_height + 
-			tree.margin_top + tree.margin_bottom +
-			tree.padding_top + tree.padding_bottom;
+		var areadiff = max(_inst.min_height, _inst.sprite_height + tree.padding_top + tree.padding_bottom) + 
+			tree.margin_top + tree.margin_bottom;
 				
-		runner.bottom -= areadiff;
-		_area.height -= areadiff;
+		runner.bottom = max(0, runner.bottom - areadiff);
+		_area.height = max(0, _area.height - areadiff);
 
 		return neww;
 	}
@@ -160,13 +158,12 @@ function ControlTreeLayout() constructor {
 		_inst.x = _area.left + tree.margin_left + tree.padding_left + _inst.sprite_xoffset;
 		_inst.y = _area.top  + tree.margin_top  + tree.padding_top  + _inst.sprite_yoffset;
 				
-		var areadiff = _inst.sprite_width + 
-			tree.margin_left + tree.margin_right +
-			tree.padding_left + tree.padding_right;
+		var areadiff = max(_inst.min_width, _inst.sprite_width + tree.padding_left + tree.padding_right) + 
+			tree.margin_left + tree.margin_right;
 
 		runner.left += areadiff;
 		_area.left += areadiff;
-		_area.width -= areadiff;
+		_area.width = max(0, _area.width - areadiff);
 
 		return newh;
 	}
@@ -187,12 +184,11 @@ function ControlTreeLayout() constructor {
 			
 		_inst.y = _area.top + tree.margin_top + tree.padding_top + _inst.sprite_yoffset;
 				
-		var areadiff = _inst.sprite_width + 
-			tree.margin_left + tree.margin_right +
-			tree.padding_left + tree.padding_right;
+		var areadiff = max(_inst.min_width, _inst.sprite_width + tree.padding_left + tree.padding_right) + 
+			tree.margin_left + tree.margin_right;
 		
-		runner.right -= areadiff;
-		_area.width -= areadiff;
+		runner.right = max(0, runner.right - areadiff);
+		_area.width = max(0, _area.width - areadiff);
 
 		return newh;
 	}

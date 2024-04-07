@@ -23,32 +23,48 @@ set_checked = function(_checked) {
 	}
 }
 
-update_graphics = function(_force_redraw = true) {
-	if (original_scale == undefined)
-		original_scale = new Coord2(image_xscale, image_yscale);
+__graphics_updated = false;
+__reset_graphics = function() {
+	if (!__graphics_updated)
+		return;
 	
-	if (sprite_index != -1) {
-		__sprite_index = sprite_index;
-		unscaled = new SpriteDim(sprite_index);
-		sprite_index = spr1pxTrans;
-		image_xscale = unscaled.width * original_scale.x;
-		image_yscale = unscaled.height * original_scale.y;
-		__down_draw_offset = new Coord2(
-			(sprite_width  - (sprite_width  * 0.9)) / 2,
-			(sprite_height - (sprite_height * 0.9)) / 2
-		);
-	} else {
-		unscaled = new SpriteDim(-1);
-		__down_draw_offset = new Coord2();
+	sprite_index = __sprite_index;
+	image_xscale = original_scale.x;
+	image_yscale = original_scale.y;
+	original_scale = undefined;
+	__graphics_updated = false;
+}
+
+__update_graphics = function(_force_redraw = true) {
+	if (!__graphics_updated) {
+		__graphics_updated = true;
+		if (original_scale == undefined)
+			original_scale = new Coord2(image_xscale, image_yscale);
+	
+		if (sprite_index != -1) {
+			__sprite_index = sprite_index;
+			unscaled = new SpriteDim(sprite_index);
+			sprite_index = spr1pxTrans;
+			image_xscale = unscaled.width * original_scale.x;
+			image_yscale = unscaled.height * original_scale.y;
+			__down_draw_offset = new Coord2(
+				(sprite_width  - (sprite_width  * 0.9)) / 2,
+				(sprite_height - (sprite_height * 0.9)) / 2
+			);
+		} else {
+			unscaled = new SpriteDim(-1);
+			__down_draw_offset = new Coord2();
+		}
+		
+		if (original_offset == undefined)
+			original_offset = new Coord2(text_xoffset, text_yoffset);
+		
+		if (draw_checkbox_on_the_left)
+			text_xoffset = original_offset.x + unscaled.width + distance_to_text;
+		else
+			text_xoffset = original_offset.x - unscaled.width - distance_to_text;
 	}
-		
-	if (original_offset == undefined)
-		original_offset = new Coord2(text_xoffset, text_yoffset);
-		
-	if (draw_checkbox_on_the_left)
-		text_xoffset = original_offset.x + unscaled.width + distance_to_text;
-	else
-		text_xoffset = original_offset.x - unscaled.width - distance_to_text;
+	
 	if (_force_redraw)
 		force_redraw();
 }
@@ -91,10 +107,21 @@ __set_down_image = function() {
 	__draw_offset  = __down_draw_offset;
 }
 
-update_graphics(false);
+__update_graphics(false);
 __set_default_image();
 
 event_inherited();
+
+on_skin_changed = function(_skindata) {
+	if (!skinnable) return;
+	__reset_graphics();
+	integrate_skin_data(_skindata);
+	animated_text_color = text_color;
+	animated_draw_color = draw_color;
+	__update_graphics();
+	update_startup_coordinates();
+	force_redraw(true);
+}
 
 __apply_autosize_alignment = function(distx, disty) {
 	//image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + unscaled.width  + distx) / unscaled.width);

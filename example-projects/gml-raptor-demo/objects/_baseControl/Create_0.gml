@@ -4,6 +4,8 @@
 							__last_text != text || sprite_index != __last_sprite_index || \
 							sprite_width != __last_sprite_width || sprite_height != __last_sprite_height)
 
+#macro __CONTROL_TEXT_CHANGED (__scribble_text == undefined || __last_text != text)
+
 #macro __CONTROL_DRAWS_SELF (control_tree_layout == undefined || \
 							(control_tree != undefined && control_tree.parent_tree == undefined))
 
@@ -183,20 +185,26 @@ get_parent_tree = function() {
 /// @description True, if this control is the topmost (= lowest depth) at the specified position
 ///				 NOTE: This is an override of the method in _raptorBase, which compares against _raptorBase!
 ///				 This method here shall only check controls (_baseControl) to be more specific in finding topmost
+
 __topmost_list = ds_list_create();
+__topmost_cache = new ExpensiveCache();
 is_topmost = function(_x, _y) {
+	if (__topmost_cache.is_valid()) 
+		return __topmost_cache.return_value;
+		
 	ds_list_clear(__topmost_list);
-	if (instance_position_list(_x, _y, _baseControl, __topmost_list, false) > 0) {
-		var mindepth = depth;
-		var w = undefined;
-		for (var i = 0, len = ds_list_size(__topmost_list); i < len; i++) {
-			w = __topmost_list[|i];
-			if (!__can_touch_this(w)) continue;
-			mindepth = min(mindepth, w.depth);
+	__topmost_count = instance_position_list(_x, _y, _baseControl, __topmost_list, true);
+	if (__topmost_count > 0) {
+		__topmost_mindepth = depth;
+		__topmost_runner = undefined;
+		for (var i = 0; i < __topmost_count; i++) {
+			__topmost_runner = __topmost_list[|i];
+			if (!__can_touch_this(__topmost_runner)) continue;
+			__topmost_mindepth = min(__topmost_mindepth, __topmost_runner.depth);
 		}
-		return (mindepth == depth);
+		return __topmost_cache.set(__topmost_mindepth == depth);
 	}
-	return true;
+	return __topmost_cache.set(true);
 }
 
 /// @function __mouse_enter_topmost_control()
@@ -333,7 +341,7 @@ __draw_self = function() {
 		if (sprite_index == -1)
 			word_wrap = false; // no wrapping on zero-size objects
 		
-		__scribble_text = __create_scribble_object(scribble_text_align, text);
+		__scribble_text = (__CONTROL_TEXT_CHANGED ? __create_scribble_object(scribble_text_align, text) : __scribble_text);
 		__finalize_scribble_text();
 		__text_width	= __scribble_text.get_width();
 		__text_height	= __scribble_text.get_height();
@@ -402,15 +410,15 @@ __draw_instance = function(_force = false) {
 	//update_client_area();
 	
 	if (sprite_index != -1) {
-		if (!is_enabled) {
+		if (is_enabled) {
+			image_blend = animated_draw_color;
+			draw_self();
+		} else {
 			__disabled_surface_width = sprite_width;
 			__disabled_surface_height = sprite_height;
 			shader_set(GrayScaleShader);
 			draw_self();
 			shader_reset();
-		} else {
-			image_blend = animated_draw_color;
-			draw_self();
 		}
 	}
 	

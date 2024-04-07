@@ -114,18 +114,16 @@ function struct_integrate(target, sources) {
 /// @description	Save-gets a struct member, returning a default if it does not exist,
 ///					and even allows you to create that member in the struct, if it is missing
 function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true) {
-	if (variable_struct_exists(_struct, _key))
-		return _struct[$ _key];
-		
+	gml_pragma("forceinline");
 	if (_create_if_missing)
-		_struct[$ _key] = _default_if_missing;
-	
-	return _default_if_missing;
+		_struct[$ _key] ??= _default_if_missing;
+	return _struct[$ _key] ?? _default_if_missing;
 }
 
 /// @function vsget(_struct, _key, _default_if_missing = undefined)
 /// @description	Save-gets a struct member, returning a default if it does not exist,
 ///					but does not create the missing member in the struct
 function vsget(_struct, _key, _default_if_missing = undefined) {
-	return (variable_struct_exists(_struct, _key)) ? _struct[$ _key] : _default_if_missing;
+	gml_pragma("forceinline");
+	return _struct[$ _key] ?? _default_if_missing;
 }
