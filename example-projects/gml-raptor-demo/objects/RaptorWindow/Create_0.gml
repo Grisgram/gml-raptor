@@ -17,6 +17,8 @@
 
 event_inherited();
 
+#macro __CONTROL_TITLE_CHANGED (__scribble_text == undefined || __last_title != title)
+
 #macro __MOUSE_OVER_FOCUS_WINDOW		(__RAPTOR_FOCUS_WINDOW != undefined && __RAPTOR_FOCUS_WINDOW.mouse_is_over)
 
 #macro __RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING		global.__raptor_window_focus_change_running
@@ -107,6 +109,7 @@ __size_rect_top		= new Rectangle();
 __size_rect_bottom	= new Rectangle();
 __size_rect_left	= new Rectangle();
 __size_rect_right	= new Rectangle();
+__mouse_has_moved	= false;
 __in_destroy		= false;
 __in_size_mode		= false;
 __size_direction	= 0;
@@ -307,7 +310,7 @@ __reorder_focus_index = function(_old_idx) {
 	// last step: set the depth of the windows
 	with(RaptorWindow) {
 		
-		depth = __RAPTORDATA.creation_depth - 2 * __RAPTORDATA.focus_index;
+		depth = __RAPTORDATA.creation_depth - 3 * __RAPTORDATA.focus_index;
 		if (__have_x_button && !is_null(__x_button)) 
 			__x_button.depth = depth;
 		if (!__in_destroy)
@@ -356,7 +359,12 @@ take_focus = function(_only_if_topmost = false) {
 	// this mouse_is_over check is for the case, that a popup (like a MessageBox)
 	// was visible on top of self. due to HIDDEN_BEHIND_POPUP, self would not register
 	// a mouse_enter when the popup closes. This corrects the bool.
-	mouse_is_over = instance_position(CTL_MOUSE_X, CTL_MOUSE_Y, self);
+	
+	mouse_is_over = point_in_rectangle(
+		CTL_MOUSE_X, CTL_MOUSE_Y,
+		SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, 
+		SELF_VIEW_RIGHT_EDGE, SELF_VIEW_BOTTOM_EDGE);
+		
 	__RAPTOR_WINDOW_FOCUS_CHANGE_RUNNING = false;
 }
 if (!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS)
@@ -404,6 +412,17 @@ __create_scribble_title_object = function(align, str) {
 				mouse_is_over ? title_color_mouse_over : title_color);
 }
 
+/// @function					__finalize_scribble_title()
+/// @description				add blend and transforms to the final text
+__finalize_scribble_title = function() {
+	if (__force_redraw_text_only) {
+		__scribble_title
+			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
+							 mouse_is_over ? title_color_mouse_over : title_color);
+	}
+	scribble_add_title_effects(__scribble_title);
+}
+
 /// @function					__draw_self()
 /// @description				invoked from draw or drawGui
 __draw_self = function() {
@@ -412,11 +431,13 @@ __draw_self = function() {
 	if (__CONTROL_NEEDS_LAYOUT || __last_title != title || __first_draw) {
 		__force_redraw = false;
 
-		__scribble_text = __create_scribble_object(scribble_text_align, text);
-		scribble_add_text_effects(__scribble_text);
+		__scribble_title = (__CONTROL_TITLE_CHANGED ? __create_scribble_title_object(scribble_title_align, title) : __scribble_title);
+		__finalize_scribble_title();
 
-		__scribble_title = __create_scribble_title_object(scribble_title_align, title);
-		scribble_add_title_effects(__scribble_title);
+		__scribble_text = (__CONTROL_TEXT_CHANGED ? __create_scribble_object(scribble_text_align, text) : __scribble_text);
+		__finalize_scribble_text();
+		__text_width	= __scribble_text.get_width();
+		__text_height	= __scribble_text.get_height();
 		
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0, distx = 0, disty = 0;
 		var nine = -1;
@@ -474,6 +495,9 @@ __draw_self = function() {
 		
 		update_client_area();
 		if (__have_x_button) with(__x_button) update_position();
+	} else {
+		__finalize_scribble_title();
+		__finalize_scribble_text();
 	}
 
 	if (was_forced || __CONTROL_DRAWS_SELF)
@@ -481,10 +505,11 @@ __draw_self = function() {
 }
 
 __draw_instance = function(_force = false) {
+	
 	update_client_area();
 
 	if (sprite_index != -1) {
-		image_blend = draw_color;
+		image_blend = animated_draw_color;
 		draw_self();
 		
 		if (__RAPTORDATA.has_focus && __can_draw_focus)

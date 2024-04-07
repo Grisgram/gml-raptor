@@ -98,36 +98,40 @@ set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
 #macro MOUSE_X_PREVIOUS			global.__world_mouse_xprevious
 #macro MOUSE_Y_PREVIOUS			global.__world_mouse_yprevious
-#macro MOUSE_X					global.__world_mouse_x
-#macro MOUSE_Y					global.__world_mouse_y
+#macro MOUSE_X					mouse_x
+#macro MOUSE_Y					mouse_y
 #macro MOUSE_DELTA_X			global.__world_mouse_xmove
 #macro MOUSE_DELTA_Y			global.__world_mouse_ymove
 #macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
 
-#macro CTL_MOUSE_X_PREVIOUS		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
-#macro CTL_MOUSE_Y_PREVIOUS		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
-#macro CTL_MOUSE_X				(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_X		  : MOUSE_X)
-#macro CTL_MOUSE_Y				(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_Y		  : MOUSE_Y)
-#macro CTL_MOUSE_DELTA_X		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_DELTA_X	  : MOUSE_DELTA_X)
-#macro CTL_MOUSE_DELTA_Y		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_DELTA_Y	  : MOUSE_DELTA_Y)
-#macro CTL_MOUSE_HAS_MOVED		(vsget(self, "draw_on_gui", false) ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
+#macro CTL_MOUSE_X_PREVIOUS		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
+#macro CTL_MOUSE_Y_PREVIOUS		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
+#macro CTL_MOUSE_X				((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_X			 : MOUSE_X)
+#macro CTL_MOUSE_Y				((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_Y			 : MOUSE_Y)
+#macro CTL_MOUSE_DELTA_X		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_DELTA_X	 : MOUSE_DELTA_X)
+#macro CTL_MOUSE_DELTA_Y		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_DELTA_Y	 : MOUSE_DELTA_Y)
+#macro CTL_MOUSE_HAS_MOVED		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
 
-MOUSE_X		= mouse_x;
-MOUSE_Y		= mouse_y;
 GUI_MOUSE_X = device_mouse_x_to_gui(0);
 GUI_MOUSE_Y = device_mouse_y_to_gui(0);
+MOUSE_X_PREVIOUS = mouse_x;
+MOUSE_Y_PREVIOUS = mouse_y
 
-#macro WINDOW_SIZE_X_PREVIOUS	global.__window_size_xprevious
-#macro WINDOW_SIZE_Y_PREVIOUS	global.__window_size_yprevious
 #macro WINDOW_SIZE_X			global.__window_size_x
 #macro WINDOW_SIZE_Y			global.__window_size_y
 #macro WINDOW_SIZE_DELTA_X		global.__window_size_xmove
 #macro WINDOW_SIZE_DELTA_Y		global.__window_size_ymove
-
+#macro WINDOW_SIZE_X_PREVIOUS	global.__window_size_xprevious
+#macro WINDOW_SIZE_Y_PREVIOUS	global.__window_size_yprevious
 #macro WINDOW_SIZE_HAS_CHANGED	global.__window_size_has_changed
 
-WINDOW_SIZE_X = window_get_width();
-WINDOW_SIZE_Y = window_get_height();
+WINDOW_SIZE_X			= window_get_width();
+WINDOW_SIZE_Y			= window_get_height();
+WINDOW_SIZE_DELTA_X		= 0;
+WINDOW_SIZE_DELTA_Y		= 0;
+WINDOW_SIZE_X_PREVIOUS	= WINDOW_SIZE_X;
+WINDOW_SIZE_Y_PREVIOUS	= WINDOW_SIZE_Y;
+WINDOW_SIZE_HAS_CHANGED	= false;
 
 #macro DELTA_TIME_SECS			global.__delta_time_secs
 DELTA_TIME_SECS = 0;

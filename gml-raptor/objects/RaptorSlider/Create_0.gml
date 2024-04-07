@@ -30,12 +30,11 @@ var h = (startup_height >= 0 ? startup_height : sprite_height);
 sprite_index = if_null(rail_sprite, sprite_index);
 scale_sprite_to(w, h);
 
+__text_dims = scribble_measure_text(string(max_value));
 if (orientation_horizontal)
 	text_yoffset += (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
-else {
-	var dims = scribble_measure_text(string(max_value));
-	text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : -dims.x);
-}
+else 
+	text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : -__text_dims.x);
 
 event_inherited();
 
@@ -50,6 +49,11 @@ __initial_value_set		= false;
 __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
 
+xcheck					= CTL_MOUSE_X;
+ycheck					= CTL_MOUSE_Y;
+__is_topmost			= false;
+__over_before			= false;
+
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	integrate_skin_data(_skindata);
@@ -57,18 +61,26 @@ on_skin_changed = function(_skindata) {
 	update_startup_coordinates();
 }
 
+update_client_area = function() {
+	if (orientation_horizontal)
+		data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height + __text_dims.y);
+	else 
+		data.__raptordata.client_area.set(0, 0, sprite_width + __text_dims.x, sprite_height);
+}
+
 /// @function check_mouse_over_knob()
 check_mouse_over_knob = function() {
 	xcheck = CTL_MOUSE_X;
 	ycheck = CTL_MOUSE_Y;
 
-	var over_before = __mouse_over_knob;
+	__over_before = __mouse_over_knob;
+	__is_topmost = is_topmost(xcheck, ycheck);
 	
-	__mouse_over_knob = __CONTROL_IS_TARGET_MOUSE &&
+	__mouse_over_knob = __is_topmost &&
 		(is_between(xcheck, __knob_x - __knob_dims.origin_x * knob_xscale, __knob_x - __knob_dims.origin_x * knob_xscale + __knob_dims.width  * knob_xscale) &&
 		 is_between(ycheck, __knob_y - __knob_dims.origin_y * knob_yscale, __knob_y - __knob_dims.origin_y * knob_yscale + __knob_dims.height * knob_yscale));
 
-	if (__mouse_over_knob != over_before) {
+	if (__mouse_over_knob != __over_before) {
 		if (__mouse_over_knob) {
 			if (on_mouse_enter_knob != undefined) on_mouse_enter_knob();
 		} else {

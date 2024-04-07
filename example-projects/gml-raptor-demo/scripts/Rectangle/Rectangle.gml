@@ -52,14 +52,11 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 	/// @param {Rectangle} other_rect
 	/// @returns {bool}			true if intersecting
 	static intersects_rect = function(other_rect) {
-		if (is_between(other_rect.left		 , left, left + width - 1) ||
-			is_between(other_rect.get_right() , left, left + width - 1)) {
-			return 
-				(is_between(other_rect.top		  , top , top + height - 1) ||
-				 is_between(other_rect.get_bottom(), top , top + height - 1));
-
-		}
-		return false;
+		return rectangle_in_rectangle(
+			left, top, left + width - 1, top + height - 1,
+			other_rect.left, other_rect.top, 
+			other_rect.left + other_rect.width - 1, 
+			other_rect.top + other_rect.height - 1) > 0;
 	}
 	
 	/// @function				intersects_point(xp, yp)	
@@ -68,7 +65,7 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 	/// @param {real} yp
 	/// @returns {bool}			true if intersecting
 	static intersects_point = function(xp, yp) {
-		return is_between(xp, left, left + width - 1) && is_between(yp, top, top + height - 1);
+		return point_in_rectangle(xp, yp, left, top, left + width - 1, top + height - 1);
 	}
 	
 	toString = function() {

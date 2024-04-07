@@ -25,6 +25,8 @@ trampoline_done			= false;
 
 first_step				= true;
 
+// For the expensive cache, fake the GAMEFRAME content
+__FAKE_GAMECONTROLLER;
 // Inherit the parent event
 event_inherited();
 

@@ -60,7 +60,7 @@ function percent_mult(of, total) {
 #macro __OBJECT_HAS_NO_PARENT	-100
 #macro __OBJECT_DOES_NOT_EXIST	-1
 function is_child_of(child, parent) {
-	var to_find;
+	var to_find, to_find_parent;
 	if (instance_exists(child)) {
 		to_find = child.object_index;
 		if (IS_HTML || !instance_exists(parent)) {
@@ -78,7 +78,11 @@ function is_child_of(child, parent) {
 	
 	try {
 		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST && !object_is_ancestor(to_find.object_index, parent)) {
-			to_find = instance_exists(to_find.object_index) ? object_get_parent(to_find) : object_get_parent(to_find.object_index);
+			to_find_parent = object_get_parent(to_find.object_index);
+			if (to_find == to_find_parent)
+				return false;
+			else 
+				to_find = to_find_parent;
 		}
 	} catch (_) {
 		return false;

@@ -14,9 +14,9 @@ __set_await_click = function(_await) {
 
 /// @function check_for_hotkey(_keystring)
 check_for_hotkey = function(_keystring) {
-	if (!is_null(hotkey_left_click) && hotkey_left_click == _keystring) perform_left_click();
-	else if (!is_null(hotkey_right_click) && hotkey_right_click == _keystring) perform_right_click();
-	else if (!is_null(hotkey_middle_click) && hotkey_middle_click == _keystring) perform_middle_click();
+	if (hotkey_left_click == _keystring) perform_left_click();
+	else if (hotkey_right_click == _keystring) perform_right_click();
+	else if (hotkey_middle_click == _keystring) perform_middle_click();
 }
 
 /// @function perform_left_click()

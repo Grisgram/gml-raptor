@@ -25,13 +25,17 @@ function GuiMouseTranslator() constructor {
 	gui_last_middle_is_down = false;
 	gui_last_right_is_down = false;
 
+	last_frame_checked = -1;
+
 	/// @function					update_gui_mouse_over()
 	/// @description				check if mouse is over the control and perform enter/leave events accordingly
 	static update_gui_mouse_over = function() {
 		
+		if (last_frame_checked == GAMEFRAME) return;
+		last_frame_checked = GAMEFRAME;
+		
 		with (other) {
-			if (!visible || (layer_exists(layer) && !layer_get_visible(layer)))
-				return;
+			if (__LAYER_OR_OBJECT_HIDDEN) return;
 				
 			other.event_redirection_active = true;
 			
@@ -65,8 +69,11 @@ function GuiMouseTranslator() constructor {
 	/// @description				check mouse button states and perform press/release events accordingly
 	static check_gui_mouse_clicks = function() {
 
+		if (last_frame_checked == GAMEFRAME) return;
+		last_frame_checked = GAMEFRAME;
+
 		with (other) {
-			if (!visible || (layer_exists(layer) && !layer_get_visible(layer))) return;
+			if (__LAYER_OR_OBJECT_HIDDEN) return;
 			
 			other.event_redirection_active = true;
 			

@@ -8,13 +8,12 @@
 /// @description	Get a Coord2 containing the width and height the text needs,
 ///					if rendered with the specified _font (or the scribble_default_font if omitted)
 function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) {
-	var scrib = scribble(_string, $"measure{SUID}")
+	var scrib = scribble(_string)
 			.starting_format(_font == undefined ? scribble_font_get_default() : _font, c_white);
 			
 	_coord2 ??= new Coord2();
 	
-	var bb = scrib.get_bbox();
-	_coord2.set(bb.width, bb.height);
+	_coord2.set(scrib.get_width(), scrib.get_height());
 	
 	return _coord2;
 }

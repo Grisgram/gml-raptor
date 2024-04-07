@@ -256,8 +256,10 @@ function __play_music_private(mus, gain, fade_in_time_ms, loop, pitch, offset, l
 /// @function		stop_music(fade_out_time_ms = 1000)
 /// @description	Stops the currently playing music
 function stop_music(fade_out_time_ms = AUDIO_MUSIC_DEFAULT_FADE_OUT_MS) {
-	dlog($"Stopping music audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.music_asset ?? -1)}' in {fade_out_time_ms}ms");
-	__ACTIVE_AUDIO_SESSION.stop_active_music(fade_out_time_ms);
+	if (__ACTIVE_AUDIO_SESSION.music_asset != undefined) {
+		dlog($"Stopping music audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.music_asset ?? -1)}' in {fade_out_time_ms}ms");
+		__ACTIVE_AUDIO_SESSION.stop_active_music(fade_out_time_ms);
+	}
 
 }
 
@@ -339,6 +341,8 @@ function __play_ambience_private(amb, gain, fade_in_time_ms, loop, pitch, offset
 /// @function		stop_ambience(fade_out_time_ms = 1000)
 /// @description	Stops the currently playing ambience sounds
 function stop_ambience(fade_out_time_ms = AUDIO_AMBIENCE_DEFAULT_FADE_OUT_MS) {
-	dlog($"Stopping ambience audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.ambience_asset ?? -1)}' in {fade_out_time_ms}ms");
-	__ACTIVE_AUDIO_SESSION.stop_active_ambience(fade_out_time_ms);
+	if (__ACTIVE_AUDIO_SESSION.ambience_asset != undefined) {
+		dlog($"Stopping ambience audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.ambience_asset ?? -1)}' in {fade_out_time_ms}ms");
+		__ACTIVE_AUDIO_SESSION.stop_active_ambience(fade_out_time_ms);
+	}
 }
