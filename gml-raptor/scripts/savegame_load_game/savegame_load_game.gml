@@ -93,7 +93,16 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		
 		return true;
 	} else {
-		return __continue_load_savegame(savegame, refstack, engine, data_only, loaded_version);
+		ilog($"Continuing game load in current room...");
+		TRY
+			__continue_load_savegame(savegame, refstack, engine, data_only, loaded_version);
+			return true;
+		CATCH
+			if (onGameLoadFailed != undefined)
+				onGameLoadFailed(__exception);
+			return false;
+		ENDTRY
+
 	}
 }
 

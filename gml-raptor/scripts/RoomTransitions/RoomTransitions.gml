@@ -28,8 +28,10 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	fx				= undefined;
 	frame_counter	= 0;
 
-	draw_width		= CAM_WIDTH ; //GUI_RUNTIME_CONFIG.canvas_width;
-	draw_height		= CAM_HEIGHT; //GUI_RUNTIME_CONFIG.canvas_height;
+	draw_x			= 0;
+	draw_y			= 0;
+	draw_width		= CAM_WIDTH ;
+	draw_height		= CAM_HEIGHT;
 
 	static __create_fx_layer = function() {
 		fx_layer = (need_fx_layer ? layer_create(ROOMCONTROLLER.depth + 1) : undefined);
@@ -143,9 +145,18 @@ function BlendTransition(_target_room, _blend_frames) : __RoomTransition(_target
 	blend_frames = (_blend_frames > 0 ? _blend_frames : 1);
 	running		 = 1;
 	
+	first_in	 = true;
+	
 	in_draw_gui = function() {
+		if (first_in) {
+			first_in = false;
+			// we need to draw to the NEW camera!
+			draw_width		= CAM_WIDTH ;
+			draw_height		= CAM_HEIGHT;
+		}
+		
 		running = clamp(1 - (frame_counter / blend_frames), 0, 1);
-		canvas.DrawStretchedExt(0, 0, draw_width, draw_height, c_white, running);
+		canvas.DrawStretchedExt(draw_x, draw_y, draw_width, draw_height, c_white, running);
 		if (frame_counter >= blend_frames) {
 			canvas.Free();
 			transit_finished();
@@ -181,6 +192,9 @@ function SlideTransition(_target_room, _slide_frames, _animcurve) : __RoomTransi
 		
 		if (first_in) {
 			first_in = false;
+			// we need to draw to the NEW camera!
+			draw_width		= CAM_WIDTH ;
+			draw_height		= CAM_HEIGHT;
 			// 1 frame delay to have gms set up all surfaces in the new room
 			// just draw the screenshot from previous room for 1 more frame
 			source_canvas.DrawStretchedExt(0, 0, draw_width, draw_height, c_white, 1);
