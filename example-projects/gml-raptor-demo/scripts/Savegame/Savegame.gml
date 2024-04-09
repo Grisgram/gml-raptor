@@ -181,6 +181,13 @@ function savegame_get_id_array_of(instance_array) {
 }
 #endregion
 
+/// @function savegame_exists(_filename)
+/// @description	Checks, whether the specified savegame exists. Takes the
+///					SAVEGAME_FOLDER configuration path into account
+function savegame_exists(_filename) {
+	return file_exists(SAVEGAME_FOLDER + _filename);
+}
+
 function __ensure_savegame_folder_name() {
 	var adder = "";
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_ends_with(SAVEGAME_FOLDER, "/")) adder = "/";

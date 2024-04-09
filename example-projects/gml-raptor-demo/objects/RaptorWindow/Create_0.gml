@@ -507,6 +507,7 @@ __draw_self = function() {
 __draw_instance = function(_force = false) {
 	
 	update_client_area();
+	if (!visible) return;
 
 	if (sprite_index != -1) {
 		image_blend = animated_draw_color;

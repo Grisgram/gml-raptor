@@ -408,6 +408,7 @@ __draw_self = function() {
 /// @function __draw_instance(_force = false)
 __draw_instance = function(_force = false) {
 	//update_client_area();
+	if (!visible) return;
 	
 	if (sprite_index != -1) {
 		if (is_enabled) {

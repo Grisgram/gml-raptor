@@ -1,0 +1,194 @@
+<mxfile host="app.diagrams.net" modified="2024-04-09T11:36:33.469Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="-AimEOFY-UCP-Z1ig48-" version="24.0.3" type="device">
+  <diagram name="Seite-1" id="eRcsRXpzP9J-ApAt09nJ">
+    <mxGraphModel dx="989" dy="494" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-1" value="&lt;font color=&quot;#3399ff&quot; style=&quot;font-size: 18px;&quot; face=&quot;Lucida Console&quot;&gt;Workflow: SAVE GAME&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="160" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6CPrLcwJsAW21I8SbfZ6-2" target="6CPrLcwJsAW21I8SbfZ6-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-2" value="savegame_save_game" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-3" value="&lt;b&gt;SAVEGAME_SAVE_IN_PROGRESS&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;=true&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-6" value="GAMECONTROLLER.onGameSaving()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="290" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-7" value="ROOMCONTROLLER.onGameSaving()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="310" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-8" value="foreach (Saveable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="60" y="410" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-9" value="onGameSaving()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="70" y="470" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-10" value="Write object to json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="70" y="490" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6CPrLcwJsAW21I8SbfZ6-11" target="6CPrLcwJsAW21I8SbfZ6-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="520" />
+              <mxPoint x="50" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-11" value="Write data variable to json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="70" y="510" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-13" value="Write GLOBALDATA to json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="340" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-14" value="Write custom STRUCTS to json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-15" value="foreach (Saveable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="60" y="609" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6CPrLcwJsAW21I8SbfZ6-16" target="6CPrLcwJsAW21I8SbfZ6-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="659" />
+              <mxPoint x="50" y="629" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-16" value="onGameSaved()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="70" y="649" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-19" value="&lt;b&gt;SAVEGAME_SAVE_IN_PROGRESS&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;=false&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="60" y="530" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-20" value="GAMECONTROLLER.onGameSaved()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="699" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-21" value="ROOMCONTROLLER.onGameSaved()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="60" y="679" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-25" value="&lt;font color=&quot;#3399ff&quot; style=&quot;font-size: 18px;&quot; face=&quot;Lucida Console&quot;&gt;Workflow: LOAD GAME&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="440" y="160" width="230" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="6CPrLcwJsAW21I8SbfZ6-27" target="6CPrLcwJsAW21I8SbfZ6-28" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-27" value="savegame_load_game" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="220" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-28" value="&lt;b&gt;SAVEGAME_LOAD_IN_PROGRESS&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;=true&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="480" y="270" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-29" value="GAMECONTROLLER.onGameLoading()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="480" y="290" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-30" value="ROOMCONTROLLER.onGameLoading()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="480" y="310" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-31" value="foreach (instance_in_json)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="480.02" y="410" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-32" value="onGameLoading()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="490.02" y="510" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-33" value="Read object properties from json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="490.02" y="470" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="6CPrLcwJsAW21I8SbfZ6-32" target="6CPrLcwJsAW21I8SbfZ6-31" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470.02" y="520" />
+              <mxPoint x="470.02" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-35" value="Read data variable from json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="490.02" y="490" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-36" value="Read GLOBALDATA from json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="340" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-37" value="Read custom STRUCTS from json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="380" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-38" value="foreach (instance_in_json)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="480" y="609" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="6CPrLcwJsAW21I8SbfZ6-40" target="6CPrLcwJsAW21I8SbfZ6-38" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="679" />
+              <mxPoint x="470" y="629" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-40" value="&lt;b&gt;User Event 15 (Loaded)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="490" y="669" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-41" value="&lt;b&gt;SAVEGAME_LOAD_IN_PROGRESS&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;=false&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="480" y="530" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-42" value="GAMECONTROLLER.onGameLoaded()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="460" y="723" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-43" value="ROOMCONTROLLER.onGameLoaded()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="460" y="703" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-44" value="&lt;b&gt;global variable / macro&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-45" value="optional callback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-46" value="non-instance-data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-47" value="instance-data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-48" value="&lt;font color=&quot;#3399ff&quot; style=&quot;font-size: 18px;&quot; face=&quot;Lucida Console&quot;&gt;Colors:&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="30" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-49" value="Recreate Instance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="490.02" y="450" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-50" value="&lt;b&gt;User Event 14 (Saving)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="70" y="450" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-52" value="onGameLoaded()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="490" y="649" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-53" value="Write RACE data to json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="360" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-54" value="Read RACE data from json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="360" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-55" value="Mark/Convert object references in json refstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="560" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-56" value="Mark/Convert struct references in json refstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="580" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-57" value="Restore object references from json refstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="560" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="6CPrLcwJsAW21I8SbfZ6-58" value="Restore struct references from json refstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="580" width="260" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

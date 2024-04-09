@@ -93,11 +93,23 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		
 		return true;
 	} else {
-		return __continue_load_savegame(savegame, refstack, engine, data_only, loaded_version);
+		ilog($"Continuing game load in current room...");
+		TRY
+			__continue_load_savegame(savegame, refstack, engine, data_only, loaded_version);
+			return true;
+		CATCH
+			if (onGameLoadFailed != undefined)
+				onGameLoadFailed(__exception);
+			return false;
+		ENDTRY
+
 	}
 }
 
 function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_version) {
+	if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADING_FUNCTION();
+	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONLOADING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONLOADING_FUNCTION();
+
 	// load global data
 	GLOBALDATA = refstack.recover(__SAVEGAME_GLOBAL_DATA_HEADER);
 	
@@ -211,6 +223,9 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 			}
 		}
 	}
+		
+	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
+	if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
 	
 	ilog($"[----- LOADING GAME FINISHED -----]");
 

@@ -73,8 +73,8 @@ CAM_MAX_Y					= 0;
 // View helpers - viewport
 #macro VIEW_WIDTH					view_wport[VIEWPORT_INDEX]
 #macro VIEW_HEIGHT					view_hport[VIEWPORT_INDEX]
-#macro VIEW_TOP_EDGE				 CAM_TOP_EDGE
-#macro VIEW_LEFT_EDGE				 CAM_LEFT_EDGE
+#macro VIEW_TOP_EDGE				view_yport[VIEWPORT_INDEX]
+#macro VIEW_LEFT_EDGE				view_xport[VIEWPORT_INDEX]
 #macro VIEW_RIGHT_EDGE				(VIEW_LEFT_EDGE + UI_VIEW_WIDTH)
 #macro VIEW_BOTTOM_EDGE				(VIEW_TOP_EDGE  + UI_VIEW_HEIGHT)
 #macro VIEW_CENTER_X				(VIEW_LEFT_EDGE + VIEW_WIDTH / 2)

@@ -20,6 +20,9 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	
 	SAVEGAME_SAVE_IN_PROGRESS = true;
+	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
+	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
+	
 	var savegame = {};
 	
 	// First things first: The Engine data
@@ -96,7 +99,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	var struct_to_save = __savegame_remove_pointers(savegame, refstack);
 	struct_to_save[$ __SAVEGAME_REFSTACK_HEADER] = refstack;
 	
-	file_write_struct(filename, struct_to_save, cryptkey);		
+	var rv = file_write_struct(filename, struct_to_save, cryptkey);		
 	SAVEGAME_SAVE_IN_PROGRESS = false;
 
 	// invoke the post event
@@ -107,6 +110,11 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 		}
 	}
 	
+	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION();
+	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION();
+	
 	ilog($"[----- SAVING GAME FINISHED -----]");
+
+	return rv;
 
 }
