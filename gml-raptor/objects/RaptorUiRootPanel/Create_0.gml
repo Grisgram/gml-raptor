@@ -21,6 +21,8 @@ __draw_instance = function(_force = false) {
 	if (__first_draw || _force)
 		control_tree.layout();
 
+	if (!visible) return;
+
 	control_tree.draw_children();
 	__first_draw = false;
 	__force_redraw = false;

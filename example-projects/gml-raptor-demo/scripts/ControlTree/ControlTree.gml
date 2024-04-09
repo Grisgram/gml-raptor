@@ -482,7 +482,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
-			child.instance.__draw_instance();
+			if (child.instance.visible) child.instance.__draw_instance();
 			child.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
 		}
 	}

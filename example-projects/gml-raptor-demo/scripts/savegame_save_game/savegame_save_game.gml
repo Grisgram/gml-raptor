@@ -20,6 +20,9 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	
 	SAVEGAME_SAVE_IN_PROGRESS = true;
+	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
+	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
+	
 	var savegame = {};
 	
 	// First things first: The Engine data
@@ -106,6 +109,9 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 				__SAVEGAME_ONSAVED_FUNCTION();
 		}
 	}
+	
+	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION();
+	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION();
 	
 	ilog($"[----- SAVING GAME FINISHED -----]");
 

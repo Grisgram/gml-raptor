@@ -32,6 +32,8 @@ __draw_instance = function(_force = false) {
 		control_tree.layout();
 	}
 
+	if (!visible) return;
+
 	__original_draw_instance(_force);
 	control_tree.draw_children();
 	
