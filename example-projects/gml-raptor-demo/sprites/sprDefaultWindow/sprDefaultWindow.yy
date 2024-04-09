@@ -111,7 +111,10 @@
   },
   "swatchColours":null,
   "swfPrecision":2.525,
-  "textureGroupId":null,
+  "textureGroupId":{
+    "name":"ui",
+    "path":"texturegroups/ui",
+  },
   "type":0,
   "VTile":false,
   "width":64,
