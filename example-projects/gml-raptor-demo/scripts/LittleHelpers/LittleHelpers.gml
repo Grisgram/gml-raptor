@@ -304,3 +304,40 @@ function with_tag(_tag, _func, _data = undefined) {
 		}
 	}
 }
+
+/// @function method_exists(_instance, _method)
+/// @description Checks, whether a method with the specified name exists in _instance
+/// @returns {bool}	True, if a method with that name exists, otherwise false
+function method_exists(_instance, _method) {
+	return is_callable(vsget(_instance, _method));
+}
+
+/// @function invoke_if_exists(_instance, _method, ...)
+/// @description Invoke the method, if it exists, with all arguments specified after the
+///				 _instance and _method arguments.
+///				 NOTE: GameMaker supports a maximum of 16 arguments, 2 are already used for
+///				 _instance and _method, so this leaves a maximum of 14 arguments for your call.
+/// @returns {any} The return value of the method or undefined, if the method does not exist
+function invoke_if_exists(_instance, _method) {
+	var meth = vsget(_instance, _method);
+	if (is_callable(meth)) {
+		switch (argument_count) {
+			case  2: return meth(); break;
+			case  3: return meth(argument[2]); break;
+			case  4: return meth(argument[2],argument[3]); break;
+			case  5: return meth(argument[2],argument[3],argument[4]); break;
+			case  6: return meth(argument[2],argument[3],argument[4],argument[5]); break;
+			case  7: return meth(argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+			case  8: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+			case  9: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+			case 10: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+			case 11: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+			case 12: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+			case 13: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+			case 14: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+			case 15: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+			case 16: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+		}
+	}
+	return undefined;
+}

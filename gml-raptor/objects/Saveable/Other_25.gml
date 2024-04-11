@@ -6,3 +6,6 @@
 event_inherited();
 is_enabled = __RAPTORDATA.is_enabled;
 skinnable  = __RAPTORDATA.skinnable;
+
+if (vsget(__RAPTORDATA, __POOL_SOURCE_NAME))	self[$ __POOL_SOURCE_NAME]	= __RAPTORDATA[$ __POOL_SOURCE_NAME];
+if (vsget(__RAPTORDATA, __INTERFACES_NAME))		self[$ __INTERFACES_NAME]	= __RAPTORDATA[$ __INTERFACES_NAME];
