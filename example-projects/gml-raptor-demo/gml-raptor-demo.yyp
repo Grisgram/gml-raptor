@@ -573,6 +573,7 @@
     {"id":{"name":"sprDefaultFlag","path":"sprites/sprDefaultFlag/sprDefaultFlag.yy",},},
     {"id":{"name":"sprDefaultInputBox","path":"sprites/sprDefaultInputBox/sprDefaultInputBox.yy",},},
     {"id":{"name":"sprDefaultLabel","path":"sprites/sprDefaultLabel/sprDefaultLabel.yy",},},
+    {"id":{"name":"sprDefaultListBox","path":"sprites/sprDefaultListBox/sprDefaultListBox.yy",},},
     {"id":{"name":"sprDefaultMouseCursor","path":"sprites/sprDefaultMouseCursor/sprDefaultMouseCursor.yy",},},
     {"id":{"name":"sprDefaultMouseCursorSizing","path":"sprites/sprDefaultMouseCursorSizing/sprDefaultMouseCursorSizing.yy",},},
     {"id":{"name":"sprDefaultRadioButton","path":"sprites/sprDefaultRadioButton/sprDefaultRadioButton.yy",},},

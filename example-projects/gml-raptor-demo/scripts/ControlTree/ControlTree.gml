@@ -182,6 +182,33 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
+	/// @function bind_pull(_my_property, _source_instance, _source_property, _converter = undefined, _on_value_changed = undefined)
+	static bind_pull = function(_my_property, _source_instance, _source_property, 
+						   _converter = undefined, _on_value_changed = undefined) {
+		with(__last_instance.binder) 
+			bind_pull(_my_property, _source_instance, _source_property, _converter, _on_value_changed);
+			
+		return self;
+	}
+
+	/// @function bind_push(_my_property, _target_instance, _target_property, _converter = undefined, _on_value_changed = undefined)
+	static bind_push = function(_my_property, _target_instance, _target_property, 
+						   _converter = undefined, _on_value_changed = undefined) {	
+		with(__last_instance.binder) 
+			bind_push(_my_property, _target_instance, _target_property, _converter, _on_value_changed);
+			
+		return self;
+	}
+	
+	/// @function bind_watcher(_my_property, _on_value_changed)
+	///	@description The callback receives two arguments: (new_value, old_value)
+	static bind_watcher = function(_my_property, _on_value_changed) {
+		with(__last_instance.binder) 
+			bind_watcher(_my_property, _on_value_changed);
+			
+		return self;
+	}
+	
 	/// @function set_position(_xpos, _ypos, _relative = false)
 	/// @description Sets an absolute position in the client area of the parent control,
 	///              unless you set _relative to true, then the values are just added to the
@@ -307,7 +334,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static step_out = function() {
 		return parent_tree??self;
 	}
-		
+	
 	/// @function build()
 	static build = function() {
 		try {
