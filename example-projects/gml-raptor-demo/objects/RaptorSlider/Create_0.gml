@@ -43,6 +43,11 @@ value_percent			= 0;
 __knob_dims				= new SpriteDim(knob_sprite);
 __knob_x				= 0;
 __knob_y				= 0;
+__knob_min_x			= 0;
+__knob_max_x			= 0;
+__knob_min_y			= 0;
+__knob_max_y			= 0;
+__knob_need_calc		= true;
 __mouse_over_knob		= false;
 __knob_grabbed			= false;
 __initial_value_set		= false;
@@ -99,9 +104,12 @@ set_value = function(new_value) {
 	var old_val = value;
 	value = clamp(new_value, min_value, max_value);
 	calculate_value_percent();
-	if (value != old_val) {
+	__knob_need_calc = (value != old_val);
+	if (__knob_need_calc) {
 		if (auto_text == slider_autotext.text_is_value)		text = string(round(value)); else
-		if (auto_text == slider_autotext.text_is_percent)	text = string_format(value_percent * 100,3,0) + "%";
+		if (auto_text == slider_autotext.text_is_percent)	text = string_format(value_percent * 100,3,0) + "%"; else
+		if (auto_text == slider_autotext.none)				text = "";
+		
 		if (__initial_value_set && on_value_changed != undefined) on_value_changed(value, old_val);
 		__initial_value_set = true; // this skips the FIRST value assignment on creation
 	}
@@ -117,18 +125,27 @@ __set_draw_colors = function() {
 /// @function draw_knob()
 draw_knob = function() {
 	__set_draw_colors();
-	if (orientation_horizontal) {
-		__tilesize = (sprite_width - __knob_dims.width) / (max_value - min_value + 1);
-		__knob_x = x - sprite_xoffset + nine_slice_data.left + (value - min_value + 1) * __tilesize;
-		__knob_y = y - sprite_yoffset + nine_slice_data.top  + nine_slice_data.height / 2;
-	} else {
-		__tilesize = (sprite_height - __knob_dims.height) / (max_value - min_value + 1);
-		__knob_x = x - sprite_xoffset + nine_slice_data.left   + nine_slice_data.width / 2;
-		__knob_y = y - sprite_yoffset + nine_slice_data.bottom - (value - min_value + 1) * __tilesize;
+	if (__knob_need_calc) {
+		__knob_need_calc = false;
+		if (orientation_horizontal) {
+			__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
+			__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width;
+			__tilesize = 1 + ceil((nine_slice_data.width) / (max_value - min_value + 1));
+
+			__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
+			__knob_max_y = __knob_min_y;
+			__knob_x = ceil(__knob_min_x + (value - min_value) * __tilesize);
+			__knob_y = __knob_min_y;
+		} else {
+			__tilesize = (nine_slice_data.height) / (max_value - min_value + 1);
+			__knob_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
+			__knob_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.bottom - (value - min_value) * __tilesize;
+		}
 	}
 	draw_sprite_ext(
 		knob_sprite, 0, 
-		__knob_x, __knob_y, 
+		clamp(__knob_x, __knob_min_x, __knob_max_x), 
+		clamp(__knob_y, __knob_min_y, __knob_max_y),
 		knob_xscale, knob_yscale, 0,
 		(__mouse_over_knob || __knob_grabbed) ? knob_color_mouse_over : draw_color, 1);
 }

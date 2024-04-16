@@ -47,7 +47,8 @@
     {"name":"inst_6633FE9C","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_5EF814D0","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_746B878","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"inst_232DEA9C","path":"rooms/rmMain/rmMain.yy",},
+    {"name":"inst_67CC5227","path":"rooms/rmMain/rmMain.yy",},
+    {"name":"inst_654C74F2","path":"rooms/rmMain/rmMain.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -64,11 +65,13 @@
         {"$GMREffectLayer":"","%Name":"popup_effects","depth":400,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"popup_effects","properties":[],"resourceType":"GMREffectLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":false,},
       ],"name":"popups","properties":[],"resourceType":"GMRLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":false,},
     {"$GMRInstanceLayer":"","%Name":"ui_instances","depth":500,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
-        {"$GMRInstance":"","%Name":"inst_232DEA9C","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_232DEA9C","objectId":{"name":"Label","path":"objects/Label/Label.yy",},"properties":[
-            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"this is a long demo text",},
-            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
-            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorLabel","path":"objects/RaptorLabel/RaptorLabel.yy",},"propertyId":{"name":"remove_sprite_at_runtime","path":"objects/RaptorLabel/RaptorLabel.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
-          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.5,"scaleY":1.0,"x":160.0,"y":448.0,},
+        {"$GMRInstance":"","%Name":"inst_67CC5227","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_67CC5227","objectId":{"name":"RaptorScrollbar","path":"objects/RaptorScrollbar/RaptorScrollbar.yy",},"properties":[
+            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"max_value","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"3",},
+            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"auto_text","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"slider_autotext.none",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.3333333,"scaleY":1.0,"x":128.0,"y":464.0,},
+        {"$GMRInstance":"","%Name":"inst_654C74F2","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_654C74F2","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"properties":[
+            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"max_value","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"3",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":3.3333328,"scaleY":1.0,"x":128.0,"y":512.0,},
       ],"layers":[],"name":"ui_instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Smoke","depth":600,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[],"layers":[],"name":"Smoke","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":700,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
