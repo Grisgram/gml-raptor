@@ -130,24 +130,26 @@ draw_knob = function() {
 		if (orientation_horizontal) {
 			__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
 			__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width;
-			__tilesize = 1 + ceil((nine_slice_data.width) / (max_value - min_value + 1));
+			__tilesize = (nine_slice_data.width) / (max_value - min_value);
 
 			__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
 			__knob_max_y = __knob_min_y;
-			__knob_x = ceil(__knob_min_x + (value - min_value) * __tilesize);
+			__knob_x = floor(__knob_min_x + (value - min_value) * __tilesize - __knob_dims.center_x);
 			__knob_y = __knob_min_y;
 		} else {
 			__tilesize = (nine_slice_data.height) / (max_value - min_value + 1);
 			__knob_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
 			__knob_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.bottom - (value - min_value) * __tilesize;
 		}
+		__knob_x = clamp(__knob_x, __knob_min_x, __knob_max_x);
+		__knob_y = clamp(__knob_y, __knob_min_y, __knob_max_y);
 	}
 	draw_sprite_ext(
 		knob_sprite, 0, 
-		clamp(__knob_x, __knob_min_x, __knob_max_x), 
-		clamp(__knob_y, __knob_min_y, __knob_max_y),
+		__knob_x, 
+		__knob_y,
 		knob_xscale, knob_yscale, 0,
-		(__mouse_over_knob || __knob_grabbed) ? knob_color_mouse_over : draw_color, 1);
+		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 1);
 }
 
 // first, clamp the value in case the dev made a config error (like leaving value at 0 while setting min_value to 1)
