@@ -27,7 +27,9 @@ enum slider_text {
 
 var w = (startup_width  >= 0 ? startup_width  : sprite_width);
 var h = (startup_height >= 0 ? startup_height : sprite_height);
-sprite_index = if_null(rail_sprite, sprite_index);
+sprite_index = orientation_horizontal ?
+	if_null(rail_sprite_horizontal, sprite_index) :
+	if_null(rail_sprite_vertical, sprite_index);
 scale_sprite_to(w, h);
 
 __text_dims = scribble_measure_text(string(max_value));
@@ -37,6 +39,14 @@ else
 	text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : -__text_dims.x);
 
 event_inherited();
+
+override(RaptorSlider, "a", function() {
+	ilog($"--- slider a, now calling base");
+	_baseControl_a();
+});
+a();
+_baseControl_a();
+
 
 value_percent			= 0;
 
@@ -131,16 +141,21 @@ __draw_instance = function() {
 		if (orientation_horizontal) {
 			__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
 			__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width;
-			__tilesize = (nine_slice_data.width) / (max_value - min_value);
+			__tilesize = (nine_slice_data.width - __knob_dims.width) / (max_value - min_value);
 
 			__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
 			__knob_max_y = __knob_min_y;
-			__knob_x = floor(__knob_min_x + (value - min_value) * __tilesize - __knob_dims.center_x);
+			__knob_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
 			__knob_y = __knob_min_y;
 		} else {
-			__tilesize = (nine_slice_data.height) / (max_value - min_value + 1);
-			__knob_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
-			__knob_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.bottom - (value - min_value) * __tilesize;
+			__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.top;
+			__knob_max_y = __knob_min_y + nine_slice_data.height - __knob_dims.height;
+			__tilesize = (nine_slice_data.height - __knob_dims.height) / (max_value - min_value);
+			
+			__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.get_center_x() - __knob_dims.center_x;
+			__knob_max_x = __knob_min_x;
+			__knob_x = __knob_min_x;
+			__knob_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
 		}
 		__knob_x = clamp(__knob_x, __knob_min_x, __knob_max_x);
 		__knob_y = clamp(__knob_y, __knob_min_y, __knob_max_y);

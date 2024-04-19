@@ -1,17 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"Slider",
+  "%Name":"Scrollbar",
   "eventList":[],
   "managed":true,
-  "name":"Slider",
+  "name":"Scrollbar",
   "overriddenProperties":[],
   "parent":{
     "name":"_gml_raptor_ui_",
     "path":"folders/_gml_raptor_ui_.yy",
   },
   "parentObjectId":{
-    "name":"RaptorSlider",
-    "path":"objects/RaptorSlider/RaptorSlider.yy",
+    "name":"RaptorScrollbar",
+    "path":"objects/RaptorScrollbar/RaptorScrollbar.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultSliderRailH",
-    "path":"sprites/sprDefaultSliderRailH/sprDefaultSliderRailH.yy",
+    "name":"sprDefaultScrollbarRailH",
+    "path":"sprites/sprDefaultScrollbarRailH/sprDefaultScrollbarRailH.yy",
   },
   "spriteMaskId":null,
   "visible":true,

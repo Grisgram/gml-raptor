@@ -9,6 +9,10 @@
 #macro __CONTROL_DRAWS_SELF (control_tree_layout == undefined || \
 							(control_tree != undefined && control_tree.parent_tree == undefined))
 
+declare(_baseControl, "a", function() {
+	ilog($"--- basecontrol a");
+});
+
 event_inherited();
 // undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
 vsgetx(self, "__raptor_debug_frame_color", c_green);

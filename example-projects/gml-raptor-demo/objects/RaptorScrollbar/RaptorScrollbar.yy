@@ -5,12 +5,13 @@
   "managed":true,
   "name":"RaptorScrollbar",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"rail_sprite","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultScrollbarRail",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"rail_sprite_horizontal","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultScrollbarRailH",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"knob_sprite","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultScrollbarKnob",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"auto_text","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"slider_autotext.text_is_value",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"24",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"24",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"rail_sprite_vertical","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultScrollbarRailV",},
   ],
   "parent":{
     "name":"controls",
@@ -38,8 +39,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultScrollbarRail",
-    "path":"sprites/sprDefaultScrollbarRail/sprDefaultScrollbarRail.yy",
+    "name":"sprDefaultScrollbarRailH",
+    "path":"sprites/sprDefaultScrollbarRailH/sprDefaultScrollbarRailH.yy",
   },
   "spriteMaskId":null,
   "visible":true,

@@ -28,9 +28,16 @@ function UiSkin(_name = "default") constructor {
 	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans					}
 	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton			}
 	asset_skin[? "Slider"]				= { 
-											sprite_index: sprDefaultSliderRail,
-											rail_sprite: sprDefaultSliderRail,
+											sprite_index: sprDefaultSliderRailH,
+											rail_sprite_horizontal: sprDefaultSliderRailH,
+											rail_sprite_vertical: sprDefaultSliderRailV,
 											knob_sprite: sprDefaultSliderKnob
+										  }
+	asset_skin[? "Scrollbar"]			= { 
+											sprite_index: sprDefaultScrollbarRailH,
+											rail_sprite_horizontal: sprDefaultScrollbarRailH,
+											rail_sprite_vertical: sprDefaultScrollbarRailV,
+											knob_sprite: sprDefaultScrollbarKnob
 										  }
 	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton				}
 	asset_skin[? "Tooltip"]				= { sprite_index: sprDefaultTooltip				}

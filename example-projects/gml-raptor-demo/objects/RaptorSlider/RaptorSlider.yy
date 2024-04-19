@@ -40,9 +40,12 @@
     {"$GMObjectProperty":"","%Name":"on_value_changed","filters":[],"listItems":[],"multiselect":false,"name":"on_value_changed","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_mouse_enter_knob","filters":[],"listItems":[],"multiselect":false,"name":"on_mouse_enter_knob","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_mouse_leave_knob","filters":[],"listItems":[],"multiselect":false,"name":"on_mouse_leave_knob","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
-    {"$GMObjectProperty":"","%Name":"rail_sprite","filters":[
+    {"$GMObjectProperty":"","%Name":"rail_sprite_horizontal","filters":[
         "GMSprite",
-      ],"listItems":[],"multiselect":false,"name":"rail_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderRail","varType":5,},
+      ],"listItems":[],"multiselect":false,"name":"rail_sprite_horizontal","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderRailH","varType":5,},
+    {"$GMObjectProperty":"","%Name":"rail_sprite_vertical","filters":[
+        "GMSprite",
+      ],"listItems":[],"multiselect":false,"name":"rail_sprite_vertical","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderRailV","varType":5,},
     {"$GMObjectProperty":"","%Name":"knob_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"knob_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderKnob","varType":5,},
@@ -66,8 +69,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultSliderRail",
-    "path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",
+    "name":"sprDefaultSliderRailH",
+    "path":"sprites/sprDefaultSliderRailH/sprDefaultSliderRailH.yy",
   },
   "spriteMaskId":null,
   "visible":true,
