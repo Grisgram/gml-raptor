@@ -1,7 +1,7 @@
 /// @description check coordinates (GUI_EVENT_MOUSE)
 event_inherited();
 
-if (!is_enabled || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
+GUI_EVENT_UNTARGETTED;
 
 if (draw_on_gui && CTL_MOUSE_HAS_MOVED)
 	gui_mouse.check_gui_mouse_clicks();

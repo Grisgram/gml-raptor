@@ -17,9 +17,6 @@ get_element = function(_name) {
 	return control_tree.get_element(_name);
 }
 
-if (!variable_instance_exists(self, "__original_draw_instance"))
-	__original_draw_instance = __draw_instance;
-
 __remove_self = function() {
 	if (control_tree.parent_tree != undefined)
 		control_tree.parent_tree.remove_control(self);
@@ -34,7 +31,7 @@ __draw_instance = function(_force = false) {
 
 	if (!visible) return;
 
-	__original_draw_instance(_force);
+	__basecontrol_draw_instance(_force);
 	control_tree.draw_children();
 	
 	__first_draw = false;

@@ -453,3 +453,8 @@ __draw_instance = function(_force = false) {
 		}
 	}
 }
+
+// These pointers hold a "copy" to the original __draw_self/__draw_instance functions, so any
+// object deriving from this can still reach the original draw methods.
+__basecontrol_draw_self		= __draw_self;
+__basecontrol_draw_instance = __draw_instance;

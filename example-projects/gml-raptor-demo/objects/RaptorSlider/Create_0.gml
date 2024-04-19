@@ -122,8 +122,9 @@ __set_draw_colors = function() {
 	}
 }
 
-/// @function draw_knob()
-draw_knob = function() {
+__draw_instance = function() {
+	__basecontrol_draw_instance();
+	
 	__set_draw_colors();
 	if (__knob_need_calc) {
 		__knob_need_calc = false;

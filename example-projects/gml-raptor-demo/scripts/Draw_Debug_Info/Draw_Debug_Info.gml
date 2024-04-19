@@ -12,8 +12,8 @@
 /// @function		drawDebugInfo()
 function drawDebugInfo() {
 	var knobs = "";
-	if (__SLIDER_IN_FOCUS != undefined)
-		knobs=$"tiles: {__SLIDER_IN_FOCUS.__tilesize} {__SLIDER_IN_FOCUS.__knob_x} {__SLIDER_IN_FOCUS.__knob_min_x} {__SLIDER_IN_FOCUS.__knob_max_x}";
+	//if (__SLIDER_IN_FOCUS != undefined)
+	//	knobs=$"tiles: {__SLIDER_IN_FOCUS.__tilesize} {__SLIDER_IN_FOCUS.__knob_x} {__SLIDER_IN_FOCUS.__knob_min_x} {__SLIDER_IN_FOCUS.__knob_max_x}";
 	// This is a demo debug output when you press F12 to print the size of the processing queues of the active RoomController
 	draw_text(16, 160, $"{knobs}\nBindings: {BINDINGS.size()}\nAnimations: {ANIMATIONS.size()}\nStatemachines: {STATEMACHINES.size()}\nMouse:\nRM: {MOUSE_X}/{MOUSE_Y}\nUI: {GUI_MOUSE_X}/{GUI_MOUSE_Y}");
 }
