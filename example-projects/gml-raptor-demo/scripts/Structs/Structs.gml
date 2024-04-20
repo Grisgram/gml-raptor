@@ -61,14 +61,14 @@ function implements(struct, _interface) {
 	return variable_struct_exists(struct, __INTERFACES_NAME) && array_contains(struct[$ __INTERFACES_NAME], sname);
 }
 
-/// @function declare(_object_type, _function_name, _function)
+/// @function declare(_object_type, _function_name, [_function])
 /// @description You must "declare" a function to be able to "override" it later.
 ///				 This keeps track of the inheritance chain, and due to the way, how "events"
 ///				 work in GameMaker, you need to tell the engine, who you are, when you "declare"
-///				 the function, by also supplying your object_type
-///	Example:
-///	declare(_myBaseObject, "my_function", function() {...});
-function declare(_object_type, _function_name, _function) {
+///				 the function, by also supplying your object_type.
+///	Example: 
+///		declare(_myBaseObject, "my_function", function() {...});
+function declare(_object_type, _function_name, _function = undefined) {
 	var key = is_string(_object_type) ? _object_type : object_get_name(_object_type);
 	var str = vsgetx(__FUNCTION_INHERITANCE, _function_name, {});
 	var arr = vsgetx(str, key, []);
@@ -76,7 +76,8 @@ function declare(_object_type, _function_name, _function) {
 		array_push(arr, key);
 		//vlog($"--- Function '{_function_name}' declared from '{key}'");
 	}
-	self[$ _function_name] = method(self, _function);
+	if (_function != undefined)
+		self[$ _function_name] = method(self, _function);
 }
 
 /// @function override(_function_name, _new_function)
