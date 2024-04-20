@@ -148,7 +148,6 @@ function virtual(_object_type, _function_name, _function = undefined) {
 	var arr = vsgetx(str, key, []);
 	if (!array_contains(arr, key)) {
 		array_push(arr, key);
-		//vlog($"--- Function '{_function_name}' declared from '{key}'");
 	}
 	if (_function != undefined)
 		self[$ _function_name] = method(self, _function);

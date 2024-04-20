@@ -121,68 +121,26 @@ __set_draw_colors = function() {
 	}
 }
 
-/// @function __calculate_text_position()
-__calculate_text_position = function() {
-	if (auto_text != slider_autotext.none) {
-		// reset last positioning...
-		text_xoffset -= __text_xoffset_mod;
-		text_yoffset -= __text_yoffset_mod;
-		
-		if (orientation_horizontal) {
-			switch(auto_text_position) {
-				case slider_text.h_above:	
-					__text_xoffset_mod	= 0;
-					__text_yoffset_mod	= sprite_height;
-					scribble_text_align = "[fa_bottom][fa_center]";
-					break;
-				case slider_text.h_below:	
-					__text_xoffset_mod	= 0;
-					__text_yoffset_mod	= sprite_height;
-					scribble_text_align = "[fa_top][fa_center]";
-					break;
-				case slider_text.v_left:	
-					__text_xoffset_mod	= sprite_width;
-					__text_yoffset_mod	= 0;
-					scribble_text_align = "[fa_middle][fa_right]";
-					break;
-				case slider_text.v_right:	
-					__text_xoffset_mod	= nine_slice_data.right + 8;
-					__text_yoffset_mod	= 0;
-					scribble_text_align = "[fa_middle][fa_left]";
-					break;
-			}
-			//text_yoffset += (auto_text_position == slider_text.h_below ? sprite_height : sprite_height);
-			//scribble_text_align = $"[fa_center][fa_{(auto_text_position == slider_text.h_below ? "top" : "bottom")}]";
-		} else {
-			switch(auto_text_position) {
-				case slider_text.h_above:	
-					__text_xoffset_mod	= 0;
-					__text_yoffset_mod	= sprite_height - __text_dims.y;
-					scribble_text_align = "[fa_bottom][fa_center]";
-					break;
-				case slider_text.h_below:	
-					__text_xoffset_mod	= 0;
-					__text_yoffset_mod	= sprite_height;
-					scribble_text_align = "[fa_top][fa_center]";
-					break;
-				case slider_text.v_left:	
-					__text_xoffset_mod	= __text_dims.x;
-					__text_yoffset_mod	= 0;
-					scribble_text_align = "[fa_middle][fa_right]";
-					break;
-				case slider_text.v_right:	
-					__text_xoffset_mod	= sprite_width;
-					__text_yoffset_mod	= 0;
-					scribble_text_align = "[fa_middle][fa_left]";
-					break;
-			}
-			//text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : __text_dims.x);
-			//scribble_text_align = $"[fa_middle][fa_{(auto_text_position == slider_text.v_right ? "left" : "right")}]";
+__apply_post_positioning = function() {
+	if (auto_text != slider_autotext.none) {		
+		switch(auto_text_position) {
+			case slider_text.h_above:	
+				__text_x = SELF_VIEW_CENTER_X + text_xoffset;
+				__text_y = SELF_VIEW_TOP_EDGE + text_yoffset;
+				break;
+			case slider_text.h_below:	
+				__text_x = SELF_VIEW_CENTER_X + text_xoffset;
+				__text_y = SELF_VIEW_BOTTOM_EDGE + text_yoffset;
+				break;
+			case slider_text.v_left:	
+				__text_x = SELF_VIEW_LEFT_EDGE + text_xoffset;
+				__text_y = SELF_VIEW_CENTER_Y + text_yoffset;
+				break;
+			case slider_text.v_right:
+				__text_x = SELF_VIEW_RIGHT_EDGE + text_xoffset;
+				__text_y = SELF_VIEW_CENTER_Y + text_yoffset;
+				break;
 		}
-		
-		// ...and apply new positioning
-		text_xoffset += __text_xoffset_mod;
-		text_yoffset += __text_yoffset_mod;
 	}
 }
 
@@ -192,7 +150,6 @@ __calculate_text_position = function() {
 ///				 at runtime
 initialize = function() {
 	__initialized = true;
-	__calculate_text_position();
 	
 	if (orientation_horizontal) {
 		__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
@@ -212,7 +169,19 @@ initialize = function() {
 }
 __initialized = false;
 
-__draw_instance = function() {
+__draw_self = function() {
+	if (auto_text != slider_autotext.none && __CONTROL_NEEDS_LAYOUT) {
+		switch(auto_text_position) {
+			case slider_text.h_above:	scribble_text_align = "[fa_bottom][fa_center]";	break;
+			case slider_text.h_below:	scribble_text_align = "[fa_top][fa_center]";	break;
+			case slider_text.v_left:	scribble_text_align = "[fa_middle][fa_right]";	break;
+			case slider_text.v_right:	scribble_text_align = "[fa_middle][fa_left]";	break;
+		}
+	}
+	__basecontrol_draw_self();
+}
+
+__draw_instance = function(_force = false) {
 	__basecontrol_draw_instance();
 	
 	if (__knob_need_calc) {
@@ -238,7 +207,6 @@ __draw_instance = function() {
 		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 1);
 }
 
-__calculate_text_position();
 __set_draw_colors();
 // first, clamp the value in case the dev made a config error (like leaving value at 0 while setting min_value to 1)
 value = clamp(value, min_value, max_value);

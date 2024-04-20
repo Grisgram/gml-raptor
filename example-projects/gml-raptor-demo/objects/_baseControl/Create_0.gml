@@ -365,7 +365,6 @@ __draw_self = function() {
 				__apply_autosize_alignment(distx, disty);
 			}
 			edges.update(nine);
-
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
 			
 		} else {
