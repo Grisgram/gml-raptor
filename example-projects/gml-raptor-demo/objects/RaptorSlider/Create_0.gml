@@ -32,24 +32,13 @@ sprite_index = orientation_horizontal ?
 	if_null(rail_sprite_vertical, sprite_index);
 scale_sprite_to(w, h);
 
-__text_dims = scribble_measure_text(string(max_value));
-if (orientation_horizontal)
-	text_yoffset += (auto_text_position == slider_text.h_below ? sprite_height : -sprite_height);
-else 
-	text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : -__text_dims.x);
-
 event_inherited();
-
-override(RaptorSlider, "a", function() {
-	ilog($"--- slider a, now calling base");
-	_baseControl_a();
-});
-a();
-_baseControl_a();
-
 
 value_percent			= 0;
 
+__text_dims				= scribble_measure_text(string(max_value));
+__text_xoffset_mod		= 0;
+__text_yoffset_mod		= 0;
 __knob_dims				= new SpriteDim(knob_sprite);
 __knob_x				= 0;
 __knob_y				= 0;
@@ -132,34 +121,115 @@ __set_draw_colors = function() {
 	}
 }
 
+/// @function __calculate_text_position()
+__calculate_text_position = function() {
+	if (auto_text != slider_autotext.none) {
+		// reset last positioning...
+		text_xoffset -= __text_xoffset_mod;
+		text_yoffset -= __text_yoffset_mod;
+		
+		if (orientation_horizontal) {
+			switch(auto_text_position) {
+				case slider_text.h_above:	
+					__text_xoffset_mod	= 0;
+					__text_yoffset_mod	= sprite_height;
+					scribble_text_align = "[fa_bottom][fa_center]";
+					break;
+				case slider_text.h_below:	
+					__text_xoffset_mod	= 0;
+					__text_yoffset_mod	= sprite_height;
+					scribble_text_align = "[fa_top][fa_center]";
+					break;
+				case slider_text.v_left:	
+					__text_xoffset_mod	= sprite_width;
+					__text_yoffset_mod	= 0;
+					scribble_text_align = "[fa_middle][fa_right]";
+					break;
+				case slider_text.v_right:	
+					__text_xoffset_mod	= nine_slice_data.right + 8;
+					__text_yoffset_mod	= 0;
+					scribble_text_align = "[fa_middle][fa_left]";
+					break;
+			}
+			//text_yoffset += (auto_text_position == slider_text.h_below ? sprite_height : sprite_height);
+			//scribble_text_align = $"[fa_center][fa_{(auto_text_position == slider_text.h_below ? "top" : "bottom")}]";
+		} else {
+			switch(auto_text_position) {
+				case slider_text.h_above:	
+					__text_xoffset_mod	= 0;
+					__text_yoffset_mod	= sprite_height - __text_dims.y;
+					scribble_text_align = "[fa_bottom][fa_center]";
+					break;
+				case slider_text.h_below:	
+					__text_xoffset_mod	= 0;
+					__text_yoffset_mod	= sprite_height;
+					scribble_text_align = "[fa_top][fa_center]";
+					break;
+				case slider_text.v_left:	
+					__text_xoffset_mod	= __text_dims.x;
+					__text_yoffset_mod	= 0;
+					scribble_text_align = "[fa_middle][fa_right]";
+					break;
+				case slider_text.v_right:	
+					__text_xoffset_mod	= sprite_width;
+					__text_yoffset_mod	= 0;
+					scribble_text_align = "[fa_middle][fa_left]";
+					break;
+			}
+			//text_xoffset += (auto_text_position == slider_text.v_right ? sprite_width : __text_dims.x);
+			//scribble_text_align = $"[fa_middle][fa_{(auto_text_position == slider_text.v_right ? "left" : "right")}]";
+		}
+		
+		// ...and apply new positioning
+		text_xoffset += __text_xoffset_mod;
+		text_yoffset += __text_yoffset_mod;
+	}
+}
+
+/// @function initialize()
+/// @description invoked on creation only.
+///				 You should invoke this, when you change the range or size of the control
+///				 at runtime
+initialize = function() {
+	__initialized = true;
+	__calculate_text_position();
+	
+	if (orientation_horizontal) {
+		__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
+		__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width * knob_xscale;
+		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
+
+		__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
+		__knob_max_y = __knob_min_y;
+	} else {
+		__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.top;
+		__knob_max_y = __knob_min_y + nine_slice_data.height - __knob_dims.height * knob_yscale;
+		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
+			
+		__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.get_center_x() - __knob_dims.center_x;
+		__knob_max_x = __knob_min_x;
+	}
+}
+__initialized = false;
+
 __draw_instance = function() {
 	__basecontrol_draw_instance();
 	
-	__set_draw_colors();
 	if (__knob_need_calc) {
 		__knob_need_calc = false;
+		if (!__initialized) initialize();
+		
 		if (orientation_horizontal) {
-			__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
-			__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width;
-			__tilesize = (nine_slice_data.width - __knob_dims.width) / (max_value - min_value);
-
-			__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
-			__knob_max_y = __knob_min_y;
 			__knob_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
 			__knob_y = __knob_min_y;
 		} else {
-			__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.top;
-			__knob_max_y = __knob_min_y + nine_slice_data.height - __knob_dims.height;
-			__tilesize = (nine_slice_data.height - __knob_dims.height) / (max_value - min_value);
-			
-			__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.get_center_x() - __knob_dims.center_x;
-			__knob_max_x = __knob_min_x;
 			__knob_x = __knob_min_x;
 			__knob_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
 		}
 		__knob_x = clamp(__knob_x, __knob_min_x, __knob_max_x);
 		__knob_y = clamp(__knob_y, __knob_min_y, __knob_max_y);
 	}
+	
 	draw_sprite_ext(
 		knob_sprite, 0, 
 		__knob_x, 
@@ -168,8 +238,10 @@ __draw_instance = function() {
 		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 1);
 }
 
+__calculate_text_position();
+__set_draw_colors();
 // first, clamp the value in case the dev made a config error (like leaving value at 0 while setting min_value to 1)
 value = clamp(value, min_value, max_value);
 var initval = value;
-value++; // just modify the value
+value++; // just modify the value, so set_value below finds a difference and recalculates
 set_value(initval);
