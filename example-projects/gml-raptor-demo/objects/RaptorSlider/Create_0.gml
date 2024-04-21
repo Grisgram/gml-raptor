@@ -95,6 +95,28 @@ check_mouse_over_knob = function() {
 	}
 }
 
+/// @function check_knob_grabbed()
+check_knob_grabbed = function() {
+	if (__knob_grabbed || mouse_is_over || __mouse_over_knob) {
+		if (mouse_check_button(mb_left)) {
+			if (__knob_grabbed || __is_topmost) {
+				if (orientation_horizontal) {
+					set_value(
+						min_value 
+						+ round((xcheck - (__knob_dims.width * knob_xscale) / 2 - x - nine_slice_data.left) / __tilesize)
+					);
+				} else {
+					set_value(
+						min_value 
+						+ round((y + nine_slice_data.top + nine_slice_data.height - ycheck - (__knob_dims.height * knob_yscale) / 2) / __tilesize)
+					);
+				}
+			}
+		} else
+			__knob_grabbed = false;
+	}
+}
+
 /// @function calculate_value_percent()
 calculate_value_percent = function() {
 	value_percent = (value - min_value) / max_value;
@@ -114,6 +136,15 @@ set_value = function(new_value) {
 		if (__initial_value_set && on_value_changed != undefined) on_value_changed(value, old_val);
 		__initial_value_set = true; // this skips the FIRST value assignment on creation
 	}
+}
+
+/// @function set_range(_min, _max)
+/// @description Set a new min/max value range. 
+///				 "value" gets adapted to fit into the new range.
+set_range = function(_min, _max) {
+	min_value = _min;
+	max_value = _max;
+	set_value(value); // clamp to the new range
 }
 
 /// @function __set_draw_colors()

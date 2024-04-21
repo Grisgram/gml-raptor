@@ -1,13 +1,18 @@
 {
   "$GMObject":"",
   "%Name":"RaptorScrollbar",
-  "eventList":[],
+  "eventList":[
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":56,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":60,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":61,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
   "name":"RaptorScrollbar",
   "overriddenProperties":[
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"rail_sprite_horizontal","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultScrollbarRailH",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"knob_sprite","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"sprDefaultScrollbarKnob",},
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"auto_text","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"slider_autotext.text_is_value",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},"propertyId":{"name":"auto_text","path":"objects/RaptorSlider/RaptorSlider.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"slider_autotext.none",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"24",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"24",},
