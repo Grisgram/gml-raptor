@@ -9,7 +9,7 @@
 ///					if rendered with the specified _font (or the scribble_default_font if omitted)
 function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) {
 	var scrib = scribble(_string)
-			.starting_format(_font == undefined ? scribble_font_get_default() : _font, c_white);
+			.starting_format((_font == undefined || _font == "undefined") ? scribble_font_get_default() : _font, c_white);
 			
 	_coord2 ??= new Coord2();
 	

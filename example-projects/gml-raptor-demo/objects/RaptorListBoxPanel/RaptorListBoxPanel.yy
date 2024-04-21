@@ -1,17 +1,20 @@
 {
   "$GMObject":"",
-  "%Name":"ListBoxItem",
-  "eventList":[],
+  "%Name":"RaptorListBoxPanel",
+  "eventList":[
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":12,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
-  "name":"ListBoxItem",
+  "name":"RaptorListBoxPanel",
   "overriddenProperties":[],
   "parent":{
-    "name":"_gml_raptor_ui_",
-    "path":"folders/_gml_raptor_ui_.yy",
+    "name":"controls",
+    "path":"folders/_gml_raptor_/UI/controls.yy",
   },
   "parentObjectId":{
-    "name":"RaptorListBoxItem",
-    "path":"objects/RaptorListBoxItem/RaptorListBoxItem.yy",
+    "name":"RaptorPanel",
+    "path":"objects/RaptorPanel/RaptorPanel.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

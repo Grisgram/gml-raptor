@@ -47,7 +47,7 @@
     {"name":"inst_6633FE9C","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_5EF814D0","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_746B878","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"inst_6B93CBC7","path":"rooms/rmMain/rmMain.yy",},
+    {"name":"demolistbox","path":"rooms/rmMain/rmMain.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -63,9 +63,7 @@
         {"$GMRInstanceLayer":"","%Name":"popup_instances","depth":300,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[],"layers":[],"name":"popup_instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":false,},
         {"$GMREffectLayer":"","%Name":"popup_effects","depth":400,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"popup_effects","properties":[],"resourceType":"GMREffectLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":false,},
       ],"name":"popups","properties":[],"resourceType":"GMRLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":false,},
-    {"$GMRInstanceLayer":"","%Name":"ui_instances","depth":500,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
-        {"$GMRInstance":"","%Name":"inst_6B93CBC7","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6B93CBC7","objectId":{"name":"RaptorListBox","path":"objects/RaptorListBox/RaptorListBox.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":4.0,"scaleY":1.0,"x":192.0,"y":448.0,},
-      ],"layers":[],"name":"ui_instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
+    {"$GMRInstanceLayer":"","%Name":"ui_instances","depth":500,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[],"layers":[],"name":"ui_instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Smoke","depth":600,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[],"layers":[],"name":"Smoke","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":700,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"","%Name":"remove_me","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"remove_me","objectId":{"name":"AnimatedFlag","path":"objects/AnimatedFlag/AnimatedFlag.yy",},"properties":[
@@ -272,6 +270,9 @@
             {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"activate_purple_theme",},
             {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_raptorBase","path":"objects/_raptorBase/_raptorBase.yy",},"propertyId":{"name":"skinnable","path":"objects/_raptorBase/_raptorBase.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.5,"scaleY":1.5,"x":576.0,"y":32.0,},
+        {"$GMRInstance":"","%Name":"demolistbox","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"demolistbox","objectId":{"name":"RaptorListBox","path":"objects/RaptorListBox/RaptorListBox.yy",},"properties":[
+            {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorListBox","path":"objects/RaptorListBox/RaptorListBox.yy",},"propertyId":{"name":"items","path":"objects/RaptorListBox/RaptorListBox.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"[\"1:B\",\"0:A\",\"2:C\",\"3:D\"]",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.25,"scaleY":1.0,"x":160.0,"y":416.0,},
       ],"layers":[],"name":"Instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMREffectLayer":"","%Name":"bg_gradient","depth":800,"effectEnabled":true,"effectType":"_filter_gradient","gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"bg_gradient","properties":[
         {"name":"g_GradientColour1","type":1,"value":"#DC808080",},

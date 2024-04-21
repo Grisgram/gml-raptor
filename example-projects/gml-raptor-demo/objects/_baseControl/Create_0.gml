@@ -232,6 +232,8 @@ __mouse_enter_topmost_control = function() {
 				with(w) {
 					vlog($"{MY_NAME}: onMouseEnter (topmost)");
 					mouse_is_over = true;
+					__animate_draw_color(draw_color_mouse_over);
+					__animate_text_color(text_color_mouse_over);
 					force_redraw(false);
 					have_one = true;
 					break;
@@ -337,6 +339,9 @@ __draw_self = function() {
 		
 	if (__CONTROL_NEEDS_LAYOUT) {
 		__force_redraw = false;
+
+		if (x != xprevious || y != yprevious) 
+			update_startup_coordinates();
 
 		if (sprite_index == -1)
 			word_wrap = false; // no wrapping on zero-size objects

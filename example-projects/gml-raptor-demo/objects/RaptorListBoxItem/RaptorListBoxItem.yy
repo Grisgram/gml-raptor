@@ -1,10 +1,18 @@
 {
   "$GMObject":"",
   "%Name":"RaptorListBoxItem",
-  "eventList":[],
+  "eventList":[
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
   "name":"RaptorListBoxItem",
-  "overriddenProperties":[],
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"APP_THEME_MAIN",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"text_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"APP_THEME_WHITE",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"[fa_middle][fa_left]\"",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"text_color_anim_frames","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"6",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_anim_frames","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"6",},
+  ],
   "parent":{
     "name":"controls",
     "path":"folders/_gml_raptor_/UI/controls.yy",
@@ -31,8 +39,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr1pxTrans",
-    "path":"sprites/spr1pxTrans/spr1pxTrans.yy",
+    "name":"spr1pxWhite",
+    "path":"sprites/spr1pxWhite/spr1pxWhite.yy",
   },
   "spriteMaskId":null,
   "visible":true,

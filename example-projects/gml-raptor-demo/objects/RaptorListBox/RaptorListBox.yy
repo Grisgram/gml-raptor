@@ -7,11 +7,13 @@
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":60,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":61,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":53,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":12,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"RaptorListBox",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"[fa_middle][fa_left]\"",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"[fa_middle][fa_center]\"",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"\"",},
   ],
   "parent":{
@@ -42,10 +44,10 @@
     {"$GMObjectProperty":"","%Name":"on_list_opening","filters":[],"listItems":[],"multiselect":false,"name":"on_list_opening","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_list_opened","filters":[],"listItems":[],"multiselect":false,"name":"on_list_opened","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_list_closed","filters":[],"listItems":[],"multiselect":false,"name":"on_list_closed","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
+    {"$GMObjectProperty":"","%Name":"on_item_selected","filters":[],"listItems":[],"multiselect":false,"name":"on_item_selected","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"list_item_object","filters":[
         "GMObject",
       ],"listItems":[],"multiselect":false,"name":"list_item_object","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"RaptorListBoxItem","varType":5,},
-    {"$GMObjectProperty":"","%Name":"on_item_selected","filters":[],"listItems":[],"multiselect":false,"name":"on_item_selected","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"sorting","filters":[],"listItems":[
         "listbox_sort.none",
         "listbox_sort.ascending",
