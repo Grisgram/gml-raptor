@@ -100,7 +100,7 @@ __animate_draw_color = function(_to) {
 	}
 
 	animation_abort(self, "__raptor_draw_color_anim", false);
-	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlColorAnim,,,{
 			fromcol: animated_draw_color,
 			tocol: _to
 		})
@@ -121,7 +121,7 @@ __animate_text_color = function(_to) {
 	
 	__text_anim_running = true;
 	animation_abort(self, "__raptor_text_color_anim", false);
-	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlColorAnim,,,{
 			fromcol: animated_text_color,
 			tocol: _to
 		})

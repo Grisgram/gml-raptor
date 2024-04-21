@@ -77,4 +77,3 @@ function activate_default_skin() {
 function activate_wood_skin() {
 	UI_SKINS.activate_skin("wood");
 }
-

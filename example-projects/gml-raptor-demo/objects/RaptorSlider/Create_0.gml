@@ -42,6 +42,8 @@ __text_yoffset_mod		= 0;
 __knob_dims				= new SpriteDim(knob_sprite);
 __knob_x				= 0;
 __knob_y				= 0;
+__knob_new_x			= 0;
+__knob_new_y			= 0;
 __knob_min_x			= 0;
 __knob_max_x			= 0;
 __knob_min_y			= 0;
@@ -144,14 +146,17 @@ __apply_post_positioning = function() {
 	}
 }
 
-/// @function initialize()
-/// @description invoked on creation only.
+/// @function calculate_knob_size()
+/// @description invoked once on creation only.
 ///				 You should invoke this, when you change the range or size of the control
 ///				 at runtime
-initialize = function() {
+calculate_knob_size = function() {
 	__initialized = true;
 	
 	if (orientation_horizontal) {
+		if (knob_autoscale)
+			knob_xscale = max(1, (nine_slice_data.width / ((max_value - min_value) + 1)) / __knob_dims.width);
+	
 		__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
 		__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width * knob_xscale;
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
@@ -159,6 +164,9 @@ initialize = function() {
 		__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
 		__knob_max_y = __knob_min_y;
 	} else {
+		if (knob_autoscale)
+			knob_yscale = max(1, (nine_slice_data.height / ((max_value - min_value) + 1)) / __knob_dims.height);
+		
 		__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.top;
 		__knob_max_y = __knob_min_y + nine_slice_data.height - __knob_dims.height * knob_yscale;
 		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
@@ -186,17 +194,30 @@ __draw_instance = function(_force = false) {
 	
 	if (__knob_need_calc) {
 		__knob_need_calc = false;
-		if (!__initialized) initialize();
+		var need_anim = __initialized;
+		if (!__initialized) calculate_knob_size();
 		
 		if (orientation_horizontal) {
-			__knob_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
-			__knob_y = __knob_min_y;
+			__knob_new_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
+			__knob_new_y = __knob_min_y;
 		} else {
-			__knob_x = __knob_min_x;
-			__knob_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
+			__knob_new_x = __knob_min_x;
+			__knob_new_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
 		}
-		__knob_x = clamp(__knob_x, __knob_min_x, __knob_max_x);
-		__knob_y = clamp(__knob_y, __knob_min_y, __knob_max_y);
+		if (need_anim) {
+			__knob_start_x = __knob_x;
+			__knob_start_y = __knob_y;
+			__knob_x_dist = __knob_new_x - __knob_x;
+			__knob_y_dist = __knob_new_y - __knob_y;
+			animation_abort(self, "knob_anim");
+			animation_run(self, 0, 6, acLinearMove)
+				.set_function("x", function(v) { owner.__knob_x = owner.__knob_start_x + v * owner.__knob_x_dist; })
+				.set_function("y", function(v) { owner.__knob_y = owner.__knob_start_y + v * owner.__knob_y_dist; })
+				.set_name("knob_anim");
+		} else {
+			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
+			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
+		}
 	}
 	
 	draw_sprite_ext(

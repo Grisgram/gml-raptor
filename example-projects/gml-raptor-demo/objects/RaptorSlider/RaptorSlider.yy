@@ -50,6 +50,7 @@
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"knob_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderKnob","varType":5,},
     {"$GMObjectProperty":"","%Name":"knob_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"name":"knob_color_mouse_over","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"APP_THEME_MAIN","varType":7,},
+    {"$GMObjectProperty":"","%Name":"knob_autoscale","filters":[],"listItems":[],"multiselect":false,"name":"knob_autoscale","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
     {"$GMObjectProperty":"","%Name":"knob_xscale","filters":[],"listItems":[],"multiselect":false,"name":"knob_xscale","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"1","varType":0,},
     {"$GMObjectProperty":"","%Name":"knob_yscale","filters":[],"listItems":[],"multiselect":false,"name":"knob_yscale","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"1","varType":0,},
     {"$GMObjectProperty":"","%Name":"auto_text","filters":[],"listItems":[
