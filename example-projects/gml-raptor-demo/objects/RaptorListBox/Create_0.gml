@@ -14,9 +14,12 @@ mypanel = undefined;
 /// @function add_item(_displaymember, _valuemember)
 /// @description Adds a new item to the list
 add_item = function(_displaymember, _valuemember) {
+	close_list();
+	var idx = array_length(items);
 	array_push(items, { 
 		displaymember: _displaymember, 
-		valuemember: _valuemember, 
+		valuemember: _valuemember,
+		index: idx,
 		toString: function() { return displaymember; } 
 	});
 }
@@ -34,6 +37,7 @@ remove_item_by_value = function(_valuemember) {
 	}
 	
 	if (idx != -1) {
+		close_list();
 		array_delete(items, idx, 1);
 		if (selected_index >= idx) selected_index--;
 	}
@@ -52,6 +56,7 @@ remove_item_by_name = function(_displaymember) {
 	}
 	
 	if (idx != -1) {
+		close_list();
 		array_delete(items, idx, 1);
 		if (selected_index >= idx) selected_index--;
 	}
@@ -62,6 +67,14 @@ remove_item_by_name = function(_displaymember) {
 get_selected_value = function() {
 	if (selected_index != -1)
 		return items[@selected_index].valuemember;
+	return undefined;
+}
+
+/// @function get_selected_item()
+/// @description Gets the valuemember of the selected item or undefined, if nothing is selected
+get_selected_item = function() {
+	if (selected_index != -1)
+		return items[@selected_index];
 	return undefined;
 }
 
@@ -146,6 +159,9 @@ if (array_length(items ?? []) > 0) {
 		} else
 			throw("Designtime items for a listbox must follow the \"value:text\" pattern!");
 	}
+	
+	if (selected_index > -1 && array_length(items) > selected_index)
+		__item_clicked(items[@ selected_index]);
 }
 
 __draw_instance = function(_force = false) {
