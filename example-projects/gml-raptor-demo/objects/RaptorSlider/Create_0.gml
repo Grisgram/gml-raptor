@@ -33,7 +33,6 @@ event_inherited();
 		if_null(rail_sprite_horizontal, sprite_index) :
 		if_null(rail_sprite_vertical, sprite_index);
 	scale_sprite_to(w, h);
-	__knob_dims = new SpriteDim(knob_sprite);
 
 value_percent			= 0;
 
@@ -73,7 +72,6 @@ on_skin_changed = function(_skindata) {
 		if_null(rail_sprite_horizontal, sprite_index) :
 		if_null(rail_sprite_vertical, sprite_index);
 	scale_sprite_to(w, h);
-	__knob_dims = new SpriteDim(knob_sprite);
 	
 	update_startup_coordinates();
 	update_client_area();
@@ -240,8 +238,7 @@ __draw_self = function() {
 
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
-	if (x == 232)
-	vlog($"--- {x} {y}");
+	
 	if (__knob_need_calc) {
 		__knob_need_calc = false;
 		var need_anim = __initialized;
@@ -268,9 +265,11 @@ __draw_instance = function(_force = false) {
 			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
 			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
 		}
+	} else if (_force) {
+		calculate_knob_size();
+		__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
+		__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
 	}
-			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
-			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
 	
 	draw_sprite_ext(
 		knob_sprite, 0, 

@@ -53,17 +53,17 @@ __fill_list = function(len, textdims) {
 				orientation_horizontal: false,
 				min_value: 0,
 				max_value: max(1, max_scroll_index),
-				wheel_value_change: listbox.wheel_scroll_lines,
+				wheel_value_change: 0,
 				startup_width: 24,
-				draw_on_gui: mygui,
-				depth: listbox.depth - 1
+				draw_on_gui: mygui
 			})
 			.set_dock(dock.right)
 			.set_name("scrollbar");
 
 		myscrollbar = control_tree.get_element("scrollbar");
 		myscrollbar.on_value_changed = function(newvalue, oldvalue) {
-			scroll_to_index(newvalue);
+			vlog($"--- CHANGE {myscrollbar.__knob_y}");
+			scroll_to_index(max_scroll_index - current_scroll_index + newvalue - oldvalue);
 		};
 		//run_delayed(self, 3, function() { myscrollbar.depth = listbox.depth - 1; });
 	}
@@ -115,7 +115,7 @@ close = function() {
 
 scroll_to_index = function(_idx) {
 	current_scroll_index = clamp(max_scroll_index - _idx, 0, max_scroll_index);
-	vlog($"{MY_NAME} scrolling to index {current_scroll_index}");
+	vlog($"{MY_NAME} scrolling to index {current_scroll_index} {myscrollbar.value}");
 	
 	for (var i = 0, len = array_length(myitems); i < len; i++) {
 		var lbitem = listbox.items[@ current_scroll_index + i];
@@ -125,7 +125,7 @@ scroll_to_index = function(_idx) {
 }
 
 wheel_scroll = function(_direction) {
-	if (myscrollbar == undefined || __SLIDER_IN_FOCUS == myscrollbar) return;
+	//if (myscrollbar == undefined || __SLIDER_IN_FOCUS == myscrollbar) return;
 	var moveby = listbox.wheel_scroll_lines * _direction;
 	myscrollbar.set_value(clamp(myscrollbar.value - moveby, 0, max_scroll_index));
 }
