@@ -129,11 +129,13 @@ close_list = function() {
 	invoke_if_exists(self, "on_list_closed");
 }
 
+/// @function toggle_open_state()
 toggle_open_state = function() {
 	if (is_open) close_list(); else open_list();
 }
 
-__mouse_is_over_me_or_panel = function() {
+/// @function mouse_over_list_or_panel()
+mouse_over_list_or_panel = function() {
 	var overpanel = false;
 	if (mypanel != undefined) {
 		with(mypanel)

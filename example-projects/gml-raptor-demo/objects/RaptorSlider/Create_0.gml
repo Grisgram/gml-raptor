@@ -25,14 +25,15 @@ enum slider_text {
 	v_right = 8
 }
 
-var w = (startup_width  >= 0 ? startup_width  : sprite_width);
-var h = (startup_height >= 0 ? startup_height : sprite_height);
-sprite_index = orientation_horizontal ?
-	if_null(rail_sprite_horizontal, sprite_index) :
-	if_null(rail_sprite_vertical, sprite_index);
-scale_sprite_to(w, h);
-
 event_inherited();
+
+	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+	var h = (startup_height >= 0 ? startup_height : sprite_height);
+	sprite_index = orientation_horizontal ?
+		if_null(rail_sprite_horizontal, sprite_index) :
+		if_null(rail_sprite_vertical, sprite_index);
+	scale_sprite_to(w, h);
+	__knob_dims = new SpriteDim(knob_sprite);
 
 value_percent			= 0;
 
@@ -63,8 +64,20 @@ __over_before			= false;
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	integrate_skin_data(_skindata);
+	animated_text_color = text_color;
+	animated_draw_color = draw_color;
+	
+	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+	var h = (startup_height >= 0 ? startup_height : sprite_height);
+	sprite_index = orientation_horizontal ?
+		if_null(rail_sprite_horizontal, sprite_index) :
+		if_null(rail_sprite_vertical, sprite_index);
+	scale_sprite_to(w, h);
 	__knob_dims = new SpriteDim(knob_sprite);
+	
 	update_startup_coordinates();
+	update_client_area();
+	force_redraw();
 }
 
 update_client_area = function() {
@@ -98,6 +111,7 @@ check_mouse_over_knob = function() {
 /// @function check_knob_grabbed()
 check_knob_grabbed = function() {
 	if (__knob_grabbed || mouse_is_over || __mouse_over_knob) {
+		
 		if (mouse_check_button(mb_left)) {
 			if (__knob_grabbed || __is_topmost) {
 				if (orientation_horizontal) {
@@ -209,20 +223,25 @@ calculate_knob_size = function() {
 __initialized = false;
 
 __draw_self = function() {
-	if (auto_text != slider_autotext.none && __CONTROL_NEEDS_LAYOUT) {
-		switch(auto_text_position) {
-			case slider_text.h_above:	scribble_text_align = "[fa_bottom][fa_center]";	break;
-			case slider_text.h_below:	scribble_text_align = "[fa_top][fa_center]";	break;
-			case slider_text.v_left:	scribble_text_align = "[fa_middle][fa_right]";	break;
-			case slider_text.v_right:	scribble_text_align = "[fa_middle][fa_left]";	break;
+	if (__CONTROL_NEEDS_LAYOUT) {
+		if (INSTANCE_HAS_MOVED) calculate_knob_size();
+		if (auto_text != slider_autotext.none) {
+			switch(auto_text_position) {
+				case slider_text.h_above:	scribble_text_align = "[fa_bottom][fa_center]";	break;
+				case slider_text.h_below:	scribble_text_align = "[fa_top][fa_center]";	break;
+				case slider_text.v_left:	scribble_text_align = "[fa_middle][fa_right]";	break;
+				case slider_text.v_right:	scribble_text_align = "[fa_middle][fa_left]";	break;
+			}
 		}
 	}
+	
 	__basecontrol_draw_self();
 }
 
 __draw_instance = function(_force = false) {
-	__basecontrol_draw_instance();
-	
+	__basecontrol_draw_instance(_force);
+	if (x == 232)
+	vlog($"--- {x} {y}");
 	if (__knob_need_calc) {
 		__knob_need_calc = false;
 		var need_anim = __initialized;
@@ -250,13 +269,16 @@ __draw_instance = function(_force = false) {
 			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
 		}
 	}
+			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
+			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
 	
 	draw_sprite_ext(
 		knob_sprite, 0, 
 		__knob_x, 
 		__knob_y,
 		knob_xscale, knob_yscale, 0,
-		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 1);
+		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 
+		image_alpha);
 }
 
 __set_draw_colors();

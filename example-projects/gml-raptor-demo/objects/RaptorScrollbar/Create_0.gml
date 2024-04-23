@@ -24,6 +24,7 @@ check_mouse_over_arrows = function() {
 	}
 }
 
+/// @function __change_value_with_arrow(_change, _instant = false)
 __change_value_with_arrow = function(_change, _instant = false) {
 	if (__first_value_change || _instant) {
 		__first_value_change = false;
@@ -32,7 +33,7 @@ __change_value_with_arrow = function(_change, _instant = false) {
 	} else {
 		if (--__next_value_change <= 0) {
 			set_value(value + _change);
-			__next_value_change = 12;
+			__next_value_change = 8;
 		}
 	}
 }

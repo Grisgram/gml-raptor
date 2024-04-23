@@ -480,7 +480,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		while (array_length(bottoms) > 0) {
 			var inst = array_shift(bottoms);
-			inst.y = dtop + margin_top + padding_top;
+			inst.y = dtop + margin_top + padding_top + 1;
 			dtop += inst.sprite_height + margin_bottom + padding_bottom;
 		}
 	}
@@ -496,7 +496,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		while (array_length(rights) > 0) {
 			var inst = array_shift(rights);
-			inst.x = dright + margin_left + padding_left;
+			inst.x = dright + margin_left + padding_left + 1;
 			dright += inst.sprite_width + margin_right + padding_right;
 		}
 	}
