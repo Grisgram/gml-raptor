@@ -53,19 +53,12 @@ __fill_list = function(len, textdims) {
 				orientation_horizontal: false,
 				min_value: 0,
 				max_value: max(1, max_scroll_index),
-				mouse_wheel_active: false,
-				wheel_value_change: 0,//listbox.wheel_scroll_lines,
+				wheel_value_change: 0,
 				startup_width: 24,
 				draw_on_gui: mygui
 			})
 			.set_dock(dock.right)
 			.set_name("scrollbar");
-
-		myscrollbar = control_tree.get_element("scrollbar");
-		ilog($"--- WHEEL {myscrollbar.mouse_wheel_active}");
-		myscrollbar.on_value_changed = function(newvalue, oldvalue) {
-			scroll_to_index(newvalue);
-		};
 	}
 		
 	if (listbox.sorting == listbox_sort.ascending)
@@ -106,7 +99,19 @@ __fill_list = function(len, textdims) {
 	}
 
 	control_tree.build();
-	scroll_to_index(max(listbox.selected_index, current_scroll_index));
+	
+	myscrollbar = control_tree.get_element("scrollbar");
+	if (myscrollbar != undefined) {
+		myscrollbar.on_value_changed = function(newvalue, oldvalue) {
+			scroll_to_index(newvalue);
+		};
+		
+		scroll_to_index(max(listbox.selected_index, current_scroll_index));
+		run_delayed(self, 2, function() {
+			myscrollbar.__knob_scroll_anim_time = 1;
+			myscrollbar.set_value(max(listbox.selected_index, current_scroll_index));
+		});
+	}
 }
 
 close = function() {

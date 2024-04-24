@@ -12,6 +12,8 @@
 #macro __SLIDER_IN_FOCUS		global.__slider_in_focus
 __SLIDER_IN_FOCUS				= undefined;
 
+#macro __SLIDER_DEFAULT_KNOB_ANIM_TIME	6
+
 enum slider_autotext {
 	none = 0,
 	text_is_value = 1,
@@ -49,6 +51,7 @@ __knob_min_x			= 0;
 __knob_max_x			= 0;
 __knob_min_y			= 0;
 __knob_max_y			= 0;
+__knob_scroll_anim_time	= __SLIDER_DEFAULT_KNOB_ANIM_TIME;
 __knob_need_calc		= true;
 __mouse_over_knob		= false;
 __knob_grabbed			= false;
@@ -268,10 +271,11 @@ __draw_instance = function(_force = false) {
 			__knob_x_dist = __knob_new_x - __knob_x;
 			__knob_y_dist = __knob_new_y - __knob_y;
 			animation_abort(self, "knob_anim");
-			animation_run(self, 0, 6, acLinearMove)
+			animation_run(self, 0, __knob_scroll_anim_time, acLinearMove)
 				.set_function("x", function(v) { owner.__knob_x = owner.__knob_start_x + v * owner.__knob_x_dist; })
 				.set_function("y", function(v) { owner.__knob_y = owner.__knob_start_y + v * owner.__knob_y_dist; })
 				.set_name("knob_anim");
+			__knob_scroll_anim_time = __SLIDER_DEFAULT_KNOB_ANIM_TIME;
 		} else {
 			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
 			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);

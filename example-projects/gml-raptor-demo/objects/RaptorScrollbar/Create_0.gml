@@ -1,7 +1,7 @@
 /// @description event
 event_inherited();
 
-mouse_wheel_active		= true;
+mouse_wheel_active		= (wheel_value_change > 0);
 
 __vertical_zero_is_top	= true;
 __first_value_change	= true;

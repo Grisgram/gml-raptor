@@ -1,4 +1,4 @@
-/// @description item pooling
+/// @description click and data
 event_inherited();
 
 on_left_click = function() {
