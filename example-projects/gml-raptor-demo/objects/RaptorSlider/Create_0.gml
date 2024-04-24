@@ -36,6 +36,7 @@ event_inherited();
 
 value_percent			= 0;
 
+__vertical_zero_is_top	= false;
 __text_dims				= scribble_measure_text(string(max_value));
 __text_xoffset_mod		= 0;
 __text_yoffset_mod		= 0;
@@ -118,10 +119,16 @@ check_knob_grabbed = function() {
 						+ round((xcheck - (__knob_dims.width * knob_xscale) / 2 - x - nine_slice_data.left) / __tilesize)
 					);
 				} else {
-					set_value(
-						min_value 
-						+ round((y + nine_slice_data.top + nine_slice_data.height - ycheck - (__knob_dims.height * knob_yscale) / 2) / __tilesize)
-					);
+					if (__vertical_zero_is_top)
+						set_value(
+							min_value 
+							+ round((ycheck - (__knob_dims.height * knob_yscale) / 2 - y - nine_slice_data.top) / __tilesize)
+						);
+					else
+						set_value(
+							min_value 
+							+ round((y + nine_slice_data.top + nine_slice_data.height - ycheck - (__knob_dims.height * knob_yscale) / 2) / __tilesize)
+						);
 				}
 			}
 		} else
@@ -243,14 +250,18 @@ __draw_instance = function(_force = false) {
 		__knob_need_calc = false;
 		var need_anim = __initialized;
 		if (!__initialized) calculate_knob_size();
-		
+
 		if (orientation_horizontal) {
 			__knob_new_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
 			__knob_new_y = __knob_min_y;
 		} else {
 			__knob_new_x = __knob_min_x;
-			__knob_new_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
+			if (__vertical_zero_is_top)
+				__knob_new_y = floor(__knob_min_y + (value - min_value) * __tilesize) + __knob_dims.origin_y;
+			else
+				__knob_new_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
 		}
+		
 		if (need_anim) {
 			__knob_start_x = __knob_x;
 			__knob_start_y = __knob_y;

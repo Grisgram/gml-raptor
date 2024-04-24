@@ -1,6 +1,9 @@
 /// @description event
 event_inherited();
 
+mouse_wheel_active		= true;
+
+__vertical_zero_is_top	= true;
 __first_value_change	= true;
 __next_value_change		= 0;
 
@@ -14,8 +17,8 @@ check_mouse_over_arrows = function() {
 		__mouse_over_minus	= mouse_x < x + nine_slice_data.left;
 		__mouse_over_plus	= mouse_x > x + nine_slice_data.right;
 	} else {
-		__mouse_over_minus	= mouse_y > y + nine_slice_data.bottom;
-		__mouse_over_plus	= mouse_y < y + nine_slice_data.top;
+		__mouse_over_minus	= mouse_y < y + nine_slice_data.top;
+		__mouse_over_plus	= mouse_y > y + nine_slice_data.bottom;
 	}
 	
 	__mouse_is_down = mouse_check_button(mb_left);	
