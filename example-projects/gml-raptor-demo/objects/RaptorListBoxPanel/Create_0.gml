@@ -34,7 +34,6 @@ attach_to = function(_listbox) {
 				__fill_list(adata._len, adata._dims);
 			}
 		);
-		//scale_sprite_to(listbox.sprite_width, textdims.y * len);
 
 	} else
 		binder.unbind_all();
@@ -80,15 +79,18 @@ __fill_list = function(len, textdims) {
 	myitems = [];
 	for (var i = 0; i < min(len, listbox.max_items_shown); i++) {
 		var item = listbox.items[@i];
+		var tt = (item.shortened ? item.displaymember : "");
 		array_push(myitems,
 			control_tree
 				.add_control(listbox.list_item_object, {
 					font_to_use: listbox.font_to_use,
-					text: LG_resolve(item.displaymember),
+					text: item.get_display_string(),
+					tooltip_text: tt,
 					panel: me,
 					itemdata: item,
 					startup_width: me.sprite_width,
 					startup_height: textdims.y,
+					min_height: textdims.y,
 					text_xoffset: 2,
 					draw_on_gui: mygui
 				})

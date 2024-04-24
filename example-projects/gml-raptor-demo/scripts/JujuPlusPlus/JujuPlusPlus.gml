@@ -4,7 +4,7 @@
 */
 
 #region Scribble++
-/// @function scribble_measure_text(_string, _font, _coord2 = undefined)
+/// @function scribble_measure_text(_string, _font = undefined, _coord2 = undefined)
 /// @description	Get a Coord2 containing the width and height the text needs,
 ///					if rendered with the specified _font (or the scribble_default_font if omitted)
 function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) {

@@ -9,6 +9,51 @@ down_arrow_sprite ??= sprDefaultListBoxArrow;
 
 mypanel = undefined;
 
+#region __listboxitem internal class
+function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) constructor {
+	listbox			= _listbox;
+	displaymember	= _displaymember;
+	displaystring	= _displaymember;
+	valuemember		= _valuemember;
+	index			= _index;
+	
+	shortened		= false;
+	measured		= false;
+	static measure = function() {
+		if (measured) return;
+		measured = true;
+		
+		var max_len = listbox.nine_slice_data.width;
+		var len = new Coord2();
+		displaymember = LG_resolve(displaymember);
+		displaystring = displaymember;
+		scribble_measure_text(displaystring,,len);
+		while (displaystring != "" && len.x > max_len) {
+			shortened = true;
+			displaystring = string_skip_end(displaystring, 1);
+			scribble_measure_text(displaystring + "...",, len);
+			if (len.x <= max_len) {
+				displaystring += "...";
+				break;
+			}
+		}
+	}
+	
+	static get_display_string = function() {
+		if (!measured) measure();
+		return displaystring;
+	}
+	
+	static suicide = function() {
+		listbox = undefined;
+	}
+	
+	toString = function() {
+		return displaymember;
+	}
+}
+#endregion
+
 #region item functions
 
 /// @function add_item(_displaymember, _valuemember)
@@ -16,12 +61,7 @@ mypanel = undefined;
 add_item = function(_displaymember, _valuemember) {
 	close_list();
 	var idx = array_length(items);
-	array_push(items, { 
-		displaymember: _displaymember, 
-		valuemember: _valuemember,
-		index: idx,
-		toString: function() { return displaymember; } 
-	});
+	array_push(items, new __ListBoxItem(self, _displaymember, _valuemember, idx));
 }
 
 /// @function remove_item_by_value(_valuemember)
@@ -31,6 +71,7 @@ remove_item_by_value = function(_valuemember) {
 	
 	for (var i = 0, len = array_length(items); i < len; i++) {
 		if (items[@i].valuemember == _valuemember) {
+			items[@i].suicide();
 			idx = i;
 			break;
 		}
@@ -50,6 +91,7 @@ remove_item_by_name = function(_displaymember) {
 	
 	for (var i = 0, len = array_length(items); i < len; i++) {
 		if (items[@i].displaymember == _displaymember) {
+			items[@i].suicide();
 			idx = i;
 			break;
 		}
@@ -82,15 +124,18 @@ get_selected_item = function() {
 /// @description Clear all items from the listview and set selected_index to -1.
 ///				 NOTE: This will NEVER trigger the on_item_selected callback!
 clear_items = function() {
+	for (var i = 0, len = array_length(items); i < len; i++) 
+		items[@i].suicide();
 	items = [];
 	selected_index = -1;
 }
 
 __item_clicked = function(_item) {
 	if (_item != undefined) {
-		text = _item.displaymember;
+		text = _item.get_display_string();
+		tooltip_text = (_item.shortened ? _item.displaymember : "");
 		selected_index = _item.index;
-		invoke_if_exists(self, "on_item_selected", _item);
+		invoke_if_exists(self, "on_item_selected", _item.valuemember, _item.displaymember);
 	}
 	close_list();
 }

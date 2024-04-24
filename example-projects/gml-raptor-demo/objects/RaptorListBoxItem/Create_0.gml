@@ -7,5 +7,6 @@ on_left_click = function() {
 
 assign_data = function(_itemdata) {
 	itemdata = _itemdata;
-	text = LG_resolve(_itemdata.displaymember);
+	text = _itemdata.get_display_string();
+	tooltip_text = (_itemdata.shortened ? _itemdata.displaymember : "");	
 }
