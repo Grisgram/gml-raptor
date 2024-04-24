@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultSliderRail",
-    "path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",
+    "name":"sprDefaultSliderRailH",
+    "path":"sprites/sprDefaultSliderRailH/sprDefaultSliderRailH.yy",
   },
   "spriteMaskId":null,
   "visible":true,
