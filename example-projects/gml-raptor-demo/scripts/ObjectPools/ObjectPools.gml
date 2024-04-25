@@ -82,7 +82,7 @@ function pool_get_instance(pool_name, object, layer_name_or_depth_if_new) {
 	var xp = vsget(self, "x", 0) ?? 0;
 	var yp = vsget(self, "y", 0) ?? 0;
 	var rv = instance_create(xp, yp, layer_name_or_depth_if_new, object);
-	rv[$ __POOL_SOURCE_NAME] = pool_name;
+	struct_set(rv, __POOL_SOURCE_NAME, pool_name);
 	__pool_invoke_activate(rv);
 	return rv;
 }
@@ -110,7 +110,7 @@ function pool_return_instance(instance = self) {
 /// @param {string} pool_name
 /// @param {instance} instance
 function pool_assign_instance(pool_name, instance) {
-	instance[$ __POOL_SOURCE_NAME] = pool_name;
+	struct_set(instance, __POOL_SOURCE_NAME, pool_name);
 }
 
 /// @function		pool_get_size(pool_name)
