@@ -4,7 +4,10 @@
   "eventList":[],
   "managed":true,
   "name":"ImageButton",
-  "overriddenProperties":[],
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"c_white",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"c_white",},
+  ],
   "parent":{
     "name":"_gml_raptor_ui_",
     "path":"folders/_gml_raptor_ui_.yy",

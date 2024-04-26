@@ -4,8 +4,6 @@
   "eventList":[
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":56,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":53,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
@@ -42,13 +40,17 @@
     {"$GMObjectProperty":"","%Name":"on_value_changed","filters":[],"listItems":[],"multiselect":false,"name":"on_value_changed","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_mouse_enter_knob","filters":[],"listItems":[],"multiselect":false,"name":"on_mouse_enter_knob","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_mouse_leave_knob","filters":[],"listItems":[],"multiselect":false,"name":"on_mouse_leave_knob","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
-    {"$GMObjectProperty":"","%Name":"rail_sprite","filters":[
+    {"$GMObjectProperty":"","%Name":"rail_sprite_horizontal","filters":[
         "GMSprite",
-      ],"listItems":[],"multiselect":false,"name":"rail_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderRail","varType":5,},
+      ],"listItems":[],"multiselect":false,"name":"rail_sprite_horizontal","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderRailH","varType":5,},
+    {"$GMObjectProperty":"","%Name":"rail_sprite_vertical","filters":[
+        "GMSprite",
+      ],"listItems":[],"multiselect":false,"name":"rail_sprite_vertical","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderRailV","varType":5,},
     {"$GMObjectProperty":"","%Name":"knob_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"knob_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultSliderKnob","varType":5,},
     {"$GMObjectProperty":"","%Name":"knob_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"name":"knob_color_mouse_over","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"APP_THEME_MAIN","varType":7,},
+    {"$GMObjectProperty":"","%Name":"knob_autoscale","filters":[],"listItems":[],"multiselect":false,"name":"knob_autoscale","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
     {"$GMObjectProperty":"","%Name":"knob_xscale","filters":[],"listItems":[],"multiselect":false,"name":"knob_xscale","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"1","varType":0,},
     {"$GMObjectProperty":"","%Name":"knob_yscale","filters":[],"listItems":[],"multiselect":false,"name":"knob_yscale","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"1","varType":0,},
     {"$GMObjectProperty":"","%Name":"auto_text","filters":[],"listItems":[
@@ -68,8 +70,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultSliderRail",
-    "path":"sprites/sprDefaultSliderRail/sprDefaultSliderRail.yy",
+    "name":"sprDefaultSliderRailH",
+    "path":"sprites/sprDefaultSliderRailH/sprDefaultSliderRailH.yy",
   },
   "spriteMaskId":null,
   "visible":true,

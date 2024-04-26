@@ -35,7 +35,7 @@ function GuiMouseTranslator() constructor {
 		last_frame_checked = GAMEFRAME;
 		
 		with (other) {
-			if (__LAYER_OR_OBJECT_HIDDEN) return;
+			if (__INSTANCE_UNREACHABLE) return;
 				
 			other.event_redirection_active = true;
 			
@@ -73,7 +73,7 @@ function GuiMouseTranslator() constructor {
 		last_frame_checked = GAMEFRAME;
 
 		with (other) {
-			if (__LAYER_OR_OBJECT_HIDDEN) return;
+			if (__INSTANCE_UNREACHABLE) return;
 			
 			other.event_redirection_active = true;
 			

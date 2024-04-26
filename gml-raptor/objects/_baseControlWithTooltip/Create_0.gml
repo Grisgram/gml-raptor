@@ -17,7 +17,7 @@ __activate_tooltip = function() {
 __deactivate_tooltip = function() {
 	if (tooltip_object == undefined)
 		return;
-		
+	
 	tooltip_hide(tooltip_object);
 	__my_active_tooltip = undefined;
 }

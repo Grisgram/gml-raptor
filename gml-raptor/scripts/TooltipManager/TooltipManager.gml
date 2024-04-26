@@ -5,10 +5,8 @@
 */
 
 #macro TOOLTIP_INSTANCES		global.__tooltip_instances
-#macro TOOLTIP_LAYER			global.__tooltip_layer
 
 TOOLTIP_INSTANCES	= {};
-TOOLTIP_LAYER		= undefined;
 
 /// @function					tooltip_get_instance(tooltip_object_index)
 /// @description				get or create a new instance for a tooltip
@@ -22,7 +20,7 @@ function tooltip_get_instance(tooltip_object_index) {
 		instance_activate_object(inst);
 	} else {
 		vlog($"{MY_NAME}: Creating new tooltip instance: tooltip='{ttname}';");
-		inst = instance_create_layer(x, y, TOOLTIP_LAYER ?? layer, tooltip_object_index);
+		inst = instance_create(x, y, DEPTH_TOP_MOST, tooltip_object_index);
 		inst.visible = false;
 		struct_set(TOOLTIP_INSTANCES, ttname, inst);
 	}
@@ -39,16 +37,21 @@ function tooltip_get_instance(tooltip_object_index) {
 function tooltip_show(tooltip_object_index, tooltip_text, delay_frames = -1, for_object = self) {
 	var inst = tooltip_get_instance(tooltip_object_index);
 	with (inst) {
-		if (TOOLTIP_LAYER == undefined)
-			depth = for_object.depth - 1;
+		depth = DEPTH_TOP_MOST;
 		if (font_to_use == "undefined" && variable_instance_exists(for_object, "font_to_use")) 
 			font_to_use = for_object.font_to_use;
+		// reset all previous values so the instance thinks, it's the first time
+		image_xscale = 1;
+		image_yscale = 1;
+		__last_text = "";
+		update_startup_coordinates();
 		text = tooltip_text;
 		tooltip_parent = for_object;
 		force_redraw();
 		__draw_self();
 		activate(delay_frames);
 	}
+	inst.__bound_to = self;
 	return inst;
 }
 
@@ -59,7 +62,7 @@ function tooltip_hide(tooltip_object_index) {
 	var ttname = object_get_name(tooltip_object_index);
 	if (variable_struct_exists(TOOLTIP_INSTANCES, ttname)) {
 		with (struct_get(TOOLTIP_INSTANCES, ttname)) {
-			if (visible || __active) {
+			if (__bound_to == other && (visible || __active)) {
 				vlog($"{MY_NAME}: Deactivating tooltip: tooltip='{ttname}';");
 				deactivate();
 				instance_deactivate_object(self);

@@ -100,7 +100,7 @@ __animate_draw_color = function(_to) {
 	}
 
 	animation_abort(self, "__raptor_draw_color_anim", false);
-	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlColorAnim,,,{
 			fromcol: animated_draw_color,
 			tocol: _to
 		})
@@ -121,7 +121,7 @@ __animate_text_color = function(_to) {
 	
 	__text_anim_running = true;
 	animation_abort(self, "__raptor_text_color_anim", false);
-	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlColorAnim,,,{
 			fromcol: animated_text_color,
 			tocol: _to
 		})
@@ -232,6 +232,8 @@ __mouse_enter_topmost_control = function() {
 				with(w) {
 					vlog($"{MY_NAME}: onMouseEnter (topmost)");
 					mouse_is_over = true;
+					__animate_draw_color(draw_color_mouse_over);
+					__animate_text_color(text_color_mouse_over);
 					force_redraw(false);
 					have_one = true;
 					break;
@@ -338,6 +340,9 @@ __draw_self = function() {
 	if (__CONTROL_NEEDS_LAYOUT) {
 		__force_redraw = false;
 
+		if (x != xprevious || y != yprevious) 
+			update_startup_coordinates();
+
 		if (sprite_index == -1)
 			word_wrap = false; // no wrapping on zero-size objects
 		
@@ -365,7 +370,6 @@ __draw_self = function() {
 				__apply_autosize_alignment(distx, disty);
 			}
 			edges.update(nine);
-
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
 			
 		} else {
@@ -453,3 +457,8 @@ __draw_instance = function(_force = false) {
 		}
 	}
 }
+
+// These pointers hold a "copy" to the original __draw_self/__draw_instance functions, so any
+// object deriving from this can still reach the original draw methods.
+__basecontrol_draw_self		= __draw_self;
+__basecontrol_draw_instance = __draw_instance;

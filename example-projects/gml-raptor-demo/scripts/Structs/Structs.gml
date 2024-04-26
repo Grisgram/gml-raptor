@@ -127,3 +127,73 @@ function vsget(_struct, _key, _default_if_missing = undefined) {
 	gml_pragma("forceinline");
 	return _struct[$ _key] ?? _default_if_missing;
 }
+
+
+#region virtual and override
+
+// This is used by the "virtual" and "override" method pair
+#macro __FUNCTION_INHERITANCE		global.__function_inheritance
+__FUNCTION_INHERITANCE = {}
+
+/// @function virtual(_object_type, _function_name, [_function])
+/// @description You must declare a function as "virtual" to be able to "override" it later.
+///				 This keeps track of the inheritance chain, and due to the way, how "events"
+///				 work in GameMaker, you need to tell the engine, who you are, when you "virtualize"
+///				 the function, by also supplying your object_type.
+///	Example: 
+///		virtual(_myBaseObject, "my_function", function() {...});
+function virtual(_object_type, _function_name, _function = undefined) {
+	var key = is_string(_object_type) ? _object_type : object_get_name(_object_type);
+	var str = vsgetx(__FUNCTION_INHERITANCE, _function_name, {});
+	var arr = vsgetx(str, key, []);
+	if (!array_contains(arr, key)) {
+		array_push(arr, key);
+	}
+	if (_function != undefined)
+		self[$ _function_name] = method(self, _function);
+}
+
+/// @function override(_function_name, _new_function)
+/// @description NOTE: WORKS FOR OBJECTS ONLY! NOT FOR STRUCTS!
+///				 Allows a clean override of any function in an object instance and keeps
+///				 the original function available under the parent objects' name + function_name
+///	Example:
+/// For 3 inheritance levels, lets call them mother, child and grandchild
+/// mother defines a = function(...)
+/// child does override("a", function(...))
+/// grandchild does override("a", function(...)
+/// Now child and grand_child may call mother_a and grandchild also has child_a available. 
+function override(_object_type, _function_name, _new_function) {
+	var str = vsget(__FUNCTION_INHERITANCE, _function_name);
+	if (str != undefined) {
+		var names = variable_struct_get_names(str);
+		for (var i = 0, len = array_length(names); i < len; i++) {
+			var rootpar = names[@i];
+			if (is_child_of(self, asset_get_index(rootpar))) {
+				var arr = vsget(str, rootpar);
+				var myname = is_string(_object_type) ? _object_type : object_get_name(_object_type);
+				var newname = "";
+				if (array_last(arr) != myname) {
+					var par = array_last(arr);
+					newname = $"{par}_{_function_name}";
+					array_push(arr, myname);
+				} else {
+					var arrlen = array_length(arr);
+					if (arrlen > 1) {
+						var par = arr[@ arrlen - 2];
+						newname = $"{par}_{_function_name}";
+					}
+				}
+				if (newname != "") {
+					self[$ newname] = method(self, self[$ _function_name]);
+					self[$ _function_name] = method(self, _new_function);
+					return;
+				}
+			}
+		}
+	}
+	// This is a... runtime-compile-error?!?
+	throw($"** ERROR ** Function '{_function_name}' can not be overridden as it has not been 'declared'");
+}
+
+#endregion

@@ -1,4 +1,4 @@
-/// @description restore size
+/// @description onGameLoaded
 event_inherited();
 
 update_startup_coordinates();
