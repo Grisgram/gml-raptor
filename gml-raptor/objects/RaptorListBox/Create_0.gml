@@ -5,6 +5,10 @@ enum listbox_sort {
 	none, ascending, descending
 }
 
+enum listbox_style {
+	dropdown, listview
+}
+
 down_arrow_sprite ??= sprDefaultListBoxArrow;
 
 mypanel = undefined;
@@ -163,7 +167,7 @@ open_list = function() {
 }
 
 close_list = function() {
-	if (!is_open) return;
+	if (!is_open || list_style == listbox_style.listview) return;
 	is_open = false;
 	
 	vlog($"{MY_NAME} closing list panel");
@@ -211,10 +215,17 @@ if (array_length(items ?? []) > 0) {
 		__item_clicked(items[@ selected_index]);
 }
 
+if (list_style == listbox_style.listview) {
+	min_height = 0;
+	max_height = 0;
+	scale_sprite_to(sprite_width, 0);
+	open_list();
+}
+
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
 	
-	if (!visible) return;
+	if (!visible || list_style == listbox_style.listview) return;
 	
 	draw_sprite_ext(down_arrow_sprite, 0, 
 		SELF_VIEW_RIGHT_EDGE, 

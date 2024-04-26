@@ -250,7 +250,7 @@ __draw_instance = function(_force = false) {
 	
 	if (value != __old_value || INSTANCE_HAS_MOVED) {
 		var need_anim = __initialized && __knob_x > -90000;
-		if (!__initialized) calculate_knob_size();
+		if (!__initialized || __knob_x < -90000) calculate_knob_size();
 
 		if (orientation_horizontal) {
 			__knob_new_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
@@ -272,7 +272,8 @@ __draw_instance = function(_force = false) {
 			animation_run(self, 0, __knob_scroll_anim_time, acLinearMove)
 				.set_function("x", function(v) { owner.__knob_x = owner.__knob_start_x + v * owner.__knob_x_dist; })
 				.set_function("y", function(v) { owner.__knob_y = owner.__knob_start_y + v * owner.__knob_y_dist; })
-				.set_name("knob_anim");
+				.set_name("knob_anim")
+				.add_finished_trigger(function() {__old_value = value;});
 			__knob_scroll_anim_time = __SLIDER_DEFAULT_KNOB_ANIM_TIME;
 		} else {
 			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
@@ -299,4 +300,9 @@ value = clamp(value, min_value, max_value);
 var initval = value;
 value++; // just modify the value, so set_value below finds a difference and recalculates
 set_value(initval);
-run_delayed(self, 2, function(iv) {set_value(iv);},initval);
+
+// respect the 2 frames delay of the control tree until all sizes are final
+run_delayed(self, 2, function(iv) {
+	set_value(iv);
+	calculate_knob_size();
+}, initval);
