@@ -556,6 +556,19 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			control.force_redraw(false);
 	}
 
+	static clear_children = function() {
+		dlog($"Clearing all children in ControlTree of {name_of(control)}");
+		
+		while (array_length(children) > 0) {
+			var child = array_shift(children);
+			var inst = child.instance;
+			if (is_child_of(inst, _baseContainerControl))
+				inst.control_tree.clear_children();
+			else
+				instance_destroy(inst);
+		}
+	}
+
 	static clean_up = function() {
 		if (!__alive) return;
 		__alive = false;

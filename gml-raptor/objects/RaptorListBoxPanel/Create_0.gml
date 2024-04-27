@@ -47,6 +47,8 @@ __fill_list = function(len, textdims) {
 	var myright = SELF_VIEW_RIGHT_EDGE;
 	var mygui = draw_on_gui;
 	
+	control_tree.clear_children();
+	
 	if (len > listbox.max_items_shown) {
 		control_tree
 			.add_control(Scrollbar, {
