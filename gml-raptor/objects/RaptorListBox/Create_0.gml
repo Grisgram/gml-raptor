@@ -1,5 +1,4 @@
 /// @description event
-event_inherited();
 
 enum listbox_sort {
 	none, ascending, descending
@@ -8,6 +7,14 @@ enum listbox_sort {
 enum listbox_style {
 	dropdown, listview
 }
+
+if (list_style == listbox_style.listview) {
+	min_height = 0;
+	startup_height = 0;
+	autosize = false;
+}
+
+event_inherited();
 
 down_arrow_sprite ??= sprDefaultListBoxArrow;
 
@@ -21,6 +28,7 @@ function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) construct
 	valuemember		= _valuemember;
 	index			= _index;
 	
+	selected		= false;
 	shortened		= false;
 	measured		= false;
 	static measure = function() {
@@ -135,10 +143,12 @@ clear_items = function() {
 }
 
 __item_clicked = function(_item) {
+	array_foreach(items, function(it) { it.selected = false; });
 	if (_item != undefined) {
 		text = _item.get_display_string();
 		tooltip_text = (_item.shortened ? _item.displaymember : "");
 		selected_index = _item.index;
+		_item.selected = true;
 		invoke_if_exists(self, "on_item_selected", _item.valuemember, _item.displaymember);
 	}
 	close_list();
@@ -216,8 +226,6 @@ if (array_length(items ?? []) > 0) {
 }
 
 if (list_style == listbox_style.listview) {
-	min_height = 0;
-	max_height = 0;
 	scale_sprite_to(sprite_width, 0);
 	open_list();
 }

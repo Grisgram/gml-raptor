@@ -29,12 +29,12 @@ enum slider_text {
 
 event_inherited();
 
-	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
-	var h = (startup_height >= 0 ? startup_height : sprite_height);
-	sprite_index = orientation_horizontal ?
-		if_null(rail_sprite_horizontal, sprite_index) :
-		if_null(rail_sprite_vertical, sprite_index);
-	scale_sprite_to(w, h);
+var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+var h = (startup_height >= 0 ? startup_height : sprite_height);
+sprite_index = orientation_horizontal ?
+	if_null(rail_sprite_horizontal, sprite_index) :
+	if_null(rail_sprite_vertical, sprite_index);
+scale_sprite_to(w, h);
 
 value_percent			= 0;
 
