@@ -9,7 +9,6 @@
     {"name":"raptorTemplateRoomController","path":"rooms/rmMain/rmMain.yy",},
     {"name":"playMouseCursor_2_1_2_2","path":"rooms/rmMain/rmMain.yy",},
     {"name":"inst_216BCA47","path":"rooms/rmMain/rmMain.yy",},
-    {"name":"inst_58A1C0DD","path":"rooms/rmMain/rmMain.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -36,10 +35,6 @@
             {"$GMRInstance":"","%Name":"inst_216BCA47","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_216BCA47","objectId":{"name":"AnimatedFlag","path":"objects/AnimatedFlag/AnimatedFlag.yy",},"properties":[
                 {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"AnimatedFlag","path":"objects/AnimatedFlag/AnimatedFlag.yy",},"propertyId":{"name":"wave_speed","path":"objects/AnimatedFlag/AnimatedFlag.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"3",},
               ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":3.1419713,"scaleY":3.1419716,"x":544.0,"y":352.0,},
-            {"$GMRInstance":"","%Name":"inst_58A1C0DD","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_58A1C0DD","objectId":{"name":"ListBox","path":"objects/ListBox/ListBox.yy",},"properties":[
-                {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorListBox","path":"objects/RaptorListBox/RaptorListBox.yy",},"propertyId":{"name":"sorting","path":"objects/RaptorListBox/RaptorListBox.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"listbox_sort.ascending",},
-                {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorListBox","path":"objects/RaptorListBox/RaptorListBox.yy",},"propertyId":{"name":"items","path":"objects/RaptorListBox/RaptorListBox.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"[\"1:Bissi\",\"0:A kleines bissi mehr\",\"2:C\",\"3:D\",\"4:Echt vui text is do drin\",\"5:Fulminant\",\"6:Ganz großes Kino\",\"7:Heiho-Heiho\",\"8:Ich bin vergnügt und froh\",\"9:J\",\"10:K\",\"11:L\",\"12:M\",\"13:N\",\"14:O\",\"15:P\"]",},
-              ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":3.75,"scaleY":1.0,"x":1440.0,"y":368.0,},
           ],"layers":[],"name":"ui_instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
         {"$GMRAssetLayer":"","%Name":"ui_sprites","assets":[],"depth":800,"effectEnabled":true,"effectType":null,"gridX":16,"gridY":16,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"ui_sprites","properties":[],"resourceType":"GMRAssetLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
       ],"name":"ui","properties":[],"resourceType":"GMRLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
