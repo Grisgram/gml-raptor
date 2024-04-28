@@ -36,6 +36,10 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
+    {"$GMObjectProperty":"","%Name":"list_style","filters":[],"listItems":[
+        "listbox_style.dropdown",
+        "listbox_style.listview",
+      ],"multiselect":false,"name":"list_style","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"listbox_style.dropdown","varType":6,},
     {"$GMObjectProperty":"","%Name":"down_arrow_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"down_arrow_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"sprDefaultListBoxArrow","varType":5,},

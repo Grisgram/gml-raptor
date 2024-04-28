@@ -27,8 +27,9 @@ attach_to = function(_listbox) {
 		
 		var len = array_length(listbox.items);
 		var textdims = scribble_measure_text("A", listbox.font_to_use);
+		var animlength = (listbox.list_style == listbox_style.dropdown) ? 6 : 1;
 		scale_sprite_to(listbox.sprite_width, 1);
-		animation_run(self, 0, 6, acLinearScale,,, {_len: len, _dims: textdims})
+		animation_run(self, 0, animlength, acLinearScale,,, {_len: len, _dims: textdims})
 			.set_scale_distance(0, textdims.y * min(len, listbox.max_items_shown))
 			.add_finished_trigger(function(adata) {
 				__fill_list(adata._len, adata._dims);
@@ -45,6 +46,8 @@ __fill_list = function(len, textdims) {
 	var me = self;
 	var myright = SELF_VIEW_RIGHT_EDGE;
 	var mygui = draw_on_gui;
+	
+	control_tree.clear_children();
 	
 	if (len > listbox.max_items_shown) {
 		control_tree

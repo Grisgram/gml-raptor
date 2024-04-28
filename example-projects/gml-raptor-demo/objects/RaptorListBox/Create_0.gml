@@ -1,9 +1,20 @@
 /// @description event
-event_inherited();
 
 enum listbox_sort {
 	none, ascending, descending
 }
+
+enum listbox_style {
+	dropdown, listview
+}
+
+if (list_style == listbox_style.listview) {
+	min_height = 0;
+	startup_height = 0;
+	autosize = false;
+}
+
+event_inherited();
 
 down_arrow_sprite ??= sprDefaultListBoxArrow;
 
@@ -17,6 +28,7 @@ function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) construct
 	valuemember		= _valuemember;
 	index			= _index;
 	
+	selected		= false;
 	shortened		= false;
 	measured		= false;
 	static measure = function() {
@@ -131,10 +143,12 @@ clear_items = function() {
 }
 
 __item_clicked = function(_item) {
+	array_foreach(items, function(it) { it.selected = false; });
 	if (_item != undefined) {
 		text = _item.get_display_string();
 		tooltip_text = (_item.shortened ? _item.displaymember : "");
 		selected_index = _item.index;
+		_item.selected = true;
 		invoke_if_exists(self, "on_item_selected", _item.valuemember, _item.displaymember);
 	}
 	close_list();
@@ -163,7 +177,7 @@ open_list = function() {
 }
 
 close_list = function() {
-	if (!is_open) return;
+	if (!is_open || list_style == listbox_style.listview) return;
 	is_open = false;
 	
 	vlog($"{MY_NAME} closing list panel");
@@ -211,10 +225,15 @@ if (array_length(items ?? []) > 0) {
 		__item_clicked(items[@ selected_index]);
 }
 
+if (list_style == listbox_style.listview) {
+	scale_sprite_to(sprite_width, 0);
+	open_list();
+}
+
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
 	
-	if (!visible) return;
+	if (!visible || list_style == listbox_style.listview) return;
 	
 	draw_sprite_ext(down_arrow_sprite, 0, 
 		SELF_VIEW_RIGHT_EDGE, 

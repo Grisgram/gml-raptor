@@ -3,6 +3,7 @@
 #macro DEBUG_MODE_ACTIVE				true
 #macro beta:DEBUG_MODE_ACTIVE			false
 #macro release:DEBUG_MODE_ACTIVE		false
+gml_release_mode(!DEBUG_MODE_ACTIVE);
 
 #macro CONFIGURATION_DEV				true
 #macro CONFIGURATION_BETA				false

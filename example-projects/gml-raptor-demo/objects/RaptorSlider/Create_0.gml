@@ -29,12 +29,12 @@ enum slider_text {
 
 event_inherited();
 
-	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
-	var h = (startup_height >= 0 ? startup_height : sprite_height);
-	sprite_index = orientation_horizontal ?
-		if_null(rail_sprite_horizontal, sprite_index) :
-		if_null(rail_sprite_vertical, sprite_index);
-	scale_sprite_to(w, h);
+var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+var h = (startup_height >= 0 ? startup_height : sprite_height);
+sprite_index = orientation_horizontal ?
+	if_null(rail_sprite_horizontal, sprite_index) :
+	if_null(rail_sprite_vertical, sprite_index);
+scale_sprite_to(w, h);
 
 value_percent			= 0;
 
@@ -52,12 +52,12 @@ __knob_max_x			= 0;
 __knob_min_y			= 0;
 __knob_max_y			= 0;
 __knob_scroll_anim_time	= __SLIDER_DEFAULT_KNOB_ANIM_TIME;
-__knob_need_calc		= true;
 __mouse_over_knob		= false;
 __knob_grabbed			= false;
 __initial_value_set		= false;
 __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
+__old_value				= -1;
 
 xcheck					= CTL_MOUSE_X;
 ycheck					= CTL_MOUSE_Y;
@@ -146,16 +146,15 @@ calculate_value_percent = function() {
 
 /// @function set_value()
 set_value = function(new_value) {
-	var old_val = value;
+	__old_value = value;
 	value = clamp(new_value, min_value, max_value);
 	calculate_value_percent();
-	__knob_need_calc = (value != old_val);
-	if (__knob_need_calc) {
+	if (value != __old_value) {
 		if (auto_text == slider_autotext.text_is_value)		text = string(round(value)); else
 		if (auto_text == slider_autotext.text_is_percent)	text = string_format(value_percent * 100,3,0) + "%"; else
 		if (auto_text == slider_autotext.none)				text = "";
 		
-		if (__initial_value_set && on_value_changed != undefined) on_value_changed(value, old_val);
+		if (__initial_value_set && on_value_changed != undefined) on_value_changed(value, __old_value);
 		__initial_value_set = true; // this skips the FIRST value assignment on creation
 	}
 }
@@ -249,10 +248,9 @@ __draw_self = function() {
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
 	
-	if (__knob_need_calc) {
-		__knob_need_calc = false;
-		var need_anim = __initialized;
-		if (!__initialized) calculate_knob_size();
+	if (value != __old_value || INSTANCE_HAS_MOVED) {
+		var need_anim = __initialized && __knob_x > -90000;
+		if (!__initialized || __knob_x < -90000) calculate_knob_size();
 
 		if (orientation_horizontal) {
 			__knob_new_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
@@ -265,7 +263,7 @@ __draw_instance = function(_force = false) {
 				__knob_new_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
 		}
 		
-		if (need_anim) {
+		if (need_anim && !__knob_grabbed && !INSTANCE_HAS_MOVED) {
 			__knob_start_x = __knob_x;
 			__knob_start_y = __knob_y;
 			__knob_x_dist = __knob_new_x - __knob_x;
@@ -274,7 +272,8 @@ __draw_instance = function(_force = false) {
 			animation_run(self, 0, __knob_scroll_anim_time, acLinearMove)
 				.set_function("x", function(v) { owner.__knob_x = owner.__knob_start_x + v * owner.__knob_x_dist; })
 				.set_function("y", function(v) { owner.__knob_y = owner.__knob_start_y + v * owner.__knob_y_dist; })
-				.set_name("knob_anim");
+				.set_name("knob_anim")
+				.add_finished_trigger(function() {__old_value = value;});
 			__knob_scroll_anim_time = __SLIDER_DEFAULT_KNOB_ANIM_TIME;
 		} else {
 			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
@@ -301,3 +300,9 @@ value = clamp(value, min_value, max_value);
 var initval = value;
 value++; // just modify the value, so set_value below finds a difference and recalculates
 set_value(initval);
+
+// respect the 2 frames delay of the control tree until all sizes are final
+run_delayed(self, 2, function(iv) {
+	set_value(iv);
+	calculate_knob_size();
+}, initval);
