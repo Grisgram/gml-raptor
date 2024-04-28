@@ -145,7 +145,7 @@ clear_items = function() {
 __item_clicked = function(_item) {
 	array_foreach(items, function(it) { it.selected = false; });
 	if (_item != undefined) {
-		text = _item.get_display_string();
+		text = (list_style == listbox_style.dropdown ? _item.get_display_string() : "");
 		tooltip_text = (_item.shortened ? _item.displaymember : "");
 		selected_index = _item.index;
 		_item.selected = true;

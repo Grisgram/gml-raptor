@@ -135,7 +135,7 @@ scroll_to_index = function(_idx) {
 }
 
 wheel_scroll = function(_direction) {
-	//if (myscrollbar == undefined || __SLIDER_IN_FOCUS == myscrollbar) return;
+	if (myscrollbar == undefined) return;
 	var moveby = listbox.wheel_scroll_lines * _direction;
 	myscrollbar.set_value(clamp(myscrollbar.value + moveby, 0, max_scroll_index));
 }

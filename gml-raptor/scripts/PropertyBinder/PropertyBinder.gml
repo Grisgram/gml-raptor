@@ -79,11 +79,10 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 		return self;
 	}
 	
-	/// @function unbind(_my_property)
-	static unbind = function(_my_property) {
+	/// @function unbind(_my_property, key)
+	static unbind = function(_my_property, key) {
 		for (var i = 0; i < 2; i++) {
 			var pre = (i == 0 ? "push" : "pull");
-			var key = $"{pre}_{name_of(myself)}.{_my_property}";
 			var bnd = vsget(__bindings, key);
 			if (bnd != undefined) {
 				if (vsget(bnd.source_instance, "binder") != undefined && !is_method(bnd.source_instance.binder)) {
@@ -120,7 +119,7 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 				!is_method(src.target_instance.binder)) {
 				with(src.target_instance)
 					if (vsget(binder.__bindings, key))
-						binder.unbind(binder.__bindings[$ key].target_property);
+						binder.unbind(binder.__bindings[$ key].target_property, key);
 			} else
 				with(src) unbind(); // struct push binding
 			variable_struct_remove(__source_bindings, key);
@@ -131,8 +130,10 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 	static unbind_all = function() {
 		unbind_source();
 		var names = struct_get_names(__bindings);
-		for (var i = 0, len = array_length(names); i < len; i++)
-			unbind(__bindings[$ names[@i]].target_property);
+		for (var i = 0, len = array_length(names); i < len; i++) {
+			var key = names[@i];
+			unbind(__bindings[$ key].target_property, key);
+		}
 		return self;
 	}
 	
