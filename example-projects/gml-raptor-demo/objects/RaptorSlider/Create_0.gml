@@ -29,31 +29,28 @@ enum slider_text {
 
 event_inherited();
 
-var w = (startup_width  >= 0 ? startup_width  : sprite_width);
-var h = (startup_height >= 0 ? startup_height : sprite_height);
-sprite_index = orientation_horizontal ?
-	if_null(rail_sprite_horizontal, sprite_index) :
-	if_null(rail_sprite_vertical, sprite_index);
-scale_sprite_to(w, h);
-
 value_percent			= 0;
 
 __vertical_zero_is_top	= false;
 __text_dims				= scribble_measure_text(string(max_value));
 __text_xoffset_mod		= 0;
 __text_yoffset_mod		= 0;
+
 __knob_dims				= new SpriteDim(knob_sprite);
+__knob_grabbed			= false;
+__knob_scroll_anim_time	= __SLIDER_DEFAULT_KNOB_ANIM_TIME;
+
 __knob_x				= 0;
 __knob_y				= 0;
+__knob_rel_x			= 0;
+__knob_rel_y			= 0;
 __knob_new_x			= 0;
 __knob_new_y			= 0;
-__knob_min_x			= 0;
-__knob_max_x			= 0;
-__knob_min_y			= 0;
-__knob_max_y			= 0;
-__knob_scroll_anim_time	= __SLIDER_DEFAULT_KNOB_ANIM_TIME;
+__value_offset			= 0;
+__new_value_offset		= 0;
+__last_value_offset		= 0;
+
 __mouse_over_knob		= false;
-__knob_grabbed			= false;
 __initial_value_set		= false;
 __outside_knob_cursor	= window_get_cursor();
 __tilesize				= 0;
@@ -64,19 +61,45 @@ ycheck					= CTL_MOUSE_Y;
 __is_topmost			= false;
 __over_before			= false;
 
+/// @function pre_calculate_knob()
+pre_calculate_knob = function() {
+	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+	var h = (startup_height >= 0 ? startup_height : sprite_height);
+
+	if (orientation_horizontal) {
+		sprite_index = if_null(rail_sprite_horizontal, sprite_index);
+		__knob_rel_x = __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
+		__knob_rel_y = __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
+		//__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value)
+	} else {
+		sprite_index = if_null(rail_sprite_vertical, sprite_index);
+		__knob_rel_x = __knob_dims.origin_x + sprite_xoffset + nine_slice_data.get_center_x() - __knob_dims.center_x;
+		__knob_rel_y = __knob_dims.origin_y + sprite_yoffset + nine_slice_data.top;
+		//__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
+	}
+	calculate_knob_size();
+	scale_sprite_to(w, h);
+
+	__value_offset = floor(value * __tilesize);
+	__last_value_offset = __value_offset;
+	if (orientation_horizontal) {
+		__knob_x = x + __knob_rel_x + __value_offset;
+		__knob_y = y + __knob_rel_y;
+	} else {
+		__knob_x = x + __knob_rel_x;
+		__knob_y = __vertical_zero_is_top ?
+			y + __knob_rel_y + __value_offset :
+			y + __knob_rel_y + nine_slice_data.height - __knob_dims.height - __value_offset;
+	}
+
+}
+
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	integrate_skin_data(_skindata);
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;
-	
-	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
-	var h = (startup_height >= 0 ? startup_height : sprite_height);
-	sprite_index = orientation_horizontal ?
-		if_null(rail_sprite_horizontal, sprite_index) :
-		if_null(rail_sprite_vertical, sprite_index);
-	scale_sprite_to(w, h);
-	
+	pre_calculate_knob();	
 	update_startup_coordinates();
 	update_client_area();
 	force_redraw();
@@ -199,39 +222,22 @@ __apply_post_positioning = function() {
 }
 
 /// @function calculate_knob_size()
-/// @description invoked once on creation only.
-///				 You should invoke this, when you change the range or size of the control
-///				 at runtime
 calculate_knob_size = function() {
-	__initialized = true;
-	
 	if (orientation_horizontal) {
-		if (knob_autoscale)
-			knob_xscale = max(1, (nine_slice_data.width / ((max_value - min_value) + 1)) / __knob_dims.width);
-	
-		__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.left;
-		__knob_max_x = __knob_min_x + nine_slice_data.width - __knob_dims.width * knob_xscale;
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
-
-		__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.get_center_y() - __knob_dims.center_y;
-		__knob_max_y = __knob_min_y;
+		if (knob_autoscale)	
+			knob_xscale = max(1, (nine_slice_data.width / ((max_value - min_value) + 1)) / __knob_dims.width);
 	} else {
-		if (knob_autoscale)
-			knob_yscale = max(1, (nine_slice_data.height / ((max_value - min_value) + 1)) / __knob_dims.height);
-		
-		__knob_min_y = y + __knob_dims.origin_y + sprite_yoffset + nine_slice_data.top;
-		__knob_max_y = __knob_min_y + nine_slice_data.height - __knob_dims.height * knob_yscale;
 		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
-			
-		__knob_min_x = x + __knob_dims.origin_x + sprite_xoffset + nine_slice_data.get_center_x() - __knob_dims.center_x;
-		__knob_max_x = __knob_min_x;
+		if (knob_autoscale)	
+			knob_yscale = max(1, (nine_slice_data.height / ((max_value - min_value) + 1)) / __knob_dims.height);
 	}
 }
-__initialized = false;
 
+__recalc_knob = false;
 __draw_self = function() {
 	if (__CONTROL_NEEDS_LAYOUT) {
-		if (INSTANCE_HAS_MOVED) calculate_knob_size();
+		__recalc_knob = true;
 		if (auto_text != slider_autotext.none) {
 			switch(auto_text_position) {
 				case slider_text.h_above:	scribble_text_align = "[fa_bottom][fa_center]";	break;
@@ -243,47 +249,49 @@ __draw_self = function() {
 	}
 	
 	__basecontrol_draw_self();
+	
+	if (__recalc_knob) {
+		calculate_knob_size();
+		__recalc_knob = false;
+	}
 }
 
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
-	
-	if (value != __old_value || INSTANCE_HAS_MOVED) {
-		var need_anim = __initialized && __knob_x > -90000;
-		if (!__initialized || __knob_x < -90000) calculate_knob_size();
-
-		if (orientation_horizontal) {
-			__knob_new_x = floor(__knob_min_x + (value - min_value) * __tilesize) - __knob_dims.origin_x;
-			__knob_new_y = __knob_min_y;
-		} else {
-			__knob_new_x = __knob_min_x;
-			if (__vertical_zero_is_top)
-				__knob_new_y = floor(__knob_min_y + (value - min_value) * __tilesize) + __knob_dims.origin_y;
-			else
-				__knob_new_y = floor(__knob_max_y - (value - min_value) * __tilesize) + __knob_dims.origin_y;
-		}
 		
-		if (need_anim && !__knob_grabbed && !INSTANCE_HAS_MOVED) {
-			__knob_start_x = __knob_x;
-			__knob_start_y = __knob_y;
-			__knob_x_dist = __knob_new_x - __knob_x;
-			__knob_y_dist = __knob_new_y - __knob_y;
-			animation_abort(self, "knob_anim");
-			animation_run(self, 0, __knob_scroll_anim_time, acLinearMove)
-				.set_function("x", function(v) { owner.__knob_x = owner.__knob_start_x + v * owner.__knob_x_dist; })
-				.set_function("y", function(v) { owner.__knob_y = owner.__knob_start_y + v * owner.__knob_y_dist; })
-				.set_name("knob_anim")
-				.add_finished_trigger(function() {__old_value = value;});
-			__knob_scroll_anim_time = __SLIDER_DEFAULT_KNOB_ANIM_TIME;
+	__value_offset = floor(__tilesize * value);
+	if (__value_offset != __last_value_offset && !__knob_grabbed) {
+		if (orientation_horizontal) {
+			__knob_new_x = x + __knob_rel_x + __value_offset;
+			__knob_new_y = __knob_y;
 		} else {
-			__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
-			__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
+			__knob_new_x = __knob_x;
+			__knob_new_y = __vertical_zero_is_top ?
+				y + __knob_rel_y + __value_offset :
+				y + __knob_rel_y + nine_slice_data.height - __knob_dims.height - __value_offset;
 		}
-	} else if (_force) {
-		calculate_knob_size();
-		__knob_x = clamp(__knob_new_x, __knob_min_x, __knob_max_x);
-		__knob_y = clamp(__knob_new_y, __knob_min_y, __knob_max_y);
+		__knob_start_x = __knob_x;
+		__knob_start_y = __knob_y;
+		__knob_x_dist = __knob_new_x - __knob_x;
+		__knob_y_dist = __knob_new_y - __knob_y;
+		animation_abort(self, "knob_anim");
+		animation_run(self, 0, __knob_scroll_anim_time, acLinearMove)
+			.set_function("x", function(v) { with(owner) __knob_x = __knob_start_x + v * __knob_x_dist; })
+			.set_function("y", function(v) { with(owner) __knob_y = __knob_start_y + v * __knob_y_dist; })
+			.set_name("knob_anim");
+			__knob_scroll_anim_time = __SLIDER_DEFAULT_KNOB_ANIM_TIME;
+	} else if (!is_in_animation(self)) {	
+		if (orientation_horizontal) {
+			__knob_x = x + __knob_rel_x + __value_offset;
+			__knob_y = y + __knob_rel_y;
+		} else {
+			__knob_x = x + __knob_rel_x;
+			__knob_y = __vertical_zero_is_top ?
+				y + __knob_rel_y + __value_offset :
+				y + __knob_rel_y + nine_slice_data.height - __knob_dims.height - __value_offset;
+		}
 	}
+	__last_value_offset = __value_offset;
 	
 	draw_sprite_ext(
 		knob_sprite, 0, 
@@ -296,6 +304,8 @@ __draw_instance = function(_force = false) {
 
 __set_draw_colors();
 // first, clamp the value in case the dev made a config error (like leaving value at 0 while setting min_value to 1)
+// also, avoid division by zero, by setting max_value at least min_value + 1
+max_value = max(max_value, min_value + 1);
 value = clamp(value, min_value, max_value);
 var initval = value;
 value++; // just modify the value, so set_value below finds a difference and recalculates
@@ -304,5 +314,7 @@ set_value(initval);
 // respect the 2 frames delay of the control tree until all sizes are final
 run_delayed(self, 2, function(iv) {
 	set_value(iv);
-	calculate_knob_size();
+	pre_calculate_knob();
 }, initval);
+
+pre_calculate_knob();

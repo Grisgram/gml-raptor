@@ -15,7 +15,7 @@ function __Binding(
 	_on_value_changed	= undefined) constructor {
 	construct(__Binding);
 
-	key = $"{_prefix}_{name_of(_myself)}.{_my_property}";
+	key = $"{_prefix}_{name_of(_myself)}.{_my_property}.{name_of(_source_instance)}";
 	
 	target_instance  = _myself;
 	target_property  = _my_property;

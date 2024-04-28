@@ -1,7 +1,7 @@
 /// @description click and data
 event_inherited();
 
-itemdata = { selected: false}; // a temp struct before we get real data (for set_selected)
+itemdata = itemdata ?? { selected: false }; // a temp struct before we get real data (for set_selected)
 
 __backup_draw_color = draw_color;
 __backup_text_color	= text_color;
