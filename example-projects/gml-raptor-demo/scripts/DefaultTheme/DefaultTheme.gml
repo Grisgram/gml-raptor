@@ -1,5 +1,5 @@
 /*
-    Raptor's default theme.
+    Raptor's neutral default theme.
 	
 	This script is here for you, so you can see, how you can easily define your own theme:
 	Just derive from "UiTheme" and set the colors you want, then add the theme to the UiThemeManager
@@ -13,14 +13,24 @@
 
 function DefaultTheme(_name = "default") : UiTheme(_name) constructor {
 
-	main	= CI_GLOBAL_MAIN;
-	bright	= CI_GLOBAL_BRIGHT;
-	dark	= CI_GLOBAL_DARK;
-	accent	= CI_GLOBAL_ACCENT;
+	// "Your" colors
+	main					= CI_GLOBAL_MAIN;
+	bright					= CI_GLOBAL_BRIGHT;
+	dark					= CI_GLOBAL_DARK;
+	accent					= CI_GLOBAL_ACCENT;
 
-	white	= CI_GLOBAL_WHITE;
-	black	= CI_GLOBAL_BLACK;
-	shadow	= CI_GLOBAL_SHADOW;
+	// Greyscales
+	white					= CI_GLOBAL_WHITE;
+	black					= CI_GLOBAL_BLACK;
+	shadow					= CI_GLOBAL_SHADOW;
+
+	// UI controls
+	control_back			= CI_GLOBAL_CONTROL_BACK;
+	control_back_dark		= CI_GLOBAL_CONTROL_BACK_DARK;
+	control_back_bright		= CI_GLOBAL_CONTROL_BACK_BRIGHT;
+	control_text			= CI_GLOBAL_CONTROL_TEXT;
+	control_window_back		= CI_GLOBAL_CONTROL_WINDOW_BACK;
+	control_window_focus	= CI_GLOBAL_CONTROL_WINDOW_FOCUS;
 
 }
 

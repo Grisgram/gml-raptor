@@ -71,23 +71,38 @@ function UiThemeManager() constructor {
 	}
 	
 	static __copy_theme_to_global_colors = function(_theme) {
-		APP_THEME_WHITE		= _theme.white	;
-		APP_THEME_BLACK		= _theme.black	;
-		APP_THEME_MAIN		= _theme.main	;
-		APP_THEME_BRIGHT	= _theme.bright	;
-		APP_THEME_DARK		= _theme.dark	;
-		APP_THEME_SHADOW	= _theme.shadow	;
-		APP_THEME_ACCENT	= _theme.accent	;
+		APP_THEME_WHITE					= _theme.white					;
+		APP_THEME_BLACK					= _theme.black					;
+		APP_THEME_MAIN					= _theme.main					;
+		APP_THEME_BRIGHT				= _theme.bright					;
+		APP_THEME_DARK					= _theme.dark					;
+		APP_THEME_SHADOW				= _theme.shadow					;
+		APP_THEME_ACCENT				= _theme.accent					;
+		
+		APP_THEME_CONTROL_BACK_DARK		= _theme.control_back_dark		;
+		APP_THEME_CONTROL_BACK			= _theme.control_back			;
+		APP_THEME_CONTROL_BACK_BRIGHT	= _theme.control_back_bright	;
+		APP_THEME_CONTROL_TEXT			= _theme.control_text			;
+		APP_THEME_CONTROL_WINDOW_BACK	= _theme.control_window_back	;
+		APP_THEME_CONTROL_WINDOW_FOCUS	= _theme.control_window_focus	;
 	}
 	
 	static __copy_app_theme_to_scribble_colors = function() {
-		SCRIBBLE_COLORS.ci_white	= APP_THEME_WHITE	;
-		SCRIBBLE_COLORS.ci_black	= APP_THEME_BLACK	;
-		SCRIBBLE_COLORS.ci_main		= APP_THEME_MAIN	;
-		SCRIBBLE_COLORS.ci_bright	= APP_THEME_BRIGHT	;
-		SCRIBBLE_COLORS.ci_dark		= APP_THEME_DARK	;
-		SCRIBBLE_COLORS.ci_shadow	= APP_THEME_SHADOW	;
-		SCRIBBLE_COLORS.ci_accent	= APP_THEME_ACCENT	;
+		SCRIBBLE_COLORS.ci_white				= APP_THEME_WHITE	;
+		SCRIBBLE_COLORS.ci_black				= APP_THEME_BLACK	;
+		SCRIBBLE_COLORS.ci_main					= APP_THEME_MAIN	;
+		SCRIBBLE_COLORS.ci_bright				= APP_THEME_BRIGHT	;
+		SCRIBBLE_COLORS.ci_dark					= APP_THEME_DARK	;
+		SCRIBBLE_COLORS.ci_shadow				= APP_THEME_SHADOW	;
+		SCRIBBLE_COLORS.ci_accent				= APP_THEME_ACCENT	;
+		
+		SCRIBBLE_COLORS.ci_control_back_dark	= APP_THEME_CONTROL_BACK_DARK		;
+		SCRIBBLE_COLORS.ci_control_back			= APP_THEME_CONTROL_BACK			;
+		SCRIBBLE_COLORS.ci_control_back_bright	= APP_THEME_CONTROL_BACK_BRIGHT		;
+		SCRIBBLE_COLORS.ci_control_text			= APP_THEME_CONTROL_TEXT			;
+		SCRIBBLE_COLORS.ci_control_window_back	= APP_THEME_CONTROL_WINDOW_BACK		;
+		SCRIBBLE_COLORS.ci_control_window_focus	= APP_THEME_CONTROL_WINDOW_FOCUS	;
+		
 		SCRIBBLE_REFRESH;
 	}
 	
