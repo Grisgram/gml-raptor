@@ -7,7 +7,9 @@
   ],
   "managed":true,
   "name":"_baseContainerControl",
-  "overriddenProperties":[],
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_CONTROL_BACK",},
+  ],
   "parent":{
     "name":"UI",
     "path":"folders/_gml_raptor_/UI.yy",

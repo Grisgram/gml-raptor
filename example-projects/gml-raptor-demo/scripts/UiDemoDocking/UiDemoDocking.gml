@@ -7,12 +7,12 @@ function UiDemoDockableTreeChild(_control) : ControlTree(_control) constructor {
 	
 	reorder_docks = false;
 	
-	static __add_docked_label = function(_caption, _dock, _rot = 0, _draw = APP_THEME_MAIN, _drawmo = APP_THEME_BRIGHT) {
+	static __add_docked_label = function(_caption, _dock, _rot = 0, _draw = THEME_MAIN, _drawmo = THEME_BRIGHT) {
 		return add_control(TextButton, { 
 				text: _caption,
 				scribble_text_align: "[fa_middle][fa_center]",
-				text_color: APP_THEME_WHITE,
-				text_color_mouse_over: APP_THEME_WHITE,
+				text_color: THEME_WHITE,
+				text_color_mouse_over: THEME_WHITE,
 				draw_color: _draw,
 				draw_color_mouse_over: _drawmo,
 				text_angle: _rot,
