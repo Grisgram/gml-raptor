@@ -137,7 +137,9 @@ __animate_text_color = function(_to) {
 }
 
 __animate_text_transform = function(_to_size, _to_angle) {
-	if (color_anim_frames == 0) {
+	var _sizediff = _to_size - __mouse_text_scale;
+	var _anglediff = _to_angle - text_angle;
+	if (color_anim_frames == 0 || (_sizediff == 0 && _anglediff == 0)) {
 		__mouse_text_scale = _to_size;
 		text_angle = _to_angle;
 		return;
@@ -146,10 +148,10 @@ __animate_text_transform = function(_to_size, _to_angle) {
 	__text_transform_running = true;
 	animation_abort(self, "__raptor_text_transform_anim", false);
 	animation_run(self, 0, color_anim_frames, __raptorAcControlColorAnim,,,{
-			sizediff:	_to_size - __mouse_text_scale,
+			sizediff:	_sizediff,
 			fromsize:	__mouse_text_scale,
 			tosize:		_to_size,
-			anglediff:	_to_angle - text_angle,
+			anglediff:	_anglediff,
 			fromangle:	text_angle,
 			toangle:	_to_angle
 		})

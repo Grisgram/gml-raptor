@@ -95,7 +95,13 @@ function onGameStart() {
 	DEBUG_SHOW_OBJECT_FRAMES	= false;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
-		
+
+	// Setup theme and skin. 
+	// Set the argument to false to have it not activated automatically.
+	// ------------------------------------------------------------------
+	//UI_THEMES.add_theme(new your_game_theme_name(), true);
+	//UI_SKINS.add_skin(new your_game_skin_name(), true);
+
 	// Load start data
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------
@@ -115,6 +121,7 @@ function onGameStart() {
 	//SCRIBBLE_COLORS.my_col3 = $FFE5E5E5; // $AABBGGRR
 	
 	SCRIBBLE_REFRESH;
+	
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
 	//set_room_default_audio(rmPlay, mus_theme, amb_theme);

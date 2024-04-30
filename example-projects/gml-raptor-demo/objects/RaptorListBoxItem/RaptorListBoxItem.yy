@@ -11,6 +11,7 @@
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"text_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_WHITE",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"[fa_middle][fa_left]\"",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"text_scale_mouse_down","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"1.00",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_WINDOW_BACK",},
   ],
   "parent":{
     "name":"controls",
@@ -38,8 +39,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultLabel",
-    "path":"sprites/sprDefaultLabel/sprDefaultLabel.yy",
+    "name":"spr1pxWhite",
+    "path":"sprites/spr1pxWhite/spr1pxWhite.yy",
   },
   "spriteMaskId":null,
   "visible":true,

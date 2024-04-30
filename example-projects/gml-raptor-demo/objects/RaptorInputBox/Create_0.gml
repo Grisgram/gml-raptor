@@ -343,7 +343,6 @@ __set_cursor_pos_from_click = function(force_extend_selection = false) {
 
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
-	ilog($"--- {string_get_hex(animated_text_color, 8)} {string_get_hex(text_color, 8)} {string_get_hex(text_color_focus, 8)}");
 	if (!visible || image_number < 2) return;
 	
 	if (__RAPTORDATA.has_focus)

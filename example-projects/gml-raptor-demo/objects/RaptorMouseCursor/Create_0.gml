@@ -84,6 +84,17 @@ on_skin_changed = function(_skindata) {
 	sprite_index = (havedefault ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
 }
 
+/// @function set_cursor_custom(_cursor_sprite)
+/// @description	Sets any custom sprite to be the mouse cursor sprite.
+///					This will also set "mouse_cursor_type.pointer".
+///					To reset to the default pointer cursor, invoke set_cursor(mouse_cursor_type.pointer).
+/// @param {sprite_index} _cursor_sprite	The sprite to set as the active mouse cursor
+set_cursor_custom = function(_cursor_sprite) {
+	sprite_index = _cursor_sprite;
+	image_index = 0;
+	_mouse_cursor_type = mouse_cursor_type.pointer;
+}
+
 /// @function set_cursor(_mouse_cursor_type, _mouse_cursor_sizing = 0)
 set_cursor = function(_mouse_cursor_type, _mouse_cursor_sizing = 0) {
 	sprite_index = (_mouse_cursor_type == mouse_cursor_type.pointer ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);

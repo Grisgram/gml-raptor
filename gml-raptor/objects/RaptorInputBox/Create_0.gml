@@ -35,10 +35,8 @@ __cursor_y = 0;
 __cursor_height = 0;
 __first_draw = true;
 __first_cursor_draw = true;
-__backup_text_color = c_white;
-__backup_draw_color = c_white;
-__backup_text_color_mouse_over = c_white;
-__backup_draw_color_mouse_over = c_white;
+__backup_text_color = THEME_CONTROL_TEXT;
+__backup_text_color_mouse_over = THEME_CONTROL_TEXT;
 
 __key_repeat_frame = 0;
 __wait_for_key_repeat = false;
@@ -62,16 +60,10 @@ set_focus = function(from_tab = false) {
 	vlog($"{MY_NAME}: tab index {tab_index} got focus");
 	__RAPTORDATA.has_focus = true;
 	__backup_text_color = text_color;
-	__backup_draw_color = draw_color;
 	__backup_text_color_mouse_over = text_color_mouse_over;
-	__backup_draw_color_mouse_over = draw_color_mouse_over;
 	animated_text_color = text_color_focus;
-	animated_draw_color = border_color_focus;
 	text_color = text_color_focus;
-	draw_color = border_color_focus;
 	text_color_mouse_over = text_color_focus;
-	draw_color_mouse_over = border_color_focus;
-	if (image_number > 0) image_index = 1;
 	if (from_tab) set_cursor_pos(string_length(text));
 	selection_length = 0;
 	__last_selection_length = -1;
@@ -94,12 +86,8 @@ lose_focus = function() {
 	selection_length = 0;
 	__last_selection_length = -1;
 	text_color = __backup_text_color;
-	draw_color = __backup_draw_color;
 	text_color_mouse_over = __backup_text_color_mouse_over;
-	draw_color_mouse_over = __backup_draw_color_mouse_over;
 	animated_text_color = text_color;
-	animated_draw_color = draw_color;
-	image_index = 0;
 	force_redraw(false);
 	__invoke_lost_focus();
 }
@@ -288,7 +276,7 @@ draw_scribble_text = function() {
 
 /// @function __draw_cursor()
 __draw_cursor = function() {
-	if (__first_cursor_draw || (__RAPTORDATA.has_focus && __cursor_visible)) {
+	if (__first_cursor_draw || (__RAPTORDATA.has_focus && __cursor_visible && is_topmost(x, y))) {
 		if (__first_cursor_draw || __last_cursor_visible != __cursor_visible) {
 			__first_cursor_draw = false;
 			// make draw calculations only once, if visible changed in last frame
@@ -351,4 +339,12 @@ __set_cursor_pos_from_click = function(force_extend_selection = false) {
 			break;
 	}
 	set_cursor_pos(clamp(i - 2, 0, string_length(text)), force_extend_selection);
+}
+
+__draw_instance = function(_force = false) {
+	__basecontrol_draw_instance(_force);
+	if (!visible || image_number < 2) return;
+	
+	if (__RAPTORDATA.has_focus)
+		draw_sprite_ext(sprite_index, 1, x, y, image_xscale, image_yscale, image_angle, border_color_focus, image_alpha);
 }

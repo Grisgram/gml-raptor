@@ -23,6 +23,8 @@
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"autosize","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"False",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"scribble_text_align","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"[fa_middle][fa_left]\"",},
     {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"text_scale_mouse_down","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"1.0",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_WINDOW_BACK",},
+    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_WINDOW_BACK",},
   ],
   "parent":{
     "name":"controls",
@@ -46,8 +48,8 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"","%Name":"text_color_focus","filters":[],"listItems":[],"multiselect":false,"name":"text_color_focus","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"APP_THEME_MAIN","varType":7,},
-    {"$GMObjectProperty":"","%Name":"border_color_focus","filters":[],"listItems":[],"multiselect":false,"name":"border_color_focus","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"APP_THEME_MAIN","varType":7,},
+    {"$GMObjectProperty":"","%Name":"text_color_focus","filters":[],"listItems":[],"multiselect":false,"name":"text_color_focus","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"THEME_CONTROL_TEXT","varType":7,},
+    {"$GMObjectProperty":"","%Name":"border_color_focus","filters":[],"listItems":[],"multiselect":false,"name":"border_color_focus","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"THEME_WINDOW_FOCUS","varType":7,},
     {"$GMObjectProperty":"","%Name":"select_all_on_focus","filters":[],"listItems":[],"multiselect":false,"name":"select_all_on_focus","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
     {"$GMObjectProperty":"","%Name":"on_text_changed","filters":[],"listItems":[],"multiselect":false,"name":"on_text_changed","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
     {"$GMObjectProperty":"","%Name":"on_got_focus","filters":[],"listItems":[],"multiselect":false,"name":"on_got_focus","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},

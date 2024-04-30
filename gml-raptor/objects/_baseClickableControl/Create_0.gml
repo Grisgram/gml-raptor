@@ -9,7 +9,7 @@ double_click_waiter = 0;
 
 __set_await_click = function(_await) {
 	await_click = _await;
-	__mouse_text_scale = (_await ? text_scale_mouse_down : 1.0);
+	__animate_text_transform(_await ? text_scale_mouse_down : (mouse_is_over ? text_scale_mouse_over : 1.0), text_angle);
 }
 
 /// @function check_for_hotkey(_keystring)

@@ -39,8 +39,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprDefaultLabel",
-    "path":"sprites/sprDefaultLabel/sprDefaultLabel.yy",
+    "name":"spr1pxWhite",
+    "path":"sprites/spr1pxWhite/spr1pxWhite.yy",
   },
   "spriteMaskId":null,
   "visible":true,
