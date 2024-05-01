@@ -42,14 +42,14 @@ function percent(val, total) {
 	return (val/total) * 100;
 }
 
-/// @function					percent_mul(of, total)
-/// @description				Gets, how many % "of" is of "total" as multiplier (30,50 => 0.6)
-/// @param {real} of
+/// @function					percent_mul(val, total)
+/// @description				Gets, how many % "val" is of "total" as multiplier (30,50 => 0.6)
+/// @param {real} val
 /// @param {real} total
 /// @returns {real}	percent value as multiplier (0..1)
-function percent_mult(of, total) {
+function percent_mult(val, total) {
 	gml_pragma("forceinline");
-	return (of/total);
+	return (val/total);
 }
 
 /// @function					is_child_of(child, parent)

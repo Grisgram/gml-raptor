@@ -16,7 +16,7 @@
 ///					This is used by the file system when loading saved games or any other structures
 ///					that have been saved through raptor.
 ///					When loading the file, instead of just assigning the struct, it will invoke
-///					the constructor and then perform a struct_integrate with the loaded data, so
+///					the constructor and then perform a struct_join_into with the loaded data, so
 ///					all members receive their loaded values after the constructor executed.
 function construct(_class_name_or_asset) {
 	self[$ __PARENT_CONSTRUCTOR_NAME] = (variable_struct_exists(self, __CONSTRUCTOR_NAME) ?
@@ -43,7 +43,7 @@ function implement(_interface) {
 	}
 	
 	var i = new sclass();
-	struct_integrate(self, i);
+	struct_join_into(self, i);
 	if (!variable_struct_exists(self, __INTERFACES_NAME))
 		self[$ __INTERFACES_NAME] = [];
 	if (!array_contains(self[$ __INTERFACES_NAME], sname))
@@ -82,17 +82,17 @@ function struct_get_unique_key(struct, basename, prefix = "") {
 function struct_join(structs) {
 	var rv = {};
 	for (var i = 0; i < argument_count; i++) 
-		struct_integrate(rv, argument[i]);
+		struct_join_into(rv, argument[i]);
 	return rv;
 }
 
-/// @function		struct_integrate(target, sources...)
+/// @function		struct_join_into(target, sources...)
 /// @description	Integrate all source structs into the target struct by copying
 ///					all members from source to target.
 ///					NOTE: This is NOT a deep copy! If source contains other struct
 ///					references, they are simply copied, not recursively converted to new references!
 ///					ATTENTION! No static members can be transferred! Best use this for data structs only!
-function struct_integrate(target, sources) {
+function struct_join_into(target, sources) {
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
 		var names = struct_get_names(from);

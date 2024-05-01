@@ -32,7 +32,6 @@ attach_to = function(_listbox) {
 		animation_run(self, 0, animlength, acLinearScale,,, {_len: len, _dims: textdims})
 			.set_scale_distance(0, textdims.y * min(len, listbox.max_items_shown))
 			.add_finished_trigger(function(adata) {
-				ilog($"--- REACHED SIZE {sprite_height} {adata._dims.y} {adata._len} {listbox.max_items_shown}");
 				__fill_list(adata._len, adata._dims);
 			}
 		);

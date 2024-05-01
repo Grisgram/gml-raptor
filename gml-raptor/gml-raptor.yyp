@@ -280,6 +280,7 @@
     {"id":{"name":"CanvasGetAppSurf","path":"scripts/CanvasGetAppSurf/CanvasGetAppSurf.yy",},},
     {"id":{"name":"CanvasIsCanvas","path":"scripts/CanvasIsCanvas/CanvasIsCanvas.yy",},},
     {"id":{"name":"ColdrockTheme","path":"scripts/ColdrockTheme/ColdrockTheme.yy",},},
+    {"id":{"name":"Collider","path":"scripts/Collider/Collider.yy",},},
     {"id":{"name":"ControlTree","path":"scripts/ControlTree/ControlTree.yy",},},
     {"id":{"name":"ControlTreeEntry","path":"scripts/ControlTreeEntry/ControlTreeEntry.yy",},},
     {"id":{"name":"ControlTreeLayout","path":"scripts/ControlTreeLayout/ControlTreeLayout.yy",},},
