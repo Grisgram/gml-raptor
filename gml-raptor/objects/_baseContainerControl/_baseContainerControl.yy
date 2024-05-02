@@ -8,7 +8,7 @@
   "managed":true,
   "name":"_baseContainerControl",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_CONTROL_BACK",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"draw_color_mouse_over","path":"objects/_baseControl/_baseControl.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"THEME_CONTROL_BACK",},
   ],
   "parent":{
     "name":"UI",
@@ -32,7 +32,7 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"","%Name":"control_tree","filters":[],"listItems":[],"multiselect":false,"name":"control_tree","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"new ControlTree(self)","varType":4,},
+    {"$GMObjectProperty":"v1","%Name":"control_tree","filters":[],"listItems":[],"multiselect":false,"name":"control_tree","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":null,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"new ControlTree(self)","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

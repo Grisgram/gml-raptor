@@ -7,4 +7,4 @@ copyrightLabelInfo.x += scribble_measure_text(copyrightLabel.text).x - 16;
 
 if (IS_HTML) instance_destroy(exitButton);
 
-layer_set_background_color("Background", APP_THEME.main);
+layer_set_background_color("Background", THEME.main);

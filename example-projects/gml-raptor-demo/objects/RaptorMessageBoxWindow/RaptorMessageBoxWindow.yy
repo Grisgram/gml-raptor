@@ -5,11 +5,11 @@
   "managed":true,
   "name":"RaptorMessageBoxWindow",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"Window","path":"objects/Window/Window.yy",},"propertyId":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"320",},
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"200",},
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"RaptorMessageBoxXButton",},
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"_baseContainerControl","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"propertyId":{"name":"control_tree","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"new MsgBoxControlTree(self)",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"Window","path":"objects/Window/Window.yy",},"propertyId":null,"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_width","path":"objects/_baseControl/_baseControl.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"320",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},"propertyId":{"name":"min_height","path":"objects/_baseControl/_baseControl.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"200",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"RaptorMessageBoxXButton",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"_baseContainerControl","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"propertyId":{"name":"control_tree","path":"objects/_baseContainerControl/_baseContainerControl.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"new MsgBoxControlTree(self)",},
   ],
   "parent":{
     "name":"raptormessagebox",

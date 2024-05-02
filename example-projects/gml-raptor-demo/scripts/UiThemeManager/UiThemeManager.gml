@@ -9,7 +9,7 @@
 									UI_THEMES.add_theme(new DefaultTheme(__DEFAULT_UI_THEME_NAME), true);
 
 #macro UI_THEMES				global.__ui_themes
-#macro APP_THEME				UI_THEMES.active_theme
+#macro THEME					UI_THEMES.active_theme
 
 #macro __DEFAULT_UI_THEME_NAME	"default"
 

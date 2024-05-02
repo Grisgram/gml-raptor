@@ -9,7 +9,7 @@
 								UI_SKINS.add_skin(new DefaultSkin(__DEFAULT_UI_SKIN_NAME), true);
 
 #macro UI_SKINS				global.__ui_skins
-#macro APP_SKIN				UI_SKINS.active_skin
+#macro SKIN					UI_SKINS.active_skin
 
 #macro __DEFAULT_UI_SKIN_NAME	"default"
 
@@ -75,7 +75,7 @@ function UiSkinManager() constructor {
 			var key = names[@i];
 			var oidx = asset_get_index(key);
 			if (oidx > -1)
-				with(oidx) APP_SKIN.apply_skin(self);
+				with(oidx) SKIN.apply_skin(self);
 		}
 	}
 }

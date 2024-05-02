@@ -6,8 +6,8 @@ if (log_create_destroy)
 binder = new PropertyBinder(self);
 
 #region skin
-APP_SKIN.apply_skin(self); // apply sprites NOW...
-run_delayed(self, 0, function() { APP_SKIN.apply_skin(self); }); //... and the full skin after all create code is done
+SKIN.apply_skin(self); // apply sprites NOW...
+run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done
 
 /// @function integrate_skin_data(_skindata)
 /// @description Copy all values EXCEPT SPRITE_INDEX to self
