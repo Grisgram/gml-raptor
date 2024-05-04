@@ -8,8 +8,8 @@
 	longer need this ListPool.
 */
 
-/// @function			ListPool(_name = "listPool")
-/// @description		Create a new ListPool. You must destroy this due to the use
+/// @func			ListPool(_name = "listPool")
+/// @desc		Create a new ListPool. You must destroy this due to the use
 ///				of a ds_list internally or you risk a memory leak!
 /// @param {string} _name	The name of the pool. For logging purposes only.
 function ListPool(_name = "listPool") constructor {
@@ -19,8 +19,8 @@ function ListPool(_name = "listPool") constructor {
 	list = ds_list_create();
 	__listcount = 0;
 
-	/// @function		remove(obj)
-	/// @description	Removes an object from the pool
+	/// @func		remove(obj)
+	/// @desc	Removes an object from the pool
 	/// @param {any} obj	The object to remove
 	static remove = function(obj) {
 		var idx = ds_list_find_index(list, obj);
@@ -29,8 +29,8 @@ function ListPool(_name = "listPool") constructor {
 		__listcount = ds_list_size(list);
 	}
 	
-	/// @function remove_where(_predicate, _data = undefined)
-	/// @description Remove all objects from the listpool where the predicate argument
+	/// @func remove_where(_predicate, _data = undefined)
+	/// @desc Remove all objects from the listpool where the predicate argument
 	///				 returns true. This must be a function taking one argument and it
 	///				 shall return whether to remove it (true) or not (false)
 	/// @param {function} _predicate A function that shall return true, if the item is to remove, otherwise false
@@ -53,8 +53,8 @@ function ListPool(_name = "listPool") constructor {
 		return rv;
 	}
 	
-	/// @function		add(obj)
-	/// @description	Adds an object to the pool (if it is not already contained)
+	/// @func		add(obj)
+	/// @desc	Adds an object to the pool (if it is not already contained)
 	/// @param {any} obj	The object to add
 	static add = function(obj) {
 		if (ds_list_find_index(list, obj) == -1) {
@@ -67,14 +67,14 @@ function ListPool(_name = "listPool") constructor {
 		}
 	}
 
-	/// @function		size()
-	/// @description	Get the number of elements in the pool
+	/// @func		size()
+	/// @desc	Get the number of elements in the pool
 	static size = function() {
 		return __listcount;
 	}
 	
-	/// @function		process_all(function_name = "step", ...)
-	/// @description	Invokes the named function on each element in the pool
+	/// @func		process_all(function_name = "step", ...)
+	/// @desc	Invokes the named function on each element in the pool
 	///					and forwards any additional parameters specified.
 	///					This is done via self[$ function_name]() and NOT through
 	///					script_execute, which would be very slow.
@@ -104,22 +104,22 @@ function ListPool(_name = "listPool") constructor {
 		}
 	}
 	
-	/// @function		clear()
-	/// @description	Remove all elements from the pool
+	/// @func		clear()
+	/// @desc	Remove all elements from the pool
 	static clear = function() {
 		ds_list_clear(list);
 		__listcount = 0;
 	}
 	
-	/// @function		destroy()
-	/// @description	Destroy the ds_list that is used internally
+	/// @func		destroy()
+	/// @desc	Destroy the ds_list that is used internally
 	static destroy = function() {
 		ds_list_destroy(list);
 		__listcount = 0;
 	}
 
-	/// @function		dump()
-	/// @description	For debugging purposes. Prints all objects to the console
+	/// @func		dump()
+	/// @desc	For debugging purposes. Prints all objects to the console
 	static dump = function() {
 		var i = 0;
 		ilog($"[--- LIST POOL '{name}' DUMP START ---]");
@@ -130,8 +130,8 @@ function ListPool(_name = "listPool") constructor {
 		ilog($"[--- LIST POOL '{name}' DUMP  END  ---]");
 	}
 
-	/// @function		dump_to_string()
-	/// @description	For debugging purposes. Same as dump(), but returns a string instead of
+	/// @func		dump_to_string()
+	/// @desc	For debugging purposes. Same as dump(), but returns a string instead of
 	///					writing to the console
 	static dump_to_string = function() {
 		var i = 0;
@@ -146,8 +146,8 @@ function ListPool(_name = "listPool") constructor {
 
 }
 
-/// @function		__listpool_get_all_owner_objects(_listpool, owner)
-/// @description	INTERNAL FUNCTION. Retrieves all objects from a listpool for
+/// @func		__listpool_get_all_owner_objects(_listpool, owner)
+/// @desc	INTERNAL FUNCTION. Retrieves all objects from a listpool for
 ///					a specified owner. Crashes if the objects do not have an "owner" member!
 ///					NOTE: You may set the "owner" parameter to <undefined> to retrieve ALL objects
 function __listpool_get_all_owner_objects(_listpool, owner) {

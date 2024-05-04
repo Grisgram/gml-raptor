@@ -7,8 +7,8 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function					savegame_load_game(filename, cryptkey = "", _room_transition = undefined, data_only = false)
-/// @description				Loads a previously saved game state (see savegame_save_game).
+/// @func					savegame_load_game(filename, cryptkey = "", _room_transition = undefined, data_only = false)
+/// @desc				Loads a previously saved game state (see savegame_save_game).
 /// @param {string} filename	Relative path inside the working_folder where to find the file
 /// @param {string=""} cryptkey	Optional. The same key that has been used to encrypt the file.
 ///								If not provided, the file is expected to be plain text (NOT RECOMMENDED!).

@@ -1,4 +1,4 @@
-/// @description DOCS inside!
+/// @desc DOCS inside!
 
 event_inherited();
 
@@ -49,8 +49,8 @@ enum character_filter {
 	none, allowed, forbidden
 }
 
-/// @function					set_focus(from_tab = false)
-/// @description				Set input focus to this
+/// @func					set_focus(from_tab = false)
+/// @desc				Set input focus to this
 set_focus = function(from_tab = false) {
 	if (__RAPTORDATA.has_focus || !is_enabled || 
 		(get_window() != undefined && !get_window().is_focus_window())) 
@@ -75,8 +75,8 @@ set_focus = function(from_tab = false) {
 	__invoke_got_focus();
 }
 
-/// @function					lose_focus()
-/// @description				Remove input focus from this
+/// @func					lose_focus()
+/// @desc				Remove input focus from this
 lose_focus = function() {
 	if (!__RAPTORDATA.has_focus) 
 		return;
@@ -92,8 +92,8 @@ lose_focus = function() {
 	__invoke_lost_focus();
 }
 
-/// @function		select_all()
-/// @description	Select all the text in the inputbox
+/// @func		select_all()
+/// @desc	Select all the text in the inputbox
 select_all = function() {
 	selection_start = string_length(text);
 	selection_length = -string_length(text);
@@ -101,7 +101,7 @@ select_all = function() {
 	set_cursor_pos(string_length(text), true);
 }
 
-/// @function	select_word()
+/// @func	select_word()
 select_word = function() {
 	// scan to the left and right for word-breakers, then select the region
 	static is_in_word = function(char) {
@@ -132,23 +132,23 @@ select_word = function() {
 	}
 }
 
-/// @function __char_at(pos)
+/// @func __char_at(pos)
 __char_at = function(pos) {
 	if (pos > 0 && pos <= string_length(text))
 		return string_copy(text, pos, 1);
 	return undefined;
 }
 
-/// @function					__reset_cursor_blink()
-/// @description				ensure, cursor stays visible
+/// @func					__reset_cursor_blink()
+/// @desc				ensure, cursor stays visible
 __reset_cursor_blink = function() {
 	__cursor_frame = 0;
 	__cursor_visible = true;
 	__last_cursor_visible = false;
 }
 
-/// @function					set_cursor_pos(pos)
-/// @description				set the cursor at character pos and ensure cursor is instantly visible
+/// @func					set_cursor_pos(pos)
+/// @desc				set the cursor at character pos and ensure cursor is instantly visible
 /// @param {int} pos 			
 /// @param {bool=false} force_extend_selection 			
 set_cursor_pos = function(pos, force_extend_selection = false) {
@@ -160,7 +160,7 @@ set_cursor_pos = function(pos, force_extend_selection = false) {
 	__reset_cursor_blink();
 }
 
-/// @function					__start_wait_for_key_repeat(key)
+/// @func					__start_wait_for_key_repeat(key)
 /// @param {constant} key
 __start_wait_for_key_repeat = function(key) {
 	if (!__wait_for_key_repeat || key != __repeating_key) {
@@ -171,7 +171,7 @@ __start_wait_for_key_repeat = function(key) {
 	}
 }
 
-/// @function					__stop_wait_for_key_repeat
+/// @func					__stop_wait_for_key_repeat
 __stop_wait_for_key_repeat = function() {
 	__wait_for_key_repeat = false;
 	__repeat_interval_mode = false;
@@ -189,14 +189,14 @@ __invoke_lost_focus = function() {
 		on_lost_focus(self);
 }
 
-/// @function	__invoke_text_changed(old_text, new_text)
+/// @func	__invoke_text_changed(old_text, new_text)
 __invoke_text_changed = function(old_text, new_text) {
 	if (on_text_changed != undefined && old_text != new_text)
 		on_text_changed(self, old_text, new_text);	
 }
 
-/// @function					scribble_add_text_effects(scribbletext)
-/// @description				called when a scribble element is created to allow adding custom effects.
+/// @func					scribble_add_text_effects(scribbletext)
+/// @desc				called when a scribble element is created to allow adding custom effects.
 ///								overwrite (redefine) in child controls
 /// @param {struct} scribbletext
 scribble_add_text_effects = function(scribbletext) {
@@ -208,8 +208,8 @@ scribble_add_text_effects = function(scribbletext) {
 	}
 }
 
-/// @function					__create_scribble_object(align, str)
-/// @description				tweaking the internal function of base for password char
+/// @func					__create_scribble_object(align, str)
+/// @desc				tweaking the internal function of base for password char
 ///								so that scribble always draws only *** without knowing the real text
 /// @param {string} align			
 /// @param {string} str			
@@ -232,8 +232,8 @@ __create_scribble_object = function(align, str, test_only = false) {
 	return sbc;
 }
 
-/// @function					draw_scribble_text()
-/// @description				draw the text - redefine for additional text effects
+/// @func					draw_scribble_text()
+/// @desc				draw the text - redefine for additional text effects
 draw_scribble_text = function() {
 	if (string_length(text) > max_length) {
 		text = string_copy(text, 1, max_length);
@@ -274,7 +274,7 @@ draw_scribble_text = function() {
 	__scribble_text.draw(__text_x, __text_y);
 }
 
-/// @function __draw_cursor()
+/// @func __draw_cursor()
 __draw_cursor = function() {
 	if (__first_cursor_draw || (__RAPTORDATA.has_focus && __cursor_visible && is_topmost(x, y))) {
 		if (__first_cursor_draw || __last_cursor_visible != __cursor_visible) {
@@ -303,8 +303,8 @@ __draw_cursor = function() {
 	}
 }
 
-/// @function					__set_cursor_pos_from_click()
-/// @description				set cursor pos inside text after left click
+/// @func					__set_cursor_pos_from_click()
+/// @desc				set cursor pos inside text after left click
 /// @param {bool=false} force_extend_selection 			
 __set_cursor_pos_from_click = function(force_extend_selection = false) {
 	var full_box = __scribble_text.get_bbox(__text_x, __text_y);

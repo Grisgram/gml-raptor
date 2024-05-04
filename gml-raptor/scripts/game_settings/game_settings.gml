@@ -26,8 +26,8 @@ function GameSettings() constructor {
 	if (HIGHSCORES != undefined) 
 		highscoredata = HIGHSCORES.data;
 		
-	/// @function reset()
-	/// @description Reset the settings file to a new, blank GameSettings() instance
+	/// @func reset()
+	/// @desc Reset the settings file to a new, blank GameSettings() instance
 	static reset = function() {
 		AUDIOSETTINGS = new AudioSettings();
 		GAMESETTINGS = new GameSettings();

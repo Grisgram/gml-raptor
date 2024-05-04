@@ -1,4 +1,4 @@
-/// @description Saving
+/// @desc Saving
 event_inherited();
 
 __RAPTORDATA.race_controller		= race_controller		;

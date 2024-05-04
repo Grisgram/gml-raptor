@@ -14,8 +14,8 @@ function __savegame_remove_pointers(struct, refstack) {
 	return new __savegame_deep_copy_remove(struct, refstack).copy;
 }
 
-/// @function		__savegame_deep_copy_remove
-/// @description	Derived from SNAP deep_copy this takes cares of methods (skip)
+/// @func		__savegame_deep_copy_remove
+/// @desc	Derived from SNAP deep_copy this takes cares of methods (skip)
 ///					and instance id's that will not be copied but replaced with their id only
 function __savegame_deep_copy_remove(source, _refstack) constructor {
 	refstack = _refstack;

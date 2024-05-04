@@ -7,8 +7,8 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function					savegame_save_game(filename, cryptkey = "")
-/// @description				Saves the entire game state to a file.
+/// @func					savegame_save_game(filename, cryptkey = "")
+/// @desc				Saves the entire game state to a file.
 ///								See docu in Saveable object for full documentation.
 /// @param {string} filename	Relative path inside the working_folder where to save the file
 /// @param {string=""} cryptkey	Optional. The key to use to encrypt the file.

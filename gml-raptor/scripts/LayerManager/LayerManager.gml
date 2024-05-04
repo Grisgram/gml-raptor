@@ -1,5 +1,5 @@
-/// @function					layer_set_all_visible(wildcard, vis)
-/// @description				Sets the visible state of all layers where the name matches
+/// @func					layer_set_all_visible(wildcard, vis)
+/// @desc				Sets the visible state of all layers where the name matches
 ///								the specified wildcard.
 ///								Wildcard character is '*'. It can be at the beginning, the end or both.
 /// @param {string}	wildcard			The layer name or wildcard (name* or *name) to set visibility for
@@ -30,8 +30,8 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 	return [min_depth, max_depth];
 }
 
-/// @function layer_set_background_color(_layer_name_or_id, _color)
-/// @description	Set the blend color of a BACKGROUND layer
+/// @func layer_set_background_color(_layer_name_or_id, _color)
+/// @desc	Set the blend color of a BACKGROUND layer
 /// @param {id|string}	layername_or_id	The name or the id of the background layer
 /// @param {color}		_color			The color to set
 function layer_set_background_color(_layer_name_or_id, _color) {

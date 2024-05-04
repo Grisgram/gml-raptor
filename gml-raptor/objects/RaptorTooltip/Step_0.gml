@@ -1,4 +1,4 @@
-/// @description countdown & align to mouse if visible
+/// @desc countdown & align to mouse if visible
 
 event_inherited();
 

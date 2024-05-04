@@ -1,4 +1,4 @@
-/// @description destroy all
+/// @desc destroy all
 
 mlog($"Invoking onGameEnd()");
 onGameEnd();

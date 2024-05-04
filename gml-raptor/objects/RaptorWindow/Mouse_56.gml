@@ -1,4 +1,4 @@
-/// @description stop drag/resize (if movable/sizable)
+/// @desc stop drag/resize (if movable/sizable)
 
 if (__in_drag_mode) {
 	vlog($"Window drag stopped");

@@ -1,7 +1,7 @@
 ENSURE_RAPTORDATA;
 event_inherited();
 
-/// @description Docs inside! You MUST call this when overriding!
+/// @desc Docs inside! You MUST call this when overriding!
 /*
 	By default, all saveable objects will be part of the savegame file.
 	Use the declared instance variable add_to_savegame and set it to false
@@ -80,22 +80,22 @@ event_inherited();
 	ALL DATA has been saved/loaded.
 */
 
-/// @function					onGameSaving()
-/// @description				invoked per instance during game save
+/// @func					onGameSaving()
+/// @desc				invoked per instance during game save
 onGameSaving = function() {
 };
 
-/// @function					onGameSaved()
-/// @description				Invoked AFTER saving 
+/// @func					onGameSaved()
+/// @desc				Invoked AFTER saving 
 onGameSaved = function() {
 }
 
-/// @function					onGameLoading()
-/// @description				occurs when this object has been loaded
+/// @func					onGameLoading()
+/// @desc				occurs when this object has been loaded
 onGameLoading = function() {
 }
 
-/// @function					onGameLoaded()
-/// @description				occurs after all objects have been loaded
+/// @func					onGameLoaded()
+/// @desc				occurs after all objects have been loaded
 onGameLoaded = function() {
 }

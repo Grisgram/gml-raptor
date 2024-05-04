@@ -1,4 +1,4 @@
-/// @description clear anim & state pools
+/// @desc clear anim & state pools
 
 pool_clear_all();
 animation_clear_pool();

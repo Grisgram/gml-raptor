@@ -2,7 +2,7 @@
     This class makes up the array of children in a ControlTree
 */
 
-/// @function ControlTreeEntry(_instance = undefined)
+/// @func ControlTreeEntry(_instance = undefined)
 function ControlTreeEntry(_instance = undefined) constructor {
 	construct(ControlTreeEntry);
 	

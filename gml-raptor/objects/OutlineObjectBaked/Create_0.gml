@@ -1,4 +1,4 @@
-/// @description bake on first draw
+/// @desc bake on first draw
 event_inherited();
 canvas		= undefined;
 dynsprite	= undefined;
@@ -33,7 +33,7 @@ __get_cached_prebake_sprite = function(cachename) {
 	return false;
 }
 
-/// @function bake()
+/// @func bake()
 bake = function() {
 	origsprite = sprite_index;
 	var cachename = string(sprite_get_name(sprite_index)); // use string(..) because of possible -1 return

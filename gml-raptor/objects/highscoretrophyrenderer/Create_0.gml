@@ -1,4 +1,4 @@
-/// @description call set_table to use this object!
+/// @desc call set_table to use this object!
 event_inherited();
 
 __table = undefined;

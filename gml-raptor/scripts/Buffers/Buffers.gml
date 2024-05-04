@@ -5,10 +5,10 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function		dump_buffer_hex(buffer, bytes_per_line = 16)
+/// @func		dump_buffer_hex(buffer, bytes_per_line = 16)
 /// @param {buffer} buffer	The buffer to dump
 /// @param {int=16}	Bytes per line (default = 16)
-/// @description	Writes the specified buffer as hex dump to the debug console
+/// @desc	Writes the specified buffer as hex dump to the debug console
 /// 
 function dump_buffer_hex(buffer, bytes_per_line = 16) {
 	// Found this little piece of code to display hex number at gmlscripts.com
@@ -53,8 +53,8 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 	ilog($"-- [BUFFER_DUMP_END] --");
 }
 
-/// @function			encrypt_buffer(buffer, cryptkey)
-/// @description		Encrypts the specified buffer with a key by xor'ing each byte
+/// @func			encrypt_buffer(buffer, cryptkey)
+/// @desc		Encrypts the specified buffer with a key by xor'ing each byte
 ///						of the buffer with the next character in sequence of the crypt key string.
 ///						This is just a small and simple added confusion level for readers of
 ///						SaveGame files if you just let this function run over the buffer before

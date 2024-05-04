@@ -13,8 +13,8 @@ enum tile_orientation {
 	down	= 3, // rotation 270° ccw
 }
 
-/// @function		TileScanner(layername_or_id, scan_on_create = true)
-/// @description	Creates a TileScanner for the specified layer.
+/// @func		TileScanner(layername_or_id, scan_on_create = true)
+/// @desc	Creates a TileScanner for the specified layer.
 ///					if scan_on_create is true, the constructor will immediately scan the layer
 ///					and fill the "tiles" array with data. 
 ///					If you set it to false, tiles is an empty array of undefined's until you invoke "scan_layer()"
@@ -24,8 +24,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 	if (layername_or_id != undefined)
 		set_layer(layername_or_id, scan_on_create);
 	
-	/// @function		set_layer(layername_or_id, scan_now = true)
-	/// @description	Wrapper init function to have an optional-only construct for savegames
+	/// @func		set_layer(layername_or_id, scan_now = true)
+	/// @desc	Wrapper init function to have an optional-only construct for savegames
 	static set_layer = function(layername_or_id, scan_now = true) {
 		lay_id = is_string(layername_or_id) ? layer_get_id(layername_or_id) : layername_or_id;
 		map_id = layer_tilemap_get_id(lay_id);
@@ -44,8 +44,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 	}
 	
 	#region savegame management
-	/// @function get_modified_tiles()
-	/// @description Gets an array of tiles that have been modified during runtime.
+	/// @func get_modified_tiles()
+	/// @desc Gets an array of tiles that have been modified during runtime.
 	///				 ATTENTION! This is only for saving them to the savegame.
 	///				 Upon game load, invoke "restore_modified_tiles" with this array to
 	///				 recover all changes
@@ -69,8 +69,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return rv;
 	}
 	
-	/// @function restore_modified_tiles(_modified_tiles)
-	/// @description Recovers all changed tiles from a savegame.
+	/// @func restore_modified_tiles(_modified_tiles)
+	/// @desc Recovers all changed tiles from a savegame.
 	///				 ATTENTION! This can only be used with the return value of "get_modified_tiles"!
 	static restore_modified_tiles = function(_modified_tiles) {
 		for (var i = 0, len = array_length(_modified_tiles); i < len; i++) {
@@ -89,7 +89,7 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 	
 	#region orientation management (private)
 	
-	/// @function		__tiledata_to_orientation(tiledata)
+	/// @func		__tiledata_to_orientation(tiledata)
 	static __tiledata_to_orientation = function(tiledata) {
 		var rotate = tile_get_rotate(tiledata);
 		var flip   = tile_get_flip(tiledata);
@@ -103,7 +103,7 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return tile_orientation.right;
 	}
 	
-	/// @function		__orientation_to_tiledata(tiledata, orientation)
+	/// @func		__orientation_to_tiledata(tiledata, orientation)
 	static __orientation_to_tiledata = function(tiledata, orientation) {
 		switch (orientation) {
 			case tile_orientation.right:
@@ -131,8 +131,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 	}
 	#endregion
 	
-	/// @function		scan_layer()
-	/// @description	Returns (and fills) the "tiles" array of this TileScanner
+	/// @func		scan_layer()
+	/// @desc	Returns (and fills) the "tiles" array of this TileScanner
 	static scan_layer = function() {
 		// purge any existing arrays
 		tiles = array_create(map_width * map_height, undefined);
@@ -148,8 +148,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return tiles;
 	}
 	
-	/// @function			find_tiles(indices...)
-	/// @description		scans the layer for tiles. Specify up to 16 tile indices you want to find
+	/// @func			find_tiles(indices...)
+	/// @desc		scans the layer for tiles. Specify up to 16 tile indices you want to find
 	///						either directly as arguments or specify an array, containing the indices, if
 	///						you are looking for more than 16 tiles.
 	///						NOTE: If you supply an array, this must be the ONLY argument!
@@ -169,8 +169,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return rv;		
 	}
 	
-	/// @function		find_tiles_in_view(_tiles_array = undefined, _camera_index = 0, _viewport_index = 0)
-	/// @description	Returns only the tiles from the specified _tiles_array, that are currently in view
+	/// @func		find_tiles_in_view(_tiles_array = undefined, _camera_index = 0, _viewport_index = 0)
+	/// @desc	Returns only the tiles from the specified _tiles_array, that are currently in view
 	///					of the specified camera.
 	///					NOTE: if you do not specify a _tiles_array, the internal tiles array of the scanner is used,
 	///					which contains all tiles of the level.
@@ -191,8 +191,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return rv;
 	}
 	
-	/// @function get_tile_at(map_x, map_y)
-	/// @description Gets the TileInfo object at the specified map coordinates.
+	/// @func get_tile_at(map_x, map_y)
+	/// @desc Gets the TileInfo object at the specified map coordinates.
 	///				 To get a tile from pixel coordinates, use get_tile_at_px(...)
 	static get_tile_at = function(map_x, map_y) {
 		var idx = map_y * map_width + map_x;
@@ -201,8 +201,8 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 		return undefined;
 	}
 	
-	/// @function get_tile_at_px(_x, _y)
-	/// @description Gets the TileInfo object at the specified pixel coordinates.
+	/// @func get_tile_at_px(_x, _y)
+	/// @desc Gets the TileInfo object at the specified pixel coordinates.
 	///				 To get a tile from map coordinates, use get_tile_at(...)
 	static get_tile_at_px = function(_x, _y) {
 		var map_x = floor(_x / cell_width);
@@ -212,15 +212,15 @@ function TileScanner(layername_or_id = undefined, scan_on_create = true) constru
 }
 
 #macro __TILESCANNER_UPDATE_TILE	tilemap_set(scanner.map_id, tiledata, position.x, position.y);
-/// @function		TileInfo()
-/// @description	Holds condensed information about a single tile
+/// @func		TileInfo()
+/// @desc	Holds condensed information about a single tile
 function TileInfo() constructor {
 	construct(TileInfo);
 	
 	__modified = false;
 	
-	/// @function		__set_data(_tiledata, _map_x, _map_y, _scanner)
-	/// @description	Wrap this in a function to have an empty constructor for the savegame system
+	/// @func		__set_data(_tiledata, _map_x, _map_y, _scanner)
+	/// @desc	Wrap this in a function to have an empty constructor for the savegame system
 	static __set_data = function(_tiledata, _map_x, _map_y, _scanner) {
 		scanner		= _scanner;
 		tiledata	= _tiledata;
@@ -233,8 +233,8 @@ function TileInfo() constructor {
 		return self;
 	}
 		
-	/// @function set_empty()
-	/// @description Clears this tile
+	/// @func set_empty()
+	/// @desc Clears this tile
 	static set_empty = function() {
 		__modified = true;
 		empty = true;
@@ -245,8 +245,8 @@ function TileInfo() constructor {
 		return self;
 	}
 
-	/// @function set_index(_tile_index)
-	/// @description Assign a new index to the tile
+	/// @func set_index(_tile_index)
+	/// @desc Assign a new index to the tile
 	static set_index = function(_tile_index) {
 		__modified = true;
 		index = _tile_index;
@@ -255,8 +255,8 @@ function TileInfo() constructor {
 		return self;
 	}
 
-	/// @function set_flags(_flip = undefined, _rotate = undefined, _mirror = undefined)
-	/// @description Modify the flags of a tile (flip, rotate, mirror)
+	/// @func set_flags(_flip = undefined, _rotate = undefined, _mirror = undefined)
+	/// @desc Modify the flags of a tile (flip, rotate, mirror)
 	static set_flags = function(_flip = undefined, _rotate = undefined, _mirror = undefined) {
 		__modified = true;
 		if (_flip     != undefined) tiledata = tile_set_flip(tiledata, _flip);
@@ -267,8 +267,8 @@ function TileInfo() constructor {
 		return self;
 	}
 	
-	/// @function set_orientation(_tile_orientation)
-	/// @description Rotate a tile to a specified orientation
+	/// @func set_orientation(_tile_orientation)
+	/// @desc Rotate a tile to a specified orientation
 	static set_orientation = function(_tile_orientation) {
 		__modified = true;
 		orientation = _tile_orientation;

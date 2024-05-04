@@ -1,4 +1,4 @@
-/// @description set up drawer
+/// @desc set up drawer
 event_inherited();
 gui_mouse = new GuiMouseTranslator();
 

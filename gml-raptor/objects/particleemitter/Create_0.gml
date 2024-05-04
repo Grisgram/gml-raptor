@@ -1,4 +1,4 @@
-/// @description Docs inside!
+/// @desc Docs inside!
 
 /* 
 	The particle emitter is an invisible object that can be placed anywhere in the room
@@ -49,15 +49,15 @@ __get_partsys = function() {
 	return (is_array(PARTSYS) ? PARTSYS[@ partsys_index] : PARTSYS);
 }
 
-/// @function		set_offset(xoff, yoff)
-/// @description	sets a static offset distance to apply when following an instance
+/// @func		set_offset(xoff, yoff)
+/// @desc	sets a static offset distance to apply when following an instance
 set_offset = function(xoff, yoff) {
 	follow_offset.set(xoff, yoff);
 	__update_position(,true);
 	return self;
 }
 
-/// @function		__update_position(ps = undefined)
+/// @func		__update_position(ps = undefined)
 __update_position = function(ps = undefined, force = false) {
 	if (follow_instance != undefined && instance_exists(follow_instance)) {
 		x = follow_instance.x + follow_offset.x * follow_instance.image_xscale;
@@ -74,8 +74,8 @@ __update_position = function(ps = undefined, force = false) {
 		stop();
 }
 
-/// @function		stream(particles_per_frame = undefined, particle_name = undefined)
-/// @description	Starts streaming particles as defined for the emitter.
+/// @func		stream(particles_per_frame = undefined, particle_name = undefined)
+/// @desc	Starts streaming particles as defined for the emitter.
 ///					If you don't supply any parameters, the values from the variable definitions
 ///					are used.
 stream = function(particles_per_frame = undefined, particle_name = undefined) {
@@ -126,8 +126,8 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	return self;
 }
 
-/// @function		stop()
-/// @description	Stops streaming
+/// @func		stop()
+/// @desc	Stops streaming
 stop = function() {
 	if (DEBUG_LOG_PARTICLES)
 		dlog($"{MY_NAME}: Stopped streaming through '{__my_emitter}'");
@@ -137,8 +137,8 @@ stop = function() {
 	return self;
 }
 
-/// @function		burst(particle_count = undefined, particle_name = undefined, stop_streaming = true)
-/// @description	Immediately bursts out n particles
+/// @func		burst(particle_count = undefined, particle_name = undefined, stop_streaming = true)
+/// @desc	Immediately bursts out n particles
 ///					If you don't supply any parameters, the values from the variable definitions
 ///					are used.
 ///					If no burst_particle_name is set in the variable definitions, the

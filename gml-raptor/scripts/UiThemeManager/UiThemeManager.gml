@@ -13,8 +13,8 @@
 
 #macro __DEFAULT_UI_THEME_NAME	"default"
 
-/// @function UiThemeManager()
-/// @description The global theme manager. Accessible through UI_THEMES
+/// @func UiThemeManager()
+/// @desc The global theme manager. Accessible through UI_THEMES
 function UiThemeManager() constructor {
 	construct(UiThemeManager);
 	
@@ -23,7 +23,7 @@ function UiThemeManager() constructor {
 	
 	active_theme = undefined;
 	
-	/// @function add_theme(_theme, _activate_now = false)
+	/// @func add_theme(_theme, _activate_now = false)
 	static add_theme = function(_theme, _activate_now = false) {
 		var was_active = ((active_theme != undefined) && (active_theme.name == _theme.name));
 		_themes[$ _theme.name] = _theme;
@@ -32,15 +32,15 @@ function UiThemeManager() constructor {
 			activate_theme(_theme.name);
 	}
 	
-	/// @function refresh_theme()
-	/// @description Invoked from RoomController in RoomStart event to transport the
+	/// @func refresh_theme()
+	/// @desc Invoked from RoomController in RoomStart event to transport the
 	///				 active theme from room to room
 	static refresh_theme = function() {
 		if (active_theme != undefined)
 			activate_theme(active_theme.name);
 	}
 	
-	/// @function activate_theme(_theme_name)
+	/// @func activate_theme(_theme_name)
 	static activate_theme = function(_theme_name) {
 		var th = vsget(_themes, _theme_name);
 		if (th != undefined) {
@@ -53,7 +53,7 @@ function UiThemeManager() constructor {
 		}
 	}
 	
-	/// @function remove_theme(_theme_name)
+	/// @func remove_theme(_theme_name)
 	static remove_theme = function(_theme_name) {
 		if (_theme_name == __DEFAULT_UI_THEME_NAME) {
 			elog($"** ERROR ** UiThemeManager can not remove the '{__DEFAULT_UI_THEME_NAME}' theme!");
@@ -65,7 +65,7 @@ function UiThemeManager() constructor {
 		}
 	}
 	
-	/// @function get_theme(_theme_name)
+	/// @func get_theme(_theme_name)
 	static get_theme = function(_theme_name) {
 		return vsget(_themes, _theme_name);
 	}

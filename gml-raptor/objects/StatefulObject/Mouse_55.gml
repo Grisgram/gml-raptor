@@ -1,4 +1,4 @@
-/// @description state ev:global_middle_pressed
+/// @desc state ev:global_middle_pressed
 event_inherited();
 
 // global events will only stop delivering if this object is disabled

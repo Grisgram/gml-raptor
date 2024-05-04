@@ -1,4 +1,4 @@
-/// @description 
+/// @desc 
 
 #macro GAMESTARTER		global.__gamestarter
 GAMESTARTER				= self;

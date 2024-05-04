@@ -1,4 +1,4 @@
-/// @description do nothing (-> drawGUI)
+/// @desc do nothing (-> drawGUI)
 
 if (!draw_on_gui) 
 	__draw_self();

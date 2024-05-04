@@ -1,4 +1,4 @@
-/// @description state ev:key_press_?
+/// @desc state ev:key_press_?
 
 /*
 	The key that got pressed actually is converted through the KeyTranslator script and this

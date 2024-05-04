@@ -1,4 +1,4 @@
-/// @description onGameSaving & state ev:user_14
+/// @desc onGameSaving & state ev:user_14
 
 // Inherit the parent event
 event_inherited();

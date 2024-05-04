@@ -1,4 +1,4 @@
-/// @description Controls GUI, Camera and Hotkeys
+/// @desc Controls GUI, Camera and Hotkeys
 /*
 	You can use a RoomController on its own or simply make it the parent
 	of ONE of your other controller objects in the game.
@@ -43,7 +43,7 @@ event_inherited();
 ROOMCONTROLLER = self;
 
 
-/// @function onGameLoadFailed(_exception)
+/// @func onGameLoadFailed(_exception)
 onGameLoadFailed = function(_exception) {
 	elog($"**ERROR** Game load failed: {_exception.message}");
 }
@@ -80,8 +80,8 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 */
 #region GUI CONTROL
 
-/// @function set_gui_size(_gui_width, _gui_height)
-/// @description Set the gui to a new size. This will also rescale the UI_ROOT
+/// @func set_gui_size(_gui_width, _gui_height)
+/// @desc Set the gui to a new size. This will also rescale the UI_ROOT
 set_gui_size = function(_gui_width, _gui_height) {
 	display_set_gui_size(_gui_width, _gui_height);
 	__ui_root_control.align_to_gui_layer();
@@ -152,8 +152,8 @@ CAM_MAX_X	= room_width;
 CAM_MAX_Y	= room_height;
 
 __screen_shaking = false;
-/// @function					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
-/// @description				lets rumble! NOTE: Ignored, if already rumbling!
+/// @func					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
+/// @desc				lets rumble! NOTE: Ignored, if already rumbling!
 screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	if (__screen_shaking) {
 		dlog($"Screen_shake ignored. Already shaking!");
@@ -174,8 +174,8 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	return a; 
 }
 
-/// @function					camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
-/// @description				zoom the camera animated by X pixels
+/// @func					camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
+/// @desc				zoom the camera animated by X pixels
 camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running, true);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -185,8 +185,8 @@ camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_i
 	return a; 
 }
 
-/// @function					camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
-/// @description				zoom the camera animated by X pixels
+/// @func					camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
+/// @desc				zoom the camera animated by X pixels
 camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running, true);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -198,8 +198,8 @@ camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_
 	return a; 
 }
 
-/// @function					camera_move_to(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0)
-/// @description				move the camera animated to a specified position with an optional
+/// @func					camera_move_to(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0)
+/// @desc				move the camera animated to a specified position with an optional
 ///								alignment.
 ///								The cam_align enum can be used to specify a different alignment than
 ///								the default of top_left. For instance, if you specify align.middle_center here,
@@ -216,8 +216,8 @@ camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true,
 	return a; 
 }
 
-/// @function					camera_move_by(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0)
-/// @description				move the camera animated by a specified distance
+/// @func					camera_move_by(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0)
+/// @desc				move the camera animated by a specified distance
 camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_move, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -228,8 +228,8 @@ camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = t
 	return a; 
 }
 
-/// @function					camera_look_at(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0)
-/// @description				move the camera animated so that target_x and target_y are in the center of the screen when finished.
+/// @func					camera_look_at(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0)
+/// @desc				move the camera animated so that target_x and target_y are in the center of the screen when finished.
 camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0) {
 	return camera_move_to(frames, target_x, target_y, enqueue_if_running, cam_align.middle_center, camera_index);
 }
@@ -254,8 +254,8 @@ if (!variable_global_exists("__active_transition_step"))
 if (!variable_global_exists("__transition_running"))
 	TRANSITION_RUNNING = false;
 
-/// @function		transit(_transition, skip_if_another_running = false)
-/// @description	Perform an animated transition to another room
+/// @func		transit(_transition, skip_if_another_running = false)
+/// @desc	Perform an animated transition to another room
 ///					See RoomTransitions script for more info
 transit = function(_transition, skip_if_another_running = false) {
 	if (skip_if_another_running && TRANSITION_RUNNING) {
@@ -270,8 +270,8 @@ transit = function(_transition, skip_if_another_running = false) {
 	TRANSITION_RUNNING = true;
 }
 
-/// @function onTransitFinished()
-/// @description Invoked when a transition to this room is finished.
+/// @func onTransitFinished()
+/// @desc Invoked when a transition to this room is finished.
 ///				 Override (redefine) to execute code when a room is no longer animating
 onTransitFinished = function() {
 }

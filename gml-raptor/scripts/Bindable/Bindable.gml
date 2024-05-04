@@ -9,28 +9,28 @@
 	
 */
 
-/// @function Bindable(_parent)
+/// @func Bindable(_parent)
 function Bindable(_parent = undefined) constructor {
 	construct(Bindable);
 	
 	__raptor_parent = _parent;
 	__raptor_binder = undefined;
 	
-	/// @function binder_initialized()
-	/// @description Checks, whether a binder has been created in this instance
+	/// @func binder_initialized()
+	/// @desc Checks, whether a binder has been created in this instance
 	static binder_initialized = function() {
 		return __raptor_binder != undefined;
 	}
 	
-	/// @function binder()
-	/// @description Gets the PropertyBinder for this struct. Initialized on first access
+	/// @func binder()
+	/// @desc Gets the PropertyBinder for this struct. Initialized on first access
 	static binder = function() {
 		__raptor_binder = __raptor_binder ?? new PropertyBinder(self, __raptor_parent);
 		return __raptor_binder;
 	}
 	
-	/// @function parent()
-	/// @description return the parent of this binder, to keep navigating
+	/// @func parent()
+	/// @desc return the parent of this binder, to keep navigating
 	///				 in the builder pattern
 	static parent = function() {
 		return __raptor_parent;

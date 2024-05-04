@@ -2,7 +2,7 @@
 	Holds a 2D Coordinate pair (x,y)
 */
 
-/// @function					Coord2(xp, yp)
+/// @func					Coord2(xp, yp)
 /// @param {real} xp
 /// @param {real} yp
 /// @returns {Coord2}
@@ -11,14 +11,14 @@ function Coord2(xp = 0, yp = 0) constructor {
 	
 	set(xp, yp);
 	
-	/// @function		clone2()
-	/// @description	Clones this as Coord2
+	/// @func		clone2()
+	/// @desc	Clones this as Coord2
 	static clone2 = function() {
 		return new Coord2(x, y);
 	}
 	
-	/// @function				set(xp, yp)
-	/// @description			set both values in one step
+	/// @func				set(xp, yp)
+	/// @desc			set both values in one step
 	/// @param {real} xp
 	/// @param {real} yp
 	/// @returns {Coord2} self for command chaining (fluent syntax)
@@ -28,8 +28,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 	
-	/// @function				mul(factor_x, factor_y)
-	/// @description			multiply both values in one step
+	/// @func				mul(factor_x, factor_y)
+	/// @desc			multiply both values in one step
 	/// @param {real} factor_x
 	/// @param {real} factor_y
 	/// @returns {Coord2} self for command chaining (fluent syntax)
@@ -39,8 +39,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 	
-	/// @function				mulxy(factor)
-	/// @description			multiply both values in one step
+	/// @func				mulxy(factor)
+	/// @desc			multiply both values in one step
 	/// @param {real} factor
 	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static mul_xy = function(factor) {
@@ -49,8 +49,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 
-	/// @function				plus(other_coord2)
-	/// @description			Add the values of other_coord2 into this one
+	/// @func				plus(other_coord2)
+	/// @desc			Add the values of other_coord2 into this one
 	/// @param {Coord2} other_coord2
 	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static plus = function(other_coord2) {
@@ -59,8 +59,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 	
-	/// @function				minus(other_coord2)
-	/// @description			Subtract the values in other_coord2 from this one
+	/// @func				minus(other_coord2)
+	/// @desc			Subtract the values in other_coord2 from this one
 	/// @param {Coord2} other_coord2
 	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static minus = function(other_coord2) {
@@ -69,8 +69,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 
-	/// @function				add(add_x, add_y)
-	/// @description			add a value to the current values
+	/// @func				add(add_x, add_y)
+	/// @desc			add a value to the current values
 	/// @param {real} add_x
 	/// @param {real} add_y
 	/// @returns {Coord2} self for command chaining (fluent syntax)
@@ -80,8 +80,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 
-	/// @function				addxy(value)
-	/// @description			add the same value to the current values
+	/// @func				addxy(value)
+	/// @desc			add the same value to the current values
 	/// @param {real} value
 	/// @returns {Coord2} self for command chaining (fluent syntax)
 	static add_xy = function(value) {
@@ -90,13 +90,13 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return self;
 	}
 
-	/// @function					length_xy()
-	/// @description				2D-hypotenuse
+	/// @func					length_xy()
+	/// @desc				2D-hypotenuse
 	/// @returns {real} length			
 	static length_xy = function() { return sqrt(sqr(x) + sqr(y)); }
 	
-	/// @function		static angle_xy()
-	/// @description	gets alpha (angle from horizontal to hypo). 0 degrees is right ccw
+	/// @func		static angle_xy()
+	/// @desc	gets alpha (angle from horizontal to hypo). 0 degrees is right ccw
 	static angle_xy = function() {
 		var angle = abs(darcsin(y / length_xy()));
 		if (x >= 0) {
@@ -114,16 +114,16 @@ function Coord2(xp = 0, yp = 0) constructor {
 		}
 	}
 	
-	/// @function				distance_to_coord2(other_Coord2)
-	/// @description			distance between two vectors
+	/// @func				distance_to_coord2(other_Coord2)
+	/// @desc			distance between two vectors
 	/// @param {Coord2} other_Coord2
 	/// @returns {Coord2}	new Coord2
 	static distance_to_coord2 = function(other_coord2) {
 		return new Coord2(abs(x - other_coord2.x), abs(y - other_coord2.y));
 	}
 	
-	/// @function				distance_to_xy(xp, yp)
-	/// @description			distance between vector and point
+	/// @func				distance_to_xy(xp, yp)
+	/// @desc			distance between vector and point
 	/// @param {real} xp
 	/// @param {real} yp
 	/// @returns {Coord2}	new Coord2
@@ -131,8 +131,8 @@ function Coord2(xp = 0, yp = 0) constructor {
 		return new Coord2(abs(x - xp), abs(y - yp));
 	}
 	
-	/// @function				equals_xy(other_coord2)
-	/// @description			true, if both, x and y match	
+	/// @func				equals_xy(other_coord2)
+	/// @desc			true, if both, x and y match	
 	/// @returns {bool}			
 	static equals_xy = function(other_coord2) {
 		return (x == other_coord2.x) && (y == other_coord2.y);

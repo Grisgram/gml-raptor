@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 if (!is_null(__x_button)) {

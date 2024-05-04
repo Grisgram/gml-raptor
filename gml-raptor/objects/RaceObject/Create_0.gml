@@ -1,4 +1,4 @@
-/// @description onQueryHit default implementation
+/// @desc onQueryHit default implementation
 
 event_inherited();
 
@@ -21,8 +21,8 @@ event_inherited();
 // but the value is already available when onQueryHit gets invoked)
 data.race_data = undefined;
 
-/// @function					onQueryHit(item_dropped, first_query_table, current_query_table)
-/// @description				This item just got hit by a query
+/// @func					onQueryHit(item_dropped, first_query_table, current_query_table)
+/// @desc				This item just got hit by a query
 /// @param {race_table} first_query_table		holds the struct of the topmost table, that started the current query
 /// @param {race_table} current_query_table		holds the struct of the table where the dropped item here is contained in
 /// @param {race_item} 	item_dropped			holds the race struct (race_result_entry) that just dropped.

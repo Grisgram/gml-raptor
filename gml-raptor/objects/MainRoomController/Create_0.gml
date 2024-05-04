@@ -1,4 +1,4 @@
-/// @description onTransitFinished override
+/// @desc onTransitFinished override
 event_inherited();
 
 onTransitFinished = function() {

@@ -1,4 +1,4 @@
-/// @description update anims & state machines
+/// @desc update anims & state machines
 
 // optimize to death - only enter process if any are in list
 if (ANIMATIONS.__listcount > 0)		ANIMATIONS.process_all();

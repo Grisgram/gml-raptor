@@ -1,10 +1,10 @@
-/// @description word_wrap and sprite remove
+/// @desc word_wrap and sprite remove
 
 __original_dim = new SpriteDim(sprite_index);
 
 event_inherited();
 
-/// @function update_client_area()
+/// @func update_client_area()
 update_client_area = function() {
 	if (control_tree_layout == undefined || !remove_sprite_at_runtime || autosize) {
 		data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height);

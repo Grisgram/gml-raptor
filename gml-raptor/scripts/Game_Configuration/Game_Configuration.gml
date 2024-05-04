@@ -86,8 +86,8 @@ if (USE_HIGHSCORES) {
 	HIGHSCORES = undefined;
 }
 
-/// @function function onGameStart()
-/// @description	When this runs, load_settings() has already been called and 
+/// @func function onGameStart()
+/// @desc	When this runs, load_settings() has already been called and 
 ///					you can access your settings through the GAMESETTINGS macro.
 function onGameStart() {
 
@@ -128,7 +128,7 @@ function onGameStart() {
 
 }
 
-/// @function function onGameEnd()
+/// @func function onGameEnd()
 function onGameEnd() {
 	
 }

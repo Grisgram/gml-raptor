@@ -1,4 +1,4 @@
-/// @description restore focus
+/// @desc restore focus
 event_inherited();
 
 if (__RAPTORDATA.has_focus)

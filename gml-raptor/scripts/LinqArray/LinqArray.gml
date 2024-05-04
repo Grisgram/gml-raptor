@@ -14,14 +14,14 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	
 	array = array_create(size, initial_value);
 
-	/// @function get_array()
-	/// @description get the entire array. Alternatively you can access .array directly
+	/// @func get_array()
+	/// @desc get the entire array. Alternatively you can access .array directly
 	static get_array = function() {
 		return array;
 	}
 
-	/// @function get_index_in_range()
-	/// @description get an index in range of the array
+	/// @func get_index_in_range()
+	/// @desc get an index in range of the array
 	static get_index_in_range = function(index) {
 		var len = length();
 		while (index < 0) index += len;
@@ -29,8 +29,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return index;
 	}
 
-	/// @function get()
-	/// @description get the item at position index
+	/// @func get()
+	/// @desc get the item at position index
 	static get = function(index) {
 		if (length() == 0) 
 			return undefined;
@@ -38,14 +38,14 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return array[@ idx];
 	}
 
-	/// @function length()
-	/// @description get the length of the array
+	/// @func length()
+	/// @desc get the length of the array
 	static length = function() {
 		return array_length(array);
 	}
 	
-	/// @function clear(with_value = undefined)
-	/// @description clear the entire array with a value
+	/// @func clear(with_value = undefined)
+	/// @desc clear the entire array with a value
 	static clear = function(with_value = undefined) {
 		var i = 0; repeat(length()) {
 			array[@ i] = with_value;
@@ -54,16 +54,16 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 	
-	/// @function sort(sort_type_or_function)
-	/// @description sort the array. true/false for ascending/descending or a comparator function. see official docs at
+	/// @func sort(sort_type_or_function)
+	/// @desc sort the array. true/false for ascending/descending or a comparator function. see official docs at
 	///              https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_sort.htm
 	static sort = function(sort_type_or_function) {
 		array_sort(array, sort_type_or_function);
 		return self;
 	}
 	
-	/// @function reverse()
-	/// @description reverse the array
+	/// @func reverse()
+	/// @desc reverse the array
 	static reverse = function() {
 		var len = length();
 		var val;
@@ -76,8 +76,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 	
-	/// @function shuffle()
-	/// @description randomly shuffle an array. more passes = more randomization but also more run time
+	/// @func shuffle()
+	/// @desc randomly shuffle an array. more passes = more randomization but also more run time
 	static shuffle = function() {
 		var len = length(), 
 			random_index = 0,
@@ -93,8 +93,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 	
-	/// @function insert(index, values)
-	/// @description insert values at position index into the array. multiple arguments allowed. see official docs at
+	/// @func insert(index, values)
+	/// @desc insert values at position index into the array. multiple arguments allowed. see official docs at
 	///              https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_insert.htm
 	static insert = function(index, values) {
 		var i = 1; repeat(argument_count - 1) {
@@ -104,8 +104,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 	
-	/// @function push(values)
-	/// @description push values at the end into the array. multiple arguments allowed. see official docs at
+	/// @func push(values)
+	/// @desc push values at the end into the array. multiple arguments allowed. see official docs at
 	///             https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_push.htm
 	static push = function(values) {
 		var i = 0; repeat(argument_count) {
@@ -115,32 +115,32 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 	
-	/// @function pop()
-	/// @description get the last value of the array and reduce its size by 1. see official docs at
+	/// @func pop()
+	/// @desc get the last value of the array and reduce its size by 1. see official docs at
 	///              https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_pop.htm
 	static pop = function() {
 		return array_pop(array);
 	}
 	
-	/// @function remove(index, count = 1)
-	/// @description remove count items at position index from that array an reduce its size. see official docs at
+	/// @func remove(index, count = 1)
+	/// @desc remove count items at position index from that array an reduce its size. see official docs at
 	///              https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_delete.htm
 	static remove = function(index, count = 1) {
 		array_delete(array, index, count);
 		return self;
 	}
 	
-	/// @function equals(other_array)
+	/// @func equals(other_array)
 	/// @param {array or LinqArray} other_array
-	/// @description checks if the contents OR the reference equals to the other_array. see official docs at
+	/// @desc checks if the contents OR the reference equals to the other_array. see official docs at
 	///              https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FVariable_Functions%2Farray_equals.htm
 	static equals = function(other_array) {
 		var comp = is_array(other_array) ? other_array : other_array.array;
 		return array == comp || array_equals(array, comp);
 	}
 	
-	/// @function first_index_of(value)
-	/// @description get the first index of the specified value or undefined, if it is not contained in the array
+	/// @func first_index_of(value)
+	/// @desc get the first index of the specified value or undefined, if it is not contained in the array
 	static first_index_of = function(value) {
 		var i = 0; repeat(length()) {
 			if (array[@ i] == value) 
@@ -150,8 +150,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return undefined;
 	}
 
-	/// @function last_index_of(value)
-	/// @description get the lst index (this is the first index, counting backwards from the end of the array)
+	/// @func last_index_of(value)
+	/// @desc get the lst index (this is the first index, counting backwards from the end of the array)
 	///				 of the specified value or undefined, if it is not contained in the array
 	static last_index_of = function(value) {
 		var len = length();
@@ -161,22 +161,22 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return undefined;
 	}
 	
-	/// @function contains(value)
-	/// @description True, if the specified value is contained in the array
+	/// @func contains(value)
+	/// @desc True, if the specified value is contained in the array
 	static contains = function(value) {
 		return first_index_of(value) != undefined;
 	}
 	
-	/// @function clone()
-	/// @description get a new LinqArray containing a (snap) deep copy of this LinqArray
+	/// @func clone()
+	/// @desc get a new LinqArray containing a (snap) deep copy of this LinqArray
 	static clone = function() {
 		var rv = new LinqArray();
 		rv.array = SnapDeepCopy(array);
 		return rv;
 	}
 	
-	/// @function minval(accessor_function = undefined, data = undefined)
-	/// @description Find the lowest value. if accessor_function is undefined, values are compared directly, otherwise
+	/// @func minval(accessor_function = undefined, data = undefined)
+	/// @desc Find the lowest value. if accessor_function is undefined, values are compared directly, otherwise
 	///				 the return value of the accessor_function on both values is compared.
 	///				 Use the accessor if you array contains structs and you want to find the lowest value of one of the
 	///				 struct members.
@@ -197,8 +197,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function maxval(accessor_function = undefined, data = undefined)
-	/// @description Find the highest value. if accessor_function is undefined, values are compared directly, otherwise
+	/// @func maxval(accessor_function = undefined, data = undefined)
+	/// @desc Find the highest value. if accessor_function is undefined, values are compared directly, otherwise
 	///				 the return value of the accessor_function on both values is compared.
 	///				 Use the accessor if you array contains structs and you want to find the highest value of one of the
 	///				 struct members.
@@ -219,8 +219,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function sum(accessor_function = undefined, data = undefined)
-	/// @description Sum all values. if accessor_function is undefined, values are calculated directly, otherwise
+	/// @func sum(accessor_function = undefined, data = undefined)
+	/// @desc Sum all values. if accessor_function is undefined, values are calculated directly, otherwise
 	///				 the return value of the accessor_function is calculated.
 	///				 Use the accessor if you array contains structs and you want to find the average value of one of the
 	///				 struct members.
@@ -238,8 +238,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function avg(accessor_function = undefined, data = undefined)
-	/// @description Find the average value. if accessor_function is undefined, values are calculated directly, otherwise
+	/// @func avg(accessor_function = undefined, data = undefined)
+	/// @desc Find the average value. if accessor_function is undefined, values are calculated directly, otherwise
 	///				 the return value of the accessor_function is calculated.
 	///				 Use the accessor if you array contains structs and you want to find the average value of one of the
 	///				 struct members.
@@ -250,8 +250,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return sum(accessor_function, data) / length();
 	}
 
-	/// @function where(condition_function, data = undefined)
-	/// @description Perform a Linq-Where query on the array and return a new LinqArray containing the filtered data
+	/// @func where(condition_function, data = undefined)
+	/// @desc Perform a Linq-Where query on the array and return a new LinqArray containing the filtered data
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static where = function(condition_function, data = undefined) {
 		var rv = new LinqArray();
@@ -263,8 +263,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function is_any(condition_function, data = undefined)
-	/// @description True, if the condition_function returned true on an item
+	/// @func is_any(condition_function, data = undefined)
+	/// @desc True, if the condition_function returned true on an item
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static is_any = function(condition_function, data = undefined) {
 		var i = 0; repeat(length()) {
@@ -276,8 +276,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return false;
 	}
 	
-	/// @function are_all(condition_function, data = undefined)
-	/// @description True, if the condition_function returned true on an item
+	/// @func are_all(condition_function, data = undefined)
+	/// @desc True, if the condition_function returned true on an item
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static are_all = function(condition_function, data = undefined) {
 		var i = 0; repeat(length()) {
@@ -288,8 +288,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return true;
 	}
 
-	/// @function count(condition_function, data = undefined)
-	/// @description counts the occurrences where condition_function returns true
+	/// @func count(condition_function, data = undefined)
+	/// @desc counts the occurrences where condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static count = function(condition_function, data = undefined) {
 		var rv = 0;
@@ -300,8 +300,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function select(selector_function, data = undefined)
-	/// @description Get a new LinqArray containing all returns values from the selector.
+	/// @func select(selector_function, data = undefined)
+	/// @desc Get a new LinqArray containing all returns values from the selector.
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the selector_function, if specified
 	///				 Example: You can select only the "age" from an array of structs {name:"abc", age:33}
 	///				 with a selector function(item) {return item.age}
@@ -314,8 +314,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function do_foreach(iterator_function, data = undefined)
-	/// @description Calls the iterator function for each item in the array
+	/// @func do_foreach(iterator_function, data = undefined)
+	/// @desc Calls the iterator function for each item in the array
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the iterator_function, if specified
 	static do_foreach = function(iterator_function, data = undefined) {
 		var i = 0; repeat(length()) {
@@ -325,8 +325,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function remove_all(values)
-	/// @description remove all specified values from the array. multiple arguments allowed
+	/// @func remove_all(values)
+	/// @desc remove all specified values from the array. multiple arguments allowed
 	static remove_all = function(values) {
 		var i = 0;
 		var found = false;
@@ -349,8 +349,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function remove_where(condition_function, data = undefined)
-	/// @description remove all where the condition_function returns true
+	/// @func remove_where(condition_function, data = undefined)
+	/// @desc remove all where the condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static remove_where = function(condition_function, data = undefined) {
 		var i = 0;
@@ -363,8 +363,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function skip(count)
-	/// @description skip the first count entries
+	/// @func skip(count)
+	/// @desc skip the first count entries
 	static skip = function(count) {
 		if (count <= 0) return self;
 		var copy = array_create(length() - count);
@@ -372,8 +372,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return LinqArray_create_from(copy);
 	}
 
-	/// @function skip_while(condition_function, data = undefined)
-	/// @description skip entries while condition_function returns true
+	/// @func skip_while(condition_function, data = undefined)
+	/// @desc skip entries while condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static skip_while = function(condition_function, data = undefined) {
 		var i = 0;
@@ -382,8 +382,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return skip(i);
 	}
 
-	/// @function skip_until(condition_function, data = undefined)
-	/// @description skip entries until condition_function returns true
+	/// @func skip_until(condition_function, data = undefined)
+	/// @desc skip entries until condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static skip_until = function(condition_function, data = undefined) {
 		var i = 0;
@@ -392,8 +392,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return skip(i);
 	}
 
-	/// @function take(count)
-	/// @description take the first count entries
+	/// @func take(count)
+	/// @desc take the first count entries
 	static take = function(count) {
 		if (count <= 0) return new LinqArray();
 		var copy = array_create(count);
@@ -401,8 +401,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return LinqArray_create_from(copy);
 	}
 
-	/// @function take_while(condition_function, data = undefined)
-	/// @description take entries while condition_function returns true
+	/// @func take_while(condition_function, data = undefined)
+	/// @desc take entries while condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static take_while = function(condition_function, data = undefined) {
 		var i = 0;
@@ -411,8 +411,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return take(i);
 	}
 
-	/// @function take_until(condition_function, data = undefined)
-	/// @description take entries until condition_function returns true
+	/// @func take_until(condition_function, data = undefined)
+	/// @desc take entries until condition_function returns true
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
 	static take_until = function(condition_function, data = undefined) {
 		var i = 0;
@@ -421,8 +421,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return take(i);
 	}
 
-	/// @function take_random(count, ensure_unique = true)
-	/// @description returns a LinqArray containing count random entries of this LinqArray.
+	/// @func take_random(count, ensure_unique = true)
+	/// @desc returns a LinqArray containing count random entries of this LinqArray.
 	///				 if ensure_unique = true (the default) no duplicates will be contained in the result
 	///				 NOTE: If the length of this array is less than or equal to count, this method, simply
 	///				 returns self, thus maybe ignoring the ensure_unique value (if currently duplicates are contained)
@@ -444,8 +444,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function first_or_default(condition_function = undefined, data = undefined)
-	/// @description if no condition_function specified returns the first entry in the array or undefined if array_length == 0.
+	/// @func first_or_default(condition_function = undefined, data = undefined)
+	/// @desc if no condition_function specified returns the first entry in the array or undefined if array_length == 0.
 	///				 if a condition_function is specified, returns the first item where the function returns true, or undefined
 	///				 if it never returns true.
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
@@ -460,8 +460,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		}
 	}
 	
-	/// @function last_or_default(condition_function = undefined, data = undefined)
-	/// @description if no condition_function specified returns the last entry in the array or undefined if array_length == 0.
+	/// @func last_or_default(condition_function = undefined, data = undefined)
+	/// @desc if no condition_function specified returns the last entry in the array or undefined if array_length == 0.
 	///				 if a condition_function is specified, returns the first item counting backwards from the end of the array,
 	///				 where the function returns true, or undefined, if it never returns true.
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the condition_function, if specified
@@ -476,8 +476,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		}
 	}
 
-	/// @function distinct(distinct_function = undefined, data = undefined)
-	/// @description returns a new LinqArray containing only unique values. If no distinct_function is specified,
+	/// @func distinct(distinct_function = undefined, data = undefined)
+	/// @desc returns a new LinqArray containing only unique values. If no distinct_function is specified,
 	///				 values are compared directly, otherwise the distinct_function must return the value that makes an item distinct.
 	///				 NOTE: The second (optional) parameter "data" will be passed as second parameter to the distinct_function, if specified
 	///				 Example: struct{name:"abc",age:33} distinct_function(item) {return item.age}
@@ -503,8 +503,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function intersect(other_array)
-	/// @description removes all items that are not contained in other_array
+	/// @func intersect(other_array)
+	/// @desc removes all items that are not contained in other_array
 	static intersect = function(other_array) {
 		if (is_array(other_array)) other_array = LinqArray_create_from(other_array);
 		var i = 0;
@@ -517,8 +517,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function intersect(other_array)
-	/// @description same as intersect, but returns a NEW LinqArray, not modifying this current one
+	/// @func intersect(other_array)
+	/// @desc same as intersect, but returns a NEW LinqArray, not modifying this current one
 	static intersect_new = function(other_array) {
 		var rv = clone();
 		if (is_array(other_array)) other_array = LinqArray_create_from(other_array);
@@ -532,8 +532,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function minus(other_array)
-	/// @description removes all items that are contained in other_array
+	/// @func minus(other_array)
+	/// @desc removes all items that are contained in other_array
 	static minus = function(other_array) {
 		if (is_array(other_array)) other_array = LinqArray_create_from(other_array);
 		var i = 0;
@@ -546,8 +546,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function minus(other_array)
-	/// @description same as minus, but returns a NEW LinqArray, not modifying this current one
+	/// @func minus(other_array)
+	/// @desc same as minus, but returns a NEW LinqArray, not modifying this current one
 	static minus_new = function(other_array) {
 		var rv = clone();
 		if (is_array(other_array)) other_array = LinqArray_create_from(other_array);
@@ -561,8 +561,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function union(other_array)
-	/// @description integrates other_array into this one, avoiding duplicates
+	/// @func union(other_array)
+	/// @desc integrates other_array into this one, avoiding duplicates
 	/// @param {array|LinqArray} other_array Must be an array or LinqArray
 	static union = function(other_array) {
 		var val;
@@ -582,8 +582,8 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return self;
 	}
 
-	/// @function union_new(other_array)
-	/// @description same as union, but returns a NEW LinqArray, not modifying this current one
+	/// @func union_new(other_array)
+	/// @desc same as union, but returns a NEW LinqArray, not modifying this current one
 	/// @param {array|LinqArray} other_array Must be an array or LinqArray
 	static union_new = function(other_array) {
 		var rv = clone();
@@ -604,16 +604,16 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 		return rv;
 	}
 
-	/// @function toString
-	/// @description a json-compatible string representation
+	/// @func toString
+	/// @desc a json-compatible string representation
 	toString = function() {
 		return SnapToJSON(array);
 	}
 
 }
 
-/// @function					LinqArray_create_from(array)
-/// @description				create a LinqArray with an existing array
+/// @func					LinqArray_create_from(array)
+/// @desc				create a LinqArray with an existing array
 /// @param {array} array
 /// @returns {LinqArray}		
 function LinqArray_create_from(array) {

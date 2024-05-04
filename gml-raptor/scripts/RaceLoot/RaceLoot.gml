@@ -8,8 +8,8 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function					race_result_entry(item_name, data_struct, inst = undefined)
-/// @description				holds one dropped item
+/// @func					race_result_entry(item_name, data_struct, inst = undefined)
+/// @desc				holds one dropped item
 /// @param {string} item_name	name of the item 			
 /// @param {struct} data_struct	the race table struct of this item (contains unique, enabled, chance,...)
 /// @param {instance=undefined} inst		dropped instance (if anything dropped)
@@ -199,8 +199,8 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 	return rv;
 }
 
-/// @function		race_query(table_name, drop_on_layer = "", pool_name = "")
-/// @description	Perform a loot query on the specified table
+/// @func		race_query(table_name, drop_on_layer = "", pool_name = "")
+/// @desc	Perform a loot query on the specified table
 /// @returns {array}				Returns the "loot". This is a struct of type race_result_entry.
 ///									It contains:
 ///										name		= item name

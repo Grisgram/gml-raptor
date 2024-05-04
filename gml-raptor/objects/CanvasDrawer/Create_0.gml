@@ -1,4 +1,4 @@
-/// @description methods
+/// @desc methods
 
 /*
 	CanvasDrawer helper object for the Canvas library by @tabularelf.
@@ -29,7 +29,7 @@ __drawable		 = false;
 __draw_origin_x	 = 0;
 __draw_origin_y	 = 0;
 
-/// @function __set_origin_offsets(origin, custom_x, custom_y)
+/// @func __set_origin_offsets(origin, custom_x, custom_y)
 __set_origin_offsets = function(origin, custom_x, custom_y) {
 	canvas_origin			= origin;
 	canvas_origin_custom_x	= custom_x;
@@ -58,7 +58,7 @@ __set_origin_offsets = function(origin, custom_x, custom_y) {
 	}
 }
 
-/// @function __draw()
+/// @func __draw()
 __draw = function() {
 	if (__subimage_count == 1)
 		canvas.Draw(x - __draw_origin_x, y - __draw_origin_y);
@@ -67,8 +67,8 @@ __draw = function() {
 		canvas.DrawPart(__subimages[@ __sub_idx], 0, __subimage_width, canvas_height, x - __draw_origin_x, y - __draw_origin_y);
 }
 
-/// @function create_canvas(width, height, origin = 7, origin_custom_x = 0, origin_custom_y = 0)
-/// @description Create a new Canvas instance. The method returns the created Canvas.
+/// @func create_canvas(width, height, origin = 7, origin_custom_x = 0, origin_custom_y = 0)
+/// @desc Create a new Canvas instance. The method returns the created Canvas.
 create_canvas = function(width, height, origin = 7, origin_custom_x = 0, origin_custom_y = 0) {
 	
 	free_canvas();
@@ -82,8 +82,8 @@ create_canvas = function(width, height, origin = 7, origin_custom_x = 0, origin_
 	return canvas;
 }
 
-/// @function free_canvas()
-/// @description Release the canvas
+/// @func free_canvas()
+/// @desc Release the canvas
 free_canvas = function() {
 	if (__clone != undefined) {
 		__clone.free();
@@ -96,8 +96,8 @@ free_canvas = function() {
 	__drawable = false;
 }
 
-/// @function set_canvas(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0, _sub_image_count = 1, _animation_fps = 0)
-/// @description Assign an already existing canvas to this drawer.
+/// @func set_canvas(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0, _sub_image_count = 1, _animation_fps = 0)
+/// @desc Assign an already existing canvas to this drawer.
 ///				 NOTE: If the _canvas supplied is not a valid Canvas instance, the entire function is ignored.
 set_canvas = function(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y = 0, _sub_image_count = 1, _animation_fps = 0) {
 	if (CanvasIsCanvas(_canvas)) {	
@@ -108,8 +108,8 @@ set_canvas = function(_canvas, origin = 7, origin_custom_x = 0, origin_custom_y 
 	}
 }
 
-/// @function set_animation(sub_image_count, frames_per_second)
-/// @description Set animation frames and speed
+/// @func set_animation(sub_image_count, frames_per_second)
+/// @desc Set animation frames and speed
 set_animation = function(sub_image_count, frames_per_second) {
 	sub_images			= sub_image_count;
 	animation_fps		= frames_per_second;
@@ -124,8 +124,8 @@ set_animation = function(sub_image_count, frames_per_second) {
 	}
 }
 
-/// @function clone_sprite(_sprite, _frame = -1)
-/// @description Clones a sprite asset into a surface and sets the subimages and animation 
+/// @func clone_sprite(_sprite, _frame = -1)
+/// @desc Clones a sprite asset into a surface and sets the subimages and animation 
 ///				 based on the sprite's data. Let frame be -1 to clone all frames or set a desired frame to clone
 clone_sprite = function(_sprite, _frame = -1) {
 	free_canvas();

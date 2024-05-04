@@ -1,1 +1,1 @@
-/// @description do nothing - drawn by window
+/// @desc do nothing - drawn by window

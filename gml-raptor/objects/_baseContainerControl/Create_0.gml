@@ -1,4 +1,4 @@
-/// @description build object hierarchy
+/// @desc build object hierarchy
 event_inherited();
 
 __first_draw			 = true;
@@ -11,8 +11,8 @@ if (!is_instanceof(control_tree, ControlTree)) {
 control_tree_layout = new ControlTreeLayout();
 control_tree.bind_to(self);
 
-/// @function get_element(_name)
-/// @description Retrieve a child control by its name. Returns the instance or undefined
+/// @func get_element(_name)
+/// @desc Retrieve a child control by its name. Returns the instance or undefined
 get_element = function(_name) {
 	return control_tree.get_element(_name);
 }

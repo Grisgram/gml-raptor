@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 if (event_data[? "event_type"] == "sprite event") {

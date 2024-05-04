@@ -1,4 +1,4 @@
-/// @description Cursor control & add text
+/// @desc Cursor control & add text
 
 if (!__RAPTORDATA.has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 

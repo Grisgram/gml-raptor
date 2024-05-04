@@ -2,8 +2,8 @@
     Use the Canvas library to turn a sprite into a surface by maintaining its animation settings.
 */
 
-/// @function sprite_to_canvas(_sprite, _frame = -1, _bordersize = 0)
-/// @description	Clones a sprite asset (either one single frame or all frames) into a canvas surface.
+/// @func sprite_to_canvas(_sprite, _frame = -1, _bordersize = 0)
+/// @desc	Clones a sprite asset (either one single frame or all frames) into a canvas surface.
 ///					The bordersize tells, how many pixels around the sprite shall be transparent (for shaders, etc)
 /// @returns		A new CanvasSprite object holding the sprite, frame sizes, animation speed, etc
 function sprite_to_canvas(_sprite, _frame = -1, _bordersize = 0) {
@@ -36,8 +36,8 @@ function sprite_to_canvas(_sprite, _frame = -1, _bordersize = 0) {
 	return new CanvasSprite(canvas, __subimage_count, animation_fps, __xoffset, __yoffset, _bordersize);
 }
 
-/// @function		CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersize = 0)
-/// @description	Holds render data for a cloned sprite (sprite->Canvas)
+/// @func		CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersize = 0)
+/// @desc	Holds render data for a cloned sprite (sprite->Canvas)
 function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersize = 0) constructor {
 	canvas			= _canvas;
 	image_count		= _image_count;
@@ -64,13 +64,13 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		xp += image_width;
 	}
 
-	/// @function		draw_frame(frame, xp, yp)
-	/// @description	Draws the current frame at the specified position
+	/// @func		draw_frame(frame, xp, yp)
+	/// @desc	Draws the current frame at the specified position
 	static draw_frame = function(frame, xp, yp) {
 		canvas.DrawPart(subimages[@ frame], 0, image_width, image_height, xp - xoffset - bordersize, yp - yoffset - bordersize);
 	}
 	
-	/// @function		draw_frame_ext(frame, xp, yp, draw_depth, xscale, yscale, rot, col, alpha)
+	/// @func		draw_frame_ext(frame, xp, yp, draw_depth, xscale, yscale, rot, col, alpha)
 	static draw_frame_ext = function(frame, xp, yp, draw_depth, xscale, yscale, rot, col, alpha) {
 		__matrix = matrix_build(xp, yp, draw_depth, 0, 0, rot * __browser_flip, xscale, yscale * __browser_flip, 1);
 		matrix_set(matrix_world, __matrix);
@@ -82,8 +82,8 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		matrix_set(matrix_world, matrix_build_identity());
 	}
 
-	/// @function		get_image_index(_elapsed, _image_speed)
-	/// @description	Should be called every STEP to ensure continuous correct animation
+	/// @func		get_image_index(_elapsed, _image_speed)
+	/// @desc	Should be called every STEP to ensure continuous correct animation
 	///					when you draw this sprite manually.
 	///					Example (STEP event): 
 	///					image_index = my_canvas_sprite.get_image_index(delta_time, image_speed);
@@ -100,8 +100,8 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		return sub_idx;
 	}
 	
-	/// @function		create_sprite()
-	/// @description	Creates a dynamic sprite out of the frames of this canvas surface
+	/// @func		create_sprite()
+	/// @desc	Creates a dynamic sprite out of the frames of this canvas surface
 	static create_sprite = function() {
 		var rv = sprite_create_from_surface(canvas.GetSurfaceID(),0,0,image_width,image_height,false,false,xoffset+bordersize,yoffset+bordersize);
 		for (var i = 1, len = array_length(subimages); i < len; i++) 
@@ -110,8 +110,8 @@ function CanvasSprite(_canvas, _image_count, _fps, _xoffset, _yoffset, _bordersi
 		return rv;
 	}
 	
-	/// @function		free()
-	/// @description	Release the underlying canvas
+	/// @func		free()
+	/// @desc	Release the underlying canvas
 	static free = function() {
 		canvas.Free();
 	}

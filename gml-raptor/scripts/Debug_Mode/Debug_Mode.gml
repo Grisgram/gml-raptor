@@ -45,8 +45,8 @@ function check_debug_mode() {
 	}
 }
 
-/// @function					assert_debug_if_false(condition, error_message)
-/// @description				Launches a messagebox if condition is false
+/// @func					assert_debug_if_false(condition, error_message)
+/// @desc				Launches a messagebox if condition is false
 /// @returns {bool}				true, if a message was shown, otherwise false
 function assert_debug_if_false(condition, error_message) {
 	if (DEBUG_MODE_ACTIVE && !condition) {
@@ -56,8 +56,8 @@ function assert_debug_if_false(condition, error_message) {
 	return false;
 }
 
-/// @function					assert_debug_if_true(condition, error_message)
-/// @description				Launches a messagebox if condition is true
+/// @func					assert_debug_if_true(condition, error_message)
+/// @desc				Launches a messagebox if condition is true
 /// @returns {bool}				true, if a message was shown, otherwise false
 function assert_debug_if_true(condition, error_message) {
 	if (DEBUG_MODE_ACTIVE && condition) {

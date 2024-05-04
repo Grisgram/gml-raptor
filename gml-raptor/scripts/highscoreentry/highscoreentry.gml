@@ -38,8 +38,8 @@ function HighScoreEntry(_name, _score, _time, _id = undefined) constructor {
 	data.Created = date_current_datetime();
 	date_set_timezone(tmptz);
 
-	/// @function		format_time(_time)
-	/// @description	Formats the time of the entry to a common format hh:mm:ss.iii
+	/// @func		format_time(_time)
+	/// @desc	Formats the time of the entry to a common format hh:mm:ss.iii
 	/// @param {bool=true} with_hours	Include "00:" a place for the hours in the string
 	static format_time = function(with_hours = true) {
 		if (data.Time == undefined) 

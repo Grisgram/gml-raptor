@@ -1,4 +1,4 @@
-/// @description restore default cursor
+/// @desc restore default cursor
 event_inherited();
 
 window_set_cursor(cr_default);

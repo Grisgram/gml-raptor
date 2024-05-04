@@ -1,4 +1,4 @@
-/// @description Store mouse/window coordinates
+/// @desc Store mouse/window coordinates
 
 /*
 	BEGIN STEP: Calculate new positions of mouse and window and all

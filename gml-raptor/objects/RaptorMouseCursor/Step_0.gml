@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 
 x = GUI_MOUSE_X;
 y = GUI_MOUSE_Y;

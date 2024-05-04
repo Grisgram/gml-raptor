@@ -1,4 +1,4 @@
-/// @description click and data
+/// @desc click and data
 event_inherited();
 
 itemdata = itemdata ?? { selected: false }; // a temp struct before we get real data (for set_selected)

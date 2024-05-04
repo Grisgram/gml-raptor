@@ -1,4 +1,4 @@
-/// @description resolve text variable through LG
+/// @desc resolve text variable through LG
 
 /*
 	Set the text variable to anything starting with =

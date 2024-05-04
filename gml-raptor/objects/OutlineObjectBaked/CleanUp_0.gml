@@ -1,2 +1,2 @@
-/// @description release canvas
+/// @desc release canvas
 __free();

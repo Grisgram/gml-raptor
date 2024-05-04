@@ -1,5 +1,5 @@
-/// @function					Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
-/// @description				define a rectangle as struct
+/// @func					Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
+/// @desc				define a rectangle as struct
 /// @param {real=0} rect_left
 /// @param {real=0} rect_top
 /// @param {real=0} rect_width
@@ -15,24 +15,24 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 	right = get_right();
 	bottom = get_bottom();
 	
-	/// @function					get_right()
-	/// @description				right edge of the rectangle
+	/// @func					get_right()
+	/// @desc				right edge of the rectangle
 	static get_right  = function() { return left + width - 1; }
-	/// @function					get_bottom()
-	/// @description				bottom edge of the rectangle
+	/// @func					get_bottom()
+	/// @desc				bottom edge of the rectangle
 	static get_bottom = function() { return top + height - 1; }	
-	/// @function					get_diagonal()
-	/// @description				length of the diagonal
+	/// @func					get_diagonal()
+	/// @desc				length of the diagonal
 	static get_diagonal = function() { return sqrt(sqr(width) + sqr(height)); }
-	/// @function					get_center_x()
-	/// @description				left + width / 2
+	/// @func					get_center_x()
+	/// @desc				left + width / 2
 	static get_center_x = function() { return left + width / 2; }
-	/// @function					get_center_y()
-	/// @description				top + height / 2
+	/// @func					get_center_y()
+	/// @desc				top + height / 2
 	static get_center_y = function() { return top + height / 2; }
 	
-	/// @function					set(rect_left, rect_top, rect_width, rect_height)
-	/// @description				set all values in one go
+	/// @func					set(rect_left, rect_top, rect_width, rect_height)
+	/// @desc				set all values in one go
 	/// @param {real} rect_left
 	/// @param {real} rect_top
 	/// @param {real} rect_width
@@ -46,8 +46,8 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 		bottom = get_bottom();
 	}
 
-	/// @function				intersects_rect(other_rect)	
-	/// @description			Determines if the other_rect intersects at least with
+	/// @func				intersects_rect(other_rect)	
+	/// @desc			Determines if the other_rect intersects at least with
 	///							one corner with this rect
 	/// @param {Rectangle} other_rect
 	/// @returns {bool}			true if intersecting
@@ -59,8 +59,8 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 			other_rect.top + other_rect.height - 1) > 0;
 	}
 	
-	/// @function				intersects_point(xp, yp)	
-	/// @description			Determines if the xp/yp intersect this rect
+	/// @func				intersects_point(xp, yp)	
+	/// @desc			Determines if the xp/yp intersect this rect
 	/// @param {real} xp
 	/// @param {real} yp
 	/// @returns {bool}			true if intersecting

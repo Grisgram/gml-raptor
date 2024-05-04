@@ -1,4 +1,4 @@
-/// @description object debug frames
+/// @desc object debug frames
 
 if (__ACTIVE_TRANSITION != undefined) {
 	with (__ACTIVE_TRANSITION) {

@@ -21,7 +21,7 @@ function UiSkinManager() constructor {
 	
 	active_skin = undefined;
 	
-	/// @function add_skin(_skin, _activate_now = false)
+	/// @func add_skin(_skin, _activate_now = false)
 	static add_skin = function(_skin, _activate_now = false) {
 		var was_active = ((active_skin != undefined) && (active_skin.name == _skin.name));
 		_skins[$ _skin.name] = _skin;
@@ -30,15 +30,15 @@ function UiSkinManager() constructor {
 			activate_skin(_skin.name);
 	}
 
-	/// @function refresh_skin()
-	/// @description Invoked from RoomController in RoomStart event to transport the
+	/// @func refresh_skin()
+	/// @desc Invoked from RoomController in RoomStart event to transport the
 	///				 active skin from room to room
 	static refresh_skin = function() {
 		if (active_skin != undefined)
 			activate_skin(active_skin.name);
 	}
 	
-	/// @function activate_skin(_skin_name)
+	/// @func activate_skin(_skin_name)
 	static activate_skin = function(_skin_name) {
 		var sk = vsget(_skins, _skin_name);
 		if (sk != undefined) {
@@ -50,7 +50,7 @@ function UiSkinManager() constructor {
 		}
 	}
 	
-	/// @function remove_skin(_skin_name)
+	/// @func remove_skin(_skin_name)
 	static remove_skin = function(_skin_name) {
 		if (_skin_name == __DEFAULT_UI_SKIN_NAME) {
 			elog($"** ERROR ** UiSkinManager can not remove the '{__DEFAULT_UI_SKIN_NAME}' skin!");
@@ -64,7 +64,7 @@ function UiSkinManager() constructor {
 		}
 	}
 	
-	/// @function get_skin(_skin_name)
+	/// @func get_skin(_skin_name)
 	static get_skin = function(_skin_name) {
 		return vsget(_skins, _skin_name);
 	}

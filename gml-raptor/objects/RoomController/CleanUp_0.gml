@@ -1,4 +1,4 @@
-/// @description unset global variable
+/// @desc unset global variable
 
 if (ROOMCONTROLLER == self) ROOMCONTROLLER = undefined;
 if (PARTSYS != undefined) {

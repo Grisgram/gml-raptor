@@ -11,8 +11,8 @@
 #macro SEQUENCE_CUSTOM_ATTRIBUTES		"__raptor_attributes"
 #macro SEQUENCE_CUSTOM_INSTANCES		"__raptor_instances"
 
-/// @function							seq_create_with_attributes(sequence, layer, x, y)
-/// @description						Create a sequence instance with the specified parameters and return the instance.
+/// @func							seq_create_with_attributes(sequence, layer, x, y)
+/// @desc						Create a sequence instance with the specified parameters and return the instance.
 ///										This function will add the __raptor_attributes struct to the instance.
 /// @param {objecttype} sequence		The object type to create an instance of
 /// @param {layer} layer				The layer on which to create the instance
@@ -28,8 +28,8 @@ function seq_create_with_attributes(sequence, layer, x, y) {
 	return inst;
 }
 
-/// @function						seq_create_for_instance(sequence,objecttype,instance,store_as_name = "")
-/// @description					A convenience shortcut function that creates a sequence on the layer and
+/// @func						seq_create_for_instance(sequence,objecttype,instance,store_as_name = "")
+/// @desc					A convenience shortcut function that creates a sequence on the layer and
 ///									position of the instance and even replaces the specified objecttype in 
 ///									the sequence with the instance.
 ///									This function will add the __raptor_attributes struct to the instance.
@@ -46,16 +46,16 @@ function seq_create_for_instance(sequence,object,instance,store_as_name = "") {
 	return inst;
 }
 
-/// @function					seq_get_custom_attributes(sequence)
-/// @description				Gets the struct of all stored custom attributes from a sequence instance.
+/// @func					seq_get_custom_attributes(sequence)
+/// @desc				Gets the struct of all stored custom attributes from a sequence instance.
 /// @param {struct} sequence	The instance of the sequence
 /// @returns {struct}			The custom attributes
 function seq_get_custom_attributes(sequence) {
 	return struct_get(sequence,SEQUENCE_CUSTOM_ATTRIBUTES);
 }
 
-/// @function					seq_set_attribute(sequence,name,value)
-/// @description				Set the specified custom attribute to the specified value.
+/// @func					seq_set_attribute(sequence,name,value)
+/// @desc				Set the specified custom attribute to the specified value.
 /// @param {struct} sequence	The instance of the sequence
 /// @param {string} name		The attribute to set
 /// @param {any} value			The value to assign
@@ -63,8 +63,8 @@ function seq_set_attribute(sequence,name,value) {
 	struct_set(seq_get_custom_attributes(sequence),name,value);
 }
 
-/// @function					seq_get_attribute(sequence,name)
-/// @description				Gets the specified stored custom attributes from a sequence instance.
+/// @func					seq_get_attribute(sequence,name)
+/// @desc				Gets the specified stored custom attributes from a sequence instance.
 /// @param {struct} sequence	The instance of the sequence
 /// @param {string} name		The attribute to get
 /// @returns {any}				The value of the attribute
@@ -72,8 +72,8 @@ function seq_get_attribute(sequence,name) {
 	return struct_get(seq_get_custom_attributes(sequence),name);
 }
 
-/// @function						seq_modify_instance(sequence,object,instance,store_as_name = "")
-/// @description					Replaces the object in a sequence with a specified living instance.
+/// @func						seq_modify_instance(sequence,object,instance,store_as_name = "")
+/// @desc					Replaces the object in a sequence with a specified living instance.
 /// @param {struct} sequence		The instance of the sequence
 /// @param {objecttype} object		The object type IN the sequence to be replaced
 /// @param {instance} instance		The instance to replace it with
@@ -85,8 +85,8 @@ function seq_modify_instance(sequence,object,instance,store_as_name = "") {
 	sequence_instance_override_object(sequence,object,instance);
 }
 
-/// @function					seq_store_instance(sequence, instance, store_as_name = "")
-/// @description				Store any instance in the sequence for later retrieval
+/// @func					seq_store_instance(sequence, instance, store_as_name = "")
+/// @desc				Store any instance in the sequence for later retrieval
 /// @param {struct} sequence		The instance of the sequence
 /// @param {instance} instance		The instance to store
 /// @param {string=""} store_as_name	You may specify an alternative to name this instance in the sequence.
@@ -97,8 +97,8 @@ function seq_store_instance(sequence, instance, store_as_name = "") {
 	sequence[$ SEQUENCE_CUSTOM_INSTANCES][$ store_as_name] = instance;
 }
 
-/// @function					seq_get_stored_instance(sequence,stored_name)
-/// @description				Get a stored instance out of a sequence instance
+/// @func					seq_get_stored_instance(sequence,stored_name)
+/// @desc				Get a stored instance out of a sequence instance
 /// @param {struct} sequence	The instance of the sequence
 /// @param {string} stored_name	The name of the instance to retrieve (see seq_modify_instance).
 /// @returns {instance}			The instance retrieved.
@@ -107,16 +107,16 @@ function seq_get_stored_instance(sequence,stored_name) {
 	return sequence[$ SEQUENCE_CUSTOM_INSTANCES][$ stored_name];
 }
 
-/// @function					seq_get_stored_instances(sequence)
-/// @description				Gets the struct of all stored instances from a sequence instance.
+/// @func					seq_get_stored_instances(sequence)
+/// @desc				Gets the struct of all stored instances from a sequence instance.
 /// @param {struct} sequence	The instance of the sequence
 /// @returns {struct}			The stored instances
 function seq_get_stored_instances(sequence) {
 	return struct_get(sequence,SEQUENCE_CUSTOM_INSTANCES);
 }
 
-/// @function					seq_destroy(sequence)
-/// @description				Shortcut for layer_sequence_destroy(sequence.elementID)
+/// @func					seq_destroy(sequence)
+/// @desc				Shortcut for layer_sequence_destroy(sequence.elementID)
 /// @param {struct} sequence	The instance of the sequence to destroy
 function seq_destroy(sequence) {
 	vlog($"Destroying sequence: sequence='{sequence.name}'; elementID={sequence.elementID};");

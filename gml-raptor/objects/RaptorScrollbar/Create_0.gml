@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 mouse_wheel_active		= (wheel_value_change > 0);
@@ -11,7 +11,7 @@ __mouse_over_minus		= false;
 __mouse_over_plus		= false;
 __mouse_is_down			= false;
 
-/// @function check_mouse_over_arrows()
+/// @func check_mouse_over_arrows()
 check_mouse_over_arrows = function() {
 	if (orientation_horizontal) {
 		__mouse_over_minus	= mouse_x < x + nine_slice_data.left;
@@ -27,7 +27,7 @@ check_mouse_over_arrows = function() {
 	}
 }
 
-/// @function __change_value_with_arrow(_change, _instant = false)
+/// @func __change_value_with_arrow(_change, _instant = false)
 __change_value_with_arrow = function(_change, _instant = false) {
 	if (__first_value_change || _instant) {
 		__first_value_change = false;

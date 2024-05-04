@@ -2,7 +2,7 @@
     This class is attached to data._layout on each _baseControl when it gets added as a child
 */
 
-/// @function ControlTreeLayout()
+/// @func ControlTreeLayout()
 function ControlTreeLayout() constructor {
 	construct(ControlTreeLayout);
 
@@ -41,7 +41,7 @@ function ControlTreeLayout() constructor {
 	__filler		= new Coord2();
 
 #region Positioning
-	/// @function apply_positioning(_area, _inst, _control, _reset_align_state = true)
+	/// @func apply_positioning(_area, _inst, _control, _reset_align_state = true)
 	static apply_positioning = function(_area, _inst, _control, _reset_align_state = true) {
 		if (docking != dock.none)
 			return;
@@ -79,7 +79,7 @@ function ControlTreeLayout() constructor {
 #endregion
 
 #region Docking
-	/// @function apply_docking(_area, _inst, _control)
+	/// @func apply_docking(_area, _inst, _control)
 	static apply_docking = function(_area, _inst, _control) {
 		var neww = _inst.sprite_width;
 		var newh = _inst.sprite_height;
@@ -222,7 +222,7 @@ function ControlTreeLayout() constructor {
 #endregion
 
 #region Alignment
-	/// @function apply_alignment(_inst, _control)
+	/// @func apply_alignment(_inst, _control)
 	static apply_alignment = function(_area, _inst, _control) {
 		if (docking != dock.none || !have_align)
 			return; // we can only align if we are the master of our size
@@ -267,7 +267,7 @@ function ControlTreeLayout() constructor {
 	#macro __RAPTOR_ANCHOR_DIST_RIGHT	(_area.get_right()  - SELF_VIEW_RIGHT_EDGE - 1)
 	#macro __RAPTOR_ANCHOR_DIST_BOTTOM	(_area.get_bottom() - SELF_VIEW_BOTTOM_EDGE - 1)
 
-	/// @function apply_anchoring(_area, _inst, _control)
+	/// @func apply_anchoring(_area, _inst, _control)
 	static apply_anchoring = function(_area, _inst, _control) {
 		if (docking != dock.none || anchoring == anchor.none)
 			return; // we can only align if we are the master of our size
@@ -314,7 +314,7 @@ function ControlTreeLayout() constructor {
 		}
 	}
 	
-	/// @function initialize_anchoring(_area, _inst, _control, _into)
+	/// @func initialize_anchoring(_area, _inst, _control, _into)
 	static initialize_anchoring = function(_area, _inst, _control) {
 		if (anchor_init.init) return;
 		anchor_init.init = true;
@@ -337,7 +337,7 @@ function ControlTreeLayout() constructor {
 #endregion
 
 #region Spreading
-	/// @function apply_spreading(_area, _inst, _control)
+	/// @func apply_spreading(_area, _inst, _control)
 	static apply_spreading = function(_area, _inst, _control) {
 		if (docking != dock.none || anchoring != anchor.none)
 			return; // we can only spread if we are the master of our size

@@ -2,7 +2,7 @@
 	Holds a 3D Coordinate pair (x,y,z)
 */
 
-/// @function					Coord3(xp, yp, zp)
+/// @func					Coord3(xp, yp, zp)
 /// @param {real} xp
 /// @param {real} yp
 /// @param {real} zp
@@ -12,14 +12,14 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 	
 	z = zp;
 
-	/// @function		clone3()
-	/// @description	Clones this as Coord3
+	/// @func		clone3()
+	/// @desc	Clones this as Coord3
 	static clone3 = function() {
 		return new Coord3(x, y, z);
 	}
 
-	/// @function				set(xp, yp, zp)
-	/// @description			set all values in one step
+	/// @func				set(xp, yp, zp)
+	/// @desc			set all values in one step
 	/// @param {real} xp
 	/// @param {real} yp
 	/// @param {real} zp
@@ -31,8 +31,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 
-	/// @function				mul(factor_x, factor_y, factor_z)
-	/// @description			multiply all values in one step
+	/// @func				mul(factor_x, factor_y, factor_z)
+	/// @desc			multiply all values in one step
 	/// @param {real} factor_x
 	/// @param {real} factor_y
 	/// @param {real} factor_z
@@ -44,8 +44,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 	
-	/// @function				mul_xyz(factor)
-	/// @description			multiply all values in one step
+	/// @func				mul_xyz(factor)
+	/// @desc			multiply all values in one step
 	/// @param {real} factor
 	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static mul_xyz = function(factor) {
@@ -55,8 +55,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 
-	/// @function				add(factor_x, factor_y)
-	/// @description			add a value to the current values
+	/// @func				add(factor_x, factor_y)
+	/// @desc			add a value to the current values
 	/// @param {real} add_x
 	/// @param {real} add_y
 	/// @param {real} add_z
@@ -68,8 +68,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 
-	/// @function				add_xyz(factor_x, factor_y)
-	/// @description			add the same value to the current values
+	/// @func				add_xyz(factor_x, factor_y)
+	/// @desc			add the same value to the current values
 	/// @param {real} value
 	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static add_xyz = function(value) {
@@ -79,8 +79,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 
-	/// @function				plus(other_coord3)
-	/// @description			Add the values of other_coord3 into this one
+	/// @func				plus(other_coord3)
+	/// @desc			Add the values of other_coord3 into this one
 	/// @param {Coord3} other_coord3
 	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static plus = function(other_coord3) {
@@ -90,8 +90,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 	
-	/// @function				minus(other_coord3)
-	/// @description			Subtract the values in other_coord3 from this one
+	/// @func				minus(other_coord3)
+	/// @desc			Subtract the values in other_coord3 from this one
 	/// @param {Coord3} other_coord3
 	/// @returns {Coord3} self for command chaining (fluent syntax)
 	static minus = function(other_coord3) {
@@ -101,21 +101,21 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return self;
 	}
 
-	/// @function					length_xyz()
-	/// @description				3D-hypotenuse
+	/// @func					length_xyz()
+	/// @desc				3D-hypotenuse
 	/// @returns {real} length			
 	static length_xyz = function() { return sqrt(sqr(length_xy()) + sqr(z)); }
 	
-	/// @function				distance_to_coord3(other_Coord3)
-	/// @description			distance between two vectors
+	/// @func				distance_to_coord3(other_Coord3)
+	/// @desc			distance between two vectors
 	/// @param {Coord3} other_Coord3
 	/// @returns {Coord3}	new Coord3
 	static distance_to_coord3 = function(other_coord3) {
 		return new Coord3(abs(x - other_coord3.x), abs(y - other_coord3.y), abs(z - other_coord3.z));
 	}
 	
-	/// @function				distance_to_xyz(xp, yp, zp)
-	/// @description			distance between vector and point in 3D space
+	/// @func				distance_to_xyz(xp, yp, zp)
+	/// @desc			distance between vector and point in 3D space
 	/// @param {real} xp
 	/// @param {real} yp
 	/// @param {real} zp
@@ -124,8 +124,8 @@ function Coord3(xp = 0, yp = 0, zp = 0) : Coord2(xp, yp) constructor {
 		return new Coord3(abs(x - xp), abs(y - yp), abs(z - zp));
 	}
 
-	/// @function				equals_xyz(other_coord3)
-	/// @description			true, if all, x, y and z match	
+	/// @func				equals_xyz(other_coord3)
+	/// @desc			true, if all, x, y and z match	
 	/// @returns {bool}			
 	static equals_xyz = function(other_coord3) {
 		return (x == other_coord3.x) && (y == other_coord3.y) && (z == other_coord3.z);

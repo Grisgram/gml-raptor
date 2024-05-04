@@ -13,7 +13,7 @@
 		
 */
 
-/// @function		animcurve_get_ext(curve_id)
+/// @func		animcurve_get_ext(curve_id)
 function animcurve_get_ext(curve_id) {
 	var rv = animcurve_get(curve_id);
 	with (rv) {
@@ -31,13 +31,13 @@ function animcurve_get_ext(curve_id) {
 			}, function() {return curve.get_value(idx);});
 		}
 	
-		/// @function binder()
-		/// @description Gets the PropertyBinder for the values of this animation
+		/// @func binder()
+		/// @desc Gets the PropertyBinder for the values of this animation
 		static binder = function() {
 			return values.binder();
 		}
 		
-		/// @function					channel_exists(name)
+		/// @func					channel_exists(name)
 		channel_exists = function(name) {
 			for (var i = 0, len = array_length(channel_names); i < len; i++) 
 				if (channel_names[i] == name)
@@ -45,7 +45,7 @@ function animcurve_get_ext(curve_id) {
 			return false;
 		}
 	
-		/// @function					get_channel(name)
+		/// @func					get_channel(name)
 		get_channel = function(name) {
 			for (var i = 0, len = array_length(channel_names); i < len; i++) 
 				if (channel_names[i] == name)
@@ -53,7 +53,7 @@ function animcurve_get_ext(curve_id) {
 			return undefined;		
 		}
 		
-		/// @function	get_channel_index(channel_name)
+		/// @func	get_channel_index(channel_name)
 		get_channel_index = function(channel_name) {
 			for (var i = 0, len = array_length(channels); i < len; i++) 
 				if (channel_names[@ i] == channel_name)
@@ -61,7 +61,7 @@ function animcurve_get_ext(curve_id) {
 			return -1;
 		}
 		
-		/// @function	get_value_by_name(channel_name)
+		/// @func	get_value_by_name(channel_name)
 		get_value_by_name = function(channel_name) {
 			var idx = get_channel_index(channel_name);
 			if (idx >= 0)
@@ -69,13 +69,13 @@ function animcurve_get_ext(curve_id) {
 			return -1;
 		}
 		
-		/// @function	get_value(channel_index)
+		/// @func	get_value(channel_index)
 		get_value = function(channel_index) {
 			return channel_values[@ channel_index];
 		}
 
-		/// @function		update(current_value, max_value)
-		/// @description	update all channel values
+		/// @func		update(current_value, max_value)
+		/// @desc	update all channel values
 		update = function(current_value, max_value) {
 			var pit = clamp(current_value, 0, max_value) / max_value;
 			for (var i = 0, len = array_length(channels); i < len; i++) 

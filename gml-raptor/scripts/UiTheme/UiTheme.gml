@@ -38,8 +38,8 @@
 #macro THEME_WINDOW_BACK			global.__ci_theme_window_back
 #macro THEME_WINDOW_FOCUS			global.__ci_theme_window_focus
 
-/// @function UiTheme(_name = "default")
-/// @description create a new ui theme.
+/// @func UiTheme(_name = "default")
+/// @desc create a new ui theme.
 ///				 NOTE: If the name already exists, when you add it to the UiThemeManager,
 ///				 the existing theme will be overwritte by the added theme!
 ///				 After the constructor ran, the new theme is initialized with raptor's default colors,
@@ -67,7 +67,7 @@ function UiTheme(_name = "default") constructor {
 	window_back		= CI_GLOBAL_WINDOW_BACK;
 	window_focus	= CI_GLOBAL_WINDOW_FOCUS;
 
-	/// @function set_colors(_main, _bright, _dark, _accent)
+	/// @func set_colors(_main, _bright, _dark, _accent)
 	static set_colors = function(_main, _bright, _dark, _accent) {
 		main	= _main;
 		bright	= _bright;
@@ -75,14 +75,14 @@ function UiTheme(_name = "default") constructor {
 		accent	= _accent;
 	}
 	
-	/// @function set_grayscales(_white, _black, _shadow)
+	/// @func set_grayscales(_white, _black, _shadow)
 	static set_grayscales = function(_white, _black, _shadow) {
 		white	= _white;
 		black	= _black;
 		shadow	= _shadow;
 	}
 
-	/// @function set_control_colors(_control_back, _dark, _bright, _text, _window_back, _window_focus)
+	/// @func set_control_colors(_control_back, _dark, _bright, _text, _window_back, _window_focus)
 	static set_control_colors = function(_control_back, _dark, _bright, _text, _window_back, _window_focus) {
 		control_back	= _control_back;
 		control_dark	= _dark;

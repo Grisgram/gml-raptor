@@ -20,8 +20,8 @@
 #macro __RAPTOR_EXPENSIVE_CACHE		global.__raptor_expensive_cache
 __RAPTOR_EXPENSIVE_CACHE = {};
 
-/// @function ExpensiveCache(_ttl = 1) constructor
-/// @description	Create a small cache holder for the result of expensive functions for
+/// @func ExpensiveCache(_ttl = 1) constructor
+/// @desc	Create a small cache holder for the result of expensive functions for
 ///					n frames.
 function ExpensiveCache(_ttl = 1) constructor {
 	ttl				= _ttl;

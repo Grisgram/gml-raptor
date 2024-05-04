@@ -1,4 +1,4 @@
-/// @description state ev:key_up_?
+/// @desc state ev:key_up_?
 
 /*
 	The key that got released actually is converted through the KeyTranslator script and this

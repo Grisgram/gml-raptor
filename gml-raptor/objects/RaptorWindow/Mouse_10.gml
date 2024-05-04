@@ -1,4 +1,4 @@
-/// @description suppress parent event if dragging
+/// @desc suppress parent event if dragging
 
 GUI_EVENT_MOUSE;
 

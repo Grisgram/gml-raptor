@@ -11,8 +11,8 @@
 
 #macro interface	() constructor
 
-/// @function		construct(_class_name_or_asset)
-/// @description	Register a class as a constructible class to raptor.
+/// @func		construct(_class_name_or_asset)
+/// @desc	Register a class as a constructible class to raptor.
 ///					This is used by the file system when loading saved games or any other structures
 ///					that have been saved through raptor.
 ///					When loading the file, instead of just assigning the struct, it will invoke
@@ -25,8 +25,8 @@ function construct(_class_name_or_asset) {
 	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
 }
 
-/// @function		implement(_interface)
-/// @description	Works like an interface implementation by copying all members
+/// @func		implement(_interface)
+/// @desc	Works like an interface implementation by copying all members
 ///					and re-binding all methods from "interface" to "self"
 ///					Creates a hidden member __raptor_interfaces in this struct which contains
 ///					all implemented interfaces, so you can always ask "if (implements(interface))..."
@@ -50,15 +50,15 @@ function implement(_interface) {
 		array_push(self[$ __INTERFACES_NAME], sname);
 }
 
-/// @function		implements(struct, _interface)
-/// @description	Asks the specified struct whether it implements the specified interface.
+/// @func		implements(struct, _interface)
+/// @desc	Asks the specified struct whether it implements the specified interface.
 function implements(struct, _interface) {
 	var sname = is_string(_interface) ? _interface : script_get_name(_interface);
 	return variable_struct_exists(struct, __INTERFACES_NAME) && array_contains(struct[$ __INTERFACES_NAME], sname);
 }
 
-/// @function					struct_get_unique_key(struct, basename, prefix = "")
-/// @description				get a free name for a key in a struct with an optional prefix
+/// @func					struct_get_unique_key(struct, basename, prefix = "")
+/// @desc				get a free name for a key in a struct with an optional prefix
 /// @param {struct} struct
 /// @param {string} basename
 /// @param {string=""} prefix
@@ -73,8 +73,8 @@ function struct_get_unique_key(struct, basename, prefix = "") {
 	return newname;
 }
 
-/// @function		struct_join(structs...)
-/// @description	Joins two or more structs together into a new struct.
+/// @func		struct_join(structs...)
+/// @desc	Joins two or more structs together into a new struct.
 ///					NOTE: This is NOT a deep copy! If any struct contains other struct
 ///					references, they are simply copied, not recursively converted to new references!
 ///					ATTENTION! No static members can be transferred! Best use this for data structs only!
@@ -86,8 +86,8 @@ function struct_join(structs) {
 	return rv;
 }
 
-/// @function		struct_join_into(target, sources...)
-/// @description	Integrate all source structs into the target struct by copying
+/// @func		struct_join_into(target, sources...)
+/// @desc	Integrate all source structs into the target struct by copying
 ///					all members from source to target.
 ///					NOTE: This is NOT a deep copy! If source contains other struct
 ///					references, they are simply copied, not recursively converted to new references!
@@ -110,8 +110,8 @@ function struct_join_into(target, sources) {
 	return target;
 }
 
-/// @function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true)
-/// @description	Save-gets a struct member, returning a default if it does not exist,
+/// @func vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true)
+/// @desc	Save-gets a struct member, returning a default if it does not exist,
 ///					and even allows you to create that member in the struct, if it is missing
 function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true) {
 	gml_pragma("forceinline");
@@ -120,8 +120,8 @@ function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missi
 	return _struct[$ _key] ?? _default_if_missing;
 }
 
-/// @function vsget(_struct, _key, _default_if_missing = undefined)
-/// @description	Save-gets a struct member, returning a default if it does not exist,
+/// @func vsget(_struct, _key, _default_if_missing = undefined)
+/// @desc	Save-gets a struct member, returning a default if it does not exist,
 ///					but does not create the missing member in the struct
 function vsget(_struct, _key, _default_if_missing = undefined) {
 	gml_pragma("forceinline");
@@ -135,8 +135,8 @@ function vsget(_struct, _key, _default_if_missing = undefined) {
 #macro __FUNCTION_INHERITANCE		global.__function_inheritance
 __FUNCTION_INHERITANCE = {}
 
-/// @function virtual(_object_type, _function_name, [_function])
-/// @description You must declare a function as "virtual" to be able to "override" it later.
+/// @func virtual(_object_type, _function_name, [_function])
+/// @desc You must declare a function as "virtual" to be able to "override" it later.
 ///				 This keeps track of the inheritance chain, and due to the way, how "events"
 ///				 work in GameMaker, you need to tell the engine, who you are, when you "virtualize"
 ///				 the function, by also supplying your object_type.
@@ -153,8 +153,8 @@ function virtual(_object_type, _function_name, _function = undefined) {
 		self[$ _function_name] = method(self, _function);
 }
 
-/// @function override(_function_name, _new_function)
-/// @description NOTE: WORKS FOR OBJECTS ONLY! NOT FOR STRUCTS!
+/// @func override(_function_name, _new_function)
+/// @desc NOTE: WORKS FOR OBJECTS ONLY! NOT FOR STRUCTS!
 ///				 Allows a clean override of any function in an object instance and keeps
 ///				 the original function available under the parent objects' name + function_name
 ///	Example:

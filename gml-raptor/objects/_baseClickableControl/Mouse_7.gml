@@ -1,4 +1,4 @@
-/// @description invoke on_left_click
+/// @desc invoke on_left_click
 
 if (SKIP_EVENT_MOUSE || click_event_finished || !await_click) exit;
 

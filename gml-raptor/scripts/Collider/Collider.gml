@@ -12,8 +12,8 @@
 #macro __COLLIDER_CACHE		global.__collider_cache
 __COLLIDER_CACHE = {};
 
-/// @function collider_first()
-/// @description Checks, if this is the first collision between self and other
+/// @func collider_first()
+/// @desc Checks, if this is the first collision between self and other
 ///				 (means: they has not been the same collision in the previous frame),
 ///				 and returns true, if that's the case
 function collider_first() {
@@ -23,8 +23,8 @@ function collider_first() {
 	return last < GAMEFRAME - 1;
 }
 
-/// @function collider_cleanup()
-/// @description This function is called in the "Room End" event of the RoomController.
+/// @func collider_cleanup()
+/// @desc This function is called in the "Room End" event of the RoomController.
 ///				 It removes all cached collisions and works like a full reset.
 function collider_cleanup() {
 	__COLLIDER_CACHE = {};

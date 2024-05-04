@@ -36,7 +36,7 @@ function RaptorLogger() constructor {
 			return buf;
 	}
 	
-	/// @function set_log_level(_new_level)
+	/// @func set_log_level(_new_level)
 	static set_log_level = function(_new_level) {
 		__formatter.change_log_level(_new_level);
 	}

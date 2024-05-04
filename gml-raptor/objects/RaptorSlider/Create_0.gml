@@ -1,4 +1,4 @@
-/// @description DOCS inside!
+/// @desc DOCS inside!
 
 /*
 	A note on the on_value_changed callback:
@@ -61,7 +61,7 @@ ycheck					= CTL_MOUSE_Y;
 __is_topmost			= false;
 __over_before			= false;
 
-/// @function pre_calculate_knob()
+/// @func pre_calculate_knob()
 pre_calculate_knob = function() {
 	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
 	var h = (startup_height >= 0 ? startup_height : sprite_height);
@@ -112,7 +112,7 @@ update_client_area = function() {
 		data.__raptordata.client_area.set(0, 0, sprite_width + __text_dims.x, sprite_height);
 }
 
-/// @function check_mouse_over_knob()
+/// @func check_mouse_over_knob()
 check_mouse_over_knob = function() {
 	xcheck = CTL_MOUSE_X;
 	ycheck = CTL_MOUSE_Y;
@@ -133,7 +133,7 @@ check_mouse_over_knob = function() {
 	}
 }
 
-/// @function check_knob_grabbed()
+/// @func check_knob_grabbed()
 check_knob_grabbed = function() {
 	if (__knob_grabbed || mouse_is_over || __mouse_over_knob) {
 		
@@ -162,12 +162,12 @@ check_knob_grabbed = function() {
 	}
 }
 
-/// @function calculate_value_percent()
+/// @func calculate_value_percent()
 calculate_value_percent = function() {
 	value_percent = (value - min_value) / max_value;
 }
 
-/// @function set_value()
+/// @func set_value()
 set_value = function(new_value) {
 	__old_value = value;
 	value = clamp(new_value, min_value, max_value);
@@ -182,8 +182,8 @@ set_value = function(new_value) {
 	}
 }
 
-/// @function set_range(_min, _max)
-/// @description Set a new min/max value range. 
+/// @func set_range(_min, _max)
+/// @desc Set a new min/max value range. 
 ///				 "value" gets adapted to fit into the new range.
 set_range = function(_min, _max) {
 	min_value = _min;
@@ -191,7 +191,7 @@ set_range = function(_min, _max) {
 	set_value(value); // clamp to the new range
 }
 
-/// @function __set_draw_colors()
+/// @func __set_draw_colors()
 __set_draw_colors = function() {
 	if (draw_color != draw_color_mouse_over) {
 		draw_color_mouse_over = draw_color;
@@ -221,7 +221,7 @@ __apply_post_positioning = function() {
 	}
 }
 
-/// @function calculate_knob_size()
+/// @func calculate_knob_size()
 calculate_knob_size = function() {
 	if (orientation_horizontal) {
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);

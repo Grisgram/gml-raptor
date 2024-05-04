@@ -1,6 +1,6 @@
 
-/// @function					is_between(val, lower_bound, upper_bound)
-/// @description				test if a value is between lower and upper (both INCLUDING!)
+/// @func					is_between(val, lower_bound, upper_bound)
+/// @desc				test if a value is between lower and upper (both INCLUDING!)
 /// @param {real/int} val
 /// @param {real/int} lower_bound
 /// @param {real/int} upper_bound
@@ -10,8 +10,8 @@ function is_between(val, lower_bound, upper_bound) {
 	return val >= lower_bound && val <= upper_bound;
 }
 
-/// @function					is_between_ex(val, lower_bound, upper_bound)
-/// @description				test if a value is between lower and upper (both EXCLUDING!)
+/// @func					is_between_ex(val, lower_bound, upper_bound)
+/// @desc				test if a value is between lower and upper (both EXCLUDING!)
 /// @param {real/int} val
 /// @param {real/int} lower_bound
 /// @param {real/int} upper_bound
@@ -21,8 +21,8 @@ function is_between_ex(val, lower_bound, upper_bound) {
 	return val > lower_bound && val < upper_bound;
 }
 
-/// @function					is_any_of(val, ...)
-/// @description				after val, specify any number of parameters.
+/// @func					is_any_of(val, ...)
+/// @desc				after val, specify any number of parameters.
 ///								determines if val is equal to any of them.
 /// @param {any} val
 /// @returns {bool}	y/n
@@ -32,8 +32,8 @@ function is_any_of(val) {
 	return false;
 }
 
-/// @function		percent(val, total)
-/// @description	Gets, how many % "val" is of "total"
+/// @func		percent(val, total)
+/// @desc	Gets, how many % "val" is of "total"
 /// @param {real} val	The value
 /// @param {real} total	100%
 /// @returns {real}	How many % of total is val. Example: val 30, total 50 -> returns 60(%)
@@ -42,8 +42,8 @@ function percent(val, total) {
 	return (val/total) * 100;
 }
 
-/// @function					percent_mul(val, total)
-/// @description				Gets, how many % "val" is of "total" as multiplier (30,50 => 0.6)
+/// @func					percent_mul(val, total)
+/// @desc				Gets, how many % "val" is of "total" as multiplier (30,50 => 0.6)
 /// @param {real} val
 /// @param {real} total
 /// @returns {real}	percent value as multiplier (0..1)
@@ -52,8 +52,8 @@ function percent_mult(val, total) {
 	return (val/total);
 }
 
-/// @function					is_child_of(child, parent)
-/// @description				True, if the child is parent or derived anywhere from parent.
+/// @func					is_child_of(child, parent)
+/// @desc				True, if the child is parent or derived anywhere from parent.
 /// @param {object_index} child An object instance or object_index of the child to analyze
 /// @param {object} parent		The object_index (just the type) of the parent to find
 /// @returns {bool}
@@ -91,8 +91,8 @@ function is_child_of(child, parent) {
 	return to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST;
 }
 
-/// @function					name_of(_instance)
-/// @description				If _instance is undefined, undefined is returned,
+/// @func					name_of(_instance)
+/// @desc				If _instance is undefined, undefined is returned,
 ///								otherwise MY_NAME or object_get_name of the instance is returned,
 ///								depending on the _with_ref_id parameter.
 ///								To cover the undefined scenario, this function is normally used like this:
@@ -114,8 +114,8 @@ function name_of(_instance, _with_ref_id = true) {
 	return undefined;
 }
 
-/// @function					layer_of(_instance)
-/// @description				retrieve the layer name or depth of _instance
+/// @func					layer_of(_instance)
+/// @desc				retrieve the layer name or depth of _instance
 ///								if instance is nullish, -1 is returned (gms default for "no layer")
 function layer_of(_instance) {
 	if (!is_null(_instance))
@@ -123,8 +123,8 @@ function layer_of(_instance) {
 	return -1;
 }
 
-/// @function construct_or_invoke(_script, args...)
-/// @description	Now, that's an ugly one, I know, but at the moment of writing this, GameMaker
+/// @func construct_or_invoke(_script, args...)
+/// @desc	Now, that's an ugly one, I know, but at the moment of writing this, GameMaker
 ///					has no way to tell normal functions apart from constructors.
 ///					There's not other way, to find out, as to fall in a catch if constructing fails.
 function construct_or_invoke(_script) {
@@ -191,8 +191,8 @@ function frames_to_seconds(_frames) {
 	return _frames / room_speed;
 }
 
-/// @function		run_delayed(owner, delay, func, data = undefined)
-/// @description	Executes a specified function in <delay> frames from now.
+/// @func		run_delayed(owner, delay, func, data = undefined)
+/// @desc	Executes a specified function in <delay> frames from now.
 ///					Behind the scenes this uses the __animation_empty function which
 ///					is part of the ANIMATIONS ListPool, so if you clear all animations,
 ///					or use animation_run_ex while this is waiting for launch, 
@@ -210,8 +210,8 @@ function run_delayed(owner, delay, func, data = undefined) {
 	return anim;
 }
 
-/// @function		run_delayed_ex(owner, delay, func, data = undefined)
-/// @description	Executes a specified function EXCLUSIVELY in <delay> frames from now.
+/// @func		run_delayed_ex(owner, delay, func, data = undefined)
+/// @desc	Executes a specified function EXCLUSIVELY in <delay> frames from now.
 ///					Exclusively means in this case, animation_abort_all is invoked before
 ///					starting the delayed waiter.
 ///					Behind the scenes this uses the __animation_empty function which
@@ -229,8 +229,8 @@ function run_delayed_ex(owner, delay, func, data = undefined) {
 	return run_delayed(owner, delay, func, data);
 }
 
-/// @function		run_delayed_exf(owner, delay, func, data = undefined)
-/// @description	Read _exf as "exclusive with finish"
+/// @func		run_delayed_exf(owner, delay, func, data = undefined)
+/// @desc	Read _exf as "exclusive with finish"
 ///					Executes a specified function EXCLUSIVELY in <delay> frames from now.
 ///					Exclusively means in this case, animation_finish_all is invoked before
 ///					starting the delayed waiter.
@@ -249,8 +249,8 @@ function run_delayed_exf(owner, delay, func, data = undefined) {
 	return run_delayed(owner, delay, func, data);
 }
 
-/// @function		if_null(value, value_if_null)
-/// @description	Tests if the specified value is undefined or noone, or,
+/// @func		if_null(value, value_if_null)
+/// @desc	Tests if the specified value is undefined or noone, or,
 ///					if it is a string, is empty.
 ///					In any of those cases value_if_null is returned, otherwise
 ///					value is returned.
@@ -265,8 +265,8 @@ function if_null(value, value_if_null) {
 	return value;
 }
 
-/// @function		is_null(value)
-/// @description	Tests if the specified value is undefined or noone, or,
+/// @func		is_null(value)
+/// @desc	Tests if the specified value is undefined or noone, or,
 ///					if it is a string, is empty.
 ///					In any of those cases true is returned, otherwise
 ///					false is returned.
@@ -280,16 +280,16 @@ function is_null(value) {
 	return false;
 }
 
-/// @function		eq(inst1, inst2)
-/// @description	Compare, whether two object instances are the same instance
+/// @func		eq(inst1, inst2)
+/// @desc	Compare, whether two object instances are the same instance
 ///					Due to a html bug you can not simply compare inst1==inst2,
 ///					but you have to compare their ids instead.
 function eq(inst1, inst2) {
 	try { return name_of(inst1) == name_of(inst2); } catch (_) { return false; }
 }
 
-/// @function with_tag(_tag, _func, _data = undefined)
-/// @description Executes the specified function for all object instances
+/// @func with_tag(_tag, _func, _data = undefined)
+/// @desc Executes the specified function for all object instances
 ///				 that are tagged with the specified tag.
 ///				 NOTE: The function is temporary bound to the instance, so
 ///				 the code IN the function will run in the scope of the instance!
@@ -305,15 +305,15 @@ function with_tag(_tag, _func, _data = undefined) {
 	}
 }
 
-/// @function method_exists(_instance, _method)
-/// @description Checks, whether a method with the specified name exists in _instance
+/// @func method_exists(_instance, _method)
+/// @desc Checks, whether a method with the specified name exists in _instance
 /// @returns {bool}	True, if a method with that name exists, otherwise false
 function method_exists(_instance, _method) {
 	return is_callable(vsget(_instance, _method));
 }
 
-/// @function invoke_if_exists(_instance, _method, ...)
-/// @description Invoke the method, if it exists, with all arguments specified after the
+/// @func invoke_if_exists(_instance, _method, ...)
+/// @desc Invoke the method, if it exists, with all arguments specified after the
 ///				 _instance and _method arguments.
 ///				 NOTE: GameMaker supports a maximum of 16 arguments, 2 are already used for
 ///				 _instance and _method, so this leaves a maximum of 14 arguments for your call.

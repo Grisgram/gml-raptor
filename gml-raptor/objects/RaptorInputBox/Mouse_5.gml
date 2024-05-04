@@ -1,4 +1,4 @@
-/// @description gain focus & cursor pos
+/// @desc gain focus & cursor pos
 
 GUI_EVENT_MOUSE;
 

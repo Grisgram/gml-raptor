@@ -75,8 +75,8 @@ function Pythagoras() constructor {
 }
 
 
-/// @function		pyth_obj_obj(obj1, obj2, pyth = undefined)
-/// @description	Calculate a pythagoras from the positions of two objects
+/// @func		pyth_obj_obj(obj1, obj2, pyth = undefined)
+/// @desc	Calculate a pythagoras from the positions of two objects
 ///					If the result contains a negative a, it means the obj2 is LEFT of obj1
 ///					If the result contains a negative b, it means the obj2 is ABOVE obj1
 /// @returns {Pythagoras} Pythagoras struct containing all data of the rectangle
@@ -85,8 +85,8 @@ function pyth_obj_obj(obj1, obj2, pyth = undefined) {
 	return p.calculate(obj1.x, obj1.y, obj2.x, obj2.y);
 }
 
-/// @function		pyth_obj_mouse(obj, pyth = undefined)
-/// @description	Calculate a pythagoras from the positions of an object and the mouse
+/// @func		pyth_obj_mouse(obj, pyth = undefined)
+/// @desc	Calculate a pythagoras from the positions of an object and the mouse
 ///					If the result contains a negative a, it means the mouse is LEFT of the object
 ///					If the result contains a negative b, it means the mouse is ABOVE the object
 /// @returns {Pythagoras} Pythagoras struct containing all data of the rectangle
@@ -95,8 +95,8 @@ function pyth_obj_mouse(obj, pyth = undefined) {
 	return p.calculate(obj.x, obj.y, mouse_x, mouse_y);
 }
 
-/// @function		pyth_xy(x1, y1, x2, y2, pyth = undefined)
-/// @description	Calculate a pythagoras from two coordinates
+/// @func		pyth_xy(x1, y1, x2, y2, pyth = undefined)
+/// @desc	Calculate a pythagoras from two coordinates
 ///					If the result contains a negative a, it means x1 is LEFT of x2
 ///					If the result contains a negative b, it means y1 is ABOVE y2
 /// @returns {Pythagoras} Pythagoras struct containing all data of the rectangle

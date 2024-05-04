@@ -9,8 +9,8 @@
 	because the object is not at that position when drawn to the ui layer.
 */
 
-/// @function					GuiMouseTranslator()
-/// @description				translates mouse coordinates from viewport to gui
+/// @func					GuiMouseTranslator()
+/// @desc				translates mouse coordinates from viewport to gui
 ///								and forwards click events
 function GuiMouseTranslator() constructor {
 	gui_mouse_is_over = false;
@@ -27,8 +27,8 @@ function GuiMouseTranslator() constructor {
 
 	last_frame_checked = -1;
 
-	/// @function					update_gui_mouse_over()
-	/// @description				check if mouse is over the control and perform enter/leave events accordingly
+	/// @func					update_gui_mouse_over()
+	/// @desc				check if mouse is over the control and perform enter/leave events accordingly
 	static update_gui_mouse_over = function() {
 		
 		if (last_frame_checked == GAMEFRAME) return;
@@ -65,8 +65,8 @@ function GuiMouseTranslator() constructor {
 		}
 	}
 	
-	/// @function					check_gui_mouse_clicks()
-	/// @description				check mouse button states and perform press/release events accordingly
+	/// @func					check_gui_mouse_clicks()
+	/// @desc				check mouse button states and perform press/release events accordingly
 	static check_gui_mouse_clicks = function() {
 
 		if (last_frame_checked == GAMEFRAME) return;

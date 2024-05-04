@@ -483,6 +483,8 @@
     {"id":{"name":"string_length_scribble","path":"scripts/string_length_scribble/string_length_scribble.yy",},},
     {"id":{"name":"string_width_scribble_ext","path":"scripts/string_width_scribble_ext/string_width_scribble_ext.yy",},},
     {"id":{"name":"string_width_scribble","path":"scripts/string_width_scribble/string_width_scribble.yy",},},
+    {"id":{"name":"StringBuilder","path":"scripts/StringBuilder/StringBuilder.yy",},},
+    {"id":{"name":"StringBuilderTests","path":"scripts/StringBuilderTests/StringBuilderTests.yy",},},
     {"id":{"name":"Strings","path":"scripts/Strings/Strings.yy",},},
     {"id":{"name":"StringTests","path":"scripts/StringTests/StringTests.yy",},},
     {"id":{"name":"Structs","path":"scripts/Structs/Structs.yy",},},

@@ -1,4 +1,4 @@
-/// @description DOCS INSIDE!
+/// @desc DOCS INSIDE!
 
 /*
 	There are two ways to work with the custom mouse cursor:
@@ -84,8 +84,8 @@ on_skin_changed = function(_skindata) {
 	sprite_index = (havedefault ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
 }
 
-/// @function set_cursor_custom(_cursor_sprite)
-/// @description	Sets any custom sprite to be the mouse cursor sprite.
+/// @func set_cursor_custom(_cursor_sprite)
+/// @desc	Sets any custom sprite to be the mouse cursor sprite.
 ///					This will also set "mouse_cursor_type.pointer".
 ///					To reset to the default pointer cursor, invoke set_cursor(mouse_cursor_type.pointer).
 /// @param {sprite_index} _cursor_sprite	The sprite to set as the active mouse cursor
@@ -95,13 +95,13 @@ set_cursor_custom = function(_cursor_sprite) {
 	_mouse_cursor_type = mouse_cursor_type.pointer;
 }
 
-/// @function set_cursor(_mouse_cursor_type, _mouse_cursor_sizing = 0)
+/// @func set_cursor(_mouse_cursor_type, _mouse_cursor_sizing = 0)
 set_cursor = function(_mouse_cursor_type, _mouse_cursor_sizing = 0) {
 	sprite_index = (_mouse_cursor_type == mouse_cursor_type.pointer ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
 	image_index = _mouse_cursor_sizing;
 }
 
-/// @function set_companion(_companion_sprite, _type = undefined)
+/// @func set_companion(_companion_sprite, _type = undefined)
 set_companion = function(_companion_sprite, _type = undefined) {
 	if (companion != undefined)
 		pool_return_instance(companion);
@@ -112,7 +112,7 @@ set_companion = function(_companion_sprite, _type = undefined) {
 		companion.sprite_index = _companion_sprite;
 }
 
-/// @function clear_companion(reset_blend_color = true)
+/// @func clear_companion(reset_blend_color = true)
 clear_companion = function(reset_blend_color = true) {
 	if (companion != undefined) {
 		pool_return_instance(companion);
@@ -122,8 +122,8 @@ clear_companion = function(reset_blend_color = true) {
 		image_blend = c_white;
 }
 
-/// @function destroy()
-/// @description remove this mouse cursor and restore default cursor
+/// @func destroy()
+/// @desc remove this mouse cursor and restore default cursor
 destroy = function() {
 	window_set_cursor(cr_default);
 	MOUSE_CURSOR = undefined;

@@ -1,4 +1,4 @@
-/// @description check coordinates (GUI_EVENT_MOUSE)
+/// @desc check coordinates (GUI_EVENT_MOUSE)
 event_inherited();
 
 GUI_EVENT_UNTARGETTED;

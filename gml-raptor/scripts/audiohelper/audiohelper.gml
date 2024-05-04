@@ -18,17 +18,17 @@ function __room_audio_session() constructor {
 	ambience_id = undefined;
 	ambience_asset = undefined;
 	
-	/// @function		is_same_music()
+	/// @func		is_same_music()
 	static is_same_music = function(mus) {
 		return music_id != undefined && mus == music_asset;
 	}
 	
-	/// @function		is_same_ambience()
+	/// @func		is_same_ambience()
 	static is_same_ambience = function(amb) {
 		return ambience_id != undefined && amb == ambience_asset;
 	}
 	
-	/// @function		stop_active_music(fade_out_time_ms)
+	/// @func		stop_active_music(fade_out_time_ms)
 	static stop_active_music = function(fade_out_time_ms) {
 		if (music_id != undefined) {
 			audio_sound_gain(music_id, 0, fade_out_time_ms);
@@ -38,7 +38,7 @@ function __room_audio_session() constructor {
 		}
 	}
 	
-	/// @function		stop_active_ambience(fade_out_time_ms)
+	/// @func		stop_active_ambience(fade_out_time_ms)
 	static stop_active_ambience = function(fade_out_time_ms) {
 		if (ambience_id != undefined) {
 			audio_sound_gain(ambience_id, 0, fade_out_time_ms);
@@ -52,8 +52,8 @@ function __room_audio_session() constructor {
 #macro __ACTIVE_AUDIO_SESSION		global.__active_audio_session
 __ACTIVE_AUDIO_SESSION				= new __room_audio_session();
 
-/// @function set_room_default_audio(_room, _music, _ambience)
-/// @description Define a music track and an ambience track that shall start playing
+/// @func set_room_default_audio(_room, _music, _ambience)
+/// @desc Define a music track and an ambience track that shall start playing
 ///				 automatically, when the room is entered
 function set_room_default_audio(_room, _music, _ambience) {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++) {
@@ -67,8 +67,8 @@ function set_room_default_audio(_room, _music, _ambience) {
 	array_push(__DEFAULT_ROOM_AUDIO, new __default_room_audio_entry(_room, _music, _ambience));
 }
 
-/// @function get_default_music_for_room()
-/// @description Get the sound_id of the currently playing music stream
+/// @func get_default_music_for_room()
+/// @desc Get the sound_id of the currently playing music stream
 function get_default_music_for_room() {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++)
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == room)
@@ -76,8 +76,8 @@ function get_default_music_for_room() {
 	return undefined;
 }
 
-/// @function get_default_ambience_for_room()
-/// @description Get the sound_id of the currently playing ambience stream
+/// @func get_default_ambience_for_room()
+/// @desc Get the sound_id of the currently playing ambience stream
 function get_default_ambience_for_room() {
 	for (var i = 0; i < array_length(__DEFAULT_ROOM_AUDIO); i++)
 		if (__DEFAULT_ROOM_AUDIO[@ i].for_room == room)
@@ -86,8 +86,8 @@ function get_default_ambience_for_room() {
 }
 #endregion
 
-/// @function		play_ui_sound(snd, gain = 1.0, pitch = 1.0, offset = 0, listener_mask = -1, priority = 7)
-/// @description	Plays a sound of type ui (attached to ui_volume setting)
+/// @func		play_ui_sound(snd, gain = 1.0, pitch = 1.0, offset = 0, listener_mask = -1, priority = 7)
+/// @desc	Plays a sound of type ui (attached to ui_volume setting)
 function play_ui_sound( snd, 
 						gain		  = 1.0, 
 						pitch		  = AUDIO_UI_DEFAULT_PITCH, 
@@ -102,8 +102,8 @@ function play_ui_sound( snd,
 	return undefined;
 }
 
-/// @function		play_voice(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10)
-/// @description	Plays a sound of type voice (attached to voice_volume setting)
+/// @func		play_voice(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10)
+/// @desc	Plays a sound of type voice (attached to voice_volume setting)
 function play_voice(snd, 
 					gain		  = 1.0, 
 					loop		  = false, 
@@ -120,8 +120,8 @@ function play_voice(snd,
 	return undefined;
 }
 
-/// @function		play_sound(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10)
-/// @description	Plays a sound of type sfx (attached to sound_volume setting)
+/// @func		play_sound(snd, gain = 1.0, loop = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 10)
+/// @desc	Plays a sound of type sfx (attached to sound_volume setting)
 function play_sound(snd, 
 					gain		  = 1.0, 
 					loop		  = false, 
@@ -138,15 +138,15 @@ function play_sound(snd,
 	return undefined;
 }
 
-/// @function		stop_sound(sound_id)
-/// @description	Stops any supplied playing sound_id
+/// @func		stop_sound(sound_id)
+/// @desc	Stops any supplied playing sound_id
 function stop_sound(sound_id) {
 	if (sound_id != undefined)
 		audio_stop_sound(sound_id);
 }
 
-/// @function		update_audio_streams()
-/// @description	Updates both streaming channels (music and ambience) with current
+/// @func		update_audio_streams()
+/// @desc	Updates both streaming channels (music and ambience) with current
 ///					values for volume and their enabled state. 
 ///					You must invoke this function whenever you change the enabled state
 ///					or the volume of a streaming channel
@@ -180,8 +180,8 @@ function update_audio_streams() {
 	}
 }
 
-/// @function		play_music(mus, gain = 1.0, fade_in_time_ms = 1000, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 9)
-/// @description	Plays a sound of type music (attached to music_volume setting)
+/// @func		play_music(mus, gain = 1.0, fade_in_time_ms = 1000, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 9)
+/// @desc	Plays a sound of type music (attached to music_volume setting)
 function play_music(mus, 
 					gain			= 1.0, 
 					fade_in_time_ms = AUDIO_MUSIC_DEFAULT_FADE_IN_MS, 
@@ -223,8 +223,8 @@ function play_music(mus,
 		});
 }
 
-/// @function play_music_overlay(mus, gain = 1.0, fade_in_time_ms = 1000, pitch = 1.0, offset = 0, listener_mask = -1)
-/// @description Play the specified music sound as overlay together with the current music.
+/// @func play_music_overlay(mus, gain = 1.0, fade_in_time_ms = 1000, pitch = 1.0, offset = 0, listener_mask = -1)
+/// @desc Play the specified music sound as overlay together with the current music.
 ///				 This function will not modify, change or stop the current music. It just plays until the end, then stops.
 function play_music_overlay(mus, 
 							gain			= 1.0, 
@@ -253,8 +253,8 @@ function __play_music_private(mus, gain, fade_in_time_ms, loop, pitch, offset, l
 	}
 }
 
-/// @function		stop_music(fade_out_time_ms = 1000)
-/// @description	Stops the currently playing music
+/// @func		stop_music(fade_out_time_ms = 1000)
+/// @desc	Stops the currently playing music
 function stop_music(fade_out_time_ms = AUDIO_MUSIC_DEFAULT_FADE_OUT_MS) {
 	if (__ACTIVE_AUDIO_SESSION.music_asset != undefined) {
 		dlog($"Stopping music audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.music_asset ?? -1)}' in {fade_out_time_ms}ms");
@@ -263,8 +263,8 @@ function stop_music(fade_out_time_ms = AUDIO_MUSIC_DEFAULT_FADE_OUT_MS) {
 
 }
 
-/// @function		play_ambience(amb, gain = 1.0, fade_in_time_ms = 1000, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 8)
-/// @description	Plays a sound of type ambience (attached to ambience_volume setting)
+/// @func		play_ambience(amb, gain = 1.0, fade_in_time_ms = 1000, loop = true, force_restart = false, pitch = 1.0, offset = 0, listener_mask = -1, priority = 8)
+/// @desc	Plays a sound of type ambience (attached to ambience_volume setting)
 function play_ambience( amb, 
 						gain			= 1.0, 
 						fade_in_time_ms = AUDIO_AMBIENCE_DEFAULT_FADE_IN_MS, 
@@ -307,8 +307,8 @@ function play_ambience( amb,
 	
 }
 
-/// @function play_ambience_overlay(amb, gain = 1.0, fade_in_time_ms = 1000, pitch = 1.0, offset = 0, listener_mask = -1)
-/// @description Play the specified ambience sound as overlay together with the current ambience.
+/// @func play_ambience_overlay(amb, gain = 1.0, fade_in_time_ms = 1000, pitch = 1.0, offset = 0, listener_mask = -1)
+/// @desc Play the specified ambience sound as overlay together with the current ambience.
 ///				 This function will not modify, change or stop the current ambience. It just plays until the end, then stops.
 function play_ambience_overlay( amb, 
 								gain			= 1.0, 
@@ -338,8 +338,8 @@ function __play_ambience_private(amb, gain, fade_in_time_ms, loop, pitch, offset
 	}
 }
 
-/// @function		stop_ambience(fade_out_time_ms = 1000)
-/// @description	Stops the currently playing ambience sounds
+/// @func		stop_ambience(fade_out_time_ms = 1000)
+/// @desc	Stops the currently playing ambience sounds
 function stop_ambience(fade_out_time_ms = AUDIO_AMBIENCE_DEFAULT_FADE_OUT_MS) {
 	if (__ACTIVE_AUDIO_SESSION.ambience_asset != undefined) {
 		dlog($"Stopping ambience audio '{audio_get_name(__ACTIVE_AUDIO_SESSION.ambience_asset ?? -1)}' in {fade_out_time_ms}ms");

@@ -1,4 +1,4 @@
-/// @description Loading
+/// @desc Loading
 event_inherited();
 
 race_controller		= __RAPTORDATA.race_controller		;

@@ -8,8 +8,8 @@ VIEWPORT_INDEX						= 0; // Initialize with default
 #macro __CAM_INDEX_PUSH_STACK		global.__pushstack_macro_camera_index
 #macro __VIEWPORT_INDEX_PUSH_STACK	global.__pushstack_macro_viewport_index
 
-/// @function				macro_camera_viewport_index_switch_to(camera_index = 0, viewport_index = 0)
-/// @description			Set both globals for the CAM/VIEW macros in one step
+/// @func				macro_camera_viewport_index_switch_to(camera_index = 0, viewport_index = 0)
+/// @desc			Set both globals for the CAM/VIEW macros in one step
 /// @param {int} camera_index
 /// @param {int} viewport_index
 function macro_camera_viewport_index_switch_to(camera_index = 0, viewport_index = 0) {
@@ -21,8 +21,8 @@ function macro_camera_viewport_index_switch_to(camera_index = 0, viewport_index 
 	VIEWPORT_INDEX	= viewport_index;
 }
 
-/// @function				macro_camera_viewport_index_switch_back()
-/// @description			Restore the values for camera and viewport that were active before
+/// @func				macro_camera_viewport_index_switch_back()
+/// @desc			Restore the values for camera and viewport that were active before
 ///							the last *_switch_to call (like stack.pop)
 ///							ATTENTION! This method crashes if you never called switch_to before!
 function macro_camera_viewport_index_switch_back() {

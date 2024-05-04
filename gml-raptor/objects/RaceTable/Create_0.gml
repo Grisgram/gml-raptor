@@ -1,4 +1,4 @@
-/// @description You MUST call this when inheriting!
+/// @desc You MUST call this when inheriting!
 
 event_inherited();
 
@@ -27,16 +27,16 @@ __set_initial_table = function() {
 	topmost table of the tree. For subtables, no event is invoked.
 */
 
-/// @function					onQueryStarted(first_query_table, current_query_table)
-/// @description				A query started in one of the tables of this controller
+/// @func					onQueryStarted(first_query_table, current_query_table)
+/// @desc				A query started in one of the tables of this controller
 /// @param {race_table} first_query_table		holds the struct of the topmost table, that started the current query
 /// @param {race_table} current_query_table		holds the struct of the table where the dropped item here is contained in
 onQueryStarted = function(first_query_table, current_query_table) {
 	__race_log_onQueryStarted(first_query_table, current_query_table);
 }
 
-/// @function					onQueryHit(item_dropped, first_query_table, current_query_table)
-/// @description				A query started in one of the tables of this controller
+/// @func					onQueryHit(item_dropped, first_query_table, current_query_table)
+/// @desc				A query started in one of the tables of this controller
 /// @param {race_table} first_query_table		holds the struct of the topmost table, that started the current query
 /// @param {race_table} current_query_table		holds the struct of the table where the dropped item here is contained in
 /// @param {race_item} 	item_dropped			holds the race struct (race_result_entry) that just dropped.
@@ -45,8 +45,8 @@ onQueryHit = function(item_dropped, first_query_table, current_query_table) {
 }
 #endregion
 
-/// @function		set_table(race_table_name)
-/// @description	Loads a race table from __RACE_GLOBAL.
+/// @func		set_table(race_table_name)
+/// @desc	Loads a race table from __RACE_GLOBAL.
 ///					This can also be achieved by setting the race_controller and race_table_name
 ///					variables of this object in the designer.
 /// @param {string} table_name			The table to load from the controller
@@ -63,8 +63,8 @@ set_table = function(table_name) {
 	race_table = race_get_table(table_name);
 }
 
-/// @function						query(drop_on_layer = "")
-/// @description					Performs a loot drop on this table.
+/// @func						query(drop_on_layer = "")
+/// @desc					Performs a loot drop on this table.
 /// @returns {array}				Returns the "loot". This is a struct of type race_result_entry.
 ///									It contains:
 ///										name		= item name
