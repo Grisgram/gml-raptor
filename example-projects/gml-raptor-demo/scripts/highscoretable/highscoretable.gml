@@ -135,7 +135,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + prefix_character + string(i + 1);
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), prefix_character, string(i + 1));
 		}
 		return rv;
 	}
@@ -155,7 +155,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + entry.data.Name;
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), entry.data.Name);
 		}
 		return rv;
 	}
@@ -176,7 +176,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + string_format(entry.data.Score ?? 0, 1, decimals);
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), string_format(entry.data.Score ?? 0, 1, decimals));
 		}
 		return rv;
 	}
@@ -207,7 +207,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + entry.format_time(!skip_hours);
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), entry.format_time(!skip_hours));
 		}
 		return rv;
 	}
@@ -228,7 +228,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + (day_only ? date_date_string(entry.data.Created) : date_datetime_string(entry.data.Created));
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), (day_only ? date_date_string(entry.data.Created) : date_datetime_string(entry.data.Created)));
 		}
 		return rv;
 	}
@@ -254,11 +254,11 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			var tm = max_time_len > 0 ? entry.format_time() : "";
-			rv += (rv == "" ? "" : "\n") +
-				entry.data.Name + string_repeat(" ", max_name_len + 2 - string_length(entry.data.Name)) +
-				(max_score_len > 0 ? string_repeat(" ", max_score_len + 2 - string_length(string(entry.data.Score))) + string(entry.data.Score) : "") +
-				(max_time_len > 0 ? string_repeat(" ", max_time_len + 2 - string_length(tm)) + tm : "") +
-				"  " + date_datetime_string(entry.data.Created);
+			rv = string_concat(rv, (rv == "" ? "" : "\n"),
+				entry.data.Name, string_repeat(" ", max_name_len + 2 - string_length(entry.data.Name)),
+				(max_score_len > 0 ? string_repeat(" ", max_score_len + 2 - string_length(string(entry.data.Score))) + string(entry.data.Score) : ""),
+				(max_time_len > 0 ? string_repeat(" ", max_time_len + 2 - string_length(tm)) + tm : ""),
+				"  ", date_datetime_string(entry.data.Created));
 		}
 		return rv;
 	}

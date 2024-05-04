@@ -29,10 +29,9 @@ function RaptorLogger() constructor {
 	static get_log_buffer = function(_as_single_string = true) {
 		var buf = __formatter.get_buffer_snapshot();
 		if (_as_single_string) {
-			var rv = "";
-			for (var i = 0, len = array_length(buf); i < len; i++) 
-				rv += $"{buf[@i]}\n";
-			return rv;
+			return array_reduce(buf, function(current, next) {
+				return string_concat(current, next, "\n");
+			}, "");
 		} else
 			return buf;
 	}

@@ -16,5 +16,5 @@ event_inherited();
 
 if (protect_ui_events) GUI_EVENT_UNTARGETTED;
 
-states.set_state("ev:key_press_" + keyboard_to_string());
+states.set_state(string_concat("ev:key_press_", keyboard_to_string()));
 

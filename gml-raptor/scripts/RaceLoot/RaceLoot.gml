@@ -25,14 +25,14 @@ function __race_get_unique_deepcopy_name(basename) {
 	var i = 0;
 	var newname;
 	do {
-		newname = __RACE_TEMP_TABLE_PREFIX + basename + string(i);
+		newname = string_concat(__RACE_TEMP_TABLE_PREFIX, basename, i);
 		i++;
 	} until (!race_table_exists(newname));
 	return newname;
 }
 
 function __race_is_in_unique_list(uniques, table, name) {
-	var look_for = name + "@" + table.name;
+	var look_for = string_concat(name, "@", table.name);
 	for (var i = 0; i < array_length(uniques); i++;) {
 		if (uniques[i] == look_for) 
 			return true;
@@ -42,7 +42,7 @@ function __race_is_in_unique_list(uniques, table, name) {
 
 function __race_addToResult(race_table_object, race_controller, table, result, uniques, name) {
 	if (race_is_unique(table, name))
-		array_push(uniques, name + "@" + table.name);
+		array_push(uniques, string_concat(name, "@", table.name));
 	
 	var item = race_table_get_item(table, name);
 	var typename = race_item_get_type(item);

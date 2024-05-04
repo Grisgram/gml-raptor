@@ -87,6 +87,7 @@ __text_transform_running	= false;
 animated_text_color			= text_color;
 animated_draw_color			= draw_color;
 
+__first_scribble_render		= true;
 __force_redraw				= true;	 // first draw is forced
 __force_redraw_text_only	= false; // flag for mouse_enter/leave event which just trigger coloring
 
@@ -315,7 +316,7 @@ draw_scribble_text = function() {
 /// @param {string} align			
 /// @param {string} str			
 __create_scribble_object = function(align, str) {
-	return scribble($"{align}{str}", MY_NAME)
+	return scribble(string_concat(align, str), MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 animated_text_color);
 }
@@ -335,7 +336,8 @@ __adopt_object_properties = function() {
 /// @function					__finalize_scribble_text()
 /// @description				add blend and transforms to the final text
 __finalize_scribble_text = function() {
-	if (__force_redraw_text_only || __text_anim_running || __text_transform_running) {
+	if (__force_redraw_text_only || __text_anim_running || __text_transform_running || __first_scribble_render) {
+		__first_scribble_render = false;
 		__scribble_text
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 animated_text_color);

@@ -36,12 +36,12 @@ function check_debug_mode() {
 	if (DEBUG_MODE_ACTIVE && !global.__debug_check_done) {
 		global.__debug_check_done = true;
 		if (code_is_compiled())
-			show_message(
-				"*************************************************\n" +
-				"***                                              \n" +
-				"***  D E B U G   M O D E   I S   A C T I V E     \n" +
-				"***                                              \n" +
-				"*************************************************\n");
+			show_message(string_concat(
+				"*************************************************\n",
+				"***                                              \n",
+				"***  D E B U G   M O D E   I S   A C T I V E     \n",
+				"***                                              \n",
+				"*************************************************\n"));
 	}
 }
 

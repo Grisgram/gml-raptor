@@ -407,7 +407,7 @@ update_client_area = function() {
 /// @param {string} align			
 /// @param {string} str			
 __create_scribble_title_object = function(align, str) {
-	return scribble($"{align}{str}", MY_NAME)
+	return scribble(string_concat(align, str), MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 				mouse_is_over ? title_color_mouse_over : title_color);
 }

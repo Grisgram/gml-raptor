@@ -46,7 +46,7 @@ function __LG_load_avail_languages() {
 /// @returns {string}			True or false, telling you, whether the file exists.
 /// @description				Builds the full filename of a language json resource file.
 function __LG_get_locale_filename(localeName) {
-	return working_directory + LG_ROOT_FOLDER + __LG_LOCALE_BASE_NAME + localeName + ".json";
+	return string_concat(working_directory, LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, localeName, ".json");
 }
 
 /// @function					__LG_locale_exists(localeName)
@@ -156,17 +156,17 @@ function LG() {
 	
 	if (!__LG_HTML_INITIALIZED) {
 		if (!__LG_INIT_ERROR_SHOWN) {
-			show_message(
-				"LG Error: On HTML Runtime you must declare the available locales\nin the array LG_AVAIL_LOCALES!\n\n" +
-				"Example: LG_AVAIL_LOCALES=[\"en\",\"de\",\"es\"]\n\n" +
-				"In the HTML runtime you also need to call LG_Init() manually after the initialization of LG_AVAIL_LOCALES");
+			show_message(string_concat(
+				"LG Error: On HTML Runtime you must declare the available locales\nin the array LG_AVAIL_LOCALES!\n\n",
+				"Example: LG_AVAIL_LOCALES=[\"en\",\"de\",\"es\"]\n\n",
+				"In the HTML runtime you also need to call LG_Init() manually after the initialization of LG_AVAIL_LOCALES"));
 			__LG_INIT_ERROR_SHOWN = true;
 		}
 	} else if (!__LG_INITIALIZED) {
 		if (!__LG_INIT_ERROR_SHOWN) {
-			show_message(
-				"LG Error: Not initialized.\nIf you set LG_AUTO_INIT to false you MUST call LG_Init() before your first\n" +
-				"string can be resolved!");
+			show_message(string_concat(
+				"LG Error: Not initialized.\nIf you set LG_AUTO_INIT to false you MUST call LG_Init() before your first\n",
+				"string can be resolved!"));
 			__LG_INIT_ERROR_SHOWN = true;
 		}
 		return "LG-NOT-INITIALIZED";
@@ -211,7 +211,7 @@ function LG() {
 				}
 					
 				var names = struct_get_names(map);
-				var matchstr = key + "*";
+				var matchstr = string_concat(key, "*");
 				var rnds = [];
 				for (var i = 0; i < array_length(names); i++) {
 					var nam = names[@ i];
@@ -253,7 +253,7 @@ function LG() {
 		}
 		if (argconv != "") {
 			array_push(args, argconv);
-			cacheKey += (argconv + (i < argument_count - 1 ? "/" : ""));
+			cacheKey = string_concat(cacheKey, (argconv + (i < argument_count - 1 ? "/" : "")));
 		}
 	}
 	
@@ -268,7 +268,7 @@ function LG() {
 	}
 	if (result == undefined) {
 		array_delete(args, 0, 1);
-		result = "???" + string_replace(string_replace(string(args),"[",""),"]","") + "???";
+		result = string_concat("???", string_replace(string_replace(string(args),"[",""),"]",""), "???");
 	} else {
 		var ref = findref(result);
 		while (ref != undefined) {
@@ -310,7 +310,7 @@ __LG_INITIALIZED = IS_HTML; // for html, we start initialized, there is a second
 if (LG_AUTO_INIT_ON_STARTUP) {
 	show_debug_message("Initializing LG localization subsystem.");
 	if (IS_HTML)
-		show_debug_message("LG is in HTML mode. Preset languages are " + string(HTML_LOCALES));
+		show_debug_message(string_concat("LG is in HTML mode. Preset languages are ", string(HTML_LOCALES)));
 	else
 		LG_init();
 }

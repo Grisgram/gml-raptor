@@ -9,6 +9,8 @@
 #macro __FILE_CACHE		global.__file_cache
 __FILE_CACHE = {};
 
+#macro __FILE_WORKINGFOLDER_FILENAME	string_concat(working_directory + filename)
+
 /// @function					file_clear_cache()
 /// @description				clears the entire file cache
 function file_clear_cache() {
@@ -73,7 +75,7 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 ///								checks whether the file exists, and if not, an empty string is returned.
 ///								crashes, if the file is not a text file
 function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
-	return file_read_text_file_absolute(working_directory + filename, cryptkey, remove_utf8_bom, add_to_cache);
+	return file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache);
 }
 
 /// @function					file_write_text_file(filename, text, cryptkey = "")
@@ -87,7 +89,7 @@ function file_write_text_file(filename, text, cryptkey = "") {
 		var buffer = buffer_create(string_byte_length(text) + 1, buffer_fixed, 1);
 		buffer_write(buffer, buffer_string, text);
 		if (cryptkey != "") encrypt_buffer(buffer, cryptkey);
-		buffer_save(buffer, working_directory + filename);
+		buffer_save(buffer, __FILE_WORKINGFOLDER_FILENAME);
 		buffer_delete(buffer);
 		return true;
 	CATCH return false; ENDTRY
@@ -149,7 +151,7 @@ function file_write_struct_plain(filename, struct) {
 /// @returns {struct}			The json_decoded struct or undefined if something went wrong.
 function file_read_struct_plain(filename, add_to_cache = false) {
 	__ensure_file_cache();
-	if (file_exists(working_directory + filename)) {
+	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Cache hit for file '{filename}'");
 			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
@@ -190,7 +192,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 		buffer_fill(buffer, 0, buffer_u8, 0, len);
 		buffer = SnapBufferWriteBinary(buffer, struct);
 		encrypt_buffer(buffer, cryptkey);
-		buffer_save(buffer, working_directory + filename);
+		buffer_save(buffer, __FILE_WORKINGFOLDER_FILENAME);
 		buffer_delete(buffer);
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Updated cache for file '{filename}' (encrypted struct)");
@@ -210,14 +212,14 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 /// @returns {struct}			The decrypted struct.
 function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {	
 	__ensure_file_cache();
-	if (file_exists(working_directory + filename)) {
+	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Cache hit for file '{filename}' (buffer deep copy)");
 			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			dlog($"Loading encrypted struct from '{filename}'");
-			var buffer = buffer_load(working_directory + filename);
+			var buffer = buffer_load(__FILE_WORKINGFOLDER_FILENAME);
 			var bufsize = max(0, buffer_get_size(buffer));
 			vlog($"Read {bufsize} bytes into the buffer");
 			var rv = undefined;

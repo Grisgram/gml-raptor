@@ -67,7 +67,7 @@ function struct_get_unique_key(struct, basename, prefix = "") {
 	var i = 0;
 	var newname = prefix + basename;
 	while (struct_exists(struct, newname)) {
-		newname = prefix + basename + string(i);
+		newname = string_concat(prefix, basename, i);
 		i++;
 	}
 	return newname;

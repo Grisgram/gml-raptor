@@ -143,6 +143,6 @@ function Coord4(xp = 0, yp = 0, zp = 0, wp = 0) : Coord3(xp, yp, zp) constructor
 	}
 
 	toString = function() {
-		return sprintf("{{0}/{1}/{2}/{3}}", x, y, z, w);
+		return $"{x}/{y}/{z}/{w}";
 	}
 }

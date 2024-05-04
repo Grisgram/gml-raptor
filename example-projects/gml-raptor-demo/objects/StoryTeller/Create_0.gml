@@ -69,7 +69,7 @@ __create_scribble_object = function(align, str) {
 		typist.in(chars_per_frame, smoothness);
 		invoke_started();
 	}
-	return scribble($"{align}{str}", MY_NAME)
+	return scribble(string_concat(align, str), MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 animated_text_color);
 }

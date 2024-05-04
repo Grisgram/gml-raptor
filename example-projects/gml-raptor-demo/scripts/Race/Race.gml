@@ -57,7 +57,7 @@ function __race_init() {
 ///										to the values loaded from file. Set to false to preserve any existing in-memory states.
 function race_load_file(filename_to_load, overwrite_existing = true) {
 	__race_init();
-	var filename = RACE_ROOT_FOLDER + filename_to_load + (string_ends_with(filename_to_load, ".json") ? "" : ".json");
+	var filename = string_concat(RACE_ROOT_FOLDER, filename_to_load, (string_ends_with(filename_to_load, ".json") ? "" : ".json"));
 	if (!file_exists(filename)) {
 		if (DEBUG_LOG_RACE)
 			elog($"*ERROR* race table file '{filename}' not found!");

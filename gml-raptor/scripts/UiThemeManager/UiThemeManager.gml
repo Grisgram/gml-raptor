@@ -71,20 +71,20 @@ function UiThemeManager() constructor {
 	}
 	
 	static __copy_theme_to_global_colors = function(_theme) {
-		THEME_WHITE					= _theme.white					;
-		THEME_BLACK					= _theme.black					;
-		THEME_MAIN					= _theme.main					;
-		THEME_BRIGHT				= _theme.bright					;
-		THEME_DARK					= _theme.dark					;
-		THEME_SHADOW				= _theme.shadow					;
-		THEME_ACCENT				= _theme.accent					;
+		THEME_WHITE					= _theme.white			;
+		THEME_BLACK					= _theme.black			;
+		THEME_MAIN					= _theme.main			;
+		THEME_BRIGHT				= _theme.bright			;
+		THEME_DARK					= _theme.dark			;
+		THEME_SHADOW				= _theme.shadow			;
+		THEME_ACCENT				= _theme.accent			;
 		
-		THEME_CONTROL_DARK		= _theme.control_dark		;
-		THEME_CONTROL_BACK			= _theme.control_back			;
-		THEME_CONTROL_BRIGHT	= _theme.control_bright	;
-		THEME_CONTROL_TEXT			= _theme.control_text			;
-		THEME_WINDOW_BACK			= _theme.window_back			;
-		THEME_WINDOW_FOCUS			= _theme.window_focus			;
+		THEME_CONTROL_DARK			= _theme.control_dark	;
+		THEME_CONTROL_BACK			= _theme.control_back	;
+		THEME_CONTROL_BRIGHT		= _theme.control_bright	;
+		THEME_CONTROL_TEXT			= _theme.control_text	;
+		THEME_WINDOW_BACK			= _theme.window_back	;
+		THEME_WINDOW_FOCUS			= _theme.window_focus	;
 	}
 	
 	static __copy_THEME_to_scribble_colors = function() {
@@ -96,12 +96,12 @@ function UiThemeManager() constructor {
 		SCRIBBLE_COLORS.ci_shadow				= THEME_SHADOW	;
 		SCRIBBLE_COLORS.ci_accent				= THEME_ACCENT	;
 		
-		SCRIBBLE_COLORS.ci_control_dark	= THEME_CONTROL_DARK		;
-		SCRIBBLE_COLORS.ci_control_back			= THEME_CONTROL_BACK			;
-		SCRIBBLE_COLORS.ci_control_bright	= THEME_CONTROL_BRIGHT		;
-		SCRIBBLE_COLORS.ci_control_text			= THEME_CONTROL_TEXT			;
-		SCRIBBLE_COLORS.ci_window_back			= THEME_WINDOW_BACK				;
-		SCRIBBLE_COLORS.ci_window_focus			= THEME_WINDOW_FOCUS			;
+		SCRIBBLE_COLORS.ci_control_dark			= THEME_CONTROL_DARK	;
+		SCRIBBLE_COLORS.ci_control_back			= THEME_CONTROL_BACK	;
+		SCRIBBLE_COLORS.ci_control_bright		= THEME_CONTROL_BRIGHT	;
+		SCRIBBLE_COLORS.ci_control_text			= THEME_CONTROL_TEXT	;
+		SCRIBBLE_COLORS.ci_window_back			= THEME_WINDOW_BACK		;
+		SCRIBBLE_COLORS.ci_window_focus			= THEME_WINDOW_FOCUS	;
 		
 		SCRIBBLE_REFRESH;
 	}

@@ -1,4 +1,4 @@
-/// @description panel pooling
+/// @description panel binding
 event_inherited();
 
 listbox = undefined;

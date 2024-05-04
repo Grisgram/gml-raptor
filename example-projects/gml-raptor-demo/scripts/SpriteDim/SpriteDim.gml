@@ -34,7 +34,7 @@ function SpriteDim(sprite = -1) constructor {
 	}
 	
 	toString = function() {
-		return sprintf("{{0}x{1}}", width, height);
+		return $"{width}x{height}";
 	}
 }
 

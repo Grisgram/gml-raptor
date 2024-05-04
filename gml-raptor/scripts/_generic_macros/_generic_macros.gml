@@ -28,7 +28,8 @@
 
 /// better human readable version of this instance's name (for logging mostly)
 #macro MY_ID	string(real(id))
-#macro MY_NAME	$"{object_get_name(object_index)}({real(id)})@{depth}"
+#macro MY_NAME	string_concat(object_get_name(object_index), real(id))
+//#macro MY_NAME	$"{object_get_name(object_index)}({real(id)})@{depth}"
 
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed

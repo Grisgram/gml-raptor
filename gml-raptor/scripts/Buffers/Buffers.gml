@@ -22,7 +22,7 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
  
 	    var dig = "0123456789ABCDEF";
 	    while (len-- || dec) {
-	        hex = string_char_at(dig, (dec & $F) + 1) + hex;
+	        hex = string_concat(string_char_at(dig, (dec & $F) + 1), hex);
 	        dec = dec >> 4;
 	    }
  
@@ -40,8 +40,8 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 	var human = "";
 	repeat (buffer_get_size(buffer)) {
 		var byte = buffer_peek(buffer, i++, buffer_u8);
-		outline += convert(byte, 2) + " ";
-		human += readable(byte);
+		outline = string_concat(outline, convert(byte, 2), " ");
+		human = string_concat(human, readable(byte));
 		if (i mod bytes_per_line == 0) {
 			ilog($"{outline} {human}");
 			outline = convert(i, 4) + ": ";

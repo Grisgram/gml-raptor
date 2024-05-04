@@ -137,7 +137,7 @@ function ListPool(_name = "listPool") constructor {
 		var i = 0;
 		var rv = ($"[--- LIST POOL '{name}' DUMP START ---]\n");
 		repeat(__listcount) {
-			rv += $"#{i}: {list[| i]}\n";
+			rv = string_concat("#", i, ":", list[| i], "\n");
 			i++;
 		}
 		rv += $"[--- LIST POOL '{name}' DUMP  END  ---]\n";

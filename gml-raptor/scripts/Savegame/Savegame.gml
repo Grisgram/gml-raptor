@@ -185,13 +185,13 @@ function savegame_get_id_array_of(instance_array) {
 /// @description	Checks, whether the specified savegame exists. Takes the
 ///					SAVEGAME_FOLDER configuration path into account
 function savegame_exists(_filename) {
-	return file_exists(SAVEGAME_FOLDER + _filename);
+	return file_exists(string_concat(SAVEGAME_FOLDER, _filename));
 }
 
 function __ensure_savegame_folder_name() {
 	var adder = "";
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_ends_with(SAVEGAME_FOLDER, "/")) adder = "/";
-	return SAVEGAME_FOLDER + adder;
+	return string_concat(SAVEGAME_FOLDER, adder);
 }
 
 // initialize the structs and variables

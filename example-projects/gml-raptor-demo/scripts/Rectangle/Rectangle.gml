@@ -69,6 +69,6 @@ function Rectangle(rect_left = 0, rect_top = 0, rect_width = 0, rect_height = 0)
 	}
 	
 	toString = function() {
-		return sprintf("{{0}/{1}; {2}x{3}}", left, top, width, height);
+		return $"{left}/{top}; {width}x{height}";
 	}
 }

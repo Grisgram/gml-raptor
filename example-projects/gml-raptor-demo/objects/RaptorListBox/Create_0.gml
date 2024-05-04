@@ -43,9 +43,9 @@ function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) construct
 		while (displaystring != "" && len.x > max_len) {
 			shortened = true;
 			displaystring = string_skip_end(displaystring, 1);
-			scribble_measure_text(displaystring + "...",, len);
+			scribble_measure_text(string_concat(displaystring, "..."),, len);
 			if (len.x <= max_len) {
-				displaystring += "...";
+				displaystring = string_concat(displaystring, "...");
 				break;
 			}
 		}

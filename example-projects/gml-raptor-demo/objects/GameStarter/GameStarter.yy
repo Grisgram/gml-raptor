@@ -35,9 +35,9 @@
   "properties":[
     {"$GMObjectProperty":"v1","%Name":"goto_room_after_init","filters":[
         "GMRoom",
-      ],"listItems":[],"multiselect":false,"name":"goto_room_after_init","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":null,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"rmMain","varType":5,},
-    {"$GMObjectProperty":"v1","%Name":"fade_in_frames_first_room","filters":[],"listItems":[],"multiselect":false,"name":"fade_in_frames_first_room","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":null,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
-    {"$GMObjectProperty":"v1","%Name":"async_min_wait_time","filters":[],"listItems":[],"multiselect":false,"name":"async_min_wait_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":null,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"90","varType":1,},
+      ],"listItems":[],"multiselect":false,"name":"goto_room_after_init","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"rmMain","varType":5,},
+    {"$GMObjectProperty":"v1","%Name":"fade_in_frames_first_room","filters":[],"listItems":[],"multiselect":false,"name":"fade_in_frames_first_room","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"async_min_wait_time","filters":[],"listItems":[],"multiselect":false,"name":"async_min_wait_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"90","varType":1,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

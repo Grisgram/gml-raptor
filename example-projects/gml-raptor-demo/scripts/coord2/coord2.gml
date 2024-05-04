@@ -139,6 +139,6 @@ function Coord2(xp = 0, yp = 0) constructor {
 	}
 	
 	toString = function() {
-		return sprintf("{{0}/{1}}", x, y);
+		return $"{x}/{y}";
 	}
 }

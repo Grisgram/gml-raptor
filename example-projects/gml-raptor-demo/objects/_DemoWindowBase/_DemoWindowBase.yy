@@ -5,9 +5,9 @@
   "managed":true,
   "name":"_DemoWindowBase",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_is_sizable","path":"objects/RaptorWindow/RaptorWindow.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
-    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"center_on_open","path":"objects/RaptorWindow/RaptorWindow.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
-    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"Saveable","path":"objects/Saveable/Saveable.yy",},"propertyId":{"name":"add_to_savegame","path":"objects/Saveable/Saveable.yy",},"resource":null,"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_is_sizable","path":"objects/RaptorWindow/RaptorWindow.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"center_on_open","path":"objects/RaptorWindow/RaptorWindow.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"Saveable","path":"objects/Saveable/Saveable.yy",},"propertyId":{"name":"add_to_savegame","path":"objects/Saveable/Saveable.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"True",},
   ],
   "parent":{
     "name":"ui_demo",
