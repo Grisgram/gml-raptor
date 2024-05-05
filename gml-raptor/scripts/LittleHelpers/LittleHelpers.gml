@@ -91,6 +91,12 @@ function is_child_of(child, parent) {
 	return to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST;
 }
 
+/// @func is_class_of(_struct, _class_name)
+/// @desc Returns, whether the struct has used the "construct" command and the type is the specified class_name
+function is_class_of(_struct, _class_name) {
+	return vsget(_struct, __CONSTRUCTOR_NAME) == _class_name;
+}
+
 /// @func					name_of(_instance)
 /// @desc				If _instance is undefined, undefined is returned,
 ///								otherwise MY_NAME or object_get_name of the instance is returned,

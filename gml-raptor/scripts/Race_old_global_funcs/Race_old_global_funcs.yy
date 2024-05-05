@@ -1,9 +1,9 @@
 {
   "$GMScript":"",
-  "%Name":"RaceRandom",
+  "%Name":"Race_old_global_funcs",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"RaceRandom",
+  "name":"Race_old_global_funcs",
   "parent":{
     "name":"Race_alt",
     "path":"folders/_gml_raptor_/Race_alt.yy",

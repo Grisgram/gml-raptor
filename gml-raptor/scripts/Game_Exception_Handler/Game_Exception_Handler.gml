@@ -12,6 +12,11 @@
 	transferred to your server at next startup, where you can decrypt them before sending.
 */
 
+#macro USE_CRASHDUMP_HANDLER			false
+#macro beta:USE_CRASHDUMP_HANDLER		true
+#macro release:USE_CRASHDUMP_HANDLER	true
+#macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
+
 function Game_Exception_Handler(_unhandled) {
 	try {
 		var error = string_concat(

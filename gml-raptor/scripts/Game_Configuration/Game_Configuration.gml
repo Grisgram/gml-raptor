@@ -29,24 +29,16 @@
 // in HTML, especially for itch.io games, you need a UNIQUE filename over all your products,
 // as the html-file-engine uses local storage, which only has one folder with all files from
 // all your products in it.
-#macro GAME_FILE_PREFIX		"gml_raptor"
-
-// The crash dump handler can be found in the Game_Exception_Handler script
-// It generates crash logs in the file specified below, when an unhandled exception occurs,
-// that crashes your game
-#macro USE_CRASHDUMP_HANDLER			false
-#macro beta:USE_CRASHDUMP_HANDLER		true
-#macro release:USE_CRASHDUMP_HANDLER	true
-#macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
+#macro GAME_FILE_PREFIX					"gml_raptor"
+#macro GAME_FILE_EXTENSION				".json"
+#macro release:GAME_FILE_EXTENSION		".jx"
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings.json"
-#macro FILE_CRYPT_KEY					""
-// To avoid conflicts between encrypted and plaing settings files, give
-// the file in release mode a different name
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings{GAME_FILE_EXTENSION}"
+
 // Replace the production crypt key with a good salty key of your own!
-#macro release:GAME_SETTINGS_FILENAME	$"{GAME_FILE_PREFIX}_game_settings.gsx"
+#macro FILE_CRYPT_KEY					""
 #macro release:FILE_CRYPT_KEY			"replace-this-string-for-your-own-safety"
 
 // Global functionality setup for the game
@@ -107,7 +99,7 @@ function onGameStart() {
 	// ------------------------------------------------------------------
 	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
 	//race_load_file(RACE_FILE_NAME, false);
-
+	var race = new Race("demotable");
 	// Setup Scribble
 	// ------------------------------------------------------------------
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);

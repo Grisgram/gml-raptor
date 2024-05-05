@@ -1,12 +1,12 @@
 {
   "$GMScript":"",
-  "%Name":"RaceRandom",
+  "%Name":"InterfaceTests",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"RaceRandom",
+  "name":"InterfaceTests",
   "parent":{
-    "name":"Race_alt",
-    "path":"folders/_gml_raptor_/Race_alt.yy",
+    "name":"_unit_tests_",
+    "path":"folders/_gml_raptor_/_unit_tests_.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

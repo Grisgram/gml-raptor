@@ -11,7 +11,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"objects",
-    "path":"folders/_gml_raptor_/Race/objects.yy",
+    "path":"folders/_gml_raptor_/Race_alt/objects.yy",
   },
   "parentObjectId":{
     "name":"Saveable",

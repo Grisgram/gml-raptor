@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"RaceLoot",
   "parent":{
-    "name":"Race",
-    "path":"folders/_gml_raptor_/Race.yy",
+    "name":"Race_alt",
+    "path":"folders/_gml_raptor_/Race_alt.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
