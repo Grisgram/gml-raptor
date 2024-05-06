@@ -4,12 +4,12 @@
 
 
 /// @func RaceLootTable(_race, _name, _table_struct)
-function RaceLootTable(_race, _name, _table_struct) constructor {
+function RaceLootTable(_race = undefined, _name = "", _table_struct = undefined) constructor {
 	construct(RaceLootTable);
 	
 	race = _race;
 	name = _name;
-	data = _table_struct;
-	
+	if (_table_struct != undefined) // if we come from savegame, no struct is given
+		struct_join_into(self, _table_struct);
 	
 }

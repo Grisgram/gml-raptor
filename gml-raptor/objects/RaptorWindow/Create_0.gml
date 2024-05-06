@@ -377,7 +377,7 @@ close = function() {
 	ilog($"{MY_NAME} closing");
 	__remove_self();
 	control_tree.invoke_on_closed();
-	control_tree.clean_up();
+	control_tree.clear();
 	instance_destroy(self);
 }
 

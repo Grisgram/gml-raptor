@@ -26,12 +26,12 @@
     {"$GMFolder":"","%Name":"Animations","folderPath":"folders/_gml_raptor_/Animations.yy","name":"Animations","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Audio","folderPath":"folders/_gml_raptor_/Audio.yy","name":"Audio","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"DataBinding","folderPath":"folders/_gml_raptor_/DataBinding.yy","name":"DataBinding","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Race","folderPath":"folders/_gml_raptor_/Race.yy","name":"Race","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"LG","folderPath":"folders/_gml_raptor_/LG.yy","name":"LG","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Logger","folderPath":"folders/_gml_raptor_/Logger.yy","name":"Logger","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/_gml_raptor_/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Race_alt","folderPath":"folders/_gml_raptor_/Race_alt.yy","name":"Race_alt","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"objects","folderPath":"folders/_gml_raptor_/Race_alt/objects.yy","name":"objects","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Race","folderPath":"folders/_gml_raptor_/Race.yy","name":"Race","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Savegame","folderPath":"folders/_gml_raptor_/Savegame.yy","name":"Savegame","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tools","folderPath":"folders/_gml_raptor_/Tools.yy","name":"Tools","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"UI","folderPath":"folders/_gml_raptor_/UI.yy","name":"UI","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -101,6 +101,7 @@
     {"$GMFolder":"","%Name":"Timelines","folderPath":"folders/Timelines.yy","name":"Timelines","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
+    {"$GMIncludedFile":"","%Name":"gml_raptor_game_settings.json","CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"gml_raptor_game_settings.jx","ConfigValues":{
         "beta":{
           "CopyToMask":"104",
@@ -109,7 +110,6 @@
           "CopyToMask":"104",
         },
       },"CopyToMask":0,"filePath":"datafiles","name":"gml_raptor_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"gml_raptor_game_settings.json","CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"index.html","ConfigValues":{
         "beta":{
           "CopyToMask":"0",
@@ -352,6 +352,7 @@
     {"id":{"name":"RaceLoot","path":"scripts/RaceLoot/RaceLoot.yy",},},
     {"id":{"name":"RaceLootTable","path":"scripts/RaceLootTable/RaceLootTable.yy",},},
     {"id":{"name":"RaceRandom","path":"scripts/RaceRandom/RaceRandom.yy",},},
+    {"id":{"name":"RaceTests","path":"scripts/RaceTests/RaceTests.yy",},},
     {"id":{"name":"RaptorFrameFormatter","path":"scripts/RaptorFrameFormatter/RaptorFrameFormatter.yy",},},
     {"id":{"name":"RaptorLogFormatterBase","path":"scripts/RaptorLogFormatterBase/RaptorLogFormatterBase.yy",},},
     {"id":{"name":"RaptorLogger","path":"scripts/RaptorLogger/RaptorLogger.yy",},},

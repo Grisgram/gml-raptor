@@ -7,19 +7,22 @@
 
 show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 
-#macro ENSURE_RACE				if (!variable_global_exists("__race_tables")) __RACE_GLOBAL = {}; \
-								if (!variable_global_exists("__race_cache"))  __RACE_CACHE  = {};
+#macro __RACE_CACHE				global.__race_cache
+#macro __RACE_CACHE_CURRENT		__RACE_CACHE[$ __cache_name]
+
+#macro ENSURE_RACE				if (!variable_global_exists("__race_cache"))  __RACE_CACHE  = {};
 ENSURE_RACE;
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
 /// @func Race(_filename_without_extension)
 /// @desc Create a new random content engine
-function Race(_filename) constructor {
+function Race(_filename = "") constructor {
 	construct(Race);
 	
+	if (is_null(_filename)) return; // if we come from savegame, no file is given
+	
 	__filename = string_concat(RACE_ROOT_FOLDER, _filename, GAME_FILE_EXTENSION);
-	__table_cache = {}; // Holds the original structs from the file to be able to reset
 	
 	tables = {}; // Holds the runtime tables for this Race
 	
@@ -27,6 +30,9 @@ function Race(_filename) constructor {
 		elog($"*ERROR* race table file '{__filename}' not found!");
 		return;
 	}
+
+	__cache_name	= string_replace(__filename, "/", "_");
+	vsgetx(__RACE_CACHE,  __cache_name, {}); // ensure, the file is created in the cache
 	
 	var tablefile = file_read_struct(__filename, FILE_CRYPT_KEY, true);
 	
@@ -47,12 +53,12 @@ function Race(_filename) constructor {
 	
 	/// @func __put_to_cache(_name, _table)
 	static __put_to_cache = function(_name, _table) {
-		struct_set(__table_cache, _name, _table);
+		struct_set(__RACE_CACHE_CURRENT, _name, _table);
 	}
 	
 	/// @func __clone_from_cache(_name)
 	static __clone_from_cache = function(_name) {
-		var cpy = SnapDeepCopy(vsget(__table_cache, _name));
+		var cpy = SnapDeepCopy(vsget(__RACE_CACHE_CURRENT, _name));
 		return new RaceLootTable(self, _name, cpy);
 	}
 	
@@ -68,12 +74,19 @@ function Race(_filename) constructor {
 		return self;
 	}
 	
-	/// @func remove_table(_name)
+	/// @func get_table(_name)
+	static get_table = function(_name) {
+		return vsget(tables, _name);
+	}
+	
+	/// @func remove_table(_name, _clear_global_cache = false)
 	/// @desc Remove the specified table from this Race
-	static remove_table = function(_name) {
+	static remove_table = function(_name, _clear_global_cache = false) {
 		if (table_exists(_name)) {
+			tables[$ _name].race = undefined; // clear the circular pointer
 			struct_remove(tables, _name);
-			struct_remove(__table_cache, _name);
+			if (_clear_global_cache)
+				struct_remove(__RACE_CACHE_CURRENT, _name);
 			if (DEBUG_LOG_RACE)
 				vlog($"Race table '{_name}' has been removed");
 		}
@@ -83,7 +96,7 @@ function Race(_filename) constructor {
 	/// @func reset_table(_name, _recursive = false)
 	/// @desc Reset the specified table to its original state it had, when it was loaded from the file
 	static reset_table = function(_name, _recursive = false) {
-		var items = tables[$ _name].data.items;
+		var items = tables[$ _name].items;
 		var names = struct_get_names(items);
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var name = names[@ i];
@@ -127,6 +140,14 @@ function Race(_filename) constructor {
 	/// @desc Checks whether a table with the specified name exists in this Race
 	static table_exists = function(_name) {
 		return vsget(tables, _name) != undefined;
+	}
+	
+	/// @func clear(_clear_global_cache = false)
+	/// @desc Removes all tables from this Race and, optionally, from the global cache
+	static clear = function(_clear_global_cache = false) {
+		var names = struct_get_names(tables);
+		for (var i = 0, len = array_length(names); i < len; i++)
+			remove_table(names[@ i], _clear_global_cache);
 	}
 	
 	toString = function() {

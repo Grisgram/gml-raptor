@@ -11,7 +11,7 @@ function unit_test_StringBuilder() {
 	}
 
 	ut.test_finish = function(name, data) {
-		data.t.clean_up();
+		data.t.clear();
 	}
 	
 	ut.tests.empty_ok = function(test, data) {
@@ -19,8 +19,8 @@ function unit_test_StringBuilder() {
 		test.assert_equals("", data.t.toString());
 	};
 
-	ut.tests.clean_up_ok = function(test, data) {
-		data.t.clean_up();
+	ut.tests.clear_ok = function(test, data) {
+		data.t.clear();
 		test.assert_null(data.t._buffer, "buffer is null");
 		try {
 			data.t.append(".");

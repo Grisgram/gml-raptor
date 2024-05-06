@@ -556,6 +556,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			control.force_redraw(false);
 	}
 
+	/// @func clear_children()
 	static clear_children = function() {
 		dlog($"Clearing all children in ControlTree of {name_of(control)}");
 		
@@ -569,7 +570,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 
-	static clean_up = function() {
+	/// @func clear()
+	static clear = function() {
 		if (!__alive) return;
 		__alive = false;
 		dlog($"CleanUp ControlTree of {name_of(control)}");
@@ -578,7 +580,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var child = children[@i];
 			var inst = child.instance;
 			if (is_child_of(inst, _baseContainerControl))
-				inst.control_tree.clean_up();
+				inst.control_tree.clear();
 			else
 				instance_destroy(inst);
 		}

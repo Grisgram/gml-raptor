@@ -7,4 +7,5 @@ function UnitTestAll() {
 	unit_test_Highscorer();
 	unit_test_Pythagoras();
 	unit_test_Interface();
+	unit_test_Race();
 }

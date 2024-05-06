@@ -45,10 +45,10 @@ function StringBuilder(_initial_size = 64) constructor {
 		_buffer = buffer_create(_initial_size, buffer_grow, 1);
 	}
 	
-	/// @func clean_up()
+	/// @func clear()
 	/// @desc Deletes the buffer. You must call this to avoid memory leaks, OR
 	///		  you can auto-delete it, by invoking the toString() function
-	static clean_up = function() {
+	static clear = function() {
 		if (_buffer == undefined) return;
 		buffer_delete(_buffer);
 		_buffer = undefined;
