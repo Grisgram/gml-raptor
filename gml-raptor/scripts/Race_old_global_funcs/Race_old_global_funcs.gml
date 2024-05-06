@@ -20,7 +20,6 @@
 #macro __RACE_FIELD_VALUE		"value"
 #macro __RACE_FIELD_ITEMS		"items"
 #macro __RACE_FIELD_ATTRIBUTES	"attributes"
-#macro __RACE_NULL_ITEM			"<null>"
 
 #macro __RACE_GLOBAL			global.__race_tables
 

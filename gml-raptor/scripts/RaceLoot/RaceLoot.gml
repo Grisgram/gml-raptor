@@ -199,25 +199,25 @@ function __race_query_internal(race_table_object, race_controller, table_name, d
 	return rv;
 }
 
-/// @func		race_query(table_name, drop_on_layer = "", pool_name = "")
+/// @func	race_query(table_name, drop_on_layer = "", pool_name = "")
 /// @desc	Perform a loot query on the specified table
-/// @returns {array}				Returns the "loot". This is a struct of type race_result_entry.
-///									It contains:
-///										name		= item name
-///										type		= objecttype (asset name)
-///										data		= race data_struct (enabled, chance, ...)
-///										attributes	= attributes of this item (= data.attributes)
-///										instance	= dropped instance (or undefined)
-///									All contained instances already exist on the layer.
-///									Their onCreate and onQueryHit events have already been executed.
-///									If no drop was generated, instance contains undefined.
-/// @param {string} table_name		The race table to query.
-/// @param {string=""} drop_on_layer	Optional. If not supplied or if this is an empty string, the
-///									instance variable race_drop_on_layer will be used to determine
-///									on which layer to drop the loot. This parameter can override
-///									this instance variable (without changing it!) for this one query,
-///									in case, this time the items shall drop on another layer.
-///									If this is an empty string, no instances will be dropped.
+/// @returns {array}	Returns the "loot". This is a struct of type race_result_entry.
+///			It contains:
+///				name		= item name
+///				type		= objecttype (asset name)
+///				data		= race data_struct (enabled, chance, ...)
+///				attributes	= attributes of this item (= data.attributes)
+///				instance	= dropped instance (or undefined)
+///			All contained instances already exist on the layer.
+///			Their onCreate and onQueryHit events have already been executed.
+///			If no drop was generated, instance contains undefined.
+/// @param  {string} table_name		The race table to query.
+/// @param  {string=""} drop_on_layer	Optional. If not supplied or if this is an empty string, the
+///			instance variable race_drop_on_layer will be used to determine
+///			on which layer to drop the loot. This parameter can override
+///			this instance variable (without changing it!) for this one query,
+///			in case, this time the items shall drop on another layer.
+///			If this is an empty string, no instances will be dropped.
 /// @param {string=""} pool_name	Optional. If supplied, objects will be attached to the
 ///									specified ObjectPool, so less new instances are created.
 function race_query(table_name, drop_on_layer = "", pool_name = "") {

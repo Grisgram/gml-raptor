@@ -1,9 +1,9 @@
 {
   "$GMScript":"",
-  "%Name":"RaceLootTable",
+  "%Name":"RaceTable",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"RaceLootTable",
+  "name":"RaceTable",
   "parent":{
     "name":"Race",
     "path":"folders/_gml_raptor_/Race.yy",

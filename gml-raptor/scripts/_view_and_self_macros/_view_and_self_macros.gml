@@ -95,7 +95,6 @@ CAM_MAX_Y					= 0;
 #macro ROOM_ASPECT_RATIO			(ROOM_WIDTH / ROOM_HEIGHT)
 
 // SELF Coordinates (object dimensions only, without absolute screen position)
-#macro SELF_LAYER_OR_DEPTH			((layer == -1) ? depth : layer_get_name(layer))
 #macro SELF_WIDTH					sprite_width
 #macro SELF_HEIGHT					sprite_height
 #macro SELF_WIDTH_UNSCALED			sprite_get_width(sprite_index)

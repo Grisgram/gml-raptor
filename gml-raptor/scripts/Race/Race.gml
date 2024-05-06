@@ -13,6 +13,8 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 #macro ENSURE_RACE				if (!variable_global_exists("__race_cache"))  __RACE_CACHE  = {};
 ENSURE_RACE;
 
+#macro __RACE_NULL_ITEM			"<null>"
+
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
 /// @func Race(_filename_without_extension)
@@ -171,6 +173,29 @@ function Race(_filename = "") constructor {
 		var names = struct_get_names(tables);
 		for (var i = 0, len = array_length(names); i < len; i++)
 			remove_table(names[@ i], _clear_global_cache);
+	}
+
+	/// @func	query_table(_name, _layer_name_or_depth = undefined, _pool_name = "")
+	/// @desc	Perform a loot query on the specified table
+	/// @returns {array}	Returns the "loot". This is an array of RaceResult instances.
+	///			It contains:
+	///				name		= item name
+	///				type		= objecttype (asset name)
+	///				data		= race data_struct (enabled, chance, ...)
+	///				attributes	= attributes of this item (= data.attributes)
+	///				instance	= dropped instance (or undefined)
+	///			All contained instances already exist on the layer.
+	///			Their onCreate and onQueryHit events have already been executed.
+	///			If no drop was generated, instance contains undefined.
+	/// @param  {string} _name		The race table to query
+	/// @param  {string=""} _layer_name_or_depth	Optional. 
+	///			If not supplied, no items will be dropped by the query and all "instance"
+	///			members of the returned RaceItems will be undefined.
+	///			LOOT IS STILL GENERATED! There are just no items spawned.
+	/// @param {string=""} pool_name	Optional. If supplied, objects will be attached to the
+	///									specified ObjectPool, so less new instances are created.
+	static query_table = function(_name, _layer_name_or_depth = undefined, _pool_name = "") {
+		return tables[$ _name].query(_layer_name_or_depth, _pool_name);
 	}
 	
 	toString = function() {
