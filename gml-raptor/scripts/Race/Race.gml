@@ -51,6 +51,12 @@ function Race(_filename = "") constructor {
 	} else
 		elog($"*ERROR* Failed to load race table file '{__filename}'!")
 	
+	
+	/// @func __is_in_cache(_name)
+	static __is_in_cache = function(_name) {
+		return vsget(__RACE_CACHE_CURRENT, _name) != undefined;
+	}
+	
 	/// @func __put_to_cache(_name, _table)
 	static __put_to_cache = function(_name, _table) {
 		struct_set(__RACE_CACHE_CURRENT, _name, _table);
@@ -93,15 +99,26 @@ function Race(_filename = "") constructor {
 		return self;
 	}
 	
-	/// @func reset_table(_name, _recursive = false)
+	/// @func reset_table(_name, _recursive = true)
 	/// @desc Reset the specified table to its original state it had, when it was loaded from the file
-	static reset_table = function(_name, _recursive = false) {
+	static reset_table = function(_name, _recursive = true) {
+		if (string_starts_with(_name, __RACE_TEMP_TABLE_PREFIX)) {
+			elog($"*ERROR* Cloned temp race table '{_name}' can not be reset!");
+			return self;
+		}
+		
+		if (!__is_in_cache(_name)) {
+			elog($"*ERROR* Manually added race table '{_name}' can not be reset!");
+			return self;
+		}
+
 		var items = tables[$ _name].items;
 		var names = struct_get_names(items);
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var name = names[@ i];
-			if (_recursive && string_starts_with(name, "=")) 
-				reset_table(string_skip_start(name, 1), _recursive);
+			var typename = items[$ name].type;
+			if (_recursive && string_starts_with(typename, "=")) 
+				reset_table(string_skip_start(typename, 1), _recursive);
 			if (string_starts_with(name, __RACE_TEMP_TABLE_PREFIX))
 				struct_remove(tables, name);
 		}
@@ -125,15 +142,21 @@ function Race(_filename = "") constructor {
 	}
 	
 	/// @func clone_table(_name)
-	/// @desc Clones the specified table to a TEMP table with a unique name. This new name is returned.
+	/// @desc Clones the specified table to a TEMP table with a unique name. 
+	///		  This new table is returned and you can get the name from the .name property of the table.
 	static clone_table = function(_name) {
 		var newname = __get_unique_clone_name(_name);
+		// remove the race pointer to avoid endless loop (circular reference)
+		tables[$ _name].race = undefined;
 		var cpy = SnapDeepCopy(tables[$ _name]);
+		tables[$ _name].race = self;
+		
+		cpy.race = self;
 		cpy.name = newname;
 		add_table(cpy);
 		if (DEBUG_LOG_RACE)
 			vlog($"Race table '{_name}' has been cloned into '{newname}'");
-		return newname;
+		return cpy;
 	}
 	
 	/// @func table_exists(_name)

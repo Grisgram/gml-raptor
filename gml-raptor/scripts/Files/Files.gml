@@ -36,7 +36,7 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 	__ensure_file_cache();
 	
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
-		dlog($"Cache hit for file '{filename}'");
+		vlog($"Cache hit for file '{filename}'");
 		return struct_get(__FILE_CACHE, filename);
 	}
 	
@@ -153,7 +153,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 	__ensure_file_cache();
 	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			dlog($"Cache hit for file '{filename}'");
+			vlog($"Cache hit for file '{filename}'");
 			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
@@ -214,7 +214,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	__ensure_file_cache();
 	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			dlog($"Cache hit for file '{filename}' (buffer deep copy)");
+			vlog($"Cache hit for file '{filename}' (buffer deep copy)");
 			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
