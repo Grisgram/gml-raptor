@@ -25,29 +25,18 @@ function RaceTable(_race = undefined, _name = "", _table_struct = undefined) con
 
 		var unique_drops = [];
 		var rv = [];
-		
-		RACE_TABLE_QUERIED = self;
 
 		__query_recursive(rv, unique_drops);
 		if (drop_instances) {
-			var i = 0; repeat(array_length(rv)) {
+			for (var i = 0, len = array_length(rv); i < len; i++) 
 				__drop_item(rv[@i], _layer_name_or_depth, _pool_name);
-				i++;
-			}
 		}
-		
-		// query is done, reset globals
-		RACE_TABLE_QUERIED = undefined;
-		RACE_TABLE_CURRENT = undefined;
-		RACE_ITEM_DROPPED = undefined;
 	
 		return rv;
 	}
 
 	/// @func __query_recursive(result, uniques)
 	static __query_recursive = function(_result, _uniques) {
-		RACE_TABLE_CURRENT = self;
-	
 		// first, all enabled elements that are set to "always" will be part of the drop
 		var names = struct_get_names(items);
 		var always_enabled_count = 0;
@@ -141,29 +130,20 @@ function RaceTable(_race = undefined, _name = "", _table_struct = undefined) con
 		var dropy = vsget(self, "y", 0);
 		var _drop.instance = undefined;
 		if (is_null(_pool_name))
-			_drop.instance = instance_create(dropx ?? 0, dropy ?? 0, _layer_name_or_depth, asset_get_index(itemtype));
+			_drop.instance = instance_create(
+				dropx ?? 0, 
+				dropy ?? 0, 
+				_layer_name_or_depth, 
+				asset_get_index(itemtype));
 		else {
-			drop = pool_get_instance(_pool_name, asset_get_index(itemtype), _layer_name_or_depth);
-			drop.x = dropx ?? 0;
-			drop.y = dropy ?? 0;
+			_drop.instance = pool_get_instance(_pool_name, asset_get_index(itemtype), _layer_name_or_depth);
+			_drop.instance.x = dropx ?? 0;
+			_drop.instance.y = dropy ?? 0;
 		}
-		RACE_ITEM_DROPPED = item_struct;
 	
-		var instname;
-		with (drop) {
-			instname = MY_NAME;
-			data.race_data = item_struct;
-			onQueryHit(item_struct, RACE_TABLE_QUERIED, RACE_TABLE_CURRENT);
-		}
-		if (DEBUG_LOG_RACE)
-			dlog($"Dropped item: instance='{instname}'; object='{itemtype}'; layer='{layer_to_drop}';");
-
-		if (race_controller != noone) {
-			with (race_controller)
-				onQueryHit(item_struct, RACE_TABLE_QUERIED, RACE_TABLE_CURRENT);
-		}
-		RACE_ITEM_DROPPED = undefined;
-		return drop;
+		_drop.instance.data.race_item = _drop.item;
+		if (DEBUG_LOG_RACE) 
+			dlog($"Dropped item: instance='{name_of(_drop.instance)}'; object='{itemtype}'; layer='{_layer_name_or_depth}';");		
 	}
 
 	#endregion
