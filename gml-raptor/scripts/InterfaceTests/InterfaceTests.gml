@@ -9,7 +9,6 @@ function unit_test_Interface() {
 	ut.tests.implement_coord2_ok = function(test, data) {
 		var empty = {};
 		with (empty) implement("Coord2");
-		
 		test.assert_true(implements(empty, "Coord2"), "implement");
 		test.assert_equals(empty.toString(), "0/0", "tostring");
 	};

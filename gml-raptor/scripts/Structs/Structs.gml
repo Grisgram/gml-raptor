@@ -96,14 +96,14 @@ function struct_join_into(target, sources) {
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
 		var names = struct_get_names(from);
-		with (target) {
-			for (var i = 0; i < array_length(names); i++) {
-				var name = names[i];
-				var member = from[$ name];
+		for (var i = 0; i < array_length(names); i++) {
+			var name = names[i];
+			var member = from[$ name];
+			with (target) {
 				if (is_method(member))
 					self[$ name] = method(self, member);
 				else
-					self[$ name] = from[$ name];
+					self[$ name] = member;
 			}
 		}
 	}
@@ -159,10 +159,10 @@ function virtual(_object_type, _function_name, _function = undefined) {
 ///			the original function available under the parent objects' name + function_name
 ///	Example:
 /// For 3 inheritance levels, lets call them mother, child and grandchild
-/// mother defines a = function(...)
-/// child does override("a", function(...))
-/// grandchild does override("a", function(...)
-/// Now child and grand_child may call mother_a and grandchild also has child_a available. 
+/// mother defines		virtual(mother,		 "a", function() {...});
+/// child does			override(child,		 "a", function() {...});
+/// grandchild does		override(grandchild, "a", function() {...});
+/// Now child and grand_child may call mother_a() and grandchild also has child_a() available. 
 function override(_object_type, _function_name, _new_function) {
 	var str = vsget(__FUNCTION_INHERITANCE, _function_name);
 	if (str != undefined) {
@@ -193,7 +193,7 @@ function override(_object_type, _function_name, _new_function) {
 		}
 	}
 	// This is a... runtime-compile-error?!?
-	throw($"** ERROR ** Function '{_function_name}' can not be overridden as it has not been 'declared'");
+	throw($"** ERROR ** Function '{_function_name}' can not be overridden as it has not been declared 'virtual'");
 }
 
 #endregion

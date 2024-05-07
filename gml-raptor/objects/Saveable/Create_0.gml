@@ -8,14 +8,9 @@ event_inherited();
 	if you want to skip specific instances from being saved.
 	
 	The raptor platform defines these objects as children of Saveable:
-	- LGTextObject
-	- StatefulObject -> RaceObject
-	- RaceTable
-	- RaceController
+	- LGTextObject (and from there the entire UI subsystem)
+	- StatefulObject (All your game objects)
 
-	ALL RACE TABLES known at the time of saving the game will be part of
-	the savegame.
-	
 	Engine data saved:
 	"seed"				The current seed of the randomizer.
 	
@@ -39,10 +34,8 @@ event_inherited();
 	"image_angle", "image_xscale",
 	"image_yscale"						Rotation and scaling
 	
-	IN ADDITION: All instance variables of raptor platform objects (like the Race...
-	objects) will automatically save their states and even restore their instance
-	links (like the RaceController variable on a RaceTable object)!
-	You do not need to save "race_table_name" and other race variables manually.
+	IN ADDITION: All instance variables of raptor platform objects 
+	will automatically save their states and even restore their instance links.
 	
 	NOTE: The user event 14 (onGameSaving) will be invoked before the contents of
 	the data variable (or whatever onGameSaving returns, if you override it)

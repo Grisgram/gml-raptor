@@ -30,7 +30,6 @@ ENSURE_GLOBALDATA
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances
 
 #macro __SAVEGAME_GLOBAL_DATA_HEADER	"global_data"
-#macro __SAVEGAME_RACE_HEADER			"race_tables"
 #macro __SAVEGAME_OBJECT_HEADER			"instances"
 #macro __SAVEGAME_STRUCT_HEADER			"structs"
 #macro __SAVEGAME_REFSTACK_HEADER		"refstack"

@@ -116,7 +116,7 @@ function RaceTable(_race = undefined, _name = "", _table_struct = undefined) con
 			race.tables[$ newname].__query_recursive(_result, _uniques);
 		} else {
 			if (typename != __RACE_NULL_ITEM) {
-				array_push(_result, new RaceItem(_item));
+				array_push(_result, new RaceItem(_item, name));
 			}
 		}
 	}

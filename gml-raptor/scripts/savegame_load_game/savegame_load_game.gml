@@ -13,7 +13,7 @@
 /// @param {string=""} cryptkey	Optional. The same key that has been used to encrypt the file.
 ///								If not provided, the file is expected to be plain text (NOT RECOMMENDED!).
 /// @param {transition} _room_transition	If set, this transition will be used when changing room on load
-/// @param {bool=false} data_only	If set to true, no instances will be loaded, only GLOBALDATA, structs and race tables
+/// @param {bool=false} data_only	If set to true, no instances will be loaded, only GLOBALDATA and structs
 /// @returns {bool}				True, if the game loaded successfully or false, if not.
 function savegame_load_game(filename, cryptkey = "", _room_transition = undefined, data_only = false) {
 	
@@ -112,13 +112,6 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 
 	// load global data
 	GLOBALDATA = refstack.recover(__SAVEGAME_GLOBAL_DATA_HEADER);
-	
-	// load all race tables
-	var race = refstack.recover(__SAVEGAME_RACE_HEADER);
-	var racetablenames = struct_get_names(race);
-	for (var i = 0; i < array_length(racetablenames); i++) {
-		race_add_table(racetablenames[i], struct_get(race, racetablenames[i]));
-	}
 	
 	// load the structs
 	__savegame_clear_structs();
