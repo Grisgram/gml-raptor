@@ -22,12 +22,9 @@ function unit_test_StringBuilder() {
 	ut.tests.clear_ok = function(test, data) {
 		data.t.clear();
 		test.assert_null(data.t._buffer, "buffer is null");
-		try {
-			data.t.append(".");
-			test.fail(); // must crash, as _buffer should be undefined
-		} catch (_) {
-			test.success();
-		}
+		test.expect_exception("buffer");
+		data.t.append(".");
+		test.fail(); // must crash, as _buffer should be undefined
 	};
 
 	ut.tests.append_ok = function(test, data) {

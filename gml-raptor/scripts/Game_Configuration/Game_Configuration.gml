@@ -30,12 +30,12 @@
 // as the html-file-engine uses local storage, which only has one folder with all files from
 // all your products in it.
 #macro GAME_FILE_PREFIX					"gml_raptor"
-#macro GAME_FILE_EXTENSION				".json"
-#macro release:GAME_FILE_EXTENSION		".jx"
+#macro DATA_FILE_EXTENSION				".json"
+#macro release:DATA_FILE_EXTENSION		".jx"
 
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings{GAME_FILE_EXTENSION}"
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings{DATA_FILE_EXTENSION}"
 
 // Replace the production crypt key with a good salty key of your own!
 #macro FILE_CRYPT_KEY					""
@@ -98,8 +98,8 @@ function onGameStart() {
 	// Example lines to show that you can load your startup files here
 	// ------------------------------------------------------------------
 	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
-	//race_load_file(RACE_FILE_NAME, false);
-	var race = new Race("demotable");
+	//global.loot_system = new Race(RACE_FILE_NAME);
+	
 	// Setup Scribble
 	// ------------------------------------------------------------------
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);

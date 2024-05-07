@@ -55,6 +55,8 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	__test_suite_name = name;
 	__current_test_ok = true;
 	__current_test_name = "";
+	__current_test_exc	= undefined;
+	
 	tests = {};
 
 	test_data = _test_data ?? {};
@@ -87,8 +89,14 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		__current_test_ok = false;
 	}
 	
+	/// @func success()
 	static success = function() {
 		__current_test_ok = true;
+	}
+	
+	/// @func expect_exception(_error_message_contains = "")
+	static expect_exception = function(_error_message_contains = "") {
+		__current_test_exc = _error_message_contains;
 	}
 	
 	/// @func					assert_equals(expected, actual, message = "")
@@ -146,32 +154,69 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	/// @desc				runs all tests and prints the results to the log
 	static run = function() {
 		ilog($"[--- START TEST SUITE '{__test_suite_name}' ---]");
-		suite_start(test_data);
+		// ---- SUITE FINISH ----
+		try {
+			suite_start(test_data);
+		} catch (_ex) {
+			elog($"FAIL: suite_start threw '{_ex.message}';");
+			return;
+		}
+		
 		var fail_count = 0;
 		var names = struct_get_names(tests);
 		array_sort(names, true);
 		var i = 0; repeat(array_length(names)) {
 			__current_test_name = names[i++];
-			__current_test_ok = true;
-			var new_data = test_start(__current_test_name, test_data);
+			__current_test_ok	= true;
+			__current_test_exc	= undefined;
+			var new_data;
 			var data_for_test = test_data;
-			if (is_struct(new_data))
-				data_for_test = new_data;
+			
+			// ---- TEST START ----
 			try {
-				struct_get(tests, __current_test_name)(self, data_for_test);
+				new_data = test_start(__current_test_name, test_data);
+				if (is_struct(new_data))
+					data_for_test = new_data;
 			} catch (_ex) {
-				elog($"FAIL: {__current_test_name} exception='{_ex.message}';");
+				elog($"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}';");
 				__current_test_ok = false;
-			} finally {
-				test_finish(__current_test_name, data_for_test);
 			}
+			
+			// ---- TEST RUN ----
+			if (__current_test_ok) {
+				try {
+					struct_get(tests, __current_test_name)(self, data_for_test);
+				} catch (_ex) {
+					if (__current_test_exc == undefined ||
+						(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
+						elog($"FAIL: {__current_test_name} exception='{_ex.message}';");
+						__current_test_ok = false;
+					}
+				}
+			}
+			
+			// ---- TEST FINISH ----
+			try {
+				test_finish(__current_test_name, data_for_test);
+			} catch (_ex) {
+				elog($"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}';");
+				__current_test_ok = false;
+			}
+			
 			if (__current_test_ok) {
 				ilog($" OK : {__current_test_name}");
 			} else {
 				fail_count++;
 			}
 		}
-		suite_finish(test_data);
+		
+		// ---- SUITE FINISH ----
+		try {
+			suite_finish(test_data);
+		} catch (_ex) {
+			elog($"FAIL: suite_finish threw '{_ex.message}';");
+		}
+		
 		var total = array_length(names);
 		ilog($"DONE: TEST RESULTS '{__test_suite_name}': {total} tests, {(total - fail_count)} succeeded, {fail_count} failed");
 	}

@@ -67,7 +67,7 @@ function RaceItemFilter(_items) constructor {
 				((filter_enabled ?? item.enabled) == item.enabled) &&
 				(filter_chance == undefined || filter_chance(item.chance)) &&
 				(filter_attributes == undefined || filter_attributes(item.attributes))
-			)
+			))
 				struct_set(rv, name, item);
 		}
 		return rv;

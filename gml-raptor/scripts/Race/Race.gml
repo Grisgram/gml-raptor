@@ -17,14 +17,14 @@ ENSURE_RACE;
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
-/// @func Race(_filename_without_extension)
+/// @func Race(_filename_without_extension, _add_file_to_cache = false)
 /// @desc Create a new random content engine
-function Race(_filename = "") constructor {
+function Race(_filename = "", _add_file_to_cache = false) constructor {
 	construct(Race);
 	
 	if (is_null(_filename)) return; // if we come from savegame, no file is given
 	
-	__filename = string_concat(RACE_ROOT_FOLDER, _filename, GAME_FILE_EXTENSION);
+	__filename = string_concat(RACE_ROOT_FOLDER, _filename, DATA_FILE_EXTENSION);
 	
 	tables = {}; // Holds the runtime tables for this Race
 	
@@ -36,7 +36,7 @@ function Race(_filename = "") constructor {
 	__cache_name	= string_replace(__filename, "/", "_");
 	vsgetx(__RACE_CACHE,  __cache_name, {}); // ensure, the file is created in the cache
 	
-	var tablefile = file_read_struct(__filename, FILE_CRYPT_KEY, true);
+	var tablefile = file_read_struct(__filename, FILE_CRYPT_KEY, _add_file_to_cache);
 	
 	if (tablefile != undefined) {
 		var names = struct_get_names(tablefile);
@@ -67,7 +67,7 @@ function Race(_filename = "") constructor {
 	/// @func __clone_from_cache(_name)
 	static __clone_from_cache = function(_name) {
 		var cpy = SnapDeepCopy(vsget(__RACE_CACHE_CURRENT, _name));
-		return new RaceLootTable(self, _name, cpy);
+		return new RaceTable(self, _name, cpy);
 	}
 	
 	/// @func add_table( _race_loot_table, _overwrite_if_exists = true)

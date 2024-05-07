@@ -1,12 +1,12 @@
 {
   "$GMScript":"",
-  "%Name":"RaceRandom",
+  "%Name":"Random",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"RaceRandom",
+  "name":"Random",
   "parent":{
-    "name":"Race_alt",
-    "path":"folders/_gml_raptor_/Race_alt.yy",
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

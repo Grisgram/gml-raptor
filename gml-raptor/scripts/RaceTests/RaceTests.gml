@@ -9,7 +9,7 @@ function unit_test_Race() {
 	var ut = new UnitTest("Race");
 
 	ut.test_start = function(name, data) {
-		data.t = new Race("demotable");
+		data.t = new Race("demotable", true);
 	}
 
 	ut.test_finish = function(name, data) {
@@ -52,7 +52,7 @@ function unit_test_Race() {
 	ut.tests.add_table_manually_ok = function(test, data) {
 		var race = data.t;
 		
-		race.add_table(new RaceLootTable(race, "_temp", {
+		race.add_table(new RaceTable(race, "_temp", {
 			loot_count: 3,
 			items: {
 				some: {type: "something", always: 0, unique: 0, enabled: 1, chance : 10.0, }
@@ -165,7 +165,7 @@ function unit_test_Race() {
 	
 	ut.tests.reset_manual_table_ok = function(test, data) {
 		var race = data.t;
-		var tbl = new RaceLootTable(race, "_temp", {
+		var tbl = new RaceTable(race, "_temp", {
 			loot_count: 3,
 			items: {
 				some: {type: "something", always: 0, unique: 0, enabled: 1, chance : 10.0, }

@@ -82,7 +82,7 @@ function RaceTable(_race = undefined, _name = "", _table_struct = undefined) con
 			// this value determines, which item will drop!
 			var hit_value = random(chance_sum);
 			var running_value = 0;
-			for (var i = 0, len = array_length(dropables); i < len; i++) 
+			for (var i = 0, len = array_length(dropables); i < len; i++) {
 				itemname = dropables[@i];
 				item = items[$ itemname];
 				running_value += item.chance
@@ -128,7 +128,7 @@ function RaceTable(_race = undefined, _name = "", _table_struct = undefined) con
 			vlog($"Dropping item: object='{itemtype}'; layer='{_layer_name_or_depth}'; pool='{_pool_name};");
 		var dropx = vsget(self, "x", 0);
 		var dropy = vsget(self, "y", 0);
-		var _drop.instance = undefined;
+		_drop.instance = undefined;
 		if (is_null(_pool_name))
 			_drop.instance = instance_create(
 				dropx ?? 0, 
