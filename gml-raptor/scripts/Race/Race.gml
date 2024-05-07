@@ -52,7 +52,7 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 		}
 	} else
 		elog($"*ERROR* Failed to load race table file '{__filename}'!")
-	
+
 	
 	/// @func __is_in_cache(_name)
 	static __is_in_cache = function(_name) {
@@ -67,7 +67,7 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 	/// @func __clone_from_cache(_name)
 	static __clone_from_cache = function(_name) {
 		var cpy = SnapDeepCopy(vsget(__RACE_CACHE_CURRENT, _name));
-		return new RaceTable(self, _name, cpy);
+		return new RaceTable(_name, cpy);
 	}
 	
 	/// @func add_table( _race_loot_table, _overwrite_if_exists = true)

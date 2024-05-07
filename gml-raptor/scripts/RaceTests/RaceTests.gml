@@ -10,6 +10,21 @@ function unit_test_Race() {
 
 	ut.test_start = function(name, data) {
 		data.t = new Race("demotable", true);
+		
+		if (string_contains(name, "item"))
+			data.t.add_table(new RaceTable("bools", {
+				loot_count: 1,
+				items: {
+					item0: { type: "grp1_item0", always: 0, unique: 0, enabled: 0, chance: 10.0, attributes: {a1: 0, a2: 7},},
+					item1: { type: "grp2_item1", always: 0, unique: 0, enabled: 1, chance: 20.0, attributes: {a1: 1, a2: 6},},
+					item2: { type: "grp3_item2", always: 0, unique: 1, enabled: 0, chance: 30.0, attributes: {a1: 2, a2: 5},},
+					item3: { type: "grp4_item3", always: 0, unique: 1, enabled: 1, chance: 40.0, attributes: {a1: 3, a2: 4},},
+					item4: { type: "grp1_item4", always: 1, unique: 0, enabled: 0, chance: 50.0, attributes: {a1: 4, a2: 3},},
+					item5: { type: "grp2_item5", always: 1, unique: 0, enabled: 1, chance: 60.0, attributes: {a1: 5, a2: 2},},
+					item6: { type: "grp3_item6", always: 1, unique: 1, enabled: 0, chance: 70.0, attributes: {a1: 6, a2: 1},},
+					item7: { type: "grp4_item7", always: 1, unique: 1, enabled: 1, chance: 80.0, attributes: {a1: 7, a2: 0},},
+				}
+			}));
 	}
 
 	ut.test_finish = function(name, data) {
@@ -52,7 +67,7 @@ function unit_test_Race() {
 	ut.tests.add_table_manually_ok = function(test, data) {
 		var race = data.t;
 		
-		race.add_table(new RaceTable(race, "_temp", {
+		race.add_table(new RaceTable("_temp", {
 			loot_count: 3,
 			items: {
 				some: {type: "something", always: 0, unique: 0, enabled: 1, chance : 10.0, }
@@ -71,6 +86,30 @@ function unit_test_Race() {
 		// now remove the table
 		race.remove_table("_temp");
 		test.assert_false(race.table_exists("_temp"), "_temp gone");
+	}
+
+	ut.tests.remove_table_local_ok = function(test, data) {
+		var race = data.t;
+		test.assert_true(race.table_exists("demotable"), "demotable exists");
+		test.assert_not_null(vsget(vsget(__RACE_CACHE, race.__cache_name), "demotable"), "cache before");
+		
+		race.remove_table("demotable", false);
+		
+		// table is gone, but global cache must still exist
+		test.assert_false(race.table_exists("demotable"), "demotable gone");
+		test.assert_not_null(vsget(vsget(__RACE_CACHE, race.__cache_name), "demotable"), "cache after");
+	}
+
+	ut.tests.remove_table_global_ok = function(test, data) {
+		var race = data.t;
+		test.assert_true(race.table_exists("demotable"), "demotable exists");
+		test.assert_not_null(vsget(vsget(__RACE_CACHE, race.__cache_name), "demotable"), "cache after");
+		
+		race.remove_table("demotable", true);
+		
+		// table is gone, and global cache also
+		test.assert_false(race.table_exists("demotable"), "demotable gone");
+		test.assert_null(vsget(vsget(__RACE_CACHE, race.__cache_name), "demotable"), "cache after");
 	}
 
 	ut.tests.clone_table_ok = function(test, data) {
@@ -165,7 +204,7 @@ function unit_test_Race() {
 	
 	ut.tests.reset_manual_table_ok = function(test, data) {
 		var race = data.t;
-		var tbl = new RaceTable(race, "_temp", {
+		var tbl = new RaceTable("_temp", {
 			loot_count: 3,
 			items: {
 				some: {type: "something", always: 0, unique: 0, enabled: 1, chance : 10.0, }
@@ -179,5 +218,339 @@ function unit_test_Race() {
 		test.assert_equals(42, tbl.loot_count);
 	}
 
+	ut.tests.itemfilter_bools_ok = function(test, data) {
+		var race = data.t;
+		var res;
+		// all single-bool filters must return 4 items, 
+		// as each bool is true 4 times in the table
+		res = race.tables.bools.filter_items().for_always(0).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "always-result-count-0");
+		test.assert_true(vsget(res, "item0"), "always-0");
+		test.assert_true(vsget(res, "item1"), "always-1");
+		test.assert_true(vsget(res, "item2"), "always-2");
+		test.assert_true(vsget(res, "item3"), "always-3");
+		
+		res = race.tables.bools.filter_items().for_always(1).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "always-result-count-1");
+		test.assert_true(vsget(res, "item4"), "always-4");
+		test.assert_true(vsget(res, "item5"), "always-5");
+		test.assert_true(vsget(res, "item6"), "always-6");
+		test.assert_true(vsget(res, "item7"), "always-7");
+
+		res = race.tables.bools.filter_items().for_unique(0).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "unique-result-count-0");
+		test.assert_true(vsget(res, "item0"), "unique-0");
+		test.assert_true(vsget(res, "item1"), "unique-1");
+		test.assert_true(vsget(res, "item4"), "unique-4");
+		test.assert_true(vsget(res, "item5"), "unique-5");
+		
+		res = race.tables.bools.filter_items().for_unique(1).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "unique-result-count-1");
+		test.assert_true(vsget(res, "item2"), "unique-2");
+		test.assert_true(vsget(res, "item3"), "unique-3");
+		test.assert_true(vsget(res, "item6"), "unique-6");
+		test.assert_true(vsget(res, "item7"), "unique-7");
+
+		res = race.tables.bools.filter_items().for_enabled(0).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "enabled-result-count-0");
+		test.assert_true(vsget(res, "item0"), "enabled-0");
+		test.assert_true(vsget(res, "item2"), "enabled-2");
+		test.assert_true(vsget(res, "item4"), "enabled-4");
+		test.assert_true(vsget(res, "item6"), "enabled-6");
+		
+		res = race.tables.bools.filter_items().for_enabled(1).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "enabled-result-count-1");
+		test.assert_true(vsget(res, "item1"), "enabled-1");
+		test.assert_true(vsget(res, "item3"), "enabled-3");
+		test.assert_true(vsget(res, "item5"), "enabled-5");
+		test.assert_true(vsget(res, "item7"), "enabled-7");
+
+		// now test the combination of all 3 - we receive 8 unique results
+		res = race.tables.bools.filter_items().for_always(0).for_unique(0).for_enabled(0).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-000");
+		test.assert_true(vsget(res, "item0"), "triple-000");
+		
+		res = race.tables.bools.filter_items().for_always(0).for_unique(0).for_enabled(1).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-001");
+		test.assert_true(vsget(res, "item1"), "triple-001");
+		
+		res = race.tables.bools.filter_items().for_always(0).for_unique(1).for_enabled(0).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-010");
+		test.assert_true(vsget(res, "item2"), "triple-010");
+		
+		res = race.tables.bools.filter_items().for_always(0).for_unique(1).for_enabled(1).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-011");
+		test.assert_true(vsget(res, "item3"), "triple-011");
+		
+		res = race.tables.bools.filter_items().for_always(1).for_unique(0).for_enabled(0).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-100");
+		test.assert_true(vsget(res, "item4"), "triple-100");
+		
+		res = race.tables.bools.filter_items().for_always(1).for_unique(0).for_enabled(1).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-101");
+		test.assert_true(vsget(res, "item5"), "triple-101");
+		
+		res = race.tables.bools.filter_items().for_always(1).for_unique(1).for_enabled(0).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-110");
+		test.assert_true(vsget(res, "item6"), "triple-110");
+		
+		res = race.tables.bools.filter_items().for_always(1).for_unique(1).for_enabled(1).execute();
+		test.assert_equals(1, array_length(struct_get_names(res)), "triple-result-count-111");
+		test.assert_true(vsget(res, "item7"), "triple-111");
+	}
+
+	ut.tests.itemfilter_chances_ok = function(test, data) {
+		var race = data.t;
+		var res;
+		
+		// test all true
+		res = race.tables.bools.filter_items().for_chance(function(c) { return true; }).execute();
+		test.assert_equals(8, array_length(struct_get_names(res)), "chance-true");
+		test.assert_true(vsget(res, "item0"), "chance-true-0");
+		test.assert_true(vsget(res, "item1"), "chance-true-1");
+		test.assert_true(vsget(res, "item2"), "chance-true-2");
+		test.assert_true(vsget(res, "item3"), "chance-true-3");
+		test.assert_true(vsget(res, "item4"), "chance-true-4");
+		test.assert_true(vsget(res, "item5"), "chance-true-5");
+		test.assert_true(vsget(res, "item6"), "chance-true-6");
+		test.assert_true(vsget(res, "item7"), "chance-true-7");
+
+		// test all false
+		res = race.tables.bools.filter_items().for_chance(function(c) { return false; }).execute();
+		test.assert_equals(0, array_length(struct_get_names(res)), "chance-false");
+		
+		// test all multiples of 20 (some random filter)
+		res = race.tables.bools.filter_items().for_chance(function(c) { return c % 20 == 0; }).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "chance-modulo-20");
+		test.assert_true(vsget(res, "item1"), "chance-modulo-1");
+		test.assert_true(vsget(res, "item3"), "chance-modulo-3");
+		test.assert_true(vsget(res, "item5"), "chance-modulo-5");
+		test.assert_true(vsget(res, "item7"), "chance-modulo-7");
+	}
+	
+	ut.tests.itemfilter_attributes_ok = function(test, data) {
+		var race = data.t;
+		var res;
+		
+		// test all true
+		res = race.tables.bools.filter_items().for_attribute(function(a) { return true; }).execute();
+		test.assert_equals(8, array_length(struct_get_names(res)), "attribute-true");
+		test.assert_true(vsget(res, "item0"), "attribute-true-0");
+		test.assert_true(vsget(res, "item1"), "attribute-true-1");
+		test.assert_true(vsget(res, "item2"), "attribute-true-2");
+		test.assert_true(vsget(res, "item3"), "attribute-true-3");
+		test.assert_true(vsget(res, "item4"), "attribute-true-4");
+		test.assert_true(vsget(res, "item5"), "attribute-true-5");
+		test.assert_true(vsget(res, "item6"), "attribute-true-6");
+		test.assert_true(vsget(res, "item7"), "attribute-true-7");
+
+		// test all false
+		res = race.tables.bools.filter_items().for_attribute(function(a) { return false; }).execute();
+		test.assert_equals(0, array_length(struct_get_names(res)), "attribute-false");
+		
+		// test all multiples of 20 (some random filter)
+		res = race.tables.bools.filter_items().for_attribute(function(a) { return a.a1 >= a.a2; }).execute();
+		test.assert_equals(4, array_length(struct_get_names(res)), "attribute-a1-a2");
+		test.assert_true(vsget(res, "item4"), "attribute-a1-a2-4");
+		test.assert_true(vsget(res, "item5"), "attribute-a1-a2-5");
+		test.assert_true(vsget(res, "item6"), "attribute-a1-a2-6");
+		test.assert_true(vsget(res, "item7"), "attribute-a1-a2-7");
+	}
+	
+	ut.tests.itemfilter_types_ok = function(test, data) {
+		var race = data.t;
+		var res;
+		
+		// test all true
+		res = race.tables.bools.filter_items().for_type("*").execute();
+		test.assert_equals(8, array_length(struct_get_names(res)), "type-true");
+		test.assert_true(vsget(res, "item0"), "type-true-0");
+		test.assert_true(vsget(res, "item1"), "type-true-1");
+		test.assert_true(vsget(res, "item2"), "type-true-2");
+		test.assert_true(vsget(res, "item3"), "type-true-3");
+		test.assert_true(vsget(res, "item4"), "type-true-4");
+		test.assert_true(vsget(res, "item5"), "type-true-5");
+		test.assert_true(vsget(res, "item6"), "type-true-6");
+		test.assert_true(vsget(res, "item7"), "type-true-7");
+
+		// test all false
+		res = race.tables.bools.filter_items().for_type("invalid").execute();
+		test.assert_equals(0, array_length(struct_get_names(res)), "type-false");
+		
+		// test all multiples of 20 (some random filter)
+		res = race.tables.bools.filter_items().for_type("grp1*").execute();
+		test.assert_equals(2, array_length(struct_get_names(res)), "type-grp1");
+		test.assert_true(vsget(res, "item0"), "type-grp1-0");
+		test.assert_true(vsget(res, "item4"), "type-grp1-4");
+	}
+	
+	ut.tests.itembatch_bools_ok = function(test, data) {
+		var race = data.t;
+		var tbl = race.tables.bools;
+		
+		// batch-set all bools to 1 and 0 (6 blocks)
+		tbl.set_all_enabled(1);
+		test.assert_equals(1, tbl.items.item0.enabled, "batch-enabled-1-0");
+		test.assert_equals(1, tbl.items.item1.enabled, "batch-enabled-1-1");
+		test.assert_equals(1, tbl.items.item2.enabled, "batch-enabled-1-2");
+		test.assert_equals(1, tbl.items.item3.enabled, "batch-enabled-1-3");
+		test.assert_equals(1, tbl.items.item4.enabled, "batch-enabled-1-4");
+		test.assert_equals(1, tbl.items.item5.enabled, "batch-enabled-1-5");
+		test.assert_equals(1, tbl.items.item6.enabled, "batch-enabled-1-6");
+		test.assert_equals(1, tbl.items.item7.enabled, "batch-enabled-1-7");
+		
+		tbl.set_all_enabled(0);
+		test.assert_equals(0, tbl.items.item0.enabled, "batch-enabled-0-0");
+		test.assert_equals(0, tbl.items.item1.enabled, "batch-enabled-0-1");
+		test.assert_equals(0, tbl.items.item2.enabled, "batch-enabled-0-2");
+		test.assert_equals(0, tbl.items.item3.enabled, "batch-enabled-0-3");
+		test.assert_equals(0, tbl.items.item4.enabled, "batch-enabled-0-4");
+		test.assert_equals(0, tbl.items.item5.enabled, "batch-enabled-0-5");
+		test.assert_equals(0, tbl.items.item6.enabled, "batch-enabled-0-6");
+		test.assert_equals(0, tbl.items.item7.enabled, "batch-enabled-0-7");
+
+		tbl.set_all_unique(1);
+		test.assert_equals(1, tbl.items.item0.unique, "batch-unique-1-0");
+		test.assert_equals(1, tbl.items.item1.unique, "batch-unique-1-1");
+		test.assert_equals(1, tbl.items.item2.unique, "batch-unique-1-2");
+		test.assert_equals(1, tbl.items.item3.unique, "batch-unique-1-3");
+		test.assert_equals(1, tbl.items.item4.unique, "batch-unique-1-4");
+		test.assert_equals(1, tbl.items.item5.unique, "batch-unique-1-5");
+		test.assert_equals(1, tbl.items.item6.unique, "batch-unique-1-6");
+		test.assert_equals(1, tbl.items.item7.unique, "batch-unique-1-7");
+		
+		tbl.set_all_unique(0);
+		test.assert_equals(0, tbl.items.item0.unique, "batch-unique-0-0");
+		test.assert_equals(0, tbl.items.item1.unique, "batch-unique-0-1");
+		test.assert_equals(0, tbl.items.item2.unique, "batch-unique-0-2");
+		test.assert_equals(0, tbl.items.item3.unique, "batch-unique-0-3");
+		test.assert_equals(0, tbl.items.item4.unique, "batch-unique-0-4");
+		test.assert_equals(0, tbl.items.item5.unique, "batch-unique-0-5");
+		test.assert_equals(0, tbl.items.item6.unique, "batch-unique-0-6");
+		test.assert_equals(0, tbl.items.item7.unique, "batch-unique-0-7");
+
+		tbl.set_all_always(1);
+		test.assert_equals(1, tbl.items.item0.always, "batch-always-1-0");
+		test.assert_equals(1, tbl.items.item1.always, "batch-always-1-1");
+		test.assert_equals(1, tbl.items.item2.always, "batch-always-1-2");
+		test.assert_equals(1, tbl.items.item3.always, "batch-always-1-3");
+		test.assert_equals(1, tbl.items.item4.always, "batch-always-1-4");
+		test.assert_equals(1, tbl.items.item5.always, "batch-always-1-5");
+		test.assert_equals(1, tbl.items.item6.always, "batch-always-1-6");
+		test.assert_equals(1, tbl.items.item7.always, "batch-always-1-7");
+		
+		tbl.set_all_always(0);
+		test.assert_equals(0, tbl.items.item0.always, "batch-always-0-0");
+		test.assert_equals(0, tbl.items.item1.always, "batch-always-0-1");
+		test.assert_equals(0, tbl.items.item2.always, "batch-always-0-2");
+		test.assert_equals(0, tbl.items.item3.always, "batch-always-0-3");
+		test.assert_equals(0, tbl.items.item4.always, "batch-always-0-4");
+		test.assert_equals(0, tbl.items.item5.always, "batch-always-0-5");
+		test.assert_equals(0, tbl.items.item6.always, "batch-always-0-6");
+		test.assert_equals(0, tbl.items.item7.always, "batch-always-0-7");
+
+		// Now test them again, but with a subset of only 2 items
+		// All bools in the table are 0 due to the set_all_* above (2nd call is always "0")
+		// Filter only 2 items, lets say... grp 2 from the table
+		var subset = race.tables.bools.filter_items().for_type("grp2*").execute();
+		
+		// now use set_all_* with the subset and set all bools in the subset to 1
+		tbl.set_all_enabled(1, subset);
+		tbl.set_all_unique (1, subset);
+		tbl.set_all_always (1, subset);
+		
+		// now check all 24 flags
+		test.assert_equals(0, tbl.items.item0.enabled, "batch-enabled-subset-0");
+		test.assert_equals(1, tbl.items.item1.enabled, "batch-enabled-subset-1");
+		test.assert_equals(0, tbl.items.item2.enabled, "batch-enabled-subset-2");
+		test.assert_equals(0, tbl.items.item3.enabled, "batch-enabled-subset-3");
+		test.assert_equals(0, tbl.items.item4.enabled, "batch-enabled-subset-4");
+		test.assert_equals(1, tbl.items.item5.enabled, "batch-enabled-subset-5");
+		test.assert_equals(0, tbl.items.item6.enabled, "batch-enabled-subset-6");
+		test.assert_equals(0, tbl.items.item7.enabled, "batch-enabled-subset-7");
+
+		test.assert_equals(0, tbl.items.item0.unique, "batch-unique-subset-0");
+		test.assert_equals(1, tbl.items.item1.unique, "batch-unique-subset-1");
+		test.assert_equals(0, tbl.items.item2.unique, "batch-unique-subset-2");
+		test.assert_equals(0, tbl.items.item3.unique, "batch-unique-subset-3");
+		test.assert_equals(0, tbl.items.item4.unique, "batch-unique-subset-4");
+		test.assert_equals(1, tbl.items.item5.unique, "batch-unique-subset-5");
+		test.assert_equals(0, tbl.items.item6.unique, "batch-unique-subset-6");
+		test.assert_equals(0, tbl.items.item7.unique, "batch-unique-subset-7");
+		
+		test.assert_equals(0, tbl.items.item0.always, "batch-always-subset-0");
+		test.assert_equals(1, tbl.items.item1.always, "batch-always-subset-1");
+		test.assert_equals(0, tbl.items.item2.always, "batch-always-subset-2");
+		test.assert_equals(0, tbl.items.item3.always, "batch-always-subset-3");
+		test.assert_equals(0, tbl.items.item4.always, "batch-always-subset-4");
+		test.assert_equals(1, tbl.items.item5.always, "batch-always-subset-5");
+		test.assert_equals(0, tbl.items.item6.always, "batch-always-subset-6");
+		test.assert_equals(0, tbl.items.item7.always, "batch-always-subset-7");
+	}
+	
+	ut.tests.itembatch_chances_ok = function(test, data) {
+		var race = data.t;
+		var tbl = race.tables.bools;
+		
+		// make sure, chances are correct before we modify
+		test.assert_equals(10, tbl.items.item0.chance, "chances-start-0");
+		test.assert_equals(20, tbl.items.item1.chance, "chances-start-1");
+		test.assert_equals(30, tbl.items.item2.chance, "chances-start-2");
+		test.assert_equals(40, tbl.items.item3.chance, "chances-start-3");
+		test.assert_equals(50, tbl.items.item4.chance, "chances-start-4");
+		test.assert_equals(60, tbl.items.item5.chance, "chances-start-5");
+		test.assert_equals(70, tbl.items.item6.chance, "chances-start-6");
+		test.assert_equals(80, tbl.items.item7.chance, "chances-start-7");
+		
+		// set all chances to 1
+		tbl.set_all_chances(1);
+		test.assert_equals(1, tbl.items.item0.chance, "chances-set-to-1-0");
+		test.assert_equals(1, tbl.items.item1.chance, "chances-set-to-1-1");
+		test.assert_equals(1, tbl.items.item2.chance, "chances-set-to-1-2");
+		test.assert_equals(1, tbl.items.item3.chance, "chances-set-to-1-3");
+		test.assert_equals(1, tbl.items.item4.chance, "chances-set-to-1-4");
+		test.assert_equals(1, tbl.items.item5.chance, "chances-set-to-1-5");
+		test.assert_equals(1, tbl.items.item6.chance, "chances-set-to-1-6");
+		test.assert_equals(1, tbl.items.item7.chance, "chances-set-to-1-7");
+		
+		// now add 3 to each chance
+		tbl.set_all_chances_modify_by(3);
+		test.assert_equals(4, tbl.items.item0.chance, "chances-set-to-4-0");
+		test.assert_equals(4, tbl.items.item1.chance, "chances-set-to-4-1");
+		test.assert_equals(4, tbl.items.item2.chance, "chances-set-to-4-2");
+		test.assert_equals(4, tbl.items.item3.chance, "chances-set-to-4-3");
+		test.assert_equals(4, tbl.items.item4.chance, "chances-set-to-4-4");
+		test.assert_equals(4, tbl.items.item5.chance, "chances-set-to-4-5");
+		test.assert_equals(4, tbl.items.item6.chance, "chances-set-to-4-6");
+		test.assert_equals(4, tbl.items.item7.chance, "chances-set-to-4-7");
+		
+		// now multiply them with 2.5, so all chances are 10
+		tbl.set_all_chances_multiply_by(2.5);
+		test.assert_equals(10, tbl.items.item0.chance, "chances-set-to-10-0");
+		test.assert_equals(10, tbl.items.item1.chance, "chances-set-to-10-1");
+		test.assert_equals(10, tbl.items.item2.chance, "chances-set-to-10-2");
+		test.assert_equals(10, tbl.items.item3.chance, "chances-set-to-10-3");
+		test.assert_equals(10, tbl.items.item4.chance, "chances-set-to-10-4");
+		test.assert_equals(10, tbl.items.item5.chance, "chances-set-to-10-5");
+		test.assert_equals(10, tbl.items.item6.chance, "chances-set-to-10-6");
+		test.assert_equals(10, tbl.items.item7.chance, "chances-set-to-10-7");
+		
+		// now repeat that all with the subset of grp3 (item 2 and 6)
+		var subset = race.tables.bools.filter_items().for_type("grp3*").execute();
+		
+		// all chances are 10 currently, lets set the subset to 20, modify by 4 and divide by 2
+		tbl.set_all_chances(20, subset);
+		tbl.set_all_chances_modify_by(4, subset);
+		tbl.set_all_chances_multiply_by(0.5, subset);
+		test.assert_equals(10, tbl.items.item0.chance, "chances-subset-0");
+		test.assert_equals(10, tbl.items.item1.chance, "chances-subset-1");
+		test.assert_equals(12, tbl.items.item2.chance, "chances-subset-2");
+		test.assert_equals(10, tbl.items.item3.chance, "chances-subset-3");
+		test.assert_equals(10, tbl.items.item4.chance, "chances-subset-4");
+		test.assert_equals(10, tbl.items.item5.chance, "chances-subset-5");
+		test.assert_equals(12, tbl.items.item6.chance, "chances-subset-6");
+		test.assert_equals(10, tbl.items.item7.chance, "chances-subset-7");
+	}
+	
 	ut.run();
 }

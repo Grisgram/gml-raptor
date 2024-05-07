@@ -61,14 +61,15 @@ function RaceItemFilter(_items) constructor {
 			var name = names[@i];
 			var item = __items[$ name];
 			if (
-				(filter_type == undefined || string_match(item.type, filter_type) &&
+				(filter_type == undefined || string_match(item.type, filter_type)) &&
 				((filter_always  ?? item.always ) == item.always ) &&
 				((filter_unique  ?? item.unique ) == item.unique ) &&
 				((filter_enabled ?? item.enabled) == item.enabled) &&
 				(filter_chance == undefined || filter_chance(item.chance)) &&
 				(filter_attributes == undefined || filter_attributes(item.attributes))
-			))
+			) {
 				struct_set(rv, name, item);
+			}
 		}
 		return rv;
 	}

@@ -4,10 +4,10 @@
 
 
 /// @func RaceTable(_race, _name, _table_struct)
-function RaceTable(_race = undefined, _name = "", _table_struct = undefined) constructor {
+function RaceTable(_name = "", _table_struct = undefined) constructor {
 	construct(RaceTable);
 	
-	race = _race;
+	race = undefined;
 	name = _name;
 	if (_table_struct != undefined) { // if we come from savegame, no struct is given
 		struct_join_into(self, RACE_LOOT_DATA_DEEP_COPY ? SnapDeepCopy(_table_struct) : _table_struct);
@@ -149,6 +149,13 @@ function RaceTable(_race = undefined, _name = "", _table_struct = undefined) con
 	#endregion
 	
 	#region batch methods and filtering
+	
+	/// @func	reset(_recursive)
+	/// @desc	Reset this table to the state when it was loaded from file.
+	///			NOTE: Temp tables and manually added tables can not be reset!
+	static reset = function(_recursive) {
+		race.reset_table(name, _recursive);
+	}
 	
 	/// @func filter_items()
 	/// @desc Returns a new RaceItemFilter builder
