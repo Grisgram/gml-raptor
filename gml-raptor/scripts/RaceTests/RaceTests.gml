@@ -11,6 +11,17 @@ function unit_test_Race() {
 	ut.test_start = function(name, data) {
 		data.t = new Race("demotable", true);
 		
+		if (string_contains(name, "query"))
+			data.t.add_table(new RaceTable("loot", {
+				loot_count: 1,
+				items: {
+					item0: { type: "grp1_item0", always: 0, unique: 0, enabled: 0, chance: 10.0 },
+					item1: { type: "grp1_item1", always: 0, unique: 0, enabled: 0, chance: 10.0 },
+					item2: { type: "grp2_item2", always: 0, unique: 0, enabled: 0, chance: 10.0 },
+					item3: { type: "grp2_item3", always: 0, unique: 0, enabled: 0, chance: 10.0 },
+				}
+			}));		
+		
 		if (string_contains(name, "item"))
 			data.t.add_table(new RaceTable("bools", {
 				loot_count: 1,
@@ -550,6 +561,105 @@ function unit_test_Race() {
 		test.assert_equals(10, tbl.items.item5.chance, "chances-subset-5");
 		test.assert_equals(12, tbl.items.item6.chance, "chances-subset-6");
 		test.assert_equals(10, tbl.items.item7.chance, "chances-subset-7");
+	}
+	
+	ut.tests.query_bools_ok = function(test, data) {
+		var race = data.t;
+		var tbl = race.tables.loot;
+		var res;
+		
+		// First, test enabled flag
+		tbl.loot_count = 4;
+		
+		// loot must contain 4 times item0
+		tbl.items.item0.enabled = 1;
+		res = tbl.query();
+		
+		test.assert_equals(4, array_length(res), "query-enabled-1");
+		for (var i = 0, len = array_length(res); i < len; i++) {
+			var it = res[@i];
+			// item properties
+			test.assert_null(it.instance, "enabled-instance-null");
+			test.assert_equals("item0", it.item_name, "enabled-instance-itemname");
+			test.assert_equals("loot",  it.table_name, "enabled-instance-tablename");
+			// item contens
+			test.assert_not_null(it.item, "enabled-item-null");
+			test.assert_equals("grp1_item0", it.item.type, "enabled-instance-itemname-0");
+			// item is reference
+			it.item.chance = 99;
+			test.assert_equals(99, tbl.items.item0.chance, "enabled-reference-chance");
+			it.item.chance = 10;
+		}
+		
+		// now set also unique, then there may be only 1 drop, even with loot_count = 4
+		tbl.items.item0.unique = 1;
+		res = tbl.query();		
+		test.assert_equals(1, array_length(res), "query-unique-1");
+		test.assert_equals("item0", res[@0].item_name, "unique-instance-itemname-0");
+		
+		// To test the always flag, we need 2 enabled items, loot_count = 1 and the loot must ALWAYS be the same item
+		tbl.items.item0.enabled = 1; tbl.items.item1.enabled = 1;
+		tbl.items.item0.always  = 1; tbl.items.item1.always  = 0;
+		tbl.items.item0.unique  = 0; tbl.items.item1.unique  = 0;
+		
+		tbl.loot_count = 1;
+		repeat(100) { // just do it 100 times to take away the random factor
+			res = tbl.query();		
+			test.assert_equals(1, array_length(res), "query-always-1");
+			test.assert_equals("item0", res[@0].item_name, "always-instance-itemname-0");
+		}
+		
+		// final test: if more items are "always" than the loot_count allows, loot_count loses. all drop.
+		tbl.items.item0.enabled = 1; tbl.items.item1.enabled = 1;
+		tbl.items.item0.always  = 1; tbl.items.item1.always  = 1;
+		tbl.items.item0.unique  = 0; tbl.items.item1.unique  = 0;
+		
+		res = tbl.query();		
+		test.assert_equals(2, array_length(res), "query-always-2");
+		var have0 = false;
+		var have1 = false;
+		for (var i = 0, len = array_length(res); i < len; i++) {
+			var it = res[@i];
+			have0 |= (res[@i].item_name == "item0");
+			have1 |= (res[@i].item_name == "item1");
+		}
+		test.assert_true(have0, "always-instance-itemname-0");
+		test.assert_true(have1, "always-instance-itemname-1");
+	}
+	
+	ut.tests.query_refs_and_subs_ok = function(test, data) {
+		var race = data.t;
+		var tbl = race.tables.demotable;
+		var ref = race.tables.subtable_ref;
+		var cpy_original = race.tables.subtable_copy;
+		
+		var cpy_copy;
+		var res;
+
+		tbl.loot_count = 1;
+		
+		// First, test the reference table
+		tbl.set_all_enabled(0);
+		tbl.items.subtable_ref.enabled = 1;
+		
+		// we use race.query_table here, so this method is implicitly tested
+		res = race.query_table("demotable");
+		test.assert_equals(1, array_length(res), "query-ref-1");
+		test.assert_equals("object", res[@0].item_name, "query-ref-itemname-0");
+		// there may not be a copy of the reftable, so race's table count still must be 4
+		test.assert_equals(4, array_length(struct_get_names(race.tables)), "query-ref-no-copy");
+		
+		// Second, test the copy table
+		tbl.set_all_enabled(0);
+		tbl.items.subtable_copy.enabled = 1;
+		
+		res = race.query_table("demotable");
+		test.assert_equals(1, array_length(res), "query-copy-1");
+		test.assert_equals("object", res[@0].item_name, "query-copy-itemname-0");
+		// there must be a copy of the reftable, so race's table must be 5
+		test.assert_equals(5, array_length(struct_get_names(race.tables)), "query-copy-copy");
+		test.assert_not_equals("+subtable_copy", tbl.items.subtable_copy.type, "query-copy-name");
+		test.assert_true(string_starts_with(tbl.items.subtable_copy.type, $"={__RACE_TEMP_TABLE_PREFIX}"), "query-copy-prefix");
 	}
 	
 	ut.run();

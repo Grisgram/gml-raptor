@@ -76,8 +76,10 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		
 			// get the chance sum (that is the sum of all chances of all dropable items)
 			var chance_sum = 0.0;
-			for (var i = 0, len = array_length(dropables); i < len; i++) 
-				chance_sum += dropables[@i].chance;
+			for (var i = 0, len = array_length(dropables); i < len; i++) {
+				item = items[$ dropables[@i]];
+				chance_sum += item.chance;
+			}
 		
 			// this value determines, which item will drop!
 			var hit_value = random(chance_sum);
@@ -110,13 +112,13 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 			var deepcopy = race.clone_table(typename);
 			var newname = deepcopy.name;
 			// find a free new name for the deep copy
-			item.type = $"={newname}";
+			_item.type = $"={newname}";
 			if (DEBUG_LOG_RACE)
 				vlog($"Added dynamic global race table: '{newname}'");
 			race.tables[$ newname].__query_recursive(_result, _uniques);
 		} else {
 			if (typename != __RACE_NULL_ITEM) {
-				array_push(_result, new RaceItem(_item, name));
+				array_push(_result, new RaceItem(_item, _name, name));
 			}
 		}
 	}

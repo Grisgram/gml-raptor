@@ -52,9 +52,10 @@
 /// @returns {UnitTest}
 function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 
-	__test_suite_name = name;
-	__current_test_ok = true;
+	__test_suite_name	= name;
+	__current_test_ok	= true;
 	__current_test_name = "";
+	__current_test_msg	= "";
 	__current_test_exc	= undefined;
 	
 	tests = {};
@@ -76,9 +77,10 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 
 	#region ASSERTS
 	static __assert_condition = function(condition, expected, actual, message) {
+		__current_test_msg	= message;
 		if (!condition) {
 			elog($"FAIL: {__current_test_name} *ASSERT*: expected='{expected}'; actual='{actual}'; message='{message}';");
-			__current_test_ok = false;
+			__current_test_ok	= false;
 		}		
 	}
 	
@@ -153,7 +155,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	/// @func					run()
 	/// @desc				runs all tests and prints the results to the log
 	static run = function() {
-		ilog($"[--- START TEST SUITE '{__test_suite_name}' ---]");
+		ilog($"---------- START TEST SUITE '{__test_suite_name}' -----");
 		// ---- SUITE FINISH ----
 		try {
 			suite_start(test_data);
@@ -169,6 +171,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			__current_test_name = names[i++];
 			__current_test_ok	= true;
 			__current_test_exc	= undefined;
+			__current_test_msg	= "";
 			var new_data;
 			var data_for_test = test_data;
 			
@@ -189,7 +192,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 				} catch (_ex) {
 					if (__current_test_exc == undefined ||
 						(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
-						elog($"FAIL: {__current_test_name} exception='{_ex.message}';");
+						elog($"FAIL: {__current_test_name} exception='{_ex.message}'; {__current_test_msg}");
 						__current_test_ok = false;
 					}
 				}
