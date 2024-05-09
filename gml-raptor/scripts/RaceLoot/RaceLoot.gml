@@ -61,7 +61,7 @@ function __race_addToResult(race_table_object, race_controller, table, result, u
 			vlog($"Added dynamic global race table: '{newname}'");
 		__race_queryRecursive(race_table_object, race_controller, deepcopy, result, uniques);
 	} else {
-		if (typename != __RACE_NULL_ITEM) {
+		if (typename != RACE_NULL_ITEM) {
 			array_push(result, new race_result_entry(name, item, undefined));
 		}
 	}

@@ -14,9 +14,9 @@ function RaceItemFilter(_items) constructor {
 	filter_chance		= undefined;
 	filter_attributes	= undefined;
 
-	/// @func for_type(_type_string_pattern)
-	static for_type = function(_type_string_pattern) {
-		filter_type = _type_string_pattern;
+	/// @func for_type(_type_wildcard)
+	static for_type = function(_type_wildcard) {
+		filter_type = _type_wildcard;
 		return self;
 	}
 

@@ -3,7 +3,7 @@
 */
 
 
-/// @func RaceTable(_race, _name, _table_struct)
+/// @func RaceTable(_name, _table_struct)
 function RaceTable(_name = "", _table_struct = undefined) constructor {
 	construct(RaceTable);
 	
@@ -15,6 +15,7 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		var names = struct_get_names(items);
 		for (var i = 0, len = array_length(names); i < len; i++)
 			vsgetx(items[$ names[@i]], "attributes", {});
+		vsgetx(self, "loot_count", 1);
 	}
 	
 	#region query
@@ -22,6 +23,7 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 	/// @desc	Perform a loot query
 	static query = function(_layer_name_or_depth = undefined, _pool_name = "") {
 		var drop_instances = !is_null(_layer_name_or_depth);
+		loot_count = max(0, loot_count);
 
 		var unique_drops = [];
 		var rv = [];
@@ -117,7 +119,7 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 				vlog($"Added dynamic global race table: '{newname}'");
 			race.tables[$ newname].__query_recursive(_result, _uniques);
 		} else {
-			if (typename != __RACE_NULL_ITEM) {
+			if (typename != RACE_NULL_ITEM) {
 				array_push(_result, new RaceItem(_item, _name, name));
 			}
 		}
@@ -159,10 +161,11 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		race.reset_table(name, _recursive);
 	}
 	
-	/// @func filter_items()
-	/// @desc Returns a new RaceItemFilter builder
-	static filter_items = function() {
-		return new RaceItemFilter(items);
+	/// @func filter_items(_items = undefined)
+	/// @desc Returns a new RaceItemFilter builder for all items of this table,
+	///       or for a subset of pre-filtered items, if you supply a filter result as argument
+	static filter_items = function(_items = undefined) {
+		return new RaceItemFilter(_items ?? items);
 	}
 	
 	/// @func set_all_enabled(_enabled, _items = undefined)

@@ -13,7 +13,7 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 #macro ENSURE_RACE				if (!variable_global_exists("__race_cache"))  __RACE_CACHE  = {};
 ENSURE_RACE;
 
-#macro __RACE_NULL_ITEM			"<null>"
+#macro RACE_NULL_ITEM			"<null>"
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
@@ -70,14 +70,14 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 		return new RaceTable(_name, cpy);
 	}
 	
-	/// @func add_table( _race_loot_table, _overwrite_if_exists = true)
-	/// @desc Add a class instance of type RaceLootTable to the tables of this Race
-	static add_table = function( _race_loot_table, _overwrite_if_exists = true) {
-		if (_overwrite_if_exists || vsget(tables, _race_loot_table.name) == undefined) {
-			_race_loot_table.race = self;
-			struct_set(tables, _race_loot_table.name, _race_loot_table);
+	/// @func add_table(_race_table, _overwrite_if_exists = true)
+	/// @desc Add a class instance of type RaceTable to the tables of this Race
+	static add_table = function( _race_table, _overwrite_if_exists = true) {
+		if (_overwrite_if_exists || vsget(tables, _race_table.name) == undefined) {
+			_race_table.race = self;
+			struct_set(tables, _race_table.name, _race_table);
 		} else {
-			elog($"*ERROR* add_table('{_race_loot_table.name}') failed. A table with that name already exists!");
+			elog($"*ERROR* add_table('{_race_table.name}') failed. A table with that name already exists!");
 		}
 		return self;
 	}
@@ -177,22 +177,22 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 
 	/// @func	query_table(_name, _layer_name_or_depth = undefined, _pool_name = "")
 	/// @desc	Perform a loot query on the specified table
-	/// @returns {array}	Returns the "loot". This is an array of RaceResult instances.
-	///			It contains:
-	///				name		= item name
-	///				type		= objecttype (asset name)
-	///				data		= race data_struct (enabled, chance, ...)
-	///				attributes	= attributes of this item (= data.attributes)
-	///				instance	= dropped instance (or undefined)
-	///			All contained instances already exist on the layer.
-	///			Their onCreate and onQueryHit events have already been executed.
-	///			If no drop was generated, instance contains undefined.
+	/// @returns {array}	Returns the "loot". This is an array of RaceItem instances.
+	///			Each RaceItem offers these properties:
+	///				instance	= The dropped instance (or undefined, if no layer was given)
+	///				table_name	= The name of the table, where it came from
+	///				item_name	= The item name in the table
+	///				item		= The item struct (also contains the .attributes)
+	///				
+	///			* All contained instances already exist on the layer.
+	///			* Their onCreate events have already been executed.
+	///			* If no drop was generated, instance contains undefined.
 	/// @param  {string} _name		The race table to query
 	/// @param  {string=""} _layer_name_or_depth	Optional. 
 	///			If not supplied, no items will be dropped by the query and all "instance"
 	///			members of the returned RaceItems will be undefined.
 	///			LOOT IS STILL GENERATED! There are just no items spawned.
-	/// @param {string=""} pool_name	Optional. If supplied, objects will be attached to the
+	/// @param {string=""} pool_name	Optional. If supplied, objects will be taken from the
 	///									specified ObjectPool, so less new instances are created.
 	static query_table = function(_name, _layer_name_or_depth = undefined, _pool_name = "") {
 		return tables[$ _name].query(_layer_name_or_depth, _pool_name);
