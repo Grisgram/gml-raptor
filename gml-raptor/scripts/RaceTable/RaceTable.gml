@@ -103,6 +103,9 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		if (_item.unique)
 			array_push(_uniques, string_concat(_name, "@", name));
 	
+		if (_item.type == undefined)
+			return;
+	
 		var typename = _item.type;
 		if (string_starts_with(typename, "=")) {
 			// go into recursion
@@ -119,9 +122,7 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 				vlog($"Added dynamic global race table: '{newname}'");
 			race.tables[$ newname].__query_recursive(_result, _uniques);
 		} else {
-			if (typename != RACE_NULL_ITEM) {
-				array_push(_result, new RaceItem(_item, _name, name));
-			}
+			array_push(_result, new RaceResult(_item, _name, name));
 		}
 	}
 
@@ -146,6 +147,8 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		}
 	
 		_drop.instance.data.race_item = _drop.item;
+		invoke_if_exists(_drop.instance, "onRaceDrop", _drop.item);
+		
 		if (DEBUG_LOG_RACE) 
 			dlog($"Dropped item: instance='{name_of(_drop.instance)}'; object='{itemtype}'; layer='{_layer_name_or_depth}';");		
 	}

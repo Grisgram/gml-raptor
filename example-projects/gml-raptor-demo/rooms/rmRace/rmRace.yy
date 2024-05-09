@@ -23,22 +23,12 @@
     {"name":"cmdFillBoard","path":"rooms/rmRace/rmRace.yy",},
     {"name":"cmdExitRaceDemo","path":"rooms/rmRace/rmRace.yy",},
     {"name":"raceRoomController","path":"rooms/rmRace/rmRace.yy",},
-    {"name":"raceController","path":"rooms/rmRace/rmRace.yy",},
-    {"name":"match3Table","path":"rooms/rmRace/rmRace.yy",},
     {"name":"raceMouseCursor","path":"rooms/rmRace/rmRace.yy",},
   ],
   "isDnd":false,
   "layers":[
     {"$GMRInstanceLayer":"","%Name":"Controllers","depth":0,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"","%Name":"raceRoomController","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"raceRoomController","objectId":{"name":"RaceRoomController","path":"objects/RaceRoomController/RaceRoomController.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.0,"scaleY":2.0,"x":0.0,"y":-30.0,},
-        {"$GMRInstance":"","%Name":"raceController","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"raceController","objectId":{"name":"RaceController","path":"objects/RaceController/RaceController.yy",},"properties":[
-            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaceController","path":"objects/RaceController/RaceController.yy",},"propertyId":{"name":"race_table_file_name","path":"objects/RaceController/RaceController.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"racedemo\"",},
-          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.0,"scaleY":2.0,"x":1376.0,"y":944.0,},
-        {"$GMRInstance":"","%Name":"match3Table","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"match3Table","objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"properties":[
-            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"propertyId":{"name":"race_drop_on_layer","path":"objects/RaceTable/RaceTable.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"PlayingField\"",},
-            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"propertyId":{"name":"race_table_name","path":"objects/RaceTable/RaceTable.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"\"match3_board\"",},
-            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaceTable","path":"objects/RaceTable/RaceTable.yy",},"propertyId":{"name":"race_controller","path":"objects/RaceTable/RaceTable.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"raceController",},
-          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":2.0,"scaleY":2.0,"x":1424.0,"y":944.0,},
         {"$GMRInstance":"","%Name":"raceMouseCursor","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"raceMouseCursor","objectId":{"name":"MouseCursor","path":"objects/MouseCursor/MouseCursor.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":32.0,"y":32.0,},
       ],"layers":[],"name":"Controllers","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"MessageBox","depth":100,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[],"layers":[],"name":"MessageBox","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},

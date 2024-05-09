@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scribble_add_macro",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scribble_add_macro",
+  "parent":{
+    "name":"Miscellaneous",
+    "path":"folders/_third_party_packages_/Scribble/Miscellaneous.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

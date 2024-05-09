@@ -1,4 +1,4 @@
-/// @description panel binding
+/// @desc panel binding
 event_inherited();
 
 listbox = undefined;

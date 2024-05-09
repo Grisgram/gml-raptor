@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scribble_glyph_get",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scribble_glyph_get",
+  "parent":{
+    "name":"Fonts",
+    "path":"folders/_third_party_packages_/Scribble/Fonts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

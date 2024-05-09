@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Draw_Debug_Info",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Draw_Debug_Info",
+  "parent":{
+    "name":"__GAME_SETUP_",
+    "path":"folders/__GAME_SETUP_.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

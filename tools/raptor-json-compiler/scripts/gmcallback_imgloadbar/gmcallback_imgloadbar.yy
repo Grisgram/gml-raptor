@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"gmcallback_imgloadbar",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"gmcallback_imgloadbar",
+  "parent":{
+    "name":"_loading_bar_files",
+    "path":"folders/__GAME_SETUP_/browser_extensions/_loading_bar_files.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

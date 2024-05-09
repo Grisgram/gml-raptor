@@ -1,18 +1,22 @@
 /*
-    One lootet item
+    Convenience functions to add items easily to a table through code
 */
 
 
-/// @function RaceItem(_item = undefined, _item_name = undefined, _table_name = undefined, _instance = undefined)
-function RaceItem(_item = undefined, _item_name = undefined, _table_name = undefined, _instance = undefined) constructor {
-	construct(RaceItem);
+/// @function RaceItem(_type = undefined, _chance = 10, _enabled = 1, _unique = 0, _always = 0, _attributes = undefined)
+function RaceItem(_type = undefined, _chance = 10, _enabled = 1, _unique = 0, _always = 0, _attributes = undefined) constructor {
 
-	instance	= _instance;
-	table_name	= _table_name;
-	item_name	= _item_name;
-	item		= _item;
+	type	= _type;
+	chance	= _chance;
+	enabled	= _enabled;
+	unique	= _unique;
+	always	= _always;
 	
-	if (item != undefined) // if we come from savegame, no item is given
-		vsgetx(item, "attributes", {});
+	attributes = _attributes ?? {};
 
+}
+
+/// @func RaceNullItem(_chance = 10, _unique = 1) : RaceItem(undefined, _chance, 1, _unique, 0, undefined)
+/// @desc Creates a null-drop item, which is by default set to unique = 1
+function RaceNullItem(_chance = 10, _unique = 1) : RaceItem(undefined, _chance, 1, _unique, 0, undefined)  constructor {
 }

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"SnapBufferWriteVDF",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"SnapBufferWriteVDF",
+  "parent":{
+    "name":"VDF",
+    "path":"folders/_third_party_packages_/SNAP/VDF.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"WoodSkin",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"WoodSkin",
+  "parent":{
+    "name":"skins",
+    "path":"folders/_gml_raptor_ui_/skins.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
