@@ -28,7 +28,8 @@ function __LG_load_avail_languages() {
 	LG_AVAIL_LOCALES = [];
 
 	var substring_first = string_length(__LG_LOCALE_BASE_NAME) + 1;
-	var f = file_find_first(working_directory + LG_ROOT_FOLDER + __LG_LOCALE_BASE_NAME + "*.json", 0);
+	var f = file_find_first(
+		string_concat(working_directory, LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, "*", DATA_FILE_EXTENSION), 0);
 	var i = 0;
 	while (f != "") {
 		array_push(LG_AVAIL_LOCALES, string_copy(f, substring_first, 2));
@@ -46,7 +47,7 @@ function __LG_load_avail_languages() {
 /// @returns {string}			True or false, telling you, whether the file exists.
 /// @desc				Builds the full filename of a language json resource file.
 function __LG_get_locale_filename(localeName) {
-	return string_concat(working_directory, LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, localeName, ".json");
+	return string_concat(LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, localeName, DATA_FILE_EXTENSION);
 }
 
 /// @func					__LG_locale_exists(localeName)
@@ -64,8 +65,7 @@ function __LG_locale_exists(localeName) {
 function __LG_load_file(localeName) {
 	if (__LG_locale_exists(localeName)) {
 		dlog($"Loading locale '{localeName}'...");
-		var json = file_read_text_file_absolute(__LG_get_locale_filename(localeName));
-		__LG_STRINGS = SnapFromJSON(json);
+		__LG_STRINGS = file_read_struct(__LG_get_locale_filename(localeName), FILE_CRYPT_KEY);
 		dlog($"Locale '{localeName}' loaded successfully");
 		return true;
 	}

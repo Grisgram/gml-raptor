@@ -84,7 +84,7 @@ function onGameStart() {
 	// ------------------------------------------------------------------
 	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
 	//global.loot_system = new Race(RACE_FILE_NAME);
-	
+
 	// Setup Scribble
 	// ------------------------------------------------------------------
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);

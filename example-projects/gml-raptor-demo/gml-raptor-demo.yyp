@@ -120,9 +120,13 @@
         },
       },"CopyToMask":3035461389054378190,"filePath":"datafiles","name":"index.html","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"locale_de.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_de.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"locale_de.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_de.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"locale_en.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"locale_en.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"demotable.json","CopyToMask":-1,"filePath":"datafiles/race","name":"demotable.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"demotable.jx","CopyToMask":-1,"filePath":"datafiles/race","name":"demotable.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"racedemo.json","CopyToMask":-1,"filePath":"datafiles/race","name":"racedemo.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"racedemo.jx","CopyToMask":-1,"filePath":"datafiles/race","name":"racedemo.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"version.json","ConfigValues":{
         "release":{
           "CopyToMask":"3035426170322551022",
@@ -157,7 +161,9 @@
     {"id":{"name":"ImageLoadBar","path":"extensions/ImageLoadBar/ImageLoadBar.yy",},},
     {"id":{"name":"fntArial","path":"fonts/fntArial/fntArial.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
+    {"id":{"name":"_README_about_version_file","path":"notes/_README_about_version_file/_README_about_version_file.yy",},},
     {"id":{"name":"!_NEW_GAME_README_!","path":"notes/!_NEW_GAME_README_!/!_NEW_GAME_README_!.yy",},},
+    {"id":{"name":"version","path":"notes/version/version.yy",},},
     {"id":{"name":"__sprite_anim_runner","path":"objects/__sprite_anim_runner/__sprite_anim_runner.yy",},},
     {"id":{"name":"_baseCheckableControl","path":"objects/_baseCheckableControl/_baseCheckableControl.yy",},},
     {"id":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},},

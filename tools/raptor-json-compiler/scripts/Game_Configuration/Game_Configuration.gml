@@ -29,7 +29,7 @@
 // in HTML, especially for itch.io games, you need a UNIQUE filename over all your products,
 // as the html-file-engine uses local storage, which only has one folder with all files from
 // all your products in it.
-#macro GAME_FILE_PREFIX					"gml_raptor"
+#macro GAME_FILE_PREFIX					"json_compiler"
 #macro DATA_FILE_EXTENSION				".json"
 #macro release:DATA_FILE_EXTENSION		".jx"
 
@@ -39,7 +39,7 @@
 
 // Replace the production crypt key with a good salty key of your own!
 #macro FILE_CRYPT_KEY					""
-#macro release:FILE_CRYPT_KEY			"replace-this-string-for-your-own-safety"
+#macro release:FILE_CRYPT_KEY			"W4!DdFwX2f9#HcJnTvY7LmBQe1GkXzPpOySr6$VaIu3o5#@RjKg8NhZ!Uq0EiMs9"
 
 // Global functionality setup for the game
 
@@ -84,10 +84,7 @@ function onGameStart() {
 	// ------------------------------------------------------------------
 	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
 	//global.loot_system = new Race(RACE_FILE_NAME);
-	//var m = file_read_struct("race/demotable.json");
-	//file_write_struct("race/demotable.jxgm", m, "replace-this-string-for-your-own-safety");
-	//var race = new Race("demotable");
-	
+
 	// Setup Scribble
 	// ------------------------------------------------------------------
 	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);

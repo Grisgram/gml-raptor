@@ -69,14 +69,12 @@ function encrypt_buffer(buffer, cryptkey) {
 	var keyIdx = 1;
 	var i = 0;
 	var len = string_length(cryptkey);
-	var bs = buffer_get_size(buffer);
+
 	repeat (buffer_get_size(buffer)) {
 		var byte = buffer_peek(buffer, i, buffer_u8);
 		var endkey = ord(string_char_at(cryptkey, len - keyIdx));
 		var key = ord(string_char_at(cryptkey, keyIdx++));
 		var crypted = byte^key^endkey;
-		if (i == 0)
-		ilog($"--- {bs} bytes. {byte} {endkey} {key}");
 		buffer_poke(buffer, i++, buffer_u8, crypted);
 		if (keyIdx > string_length(cryptkey))
 			keyIdx = 1;
