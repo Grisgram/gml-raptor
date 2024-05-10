@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"UnitTest",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"UnitTest",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

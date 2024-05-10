@@ -1,4 +1,4 @@
-/// @description state ev:global_left_released
+/// @desc state ev:global_left_released
 event_inherited();
 
 // global events will only stop delivering if this object is disabled

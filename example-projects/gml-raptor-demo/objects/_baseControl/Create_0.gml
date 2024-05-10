@@ -1,4 +1,4 @@
-/// @description scribblelize text
+/// @desc scribblelize text
 
 #macro __CONTROL_NEEDS_LAYOUT (__force_redraw || x != xprevious || y != yprevious || \
 							__last_text != text || sprite_index != __last_sprite_index || \
@@ -25,13 +25,13 @@ control_tree = vsgetx(self, "control_tree", undefined);
 control_tree_layout = vsgetx(self, "control_tree_layout", undefined);
 data.__raptordata.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 
-/// @function update_client_area()
+/// @func update_client_area()
 update_client_area = function() {
 	data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height);
 }
 
-/// @function set_startup_size()
-/// @description Set the initial size of the control based on the max value of
+/// @func set_startup_size()
+/// @desc Set the initial size of the control based on the max value of
 ///				 startup_width/height, min_width/height and designer width/height (room editor)
 set_startup_size = function() {
 	if (sprite_index == -1) return;
@@ -41,7 +41,7 @@ set_startup_size = function() {
 	);
 }
 
-/// @function set_client_area(_width, _height, _is_also_min_size = true)
+/// @func set_client_area(_width, _height, _is_also_min_size = true)
 set_client_area = function(_width, _height, _is_also_min_size = true) {
 	scale_sprite_to(_width, _height);
 	if (_is_also_min_size) {
@@ -54,11 +54,11 @@ set_client_area = function(_width, _height, _is_also_min_size = true) {
 	on_client_area_changed();
 }
 
-/// @function on_client_area_changed()
+/// @func on_client_area_changed()
 on_client_area_changed = function() {}
 
-/// @function update_startup_coordinates()
-/// @description Invoke this if you did create the control dynamically at runtime 
+/// @func update_startup_coordinates()
+/// @desc Invoke this if you did create the control dynamically at runtime 
 ///				 to set the current position as the startup position after placing it in the scene
 update_startup_coordinates = function() {
 	__startup_x				= x;
@@ -83,9 +83,11 @@ __text_y					= 0;
 __text_width				= 0;
 __text_height				= 0;
 __text_anim_running			= false;
+__text_transform_running	= false;
 animated_text_color			= text_color;
 animated_draw_color			= draw_color;
 
+__first_scribble_render		= true;
 __force_redraw				= true;	 // first draw is forced
 __force_redraw_text_only	= false; // flag for mouse_enter/leave event which just trigger coloring
 
@@ -94,13 +96,13 @@ __disabled_surface_width	= 0;
 __disabled_surface_height	= 0;
 
 __animate_draw_color = function(_to) {
-	if (draw_color_anim_frames == 0) {
+	if (color_anim_frames == 0) {
 		animated_draw_color = _to;
 		return;
 	}
 
 	animation_abort(self, "__raptor_draw_color_anim", false);
-	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+	animation_run(self, 0, color_anim_frames, __raptorAcControlColorAnim,,,{
 			fromcol: animated_draw_color,
 			tocol: _to
 		})
@@ -114,14 +116,14 @@ __animate_draw_color = function(_to) {
 }
 
 __animate_text_color = function(_to) {
-	if (text_color_anim_frames == 0) {
+	if (color_anim_frames == 0) {
 		animated_text_color = _to;
 		return;
 	}
 	
 	__text_anim_running = true;
 	animation_abort(self, "__raptor_text_color_anim", false);
-	animation_run(self, 0, draw_color_anim_frames, __raptorAcControlDraw,,,{
+	animation_run(self, 0, color_anim_frames, __raptorAcControlColorAnim,,,{
 			fromcol: animated_text_color,
 			tocol: _to
 		})
@@ -135,6 +137,36 @@ __animate_text_color = function(_to) {
 		});
 }
 
+__animate_text_transform = function(_to_size, _to_angle) {
+	var _sizediff = _to_size - __mouse_text_scale;
+	var _anglediff = _to_angle - text_angle;
+	if (color_anim_frames == 0 || (_sizediff == 0 && _anglediff == 0)) {
+		__mouse_text_scale = _to_size;
+		text_angle = _to_angle;
+		return;
+	}
+	
+	__text_transform_running = true;
+	animation_abort(self, "__raptor_text_transform_anim", false);
+	animation_run(self, 0, color_anim_frames, __raptorAcControlColorAnim,,,{
+			sizediff:	_sizediff,
+			fromsize:	__mouse_text_scale,
+			tosize:		_to_size,
+			anglediff:	_anglediff,
+			fromangle:	text_angle,
+			toangle:	_to_angle
+		})
+		.set_name("__raptor_text_transform_anim")
+		.set_function("anim_draw", function(value) {
+			owner.__mouse_text_scale = data.fromsize + value * data.sizediff;
+			owner.text_angle = data.fromangle + value * data.anglediff;
+		})
+		.add_finished_trigger(function(_data) {
+			__mouse_text_scale = _data.tosize;
+			__text_transform_running = false;
+		});
+}
+
 cleanup_disabled_surface = function() {
 	if (__disabled_surface == undefined) return;
 	
@@ -145,8 +177,8 @@ cleanup_disabled_surface = function() {
 }
 
 __container = undefined; // if this is part of a window, it's the parent container
-/// @function get_window()
-/// @description If this control is embedded in a window, this function returns
+/// @func get_window()
+/// @desc If this control is embedded in a window, this function returns
 ///				 the window instance, otherwise undefined
 get_window = function() {
 	if (__container != undefined)
@@ -154,8 +186,8 @@ get_window = function() {
 	return undefined;
 }
 
-/// @function get_window_tree()
-/// @description If this control is embedded in a window, this function returns
+/// @func get_window_tree()
+/// @desc If this control is embedded in a window, this function returns
 ///				 the root tree of the control hierarchy
 get_window_tree = function() {
 	if (__container != undefined)
@@ -163,8 +195,8 @@ get_window_tree = function() {
 	return undefined;
 }
 
-/// @function get_parent()
-/// @description If this control is embedded in a control tree, this function returns
+/// @func get_parent()
+/// @desc If this control is embedded in a control tree, this function returns
 ///				 the parent control of this one (i.e. a Panel or something similar)
 get_parent = function() {
 	if (__container != undefined)
@@ -172,8 +204,8 @@ get_parent = function() {
 	return undefined;
 }
 
-/// @function get_parent_tree()
-/// @description If this control is embedded in a control tree, this function returns
+/// @func get_parent_tree()
+/// @desc If this control is embedded in a control tree, this function returns
 ///				 the parent control tree of this one
 get_parent_tree = function() {
 	if (__container != undefined)
@@ -181,8 +213,8 @@ get_parent_tree = function() {
 	return undefined;
 }
 
-/// @function is_topmost()
-/// @description True, if this control is the topmost (= lowest depth) at the specified position
+/// @func is_topmost()
+/// @desc True, if this control is the topmost (= lowest depth) at the specified position
 ///				 NOTE: This is an override of the method in _raptorBase, which compares against _raptorBase!
 ///				 This method here shall only check controls (_baseControl) to be more specific in finding topmost
 
@@ -207,8 +239,8 @@ is_topmost = function(_x, _y) {
 	return __topmost_cache.set(true);
 }
 
-/// @function __mouse_enter_topmost_control()
-/// @description Private function invoked from the mouse_leave event
+/// @func __mouse_enter_topmost_control()
+/// @desc Private function invoked from the mouse_leave event
 ///				 to find other controls at that mouse position and let
 ///				 the topmost of them receive the enter event
 __mouse_enter_topmost_control = function() {
@@ -232,6 +264,8 @@ __mouse_enter_topmost_control = function() {
 				with(w) {
 					vlog($"{MY_NAME}: onMouseEnter (topmost)");
 					mouse_is_over = true;
+					__animate_draw_color(draw_color_mouse_over);
+					__animate_text_color(text_color_mouse_over);
 					force_redraw(false);
 					have_one = true;
 					break;
@@ -243,8 +277,8 @@ __mouse_enter_topmost_control = function() {
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
-/// @function on_skin_changed(_skindata)
-/// @description	Invoked, when the skin changed
+/// @func on_skin_changed(_skindata)
+/// @desc	Invoked, when the skin changed
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	integrate_skin_data(_skindata);
@@ -254,41 +288,41 @@ on_skin_changed = function(_skindata) {
 	force_redraw();
 }
 
-/// @function					force_redraw(_redraw_all = true)
-/// @description				force recalculate of all positions next frame
+/// @func					force_redraw(_redraw_all = true)
+/// @desc				force recalculate of all positions next frame
 force_redraw = function(_redraw_all = true) {
 	__force_redraw = _redraw_all;
 	__force_redraw_text_only = !_redraw_all;
 	return self;
 }
 
-/// @function					scribble_add_text_effects(scribbletext)
-/// @description				called when a scribble element is created to allow adding custom effects.
+/// @func					scribble_add_text_effects(scribbletext)
+/// @desc				called when a scribble element is created to allow adding custom effects.
 ///								overwrite (redefine) in child controls
 /// @param {struct} scribbletext
 scribble_add_text_effects = function(scribbletext) {
 	// example: scribbletext.blend(c_blue, 1); // where ,1 is alpha
 }
 
-/// @function					draw_scribble_text()
-/// @description				draw the text - redefine for additional text effects
+/// @func					draw_scribble_text()
+/// @desc				draw the text - redefine for additional text effects
 draw_scribble_text = function() {
 	if (__scribble_text != undefined)
 		__scribble_text.draw(__text_x, __text_y);
 }
 
-/// @function					__create_scribble_object(align, str)
-/// @description				setup the initial object to work with
+/// @func					__create_scribble_object(align, str)
+/// @desc				setup the initial object to work with
 /// @param {string} align			
 /// @param {string} str			
 __create_scribble_object = function(align, str) {
-	return scribble($"{align}{str}", MY_NAME)
+	return scribble(string_concat(align, str), MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 animated_text_color);
 }
 
-/// @function					__adopt_object_properties()
-/// @description				copy blend, alpha, scale and angle from the object to the text
+/// @func					__adopt_object_properties()
+/// @desc				copy blend, alpha, scale and angle from the object to the text
 __adopt_object_properties = function() {	
 	if (adopt_object_properties == adopt_properties.alpha ||
 		adopt_object_properties == adopt_properties.full) {
@@ -299,23 +333,25 @@ __adopt_object_properties = function() {
 	}
 }
 
-/// @function					__finalize_scribble_text()
-/// @description				add blend and transforms to the final text
+/// @func					__finalize_scribble_text()
+/// @desc				add blend and transforms to the final text
 __finalize_scribble_text = function() {
-	if (__force_redraw_text_only || __text_anim_running) {
+	if (__force_redraw_text_only || __text_anim_running || __text_transform_running || __first_scribble_render) {
+		__first_scribble_render = false;
 		__scribble_text
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 animated_text_color);
 		__force_redraw_text_only = false;
+		__scribble_text.transform(__mouse_text_scale, __mouse_text_scale, text_angle);
 	}
-	__scribble_text.transform(__mouse_text_scale, __mouse_text_scale, text_angle);
+	
 	if (adopt_object_properties != adopt_properties.none)
 		__adopt_object_properties();
 	scribble_add_text_effects(__scribble_text);
 }
 
-/// @function __apply_autosize_alignment()
-/// @description if autosize, this calculates the real text position
+/// @func __apply_autosize_alignment()
+/// @desc if autosize, this calculates the real text position
 __apply_autosize_alignment = function() {
 	if		(string_contains(scribble_text_align, "[fa_center]")) x = __startup_mycenterx - sprite_width  / 2;
 	else if (string_contains(scribble_text_align, "[fa_right]" )) x = __startup_myright	  - sprite_width;
@@ -323,20 +359,23 @@ __apply_autosize_alignment = function() {
 	else if (string_contains(scribble_text_align, "[fa_bottom]")) y = __startup_mybottom  - sprite_height;	
 }
 
-/// @function __apply_post_positioning()
-/// @description invoked after text-positioning is calculated.
+/// @func __apply_post_positioning()
+/// @desc invoked after text-positioning is calculated.
 ///				 if the control renders additional elements (checkbox, radio, etc)
 ///				 you can modify __text_x and __text_y in this function to finalize text positioning
 __apply_post_positioning = function() {
 }
 
-/// @function					__draw_self()
-/// @description				invoked from draw or drawGui
+/// @func					__draw_self()
+/// @desc				invoked from draw or drawGui
 __draw_self = function() {
 	var was_forced = __force_redraw;
 		
 	if (__CONTROL_NEEDS_LAYOUT) {
 		__force_redraw = false;
+
+		if (x != xprevious || y != yprevious) 
+			update_startup_coordinates();
 
 		if (sprite_index == -1)
 			word_wrap = false; // no wrapping on zero-size objects
@@ -365,7 +404,6 @@ __draw_self = function() {
 				__apply_autosize_alignment(distx, disty);
 			}
 			edges.update(nine);
-
 			nine_slice_data.set(nineleft, ninetop, sprite_width - distx, sprite_height - disty);
 			
 		} else {
@@ -405,7 +443,7 @@ __draw_self = function() {
 		__draw_instance(was_forced);
 }
 
-/// @function __draw_instance(_force = false)
+/// @func __draw_instance(_force = false)
 __draw_instance = function(_force = false) {
 	//update_client_area();
 	if (!visible) return;
@@ -417,7 +455,7 @@ __draw_instance = function(_force = false) {
 		} else {
 			__disabled_surface_width = sprite_width;
 			__disabled_surface_height = sprite_height;
-			shader_set(GrayScaleShader);
+			shader_set(DisabledShader);
 			draw_self();
 			shader_reset();
 		}
@@ -447,9 +485,14 @@ __draw_instance = function(_force = false) {
 				__text_x = backx;
 				__text_y = backy;
 			}
-			shader_set(GrayScaleShader);
+			shader_set(DisabledShader);
 			__disabled_surface.Draw(x - sprite_xoffset, y - sprite_yoffset);
 			shader_reset();
 		}
 	}
 }
+
+// These pointers hold a "copy" to the original __draw_self/__draw_instance functions, so any
+// object deriving from this can still reach the original draw methods.
+__basecontrol_draw_self		= __draw_self;
+__basecontrol_draw_instance = __draw_instance;

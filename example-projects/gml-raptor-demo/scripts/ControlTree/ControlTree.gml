@@ -59,7 +59,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	__layout_done	= false;
 	__alive			= true; // used for cleanup
 
-	/// @function bind_to(_control)
+	/// @func bind_to(_control)
 	static bind_to = function(_control) {
 		if (!is_child_of(_control, _baseContainerControl))
 			throw("Binding target of a ControlTree must be a _baseContainerControl (Window, Panel, ...)!");
@@ -68,33 +68,33 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function get_root_control()
+	/// @func get_root_control()
 	static get_root_control = function() {
 		return __root_tree.control;
 	}
 	
-	/// @function get_root_tree()
+	/// @func get_root_tree()
 	static get_root_tree = function() {
 		return __root_tree;
 	}
 	
-	/// @function is_root_tree()
+	/// @func is_root_tree()
 	static is_root_tree = function() {
 		return (__root_tree == self);
 	}
 	
-	/// @function get_instance()
+	/// @func get_instance()
 	static get_instance = function() {
 		return __last_instance;
 	}
 	
-	/// @function set_margin_all(_margin)
+	/// @func set_margin_all(_margin)
 	static set_margin_all = function(_margin) {
 		set_margin(_margin, _margin, _margin, _margin);
 		return self;
 	}
 	
-	/// @function set_margin(_margin_left, _margin_top, _margin_right, _margin_bottom)
+	/// @func set_margin(_margin_left, _margin_top, _margin_right, _margin_bottom)
 	static set_margin = function(_margin_left, _margin_top, _margin_right, _margin_bottom) {
 		margin_left		= _margin_left;
 		margin_top		= _margin_top;
@@ -103,13 +103,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_padding_all(_padding)
+	/// @func set_padding_all(_padding)
 	static set_padding_all = function(_padding) {
 		set_padding(_padding, _padding, _padding, _padding);
 		return self;
 	}
 	
-	/// @function set_padding(_padding_left, _padding_top, _padding_right, _padding_bottom)
+	/// @func set_padding(_padding_left, _padding_top, _padding_right, _padding_bottom)
 	static set_padding = function(_padding_left, _padding_top, _padding_right, _padding_bottom) {
 		padding_left	= _padding_left;
 		padding_top		= _padding_top;
@@ -118,7 +118,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function add_control(_objtype, _init_struct = undefined)
+	/// @func add_control(_objtype, _init_struct = undefined)
 	static add_control = function(_objtype, _init_struct = undefined) {
 		// a new control can affect the whole render tree, so force redraw next frame
 		__force_next = true;
@@ -152,8 +152,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
-	/// @function add_sprite(_sprite_asset, _init_struct = undefined)
-	/// @description Adds a sprite to the tree. Internally this is wrappend
+	/// @func add_sprite(_sprite_asset, _init_struct = undefined)
+	/// @desc Adds a sprite to the tree. Internally this is wrappend
 	///				 in a ControlTreeSprite object, which is a _baseControl,
 	///				 so you can use the _init_struct freely to assign all
 	///				 variables, you'd like to change, from image_angle, scale,
@@ -166,7 +166,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return add_control(ControlTreeSprite, str);
 	}
 	
-	/// @function remove_control(_control_or_name)
+	/// @func remove_control(_control_or_name)
 	static remove_control = function(_control_or_name) {
 		var strcompare = is_string(_control_or_name);
 		for (var i = 0, len = array_length(children); i < len; i++) {
@@ -182,8 +182,35 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_position(_xpos, _ypos, _relative = false)
-	/// @description Sets an absolute position in the client area of the parent control,
+	/// @func bind_pull(_my_property, _source_instance, _source_property, _converter = undefined, _on_value_changed = undefined)
+	static bind_pull = function(_my_property, _source_instance, _source_property, 
+						   _converter = undefined, _on_value_changed = undefined) {
+		with(__last_instance.binder) 
+			bind_pull(_my_property, _source_instance, _source_property, _converter, _on_value_changed);
+			
+		return self;
+	}
+
+	/// @func bind_push(_my_property, _target_instance, _target_property, _converter = undefined, _on_value_changed = undefined)
+	static bind_push = function(_my_property, _target_instance, _target_property, 
+						   _converter = undefined, _on_value_changed = undefined) {	
+		with(__last_instance.binder) 
+			bind_push(_my_property, _target_instance, _target_property, _converter, _on_value_changed);
+			
+		return self;
+	}
+	
+	/// @func bind_watcher(_my_property, _on_value_changed)
+	///	@description The callback receives two arguments: (new_value, old_value)
+	static bind_watcher = function(_my_property, _on_value_changed) {
+		with(__last_instance.binder) 
+			bind_watcher(_my_property, _on_value_changed);
+			
+		return self;
+	}
+	
+	/// @func set_position(_xpos, _ypos, _relative = false)
+	/// @desc Sets an absolute position in the client area of the parent control,
 	///              unless you set _relative to true, then the values are just added to the
 	///				 currently set xpos and ypos
 	static set_position = function(_xpos, _ypos, _relative = false) {
@@ -197,7 +224,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_position_from_align(_valign, _halign, _xoffset = 0, _yoffset = 0)
+	/// @func set_position_from_align(_valign, _halign, _xoffset = 0, _yoffset = 0)
 	static set_position_from_align = function(_valign, _halign, _xoffset = 0, _yoffset = 0) {
 		__last_layout.xpos += _xoffset;
 		__last_layout.ypos += _yoffset;
@@ -206,22 +233,22 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_spread(_spreadx = -1, _spready = -1)
+	/// @func set_spread(_spreadx = -1, _spready = -1)
 	static set_spread = function(_spreadx = -1, _spready = -1) {
 		__last_layout.spreadx = _spreadx;
 		__last_layout.spready = _spready;
 		return self;
 	}
 	
-	/// @function set_dock(_dock)
+	/// @func set_dock(_dock)
 	static set_dock = function(_dock) {
 		__last_layout.docking = _dock;
 		__last_layout.docking_reverse = (_dock == dock.right || _dock == dock.bottom);
 		return self;
 	}
 	
-	/// @function set_reorder_docks(_reorder)
-	/// @description True by default. Reorder dock means a more "natural" feeling of
+	/// @func set_reorder_docks(_reorder)
+	/// @desc True by default. Reorder dock means a more "natural" feeling of
 	///				 adding right- and bottom docked elements.
 	///				 When you design a form, you think "left-to-right" and "top-to-bottom",
 	///				 so you likely want to appear the first bottom added ABOVE the second bottom
@@ -231,7 +258,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function set_align(_valign = fa_top, _halign = fa_left, _xoffset = 0, _yoffset = 0)
+	/// @func set_align(_valign = fa_top, _halign = fa_left, _xoffset = 0, _yoffset = 0)
 	static set_align = function(_valign = fa_top, _halign = fa_left, _xoffset = 0, _yoffset = 0) {
 		__last_layout.xpos += _xoffset;
 		__last_layout.ypos += _yoffset;
@@ -241,27 +268,27 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function remove_align()
+	/// @func remove_align()
 	static remove_align = function() {
 		__last_layout.have_align = false;
 		return self;
 	}
 	
-	/// @function set_anchor(_anchor)
+	/// @func set_anchor(_anchor)
 	static set_anchor = function(_anchor) {
 		__last_layout.anchoring = _anchor;
 		return self;
 	}
 	
-	/// @function set_name(_name)
-	/// @description Give a child control a name to retrieve it later through get_element(_name)
+	/// @func set_name(_name)
+	/// @desc Give a child control a name to retrieve it later through get_element(_name)
 	static set_name = function(_name) {
 		__last_entry.element_name = _name;
 		return self;
 	}
 
-	/// @function select_element(_control_or_name)
-	/// @description Searches through the tree for the specified control
+	/// @func select_element(_control_or_name)
+	/// @desc Searches through the tree for the specified control
 	///				 and sets it as the active element, if found.
 	///				 "Active element" means, all ".set_*" function will apply to it
 	///				 NOTE: This function throws an exception if the control is not in the tree!
@@ -287,8 +314,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			throw($"Control '{name_of(_control)}' not found in tree of '{name_of(control)}'!");
 	}
 
-	/// @function get_element(_name)
-	/// @description Retrieve a child control by its name. Returns the instance or undefined
+	/// @func get_element(_name)
+	/// @desc Retrieve a child control by its name. Returns the instance or undefined
 	static get_element = function(_name) {
 		var rv = undefined;
 		for (var i = 0, len = array_length(children); i < len; i++) {
@@ -303,12 +330,12 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return undefined;
 	}
 	
-	/// @function step_out()
+	/// @func step_out()
 	static step_out = function() {
 		return parent_tree??self;
 	}
-		
-	/// @function build()
+	
+	/// @func build()
 	static build = function() {
 		try {
 			with(__root_tree.control) {
@@ -320,19 +347,19 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function on_window_opened(_callback)
+	/// @func on_window_opened(_callback)
 	static on_window_opened = function(_callback) {
 		__on_opened = _callback;
 		return self;
 	}
 	
-	/// @function on_window_closed(_callback)
+	/// @func on_window_closed(_callback)
 	static on_window_closed = function(_callback) {
 		__on_closed = _callback;
 		return self;
 	}
 
-	/// @function invoke_on_opened()
+	/// @func invoke_on_opened()
 	static invoke_on_opened = function() {
 		if (__on_opened != undefined) {
 			ilog($"Invoking on_window_opened callback for {name_of(control)}");
@@ -341,7 +368,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 	
-	/// @function invoke_on_closed()
+	/// @func invoke_on_closed()
 	static invoke_on_closed = function() {
 		if (__on_closed != undefined) {
 			ilog($"Invoking on_window_closed callback for {name_of(control)}");
@@ -350,8 +377,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 
-	/// @function layout(_forced = false)
-	/// @description	performs layouting of all child controls. Invoked when the control
+	/// @func layout(_forced = false)
+	/// @desc	performs layouting of all child controls. Invoked when the control
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
@@ -432,7 +459,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 
-	/// @function update_render_area()
+	/// @func update_render_area()
 	static update_render_area = function() {
 		render_area.set(
 			control.x + control.data.__raptordata.client_area.left, 
@@ -453,7 +480,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		while (array_length(bottoms) > 0) {
 			var inst = array_shift(bottoms);
-			inst.y = dtop + margin_top + padding_top;
+			inst.y = dtop + margin_top + padding_top + 1;
 			dtop += inst.sprite_height + margin_bottom + padding_bottom;
 		}
 	}
@@ -469,7 +496,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 		while (array_length(rights) > 0) {
 			var inst = array_shift(rights);
-			inst.x = dright + margin_left + padding_left;
+			inst.x = dright + margin_left + padding_left + 1;
 			dright += inst.sprite_width + margin_right + padding_right;
 		}
 	}
@@ -499,7 +526,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 	
-	/// @function move_children(_by_x, _by_y)
+	/// @func move_children(_by_x, _by_y)
 	static move_children = function(_by_x, _by_y) {
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
@@ -513,7 +540,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		}
 	}
 
-	/// @function move_children_after_sizing()
+	/// @func move_children_after_sizing()
 	static move_children_after_sizing = function(_force) {
 		if (_force && is_root_tree()) layout(_force);
 		for (var i = 0, len = array_length(children); i < len; i++) {
@@ -529,7 +556,22 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			control.force_redraw(false);
 	}
 
-	static clean_up = function() {
+	/// @func clear_children()
+	static clear_children = function() {
+		dlog($"Clearing all children in ControlTree of {name_of(control)}");
+		
+		while (array_length(children) > 0) {
+			var child = array_shift(children);
+			var inst = child.instance;
+			if (is_child_of(inst, _baseContainerControl))
+				inst.control_tree.clear_children();
+			else
+				instance_destroy(inst);
+		}
+	}
+
+	/// @func clear()
+	static clear = function() {
 		if (!__alive) return;
 		__alive = false;
 		dlog($"CleanUp ControlTree of {name_of(control)}");
@@ -538,7 +580,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var child = children[@i];
 			var inst = child.instance;
 			if (is_child_of(inst, _baseContainerControl))
-				inst.control_tree.clean_up();
+				inst.control_tree.clear();
 			else
 				instance_destroy(inst);
 		}

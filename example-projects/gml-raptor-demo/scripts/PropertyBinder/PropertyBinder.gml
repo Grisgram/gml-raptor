@@ -31,8 +31,8 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 	
 	myself = _myself;
 	
-	/// @function bind_pull(_my_property, _source_instance, _source_property, _converter = undefined, _on_value_changed = undefined)
-	/// @description Bind my property to RECEIVE the value from _source_instance._source_property
+	/// @func bind_pull(_my_property, _source_instance, _source_property, _converter = undefined, _on_value_changed = undefined)
+	/// @desc Bind my property to RECEIVE the value from _source_instance._source_property
 	///				 ("pull" the value)
 	static bind_pull = function(_my_property, _source_instance, _source_property, 
 						   _converter = undefined, _on_value_changed = undefined) {
@@ -48,8 +48,8 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 		return self;
 	}
 	
-	/// @function bind_push(_my_property, _target_instance, _target_property, _converter = undefined, _on_value_changed = undefined)
-	/// @description Bind my property to SET the value of _target_instance._target_property
+	/// @func bind_push(_my_property, _target_instance, _target_property, _converter = undefined, _on_value_changed = undefined)
+	/// @desc Bind my property to SET the value of _target_instance._target_property
 	///				 ("push" the value).
 	///				 This function is especially useful, if you want to push one of your instance
 	///			     properties to a struct, that does not have a "binder" member and therefore can't
@@ -68,8 +68,8 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 		return self;
 	}
 	
-	/// @function bind_watcher(_my_property, _on_value_changed)
-	/// @description Binds only a function on value change to a property. This is useful, if you
+	/// @func bind_watcher(_my_property, _on_value_changed)
+	/// @desc Binds only a function on value change to a property. This is useful, if you
 	///				 do not want to mirror the bound value to any other member, but just get informed,
 	///				 when the watched value changes. The callback receives two arguments:
 	///				 (new_value, old_value)
@@ -79,11 +79,10 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 		return self;
 	}
 	
-	/// @function unbind(_my_property)
-	static unbind = function(_my_property) {
+	/// @func unbind(_my_property, key)
+	static unbind = function(_my_property, key) {
 		for (var i = 0; i < 2; i++) {
 			var pre = (i == 0 ? "push" : "pull");
-			var key = $"{pre}_{name_of(myself)}.{_my_property}";
 			var bnd = vsget(__bindings, key);
 			if (bnd != undefined) {
 				if (vsget(bnd.source_instance, "binder") != undefined && !is_method(bnd.source_instance.binder)) {
@@ -108,8 +107,8 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 		return self;
 	}
 	
-	/// @function unbind_source()
-	/// @description Unbind me, where this is the SOURCE (inverse direction)
+	/// @func unbind_source()
+	/// @desc Unbind me, where this is the SOURCE (inverse direction)
 	static unbind_source = function() {
 		var names = struct_get_names(__source_bindings);
 		for (var i = 0, len = array_length(names); i < len; i++) {
@@ -120,24 +119,26 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 				!is_method(src.target_instance.binder)) {
 				with(src.target_instance)
 					if (vsget(binder.__bindings, key))
-						binder.unbind(binder.__bindings[$ key].target_property);
+						binder.unbind(binder.__bindings[$ key].target_property, key);
 			} else
 				with(src) unbind(); // struct push binding
 			variable_struct_remove(__source_bindings, key);
 		}
 	}
 	
-	/// @function unbind_all()
+	/// @func unbind_all()
 	static unbind_all = function() {
 		unbind_source();
 		var names = struct_get_names(__bindings);
-		for (var i = 0, len = array_length(names); i < len; i++)
-			unbind(__bindings[$ names[@i]].target_property);
+		for (var i = 0, len = array_length(names); i < len; i++) {
+			var key = names[@i];
+			unbind(__bindings[$ key].target_property, key);
+		}
 		return self;
 	}
 	
-	/// @function parent()
-	/// @description return the parent of this binder, to keep navigating
+	/// @func parent()
+	/// @desc return the parent of this binder, to keep navigating
 	///				 in the builder pattern
 	static parent = function() {
 		return __parent;

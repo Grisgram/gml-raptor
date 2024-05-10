@@ -1,4 +1,4 @@
-/// @description track double click
+/// @desc track double click
 
 GUI_EVENT_MOUSE;
 

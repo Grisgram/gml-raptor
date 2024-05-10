@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 draw_on_gui				= __RAPTORDATA.draw_on_gui				;

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"RaptorLogFormatterBase",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"RaptorLogFormatterBase",
+  "parent":{
+    "name":"Logger",
+    "path":"folders/_gml_raptor_/Logger.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

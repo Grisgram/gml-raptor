@@ -1,4 +1,4 @@
-/// @description perform drag/size change
+/// @desc perform drag/size change
 
 event_inherited();
 

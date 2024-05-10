@@ -1,4 +1,4 @@
-/// @description release knob
+/// @desc release knob
 
 if (__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"__CanvasAppSurf",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__CanvasAppSurf",
+  "parent":{
+    "name":"System",
+    "path":"folders/_third_party_packages_/Canvas/System.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

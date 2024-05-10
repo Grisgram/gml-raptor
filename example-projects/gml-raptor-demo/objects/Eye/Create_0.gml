@@ -1,4 +1,4 @@
-/// @description 
+/// @desc 
 
 
 // Inherit the parent event
@@ -54,8 +54,8 @@ apply_parallax = function() {
 	});
 }
 
-/// @function		attach_to(_instance)
-/// @description	Attach the eye to an object (or noone).
+/// @func		attach_to(_instance)
+/// @desc	Attach the eye to an object (or noone).
 ///					As long as the eye is attached, the eye (and so the camera)
 ///					will follow the attached object, keeping it in the center of the screen.
 attach_to = function(_instance) {
@@ -64,13 +64,13 @@ attach_to = function(_instance) {
 	if (is_enabled && data.is_attached) align_to_attached();
 }
 
-/// @function	set_camera_index(_index)
+/// @func	set_camera_index(_index)
 set_camera_index = function(_index) {
 	data.camera_index = _index;
 	__update_camera();
 }
 
-/// @function	get_camera_index()
+/// @func	get_camera_index()
 get_camera_index = function() {
 	return data.camera_index;
 }

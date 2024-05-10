@@ -1,1 +1,1 @@
-/// @description discard
+/// @desc discard

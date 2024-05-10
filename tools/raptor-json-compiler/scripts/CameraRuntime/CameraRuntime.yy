@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"CameraRuntime",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"CameraRuntime",
+  "parent":{
+    "name":"_generic_objects_",
+    "path":"folders/_gml_raptor_/_generic_objects_.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -2,8 +2,8 @@
     Helper functions for arrays
 */
 
-/// @function		array_create_2d(sizex, sizey, initial_value = 0)
-/// @description	Create a 2-dimensional array and fill it with a specified initial value
+/// @func		array_create_2d(sizex, sizey, initial_value = 0)
+/// @desc	Create a 2-dimensional array and fill it with a specified initial value
 function array_create_2d(sizex, sizey, initial_value = 0) {
 	var rv = array_create(sizex);
 	for (var i = 0; i < sizex; i++)
@@ -11,8 +11,8 @@ function array_create_2d(sizex, sizey, initial_value = 0) {
 	return rv;
 }
 
-/// @function		array_create_3d(sizex, sizey, sizez, initial_value = 0)
-/// @description	Create a 3-dimensional array and fill it with a specified initial value
+/// @func		array_create_3d(sizex, sizey, sizez, initial_value = 0)
+/// @desc	Create a 3-dimensional array and fill it with a specified initial value
 function array_create_3d(sizex, sizey, sizez, initial_value = 0) {
 	var rv = array_create(sizex);
 	for (var i = 0; i < sizex; i++) {
@@ -24,8 +24,8 @@ function array_create_3d(sizex, sizey, sizez, initial_value = 0) {
 	return rv;
 }
 
-/// @function		array_copy_2d(array)
-/// @description	Copy any 2-dimensional array
+/// @func		array_copy_2d(array)
+/// @desc	Copy any 2-dimensional array
 function array_copy_2d(array) {
 	if (!is_array(array)) return array;
 	var rv = [];
@@ -36,8 +36,8 @@ function array_copy_2d(array) {
 	return rv;
 }
 
-/// @function		array_copy_3d(array)
-/// @description	Copy any 3-dimensional array
+/// @func		array_copy_3d(array)
+/// @desc	Copy any 3-dimensional array
 function array_copy_3d(array) {
 	if (!is_array(array)) return array;
 	var rv = [];
@@ -53,8 +53,8 @@ function array_copy_3d(array) {
 	return rv;
 }
 
-/// @function		array_clear(array, with_value = undefined)
-/// @description	Clear the contents of the array to undefined or a specified default value
+/// @func		array_clear(array, with_value = undefined)
+/// @desc	Clear the contents of the array to undefined or a specified default value
 ///					This function detects the dimensions of the array and can clear 1d, 2d, 3d arrays
 ///					recursively. If you do not want that and force inner arrays to be overwritten
 ///					(like resetting the 2nd dimension of an array back to empty arrays), set the 
@@ -75,8 +75,8 @@ function array_clear(array, with_value = undefined, recursive = true) {
 	return array;
 }
 
-/// @function		array_shuffle_raptor(array)
-/// @description	Shuffles the given array, randomizing the position of its items
+/// @func		array_shuffle_raptor(array)
+/// @desc	Shuffles the given array, randomizing the position of its items
 ///					NOTE: GameMaker now offers internal array_shuffle and array_shuffle_ext methods!
 ///					So, this method is quite obsolete, but I keep it in here in case, you can't do
 ///					something you want to do with the internal methods.
@@ -100,8 +100,8 @@ function array_shuffle_raptor(array) {
 	return array;
 }
 
-/// @function		array_pick_random(array, number = 1)
-/// @description	Picks any number of random entries of an array
+/// @func		array_pick_random(array, number = 1)
+/// @desc	Picks any number of random entries of an array
 ///					TAKE CARE! If you set number higher than size of the array
 ///					a copy of the array is returned, containing simply all items
 /// @returns		If number=1 the picked item is returned, otherwise an array of items
@@ -124,15 +124,15 @@ function array_pick_random(array, number = 1) {
 	return (number == 1 ? rv[@ 0] : rv);
 }
 
-/// @function		array_null_or_empty(array)
-/// @description	Returns whether the variable is undefined or an empty array
+/// @func		array_null_or_empty(array)
+/// @desc	Returns whether the variable is undefined or an empty array
 ///					or not an array at all
 function array_null_or_empty(array) {
 	return (array == undefined || !is_array(array) || array_length(array) == 0);
 }
 
-/// @function		array_contains_recursive(array, value, recursive = true)
-/// @description	Searches the array for the specified value.
+/// @func		array_contains_recursive(array, value, recursive = true)
+/// @desc	Searches the array for the specified value.
 /// @param {array} array	The array to search
 /// @param {any} value		The value to find
 /// @returns {bool}			True, if value is contained in array, otherwise false
@@ -150,8 +150,8 @@ function array_contains_recursive(array, value, recursive = true) {
 	return false;
 }
 
-/// @function		array_index_of(array, value)
-/// @description	Gets the index of the specified value in the array or -1 if not found.
+/// @func		array_index_of(array, value)
+/// @desc	Gets the index of the specified value in the array or -1 if not found.
 /// @param {array} array	The array to search
 /// @param {any} value		The value to find
 /// @returns {int}			The index of value in the array or -1
@@ -168,8 +168,8 @@ function array_index_of(array, value) {
 	return -1;
 }
 
-/// @function		array_remove(array, value)
-/// @description	Removes the specified value from the array, if it exists.
+/// @func		array_remove(array, value)
+/// @desc	Removes the specified value from the array, if it exists.
 ///					If value is not part of the array, the attempt is silently ignored.
 /// @param {array} array	The array to search
 /// @param {any} value		The value to remove

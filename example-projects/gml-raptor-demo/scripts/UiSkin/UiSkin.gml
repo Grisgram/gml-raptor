@@ -28,9 +28,16 @@ function UiSkin(_name = "default") constructor {
 	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans					}
 	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton			}
 	asset_skin[? "Slider"]				= { 
-											sprite_index: sprDefaultSliderRail,
-											rail_sprite: sprDefaultSliderRail,
+											sprite_index: sprDefaultSliderRailH,
+											rail_sprite_horizontal: sprDefaultSliderRailH,
+											rail_sprite_vertical: sprDefaultSliderRailV,
 											knob_sprite: sprDefaultSliderKnob
+										  }
+	asset_skin[? "Scrollbar"]			= { 
+											sprite_index: sprDefaultScrollbarRailH,
+											rail_sprite_horizontal: sprDefaultScrollbarRailH,
+											rail_sprite_vertical: sprDefaultScrollbarRailV,
+											knob_sprite: sprDefaultScrollbarKnob
 										  }
 	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton				}
 	asset_skin[? "Tooltip"]				= { sprite_index: sprDefaultTooltip				}
@@ -47,12 +54,12 @@ function UiSkin(_name = "default") constructor {
 										  }
 	asset_skin[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton				}
 	
-	/// @function delete_map()
+	/// @func delete_map()
 	static delete_map = function() {
 		ds_map_destroy(asset_skin);
 	}
 
-	/// @function apply_skin(_instance)
+	/// @func apply_skin(_instance)
 	static apply_skin = function(_instance) {
 		var key = object_get_name(_instance.object_index);
 		if (ds_map_exists(asset_skin, key)) {
@@ -70,8 +77,8 @@ function UiSkin(_name = "default") constructor {
 		}
 	}
 
-	/// @function inherit_skin(_skin_name)
-	/// @description Copy all values of the specified skin to the current skin
+	/// @func inherit_skin(_skin_name)
+	/// @desc Copy all values of the specified skin to the current skin
 	static inherit_skin = function(_skin_name) {
 		var src = UI_SKINS.get_skin(_skin_name);
 		if (src != undefined) {

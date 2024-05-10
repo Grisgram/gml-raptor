@@ -1,4 +1,4 @@
-/// @description 
+/// @desc 
 
 if (wait_for_async_tasks || draw_spinner) {
 	draw_sprite_ext(spinner_sprite,0,spinner_x,spinner_y,1,1,spinner_rotation,c_white,1);

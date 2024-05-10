@@ -1,4 +1,4 @@
-/// @description set up typist
+/// @desc set up typist
 event_inherited();
 
 #macro STORY_TELLER_ANIMATIONS		global.__STORY_TELLER_ANIMATIONS
@@ -45,8 +45,8 @@ __wait_for_start_delay = function() {
 }
 __wait_for_start_delay();
 
-/// @function					draw_scribble_text()
-/// @description				draw the text - redefine for additional text effects
+/// @func					draw_scribble_text()
+/// @desc				draw the text - redefine for additional text effects
 draw_scribble_text = function() {
 	if (typist_active) {
 		if (__scribble_text != undefined)
@@ -59,8 +59,8 @@ draw_scribble_text = function() {
 		__scribble_text.draw(__text_x, __text_y);
 }
 
-/// @function					__create_scribble_object(align, str)
-/// @description				setup the initial object to work with
+/// @func					__create_scribble_object(align, str)
+/// @desc				setup the initial object to work with
 /// @param {string} align			
 /// @param {string} str			
 __create_scribble_object = function(align, str) {
@@ -69,7 +69,7 @@ __create_scribble_object = function(align, str) {
 		typist.in(chars_per_frame, smoothness);
 		invoke_started();
 	}
-	return scribble($"{align}{str}", MY_NAME)
+	return scribble(string_concat(align, str), MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 							 animated_text_color);
 }

@@ -12,8 +12,8 @@
     "path":"folders/Objects/play-race.yy",
   },
   "parentObjectId":{
-    "name":"RaceObject",
-    "path":"objects/RaceObject/RaceObject.yy",
+    "name":"StatefulObject",
+    "path":"objects/StatefulObject/StatefulObject.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

@@ -1,4 +1,4 @@
-/// @description build object hierarchy
+/// @desc build object hierarchy
 event_inherited();
 
 __first_draw			 = true;
@@ -11,14 +11,11 @@ if (!is_instanceof(control_tree, ControlTree)) {
 control_tree_layout = new ControlTreeLayout();
 control_tree.bind_to(self);
 
-/// @function get_element(_name)
-/// @description Retrieve a child control by its name. Returns the instance or undefined
+/// @func get_element(_name)
+/// @desc Retrieve a child control by its name. Returns the instance or undefined
 get_element = function(_name) {
 	return control_tree.get_element(_name);
 }
-
-if (!variable_instance_exists(self, "__original_draw_instance"))
-	__original_draw_instance = __draw_instance;
 
 __remove_self = function() {
 	if (control_tree.parent_tree != undefined)
@@ -34,7 +31,7 @@ __draw_instance = function(_force = false) {
 
 	if (!visible) return;
 
-	__original_draw_instance(_force);
+	__basecontrol_draw_instance(_force);
 	control_tree.draw_children();
 	
 	__first_draw = false;

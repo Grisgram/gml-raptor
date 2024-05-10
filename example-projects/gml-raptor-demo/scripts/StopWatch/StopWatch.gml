@@ -12,12 +12,12 @@
 __RAPTOR_STOPWATCH				= [];
 
 
-/// @function		stopwatch_start(_index = 0)
+/// @func		stopwatch_start(_index = 0)
 function stopwatch_start(_index = 0) {
 	__RAPTOR_STOPWATCH[@ _index] = get_timer();
 }
 
-/// @function		stopwatch_stop(_index = 0, _write_to_log = true, _convert_to_ms = true)
+/// @func		stopwatch_stop(_index = 0, _write_to_log = true, _convert_to_ms = true)
 function stopwatch_stop(_index = 0, _write_to_log = true, _convert_to_ms = true) {
 	var rv = get_timer() - __RAPTOR_STOPWATCH[@ _index];
 	if (_convert_to_ms) rv /= 1000;

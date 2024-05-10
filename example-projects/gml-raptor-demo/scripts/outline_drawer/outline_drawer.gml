@@ -15,8 +15,8 @@
 
 #macro TEXTURE_PAGE_BORDER_SIZE		2
 
-/// @function			outline_drawer(_viewport = 0, _outline_color = c_black, _outline_alpha = 1, _outline_strength = 3, _alpha_fading = true, _use_bbox = false)
-/// @description				
+/// @func			outline_drawer(_viewport = 0, _outline_color = c_black, _outline_alpha = 1, _outline_strength = 3, _alpha_fading = true, _use_bbox = false)
+/// @desc				
 /// @param {int=0}			_viewport
 /// @param {color=c_white}	_outline_color
 /// @param {real=1}			_outline_alpha
@@ -52,14 +52,14 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		if (!surface_exists(__outline_surface_2)) __outline_surface_2 = surface_create(1, 1);
 	}
 
-	/// @function set_outline_color(_color)
+	/// @func set_outline_color(_color)
 	static set_outline_color = function(_color) {
 		outline_color	= make_color_rgb(color_get_red(_color),color_get_green(_color),color_get_blue(_color));
 		pulse_color_1	= outline_color;
 		pulse_color_2	= outline_color;
 	}
 
-	/// @function		set_shader_pulse(_min_strength, _max_strength, _color_1, _color_2, _frequency)
+	/// @func		set_shader_pulse(_min_strength, _max_strength, _color_1, _color_2, _frequency)
 	static set_shader_pulse = function(_min_strength, _max_strength, _color_1, _color_2, _frequency) {
 		pulse_min		= _min_strength;
 		pulse_max		= _max_strength;
@@ -70,7 +70,7 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		pulse_pit		= 0;
 	}
 
-	/// @function		clear_shader_pulse()
+	/// @func		clear_shader_pulse()
 	static clear_shader_pulse = function() {
 		pulse_min		= outline_strength;
 		pulse_max		= outline_strength;
@@ -81,7 +81,7 @@ function outline_drawer(_viewport = 0, _outline_color = c_white, _outline_alpha 
 		pulse_pit		= 0;
 	}
 
-	/// @function		draw_sprite_outline(_obj, _index, _x, _y, _xscale = 1, _yscale = 1, _rotation = 0, _sprite_colour = c_white, _sprite_alpha = 1)
+	/// @func		draw_sprite_outline(_obj, _index, _x, _y, _xscale = 1, _yscale = 1, _rotation = 0, _sprite_colour = c_white, _sprite_alpha = 1)
 	static draw_sprite_outline = function(_obj, _index, _x, _y, _xscale = 1, _yscale = 1, _rotation = 0, _sprite_colour = c_white, _sprite_alpha = 1) {
 		__update_surfaces();
 		var _sprite = _obj.sprite_index;

@@ -1,4 +1,4 @@
-/// @description state ev:mouse_enter
+/// @desc state ev:mouse_enter
 event_inherited();
 if (protect_ui_events) GUI_EVENT_MOUSE;
 

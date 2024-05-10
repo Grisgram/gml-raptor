@@ -1,3 +1,3 @@
-/// @description remove inputbox focus
+/// @desc remove inputbox focus
 
 with (RaptorInputBox) lose_focus();

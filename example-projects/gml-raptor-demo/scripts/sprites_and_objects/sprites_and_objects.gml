@@ -2,8 +2,8 @@
     Helper functions for sprites and objects
 */
 
-/// @function		instance_create(xp, yp, layer_name_or_depth, object, struct = undefined)
-/// @description	Convenience function to avoid that nasty switching between 
+/// @func		instance_create(xp, yp, layer_name_or_depth, object, struct = undefined)
+/// @desc	Convenience function to avoid that nasty switching between 
 ///					instance_create_layer and instance_create_depth.
 ///					Should've been always like that... supply a string to create the instance
 ///					on a named layer or supply an integer to create it on a specified depth
@@ -19,8 +19,8 @@ function instance_create(xp, yp, layer_name_or_depth, object, struct = undefined
 			instance_create_depth(xp, yp, layer_name_or_depth, object, struct);
 }
 
-/// @function		instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined)
-/// @description	Clones an instance and returns the clone.
+/// @func		instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined)
+/// @desc	Clones an instance and returns the clone.
 ///					"Cloning" for this function means:
 ///					* A new instance of the same type is created at the same position and layer/depth
 ///					* The Create event will run normally on the clone
@@ -46,8 +46,8 @@ function instance_clone(_instance = self, layer_name_or_depth = undefined, struc
 	return rv;
 }
 
-/// @function		is_object_instance(_inst)
-/// @description	Checks whether a variable holds a living (not deactivated) object instance
+/// @func		is_object_instance(_inst)
+/// @desc	Checks whether a variable holds a living (not deactivated) object instance
 function is_object_instance(_inst) {
 	return	!is_null(_inst) && 
 			!is_string(_inst) &&
@@ -58,8 +58,8 @@ function is_object_instance(_inst) {
 			!is_null(object_get_name(vsget(_inst, "object_index")));
 }
 	
-/// @function		scale_sprite_to(target_width, target_height)
-/// @description	Scale an instances' sprite so that it has the desired dimensions.
+/// @func		scale_sprite_to(target_width, target_height)
+/// @desc	Scale an instances' sprite so that it has the desired dimensions.
 function scale_sprite_to(target_width, target_height) {
 	var w1 = sprite_get_width(sprite_index);
 	var h1 = sprite_get_height(sprite_index);
@@ -67,8 +67,8 @@ function scale_sprite_to(target_width, target_height) {
 	image_yscale = target_height / h1;
 }
 
-/// @function is_mouse_over(_instance)
-/// @description	Checks whether the current mouse position in the world (_is_gui = false) or
+/// @func is_mouse_over(_instance)
+/// @desc	Checks whether the current mouse position in the world (_is_gui = false) or
 ///					in the GUI coordinate space (_is_gui = true) is within the bounds of _instance
 ///					_is_gui defaults to false, because all controls have their "mouse_is_over" anyway
 ///					and in normal situations you want to know whether the mouse touches a specific
@@ -79,8 +79,8 @@ function is_mouse_over(_instance, _is_gui = false) {
 	return position_meeting(xcheck, ycheck, _instance);
 }
 
-/// @function		replace_sprite(replace_with, target_width = -1, target_height = -1, keep_empty = true, keep_size = true, keep_location = true)
-/// @description	Replaces the current sprite with the specified one.
+/// @func		replace_sprite(replace_with, target_width = -1, target_height = -1, keep_empty = true, keep_size = true, keep_location = true)
+/// @desc	Replaces the current sprite with the specified one.
 ///					The method checks if "replace_with" is undefined or noone,
 ///					so you don't need to check - just call it.
 ///					It also takes care about the alignment and scaling by default

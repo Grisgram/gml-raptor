@@ -11,17 +11,17 @@ function RingBuffer(_size, _default = undefined) constructor {
 	used_size = 0;
 	have_overflow = false;
 	
-	/// @function length()
+	/// @func length()
 	static length = function() {
 		return have_overflow ? max_size : next;
 	}
 
-	/// @function buffer_index_of(_entry_index)
+	/// @func buffer_index_of(_entry_index)
 	static buffer_index_of = function(_entry_index) {
 		return have_overflow ? (next + _entry_index) % max_size : _entry_index;
 	}
 	
-	/// @function get(_index)
+	/// @func get(_index)
 	static get = function(_index) {
 		if (used_size > 0) {
 			var i = buffer_index_of(_index);
@@ -30,7 +30,7 @@ function RingBuffer(_size, _default = undefined) constructor {
 		return undefined;
 	}
 	
-	/// @function add(_item)
+	/// @func add(_item)
 	static add = function(_item) {
 		buf[@next++] = _item;
 		if (used_size < max_size)
@@ -41,15 +41,15 @@ function RingBuffer(_size, _default = undefined) constructor {
 		}
 	}
 
-	/// @function add_range(_array)
+	/// @func add_range(_array)
 	static add_range = function(_array) {
 		for (var i = 0, len = array_length(_array); i < len; i++) {
 			add(_array[@i]);
 		}
 	}
 
-	/// @function snapshot(_array = undefined)
-	/// @description Supply an existing array to avoid new memory allocation
+	/// @func snapshot(_array = undefined)
+	/// @desc Supply an existing array to avoid new memory allocation
 	static snapshot = function(_array = undefined) {
 		var needed_size = length();
 		var rv = 
@@ -60,7 +60,7 @@ function RingBuffer(_size, _default = undefined) constructor {
 		return rv;
 	}
 	
-	/// @function contains(_item)
+	/// @func contains(_item)
 	static contains = function(_item) {
 		return array_contains(buf, _item);
 	}

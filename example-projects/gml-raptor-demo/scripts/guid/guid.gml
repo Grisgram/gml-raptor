@@ -4,7 +4,7 @@
 	XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 */
 
-/// @function guid(as_uppercase = false)
+/// @func guid(as_uppercase = false)
 /// @returns {string} a new guid
 function guid(as_uppercase = false) {
 	var buf = buffer_create(36, buffer_fixed, 1);

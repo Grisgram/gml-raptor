@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Sprite_to_Canvas",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Sprite_to_Canvas",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -8,6 +8,11 @@
   "bold":false,
   "canGenerateBitmap":true,
   "charset":0,
+  "ConfigValues":{
+    "release":{
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+    },
+  },
   "first":0,
   "fontName":"Droid Sans Mono",
   "glyphOperations":0,

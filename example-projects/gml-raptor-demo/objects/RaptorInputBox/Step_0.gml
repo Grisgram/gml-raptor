@@ -1,4 +1,4 @@
-/// @description cursor blink
+/// @desc cursor blink
 
 event_inherited();
 

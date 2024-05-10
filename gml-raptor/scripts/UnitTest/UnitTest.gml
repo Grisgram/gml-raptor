@@ -45,42 +45,64 @@
 
 */
 
-/// @function					UnitTest(name = "UnitTest")
-/// @description				Create a new unit test suite to perform a group of tests
+/// @func					UnitTest(name = "UnitTest", _test_data = {})
+/// @desc				Create a new unit test suite to perform a group of tests
 /// @param {string} name		Optional, for log output only
+/// @param {struct} _test_data	Optional, will be sent to each test function as second argument
 /// @returns {UnitTest}
-function UnitTest(name = "UnitTest") constructor {
+function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 
-	__test_suite_name = name;
-	__current_test_ok = true;
+	__test_suite_name	= name;
+	__current_test_ok	= true;
 	__current_test_name = "";
+	__current_test_msg	= "";
+	__current_test_exc	= undefined;
+	
 	tests = {};
 
-	test_data = {};
+	test_data = _test_data ?? {};
 
-	suite_start = function() {
+	suite_start = function(data) {
 	}
 	
-	suite_finish = function() {
+	suite_finish = function(data) {
 	}
 	
-	test_start = function(current_test_name) {
-		return {};
+	test_start = function(current_test_name, data) {
+		return data;
 	}
 	
-	test_finish = function(current_test_name) {
+	test_finish = function(current_test_name, data) {
 	}
 
 	#region ASSERTS
 	static __assert_condition = function(condition, expected, actual, message) {
+		__current_test_msg	= message;
 		if (!condition) {
 			elog($"FAIL: {__current_test_name} *ASSERT*: expected='{expected}'; actual='{actual}'; message='{message}';");
-			__current_test_ok = false;
+			__current_test_ok	= false;
 		}		
 	}
 	
-	/// @function					assert_equals(expected, actual, message = "")
-	/// @description				performs an equality value check. test fails, if "expected != actual"
+	/// @func fail(message = "")
+	/// @desc fails the test immediately
+	static fail = function(message = "") {
+		elog($"FAIL: {__current_test_name} *fail() reached*: message='{message}';");
+		__current_test_ok = false;
+	}
+	
+	/// @func success()
+	static success = function() {
+		__current_test_ok = true;
+	}
+	
+	/// @func expect_exception(_error_message_contains = "")
+	static expect_exception = function(_error_message_contains = "") {
+		__current_test_exc = _error_message_contains;
+	}
+	
+	/// @func					assert_equals(expected, actual, message = "")
+	/// @desc				performs an equality value check. test fails, if "expected != actual"
 	static assert_equals = function(expected, actual, message = "") {
 		if (is_array(actual))
 			__assert_condition(array_equals(expected, actual), expected, actual, message);
@@ -88,8 +110,8 @@ function UnitTest(name = "UnitTest") constructor {
 			__assert_condition(expected == actual, expected, actual, message);
 	}
 	
-	/// @function					assert_not_equals(expected, actual, message = "")
-	/// @description				performs an non-equality value check. test fails, if "expected == actual"
+	/// @func					assert_not_equals(expected, actual, message = "")
+	/// @desc				performs an non-equality value check. test fails, if "expected == actual"
 	static assert_not_equals = function(expected, actual, message = "") {
 		if (is_array(actual))
 			__assert_condition(!array_equals(expected, actual), expected, actual, message);
@@ -97,69 +119,109 @@ function UnitTest(name = "UnitTest") constructor {
 			__assert_condition(expected != actual, expected, actual, message);
 	}
 
-	/// @function					assert_true(actual, message = "")
-	/// @description				performs a value check for true. test fails, if actual == false
+	/// @func					assert_true(actual, message = "")
+	/// @desc				performs a value check for true. test fails, if actual == false
 	static assert_true = function(actual, message = "") {
 		__assert_condition(actual, true, actual, message);
 	}
 
-	/// @function					assert_false(actual, message = "")
-	/// @description				performs a value check for false. test fails, if actual == true
+	/// @func					assert_false(actual, message = "")
+	/// @desc				performs a value check for false. test fails, if actual == true
 	static assert_false = function(actual, message = "") {
 		__assert_condition(!actual, false, actual, message);
 	}
 	
-	/// @function					assert_null(actual, message = "")
-	/// @description				performs a value check against "undefined" and "noone". test fails, if actual is neither.
+	/// @func					assert_null(actual, message = "")
+	/// @desc				performs a value check against "undefined" and "noone". test fails, if actual is neither.
 	static assert_null = function(actual, message = "") {
 		__assert_condition(actual == undefined || actual == noone, true, actual, message);
 	}
 	
-	/// @function					assert_not_null(actual, message = "")
-	/// @description				performs a value check against "undefined" and "noone". test fails, if actual is any of them.
+	/// @func					assert_not_null(actual, message = "")
+	/// @desc				performs a value check against "undefined" and "noone". test fails, if actual is any of them.
 	static assert_not_null = function(actual, message = "") {
 		__assert_condition(actual != undefined && actual != noone, true, actual, message);
 	}
 	#endregion
 	
-	/// @function					add_test(name, func)
-	/// @description				add a unit test. alternatively you can simply set tests.name = func;
+	/// @func					add_test(name, func)
+	/// @desc				add a unit test. alternatively you can simply set tests.name = func;
 	///								a test function receives one argument, the test_data. This is the struct
 	///								you set up in the test_start function.
 	static add_test = function(name, func) {
 		struct_set(tests, name, func);
 	}
 
-	/// @function					run()
-	/// @description				runs all tests and prints the results to the log
+	/// @func					run()
+	/// @desc				runs all tests and prints the results to the log
 	static run = function() {
-		ilog($"[--- START TEST SUITE '{__test_suite_name}' ---]");
-		suite_start();
+		ilog($"---------- START TEST SUITE '{__test_suite_name}' -----");
+		// ---- SUITE FINISH ----
+		try {
+			suite_start(test_data);
+		} catch (_ex) {
+			elog($"FAIL: suite_start threw '{_ex.message}';");
+			return;
+		}
+		
 		var fail_count = 0;
 		var names = struct_get_names(tests);
 		array_sort(names, true);
 		var i = 0; repeat(array_length(names)) {
 			__current_test_name = names[i++];
-			__current_test_ok = true;
-			var new_data = test_start(__current_test_name);
+			__current_test_ok	= true;
+			__current_test_exc	= undefined;
+			__current_test_msg	= "";
+			var new_data;
 			var data_for_test = test_data;
-			if (is_struct(new_data))
-				data_for_test = new_data;
-			struct_get(tests, __current_test_name)(self, data_for_test);
-			test_finish(__current_test_name);
+			
+			// ---- TEST START ----
+			try {
+				new_data = test_start(__current_test_name, test_data);
+				if (is_struct(new_data))
+					data_for_test = new_data;
+			} catch (_ex) {
+				elog($"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}';");
+				__current_test_ok = false;
+			}
+			
+			// ---- TEST RUN ----
+			if (__current_test_ok) {
+				try {
+					struct_get(tests, __current_test_name)(self, data_for_test);
+				} catch (_ex) {
+					if (__current_test_exc == undefined ||
+						(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
+						elog($"FAIL: {__current_test_name} exception='{_ex.message}'; {__current_test_msg}");
+						__current_test_ok = false;
+					}
+				}
+			}
+			
+			// ---- TEST FINISH ----
+			try {
+				test_finish(__current_test_name, data_for_test);
+			} catch (_ex) {
+				elog($"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}';");
+				__current_test_ok = false;
+			}
+			
 			if (__current_test_ok) {
 				ilog($" OK : {__current_test_name}");
 			} else {
 				fail_count++;
 			}
 		}
-		suite_finish();
-		ilog($"[--- TEST RESULTS ---]");
+		
+		// ---- SUITE FINISH ----
+		try {
+			suite_finish(test_data);
+		} catch (_ex) {
+			elog($"FAIL: suite_finish threw '{_ex.message}';");
+		}
+		
 		var total = array_length(names);
-		ilog($"Tests      : {total}");
-		ilog($"Successful : {(total - fail_count)}");
-		ilog($"Failed     : {fail_count}");
-		ilog($"[---  END  TEST SUITE '{__test_suite_name}' ---]");
+		ilog($"DONE: TEST RESULTS '{__test_suite_name}': {total} tests, {(total - fail_count)} succeeded, {fail_count} failed");
 	}
 
 }

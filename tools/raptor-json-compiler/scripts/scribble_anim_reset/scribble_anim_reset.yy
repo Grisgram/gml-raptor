@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scribble_anim_reset",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scribble_anim_reset",
+  "parent":{
+    "name":"Animation",
+    "path":"folders/_third_party_packages_/Scribble/Animation.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

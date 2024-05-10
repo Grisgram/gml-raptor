@@ -1,4 +1,4 @@
-/// @description log event
+/// @desc log event
 
 GUI_EVENT_MOUSE;
 

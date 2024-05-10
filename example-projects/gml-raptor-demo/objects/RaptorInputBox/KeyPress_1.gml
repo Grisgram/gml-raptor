@@ -1,4 +1,4 @@
-/// @description Cursor control & add text
+/// @desc Cursor control & add text
 
 if (!__RAPTORDATA.has_focus || __LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP) exit;
 
@@ -7,9 +7,9 @@ __cut_selection = function() {
 		return "";
 	var txbefore = text;
 	var rv = string_copy(text, __selection_start, abs(selection_length));
-	text = string_copy(text, 1, __selection_start - 1) + 
+	text = string_concat(string_copy(text, 1, __selection_start - 1),
 		   string_copy(text, __selection_start + abs(selection_length), 
-					   string_length(text) - __selection_start - string_length(selected_text) + 1);
+					   string_length(text) - __selection_start - string_length(selected_text) + 1));
 	set_cursor_pos(max(0, __selection_start - 1));
 	selected_text = "";
 	selection_length = 0;
@@ -23,8 +23,8 @@ __backspace_char = function() {
 		
 	if (selection_length == 0) {
 		var txbefore = text;
-		text = string_copy(text, 1, cursor_pos - 1) + 
-			   string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos);
+		text = string_concat(string_copy(text, 1, cursor_pos - 1), 
+			   string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos));
 		set_cursor_pos(cursor_pos - 1);
 		__invoke_text_changed(txbefore, text);
 	} else
@@ -37,8 +37,8 @@ __delete_char = function() {
 		
 	if (selection_length == 0) {
 		var txbefore = text;
-		text = string_copy(text, 1, cursor_pos) + 
-			   string_copy(text, cursor_pos + 2, string_length(text) - cursor_pos);
+		text = string_concat(string_copy(text, 1, cursor_pos),
+			   string_copy(text, cursor_pos + 2, string_length(text) - cursor_pos));
 		__invoke_text_changed(txbefore, text);
 	} else
 		__cut_selection();
@@ -72,14 +72,14 @@ __add_text = function() {
 
 	var finalstring = "";
 	var i = 0; repeat(string_length(keyboard_string)) {
-		finalstring += __filter_character(string_copy(keyboard_string, ++i, 1));
+		finalstring = string_concat(finalstring, __filter_character(string_copy(keyboard_string, ++i, 1)));
 	}
 	
 	if (finalstring != "") {
 		var txbefore = text;
 		var cb = finalstring;
-		text = string_copy(text, 1, cursor_pos) + cb +
-			string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos - string_length(cb) + 1);
+		text = string_concat(string_copy(text, 1, cursor_pos), cb,
+			string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos - string_length(cb) + 1));
 		cursor_pos = clamp(cursor_pos + string_length(cb), 1, string_length(text));
 		__reset_cursor_blink();
 		__invoke_text_changed(txbefore, text);
@@ -104,8 +104,8 @@ __paste_text = function() {
 	__cut_selection();
 	var txbefore = text;
 	var cb = clipboard_get_text();
-	text = string_copy(text, 1, cursor_pos) + cb +
-		string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos);
+	text = string_concat(string_copy(text, 1, cursor_pos), cb,
+		string_copy(text, cursor_pos + 1, string_length(text) - cursor_pos));
 	if (string_length(text) >= max_length)
 		text = string_copy(text, 1, max_length);
 	set_cursor_pos(min(max_length, cursor_pos + string_length(cb)));

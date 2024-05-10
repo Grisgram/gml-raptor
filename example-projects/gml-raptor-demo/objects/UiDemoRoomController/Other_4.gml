@@ -5,8 +5,8 @@ var _panel_height = { startup_height: 256 }
 
 var _info_label = {
 	text: "=ui_demo/label_made_with_tree",
-	text_color: APP_THEME_WHITE,
-	text_color_mouse_over: APP_THEME_WHITE
+	text_color: THEME_WHITE,
+	text_color_mouse_over: THEME_WHITE
 }
 
 __button = function(_text, _click, _hk = "") {

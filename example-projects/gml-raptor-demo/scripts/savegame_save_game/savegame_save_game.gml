@@ -7,13 +7,13 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @function					savegame_save_game(filename, cryptkey = "")
-/// @description				Saves the entire game state to a file.
+/// @func					savegame_save_game(filename, cryptkey = "")
+/// @desc				Saves the entire game state to a file.
 ///								See docu in Saveable object for full documentation.
 /// @param {string} filename	Relative path inside the working_folder where to save the file
 /// @param {string=""} cryptkey	Optional. The key to use to encrypt the file.
 ///								If not provided, the file is written in plain text (NOT RECOMMENDED!).
-/// @param {bool=false} data_only	If set to true, no instances will be saved, only GLOBALDATA, structs and race tables
+/// @param {bool=false} data_only	If set to true, no instances will be saved, only GLOBALDATA and structs
 function savegame_save_game(filename, cryptkey = "", data_only = false) {
 
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
@@ -34,14 +34,6 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	
 	// save global data
 	struct_set(savegame,__SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
-
-	// Then, add all race tables to the save game
-	var race = {};
-	struct_set(savegame, __SAVEGAME_RACE_HEADER, race);
-	var racetablenames = race_get_table_names();
-	for (var i = 0; i < array_length(racetablenames); i++) {
-		struct_set(race, racetablenames[i], race_get_table(racetablenames[i]));
-	}
 	
 	// Then add all custom structs that shall be saved
 	struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);

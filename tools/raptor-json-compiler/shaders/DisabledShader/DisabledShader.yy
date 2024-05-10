@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"DisabledShader",
+  "name":"DisabledShader",
+  "parent":{
+    "name":"shaders",
+    "path":"folders/_gml_raptor_/UI/shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

@@ -32,10 +32,10 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"","%Name":"tooltip_text","filters":[],"listItems":[],"multiselect":false,"name":"tooltip_text","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"\"\"","varType":2,},
-    {"$GMObjectProperty":"","%Name":"tooltip_object","filters":[
+    {"$GMObjectProperty":"v1","%Name":"tooltip_text","filters":[],"listItems":[],"multiselect":false,"name":"tooltip_text","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"\"\"","varType":2,},
+    {"$GMObjectProperty":"v1","%Name":"tooltip_object","filters":[
         "GMObject",
-      ],"listItems":[],"multiselect":false,"name":"tooltip_object","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"Tooltip","varType":5,},
+      ],"listItems":[],"multiselect":false,"name":"tooltip_object","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"Tooltip","path":"objects/Tooltip/Tooltip.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"Tooltip","varType":5,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

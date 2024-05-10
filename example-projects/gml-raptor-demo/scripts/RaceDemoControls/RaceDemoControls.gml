@@ -11,41 +11,41 @@ function race_demo_start_click() {
 	GLOBALDATA.gem_count = 0;
 	
 	// Take all the values from the settings controls to the racetable.
-	var table = match3Table.race_table;
+	var table = ROOMCONTROLLER.race.tables.match3_board;
 	
 	// This command resets the table to a state as if it would've been loaded freshly from the file
-	race_table_reset(table);
+	table.reset();
 	
-	race_set_enabled(table, "gemWhite", chkEnableGemWhite	.checked);
-	race_set_enabled(table, "gemRed",	chkEnableGemRed		.checked);
-	race_set_enabled(table, "gemPurple",chkEnableGemPurple	.checked);
-	race_set_enabled(table, "gemGreen", chkEnableGemGreen	.checked);
-	race_set_enabled(table, "gemBlue",	chkEnableGemBlue	.checked);
-	race_set_enabled(table, "gemYellow",chkEnableGemYellow	.checked);
+	table.items.gemWhite .enabled = chkEnableGemWhite	.checked;
+	table.items.gemRed   .enabled = chkEnableGemRed		.checked;
+	table.items.gemPurple.enabled = chkEnableGemPurple	.checked;
+	table.items.gemGreen .enabled = chkEnableGemGreen	.checked;
+	table.items.gemBlue  .enabled = chkEnableGemBlue	.checked;
+	table.items.gemYellow.enabled = chkEnableGemYellow	.checked;
 	
-	race_set_chance (table, "gemWhite", real(txtChanceGemWhite	.text));
-	race_set_chance (table, "gemRed",	real(txtChanceGemRed	.text));
-	race_set_chance (table, "gemPurple",real(txtChanceGemPurple	.text));
-	race_set_chance (table, "gemGreen", real(txtChanceGemGreen	.text));
-	race_set_chance (table, "gemBlue",	real(txtChanceGemBlue	.text));
-	race_set_chance (table, "gemYellow",real(txtChanceGemYellow	.text));
+	table.items.gemWhite .chance = real(txtChanceGemWhite	.text);
+	table.items.gemRed   .chance = real(txtChanceGemRed		.text);
+	table.items.gemPurple.chance = real(txtChanceGemPurple	.text);
+	table.items.gemGreen .chance = real(txtChanceGemGreen	.text);
+	table.items.gemBlue  .chance = real(txtChanceGemBlue	.text);
+	table.items.gemYellow.chance = real(txtChanceGemYellow	.text);
 	
 	// We can set the loot count in the race json file too, this line here is only to demonstrate
 	// how you can adapt the loot_count at runtime (most games don't have a static loot count)
-	race_table_set_loot_count(table, 64); // 8x8 fields = 64 gems to drop
+	table.loot_count = 64; // 8x8 fields = 64 gems to drop
 	
 	// Filling the board is a single line of code if you use Controller+Table objects!
-	match3Table.query();
+	table.query("PlayingField", "Gems");
 }
 
 function push_chances_to_textboxes() {
-	var table = match3Table.race_table;
-	txtChanceGemWhite	.text = string_format(race_get_chance(table, "gemWhite" ), 0, 2);
-	txtChanceGemRed		.text = string_format(race_get_chance(table, "gemRed"   ), 0, 2);
-	txtChanceGemPurple	.text = string_format(race_get_chance(table, "gemPurple"), 0, 2);
-	txtChanceGemGreen	.text = string_format(race_get_chance(table, "gemGreen" ), 0, 2);
-	txtChanceGemBlue	.text = string_format(race_get_chance(table, "gemBlue"  ), 0, 2);
-	txtChanceGemYellow	.text = string_format(race_get_chance(table, "gemYellow"), 0, 2);
+	var table = ROOMCONTROLLER.race.tables.match3_board;
+	txtChanceGemWhite	.text = string_format(table.items.gemWhite .chance, 0, 2);
+	txtChanceGemRed		.text = string_format(table.items.gemRed   .chance, 0, 2);
+	txtChanceGemPurple	.text = string_format(table.items.gemPurple.chance, 0, 2);
+	txtChanceGemGreen	.text = string_format(table.items.gemGreen .chance, 0, 2);
+	txtChanceGemBlue	.text = string_format(table.items.gemBlue  .chance, 0, 2);
+	txtChanceGemYellow	.text = string_format(table.items.gemYellow.chance, 0, 2);
 }
 
 function race_demo_exit_click() {

@@ -1,4 +1,4 @@
-/// @description align to my coordinates
+/// @desc align to my coordinates
 event_inherited();
 
 if (__create_init_succeeded) exit;

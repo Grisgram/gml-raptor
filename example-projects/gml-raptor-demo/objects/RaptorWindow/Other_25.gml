@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 control_tree.layout(true);
 event_inherited();
 control_tree.move_children_after_sizing(true);

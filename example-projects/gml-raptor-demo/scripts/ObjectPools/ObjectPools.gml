@@ -44,8 +44,8 @@ function __get_pool_list(pool_name) {
 	return __OBJECT_POOLS[? pool_name];
 }
 
-/// @function					pool_get_instance(pool_name, object, layer_name_or_depth_if_new)
-/// @description				Gets (or creates) an instance for the specified pool.
+/// @func					pool_get_instance(pool_name, object, layer_name_or_depth_if_new)
+/// @desc				Gets (or creates) an instance for the specified pool.
 ///								NOTE: To store an instance later in a pool, it must have been
 ///								created with this function! You can not blindly add "anything" to a pool!
 ///								In the rare case, you need to manually assign an already existing instance
@@ -82,13 +82,13 @@ function pool_get_instance(pool_name, object, layer_name_or_depth_if_new) {
 	var xp = vsget(self, "x", 0) ?? 0;
 	var yp = vsget(self, "y", 0) ?? 0;
 	var rv = instance_create(xp, yp, layer_name_or_depth_if_new, object);
-	rv[$ __POOL_SOURCE_NAME] = pool_name;
+	struct_set(rv, __POOL_SOURCE_NAME, pool_name);
 	__pool_invoke_activate(rv);
 	return rv;
 }
 
-/// @function					pool_return_instance(instance = self)
-/// @description				Returns a previously fetched instance back into its pool
+/// @func					pool_return_instance(instance = self)
+/// @desc				Returns a previously fetched instance back into its pool
 /// @param {instance=self} 
 function pool_return_instance(instance = self) {
 	if (vsget(instance, __POOL_SOURCE_NAME) != undefined) {
@@ -105,22 +105,22 @@ function pool_return_instance(instance = self) {
 	elog($"**ERROR** Tried to return instance to a pool, but this instance was not aquired from a pool!");
 }
 
-/// @function					pool_assign_instance(pool_name, instance)
-/// @description				Assign an instance to a pool so it can be returned to it.
+/// @func					pool_assign_instance(pool_name, instance)
+/// @desc				Assign an instance to a pool so it can be returned to it.
 /// @param {string} pool_name
 /// @param {instance} instance
 function pool_assign_instance(pool_name, instance) {
-	instance[$ __POOL_SOURCE_NAME] = pool_name;
+	struct_set(instance, __POOL_SOURCE_NAME, pool_name);
 }
 
-/// @function		pool_get_size(pool_name)
-/// @description	Gets current size of the pool
+/// @func		pool_get_size(pool_name)
+/// @desc	Gets current size of the pool
 function pool_get_size(pool_name) {
 	return ds_list_size(__get_pool_list(pool_name));
 }
 
-/// @function					pool_clear(pool_name)
-/// @description				Clears a named pool and destroys all instances contained
+/// @func					pool_clear(pool_name)
+/// @desc				Clears a named pool and destroys all instances contained
 /// @param {string} pool_name
 function pool_clear(pool_name) {
 	var pool = __get_pool_list(pool_name);
@@ -132,8 +132,8 @@ function pool_clear(pool_name) {
 	ds_list_clear(pool);
 }
 
-/// @function		pool_dump_all()
-/// @description	Dumps the names and sizes of all registered pools to the log
+/// @func		pool_dump_all()
+/// @desc	Dumps the names and sizes of all registered pools to the log
 function pool_dump_all() {
 	var i = 0;
 	ilog($"[--- OBJECT POOLS DUMP START ---]");
@@ -145,8 +145,8 @@ function pool_dump_all() {
 	ilog($"[--- OBJECT POOLS DUMP  END  ---]");
 }
 
-/// @function		pool_clear_all()
-/// @description	Clear all pools. Use this when leaving the room.
+/// @func		pool_clear_all()
+/// @desc	Clear all pools. Use this when leaving the room.
 ///					NOTE: The ROOMCONTROLLER automatically does this for you in the RoomEnd event
 function pool_clear_all() {
 	ds_map_destroy(__OBJECT_POOLS);

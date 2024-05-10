@@ -11,7 +11,7 @@
 	
 */
 
-/// @function camera_action_data(cam_index, frames, script_to_call, enqueue_if_running = false, _is_zoom = false)
+/// @func camera_action_data(cam_index, frames, script_to_call, enqueue_if_running = false, _is_zoom = false)
 /// @param {int} cam_index
 /// @param {real} frames
 /// @param {asset} script_to_call
@@ -49,8 +49,8 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 	anim_curve_channel_y = "y";
 	anim_curve_step = {x: 0, y: 0, xprevious: 0, yprevious: 0};
 
-	/// @function		set_anim_curve(curve, x_channel_name = "x", y_channel_name = "y")
-	/// @description	Assigns a different AnimCurve than the default LinearCurve to this camera action.
+	/// @func		set_anim_curve(curve, x_channel_name = "x", y_channel_name = "y")
+	/// @desc	Assigns a different AnimCurve than the default LinearCurve to this camera action.
 	///			The curve must provide the channels named in the x_ and y_channel_name parameters and
 	///			the value range must be 0..1, where 0 meanse "0%" and 1 means "100%" of distance done.
 	///			This function returns self to make it chainable.
@@ -65,16 +65,16 @@ function camera_action_data(cam_index, frames, script_to_call, enqueue_if_runnin
 		return self;
 	}
 
-	/// @function		set_finished_callback(callback)
-	/// @description	Set any function as callback when this camera action is finished.
+	/// @func		set_finished_callback(callback)
+	/// @desc	Set any function as callback when this camera action is finished.
 	///					The callback will receive 1 parameter: this camera action
 	static set_finished_callback = function(callback) {
 		finished_callback = callback;
 		return self;
 	}
 
-	/// @function set_stop_at_room_borders(_stop)
-	/// @description By default this is true (same as in the "Eye" object), but you
+	/// @func set_stop_at_room_borders(_stop)
+	/// @desc By default this is true (same as in the "Eye" object), but you
 	///				 can turn it off with this function, to allow the camera to look
 	///				 outside of the room.
 	static set_stop_at_room_borders = function(_stop) {

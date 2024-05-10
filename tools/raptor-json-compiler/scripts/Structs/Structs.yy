@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Structs",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Structs",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

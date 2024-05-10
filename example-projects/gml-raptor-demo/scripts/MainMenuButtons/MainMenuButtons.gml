@@ -10,6 +10,8 @@ function startRaceDemoButton_click() {
 }
 
 function startPlaygroundButton_click() {
+	//var file = get_open_filename_ext("all|*.*","", working_directory, "bla");get_save_filename_ext
+	//ilog($"sandbox: {GM_is_sandboxed} {file}");
 	ui_demo_load();
 	//room_goto(rmDevPlayground);
 }
@@ -55,6 +57,11 @@ function load_encrypted() {
 	savegame_load_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
 }
 
+function activate_default_theme() {
+	UI_THEMES.activate_theme("default");
+	room_restart();
+}
+
 function activate_blue_theme() {
 	UI_THEMES.activate_theme("coldrock");
 	room_restart();
@@ -77,4 +84,3 @@ function activate_default_skin() {
 function activate_wood_skin() {
 	UI_SKINS.activate_skin("wood");
 }
-

@@ -5,7 +5,7 @@
   "managed":true,
   "name":"MessageBoxWindow",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"MessageBoxXButton",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorWindow","path":"objects/RaptorWindow/RaptorWindow.yy",},"propertyId":{"name":"window_x_button_object","path":"objects/RaptorWindow/RaptorWindow.yy",},"resource":{"name":"MessageBoxXButton","path":"objects/MessageBoxXButton/MessageBoxXButton.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"MessageBoxXButton",},
   ],
   "parent":{
     "name":"messagebox",

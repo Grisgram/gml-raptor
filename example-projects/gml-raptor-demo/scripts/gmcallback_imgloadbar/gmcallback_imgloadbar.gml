@@ -12,7 +12,7 @@
 */
 
 
-/// @description  gmcallback_imgloadbar(context, current, total, canvas_width, canvas_height, image_width, image_height)
+/// @desc  gmcallback_imgloadbar(context, current, total, canvas_width, canvas_height, image_width, image_height)
 /// @param context
 /// @param  current
 /// @param  total

@@ -1,4 +1,4 @@
-/// @description activate_tooltip
+/// @desc activate_tooltip
 
 event_inherited();
 

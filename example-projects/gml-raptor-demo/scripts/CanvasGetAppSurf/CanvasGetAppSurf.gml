@@ -5,7 +5,7 @@
 */
 /// feather ignore all
 
-/// @function CanvasGetAppSurf()
+/// @func CanvasGetAppSurf()
 /// @param {Bool} newAppSurf
 /// @return Struct.Canvas
 function CanvasGetAppSurf(_new = false) {

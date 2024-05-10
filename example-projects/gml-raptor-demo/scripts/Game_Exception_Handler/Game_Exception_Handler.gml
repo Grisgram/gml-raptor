@@ -12,12 +12,18 @@
 	transferred to your server at next startup, where you can decrypt them before sending.
 */
 
+#macro USE_CRASHDUMP_HANDLER			false
+#macro beta:USE_CRASHDUMP_HANDLER		true
+#macro release:USE_CRASHDUMP_HANDLER	true
+#macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
+
 function Game_Exception_Handler(_unhandled) {
 	try {
-		// TODO: remove this in new runtime, maybe it works then
-		if (IS_HTML) return 0;
-		var error = RAPTOR_LOGGER.get_log_buffer();
-		error += $"\n[--- CRASH POINT ---]\n{string(_unhandled)}";
+		var error = string_concat(
+			RAPTOR_LOGGER.get_log_buffer(), 
+			"\n[--- CRASH POINT ---]\n",
+			string(_unhandled)
+		);
 		file_write_text_file(CRASH_DUMP_FILENAME, error, FILE_CRYPT_KEY);
 		flog($"Crash dump written to disk!");
 	} catch (_ignored) { 

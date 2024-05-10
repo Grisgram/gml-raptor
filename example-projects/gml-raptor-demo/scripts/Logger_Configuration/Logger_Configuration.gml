@@ -30,7 +30,7 @@
 // Turn it on in debug if you hunt a bug, but it's too much information for normal development
 #macro LOG_LEVEL			1
 #macro beta:LOG_LEVEL		2
-#macro release:LOG_LEVEL	3
+#macro release:LOG_LEVEL	1
 
 // Raptor module logs
 // In addition to the LOG_LEVEL, you can turn off some modules entirely from logging anything.

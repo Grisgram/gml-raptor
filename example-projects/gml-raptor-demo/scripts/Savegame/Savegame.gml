@@ -30,7 +30,6 @@ ENSURE_GLOBALDATA
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances
 
 #macro __SAVEGAME_GLOBAL_DATA_HEADER	"global_data"
-#macro __SAVEGAME_RACE_HEADER			"race_tables"
 #macro __SAVEGAME_OBJECT_HEADER			"instances"
 #macro __SAVEGAME_STRUCT_HEADER			"structs"
 #macro __SAVEGAME_REFSTACK_HEADER		"refstack"
@@ -82,8 +81,8 @@ enum savegame_event {
 }
 
 #region STRUCTS
-/// @function					savegame_add_struct(name, struct)
-/// @description				Adds any custom struct to the save game.
+/// @func					savegame_add_struct(name, struct)
+/// @desc				Adds any custom struct to the save game.
 ///								Can be retrieved after loading through savegame_get_struct(name).
 /// @param {string} name		The name to reference this struct.
 /// @param {struct} struct		The struct to save.
@@ -91,39 +90,39 @@ function savegame_add_struct(name, struct) {
 	struct_set(__SAVEGAME_STRUCTS, name, struct);
 }
 
-/// @function					savegame_remove_struct(name)
-/// @description				Removes any custom struct from the save game.
+/// @func					savegame_remove_struct(name)
+/// @desc				Removes any custom struct from the save game.
 /// @param {string} name		The name of the struct. If it does not exist, it is silently ignored.
 function savegame_remove_struct(name) {
 	if (variable_struct_exists(__SAVEGAME_STRUCTS, name))
 		variable_struct_remove(__SAVEGAME_STRUCTS, name);
 }
 
-/// @function					savegame_struct_exists(name)
-/// @description				Checks whether a specified struct exists in the savegame.
+/// @func					savegame_struct_exists(name)
+/// @desc				Checks whether a specified struct exists in the savegame.
 /// @param {string} name		The name of the struct to find.
 /// @returns {bool}				True, if the struct exists or false, if not.
 function savegame_struct_exists(name) {
 	return variable_struct_exists(__SAVEGAME_STRUCTS, name);
 }
 
-/// @function					savegame_get_struct(name)
-/// @description				Retrieves the specified struct from the savegame.
+/// @func					savegame_get_struct(name)
+/// @desc				Retrieves the specified struct from the savegame.
 /// @param {string} name		The name of the struct. If it does not exist, [undefined] is returned.
 /// @returns {struct}			The struct or [undefined], if it does not exist.
 function savegame_get_struct(name) {
 	return struct_get(__SAVEGAME_STRUCTS, name);
 }
 
-/// @function					savegame_get_struct_names()
-/// @description				Gets all stored struct names in the savegame.
+/// @func					savegame_get_struct_names()
+/// @desc				Gets all stored struct names in the savegame.
 /// @returns {array}			All struct names in the savegame
 function savegame_get_struct_names() {
 	return struct_get_names(__SAVEGAME_STRUCTS);
 }
 
-/// @function					__savegame_clear_structs()
-/// @description				Clears ALL savegame structs (custom structs and instances)
+/// @func					__savegame_clear_structs()
+/// @desc				Clears ALL savegame structs (custom structs and instances)
 function __savegame_clear_structs() {
 	__SAVEGAME_STRUCTS = {};
 	__SAVEGAME_INSTANCES = {}; 
@@ -131,15 +130,15 @@ function __savegame_clear_structs() {
 #endregion
 
 #region INSTANCES
-/// @function					savegame_get_instance_names()
-/// @description				Gets all stored instance names (= IDs) in the savegame.
+/// @func					savegame_get_instance_names()
+/// @desc				Gets all stored instance names (= IDs) in the savegame.
 /// @returns {array}			All instance names in the savegame
 function savegame_get_instance_names() {
 	return struct_get_names(__SAVEGAME_INSTANCES);
 }
 
-/// @function						savegame_get_instance_of(old_instance_id)
-/// @description					Retrieves the specified instance from the savegame.
+/// @func						savegame_get_instance_of(old_instance_id)
+/// @desc					Retrieves the specified instance from the savegame.
 /// @param {string} old_instance_id	The old id (when the game was saved) of the object.
 /// @returns {struct}				The instance or [noone], if it does not exist.
 function savegame_get_instance_of(old_instance_id) {
@@ -150,8 +149,8 @@ function savegame_get_instance_of(old_instance_id) {
 		return noone;
 }
 
-/// @function					savegame_get_instance_array_of(id_array)
-/// @description				Maps an array of object ids to an array of instances.
+/// @func					savegame_get_instance_array_of(id_array)
+/// @desc				Maps an array of object ids to an array of instances.
 ///								NOTE: Only works with stored ids of savegames!
 /// @param {array} id_array		An array of object ids.
 /// @returns {array}			Returns an array containing the ids of the instances (in the same order).
@@ -165,8 +164,8 @@ function savegame_get_instance_array_of(id_array) {
 	return rv;
 }
 
-/// @function					savegame_get_id_array_of(instance_array)
-/// @description				Maps an array of object instances to an array of their id's only.
+/// @func					savegame_get_id_array_of(instance_array)
+/// @desc				Maps an array of object instances to an array of their id's only.
 ///								Useful if you want to persist linked objects in a savegame.
 /// @param {array} instance_array	An array of object instances.
 /// @returns {array}			Returns an array containing the instances (in the same order).
@@ -181,17 +180,17 @@ function savegame_get_id_array_of(instance_array) {
 }
 #endregion
 
-/// @function savegame_exists(_filename)
-/// @description	Checks, whether the specified savegame exists. Takes the
+/// @func savegame_exists(_filename)
+/// @desc	Checks, whether the specified savegame exists. Takes the
 ///					SAVEGAME_FOLDER configuration path into account
 function savegame_exists(_filename) {
-	return file_exists(SAVEGAME_FOLDER + _filename);
+	return file_exists(string_concat(SAVEGAME_FOLDER, _filename));
 }
 
 function __ensure_savegame_folder_name() {
 	var adder = "";
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_ends_with(SAVEGAME_FOLDER, "/")) adder = "/";
-	return SAVEGAME_FOLDER + adder;
+	return string_concat(SAVEGAME_FOLDER, adder);
 }
 
 // initialize the structs and variables

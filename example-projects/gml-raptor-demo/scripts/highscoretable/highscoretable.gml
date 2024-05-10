@@ -43,8 +43,8 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 		}
 	}
 	
-	/// @function		reset()
-	/// @description	Remove all entries and start over with a new array
+	/// @func		reset()
+	/// @desc	Remove all entries and start over with a new array
 	static reset = function() {
 		data.entries = array_create(data.max_entries, undefined);	
 	}
@@ -58,8 +58,8 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 		}
 	}
 
-	/// @function		size()
-	/// @description	Gets the number of entries in the table (not the array size)
+	/// @func		size()
+	/// @desc	Gets the number of entries in the table (not the array size)
 	static size = function() {
 		for (var i = 0; i < array_length(data.entries); i++) {
 			if (data.entries[@ i] == undefined)
@@ -68,8 +68,8 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 		return array_length(data.entries);
 	}
 
-	/// @function		get_highscore_rank(_value)
-	/// @description	Returns the place in the highscore table for a specific
+	/// @func		get_highscore_rank(_value)
+	/// @desc	Returns the place in the highscore table for a specific
 	///					score value. Which field is compared depends on the "scoring"
 	///					of the table (score high/low, time high/low).
 	///					If the supplied value is not good enough for a place in the
@@ -87,8 +87,8 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 	}
 
 	
-	/// @function		register_highscore(_name, _score, _time, _id = undefined)
-	/// @description	Add a new entry to the highscore table.
+	/// @func		register_highscore(_name, _score, _time, _id = undefined)
+	/// @desc	Add a new entry to the highscore table.
 	///					The added entry is returned or undefined, if the 
 	///					score or time was not good enough for the table.
 	/// @param {string} _name	The name of the player
@@ -119,8 +119,8 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 		return rv;
 	}
 
-	/// @function		get_rank_list(from_rank = -1, to_rank = -1, prefix_character = "#")
-	/// @description	Get a list of ranks, one per line. This is useful
+	/// @func		get_rank_list(from_rank = -1, to_rank = -1, prefix_character = "#")
+	/// @desc	Get a list of ranks, one per line. This is useful
 	///					for rendering the table. This is your "rank" column.
 	///					NOTE: "rank" parameters are 1-based, NOT 0-based!
 	///					rank 1 returns the leader of the table!
@@ -135,13 +135,13 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + prefix_character + string(i + 1);
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), prefix_character, string(i + 1));
 		}
 		return rv;
 	}
 
-	/// @function		get_name_list(from_rank = -1, to_rank = -1)
-	/// @description	Get a list of names, one per line. This is useful
+	/// @func		get_name_list(from_rank = -1, to_rank = -1)
+	/// @desc	Get a list of names, one per line. This is useful
 	///					for rendering the table. This is your "names" column.
 	///					NOTE: "rank" parameters are 1-based, NOT 0-based!
 	///					rank 1 returns the leader of the table!
@@ -155,13 +155,13 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + entry.data.Name;
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), entry.data.Name);
 		}
 		return rv;
 	}
 
-	/// @function		get_score_list(from_rank = -1, to_rank = -1)
-	/// @description	Get a list of scores, one per line. This is useful
+	/// @func		get_score_list(from_rank = -1, to_rank = -1)
+	/// @desc	Get a list of scores, one per line. This is useful
 	///					for rendering the table. This is your "score" column
 	///					NOTE: "rank" parameters are 1-based, NOT 0-based!
 	///					rank 1 returns the leader of the table!
@@ -176,13 +176,13 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + string_format(entry.data.Score ?? 0, 1, decimals);
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), string_format(entry.data.Score ?? 0, 1, decimals));
 		}
 		return rv;
 	}
 
-	/// @function		get_time_list(from_rank = -1, to_rank = -1)
-	/// @description	Get a list of times, one per line. This is useful
+	/// @func		get_time_list(from_rank = -1, to_rank = -1)
+	/// @desc	Get a list of times, one per line. This is useful
 	///					for rendering the table. This is your "time" column
 	///					NOTE: "rank" parameters are 1-based, NOT 0-based!
 	///					rank 1 returns the leader of the table!
@@ -207,13 +207,13 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + entry.format_time(!skip_hours);
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), entry.format_time(!skip_hours));
 		}
 		return rv;
 	}
 
-	/// @function		get_created_list(from_rank = -1, to_rank = -1, day_only = false)
-	/// @description	Get a list of times, one per line. This is useful
+	/// @func		get_created_list(from_rank = -1, to_rank = -1, day_only = false)
+	/// @desc	Get a list of times, one per line. This is useful
 	///					for rendering the table. This is your "created" column.
 	///					NOTE: "rank" parameters are 1-based, NOT 0-based!
 	///					rank 1 returns the leader of the table!
@@ -228,7 +228,7 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			if (i >= from_rank - 1 && i <= to_rank - 1)
-				rv += (rv == "" ? "" : "\n") + (day_only ? date_date_string(entry.data.Created) : date_datetime_string(entry.data.Created));
+				rv = string_concat(rv, (rv == "" ? "" : "\n"), (day_only ? date_date_string(entry.data.Created) : date_datetime_string(entry.data.Created)));
 		}
 		return rv;
 	}
@@ -254,11 +254,11 @@ function HighScoreTable(_name = "Highscores", _max_entries = 10, _criteria = sco
 			if (entry == undefined)
 				break;
 			var tm = max_time_len > 0 ? entry.format_time() : "";
-			rv += (rv == "" ? "" : "\n") +
-				entry.data.Name + string_repeat(" ", max_name_len + 2 - string_length(entry.data.Name)) +
-				(max_score_len > 0 ? string_repeat(" ", max_score_len + 2 - string_length(string(entry.data.Score))) + string(entry.data.Score) : "") +
-				(max_time_len > 0 ? string_repeat(" ", max_time_len + 2 - string_length(tm)) + tm : "") +
-				"  " + date_datetime_string(entry.data.Created);
+			rv = string_concat(rv, (rv == "" ? "" : "\n"),
+				entry.data.Name, string_repeat(" ", max_name_len + 2 - string_length(entry.data.Name)),
+				(max_score_len > 0 ? string_repeat(" ", max_score_len + 2 - string_length(string(entry.data.Score))) + string(entry.data.Score) : ""),
+				(max_time_len > 0 ? string_repeat(" ", max_time_len + 2 - string_length(tm)) + tm : ""),
+				"  ", date_datetime_string(entry.data.Created));
 		}
 		return rv;
 	}

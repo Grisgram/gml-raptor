@@ -1,4 +1,4 @@
-/// @description Logging/Enabled/Skinning
+/// @desc Logging/Enabled/Skinning
 
 if (log_create_destroy)
 	vlog($"{MY_NAME} created.");
@@ -6,11 +6,11 @@ if (log_create_destroy)
 binder = new PropertyBinder(self);
 
 #region skin
-APP_SKIN.apply_skin(self); // apply sprites NOW...
-run_delayed(self, 0, function() { APP_SKIN.apply_skin(self); }); //... and the full skin after all create code is done
+SKIN.apply_skin(self); // apply sprites NOW...
+run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done
 
-/// @function integrate_skin_data(_skindata)
-/// @description Copy all values EXCEPT SPRITE_INDEX to self
+/// @func integrate_skin_data(_skindata)
+/// @desc Copy all values EXCEPT SPRITE_INDEX to self
 ///				 Then, if we have a sprite, we replace it
 integrate_skin_data = function(_skindata) {
 	if (!skinnable) return;
@@ -26,8 +26,8 @@ integrate_skin_data = function(_skindata) {
 		replace_sprite(_skindata.sprite_index);
 }
 
-/// @function on_skin_changed(_skindata)
-/// @description	Invoked, when the skin changed
+/// @func on_skin_changed(_skindata)
+/// @desc	Invoked, when the skin changed
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	integrate_skin_data(_skindata);
@@ -35,8 +35,8 @@ on_skin_changed = function(_skindata) {
 #endregion
 
 #region enabled
-/// @function set_enabled(_enabled)
-/// @description if you set the enabled state through this function, the on_enabled_changed callback
+/// @func set_enabled(_enabled)
+/// @desc if you set the enabled state through this function, the on_enabled_changed callback
 ///				 gets invoked, if the state is different from the current state
 set_enabled = function(_enabled) {
 	var need_invoke = (is_enabled != _enabled);
@@ -50,7 +50,7 @@ set_enabled = function(_enabled) {
 #endregion
 
 #region topmost
-/// @function __can_touch_this(_instance)
+/// @func __can_touch_this(_instance)
 __can_touch_this_child = undefined;
 __can_touch_this = function(_instance) {
 	with(_instance) {
@@ -63,8 +63,8 @@ __can_touch_this = function(_instance) {
 	return true;
 }
 
-/// @function is_topmost()
-/// @description True, if this control is the topmost (= lowest depth) at the specified position
+/// @func is_topmost()
+/// @desc True, if this control is the topmost (= lowest depth) at the specified position
 __topmost_object_list = ds_list_create();
 __topmost_count = 0;
 __topmost_mindepth = depth;

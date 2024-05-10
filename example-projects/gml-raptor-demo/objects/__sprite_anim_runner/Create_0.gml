@@ -1,4 +1,4 @@
-/// @description pooling
+/// @desc pooling
 event_inherited();
 
 #macro __RAPTOR_SPRITE_ANIM_POOL		"__raptor_sprite_anims"

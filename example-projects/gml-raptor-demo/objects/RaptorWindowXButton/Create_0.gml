@@ -1,4 +1,4 @@
-/// @description setup button
+/// @desc setup button
 
 event_inherited();
 
@@ -12,7 +12,7 @@ __nine_slice_calculated = false;
 __nine_right = 0;
 __nine_top = 0;
 
-/// @function attach_to_window(_window)
+/// @func attach_to_window(_window)
 attach_to_window = function(_window) {
 	message_window = _window;
 	if (is_null(message_window) || !is_child_of(message_window, RaptorWindow)) {

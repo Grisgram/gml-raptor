@@ -1,4 +1,4 @@
-/// @description mouse_is_over=true
+/// @desc mouse_is_over=true
 
 GUI_EVENT_MOUSE;
 

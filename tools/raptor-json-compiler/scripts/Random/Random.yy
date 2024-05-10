@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Random",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Random",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

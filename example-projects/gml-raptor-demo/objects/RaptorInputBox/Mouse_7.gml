@@ -1,4 +1,4 @@
-/// @description check for double-click
+/// @desc check for double-click
 
 if (SKIP_EVENT_MOUSE || click_event_finished || !await_click) exit;
 
