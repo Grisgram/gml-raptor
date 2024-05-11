@@ -36,4 +36,10 @@ function Bindable(_parent = undefined) constructor {
 		return __raptor_parent;
 	}
 	
+	toString = function() {
+		return string_concat("Bindable ",
+			(__raptor_binder != undefined ? __raptor_binder.toString() : "<not initialized>"),
+		);
+	}
+	
 }
