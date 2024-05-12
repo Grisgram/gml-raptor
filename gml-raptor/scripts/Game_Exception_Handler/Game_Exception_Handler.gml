@@ -2,7 +2,7 @@
     If you have set USE_CRASHDUMP_HANDLER in your Game_Configuration file to true,
 	this function will be called when you encounter an unhandled exception in your game.
 	Instead of the default error window from yoyo, the crash will be written to the filename
-	set in the CRASH_DUMP_FILENAME constant (can also be found in your Game_Configuration script).
+	set in the CRASH_DUMP_FILENAME constant.
 	
 	By default, raptor has USE_CRASHDUMP_HANDLER set to false for the default-Configuration, but for all
 	other configurations (BETA, RELEASE) this is true by default.
