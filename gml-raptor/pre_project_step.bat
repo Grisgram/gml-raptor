@@ -23,6 +23,7 @@ ECHO No version.txt found!
 
 :COMPILE
 IF [%YYconfig%]==[Default] GOTO END
+IF [%YYconfig%]==[unit_testing] GOTO END
 
 ECHO Compiling included files...
 %JSON_COMPILER% %~dp0 %YYconfig%

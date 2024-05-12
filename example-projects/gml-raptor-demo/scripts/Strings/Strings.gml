@@ -45,6 +45,16 @@ function string_skip_end(str, count) {
 	return "";
 }
 
+/// @func	string_substring(str, start, count = undefined)
+/// @desc	standard substring implementation with optional count argument
+/// @param {string} str			The string
+/// @param {integer} start		The starting point of the substring
+/// @param {integer} count		Optional. If omitted, all remaining characters until the end are taken
+function string_substring(str, start, count = undefined) {
+	gml_pragma("forceinline");
+	return string_copy(str, start, count ?? (string_length(str) - start + 1));
+}
+
 /// @func					string_first(str, count)
 /// @desc				Returns the first <count> characters of a string.
 ///								If the length of the string is less than count characters, the 
@@ -85,6 +95,7 @@ function string_last(str, count) {
 /// @param {string} substr
 /// @returns {bool}	y/n
 function string_contains(str, substr, startpos = 1) {
+	gml_pragma("forceinline");
 	return string_pos_ext(substr, str, startpos) > 0;
 }
 
@@ -130,6 +141,7 @@ function string_match(str, wildcard_str) {
 /// @param {string} str			string to check
 /// @returns {bool}				y/n
 function string_is_empty(str) {
+	gml_pragma("forceinline");
 	return str == undefined || string_trim(str) == "";
 }
 

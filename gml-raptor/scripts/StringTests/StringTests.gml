@@ -72,5 +72,11 @@ function unit_test_Strings() {
 		test.assert_equals("", string_last("Ghostbusters", 0));
 	}
 
+	ut.tests.string_substring_ok = function(test, data) {
+		test.assert_equals("1", string_substring("1234",1,1));
+		test.assert_equals("2", string_substring("1234",2,1));
+		test.assert_equals("34", string_substring("1234",3));
+	}
+
 	ut.run();
 }
