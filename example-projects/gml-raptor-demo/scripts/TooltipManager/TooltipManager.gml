@@ -8,8 +8,8 @@
 
 TOOLTIP_INSTANCES	= {};
 
-/// @function					tooltip_get_instance(tooltip_object_index)
-/// @description				get or create a new instance for a tooltip
+/// @func					tooltip_get_instance(tooltip_object_index)
+/// @desc				get or create a new instance for a tooltip
 /// @param {int} tooltip_object_index
 /// @returns {instance} the tooltip
 function tooltip_get_instance(tooltip_object_index) {
@@ -27,8 +27,8 @@ function tooltip_get_instance(tooltip_object_index) {
 	return inst;
 }
 
-/// @function					tooltip_show(tooltip_object_index, tooltip_text, delay_frames = -1, for_object = self)
-/// @description				show a tooltip after x frames over a specified object
+/// @func					tooltip_show(tooltip_object_index, tooltip_text, delay_frames = -1, for_object = self)
+/// @desc				show a tooltip after x frames over a specified object
 /// @param {asset} tooltip_object
 /// @param {string} scribble-formatted-tooltip-text
 /// @param {int=-1} delay
@@ -55,8 +55,8 @@ function tooltip_show(tooltip_object_index, tooltip_text, delay_frames = -1, for
 	return inst;
 }
 
-/// @function					tooltip_hide(tooltip_object_index)
-/// @description				hide / deactivate a tooltip
+/// @func					tooltip_hide(tooltip_object_index)
+/// @desc				hide / deactivate a tooltip
 /// @param {int} tooltip_object_index
 function tooltip_hide(tooltip_object_index) {
 	var ttname = object_get_name(tooltip_object_index);
@@ -71,8 +71,8 @@ function tooltip_hide(tooltip_object_index) {
 	}
 }
 
-/// @function					tooltip_destroy(tooltip_object_index)
-/// @description				destroy a tooltip instance
+/// @func					tooltip_destroy(tooltip_object_index)
+/// @desc				destroy a tooltip instance
 /// @param {int} tooltip_object_index
 function tooltip_destroy(tooltip_object_index) {
 	var ttname = object_get_name(tooltip_object_index);

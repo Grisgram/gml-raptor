@@ -1,4 +1,4 @@
-/// @description override draw_self (window)
+/// @desc override draw_self (window)
 
 /*
 	Rules for the "size direction" variable are like the numpad on keyboard:
@@ -53,12 +53,12 @@ on_skin_changed = function(_skindata) {
 	create_x_button();
 }
 
-/// @function is_focus_window()
+/// @func is_focus_window()
 is_focus_window	= function() {
 	return __RAPTORDATA.has_focus;
 }
 
-/// @function center_on_screen()
+/// @func center_on_screen()
 center_on_screen = function() {
 	x = (draw_on_gui ? UI_VIEW_CENTER_X : VIEW_CENTER_X) - SELF_CENTER_X;
 	y = (draw_on_gui ? UI_VIEW_CENTER_Y : VIEW_CENTER_Y) - SELF_CENTER_Y;
@@ -80,7 +80,7 @@ create_x_button = function() {
 	if (__have_x_button) instance_destroy(__x_button);
 	if (window_x_button_visible && !is_null(window_x_button_object)) {
 		__have_x_button = true;
-		__x_button = instance_create(0, 0, SELF_LAYER_OR_DEPTH, window_x_button_object);
+		__x_button = instance_create(0, 0, MY_LAYER_OR_DEPTH, window_x_button_object);
 		__x_button.attach_to_window(self);
 		__x_button_closing = __x_button.on_left_click;
 		__x_button.on_left_click = function(sender) {
@@ -97,7 +97,7 @@ create_x_button = function() {
 }
 create_x_button();
 
-/// @function get_x_button()
+/// @func get_x_button()
 get_x_button = function() { 
 	return __x_button; 
 }
@@ -223,8 +223,8 @@ __set_sizing_cursor = function() {
 		window_set_cursor(__size_images_dc[@__size_direction]);
 }
 
-/// @function				__setup_drag_rect(ninetop)
-/// @description			setup drag and resize rects
+/// @func				__setup_drag_rect(ninetop)
+/// @desc			setup drag and resize rects
 /// @param {int} ninetop
 __setup_drag_rect = function() {
 	var size_offset = (window_is_sizable ? window_resize_border_width : 0);
@@ -372,17 +372,17 @@ if (!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS)
 
 #endregion
 
-/// @function close()
+/// @func close()
 close = function() {
 	ilog($"{MY_NAME} closing");
 	__remove_self();
 	control_tree.invoke_on_closed();
-	control_tree.clean_up();
+	control_tree.clear();
 	instance_destroy(self);
 }
 
-/// @function					scribble_add_title_effects(titletext)
-/// @description				called when a scribble element is created to allow adding custom effects.
+/// @func					scribble_add_title_effects(titletext)
+/// @desc				called when a scribble element is created to allow adding custom effects.
 ///								overwrite (redefine) in child controls
 /// @param {struct} titletext
 scribble_add_title_effects = function(titletext) {
@@ -402,18 +402,18 @@ update_client_area = function() {
 		sprite_height - titlebar_height - 1.5 * window_resize_border_width);
 }
 
-/// @function					__create_scribble_title_object(align, str)
-/// @description				setup the initial object to work with
+/// @func					__create_scribble_title_object(align, str)
+/// @desc				setup the initial object to work with
 /// @param {string} align			
 /// @param {string} str			
 __create_scribble_title_object = function(align, str) {
-	return scribble($"{align}{str}", MY_NAME)
+	return scribble(string_concat(align, str), MY_NAME)
 			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
 				mouse_is_over ? title_color_mouse_over : title_color);
 }
 
-/// @function					__finalize_scribble_title()
-/// @description				add blend and transforms to the final text
+/// @func					__finalize_scribble_title()
+/// @desc				add blend and transforms to the final text
 __finalize_scribble_title = function() {
 	if (__force_redraw_text_only) {
 		__scribble_title
@@ -423,8 +423,8 @@ __finalize_scribble_title = function() {
 	scribble_add_title_effects(__scribble_title);
 }
 
-/// @function					__draw_self()
-/// @description				invoked from draw or drawGui
+/// @func					__draw_self()
+/// @desc				invoked from draw or drawGui
 __draw_self = function() {
 	var was_forced = __force_redraw;
 	

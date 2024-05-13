@@ -3,8 +3,8 @@
 */
 
 #region GUI TO WORLD
-/// @function			translate_gui_to_world(gui_x, gui_y, coord2 = undefined)
-/// @description		translate the specified ui coordinates to the current
+/// @func			translate_gui_to_world(gui_x, gui_y, coord2 = undefined)
+/// @desc		translate the specified ui coordinates to the current
 ///						camera's view world coordinates.
 ///						The optional coord2 parameter can be used to fill
 ///						an existing instance of Coord2 with the values and
@@ -26,8 +26,8 @@ function translate_gui_to_world(gui_x, gui_y, coord2 = undefined) {
 	return coord2;
 }
 
-/// @function			translate_gui_to_world_x(gui_x)
-/// @description		translate the specified ui x-coordinate to the current
+/// @func			translate_gui_to_world_x(gui_x)
+/// @desc		translate the specified ui x-coordinate to the current
 ///						camera's view world coordinate.
 /// @param {real} gui_x
 /// @returns {real} world_x
@@ -35,8 +35,8 @@ function translate_gui_to_world_x(gui_x) {
 	return CAM_LEFT_EDGE + gui_x * CAM_WIDTH  / UI_VIEW_WIDTH * UI_SCALE;
 }
 
-/// @function			translate_gui_to_world_y(gui_x)
-/// @description		translate the specified ui y-coordinate to the current
+/// @func			translate_gui_to_world_y(gui_x)
+/// @desc		translate the specified ui y-coordinate to the current
 ///						camera's view world coordinate.
 /// @param {real} gui_y
 /// @returns {real} world_y
@@ -45,8 +45,8 @@ function translate_gui_to_world_y(gui_y) {
 }
 
 
-/// @function			translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined)
-/// @description		translate the specified ui coordinates to world coordinates.
+/// @func			translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined)
+/// @desc		translate the specified ui coordinates to world coordinates.
 ///						This function ignores camera and view! It just converts from one
 ///						coordinate space to another.
 ///						The optional coord2 parameter can be used to fill
@@ -71,8 +71,8 @@ function translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined) {
 #endregion
 
 #region WORLD TO GUI
-/// @function			translate_world_to_gui(world_x, world_y, coord2 = undefined)
-/// @description		translate the specified world coordinates to gui coordinates.
+/// @func			translate_world_to_gui(world_x, world_y, coord2 = undefined)
+/// @desc		translate the specified world coordinates to gui coordinates.
 ///						The optional coord2 parameter can be used to fill
 ///						an existing instance of Coord2 with the values and
 ///						therefore avoid creating new instances.
@@ -93,24 +93,24 @@ function translate_world_to_gui(world_x, world_y, coord2 = undefined) {
 	return coord2;
 }
 
-/// @function			translate_world_to_gui_x(world_x)
-/// @description		translate the specified world x-coordinate to a	ui space coordinate.
+/// @func			translate_world_to_gui_x(world_x)
+/// @desc		translate the specified world x-coordinate to a	ui space coordinate.
 /// @param {real} world_x
 /// @returns {real} gui_x
 function translate_world_to_gui_x(world_x) {
 	return (world_x - CAM_LEFT_EDGE) * UI_VIEW_WIDTH / CAM_WIDTH / UI_SCALE;
 }
 
-/// @function			translate_world_to_gui_y(world_y)
-/// @description		translate the specified world y-coordinate to a	ui space coordinate.
+/// @func			translate_world_to_gui_y(world_y)
+/// @desc		translate the specified world y-coordinate to a	ui space coordinate.
 /// @param {real} world_y
 /// @returns {real} gui_y
 function translate_world_to_gui_y(world_y) {
 	return (world_y - CAM_TOP_EDGE) * UI_VIEW_HEIGHT / CAM_HEIGHT / UI_SCALE;
 }
 
-/// @function			translate_world_to_gui_abs(world_x, world_y, coord2 = undefined)
-/// @description		translate the specified world coordinates to gui coordinates.
+/// @func			translate_world_to_gui_abs(world_x, world_y, coord2 = undefined)
+/// @desc		translate the specified world coordinates to gui coordinates.
 ///						This function ignores camera and view! It just converts from one
 ///						coordinate space to another.
 ///						The optional coord2 parameter can be used to fill

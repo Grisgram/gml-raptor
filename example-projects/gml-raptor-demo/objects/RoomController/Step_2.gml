@@ -1,4 +1,4 @@
-/// @description update active camera actions
+/// @desc update active camera actions
 
 /*
 	END STEP: All objects are placed, now move the camera

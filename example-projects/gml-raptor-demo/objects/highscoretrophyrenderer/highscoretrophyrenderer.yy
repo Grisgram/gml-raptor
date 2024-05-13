@@ -32,45 +32,45 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
-    {"$GMObjectProperty":"","%Name":"rank_1_font","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_1_font","filters":[
         "GMFont",
       ],"listItems":[],"multiselect":false,"name":"rank_1_font","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"rank_2_font","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_2_font","filters":[
         "GMFont",
       ],"listItems":[],"multiselect":false,"name":"rank_2_font","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"rank_3_font","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_3_font","filters":[
         "GMFont",
       ],"listItems":[],"multiselect":false,"name":"rank_3_font","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"rank_default_font","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_default_font","filters":[
         "GMFont",
       ],"listItems":[],"multiselect":false,"name":"rank_default_font","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"rank_1_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_1_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF0CFAFF","varType":7,},
-    {"$GMObjectProperty":"","%Name":"rank_2_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_2_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FFD3DFE5","varType":7,},
-    {"$GMObjectProperty":"","%Name":"rank_3_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_3_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF2A88ED","varType":7,},
-    {"$GMObjectProperty":"","%Name":"rank_1_trophy_sprite","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_1_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_1_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF0CFAFF","varType":7,},
+    {"$GMObjectProperty":"v1","%Name":"rank_2_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_2_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FFD3DFE5","varType":7,},
+    {"$GMObjectProperty":"v1","%Name":"rank_3_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_3_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FF2A88ED","varType":7,},
+    {"$GMObjectProperty":"v1","%Name":"rank_1_trophy_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"rank_1_trophy_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"rank_2_trophy_sprite","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_2_trophy_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"rank_2_trophy_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"rank_3_trophy_sprite","filters":[
+    {"$GMObjectProperty":"v1","%Name":"rank_3_trophy_sprite","filters":[
         "GMSprite",
       ],"listItems":[],"multiselect":false,"name":"rank_3_trophy_sprite","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
-    {"$GMObjectProperty":"","%Name":"apply_rank_color_to_sprites","filters":[],"listItems":[],"multiselect":false,"name":"apply_rank_color_to_sprites","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
-    {"$GMObjectProperty":"","%Name":"rank_default_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_default_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FFBBBBBB","varType":7,},
-    {"$GMObjectProperty":"","%Name":"from_rank","filters":[],"listItems":[],"multiselect":false,"name":"from_rank","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"-1","varType":1,},
-    {"$GMObjectProperty":"","%Name":"to_rank","filters":[],"listItems":[],"multiselect":false,"name":"to_rank","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"-1","varType":1,},
-    {"$GMObjectProperty":"","%Name":"draw_on_gui","filters":[],"listItems":[],"multiselect":false,"name":"draw_on_gui","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
-    {"$GMObjectProperty":"","%Name":"render_rank","filters":[],"listItems":[],"multiselect":false,"name":"render_rank","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
-    {"$GMObjectProperty":"","%Name":"score_decimals","filters":[],"listItems":[],"multiselect":false,"name":"score_decimals","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
-    {"$GMObjectProperty":"","%Name":"render_score","filters":[],"listItems":[],"multiselect":false,"name":"render_score","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
-    {"$GMObjectProperty":"","%Name":"render_time","filters":[],"listItems":[],"multiselect":false,"name":"render_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
-    {"$GMObjectProperty":"","%Name":"render_create_date","filters":[],"listItems":[],"multiselect":false,"name":"render_create_date","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
-    {"$GMObjectProperty":"","%Name":"rank_prefix_character","filters":[],"listItems":[],"multiselect":false,"name":"rank_prefix_character","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"\"#\"","varType":2,},
-    {"$GMObjectProperty":"","%Name":"space_between_columns","filters":[],"listItems":[],"multiselect":false,"name":"space_between_columns","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"8","varType":1,},
-    {"$GMObjectProperty":"","%Name":"space_between_rows","filters":[],"listItems":[],"multiselect":false,"name":"space_between_rows","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"4","varType":1,},
-    {"$GMObjectProperty":"","%Name":"draw_debug_frame","filters":[],"listItems":[],"multiselect":false,"name":"draw_debug_frame","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
-    {"$GMObjectProperty":"","%Name":"render_background_darken","filters":[],"listItems":[],"multiselect":false,"name":"render_background_darken","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
+    {"$GMObjectProperty":"v1","%Name":"apply_rank_color_to_sprites","filters":[],"listItems":[],"multiselect":false,"name":"apply_rank_color_to_sprites","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"rank_default_color","filters":[],"listItems":[],"multiselect":false,"name":"rank_default_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"$FFBBBBBB","varType":7,},
+    {"$GMObjectProperty":"v1","%Name":"from_rank","filters":[],"listItems":[],"multiselect":false,"name":"from_rank","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"-1","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"to_rank","filters":[],"listItems":[],"multiselect":false,"name":"to_rank","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"-1","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"draw_on_gui","filters":[],"listItems":[],"multiselect":false,"name":"draw_on_gui","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"render_rank","filters":[],"listItems":[],"multiselect":false,"name":"render_rank","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"score_decimals","filters":[],"listItems":[],"multiselect":false,"name":"score_decimals","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"render_score","filters":[],"listItems":[],"multiselect":false,"name":"render_score","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"render_time","filters":[],"listItems":[],"multiselect":false,"name":"render_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"render_create_date","filters":[],"listItems":[],"multiselect":false,"name":"render_create_date","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"rank_prefix_character","filters":[],"listItems":[],"multiselect":false,"name":"rank_prefix_character","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"\"#\"","varType":2,},
+    {"$GMObjectProperty":"v1","%Name":"space_between_columns","filters":[],"listItems":[],"multiselect":false,"name":"space_between_columns","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"8","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"space_between_rows","filters":[],"listItems":[],"multiselect":false,"name":"space_between_rows","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"4","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"draw_debug_frame","filters":[],"listItems":[],"multiselect":false,"name":"draw_debug_frame","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"render_background_darken","filters":[],"listItems":[],"multiselect":false,"name":"render_background_darken","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

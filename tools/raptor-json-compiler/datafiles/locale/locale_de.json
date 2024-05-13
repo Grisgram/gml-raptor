@@ -1,0 +1,45 @@
+{
+  "legal": {
+    "game_name": "enter-game-name-here",
+    "company": "Coldrock Games",
+    "copyright": "(c) [? legal/company]",
+    "locale_author": "Haerion Coldrock aka Grisgram",
+    "developer": "Haerion Coldrock aka Grisgram",
+    "game_channel_beta": "Beta",
+    "game_channel_prod": "Production",
+    "game_channel_dev": "Development"
+  },
+  "credits": {
+    "credits_title": "Credits"
+  },
+  "global_words": {
+    "buttons": {
+      "ok": "OK",
+      "apply": "Anwenden",
+      "cancel": "Abbrechen",
+      "yes": "Ja",
+      "no": "Nein",
+      "save": "Speichern",
+      "retry": "Wiederholen",
+      "ignore": "Ignorieren",
+      "undo": "Rückgängig",
+      "back": "Zurück",
+      "continue": "Weiter"
+    },
+    "keyboard": {
+      "shift": "Shift",
+      "ctrl": "Strg",
+      "alt": "Alt"
+    },
+    "states": {
+      "disconnected": "Getrennt",
+      "inactive": "Inaktiv",
+      "connected": "Verbunden",
+      "active": "Aktiv",
+      "unlocked": "Entsperrt",
+      "locked": "Versperrt",
+      "closed": "Geschlossen",
+      "open": "Offen"
+    }
+  },
+}

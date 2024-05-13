@@ -1,4 +1,4 @@
-/// @description Log remove/destroy
+/// @desc Log remove/destroy
 
 binder.unbind_all();
 BROADCASTER.remove_owner(self);

@@ -1,4 +1,4 @@
-/// @description state ev:key_up_?
+/// @desc state ev:key_up_?
 
 /*
 	The key that got released actually is converted through the KeyTranslator script and this
@@ -16,5 +16,5 @@ event_inherited();
 
 if (protect_ui_events) GUI_EVENT_UNTARGETTED;
 
-states.set_state("ev:key_up_" + keyboard_to_string(keyboard_lastkey));
+states.set_state(string_concat("ev:key_up_", keyboard_to_string(keyboard_lastkey)));
 

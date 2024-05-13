@@ -1,4 +1,4 @@
-/// @description start drag/resize (if movable/sizable)
+/// @desc start drag/resize (if movable/sizable)
 
 GUI_EVENT_MOUSE;
 

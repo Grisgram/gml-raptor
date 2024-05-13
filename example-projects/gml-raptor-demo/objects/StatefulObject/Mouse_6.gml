@@ -1,4 +1,4 @@
-/// @description state ev:middle_pressed
+/// @desc state ev:middle_pressed
 event_inherited();
 if (protect_ui_events) GUI_EVENT_MOUSE;
 

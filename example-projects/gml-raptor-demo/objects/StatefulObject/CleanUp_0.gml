@@ -1,4 +1,4 @@
-/// @description destroy state machine
+/// @desc destroy state machine
 
 // Inherit the parent event
 event_inherited();

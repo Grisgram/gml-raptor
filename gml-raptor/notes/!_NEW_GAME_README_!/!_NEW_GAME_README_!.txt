@@ -1,33 +1,22 @@
 
-	Veeeeeeeeeeeery important!!
+	Welcome to the gml-raptor template!
 	
-	Don't forget to set (or automate) the included file "version.json" to the correct game version!
-	Best practise is to create this file through your build job, if you have one.
+	Please follow these two simple steps to setup your project:
 	
-	-----------------------------
-	If you're making a HTML game:
-	-----------------------------
-	Do these steps before you do ANYTHING ELSE
+	1) ONLY IF YOU MAKE A HTML-GAME:
+	   Edit "index.html" from the "Included Files" folder,
+	   and find the script line (line ~80), which executes your game, it looks like this:
+	   <script type="text/javascript" src="game/gml-raptor.js?cachebust=435882189"></script>
+	   
+	   Replace "gml-raptor.js" with "your_project_name.js" (the name shown in the title bar of the IDE).
+	   
+	2) RELEVANT, BEFORE YOU MAKE YOUR FIRST beta OR release BUILD:
+	   Install the raptor-json-compiler setup
+	   Make sure, you enabled the "Add to PATH" checkbox! Otherwise it won't work.
 	
-		- set rmMain and rmStartup (in the _GAME_SETUP_ folder)
-		  to 1920x940 resolution (room, camera, viewport)!
-		
-		- Game Options - HTML - General - Index.html back to DEFAULT!
-		
-		- Start the game
-		
-		- In the Browser inspect the site with Shift-Ctrl-I and look at the Source of index.html
-		
-		- In line ~82/83 you find something like that (instead of "gml-raptor", your game name should be there):
-		  <script type="text/javascript" src="game/gml-raptor.js?cachebust=435882189"></script>
-		  
-		- This src part contains the correct javascript file name
-		  src="game/gml-raptor.js?cachebust=435882189"
-		  
-		- Copy this part at the corresponding position in index.html in the included files
-
-		- Then you can set back to "index.html" in the game options
-		
-		- TEST NOW!!
-		
-		- If you see the flag in the browser, all is good. Go ahead, start developing!
+	When both steps are done, feel free to delete this file.
+	
+	That's it!
+	Have fun! Make Games!
+	Yours,
+	Gris

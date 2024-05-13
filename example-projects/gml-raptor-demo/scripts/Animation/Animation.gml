@@ -39,8 +39,8 @@ ANIMATIONS		= new ListPool("ANIMATIONS");
 
 #macro LOOP_INFINITE	-1
 
-/// @function		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
-/// @description	Holds an animation. set repeats to -1 to loop forever until you call abort()
+/// @func		Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @desc	Holds an animation. set repeats to -1 to loop forever until you call abort()
 /// @param {instance}	_obj_owner  The object to be animated
 /// @param {int}		_delay      How many frames to wait until animation starts
 /// @param {int}		_duration   Running time of (one loop) of the animation
@@ -143,8 +143,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		interval = _interval;
 	};
 		
-	/// @function		add_started_trigger(trigger)
-	/// @description	Add a trigger to run when animation starts.
+	/// @func		add_started_trigger(trigger)
+	/// @desc	Add a trigger to run when animation starts.
 	///					The callback will receive 1 parameter: data
 	/// @param {func}	trigger  The callback to invoke.
 	static add_started_trigger = function(trigger) {
@@ -152,8 +152,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 	
-	/// @function		add_frame_trigger(trigger)
-	/// @description	Add a trigger to run on frame X.
+	/// @func		add_frame_trigger(trigger)
+	/// @desc	Add a trigger to run on frame X.
 	///					If you set is_interval to 'true', it will run EVERY x frames.
 	///					The callback will receive 2 parameters: data,frame
 	/// @param {int}	frame    The frame number, when to do the callback
@@ -164,8 +164,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 	
-	/// @function		add_loop_trigger(trigger)
-	/// @description	Add a trigger to run when the animation finished one loop.
+	/// @func		add_loop_trigger(trigger)
+	/// @desc	Add a trigger to run when the animation finished one loop.
 	///					A loop ends at the last frame of an animation.
 	///					The callback will receive 1 parameter: data
 	/// @param {func}	trigger  The callback to invoke.
@@ -174,8 +174,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 	
-	/// @function		add_finished_trigger(trigger)
-	/// @description	Add a trigger to run when animation finishes.
+	/// @func		add_finished_trigger(trigger)
+	/// @desc	Add a trigger to run when animation finishes.
 	///					The callback will receive 1 parameter: data
 	/// @param {func}	trigger  The callback to invoke.
 	static add_finished_trigger = function(trigger) {
@@ -183,8 +183,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 	
-	/// @function		reset_triggers()
-	/// @description	Remove all registered triggers from this animation.
+	/// @func		reset_triggers()
+	/// @desc	Remove all registered triggers from this animation.
 	static reset_triggers = function() {
 		__started_triggers	= [];
 		__frame_triggers	= [];
@@ -207,14 +207,14 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	}
 	#endregion
 
-	/// @function binder()
-	/// @description Gets the PropertyBinder for the values of this animation
+	/// @func binder()
+	/// @desc Gets the PropertyBinder for the values of this animation
 	static binder = function() {
 		return values.binder();
 	}
 
-	/// @function set_data(_property, _value)
-	/// @description Lets you set a property in the data struct to a value.
+	/// @func set_data(_property, _value)
+	/// @desc Lets you set a property in the data struct to a value.
 	///				 This method is a convenience function for the builder pattern,
 	///				 so you can declare your initial data values directly while
 	///				 building the animation
@@ -223,8 +223,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_name(_name)
-	/// @description	Gives this animation a specific name. Usage of names is totally optional,
+	/// @func		set_name(_name)
+	/// @desc	Gives this animation a specific name. Usage of names is totally optional,
 	///					but this allows you to set a unique marker to an animation, which can be
 	///					used as criteria in the is_in_animation(...) function.
 	///					You can access the name of an animation with .name
@@ -234,8 +234,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_move_distance(xdistance, ydistance)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_move_distance(xdistance, ydistance)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for x/y and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "move by" curve).
 	///					Both default move functions for x and y respect this setting.
@@ -248,8 +248,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_move_target(xtarget, ytarget)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_move_target(xtarget, ytarget)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for x/y and the curve value shall be a multiplier from the current
 	///					to the target coordinates you supply here (a "move to" curve).
 	///					Both default move functions for x and y respect this setting.
@@ -267,8 +267,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_scale_distance(xdistance, ydistance)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_scale_distance(xdistance, ydistance)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for x/y and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "scale by" curve).
 	///					Both default scale functions for x and y respect this setting.
@@ -281,8 +281,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_scale_target(xtarget, ytarget)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_scale_target(xtarget, ytarget)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for x/y and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "scale to" curve).
 	///					Both default scale functions for x and y respect this setting.
@@ -300,8 +300,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_rotation_distance(degrees)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_rotation_distance(degrees)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for image_angle and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "rotate by" curve).
 	/// @param {real}	degrees  The number of degrees to rotate
@@ -311,8 +311,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_rotation_target(degrees)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_rotation_target(degrees)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for x/y and the curve value shall be a multiplier from the current
 	///					to the target angle you supply here (a "rotate to" curve).
 	///					Both default move functions for x and y respect this setting.
@@ -326,8 +326,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_speed_distance(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_speed_distance(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for hspeed/vspeed or speed/direction and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "change by" curve).
 	///					Think in pairs when using this function. Either supply h/vspeed values or speed/direction,
@@ -345,8 +345,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_speed_target(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
-	/// @description	use this function if the animcurve holds a standard 0..1 value
+	/// @func		set_speed_target(_hspeed = 0, _vspeed = 0, _speed = 0, _direction = 0)
+	/// @desc	use this function if the animcurve holds a standard 0..1 value
 	///					for hspeed/vspeed or speed/direction and the curve value shall be a multiplier for the total
 	///					distance you supply here (a "change to" curve).
 	///					Think in pairs when using this function. Either supply h/vspeed values or speed/direction,
@@ -376,8 +376,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function		set_blend_range(start_color = c_white, end_color = c_white)
-	/// @description	set the two colors that shall be modified during an image_blend curve
+	/// @func		set_blend_range(start_color = c_white, end_color = c_white)
+	/// @desc	set the two colors that shall be modified during an image_blend curve
 	/// @param {color}	start_color  Color on animcurve value = 0. Default = c_white
 	/// @param {color}	end_color    Color on animcurve value = 1. Default = c_white
 	static set_blend_range = function(start_color = c_white, end_color = c_white) {
@@ -386,15 +386,15 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function					set_function(channel_name, _function)
-	/// @description				Assign a function that takes 1 argument (the value) for a channel
+	/// @func					set_function(channel_name, _function)
+	/// @desc				Assign a function that takes 1 argument (the value) for a channel
 	static set_function = function(channel_name, _function) {
 		self[$ "func_" + channel_name] = method(self, _function);
 		return self;
 	}
 
-	/// @function					set_animcurve(_animcurve)
-	/// @description				Assign a new animcurve to this animation.
+	/// @func					set_animcurve(_animcurve)
+	/// @desc				Assign a new animcurve to this animation.
 	///								ATTENTION: Changing a curve in the middle of an animation
 	///								can be used for advanced effects but also be a source of
 	///								really unexpected behavior!
@@ -403,79 +403,79 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 
-	/// @function					set_duration(_duration)
-	/// @description				Change the duration of this animation.
+	/// @func					set_duration(_duration)
+	/// @desc				Change the duration of this animation.
 	static set_duration = function(_duration) {
 		duration = _duration;
 		return self;
 	}
 
-	/// @function play_forward()
-	/// @description Animation shall play forward (this is default)
+	/// @func play_forward()
+	/// @desc Animation shall play forward (this is default)
 	static play_forward = function() {
 		__play_forward = true;
 		return self;
 	}
 	
-	/// @function play_backwards()
-	/// @description Animation shall play backwards (Animcurve starts at 1 and goes back to 0)
+	/// @func play_backwards()
+	/// @desc Animation shall play backwards (Animcurve starts at 1 and goes back to 0)
 	static play_backwards = function() {
 		__play_forward = false;
 		return self;
 	}
 
-	/// @function is_playing_forward()
-	/// @description Returns whether the animation is currently in play_forward mode or not
+	/// @func is_playing_forward()
+	/// @desc Returns whether the animation is currently in play_forward mode or not
 	static is_playing_forward = function() {
 		return __play_forward;
 	}
 
-	/// @function		pause()
-	/// @description	Pause the animation at the current frame
+	/// @func		pause()
+	/// @desc	Pause the animation at the current frame
 	static pause = function() {
 		__paused = true;
 		return self;
 	}
 	
-	/// @function		resume()
-	/// @description	Resume the animation at the frame it has been paused
+	/// @func		resume()
+	/// @desc	Resume the animation at the frame it has been paused
 	static resume = function() {
 		__paused = false;
 		return self;
 	}
 	
-	/// @function		set_paused(paused)
-	/// @description	Set the pause state
+	/// @func		set_paused(paused)
+	/// @desc	Set the pause state
 	/// @param {bool}	paused  true to pause, false to resume
 	static set_paused = function(paused) {
 		__paused = paused;
 		return self;
 	}
 
-	/// @function		is_paused()
-	/// @description	Check whether this animation is currently paused
+	/// @func		is_paused()
+	/// @desc	Check whether this animation is currently paused
 	/// @returns {bool} The current pause state
 	static is_paused = function() {
 		return __paused;
 	}
 
-	/// @function		is_active()
-	/// @description	Check if the animation has already started or still in delay countdown
+	/// @func		is_active()
+	/// @desc	Check if the animation has already started or still in delay countdown
 	/// @returns {bool} True, if the animation is running, false if still waiting for initial delay
 	static is_active = function() {
 		return __active;
 	}
 
-	/// @function		get_frame_counter()
-	/// @description	Gets the current running frame count
+	/// @func		get_frame_counter()
+	/// @desc	Gets the current running frame count
 	///					NOTE: This function returns 0 (zero) while waiting for the initial delay.
 	/// @returns {int}	The current frame number
 	static get_frame_counter = function() {
 		return __frame_counter;
 	}
 
-	/// @function		get_remaining_frames()
-	/// @description	Returns the amount of frames left for this animation iteration
+	/// @func		get_remaining_frames()
+	/// @desc	Returns the amount of frames left for this animation iteration
 	///					In a looping animation with more than one repeat, this returns
 	///					the number of frames remaining in the current loop.
 	///					NOTE: 
@@ -487,7 +487,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return __active ? (duration - __frame_counter + 1) : (delay - __delay_counter + duration);
 	}
 
-	/// @function		__process_final_state(aborted = false)
+	/// @func		__process_final_state(aborted = false)
 	static __process_final_state = function(aborted = false) {
 		if (!string_is_empty(finished_state)) {
 			var st = finished_state;
@@ -511,8 +511,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 
-	/// @function					step()
-	/// @description				call this every step!
+	/// @func					step()
+	/// @desc				call this every step!
 	static step = function() {
 		if (__finished || __paused) return;
 		
@@ -584,8 +584,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	
-	/// @function		followed_by(_delay, _duration, _animcurve, _repeats, _finished_state = undefined)
-	/// @description	Defines a follow-up animation when this animation finishes
+	/// @func		followed_by(_delay, _duration, _animcurve, _repeats, _finished_state = undefined)
+	/// @desc	Defines a follow-up animation when this animation finishes
 	/// @param {int}		_delay      How many frames to wait until animation starts
 	/// @param {int}		_duration   Running time of (one loop) of the animation
 	/// @param {AnimCurve}	_animcurve  The AnimCurve providing the animated values
@@ -601,8 +601,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return anm;
 	}
 	
-	/// @function		loop_to_first(_repeats = -1)
-	/// @description	Jumps to the first animation of the sequence when this animation ends.
+	/// @func		loop_to_first(_repeats = -1)
+	/// @desc	Jumps to the first animation of the sequence when this animation ends.
 	/// @param {int}		_repeats    Number of loops to perform. Default = -1, which means forever
 	static loop_to_first = function(_repeats = -1) {
 		var anm = self;
@@ -613,8 +613,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		return self;
 	}
 	
-	/// @function		loop_to(_name, _repeats = -1)
-	/// @description	Jumps to the named animation of the sequence when this animation ends.
+	/// @func		loop_to(_name, _repeats = -1)
+	/// @desc	Jumps to the named animation of the sequence when this animation ends.
 	///					NOTE: You can set a name for an animation through the .set_name method!
 	/// @param {string}		_name		Name of the animation to loop to (use .set_name to set a name!)
 	/// @param {int}		_repeats    Number of loops to perform. Default = -1, which means forever
@@ -635,8 +635,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		}
 	}
 	
-	/// @function		finish()
-	/// @description	Fast forward until the end of the animation, invoking all triggers on the way.
+	/// @func		finish()
+	/// @desc	Fast forward until the end of the animation, invoking all triggers on the way.
 	///					The function uses the current delta_time as time step until the end of the animation is reached.
 	///					If the animation is paused, the paused state is lifted for the operation.
 	///					Repeats will be set to 1, so only the current iteration will be finished.
@@ -661,8 +661,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 		__paused = paused_before;
 	}
 	
-	/// @function		abort(_run_finished_triggers = true)
-	/// @description	Stop immediately, but finished trigger WILL fire unless you set the argument to false!
+	/// @func		abort(_run_finished_triggers = true)
+	/// @desc	Stop immediately, but finished trigger WILL fire unless you set the argument to false!
 	static abort = function(_run_finished_triggers = true) {
 		var was_finished = __finished;
 		__finished = true;
@@ -680,8 +680,8 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 			values.binder().unbind_all();
 	}
 	
-	/// @function		reset()
-	/// @description	All back to start. Animation will RUN now (but respect the delay)!
+	/// @func		reset()
+	/// @desc	All back to start. Animation will RUN now (but respect the delay)!
 	///					NOTE: The animation direction (forward/backward) will NOT change 
 	///					with a reset!
 	static reset = function(_incl_triggers = false) {
@@ -744,21 +744,21 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	}
 }
 
-/// @function		animation_clear_pool()
-/// @description	Instantly removes ALL animations from the global ANIMATIONS pool.
+/// @func		animation_clear_pool()
+/// @desc	Instantly removes ALL animations from the global ANIMATIONS pool.
 function animation_clear_pool() {
 	ANIMATIONS.clear();
 }
 
-/// @function		animation_get_all(owner = self)
-/// @description	Get all registered animations for the specified owner from the global ANIMATIONS pool.
+/// @func		animation_get_all(owner = self)
+/// @desc	Get all registered animations for the specified owner from the global ANIMATIONS pool.
 ///					NOTE: Set the owner to <undefined> to retrieve ALL existing animations!
 function animation_get_all(owner = self) {
 	return __listpool_get_all_owner_objects(ANIMATIONS, owner);
 }
 
-/// @function		animation_finish_all(owner = self)
-/// @description	Finish all registered animations for the specified owner.
+/// @func		animation_finish_all(owner = self)
+/// @desc	Finish all registered animations for the specified owner.
 ///					NOTE: Set the owner to <undefined> to finish ALL existing animations!
 function animation_finish_all(owner = self) {
 	var removers = animation_get_all(owner);
@@ -774,8 +774,8 @@ function animation_finish_all(owner = self) {
 	}
 }
 
-/// @function		animation_abort_all(owner = self, _run_finished_triggers = true)
-/// @description	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
+/// @func		animation_abort_all(owner = self, _run_finished_triggers = true)
+/// @desc	Remove all registered animations for the specified owner from the global ANIMATIONS pool.
 ///					NOTE: Set the owner to <undefined> to abort ALL existing animations!
 function animation_abort_all(owner = self, _run_finished_triggers = true) {
 	var removers = animation_get_all(owner);
@@ -791,8 +791,8 @@ function animation_abort_all(owner = self, _run_finished_triggers = true) {
 	}
 }
 
-/// @function animation_abort(owner, name, _run_finished_triggers = true)
-/// @description Aborts one specific named animation of a specified owner.
+/// @func animation_abort(owner, name, _run_finished_triggers = true)
+/// @desc Aborts one specific named animation of a specified owner.
 ///				 NOTE: If multiple animations with the same name exist, 
 ///				 only the first one found will be aborted!
 /// @returns {bool} True, if an animation has been aborted, otherwise false.
@@ -807,8 +807,8 @@ function animation_abort(owner, name, _run_finished_triggers = true) {
 	return false;
 }
 
-/// @function animation_finish(owner, name)
-/// @description Finishes one specific named animation of a specified owner.
+/// @func animation_finish(owner, name)
+/// @desc Finishes one specific named animation of a specified owner.
 ///				 NOTE: If multiple animations with the same name exist, 
 ///				 only the first one found will be finished!
 /// @returns {bool} True, if an animation has been finished, otherwise false.
@@ -822,8 +822,8 @@ function animation_finish(owner, name) {
 	return false;
 }
 
-/// @function		animation_pause_all(owner = self)
-/// @description	Set all registered animations for the specified owner to paused state.
+/// @func		animation_pause_all(owner = self)
+/// @desc	Set all registered animations for the specified owner to paused state.
 ///					NOTE: Set the owner to <undefined> to pause ALL existing animations!
 ///					This bulk function is very handy if you have a "pause/resume" feature in your
 ///					game and you want to "freeze" the scene.
@@ -841,8 +841,8 @@ function animation_pause_all(owner = self) {
 	}
 }
 
-/// @function		animation_resume_all(owner = self)
-/// @description	Set all registered animations for the specified owner to running state.
+/// @func		animation_resume_all(owner = self)
+/// @desc	Set all registered animations for the specified owner to running state.
 ///					NOTE: Set the owner to <undefined> to resume ALL existing animations!
 ///					This bulk function is very handy if you have a "pause/resume" feature in your
 ///					game and you want to "unfreeze" the scene.
@@ -860,8 +860,8 @@ function animation_resume_all(owner = self) {
 	}
 }
 
-/// @function		is_in_animation(owner = self, name = undefined)
-/// @description	Returns true, if there's at least one animation for the specified owner 
+/// @func		is_in_animation(owner = self, name = undefined)
+/// @desc	Returns true, if there's at least one animation for the specified owner 
 ///					currently in the global ANIMATIONS pool.
 ///					If the name is also specified, true is only returned, if the names match.
 ///					This is useful if you need to know, whether an object is currently running
@@ -877,15 +877,15 @@ function is_in_animation(owner = self, name = undefined) {
 	return false;
 }
 
-/// @function			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
-/// @description		convenience constructor wrapper if you don't need to keep your own pointer
+/// @func			animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @desc		convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
 function animation_run(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
-/// @function			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
-/// @description		Runs an animation EXCLUSIVE (i.e. calls "animation_abort_all()" for the owner first.
+/// @func			animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @desc		Runs an animation EXCLUSIVE (i.e. calls "animation_abort_all()" for the owner first.
 ///						Convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
 function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
@@ -893,8 +893,8 @@ function animation_run_ex(_obj_owner, _delay, _duration, _animcurve, _repeats = 
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
-/// @function			animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
-/// @description		Runs an animation EXCLUSIVE WITH FINISH (i.e. calls "animation_finish_all()" for the owner first.
+/// @func			animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+/// @desc		Runs an animation EXCLUSIVE WITH FINISH (i.e. calls "animation_finish_all()" for the owner first.
 ///						Convenience constructor wrapper if you don't need to keep your own pointer
 /// @returns {Animation}
 function animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) {
@@ -902,8 +902,8 @@ function animation_run_exf(_obj_owner, _delay, _duration, _animcurve, _repeats =
 	return new Animation(_obj_owner, _delay, _duration, _animcurve, _repeats, _finished_state, _data);
 }
 
-/// @function			animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _data = {})
-/// @description		Similar to animation run, it even returns an animation, but you don't need an object to animate,
+/// @func			animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration, _animcurve, _repeats = 1, _data = {})
+/// @desc		Similar to animation run, it even returns an animation, but you don't need an object to animate,
 ///						instead, a sprite_index is enough and a pooled instance of __sprite_anim_runner will be used to
 ///						run the animation. It returns to the pool, when the animation is finished.
 ///						Works even for ANIMATION CHAINS! That's why this function returns the created animation and not
@@ -923,8 +923,8 @@ function animate_sprite(_sprite, _layer_name_or_depth, _x, _y, _delay, _duration
 	return animation_run(runner, _delay, _duration, _animcurve, _repeats, undefined, _data);
 }
 
-/// @function			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1, _data = {})
-/// @description		Convenience function to create a delay/duration/callback animation
+/// @func			__animation_empty(_obj_owner, _delay, _duration, _repeats = 1, _data = {})
+/// @desc		Convenience function to create a delay/duration/callback animation
 ///						without an animcurve, but you have still ALL callbacks available
 ///						(started, finished, frames, etc). It just has no animation.
 ///						You can use this to easily delay or repeat actions without the need of

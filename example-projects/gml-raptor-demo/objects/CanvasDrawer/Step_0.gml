@@ -1,4 +1,4 @@
-/// @description animation timing
+/// @desc animation timing
 if (__subimage_count == 1 || __time_step == 0) exit;
 
 __time += (delta_time * image_speed);

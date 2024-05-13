@@ -57,6 +57,11 @@ function load_encrypted() {
 	savegame_load_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
 }
 
+function activate_default_theme() {
+	UI_THEMES.activate_theme("default");
+	room_restart();
+}
+
 function activate_blue_theme() {
 	UI_THEMES.activate_theme("coldrock");
 	room_restart();

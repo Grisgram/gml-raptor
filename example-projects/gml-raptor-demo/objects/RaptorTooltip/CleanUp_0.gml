@@ -1,4 +1,4 @@
-/// @description self-remove from TOOLTIP_INSTANCES
+/// @desc self-remove from TOOLTIP_INSTANCES
 
 var ttname = object_get_name(object_index);
 if (variable_struct_exists(TOOLTIP_INSTANCES, ttname)) {

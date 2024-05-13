@@ -6,8 +6,8 @@
 */
 
 
-/// @function			sprintf(str)
-/// @description		Classic C# string.Format command. Up to 15 parameters allowed, use {0}, {1}...
+/// @func			sprintf(str)
+/// @desc		Classic C# string.Format command. Up to 15 parameters allowed, use {0}, {1}...
 ///						Example: string_format("Hello {0}, you have {1} gold", name, balance);
 /// @param {string} str	The string to format (+ followed by up to 16 formatargs
 ///	@returns {string}	The formatted string
@@ -21,8 +21,8 @@ function sprintf(str) {
 	return rv;
 }
 
-/// @function					string_skip_start(str, count)
-/// @description				Returns a substring of str that skipped the first {count} characters
+/// @func					string_skip_start(str, count)
+/// @desc				Returns a substring of str that skipped the first {count} characters
 /// @param {string} str			The string
 /// @param {integer} count		The number of characters to skip.
 function string_skip_start(str, count) {
@@ -33,8 +33,8 @@ function string_skip_start(str, count) {
 	return "";
 }
 
-/// @function					string_skip_end(str, count)
-/// @description				Returns a substring of str that truncated the last {count} characters
+/// @func					string_skip_end(str, count)
+/// @desc				Returns a substring of str that truncated the last {count} characters
 /// @param {string} str			The string
 /// @param {integer} count		The number of characters to skip/truncate.
 function string_skip_end(str, count) {
@@ -45,8 +45,8 @@ function string_skip_end(str, count) {
 	return "";
 }
 
-/// @function					string_first(str, count)
-/// @description				Returns the first <count> characters of a string.
+/// @func					string_first(str, count)
+/// @desc				Returns the first <count> characters of a string.
 ///								If the length of the string is less than count characters, the 
 ///								entire string is returned
 /// @param {string} str			The string
@@ -62,8 +62,8 @@ function string_first(str, count) {
 	return "";
 }
 
-/// @function					string_last(str, count)
-/// @description				Returns the last <count> characters of a string.
+/// @func					string_last(str, count)
+/// @desc				Returns the last <count> characters of a string.
 ///								If the length of the string is less than count characters, the 
 ///								entire string is returned
 /// @param {string} str			The string
@@ -79,8 +79,8 @@ function string_last(str, count) {
 	return "";
 }
 
-/// @function					string_contains(str, substr)
-/// @description				returns whether the specified substr is contained in str.
+/// @func					string_contains(str, substr)
+/// @desc				returns whether the specified substr is contained in str.
 /// @param {string} str
 /// @param {string} substr
 /// @returns {bool}	y/n
@@ -88,8 +88,8 @@ function string_contains(str, substr, startpos = 1) {
 	return string_pos_ext(substr, str, startpos) > 0;
 }
 
-/// @function					string_match(str, wildcard_str)
-/// @description				Checks whether a string matches a specific wildcard string.
+/// @func					string_match(str, wildcard_str)
+/// @desc				Checks whether a string matches a specific wildcard string.
 ///								Wildcard character is '*' and it can appear at the beginning,
 ///								the end, or both.
 ///								* at the beginning means "ends_with" (hello -> *llo)
@@ -125,16 +125,16 @@ function string_match(str, wildcard_str) {
 	return rv;
 }
 
-/// @function					string_is_empty(str)
-/// @description				checks if a string is undefined or empty/blank characters only
+/// @func					string_is_empty(str)
+/// @desc				checks if a string is undefined or empty/blank characters only
 /// @param {string} str			string to check
 /// @returns {bool}				y/n
 function string_is_empty(str) {
 	return str == undefined || string_trim(str) == "";
 }
 
-/// @function		string_reverse(str)
-/// @description	Reverse a string back-to-front
+/// @func		string_reverse(str)
+/// @desc	Reverse a string back-to-front
 /// @param {string} str			string to reverse
 /// @returns {string}				the reversed string
 function string_reverse(str) {
@@ -145,8 +145,8 @@ function string_reverse(str) {
     return out;
 }
 
-/// @function		string_parse_hex(str)
-/// @description	Parses a hex string, ignoring $, # and dashes and stops at the first unknown character
+/// @func		string_parse_hex(str)
+/// @desc	Parses a hex string, ignoring $, # and dashes and stops at the first unknown character
 ///					Returns a numeric value containing the (decimal) value of the hex in the string
 /// @param {string} str	string to parse
 /// @returns {int}	the value of the string
@@ -182,8 +182,8 @@ function string_parse_hex(str) {
 	return rv;
 }
 
-/// @function		string_get_hex(str)
-/// @description	Converts a decimal value to a hex string of a specified length.
+/// @func		string_get_hex(str)
+/// @desc	Converts a decimal value to a hex string of a specified length.
 ///					ATTENTION! If you convert numbers that are too large for the specified
 ///					length, you might lose information! (Like trying to convert 123456789 into a 2-digit hex string)
 /// @param {int} decimal	value to convert

@@ -1,4 +1,4 @@
-/// @description align to view
+/// @desc align to view
 
 event_inherited();
 if (__INSTANCE_UNREACHABLE) exit;

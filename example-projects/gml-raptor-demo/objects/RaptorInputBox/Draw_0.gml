@@ -1,4 +1,4 @@
-/// @description draw_on_gui?
+/// @desc draw_on_gui?
 
 // Inherit the parent event
 event_inherited();

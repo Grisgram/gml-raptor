@@ -1,4 +1,4 @@
-/// @description states.data.animation_end = true
+/// @desc states.data.animation_end = true
 event_inherited();
 states.data.animation_end = true;
 

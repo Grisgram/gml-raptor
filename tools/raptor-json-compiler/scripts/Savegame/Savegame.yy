@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Savegame",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Savegame",
+  "parent":{
+    "name":"Savegame",
+    "path":"folders/_gml_raptor_/Savegame.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

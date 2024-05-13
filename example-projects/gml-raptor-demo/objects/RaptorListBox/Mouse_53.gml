@@ -1,4 +1,4 @@
-/// @description close if outside
+/// @desc close if outside
 event_inherited();
 
 GUI_EVENT_UNTARGETTED;

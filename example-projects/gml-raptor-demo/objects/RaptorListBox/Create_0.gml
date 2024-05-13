@@ -1,9 +1,20 @@
-/// @description event
-event_inherited();
+/// @desc event
 
 enum listbox_sort {
 	none, ascending, descending
 }
+
+enum listbox_style {
+	dropdown, listview
+}
+
+if (list_style == listbox_style.listview) {
+	min_height = 0;
+	startup_height = 0;
+	autosize = false;
+}
+
+event_inherited();
 
 down_arrow_sprite ??= sprDefaultListBoxArrow;
 
@@ -17,6 +28,7 @@ function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) construct
 	valuemember		= _valuemember;
 	index			= _index;
 	
+	selected		= false;
 	shortened		= false;
 	measured		= false;
 	static measure = function() {
@@ -31,9 +43,9 @@ function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) construct
 		while (displaystring != "" && len.x > max_len) {
 			shortened = true;
 			displaystring = string_skip_end(displaystring, 1);
-			scribble_measure_text(displaystring + "...",, len);
+			scribble_measure_text(string_concat(displaystring, "..."),, len);
 			if (len.x <= max_len) {
-				displaystring += "...";
+				displaystring = string_concat(displaystring, "...");
 				break;
 			}
 		}
@@ -56,16 +68,16 @@ function __ListBoxItem(_listbox, _displaymember, _valuemember, _index) construct
 
 #region item functions
 
-/// @function add_item(_displaymember, _valuemember)
-/// @description	Adds a new item to the list
+/// @func add_item(_displaymember, _valuemember)
+/// @desc	Adds a new item to the list
 add_item = function(_displaymember, _valuemember) {
 	close_list();
 	var idx = array_length(items);
 	array_push(items, new __ListBoxItem(self, _displaymember, _valuemember, idx));
 }
 
-/// @function remove_item_by_value(_valuemember)
-/// @description Removes an item by its value from the list
+/// @func remove_item_by_value(_valuemember)
+/// @desc Removes an item by its value from the list
 remove_item_by_value = function(_valuemember) {
 	var idx = -1;
 	
@@ -84,8 +96,8 @@ remove_item_by_value = function(_valuemember) {
 	}
 }
 
-/// @function remove_item_by_name(_displaymember)
-/// @description Removes an item by its name from the list
+/// @func remove_item_by_name(_displaymember)
+/// @desc Removes an item by its name from the list
 remove_item_by_name = function(_displaymember) {
 	var idx = -1;
 	
@@ -104,24 +116,24 @@ remove_item_by_name = function(_displaymember) {
 	}
 }
 
-/// @function get_selected_value()
-/// @description Gets the valuemember of the selected item or undefined, if nothing is selected
+/// @func get_selected_value()
+/// @desc Gets the valuemember of the selected item or undefined, if nothing is selected
 get_selected_value = function() {
 	if (selected_index != -1)
 		return items[@selected_index].valuemember;
 	return undefined;
 }
 
-/// @function get_selected_item()
-/// @description Gets the valuemember of the selected item or undefined, if nothing is selected
+/// @func get_selected_item()
+/// @desc Gets the valuemember of the selected item or undefined, if nothing is selected
 get_selected_item = function() {
 	if (selected_index != -1)
 		return items[@selected_index];
 	return undefined;
 }
 
-/// @function clear_items()
-/// @description Clear all items from the listbox and set selected_index to -1.
+/// @func clear_items()
+/// @desc Clear all items from the listbox and set selected_index to -1.
 ///				 NOTE: This will NEVER trigger the on_item_selected callback!
 clear_items = function() {
 	for (var i = 0, len = array_length(items); i < len; i++) 
@@ -131,10 +143,12 @@ clear_items = function() {
 }
 
 __item_clicked = function(_item) {
+	array_foreach(items, function(it) { it.selected = false; });
 	if (_item != undefined) {
-		text = _item.get_display_string();
+		text = (list_style == listbox_style.dropdown ? _item.get_display_string() : "");
 		tooltip_text = (_item.shortened ? _item.displaymember : "");
 		selected_index = _item.index;
+		_item.selected = true;
 		invoke_if_exists(self, "on_item_selected", _item.valuemember, _item.displaymember);
 	}
 	close_list();
@@ -163,7 +177,7 @@ open_list = function() {
 }
 
 close_list = function() {
-	if (!is_open) return;
+	if (!is_open || list_style == listbox_style.listview) return;
 	is_open = false;
 	
 	vlog($"{MY_NAME} closing list panel");
@@ -174,12 +188,12 @@ close_list = function() {
 	invoke_if_exists(self, "on_list_closed");
 }
 
-/// @function toggle_open_state()
+/// @func toggle_open_state()
 toggle_open_state = function() {
 	if (is_open) close_list(); else open_list();
 }
 
-/// @function mouse_over_list_or_panel()
+/// @func mouse_over_list_or_panel()
 mouse_over_list_or_panel = function() {
 	var overpanel = false;
 	if (mypanel != undefined) {
@@ -211,10 +225,15 @@ if (array_length(items ?? []) > 0) {
 		__item_clicked(items[@ selected_index]);
 }
 
+if (list_style == listbox_style.listview) {
+	scale_sprite_to(sprite_width, 0);
+	open_list();
+}
+
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
 	
-	if (!visible) return;
+	if (!visible || list_style == listbox_style.listview) return;
 	
 	draw_sprite_ext(down_arrow_sprite, 0, 
 		SELF_VIEW_RIGHT_EDGE, 

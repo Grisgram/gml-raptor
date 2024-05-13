@@ -44,8 +44,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 			layer_destroy(fx_layer);
 	}
 
-	/// @function		do_transit()
-	/// @description	Perform transit to next room
+	/// @func		do_transit()
+	/// @desc	Perform transit to next room
 	static do_transit = function() {
 		dlog($"Out-Animation finished for transit to '{room_get_name(target_room)}'");
 		__ACTIVE_TRANSITION_STEP = 1;
@@ -55,8 +55,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 			room_goto(target_room);
 	}
 
-	/// @function		transit_finished()
-	/// @description	Call this, when transit is done
+	/// @func		transit_finished()
+	/// @desc	Call this, when transit is done
 	static transit_finished = function() {
 		dlog($"Transit to '{room_get_name(target_room)}' finished");
 		__ACTIVE_TRANSITION		 = undefined;
@@ -66,8 +66,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 		with(ROOMCONTROLLER) onTransitFinished();
 	}
 
-	/// @function		get_app_canvas()
-	/// @description	Copy the app surface to a canvas
+	/// @func		get_app_canvas()
+	/// @desc	Copy the app surface to a canvas
 	static get_app_canvas = function() {
 		var rv = new Canvas(APP_SURF_WIDTH, APP_SURF_HEIGHT);
 		rv.Start();

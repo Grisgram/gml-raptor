@@ -1,4 +1,4 @@
-/// @description log event
+/// @desc log event
 
 event_inherited();
 GUI_EVENT_MOUSE;

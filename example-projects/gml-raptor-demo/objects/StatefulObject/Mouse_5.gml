@@ -1,4 +1,4 @@
-/// @description state ev:right_pressed
+/// @desc state ev:right_pressed
 event_inherited();
 if (protect_ui_events) GUI_EVENT_MOUSE;
 

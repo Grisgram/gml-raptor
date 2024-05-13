@@ -24,18 +24,15 @@ function WoodSkin(_name = "wood") : DefaultSkin(_name) constructor {
 
 	var woodwindow = { 
 		sprite_index: sprWoodWindow,
-		draw_color: APP_THEME_WHITE,
-		draw_color_mouse_over: APP_THEME_WHITE,
-		focus_border_color: APP_THEME_WHITE,
+		draw_color: THEME_WHITE,
+		draw_color_mouse_over: THEME_WHITE,
+		focus_border_color: THEME_WHITE,
 		titlebar_height: 38
 	}
 
 	var text_control = function(spr) {
 		return {
 			sprite_index: spr,
-			text_color: APP_THEME_WHITE,
-			text_color_mouse_over: APP_THEME_WHITE,
-			animated_text_color: APP_THEME_WHITE
 		};
 	}
 

@@ -21,8 +21,8 @@
 #macro	STATEMACHINES	global.__statemachine_pool
 STATEMACHINES		= new ListPool("STATEMACHINES");
 
-/// @function	 StateMachine(_owner, ...)
-/// @description Create a new state machine with a list of states
+/// @func	 StateMachine(_owner, ...)
+/// @desc Create a new state machine with a list of states
 /// @param {instance} _owner  The owner of the StateMachine. MUST be an object instance!
 /// @param {State...} states  Any number (up to 15) of State(...) instances that define the states
 function StateMachine(_owner) constructor {
@@ -54,8 +54,8 @@ function StateMachine(_owner) constructor {
 		array_push(__states, st);
 	}
 	
-	/// @function 		events_enabled()
-	/// @description	Invoked by the StateMachine when it needs to know, whether it should react
+	/// @func 		events_enabled()
+	/// @desc	Invoked by the StateMachine when it needs to know, whether it should react
 	///					on input events like key strokes or mouse clicks.
 	///					The default implementation disables events if we are behind a popup or a 
 	///					MessageBox is currently open.
@@ -69,8 +69,8 @@ function StateMachine(_owner) constructor {
 			return !__LAYER_OR_OBJECT_HIDDEN && !__HIDDEN_BEHIND_POPUP;
 	}
 	
-	/// @function		set_events_enabled_func(func)
-	/// @description	Assigns a new events_enabled function to this state machine.
+	/// @func		set_events_enabled_func(func)
+	/// @desc	Assigns a new events_enabled function to this state machine.
 	///					This is a chainable convenience function, you can also assign a
 	///					new events_enabled function by simply overriding (redefining)
 	///					the .events_enabled member of this state machine directly.
@@ -80,8 +80,8 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function		clear_states()
-	/// @description	Removes all known states, sets active_state = undefined and optionally 
+	/// @func		clear_states()
+	/// @desc	Removes all known states, sets active_state = undefined and optionally 
 	///					resets the data variable.
 	///					NOTE: The on_leave callback of any active state will NOT be invoked!
 	///					This reset is instant.
@@ -104,8 +104,8 @@ function StateMachine(_owner) constructor {
 		lock_end_leave = undefined;
 	}
 	
-	/// @function lock_animation(_animation, _buffer_state_change = true)
-	/// @description	runs an animation locked, which means, no state change
+	/// @func lock_animation(_animation, _buffer_state_change = true)
+	/// @desc	runs an animation locked, which means, no state change
 	///					is allowed until it is finished.
 	///					If a state change occurs while running, and you have set the
 	///					_buffer_state_change argument to true, then this state is remembered
@@ -125,8 +125,8 @@ function StateMachine(_owner) constructor {
 			});
 	}
 	
-	/// @function		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
-	/// @description	Defines a new state for the StateMachine. 
+	/// @func		add_state(_name, _on_enter = undefined, _on_step = undefined, _on_leave = undefined)
+	/// @desc	Defines a new state for the StateMachine. 
 	///					NOTE: If a state with that name already exists, it is overwritten!
 	/// @param {string} _name		The name of the state
 	/// @param {func}	_on_enter	Optional. Callback to invoke when this state gets entered
@@ -146,8 +146,8 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function		add_state_shared(_state)
-	/// @description	Adds a shared state to the StateMachine. 
+	/// @func		add_state_shared(_state)
+	/// @desc	Adds a shared state to the StateMachine. 
 	///					NOTE: If a state with that name already exists, it is overwritten!
 	/// @param {State}  state The shared state to add
 	static add_state_shared = function(_state) {
@@ -163,7 +163,7 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function __perform_state_change(action, rv)
+	/// @func __perform_state_change(action, rv)
 	static __perform_state_change = function(action, rv) {
 		if (rv != undefined && is_string(rv)) {
 			if (!has_active_state() || rv != active_state.name) {
@@ -174,8 +174,8 @@ function StateMachine(_owner) constructor {
 		}
 	}
 	
-	/// @function		set_state(name, enter_override = undefined, leave_override = undefined)
-	/// @description	Transition to a new state. If the specified state does not exist,
+	/// @func		set_state(name, enter_override = undefined, leave_override = undefined)
+	/// @desc	Transition to a new state. If the specified state does not exist,
 	///					an error is logged and the object stays in the current state.
 	/// @param {string} name state to enter
 	/// @param {func} enter_override  Optional. Replace the original on_enter for this transition with something else
@@ -245,8 +245,8 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function		delete_state(_name)
-	/// @description	Delete a state from the StateMachine.
+	/// @func		delete_state(_name)
+	/// @desc	Delete a state from the StateMachine.
 	///					If the object is currently in this state, the delete request is silently ignored.
 	/// @param {string} 	_name  The name of the state to delete.
 	static delete_state = function(name) {
@@ -264,22 +264,22 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function			has_active_state()
-	/// @description		Check whether the StateMachine is currently in a valid state
+	/// @func			has_active_state()
+	/// @desc		Check whether the StateMachine is currently in a valid state
 	/// @returns {bool} 	true/false Is the object in a valid state?
 	static has_active_state = function() {
 		return active_state != undefined;
 	}
 	
-	/// @function			active_state_name()
-	/// @description		Get the name of the active state
+	/// @func			active_state_name()
+	/// @desc		Get the name of the active state
 	/// @returns {string} 	The name of the active state or undefined, if there is none.
 	static active_state_name = function() {
 		return active_state != undefined ? active_state.name : undefined;
 	}
 	
-	/// @function			get_state(name)
-	/// @description		Get the state instance with the given name
+	/// @func			get_state(name)
+	/// @desc		Get the state instance with the given name
 	/// @returns {State} 	The requested state or undefined, if there is none.
 	static get_state = function(name) {
 		if (name == undefined)
@@ -292,16 +292,16 @@ function StateMachine(_owner) constructor {
 		return undefined;
 	}
 	
-	/// @function get_active_state()
-	/// @description		Get the state instance of the currently active state
+	/// @func get_active_state()
+	/// @desc		Get the state instance of the currently active state
 	/// @returns {State} 	The requested state or undefined, if there is none.
 	static get_active_state = function() {
 		return get_state(active_state_name());
 	}
 	
-	/// @function rename_state(old_name, new_name)
-	/// @function rename_state(old_name, new_name)
-	/// @description	Rename an existing state.
+	/// @func rename_state(old_name, new_name)
+	/// @func rename_state(old_name, new_name)
+	/// @desc	Rename an existing state.
 	///					Useful to rename event states if you redefine keys or similar reasons.
 	///					NOTE: If the state to rename does not exist, the rename request is silently ignored.
 	/// @param {string} old_name   The current name of the state
@@ -311,15 +311,15 @@ function StateMachine(_owner) constructor {
 		if (st != undefined) st.name = new_name;
 	}
 	
-	/// @function		state_exists(name)
-	/// @description	Check whether the specified state exists
+	/// @func		state_exists(name)
+	/// @desc	Check whether the specified state exists
 	/// @param {string} name   The name of the state to check
 	/// @returns {bool} true/false State exists?
 	static state_exists = function(name) {
 		return get_state(name) != undefined;
 	}
 	
-	/// @function step()
+	/// @func step()
 	static step = function() {
 		if (!__objectpool_paused && active_state != undefined) {
 			active_state.data = data;
@@ -330,8 +330,8 @@ function StateMachine(_owner) constructor {
 		}
 	}
 	
-	/// @function		set_allow_re_enter_state(allow)
-	/// @description	Set whether re-entering the same state is allowed (Default = false).
+	/// @func		set_allow_re_enter_state(allow)
+	/// @desc	Set whether re-entering the same state is allowed (Default = false).
 	///					If you set this to true, a set_state with the name of the current state
 	///					will cause the on_leave of the current state followed by on_enter of
 	///					the same to be invoked.
@@ -341,8 +341,8 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function		set_on_destroy(func)
-	/// @description	Set a callback function to be invoked when this StateMachine is destroyed.
+	/// @func		set_on_destroy(func)
+	/// @desc	Set a callback function to be invoked when this StateMachine is destroyed.
 	///					Use this if you need to destroy/free resources allocated in the data of the
 	///					StateMachine (like ds_lists or ds_maps).
 	/// @param {func} func Function to invoke when this StateMachine is destroyed.
@@ -351,8 +351,8 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function		destroy()
-	/// @description	Destroy this StateMachine. The on_destroy callback will be invoked, if one is set.
+	/// @func		destroy()
+	/// @desc	Destroy this StateMachine. The on_destroy callback will be invoked, if one is set.
 	static destroy = function() {
 		if (on_destroy != undefined)
 			on_destroy();
@@ -361,8 +361,8 @@ function StateMachine(_owner) constructor {
 		STATEMACHINES.remove(self);
 	}
 	
-	/// @function set_data(_property, _value)
-	/// @description Lets you set a property in the data struct to a value.
+	/// @func set_data(_property, _value)
+	/// @desc Lets you set a property in the data struct to a value.
 	///				 This method is a convenience function for the builder pattern,
 	///				 so you can declare your initial data values directly while
 	///				 building the animation
@@ -371,8 +371,8 @@ function StateMachine(_owner) constructor {
 		return self;
 	}
 	
-	/// @function binder()
-	/// @description Gets the PropertyBinder for the values of this animation
+	/// @func binder()
+	/// @desc Gets the PropertyBinder for the values of this animation
 	static binder = function() {
 		return data.binder();
 	}
@@ -384,8 +384,8 @@ function StateMachine(_owner) constructor {
 	
 }
 
-/// @function					State(_name, _on_enter = undefined, _on_step, _on_leave = undefined)
-/// @description				Defines a state for the StateMachine.
+/// @func					State(_name, _on_enter = undefined, _on_step, _on_leave = undefined)
+/// @desc				Defines a state for the StateMachine.
 /// @param {string} _name		The name of the state
 /// @param {func} _on_enter		callback to be invoked when this state becomes the active state
 /// @param {func} _on_step		The function to run
@@ -425,14 +425,14 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 
 }
 
-/// @function		statemachine_clear_pool()
-/// @description	Instantly removes ALL state machines
+/// @func		statemachine_clear_pool()
+/// @desc	Instantly removes ALL state machines
 function statemachine_clear_pool() {
 	STATEMACHINES.clear();
 }
 
-/// @function		__statemachine_pause_all(_owner, _paused)
-/// @description	raptor-internal! Do not call!
+/// @func		__statemachine_pause_all(_owner, _paused)
+/// @desc	raptor-internal! Do not call!
 function __statemachine_pause_all(_owner, _paused) {
 	var mymachines = __listpool_get_all_owner_objects(STATEMACHINES, _owner);
 	for (var i = 0; i < array_length(mymachines); i++)

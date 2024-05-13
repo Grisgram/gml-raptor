@@ -1,4 +1,4 @@
-/// @description Docs inside!
+/// @desc Docs inside!
 event_inherited();
 
 /*

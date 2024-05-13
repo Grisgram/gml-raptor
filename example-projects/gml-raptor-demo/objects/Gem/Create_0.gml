@@ -8,13 +8,11 @@ event_inherited();
 
 states.add_state("idle");
 
-__parent_query_hit = onQueryHit;
-onQueryHit = function(first_query_table, current_query_table, item_dropped) {
-	__parent_query_hit(first_query_table, current_query_table, item_dropped);
+onRaceDrop = function(_item_data) {
 	
 	// As soon as onQueryHit gets invoked, "data.race_data" is already populated,
 	// so we look into the attributes of our race_data now and set our sprite
-	sprite_index = asset_get_index(data.race_data.attributes.sprite);
+	sprite_index = asset_get_index(data.race_item.attributes.sprite);
 	
 	// Now appear with a quick fade-in and a delay based on the number of gems
 	// already spawned.

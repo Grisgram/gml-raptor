@@ -59,16 +59,16 @@ function gui_runtime_config() constructor {
 	audio_channel_num(IS_HTML ? AUDIO_CHANNELS_HTML : 
 		(is_any_of(os_type, os_windows, os_macosx) ? AUDIO_CHANNELS_WINMAC : AUDIO_CHANNELS_OTHER));
 
-	/// @function					gui_scale_set(xscale = 1, yscale = 1)
-	/// @description				set ui scale to those multipliers
+	/// @func					gui_scale_set(xscale = 1, yscale = 1)
+	/// @desc				set ui scale to those multipliers
 	/// @param {real=1} xscale
 	/// @param {real=1} yscale
 	static gui_scale_set = function(xscale = 1, yscale = 1) {
 		display_set_gui_maximize(xscale, yscale);
 	}
 	
-	/// @function					gui_scale_disable_maximize
-	/// @description				disables blackborder drawing of the ui
+	/// @func					gui_scale_disable_maximize
+	/// @desc				disables blackborder drawing of the ui
 	static gui_scale_disable_maximize = function() {
 		display_set_gui_maximize(-1, -1);
 	}

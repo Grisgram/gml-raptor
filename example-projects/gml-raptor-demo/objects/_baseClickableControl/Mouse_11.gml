@@ -1,4 +1,4 @@
-/// @description log event
+/// @desc log event
 
 event_inherited();
 play_ui_sound(on_leave_sound);

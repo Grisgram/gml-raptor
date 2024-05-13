@@ -11,8 +11,8 @@
 GUI_POPUP_VISIBLE = false;
 GUI_POPUP_LAYER_GROUP = undefined;
 
-/// @function							show_popup(_layer_group_name = "popup_")
-/// @description						shows all popup layers
+/// @func							show_popup(_layer_group_name = "popup_")
+/// @desc						shows all popup layers
 /// @param {string="popup_"} _layer_group_name	starts_with for layers to show
 function show_popup(_layer_group_name = "popup_*") {
 	vlog($"Showing popup view");
@@ -25,8 +25,8 @@ function show_popup(_layer_group_name = "popup_*") {
 	}
 }
 
-/// @function				hide_popup()
-/// @description			hides all popup layers shown through show_popup
+/// @func				hide_popup()
+/// @desc			hides all popup layers shown through show_popup
 function hide_popup() {
 	vlog($"Hiding popup view");
 	if (GUI_POPUP_VISIBLE) {

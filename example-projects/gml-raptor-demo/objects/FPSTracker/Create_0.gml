@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 
 // Inherit the parent event
 event_inherited();

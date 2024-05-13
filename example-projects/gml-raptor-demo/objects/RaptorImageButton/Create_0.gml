@@ -1,4 +1,4 @@
-/// @description 
+/// @desc 
 
 var w = (startup_width  >= 0 ? startup_width  : sprite_width);
 var h = (startup_height >= 0 ? startup_height : sprite_height);

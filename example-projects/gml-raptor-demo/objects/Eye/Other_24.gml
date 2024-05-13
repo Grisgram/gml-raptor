@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 __RAPTORDATA.camera_index			= camera_index			;

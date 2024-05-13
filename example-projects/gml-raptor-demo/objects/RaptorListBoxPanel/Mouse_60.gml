@@ -1,5 +1,7 @@
-/// @description scroll up
+/// @desc scroll up
 event_inherited();
 
 GUI_EVENT_UNTARGETTED;
-wheel_scroll(-1);
+
+if (listbox != undefined && listbox.mouse_over_list_or_panel())
+	wheel_scroll(-1);

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"SnapFromJSON",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"SnapFromJSON",
+  "parent":{
+    "name":"JSON",
+    "path":"folders/_third_party_packages_/SNAP/JSON.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

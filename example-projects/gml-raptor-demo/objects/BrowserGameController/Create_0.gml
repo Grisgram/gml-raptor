@@ -1,4 +1,4 @@
-/// @description Watch browser window size changes
+/// @desc Watch browser window size changes
 
 event_inherited();
 
@@ -10,8 +10,8 @@ curr_height = browser_height;
 if (__active)
 	browser_scrollbars_enable();
 
-/// @function					update_canvas()
-/// @description				Update the browser canvas
+/// @func					update_canvas()
+/// @desc				Update the browser canvas
 update_canvas = function() {
 	if (!__active)
 		return;

@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 // a panel adapts it's width and height when

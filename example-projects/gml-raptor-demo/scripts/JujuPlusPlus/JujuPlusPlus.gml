@@ -4,8 +4,8 @@
 */
 
 #region Scribble++
-/// @function scribble_measure_text(_string, _font = undefined, _coord2 = undefined)
-/// @description	Get a Coord2 containing the width and height the text needs,
+/// @func scribble_measure_text(_string, _font = undefined, _coord2 = undefined)
+/// @desc	Get a Coord2 containing the width and height the text needs,
 ///					if rendered with the specified _font (or the scribble_default_font if omitted)
 function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) {
 	var scrib = scribble(_string)
@@ -36,8 +36,8 @@ function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) 
     0x0B  -  instance ID reference
 */
 
-/// @function SnapBufferMeasureBinary(_value)
-/// @description	The number of bytes a buffer should have if this _value would've 
+/// @func SnapBufferMeasureBinary(_value)
+/// @desc	The number of bytes a buffer should have if this _value would've 
 ///					been written to a buffer through SnapBufferWriteBinary
 /// @param {struct/array} _value	The value to measure
 function SnapBufferMeasureBinary(_value)
@@ -114,7 +114,7 @@ function SnapBufferMeasureBinary(_value)
     }
     else
     {
-        show_message("Datatype \"" + typeof(_value) + "\" not supported");
+        show_message(string_concat("Datatype \"", typeof(_value), "\" not supported"));
     }
     return len;
 }

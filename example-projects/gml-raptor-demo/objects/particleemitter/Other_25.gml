@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 partsys_index			= __RAPTORDATA.partsys_index		;

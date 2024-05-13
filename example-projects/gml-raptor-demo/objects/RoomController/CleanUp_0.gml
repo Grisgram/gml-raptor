@@ -1,4 +1,4 @@
-/// @description unset global variable
+/// @desc unset global variable
 
 if (ROOMCONTROLLER == self) ROOMCONTROLLER = undefined;
 if (PARTSYS != undefined) {
@@ -12,7 +12,7 @@ if (PARTSYS != undefined) {
 }
 
 if (__ui_root_control != undefined) {
-	UI_ROOT.clean_up();
+	UI_ROOT.clear();
 	instance_destroy(__ui_root_control);
 }
 

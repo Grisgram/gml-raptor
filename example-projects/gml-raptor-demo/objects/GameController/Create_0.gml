@@ -1,4 +1,4 @@
-/// @description debug_mode & GAMECONTROLLER
+/// @desc debug_mode & GAMECONTROLLER
 
 event_inherited();
 #macro GAMECONTROLLER			global.__game_controller

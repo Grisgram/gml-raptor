@@ -31,8 +31,8 @@
 	value_percent   (holds the current % of max_value)
 */
 
-/// @function		HealthBarDrawer(_max_value = 100, _font = undefined, start_filled = true, _anchor = 0)
-/// @description	Utility to make drawing a healthbar less painful by providing common defaults
+/// @func		HealthBarDrawer(_max_value = 100, _font = undefined, start_filled = true, _anchor = 0)
+/// @desc	Utility to make drawing a healthbar less painful by providing common defaults
 /// @param {int}	_max_value maximum value
 /// @param {font}	_font font to use when drawing text
 /// @param {bool}	start_filled true (default) to have current_value == max_value, if false, current_value = 0
@@ -61,20 +61,20 @@ function HealthBarDrawer(_max_value = 100, _font = undefined, start_filled = tru
 	__prev_stry = -1;
 	__prev_string = "";
 
-	/// @function		is_empty()
-	/// @description	true if current_value == 0
+	/// @func		is_empty()
+	/// @desc	true if current_value == 0
 	static is_empty = function() {
 		return current_value == 0;
 	}
 
-	/// @function		is_full()
-	/// @description	true if current_value == max_value
+	/// @func		is_full()
+	/// @desc	true if current_value == max_value
 	static is_full = function() {
 		return current_value == max_value;
 	}
 
-	/// @function		update(new_current = undefined, new_max = undefined)
-	/// @description	update all values incl value_percent
+	/// @func		update(new_current = undefined, new_max = undefined)
+	/// @desc	update all values incl value_percent
 	static update = function(new_current = undefined, new_max = undefined) {
 		if (new_current != undefined) current_value = new_current;
 		if (new_max != undefined) max_value = new_max;
@@ -83,15 +83,15 @@ function HealthBarDrawer(_max_value = 100, _font = undefined, start_filled = tru
 		value_percent = (current_value / max_value) * 100;
 	}
 
-	/// @function		draw(x1,y1,x2,y2)
-	/// @description	draw at the specified coordinates
+	/// @func		draw(x1,y1,x2,y2)
+	/// @desc	draw at the specified coordinates
 	static draw = function(x1,y1,x2,y2) {
 		draw_healthbar(x1, y1, x2, y2, value_percent, backcol, mincol, maxcol, anchor, showback, showborder);
 		if (font != undefined && (draw_max || draw_current)) {
 			draw_set_font(font);
 			if (__prev_current != current_value || __prev_max != max_value) {
 				__prev_string = string(current_value);
-				if (draw_max) __prev_string += "/" + string(max_value);
+				if (draw_max) __prev_string = string_concat(__prev_string, "/", max_value);
 				__prev_current = current_value;
 				__prev_max = max_value;
 				__prev_strx = string_width(__prev_string) / 2;

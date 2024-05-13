@@ -1,4 +1,4 @@
-/// @description state ev:wheel_down
+/// @desc state ev:wheel_down
 event_inherited();
 if (protect_ui_events) GUI_EVENT_MOUSE;
 

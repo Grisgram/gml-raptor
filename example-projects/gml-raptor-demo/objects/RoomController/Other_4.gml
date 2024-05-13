@@ -1,4 +1,4 @@
-/// @description default audio
+/// @desc default audio
 
 UI_THEMES.refresh_theme();
 UI_SKINS.refresh_skin();

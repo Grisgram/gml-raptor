@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"ControlTreeEntry",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ControlTreeEntry",
+  "parent":{
+    "name":"control_trees",
+    "path":"folders/_gml_raptor_/UI/control_trees.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

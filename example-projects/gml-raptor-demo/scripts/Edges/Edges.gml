@@ -1,5 +1,5 @@
-/// @function					Edges(obj)
-/// @description				Reads all the edges of an object, that is:
+/// @func					Edges(obj)
+/// @desc				Reads all the edges of an object, that is:
 ///								left, top, right, bottom, center x/y, width and height
 ///								based on the sprite of the object
 /// @param {instance} obj
@@ -31,8 +31,8 @@ function Edges(obj = undefined) constructor {
 		height	 : 0,
 	};
 	
-	/// @function		update(nineslicedata = -1)
-	/// @description	re-read the properties of the object
+	/// @func		update(nineslicedata = -1)
+	/// @desc	re-read the properties of the object
 	/// @param			nineslice struct as received from sprite_get_nineslice(...)
 	static update = function(nineslicedata = -1) {
 		if (__inst == undefined)
@@ -75,8 +75,8 @@ function Edges(obj = undefined) constructor {
 		}
 	}
 	
-	/// @function		copy_to_nineslice()
-	/// @description	copy the edge data to the ninesliced substruct
+	/// @func		copy_to_nineslice()
+	/// @desc	copy the edge data to the ninesliced substruct
 	static copy_to_nineslice = function() {
 		ninesliced.width	= width;
 		ninesliced.height	= height;

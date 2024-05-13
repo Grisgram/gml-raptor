@@ -1,4 +1,4 @@
-/// @description 
+/// @desc 
 
 if (__ACTIVE_TRANSITION != undefined) {
 	with (__ACTIVE_TRANSITION) {

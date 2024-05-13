@@ -1,4 +1,4 @@
-/// @description state ev:left_released
+/// @desc state ev:left_released
 event_inherited();
 if (protect_ui_events) GUI_EVENT_MOUSE;
 

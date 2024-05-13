@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"RaceResult",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"RaceResult",
+  "parent":{
+    "name":"Race",
+    "path":"folders/_gml_raptor_/Race.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

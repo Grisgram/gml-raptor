@@ -15,9 +15,9 @@
 
 __LG_INIT_ERROR_SHOWN = false;
 
-/// @function		__LG_load_avail_languages()
+/// @func		__LG_load_avail_languages()
 /// @returns {bool} True, if at least one language was found, otherwise false.
-/// @description	Loads and fills an array of available languages. Normally you do not need to call this function,
+/// @desc	Loads and fills an array of available languages. Normally you do not need to call this function,
 ///					as it gets called through the LG_init() process.
 function __LG_load_avail_languages() {
 	if (!directory_exists(working_directory + LG_ROOT_FOLDER)) {
@@ -28,7 +28,8 @@ function __LG_load_avail_languages() {
 	LG_AVAIL_LOCALES = [];
 
 	var substring_first = string_length(__LG_LOCALE_BASE_NAME) + 1;
-	var f = file_find_first(working_directory + LG_ROOT_FOLDER + __LG_LOCALE_BASE_NAME + "*.json", 0);
+	var f = file_find_first(
+		string_concat(working_directory, LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, "*", DATA_FILE_EXTENSION), 0);
 	var i = 0;
 	while (f != "") {
 		array_push(LG_AVAIL_LOCALES, string_copy(f, substring_first, 2));
@@ -41,56 +42,55 @@ function __LG_load_avail_languages() {
 	return true;
 }
 
-/// @function					__LG_get_locale_filename(localeName)
+/// @func					__LG_get_locale_filename(localeName)
 /// @param {string} localeName	The two-letter name of the locale to find (i.e. "en", "de", "es",...)
 /// @returns {string}			True or false, telling you, whether the file exists.
-/// @description				Builds the full filename of a language json resource file.
+/// @desc				Builds the full filename of a language json resource file.
 function __LG_get_locale_filename(localeName) {
-	return working_directory + LG_ROOT_FOLDER + __LG_LOCALE_BASE_NAME + localeName + ".json";
+	return string_concat(LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, localeName, DATA_FILE_EXTENSION);
 }
 
-/// @function					__LG_locale_exists(localeName)
+/// @func					__LG_locale_exists(localeName)
 /// @param {string} localeName	The two-letter name of the locale to find (i.e. "en", "de", "es",...)
 /// @returns {bool}				True or false, telling you, whether the file exists.
-/// @description				Checks, whether a file for the specified locale exists.
+/// @desc				Checks, whether a file for the specified locale exists.
 function __LG_locale_exists(localeName) {
 	return IS_HTML ? array_contains(LG_AVAIL_LOCALES, localeName) : file_exists(__LG_get_locale_filename(localeName));
 }
 
-/// @function					__LG_load_file(localeName)
+/// @func					__LG_load_file(localeName)
 /// @param {string} localeName	The two-letter name of the locale to find (i.e. "en", "de", "es",...)
 /// @returns {bool}				True or false, telling you, whether the file exists.
-/// @description				Checks, whether a file for the specified locale exists.
+/// @desc				Checks, whether a file for the specified locale exists.
 function __LG_load_file(localeName) {
 	if (__LG_locale_exists(localeName)) {
 		dlog($"Loading locale '{localeName}'...");
-		var json = file_read_text_file_absolute(__LG_get_locale_filename(localeName));
-		__LG_STRINGS = SnapFromJSON(json);
+		__LG_STRINGS = file_read_struct(__LG_get_locale_filename(localeName), FILE_CRYPT_KEY);
 		dlog($"Locale '{localeName}' loaded successfully");
 		return true;
 	}
 	return false;
 }
 
-/// @function					LG_get_stringmap()
-/// @description				Gets the string map of the currently active locale file.
+/// @func					LG_get_stringmap()
+/// @desc				Gets the string map of the currently active locale file.
 ///								This returns the entire string struct. Treat as read-only!
 function LG_get_stringmap() {
 	return __LG_STRINGS;
 }
 
-/// @function					LG_get_fallback_stringmap()
-/// @description				Gets the fallback string map (the default language if a key is not found in the string map).
+/// @func					LG_get_fallback_stringmap()
+/// @desc				Gets the fallback string map (the default language if a key is not found in the string map).
 ///								This returns the entire string struct. Treat as read-only!
 function LG_get_fallback_stringmap() {
 	return __LG_FALLBACK;
 }
 
-/// @function		LG_init(locale_to_use = undefined)
+/// @func		LG_init(locale_to_use = undefined)
 /// @param {string=undefined} locale_to_use	If not supplied or undefined, the OS language will be used.
 ///									You can supply here the locale from your game's settings files
 ///									that the user might have set in your game's options.
-/// @description					Initializes the LG system. If LG_AUTO_INIT_ON_STARTUP is set to false, 
+/// @desc					Initializes the LG system. If LG_AUTO_INIT_ON_STARTUP is set to false, 
 ///									must be called at start of the game.
 ///									Subsequent calls will re-initialize and reload the language file 
 ///									of the current language.
@@ -125,18 +125,18 @@ function LG_init(locale_to_use = undefined) {
 	}	
 }
 
-/// @function					LG_hotswap(new_locale)
+/// @func					LG_hotswap(new_locale)
 /// @param {string} new_locale	The new locale to switch to.
-/// @description				Reload the LG system with a new language. ATTENTION! This function will restart the current room.
+/// @desc				Reload the LG system with a new language. ATTENTION! This function will restart the current room.
 function LG_hotswap(new_locale) {
 	LG_init(new_locale);
 	room_restart();
 }
 
-/// @function			LG()
+/// @func			LG()
 /// @param {string} key	At least one key parameter must be supplied. You can add as many as you like for sub-key/sub-objects in the json.
 /// @returns {string}	The resolved string or "??? [key] ???" if no string was found.
-/// @description		Retrieve a string from the loaded locale file.
+/// @desc		Retrieve a string from the loaded locale file.
 ///						NOTE: The key parameters support also "path" syntax, so it's the same, whether you call:
 ///						a) LG("key1", "subkey", "keybelow")
 ///						   OR
@@ -156,17 +156,17 @@ function LG() {
 	
 	if (!__LG_HTML_INITIALIZED) {
 		if (!__LG_INIT_ERROR_SHOWN) {
-			show_message(
-				"LG Error: On HTML Runtime you must declare the available locales\nin the array LG_AVAIL_LOCALES!\n\n" +
-				"Example: LG_AVAIL_LOCALES=[\"en\",\"de\",\"es\"]\n\n" +
-				"In the HTML runtime you also need to call LG_Init() manually after the initialization of LG_AVAIL_LOCALES");
+			show_message(string_concat(
+				"LG Error: On HTML Runtime you must declare the available locales\nin the array LG_AVAIL_LOCALES!\n\n",
+				"Example: LG_AVAIL_LOCALES=[\"en\",\"de\",\"es\"]\n\n",
+				"In the HTML runtime you also need to call LG_Init() manually after the initialization of LG_AVAIL_LOCALES"));
 			__LG_INIT_ERROR_SHOWN = true;
 		}
 	} else if (!__LG_INITIALIZED) {
 		if (!__LG_INIT_ERROR_SHOWN) {
-			show_message(
-				"LG Error: Not initialized.\nIf you set LG_AUTO_INIT to false you MUST call LG_Init() before your first\n" +
-				"string can be resolved!");
+			show_message(string_concat(
+				"LG Error: Not initialized.\nIf you set LG_AUTO_INIT to false you MUST call LG_Init() before your first\n",
+				"string can be resolved!"));
 			__LG_INIT_ERROR_SHOWN = true;
 		}
 		return "LG-NOT-INITIALIZED";
@@ -211,7 +211,7 @@ function LG() {
 				}
 					
 				var names = struct_get_names(map);
-				var matchstr = key + "*";
+				var matchstr = string_concat(key, "*");
 				var rnds = [];
 				for (var i = 0; i < array_length(names); i++) {
 					var nam = names[@ i];
@@ -253,7 +253,7 @@ function LG() {
 		}
 		if (argconv != "") {
 			array_push(args, argconv);
-			cacheKey += (argconv + (i < argument_count - 1 ? "/" : ""));
+			cacheKey = string_concat(cacheKey, (argconv + (i < argument_count - 1 ? "/" : "")));
 		}
 	}
 	
@@ -268,7 +268,7 @@ function LG() {
 	}
 	if (result == undefined) {
 		array_delete(args, 0, 1);
-		result = "???" + string_replace(string_replace(string(args),"[",""),"]","") + "???";
+		result = string_concat("???", string_replace(string_replace(string(args),"[",""),"]",""), "???");
 	} else {
 		var ref = findref(result);
 		while (ref != undefined) {
@@ -287,8 +287,8 @@ function LG() {
 	return result;
 }
 
-/// @function					LG_resolve(str)
-/// @description				Resolve a string in the format of object instance variables.
+/// @func					LG_resolve(str)
+/// @desc				Resolve a string in the format of object instance variables.
 ///								These strings either start with == or =.
 ///								If neither is true, str is returned 1:1
 /// @param {string} str 		The string to resolve
@@ -310,7 +310,7 @@ __LG_INITIALIZED = IS_HTML; // for html, we start initialized, there is a second
 if (LG_AUTO_INIT_ON_STARTUP) {
 	show_debug_message("Initializing LG localization subsystem.");
 	if (IS_HTML)
-		show_debug_message("LG is in HTML mode. Preset languages are " + string(HTML_LOCALES));
+		show_debug_message(string_concat("LG is in HTML mode. Preset languages are ", string(HTML_LOCALES)));
 	else
 		LG_init();
 }

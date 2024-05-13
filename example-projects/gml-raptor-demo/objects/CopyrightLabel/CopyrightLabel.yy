@@ -5,7 +5,7 @@
   "managed":true,
   "name":"CopyrightLabel",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"=legal/copyright",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"=legal/copyright",},
   ],
   "parent":{
     "name":"helpers",

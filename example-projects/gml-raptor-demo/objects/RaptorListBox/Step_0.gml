@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 if (is_enabled && draw_on_gui)

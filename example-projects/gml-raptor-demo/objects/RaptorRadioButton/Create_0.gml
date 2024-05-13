@@ -1,4 +1,4 @@
-/// @description uncheck_all method
+/// @desc uncheck_all method
 
 // Inherit the parent event
 event_inherited();

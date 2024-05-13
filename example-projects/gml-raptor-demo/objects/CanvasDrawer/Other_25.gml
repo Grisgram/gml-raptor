@@ -1,4 +1,4 @@
-/// @description event
+/// @desc event
 event_inherited();
 
 canvas_width			= __RAPTORDATA.canvas_width				;

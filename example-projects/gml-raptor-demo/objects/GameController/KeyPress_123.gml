@@ -1,4 +1,4 @@
-/// @description Show debug overlay (if debug mode)
+/// @desc Show debug overlay (if debug mode)
 
 if (DEBUG_MODE_ACTIVE) {
 	if (keyboard_check(vk_control)) {

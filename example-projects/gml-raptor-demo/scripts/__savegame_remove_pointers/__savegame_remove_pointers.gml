@@ -14,15 +14,15 @@ function __savegame_remove_pointers(struct, refstack) {
 	return new __savegame_deep_copy_remove(struct, refstack).copy;
 }
 
-/// @function		__savegame_deep_copy_remove
-/// @description	Derived from SNAP deep_copy this takes cares of methods (skip)
+/// @func		__savegame_deep_copy_remove
+/// @desc	Derived from SNAP deep_copy this takes cares of methods (skip)
 ///					and instance id's that will not be copied but replaced with their id only
 function __savegame_deep_copy_remove(source, _refstack) constructor {
 	refstack = _refstack;
     copy = undefined;
 
 	static to_refstack = function(_struct) {
-		var refname = $"{__SAVEGAME_STRUCT_REF_MARKER}{name_of(_struct)}";
+		var refname = string_concat(__SAVEGAME_STRUCT_REF_MARKER, name_of(_struct));
 		if (!vsget(refstack, refname)) {
 			vlog($"Adding '{refname}' to refstack");
 			refstack[$ refname] = true; // Temp-add "true" struct member to avoid endless loop
@@ -43,7 +43,7 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 			if (is_object_instance(_value)) {
 				var strid = string(real(_value));
 				vlog($"Replacing instance '{name_of(_value)}' for savegame");
-				rv.value = __SAVEGAME_REF_MARKER + strid;
+				rv.value = string_concat(__SAVEGAME_REF_MARKER, strid);
 				rv.success = true;				
 			} else if (is_struct(_value)) {
 				vlog($"Replacing struct ref '{name_of(_value)}' for savegame");

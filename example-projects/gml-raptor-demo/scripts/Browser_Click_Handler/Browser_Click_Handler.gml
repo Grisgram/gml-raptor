@@ -26,8 +26,8 @@
 */
 
 
-/// @function					open_link_in_new_tab()
-/// @description				Opens the link in the variable browser_click_handler in a new tab
+/// @func					open_link_in_new_tab()
+/// @desc				Opens the link in the variable browser_click_handler in a new tab
 function open_link_in_new_tab() {
 	
 }

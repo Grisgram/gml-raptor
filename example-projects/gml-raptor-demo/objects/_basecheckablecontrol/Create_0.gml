@@ -1,4 +1,4 @@
-/// @description 
+/// @desc 
 
 // Inherit the parent event
 original_offset = undefined;
@@ -10,8 +10,8 @@ __auto_change_checked = true;
 __down_draw_offset = undefined;
 __up_draw_offset = new Coord2();
 
-/// @function set_checked(_checked)
-/// @description if you set the enabled state through this function, the on_checked_changed callback
+/// @func set_checked(_checked)
+/// @desc if you set the enabled state through this function, the on_checked_changed callback
 ///				 gets invoked, if the state is different from the current state
 set_checked = function(_checked) {
 	var need_invoke = (checked != _checked);

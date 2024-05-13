@@ -1,4 +1,4 @@
-/// @description start the game engine(s)
+/// @desc start the game engine(s)
 
 // Initialize LG on HTML frontend
 if (IS_HTML) {

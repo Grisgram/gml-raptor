@@ -3,6 +3,7 @@
 #macro DEBUG_MODE_ACTIVE				true
 #macro beta:DEBUG_MODE_ACTIVE			false
 #macro release:DEBUG_MODE_ACTIVE		false
+gml_release_mode(!DEBUG_MODE_ACTIVE);
 
 #macro CONFIGURATION_DEV				true
 #macro CONFIGURATION_BETA				false
@@ -35,17 +36,17 @@ function check_debug_mode() {
 	if (DEBUG_MODE_ACTIVE && !global.__debug_check_done) {
 		global.__debug_check_done = true;
 		if (code_is_compiled())
-			show_message(
-				"*************************************************\n" +
-				"***                                              \n" +
-				"***  D E B U G   M O D E   I S   A C T I V E     \n" +
-				"***                                              \n" +
-				"*************************************************\n");
+			show_message(string_concat(
+				"*************************************************\n",
+				"***                                              \n",
+				"***  D E B U G   M O D E   I S   A C T I V E     \n",
+				"***                                              \n",
+				"*************************************************\n"));
 	}
 }
 
-/// @function					assert_debug_if_false(condition, error_message)
-/// @description				Launches a messagebox if condition is false
+/// @func					assert_debug_if_false(condition, error_message)
+/// @desc				Launches a messagebox if condition is false
 /// @returns {bool}				true, if a message was shown, otherwise false
 function assert_debug_if_false(condition, error_message) {
 	if (DEBUG_MODE_ACTIVE && !condition) {
@@ -55,8 +56,8 @@ function assert_debug_if_false(condition, error_message) {
 	return false;
 }
 
-/// @function					assert_debug_if_true(condition, error_message)
-/// @description				Launches a messagebox if condition is true
+/// @func					assert_debug_if_true(condition, error_message)
+/// @desc				Launches a messagebox if condition is true
 /// @returns {bool}				true, if a message was shown, otherwise false
 function assert_debug_if_true(condition, error_message) {
 	if (DEBUG_MODE_ACTIVE && condition) {

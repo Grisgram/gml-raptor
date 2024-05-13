@@ -1,4 +1,4 @@
-/// @description open/close list
+/// @desc open/close list
 event_inherited();
 
 GUI_EVENT_MOUSE;
