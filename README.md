@@ -4,10 +4,6 @@
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.
 
-| |
-|:--:|
-|![trello](https://user-images.githubusercontent.com/19487451/177526365-74bd6c31-a762-4484-9723-a8d4f5108950.png)&nbsp;&nbsp;&nbsp;[View the public roadmap on Trello](https://trello.com/b/wAkyqDBz/gml-raptor-roadmap)|
-
 ### PLAY IT LIVE AT ITCH.IO
 Just want to see the demo without cloning?<br/>
 Test the html-version of the raptor-demo directly on my [itch.io](https://grisgram.itch.io/gml-raptor) page!<br/>
