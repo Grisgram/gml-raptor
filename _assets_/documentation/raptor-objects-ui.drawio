@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-03-09T07:18:38.459Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="mmunAIVze_o57An4b1uF" version="23.1.6" type="device">
+<mxfile host="app.diagrams.net" modified="2024-05-21T16:15:29.532Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" etag="U3zyxbCcB2ajH7CITo1f" version="24.4.4" type="device">
   <diagram id="Fgq1kFbda6Qcx7QnJO26" name="gml-raptor objects">
-    <mxGraphModel dx="2261" dy="758" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#000000" math="0" shadow="0">
+    <mxGraphModel dx="2261" dy="746" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#000000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -102,6 +102,18 @@
         </mxCell>
         <mxCell id="hVP8yvyoXI02nTNWTHge-11" value="&lt;font face=&quot;Lucida Console&quot;&gt;Slider&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#003300;strokeColor=#33FF33;fontColor=#FFFFFF;strokeWidth=2;" parent="1" vertex="1">
           <mxGeometry x="670" y="340" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SGChdIDNqUSDGMHeXyTn-1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#FFFF66;strokeWidth=2;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=#FFFFFF;labelBackgroundColor=default;endArrow=classic;" edge="1" parent="1" target="SGChdIDNqUSDGMHeXyTn-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="310" y="580" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="310" y="550" />
+              <mxPoint x="589" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SGChdIDNqUSDGMHeXyTn-2" value="&lt;font face=&quot;Lucida Console&quot;&gt;ListBox&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#003300;strokeColor=#33FF33;fontColor=#FFFFFF;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="529" y="460" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
