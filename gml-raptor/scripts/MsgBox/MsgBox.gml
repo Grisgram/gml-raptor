@@ -57,7 +57,7 @@ function __msgbox_callback_wrapper(sender) {
 		if (btnstruct != undefined) {
 			invoke_if_exists(btnstruct, "callback");
 		} else
-			elog($"*ERROR* Could not find MessageBox Button in __buttons array!");
+			elog($"* ERROR * Could not find MessageBox Button in __buttons array!");
 	}
 }
 
@@ -87,7 +87,7 @@ function __msgbox_x_button_default_callback() {
 /// @returns {struct}				the messagebox struct
 function MessageBox(window_object, layer_name, message_title, message_text) constructor {
 	if (!is_child_of(window_object, MessageBoxWindow)) {
-		elog($"**ERROR** Invalid Window Object for MessageBox. MUST be a child of MessageBoxWindow!");
+		elog($"** ERROR ** Invalid Window Object for MessageBox. MUST be a child of MessageBoxWindow!");
 	}
 	title	= string_starts_with(message_title, "=") ? LG(message_title) : message_title;
 	text	= string_starts_with(message_text, "=")  ? LG(message_text)  : message_text;

@@ -50,13 +50,6 @@ function StringBuilder(_initial_size = 64) constructor {
 	}
 	
 	/// @func clear()
-	/// @desc Clears (deletes) the buffer and creates a new one with the initial size
-	static clear = function() {
-		buffer_delete(_buffer);
-		_buffer = buffer_create(_initial_size, buffer_grow, 1);
-	}
-	
-	/// @func clear()
 	/// @desc Deletes the buffer. You must call this to avoid memory leaks, OR
 	///		  you can auto-delete it, by invoking the toString() function
 	static clear = function() {

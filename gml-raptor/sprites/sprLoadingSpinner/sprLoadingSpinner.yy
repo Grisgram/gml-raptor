@@ -8,6 +8,11 @@
   "bbox_top":5,
   "collisionKind":1,
   "collisionTolerance":0,
+  "ConfigValues":{
+    "unit_testing":{
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+    },
+  },
   "DynamicTexturePage":false,
   "edgeFiltering":false,
   "For3D":false,

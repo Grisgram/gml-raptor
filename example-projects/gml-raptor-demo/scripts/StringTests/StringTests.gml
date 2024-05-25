@@ -1,3 +1,5 @@
+if (!CONFIGURATION_UNIT_TESTING) exit;
+
 function unit_test_Strings() {
 	if (!script_exists(asset_get_index("string_skip_start"))) {
 		ilog($"Skipped unit tests for 'Strings': Not in project.");

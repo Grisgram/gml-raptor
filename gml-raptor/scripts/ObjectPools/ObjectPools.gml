@@ -102,7 +102,7 @@ function pool_return_instance(instance = self) {
 		ds_list_add(pool, instance);
 		return;
 	}
-	elog($"**ERROR** Tried to return instance to a pool, but this instance was not aquired from a pool!");
+	elog($"** ERROR ** Tried to return instance to a pool, but this instance was not aquired from a pool!");
 }
 
 /// @func					pool_assign_instance(pool_name, instance)

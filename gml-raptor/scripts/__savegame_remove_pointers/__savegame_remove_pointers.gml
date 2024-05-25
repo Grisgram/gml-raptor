@@ -52,7 +52,7 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 			}
 		} catch(_ignored) {
 			// not an object...
-			wlog($"*WARNING* False positive object reference detected. Assuming normal real value.");
+			wlog($"** WARNING ** False positive object reference detected. Assuming normal real value.");
 		}
 		return rv;
 	}

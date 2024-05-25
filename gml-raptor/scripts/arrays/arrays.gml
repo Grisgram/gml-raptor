@@ -150,24 +150,6 @@ function array_contains_recursive(array, value, recursive = true) {
 	return false;
 }
 
-/// @func		array_index_of(array, value)
-/// @desc	Gets the index of the specified value in the array or -1 if not found.
-/// @param {array} array	The array to search
-/// @param {any} value		The value to find
-/// @returns {int}			The index of value in the array or -1
-function array_index_of(array, value) {
-	if (array_null_or_empty(array))
-		return -1;
-	
-	var val;
-	for (var i = 0; i < array_length(array); i++) {
-		val = array[@ i];
-		if (val == value)
-			return i;
-	}
-	return -1;
-}
-
 /// @func		array_remove(array, value)
 /// @desc	Removes the specified value from the array, if it exists.
 ///					If value is not part of the array, the attempt is silently ignored.
@@ -175,7 +157,7 @@ function array_index_of(array, value) {
 /// @param {any} value		The value to remove
 /// @returns {bool}			True, if value was contained in array, otherwise false
 function array_remove(array, value) {
-	var idx = array_index_of(array, value);
+	var idx = array_get_index(array, value);
 	if (idx != -1) {
 		array_delete(array, idx, 1);
 		return true;

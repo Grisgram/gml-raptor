@@ -41,6 +41,20 @@
 
 */
 
+// Unit test automation
+#macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
+#macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");									\
+										var ids = asset_get_ids(asset_script);						\
+										for (var i = 0, len = array_length(ids); i < len; i++) {	\
+											var scr = script_get_name(ids[@i]);						\
+											if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))	\
+												ids[@i]();											\
+										}															\
+										ilog("Unit tests finished");								\
+										game_end();
+
+if (!CONFIGURATION_UNIT_TESTING) exit;
+
 /// @func					UnitTest(name = "UnitTest", _test_data = {})
 /// @desc				Create a new unit test suite to perform a group of tests
 /// @param {string} name		Optional, for log output only

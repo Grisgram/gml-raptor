@@ -45,7 +45,7 @@ ROOMCONTROLLER = self;
 
 /// @func onGameLoadFailed(_exception)
 onGameLoadFailed = function(_exception) {
-	elog($"**ERROR** Game load failed: {_exception.message}");
+	elog($"** ERROR ** Game load failed: {_exception.message}");
 }
 
 // Set up world UI system
@@ -259,7 +259,7 @@ if (!variable_global_exists("__transition_running"))
 ///					See RoomTransitions script for more info
 transit = function(_transition, skip_if_another_running = false) {
 	if (skip_if_another_running && TRANSITION_RUNNING) {
-		wlog($"*WARNING* Transition ignored, another one is running");
+		wlog($"** WARNING ** Transition ignored, another one is running");
 		return;
 	}
 	

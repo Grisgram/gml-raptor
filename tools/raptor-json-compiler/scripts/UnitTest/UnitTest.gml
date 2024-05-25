@@ -31,19 +31,29 @@
 	
 	Produces this output:
 	------------------------------------------------------------------------------------
-	[--- START TEST SUITE 'basic_math' ---]
-	 OK : add
-	[--- TEST RESULTS ---]
-	Tests      : 1
-	Successful : 1
-	Failed     : 0
-	[---  END  TEST SUITE 'basic_math' ---]
+	0: I <----- START TEST SUITE 'basic_math' ----->
+	0: I  OK : add
+	0: I DONE: TEST RESULTS 'basic_math': 1 tests, 1 succeeded, 0 failed
 	------------------------------------------------------------------------------------
 	
 	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 
 */
+
+// Unit test automation
+#macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
+#macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");									\
+										var ids = asset_get_ids(asset_script);						\
+										for (var i = 0, len = array_length(ids); i < len; i++) {	\
+											var scr = script_get_name(ids[@i]);						\
+											if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))	\
+												ids[@i]();											\
+										}															\
+										ilog("Unit tests finished");								\
+										game_end();
+
+if (!CONFIGURATION_UNIT_TESTING) exit;
 
 /// @func					UnitTest(name = "UnitTest", _test_data = {})
 /// @desc				Create a new unit test suite to perform a group of tests
@@ -155,7 +165,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	/// @func					run()
 	/// @desc				runs all tests and prints the results to the log
 	static run = function() {
-		ilog($"---------- START TEST SUITE '{__test_suite_name}' -----");
+		ilog($"<----- START TEST SUITE '{__test_suite_name}' ----->");
 		// ---- SUITE FINISH ----
 		try {
 			suite_start(test_data);

@@ -99,6 +99,3 @@ MOUSE_CURSOR = undefined;
 #macro FINALLY	} finally {
 #macro ENDTRY   }
 
-// Unit test automation
-#macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
-#macro unit_testing:__RUN_UNIT_TESTS	UnitTestAll();game_end();
