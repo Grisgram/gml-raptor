@@ -163,6 +163,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static add_sprite = function(_sprite_asset, _init_struct = undefined) {
 		var str = if_null(_init_struct, {});
 		str.sprite_index = _sprite_asset;
+		str.text		 = "";
 		return add_control(ControlTreeSprite, str);
 	}
 	
@@ -423,8 +424,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			// kind of "test-try" position controls so we get autosize values...
 			if (control.__auto_size_with_content) {
 				ilayout.apply_positioning(render_area, inst, control, false);
-				cur_width  = max(control.sprite_width,  ilayout.xpos + inst.sprite_width);
-				cur_height = max(control.sprite_height, ilayout.ypos + inst.sprite_height);
+				cur_width  = max(control.min_width,  control.sprite_width,  ilayout.xpos + inst.sprite_width);
+				cur_height = max(control.min_height, control.sprite_height, ilayout.ypos + inst.sprite_height);
 				if (cur_width > auto_width || cur_height > auto_height) {
 					auto_width  = min(cur_width,  if_null(parent_tree, self).render_area.width);
 					auto_height = min(cur_height, if_null(parent_tree, self).render_area.height);

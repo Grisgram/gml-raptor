@@ -77,12 +77,11 @@ function is_child_of(child, parent) {
 	}
 	
 	try {
-		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST && !object_is_ancestor(to_find.object_index, parent)) {
-			to_find_parent = object_get_parent(to_find.object_index);
-			if (to_find == to_find_parent)
-				return false;
-			else 
-				to_find = to_find_parent;
+		to_find = to_find.object_index;
+		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST) {
+			if (to_find == parent) 
+				return true;
+			to_find = object_get_parent(to_find);
 		}
 	} catch (_) {
 		return false;
