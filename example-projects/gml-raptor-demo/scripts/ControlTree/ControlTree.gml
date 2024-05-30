@@ -21,6 +21,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	// This is the control, the tree is bound to. Gets set in Create of _baseContainerControl
 	control			= _control;
+	controls		= {};
 
 	// if the parent_tree is undefined, this means, it's the top-level tree
 	// ONLY the top-level tree invokes layout() when the control moves or changes size,
@@ -175,6 +176,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var inst		= child.instance;
 			if ((strcompare && eq(_control_or_name, child.name)) ||
 				(!strcompare && eq(_control_or_name, inst))) {
+				if (!string_is_empty(child.name) && vsget(controls, child.name) != undefined)
+					struct_remove(controls, child.name);
 				array_delete(children, i, 1);
 				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
 				break;
@@ -284,7 +287,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @func set_name(_name)
 	/// @desc Give a child control a name to retrieve it later through get_element(_name)
 	static set_name = function(_name) {
-		__last_entry.element_name = _name;
+		__last_entry.name = _name;
+		controls[$ _name] = __last_entry.instance;
 		return self;
 	}
 
@@ -321,7 +325,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var rv = undefined;
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
-			if (child.element_name == _name)
+			if (child.name == _name)
 				rv = child.instance;
 			else if (is_child_of(child.instance, _baseContainerControl))
 				rv = child.instance.control_tree.get_element(_name);
@@ -569,6 +573,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			else
 				instance_destroy(inst);
 		}
+		return self;
 	}
 
 	/// @func clear()

@@ -186,6 +186,18 @@ get_window = function() {
 	return undefined;
 }
 
+/// @func is_window_hidden()
+/// @desc If this control is embedded in a window, this function returns
+///			the window's LAYER_OR_OBJECT_HIDDEN state 
+is_window_hidden = function() {
+	var w = get_window();
+	if (w != undefined && w != self) {
+		with(w)
+			return __LAYER_OR_OBJECT_HIDDEN;
+	}
+	return false;
+}
+
 /// @func get_window_tree()
 /// @desc If this control is embedded in a window, this function returns
 ///				 the root tree of the control hierarchy

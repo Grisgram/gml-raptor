@@ -8,11 +8,18 @@
 	(c)2022- coldrock.games, @grisgram at github
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
+// Feather ignore all in ./*
 
 /// @func		drawDebugInfo()
 function drawDebugInfo() {
 	// This is a demo debug output when you press F12 to print the size of the processing queues of the active RoomController
-	draw_text(16, 160, $"Bindings: {BINDINGS.size()}\nAnimations: {ANIMATIONS.size()}\nStatemachines: {STATEMACHINES.size()}\nMouse:\nRM: {MOUSE_X}/{MOUSE_Y}\nUI: {GUI_MOUSE_X}/{GUI_MOUSE_Y}");
+	draw_text(16, 160, string_concat(
+		"Bindings: ", BINDINGS.size(),
+		"\nAnimations: ", ANIMATIONS.size(),
+		"\nStatemachines: ", STATEMACHINES.size(),
+		$"\nMouse:\nRM: {MOUSE_X}/{MOUSE_Y}",
+		$"\nUI: {GUI_MOUSE_X}/{GUI_MOUSE_Y}"
+	));
 }
 
 /// @func		onDebugViewStarted()

@@ -84,7 +84,7 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 /// @desc Set the gui to a new size. This will also rescale the UI_ROOT
 set_gui_size = function(_gui_width, _gui_height) {
 	display_set_gui_size(_gui_width, _gui_height);
-	__ui_root_control.align_to_gui_layer();
+	__ui_root_control.maximize_on_screen();
 }
 set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
@@ -115,7 +115,7 @@ set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 GUI_MOUSE_X = device_mouse_x_to_gui(0);
 GUI_MOUSE_Y = device_mouse_y_to_gui(0);
 MOUSE_X_PREVIOUS = mouse_x;
-MOUSE_Y_PREVIOUS = mouse_y
+MOUSE_Y_PREVIOUS = mouse_y;
 
 #macro WINDOW_SIZE_X			global.__window_size_x
 #macro WINDOW_SIZE_Y			global.__window_size_y

@@ -19,6 +19,7 @@
 	Just add it. 
 	When you activate a skin, raptor loops through the keys and uses object_set_sprite(...) on each of them!
 */
+// Feather disable GM2017
 
 function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 	var window_def = function(xbutton) { 

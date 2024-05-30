@@ -11,6 +11,19 @@ if (!is_instanceof(control_tree, ControlTree)) {
 control_tree_layout = new ControlTreeLayout();
 control_tree.bind_to(self);
 
+/// @func maximize_on_screen()
+maximize_on_screen = function() {
+	ilog($"{MY_NAME} maximizing to {(draw_on_gui ? "gui" : "view")} size");
+	x = 0;
+	y = 0;
+	if (draw_on_gui) 
+		set_client_area(UI_VIEW_WIDTH, UI_VIEW_HEIGHT);
+	else
+		set_client_area(VIEW_WIDTH, VIEW_HEIGHT);
+	control_tree.layout();
+}
+if (maximize_on_create) maximize_on_screen();
+
 /// @func get_element(_name)
 /// @desc Retrieve a child control by its name. Returns the instance or undefined
 get_element = function(_name) {

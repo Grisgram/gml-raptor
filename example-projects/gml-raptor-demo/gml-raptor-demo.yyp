@@ -202,7 +202,6 @@
     {"id":{"name":"fntArial","path":"fonts/fntArial/fntArial.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
     {"id":{"name":"_README_about_version_file","path":"notes/_README_about_version_file/_README_about_version_file.yy",},},
-    {"id":{"name":"!_NEW_GAME_README_!","path":"notes/!_NEW_GAME_README_!/!_NEW_GAME_README_!.yy",},},
     {"id":{"name":"version","path":"notes/version/version.yy",},},
     {"id":{"name":"__sprite_anim_runner","path":"objects/__sprite_anim_runner/__sprite_anim_runner.yy",},},
     {"id":{"name":"_baseCheckableControl","path":"objects/_baseCheckableControl/_baseCheckableControl.yy",},},
