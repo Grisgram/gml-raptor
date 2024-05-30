@@ -30,7 +30,7 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 	return [min_depth, max_depth];
 }
 
-/// @func layer_set_background_color(_layer_name_or_id, _color)
+/// @func	layer_set_background_color(_layer_name_or_id, _color)
 /// @desc	Set the blend color of a BACKGROUND layer
 /// @param {id|string}	layername_or_id	The name or the id of the background layer
 /// @param {color}		_color			The color to set
@@ -39,3 +39,11 @@ function layer_set_background_color(_layer_name_or_id, _color) {
 	layer_background_blend(layer_background_get_id(lay_id), _color);
 }
 
+/// @func	layer_set_background_sprite(_layer_name_or_id, _sprite_index)
+/// @desc	Set the sprite of a BACKGROUND layer
+/// @param {id|string}		layername_or_id	The name or the id of the background layer
+/// @param {sprite_index}	_sprite_index	The sprite to set
+function layer_set_background_sprite(_layer_name_or_id, _sprite_index) {
+	var lay_id = is_string(_layer_name_or_id) ? layer_get_id(_layer_name_or_id) : _layer_name_or_id;
+	layer_background_sprite(layer_background_get_id(lay_id), _sprite_index);
+}

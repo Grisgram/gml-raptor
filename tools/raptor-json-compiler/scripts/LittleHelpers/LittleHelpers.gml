@@ -318,7 +318,7 @@ function method_exists(_instance, _method) {
 ///				 _instance and _method, so this leaves a maximum of 14 arguments for your call.
 /// @returns {any} The return value of the method or undefined, if the method does not exist
 function invoke_if_exists(_instance, _method) {
-	var meth = vsget(_instance, _method);
+	var meth = is_callable(_method) ? _method : vsget(_instance, _method);
 	if (is_callable(meth)) {
 		switch (argument_count) {
 			case  2: return meth(); break;

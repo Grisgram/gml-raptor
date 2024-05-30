@@ -176,8 +176,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var inst		= child.instance;
 			if ((strcompare && eq(_control_or_name, child.name)) ||
 				(!strcompare && eq(_control_or_name, inst))) {
-				if (!string_is_empty(child.name) && vsget(controls, child.name) != undefined)
-					struct_remove(controls, child.name);
+				struct_remove(controls, child.name);
 				array_delete(children, i, 1);
 				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
 				break;
@@ -568,6 +567,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		while (array_length(children) > 0) {
 			var child = array_shift(children);
 			var inst = child.instance;
+			struct_remove(controls, child.name);
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.clear_children();
 			else
@@ -584,6 +584,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var have_elements = (array_length(children) > 0);
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
+			struct_remove(controls, child.name);
 			var inst = child.instance;
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.clear();
