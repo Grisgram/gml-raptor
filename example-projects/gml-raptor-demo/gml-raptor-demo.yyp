@@ -112,21 +112,61 @@
     {"$GMFolder":"","%Name":"Timelines","folderPath":"folders/Timelines.yy","name":"Timelines","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2405_game_settings.json","CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2405_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2405_game_settings.jx","CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2405_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2405_game_settings.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2405_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2405_game_settings.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles","name":"gml_raptor_demo_2405_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"index.html","ConfigValues":{
         "release":{
-          "CopyToMask":"3035461389054378190",
+          "CopyToMask":"0",
         },
-      },"CopyToMask":3035461389054378190,"filePath":"datafiles","name":"index.html","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"locale_de.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_de.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"locale_de.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_de.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"locale_en.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"locale_en.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"demotable.json","CopyToMask":-1,"filePath":"datafiles/race","name":"demotable.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"demotable.jx","CopyToMask":-1,"filePath":"datafiles/race","name":"demotable.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"racedemo.json","CopyToMask":-1,"filePath":"datafiles/race","name":"racedemo.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"racedemo.jx","CopyToMask":-1,"filePath":"datafiles/race","name":"racedemo.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+      },"CopyToMask":0,"filePath":"datafiles","name":"index.html","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"locale_de.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_de.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"locale_de.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles/locale","name":"locale_de.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"locale_en.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/locale","name":"locale_en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"locale_en.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles/locale","name":"locale_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"demotable.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/race","name":"demotable.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"demotable.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles/race","name":"demotable.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"racedemo.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/race","name":"racedemo.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"racedemo.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles/race","name":"racedemo.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"version.json","ConfigValues":{
         "release":{
           "CopyToMask":"3035426170322551022",
@@ -136,7 +176,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.4.0.137",
+    "IDEVersion":"2024.4.1.152",
   },
   "name":"gml-raptor-demo",
   "resources":[
@@ -162,7 +202,6 @@
     {"id":{"name":"fntArial","path":"fonts/fntArial/fntArial.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
     {"id":{"name":"_README_about_version_file","path":"notes/_README_about_version_file/_README_about_version_file.yy",},},
-    {"id":{"name":"!_NEW_GAME_README_!","path":"notes/!_NEW_GAME_README_!/!_NEW_GAME_README_!.yy",},},
     {"id":{"name":"version","path":"notes/version/version.yy",},},
     {"id":{"name":"__sprite_anim_runner","path":"objects/__sprite_anim_runner/__sprite_anim_runner.yy",},},
     {"id":{"name":"_baseCheckableControl","path":"objects/_baseCheckableControl/_baseCheckableControl.yy",},},
@@ -205,6 +244,7 @@
     {"id":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},},
     {"id":{"name":"ListBox","path":"objects/ListBox/ListBox.yy",},},
     {"id":{"name":"ListBoxItem","path":"objects/ListBoxItem/ListBoxItem.yy",},},
+    {"id":{"name":"LoadingSpinner","path":"objects/LoadingSpinner/LoadingSpinner.yy",},},
     {"id":{"name":"MainRoomController","path":"objects/MainRoomController/MainRoomController.yy",},},
     {"id":{"name":"MessageBoxWindow","path":"objects/MessageBoxWindow/MessageBoxWindow.yy",},},
     {"id":{"name":"MessageBoxXButton","path":"objects/MessageBoxXButton/MessageBoxXButton.yy",},},
@@ -227,6 +267,7 @@
     {"id":{"name":"RaptorListBox","path":"objects/RaptorListBox/RaptorListBox.yy",},},
     {"id":{"name":"RaptorListBoxItem","path":"objects/RaptorListBoxItem/RaptorListBoxItem.yy",},},
     {"id":{"name":"RaptorListBoxPanel","path":"objects/RaptorListBoxPanel/RaptorListBoxPanel.yy",},},
+    {"id":{"name":"RaptorLoadingSpinner","path":"objects/RaptorLoadingSpinner/RaptorLoadingSpinner.yy",},},
     {"id":{"name":"RaptorMessageBoxWindow","path":"objects/RaptorMessageBoxWindow/RaptorMessageBoxWindow.yy",},},
     {"id":{"name":"RaptorMessageBoxXButton","path":"objects/RaptorMessageBoxXButton/RaptorMessageBoxXButton.yy",},},
     {"id":{"name":"RaptorMouseCursor","path":"objects/RaptorMouseCursor/RaptorMouseCursor.yy",},},
@@ -562,8 +603,8 @@
     {"id":{"name":"UiSkinManager","path":"scripts/UiSkinManager/UiSkinManager.yy",},},
     {"id":{"name":"UiTheme","path":"scripts/UiTheme/UiTheme.yy",},},
     {"id":{"name":"UiThemeManager","path":"scripts/UiThemeManager/UiThemeManager.yy",},},
+    {"id":{"name":"UnitTest_Configuration","path":"scripts/UnitTest_Configuration/UnitTest_Configuration.yy",},},
     {"id":{"name":"UnitTest","path":"scripts/UnitTest/UnitTest.yy",},},
-    {"id":{"name":"UnitTestAll","path":"scripts/UnitTestAll/UnitTestAll.yy",},},
     {"id":{"name":"WoodSkin","path":"scripts/WoodSkin/WoodSkin.yy",},},
     {"id":{"name":"__shd_scribble_bake_outline_4dir","path":"shaders/__shd_scribble_bake_outline_4dir/__shd_scribble_bake_outline_4dir.yy",},},
     {"id":{"name":"__shd_scribble_bake_outline_8dir_2px","path":"shaders/__shd_scribble_bake_outline_8dir_2px/__shd_scribble_bake_outline_8dir_2px.yy",},},

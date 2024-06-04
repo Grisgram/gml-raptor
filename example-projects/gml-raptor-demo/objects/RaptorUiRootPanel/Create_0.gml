@@ -2,15 +2,6 @@
 event_inherited();
 depth = DEPTH_BOTTOM_MOST;
 
-/// @func align_to_gui_layer()
-align_to_gui_layer = function() {
-	ilog($"{MY_NAME} aligned to gui size");
-	x = 0;
-	y = 0;
-	set_client_area(UI_VIEW_WIDTH, UI_VIEW_HEIGHT);
-	control_tree.layout();
-}
-
 __draw_self = function() {
 	__draw_instance(__force_redraw);
 }

@@ -80,8 +80,9 @@ companion = undefined;
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	var havedefault = (sprite_index == mouse_cursor_sprite);
+	var custom = sprite_index;
 	integrate_skin_data(_skindata);
-	sprite_index = (havedefault ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);
+	sprite_index = (havedefault ? mouse_cursor_sprite : custom);
 }
 
 /// @func set_cursor_custom(_cursor_sprite)

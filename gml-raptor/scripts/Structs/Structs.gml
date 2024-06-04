@@ -19,10 +19,29 @@
 ///			the constructor and then perform a struct_join_into with the loaded data, so
 ///			all members receive their loaded values after the constructor executed.
 function construct(_class_name_or_asset) {
-	self[$ __PARENT_CONSTRUCTOR_NAME] = (variable_struct_exists(self, __CONSTRUCTOR_NAME) ?
-		 self[$ __CONSTRUCTOR_NAME] : undefined);
+	
+	self[$ __PARENT_CONSTRUCTOR_NAME] = string_concat(
+		vsget(self, __PARENT_CONSTRUCTOR_NAME, "|"),
+		vsget(self, __CONSTRUCTOR_NAME, ""),
+		"|"
+	);
 
 	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
+}
+
+/// @func is_class_of(_struct, _class_name)
+/// @desc Returns, whether the struct has used the "construct" command and the type is the specified class_name
+function is_class_of(_struct, _class_name) {
+	return vsget(_struct, __CONSTRUCTOR_NAME) == _class_name;
+}
+
+/// @func	is_child_class_of(_struct, _class_name)
+/// @desc	Returns, whether the struct has used the "construct" command and the type is the specified class_name
+///			or the specified _class_name appears anywhere in the inheritance chain of this _struct
+function is_child_class_of(_struct, _class_name) {
+	return 
+		is_class_of(_struct, _class_name) ||
+		string_contains(vsget(_struct, __PARENT_CONSTRUCTOR_NAME, ""), $"|{_class_name}|");
 }
 
 /// @func	implement(_interface)

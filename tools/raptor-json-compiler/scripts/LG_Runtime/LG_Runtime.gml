@@ -119,7 +119,7 @@ function LG_init(locale_to_use = undefined) {
 		if (current_exists)
 			__LG_load_file(LG_CURRENT_LOCALE);
 		if (!default_exists && !current_exists) {
-			flog($"**ERROR** Neither default nor current OS locale exists! Aborting.");
+			flog($"** ERROR ** Neither default nor current OS locale exists! Aborting.");
 			EXIT_GAME;
 		}
 	}	
@@ -241,6 +241,51 @@ function LG() {
 		return undefined;
 	}
 	
+	// this inner function looks for variable values [:...] and tries to resolve it
+	static findvars = function(str) {
+		static __resolve_variable = function(_scope, str) {
+			var sa = string_split(string_substring(str, 1, string_pos("]", str) - 1), ".");
+			TRY
+				var next = struct_get(_scope, sa[0]);
+				for (var i = 1, len = array_length(sa); i < len; i++) {
+					next = struct_get(next, sa[@i]);
+				}
+				
+				return string(next);
+			CATCH
+				return $"??? {str} ???";
+			ENDTRY
+		}
+	
+		var startpos = 1;
+		while (startpos > 0) {
+			// [:: access global.xxx
+			startpos = string_pos("[::", str);
+			if (startpos > 0) {
+				var runner = string_copy(str, startpos, string_length(str) - startpos + 1);
+				var endpos = string_pos("]", runner);
+				if (endpos > 3)
+					str = string_replace_all(str, 
+							string_copy(runner, 1, endpos),
+							__resolve_variable(global, string_substring(runner, 4))
+						);
+			} else {
+				// [: access local variable
+				startpos = string_pos("[:", str);
+				if (startpos > 0) {
+					var runner = string_copy(str, startpos, string_length(str) - startpos + 1);
+					var endpos = string_pos("]", runner);
+					if (endpos > 2)
+						str = string_replace_all(str,
+							string_copy(runner, 1, endpos),
+							__resolve_variable(self, string_substring(runner, 3))
+						);
+				}
+			}
+		}
+		return str;
+	}
+	
 	var cacheKey = "";
 	var args = [__LG_STRINGS];
 	for (var i = 0; i < argument_count; i++) {
@@ -262,6 +307,7 @@ function LG() {
 	}
 	
 	var result = find(wildcard, args);
+	var may_cache = true;
 	if (result == undefined) {
 		args[@ 0] = __LG_FALLBACK;
 		result = find(wildcard, args);
@@ -276,12 +322,15 @@ function LG() {
 			result = string_replace(result, ref, resolved);
 			ref = findref(result);
 		}
+		var before = result;
+		result = findvars(result);
+		may_cache = (before == result);
 	}
 	
 	if (LG_SCRIBBLE_COMPATIBLE == false)
 		string_replace_all(result, "[[", "[");
 	
-	if (!wildcard) // we do not cache random picks
+	if (may_cache && !wildcard) // we do not cache random picks
 		struct_set(__LG_RESOLVE_CACHE, cacheKey, result);
 		
 	return result;

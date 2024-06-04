@@ -52,7 +52,7 @@ global.__unique_count_up_id	= 0;
 #macro INSTANCE_HAS_MOVED			(x != xprevious || y != yprevious)
 
 // Those macros define all situations that can lead to an invisible element on screen
-#macro __LAYER_OR_OBJECT_HIDDEN		(!visible || (layer != -1 && !layer_get_visible(layer)))
+#macro __LAYER_OR_OBJECT_HIDDEN		(!visible || (layer != -1 && !layer_get_visible(layer)) || vsget(self, "is_window_hidden", EMPTY_FUNC)())
 #macro __HIDDEN_BEHIND_POPUP		(GUI_POPUP_VISIBLE && depth > GUI_POPUP_MIN_DEPTH)
 #macro __GUI_MOUSE_EVENT_LOCK		((self[$ "draw_on_gui"] ?? false) && !gui_mouse.event_redirection_active)
 #macro __INSTANCE_IS_ENABLED		(self[$ "is_enabled"] ?? true)
@@ -88,6 +88,8 @@ global.__unique_count_up_id	= 0;
 #macro MOUSE_CURSOR		global.__mouse_cursor
 MOUSE_CURSOR = undefined;
 
+#macro CENTER_MOUSE					window_mouse_set(window_get_width() / 2, window_get_height() / 2)
+
 // try/catch/finally support
 #macro TRY		try {
 #macro CATCH	} catch (__exception) { \
@@ -99,6 +101,3 @@ MOUSE_CURSOR = undefined;
 #macro FINALLY	} finally {
 #macro ENDTRY   }
 
-// Unit test automation
-#macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
-#macro unit_testing:__RUN_UNIT_TESTS	UnitTestAll();game_end();

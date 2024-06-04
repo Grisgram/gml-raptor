@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"UnitTest",
   "parent":{
-    "name":"Tools",
-    "path":"folders/_gml_raptor_/Tools.yy",
+    "name":"_unit_tests_",
+    "path":"folders/_gml_raptor_/_unit_tests_.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

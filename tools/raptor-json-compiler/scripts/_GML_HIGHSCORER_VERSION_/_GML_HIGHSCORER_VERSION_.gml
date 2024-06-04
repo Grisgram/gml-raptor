@@ -1,3 +1,5 @@
+// Feather ignore all in ./*
+
 #macro GML_HIGHSCORER_VERSION	"1.5"
 #macro GML_HIGHSCORER_NAME		"gml-highscorer "
 #macro GML_HIGHSCORER_COPYRIGHT	"(c)2022* coldrock.games, @Grisgram (github)"

@@ -1,3 +1,5 @@
+if (!CONFIGURATION_UNIT_TESTING) exit;
+
 function unit_test_Strings() {
 	if (!script_exists(asset_get_index("string_skip_start"))) {
 		ilog($"Skipped unit tests for 'Strings': Not in project.");
@@ -70,6 +72,12 @@ function unit_test_Strings() {
 		test.assert_equals("busters", string_last("Ghostbusters", 7));
 		test.assert_equals("Ghostbusters", string_last("Ghostbusters", 99));
 		test.assert_equals("", string_last("Ghostbusters", 0));
+	}
+
+	ut.tests.string_substring_ok = function(test, data) {
+		test.assert_equals("1", string_substring("1234",1,1));
+		test.assert_equals("2", string_substring("1234",2,1));
+		test.assert_equals("34", string_substring("1234",3));
 	}
 
 	ut.run();

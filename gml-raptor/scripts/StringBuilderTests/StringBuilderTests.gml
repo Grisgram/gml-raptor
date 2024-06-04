@@ -1,3 +1,5 @@
+if (!CONFIGURATION_UNIT_TESTING) exit;
+
 function unit_test_StringBuilder() {
 	if (!script_exists(asset_get_index("StringBuilder"))) {
 		ilog($"Skipped unit tests for 'StringBuilder': Not in project.");

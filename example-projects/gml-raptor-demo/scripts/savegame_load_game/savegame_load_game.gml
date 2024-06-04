@@ -22,7 +22,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 	
 	var savegame = file_read_struct(filename, cryptkey);
 	if (savegame == undefined) {
-		elog($"*ERROR* Could not load savegame '{filename}'!");
+		elog($"** ERROR ** Could not load savegame '{filename}'!");
 		return false;
 	}
 

@@ -61,7 +61,11 @@
 
 // Startup Room - The value of this constant is taken by the GameStarter object
 // Set the constant to undefined to use the instance variable of GameStarter in rmStartup
+// The min_wait_time constant is measured in frames. Default is 90 (1.5secs) to show loading spinner
+// The fade_in time for the first room is also measured in frames
 #macro ROOM_AFTER_STARTER			rmMain
+#macro STARTER_ASYNC_MIN_WAIT_TIME	90
+#macro STARTER_FIRST_ROOM_FADE_IN	0
 
 /// @func function onGameStart()
 /// @desc	When this runs, load_settings() has already been called and 
@@ -102,6 +106,18 @@ function onGameStart() {
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
 	//set_room_default_audio(rmPlay, mus_theme, amb_theme);
+
+}
+
+/// @func onLoadingScreen(task, frame)
+/// @desc Use this function while the loading screen is visible 
+///		  to perform "async-like" tasks. Store your state in the task
+///		  struct, it will be sent to you every frame, as long as you 
+///		  return true from this function.
+///		  If you return false (or nothing), the GameStarter considers your
+///		  startup-loading actions as finished.
+///		  The frame parameter increases by 1 each time this is invoked and starts with 0.
+function onLoadingScreen(task, frame) {
 
 }
 

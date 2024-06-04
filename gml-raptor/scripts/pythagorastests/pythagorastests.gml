@@ -1,3 +1,5 @@
+if (!CONFIGURATION_UNIT_TESTING) exit;
+
 function unit_test_Pythagoras() {
 	if (!script_exists(asset_get_index("Pythagoras"))) {
 		ilog($"Skipped unit tests for 'Pythagoras': Not in project.");

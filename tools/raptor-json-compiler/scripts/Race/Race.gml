@@ -15,19 +15,21 @@ ENSURE_RACE;
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
-/// @func Race(_filename_without_extension, _add_file_to_cache = false)
+/// @func Race(_filename, _add_file_to_cache = false)
 /// @desc Create a new random content engine
 function Race(_filename = "", _add_file_to_cache = false) constructor {
 	construct(Race);
 	
 	if (is_null(_filename)) return; // if we come from savegame, no file is given
 	
-	__filename = string_concat(RACE_ROOT_FOLDER, _filename, DATA_FILE_EXTENSION);
+	__filename = _filename;
+	if (!string_starts_with(__filename, RACE_ROOT_FOLDER)) __filename = $"{RACE_ROOT_FOLDER}{__filename}";
+	if (!string_ends_with(__filename, DATA_FILE_EXTENSION)) __filename += DATA_FILE_EXTENSION;
 	
 	tables = {}; // Holds the runtime tables for this Race
 	
 	if (!file_exists(__filename)) {
-		elog($"*ERROR* race table file '{__filename}' not found!");
+		elog($"** ERROR ** race table file '{__filename}' not found!");
 		return;
 	}
 
@@ -49,7 +51,7 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 			add_table(__clone_from_cache(name));
 		}
 	} else
-		elog($"*ERROR* Failed to load race table file '{__filename}'!")
+		elog($"** ERROR ** Failed to load race table file '{__filename}'!")
 
 	
 	/// @func __is_in_cache(_name)
@@ -75,7 +77,7 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 			_race_table.race = self;
 			struct_set(tables, _race_table.name, _race_table);
 		} else {
-			elog($"*ERROR* add_table('{_race_table.name}') failed. A table with that name already exists!");
+			elog($"** ERROR ** add_table('{_race_table.name}') failed. A table with that name already exists!");
 		}
 		return self;
 	}
@@ -103,12 +105,12 @@ function Race(_filename = "", _add_file_to_cache = false) constructor {
 	/// @desc Reset the specified table to its original state it had, when it was loaded from the file
 	static reset_table = function(_name, _recursive = true) {
 		if (string_starts_with(_name, __RACE_TEMP_TABLE_PREFIX)) {
-			elog($"*ERROR* Cloned temp race table '{_name}' can not be reset!");
+			elog($"** ERROR ** Cloned temp race table '{_name}' can not be reset!");
 			return self;
 		}
 		
 		if (!__is_in_cache(_name)) {
-			elog($"*ERROR* Manually added race table '{_name}' can not be reset!");
+			elog($"** ERROR ** Manually added race table '{_name}' can not be reset!");
 			return self;
 		}
 

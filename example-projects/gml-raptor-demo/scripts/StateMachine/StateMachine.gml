@@ -137,7 +137,7 @@ function StateMachine(_owner) constructor {
 			with(owner) vlog($"{MY_NAME}: StateMachine added state '{_name}'");
 		if (get_state(_name) != undefined) {
 			if (DEBUG_LOG_STATEMACHINE)
-				with(owner) wlog($"{MY_NAME}: *WARNING*: Name collision: '{_name}' overwrites an existing state!");
+				with(owner) wlog($"{MY_NAME}: ** WARNING **: Name collision: '{_name}' overwrites an existing state!");
 			delete_state(_name);
 		}
 		var st = new State(_name, _on_enter, _on_step, _on_leave);
@@ -156,7 +156,7 @@ function StateMachine(_owner) constructor {
 			with(owner) vlog($"{MY_NAME}: StateMachine added shared state '{_name}'");
 		if (get_state(_name) != undefined) {
 			if (DEBUG_LOG_STATEMACHINE)
-				with(owner) wlog($"{MY_NAME}: *WARNING*: Name collision: Shared state '{_name}' overwrites an existing state!");
+				with(owner) wlog($"{MY_NAME}: ** WARNING **: Name collision: Shared state '{_name}' overwrites an existing state!");
 			delete_state(_name);
 		}
 		array_push(__states, _state);
@@ -239,7 +239,7 @@ function StateMachine(_owner) constructor {
 				if (!string_starts_with(name, "ev:"))
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner)
-							wlog($"{MY_NAME}: *WARNING* Could not activate state '{name}'. State not found!");
+							wlog($"{MY_NAME}: ** WARNING ** Could not activate state '{name}'. State not found!");
 			}
 		}
 		return self;

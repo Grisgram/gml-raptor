@@ -42,8 +42,8 @@ function __camera_action_screen_shake(actiondata) {
 	}
 	
 	var delta = no_delta;
-	if (restore_target != -1) {
-		with(restore_target) {
+	if (actiondata.restore_target != -1) {
+		with(actiondata.restore_target) {
 			if (SELF_HAVE_MOVED)
 				delta = {dx:(x - xprevious), dy:(y - yprevious)};
 		}
@@ -51,8 +51,8 @@ function __camera_action_screen_shake(actiondata) {
 		
 	camera_set_view_pos(
 		view_camera[actiondata.camera_index], 
-		camera_xstart + delta.dx + actiondata.xshake, 
-		camera_ystart + delta.dy + actiondata.yshake);
+		actiondata.camera_xstart + delta.dx + actiondata.xshake, 
+		actiondata.camera_ystart + delta.dy + actiondata.yshake);
 		
 	if (ela >= 1)
 		camera_set_view_target(view_camera[actiondata.camera_index], actiondata.restore_target);
@@ -131,9 +131,6 @@ function __camera_action_move(actiondata) {
 			cw = zoomer.new_width;
 			ch = zoomer.new_height;
 		}
-		var aligned		= __get_target_for_cam_align(target_x, target_y, cw, ch, actiondata.camera_align);
-		target_x		= aligned.x;
-		target_y		= aligned.y;
 		
 		macro_camera_viewport_index_switch_to(actiondata.camera_index);
 		actiondata.cam_start_x = CAM_LEFT_EDGE;
@@ -143,6 +140,10 @@ function __camera_action_move(actiondata) {
 			actiondata.target_x = CAM_LEFT_EDGE + actiondata.distance_x;
 			actiondata.target_y = CAM_TOP_EDGE  + actiondata.distance_y;
 		}
+		
+		var aligned		= __get_target_for_cam_align(actiondata.target_x, actiondata.target_y, cw, ch, actiondata.camera_align);
+		actiondata.target_x		= aligned.x;
+		actiondata.target_y		= aligned.y;
 		
 		actiondata.distance_x = actiondata.target_x - CAM_LEFT_EDGE;
 		actiondata.distance_y = actiondata.target_y - CAM_TOP_EDGE ;

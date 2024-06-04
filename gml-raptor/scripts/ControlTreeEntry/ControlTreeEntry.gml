@@ -7,6 +7,6 @@ function ControlTreeEntry(_instance = undefined) constructor {
 	construct(ControlTreeEntry);
 	
 	instance		= _instance;
-	element_name	= "";
+	name			= "";
 	
 }

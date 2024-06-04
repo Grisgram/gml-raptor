@@ -1,25 +1,35 @@
 // Control the debug mode of the game
+												
+#macro DEBUG_MODE_ACTIVE						true
+#macro CONFIGURATION_DEV						true
+#macro CONFIGURATION_BETA						false
+#macro CONFIGURATION_RELEASE					false
+#macro CONFIGURATION_UNIT_TESTING				false
+												
+#macro beta:DEBUG_MODE_ACTIVE					false
+#macro beta:CONFIGURATION_DEV					false
+#macro beta:CONFIGURATION_BETA					true
+#macro beta:CONFIGURATION_RELEASE				false
+#macro beta:CONFIGURATION_UNIT_TESTING			false
+												
+#macro release:DEBUG_MODE_ACTIVE				false
+#macro release:CONFIGURATION_DEV				false
+#macro release:CONFIGURATION_BETA				false
+#macro release:CONFIGURATION_RELEASE			true
+#macro release:CONFIGURATION_UNIT_TESTING		false
 
-#macro DEBUG_MODE_ACTIVE				true
-#macro beta:DEBUG_MODE_ACTIVE			false
-#macro release:DEBUG_MODE_ACTIVE		false
-gml_release_mode(!DEBUG_MODE_ACTIVE);
+#macro unit_testing:DEBUG_MODE_ACTIVE			true
+#macro unit_testing:CONFIGURATION_DEV			false
+#macro unit_testing:CONFIGURATION_BETA			false
+#macro unit_testing:CONFIGURATION_RELEASE		false
+#macro unit_testing:CONFIGURATION_UNIT_TESTING	true
 
-#macro CONFIGURATION_DEV				true
-#macro CONFIGURATION_BETA				false
-#macro CONFIGURATION_RELEASE			false
+#macro CONFIGURATION_NAME						"dev"
+#macro beta:CONFIGURATION_NAME					"beta"
+#macro release:CONFIGURATION_NAME				"prod"
+#macro unit_testing:CONFIGURATION_NAME			"unit-testing"
 
-#macro beta:CONFIGURATION_DEV			false
-#macro beta:CONFIGURATION_BETA			true
-#macro beta:CONFIGURATION_RELEASE		false
-
-#macro release:CONFIGURATION_DEV		false
-#macro release:CONFIGURATION_BETA		false
-#macro release:CONFIGURATION_RELEASE	true
-
-#macro CONFIGURATION_NAME				"dev"
-#macro beta:CONFIGURATION_NAME			"beta"
-#macro release:CONFIGURATION_NAME		"prod"
+gml_release_mode(!DEBUG_MODE_ACTIVE);			
 
 #macro DEBUG_SHOW_OBJECT_FRAMES	global.__debug_show_object_frames
 #macro DEBUG_MODE_WINDOW_WIDTH	global.__debug_mode_window_width

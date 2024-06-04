@@ -21,6 +21,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	
 	// This is the control, the tree is bound to. Gets set in Create of _baseContainerControl
 	control			= _control;
+	controls		= {};
 
 	// if the parent_tree is undefined, this means, it's the top-level tree
 	// ONLY the top-level tree invokes layout() when the control moves or changes size,
@@ -163,6 +164,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static add_sprite = function(_sprite_asset, _init_struct = undefined) {
 		var str = if_null(_init_struct, {});
 		str.sprite_index = _sprite_asset;
+		str.text		 = "";
 		return add_control(ControlTreeSprite, str);
 	}
 	
@@ -174,6 +176,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var inst		= child.instance;
 			if ((strcompare && eq(_control_or_name, child.name)) ||
 				(!strcompare && eq(_control_or_name, inst))) {
+				struct_remove(controls, child.name);
 				array_delete(children, i, 1);
 				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
 				break;
@@ -283,7 +286,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @func set_name(_name)
 	/// @desc Give a child control a name to retrieve it later through get_element(_name)
 	static set_name = function(_name) {
-		__last_entry.element_name = _name;
+		__last_entry.name = _name;
+		controls[$ _name] = __last_entry.instance;
 		return self;
 	}
 
@@ -320,7 +324,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var rv = undefined;
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
-			if (child.element_name == _name)
+			if (child.name == _name)
 				rv = child.instance;
 			else if (is_child_of(child.instance, _baseContainerControl))
 				rv = child.instance.control_tree.get_element(_name);
@@ -423,8 +427,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			// kind of "test-try" position controls so we get autosize values...
 			if (control.__auto_size_with_content) {
 				ilayout.apply_positioning(render_area, inst, control, false);
-				cur_width  = max(control.sprite_width,  ilayout.xpos + inst.sprite_width);
-				cur_height = max(control.sprite_height, ilayout.ypos + inst.sprite_height);
+				cur_width  = max(control.min_width,  control.sprite_width,  ilayout.xpos + inst.sprite_width);
+				cur_height = max(control.min_height, control.sprite_height, ilayout.ypos + inst.sprite_height);
 				if (cur_width > auto_width || cur_height > auto_height) {
 					auto_width  = min(cur_width,  if_null(parent_tree, self).render_area.width);
 					auto_height = min(cur_height, if_null(parent_tree, self).render_area.height);
@@ -563,11 +567,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		while (array_length(children) > 0) {
 			var child = array_shift(children);
 			var inst = child.instance;
+			struct_remove(controls, child.name);
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.clear_children();
 			else
 				instance_destroy(inst);
 		}
+		return self;
 	}
 
 	/// @func clear()
@@ -578,6 +584,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		var have_elements = (array_length(children) > 0);
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
+			struct_remove(controls, child.name);
 			var inst = child.instance;
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.clear();

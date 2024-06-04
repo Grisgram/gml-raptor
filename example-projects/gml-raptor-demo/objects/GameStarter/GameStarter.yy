@@ -7,6 +7,7 @@
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":3,"eventType":7,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"GameStarter",
@@ -35,9 +36,9 @@
   "properties":[
     {"$GMObjectProperty":"v1","%Name":"goto_room_after_init","filters":[
         "GMRoom",
-      ],"listItems":[],"multiselect":false,"name":"goto_room_after_init","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"rmMain","path":"rooms/rmMain/rmMain.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"rmMain","varType":5,},
-    {"$GMObjectProperty":"v1","%Name":"fade_in_frames_first_room","filters":[],"listItems":[],"multiselect":false,"name":"fade_in_frames_first_room","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
-    {"$GMObjectProperty":"v1","%Name":"async_min_wait_time","filters":[],"listItems":[],"multiselect":false,"name":"async_min_wait_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"90","varType":1,},
+      ],"listItems":[],"multiselect":false,"name":"goto_room_after_init","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"ROOM_AFTER_STARTER","varType":5,},
+    {"$GMObjectProperty":"v1","%Name":"fade_in_frames_first_room","filters":[],"listItems":[],"multiselect":false,"name":"fade_in_frames_first_room","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"STARTER_FIRST_ROOM_FADE_IN","varType":1,},
+    {"$GMObjectProperty":"v1","%Name":"async_min_wait_time","filters":[],"listItems":[],"multiselect":false,"name":"async_min_wait_time","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"STARTER_ASYNC_MIN_WAIT_TIME","varType":1,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

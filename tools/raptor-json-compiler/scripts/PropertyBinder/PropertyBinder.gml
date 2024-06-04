@@ -144,4 +144,9 @@ function PropertyBinder(_myself = undefined, _parent = undefined) constructor {
 		return __parent;
 	}
 	
+	toString = function() {
+		return string_concat(
+			"PropertyBinder ", name_of(myself), " <-> ", name_of(__parent)
+		);
+	}
 }

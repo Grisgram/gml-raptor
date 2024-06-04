@@ -7,10 +7,12 @@ spinner_x = VIEW_WIDTH - spinner_w - 16;
 spinner_y = VIEW_HEIGHT - spinner_h - 16;
 
 if (first_step) {
+	async_wait_timeout = max(async_wait_timeout, async_min_wait_time);
 	first_step = false;
 	window_center();
 }
 
+if (wait_for_loading_screen) exit;
 if (wait_for_async_tasks && async_wait_timeout > 0) {
 	async_wait_counter++;
 	if (async_wait_counter >= async_wait_timeout)
@@ -26,6 +28,8 @@ if (!wait_for_async_tasks && !trampoline_done) {
 		async_wait_counter++;
 		exit;
 	}
+	
+	ilog($"Loading screen async tasks finished after {loading_screen_frame} frames");
 	
 	visible = false; // turn off the draw event to save this now unneccesary funct
 	draw_spinner = false;

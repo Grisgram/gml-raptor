@@ -77,24 +77,17 @@ function is_child_of(child, parent) {
 	}
 	
 	try {
-		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST && !object_is_ancestor(to_find.object_index, parent)) {
-			to_find_parent = object_get_parent(to_find.object_index);
-			if (to_find == to_find_parent)
-				return false;
-			else 
-				to_find = to_find_parent;
+		to_find = to_find.object_index;
+		while (to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST) {
+			if (to_find == parent) 
+				return true;
+			to_find = object_get_parent(to_find);
 		}
 	} catch (_) {
 		return false;
 	}
 	
 	return to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST;
-}
-
-/// @func is_class_of(_struct, _class_name)
-/// @desc Returns, whether the struct has used the "construct" command and the type is the specified class_name
-function is_class_of(_struct, _class_name) {
-	return vsget(_struct, __CONSTRUCTOR_NAME) == _class_name;
 }
 
 /// @func					name_of(_instance)
@@ -325,7 +318,7 @@ function method_exists(_instance, _method) {
 ///				 _instance and _method, so this leaves a maximum of 14 arguments for your call.
 /// @returns {any} The return value of the method or undefined, if the method does not exist
 function invoke_if_exists(_instance, _method) {
-	var meth = vsget(_instance, _method);
+	var meth = is_callable(_method) ? _method : vsget(_instance, _method);
 	if (is_callable(meth)) {
 		switch (argument_count) {
 			case  2: return meth(); break;

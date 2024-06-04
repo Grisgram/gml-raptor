@@ -44,19 +44,15 @@ function __get_pool_list(pool_name) {
 	return __OBJECT_POOLS[? pool_name];
 }
 
-/// @func					pool_get_instance(pool_name, object, layer_name_or_depth_if_new)
-/// @desc				Gets (or creates) an instance for the specified pool.
-///								NOTE: To store an instance later in a pool, it must have been
-///								created with this function! You can not blindly add "anything" to a pool!
-///								In the rare case, you need to manually assign an already existing instance
-///								to a pool, use the function pool_assign_instance(...)
-///								NOTE: You may supply a numeric value for at_layer_if_new if you want the
-///								object to be created on a specific depth instead of a specific layer(name)!
-/// @param {string} pool_name
-/// @param {object_type} object type to retrieve or create
-/// @param {string|layer_id} layer_name_or_depth_if_new layer to send this instance to (only for NEW instances!)
+/// @func	pool_get_instance(pool_name, object, layer_name_or_depth_if_new, _init_struct = undefined)
+/// @desc	Gets (or creates) an instance for the specified pool.
+///			NOTE: To return an instance later to a pool, it must have been created with this function!
+///			In the rare case, you need to manually assign an already existing instance
+///			to a pool, use the function pool_assign_instance(...)
+///			The optional _struct will be sent as argument to onPoolActivate (which gets called ALWAYS,
+///			no matter if this is a fresh instance or resurrected from a pool)
 /// @returns {instance}
-function pool_get_instance(pool_name, object, layer_name_or_depth_if_new) {
+function pool_get_instance(pool_name, object, layer_name_or_depth_if_new, _struct = undefined) {
 	var pool = __get_pool_list(pool_name);
 	var i = 0; repeat(ds_list_size(pool)) {
 		var rv = pool[| i];
@@ -71,7 +67,7 @@ function pool_get_instance(pool_name, object, layer_name_or_depth_if_new) {
 				y = yp;
 			}
 			ds_list_delete(pool, i);
-			__pool_invoke_activate(rv);
+			__pool_invoke_activate(rv, _struct);
 			return rv;
 		}
 		i++;
@@ -83,26 +79,43 @@ function pool_get_instance(pool_name, object, layer_name_or_depth_if_new) {
 	var yp = vsget(self, "y", 0) ?? 0;
 	var rv = instance_create(xp, yp, layer_name_or_depth_if_new, object);
 	struct_set(rv, __POOL_SOURCE_NAME, pool_name);
-	__pool_invoke_activate(rv);
+	__pool_invoke_activate(rv, _struct);
 	return rv;
 }
 
-/// @func					pool_return_instance(instance = self)
-/// @desc				Returns a previously fetched instance back into its pool
-/// @param {instance=self} 
-function pool_return_instance(instance = self) {
+/// @func	pool_return_instance(instance = self, _struct = undefined)
+/// @desc	Returns a previously fetched instance back into its pool
+///			An optional _struct may be supplied as parameter to the onPoolDeactivate callback.
+function pool_return_instance(instance = self, _struct = undefined) {
 	if (vsget(instance, __POOL_SOURCE_NAME) != undefined) {
 		var pool_name = instance[$ __POOL_SOURCE_NAME];
 		with (instance)
 			if (DEBUG_LOG_OBJECT_POOLS)
 				vlog($"Sending instance '{MY_NAME}' back to pool '{pool_name}'");
-		__pool_invoke_deactivate(instance);
+		__pool_invoke_deactivate(instance, _struct);
 		var pool = __get_pool_list(pool_name);
 		instance_deactivate_object(instance);
 		ds_list_add(pool, instance);
 		return;
 	}
-	elog($"**ERROR** Tried to return instance to a pool, but this instance was not aquired from a pool!");
+	elog($"** ERROR ** Tried to return instance to a pool, but this instance was not aquired from a pool!");
+}
+
+/// @func	pool_return_or_destroy(instance = self, _struct = undefined)
+/// @desc	In highly dynamic games, it may occur, that you don't know whether a specific
+///			instance has been aquired from a pool or not. In this case, this function is very handy,
+///			because it checks, if it's possible to return it to its pool, or just destroy it.
+function pool_return_or_destroy(instance = self, _struct = undefined) {
+	if (pool_is_assigned(instance))
+		pool_return_instance(instance, _struct);
+	else
+		instance_destroy(instance);
+}
+
+/// @func	pool_is_assigned(instance = self)
+/// @desc	Checks, whether the instance has a pool assign (i.e. "pool_return_instance" may be used)
+function pool_is_assigned(instance = self) {
+	return (vsget(instance, __POOL_SOURCE_NAME) != undefined);
 }
 
 /// @func					pool_assign_instance(pool_name, instance)
@@ -153,19 +166,19 @@ function pool_clear_all() {
 	__OBJECT_POOLS = ds_map_create();
 }
 
-function __pool_invoke_activate(inst) {
+function __pool_invoke_activate(inst, _struct) {
 	with (inst) {
 		__statemachine_pause_all(self, false);
 		invoke_if_exists(self, __POOL_ACTIVATE_RAPTOR_NAME);
-		invoke_if_exists(self, __POOL_ACTIVATE_NAME);
+		invoke_if_exists(self, __POOL_ACTIVATE_NAME, _struct);
 	}
 }
 
-function __pool_invoke_deactivate(inst) {
+function __pool_invoke_deactivate(inst, _struct) {
 	with (inst) {
 		__statemachine_pause_all(self, true);
 		animation_abort_all(self);
 		invoke_if_exists(self, __POOL_DEACTIVATE_RAPTOR_NAME);
-		invoke_if_exists(self, __POOL_DEACTIVATE_NAME);
+		invoke_if_exists(self, __POOL_DEACTIVATE_NAME, _struct);
 	}
 }

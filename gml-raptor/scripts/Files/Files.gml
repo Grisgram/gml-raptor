@@ -68,22 +68,35 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 	ENDTRY
 }
 
-/// @func					file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
-/// @param {string} filename	The name (relative path starting in working_directory) of the file to read
-/// @param {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
-/// @desc				reads an entire file and returns the contents as string
-///								checks whether the file exists, and if not, an empty string is returned.
-///								crashes, if the file is not a text file
+/// @func	file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
+/// @param  {string} filename	The name (relative path starting in working_directory) of the file to read
+/// @param  {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
+/// @param  {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
+/// @desc				 reads an entire file and returns the contents as string
+///						 checks whether the file exists, and if not, an empty string is returned.
+///						 crashes, if the file is not a text file
 function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	return file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache);
 }
 
-/// @func					file_write_text_file(filename, text, cryptkey = "")
+/// @func	file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false)
+/// @desc	reads an entire file and returns the contents as string array, line by line
+///			checks whether the file exists, and if not, an empty string array is returned.
+///			crashes, if the file is not a text file
+function file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false) {
+	return string_split(
+		string_replace_all(
+			file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache), 
+			"\r", ""),
+			"\n", remove_empty_lines
+		);
+}
+
+/// @func	file_write_text_file(filename, text, cryptkey = "")
 /// @param {string} filename	The name (relative path starting in working_directory) of the output file
 /// @param {string} text		The string to write out to the file
 /// @returns {bool}				true, if the save succeeded, otherwise false.
-/// @desc				Saves a given text as a plain text file. Can write any string, not only json.
+/// @desc	Saves a given text as a plain text file. Can write any string, not only json.
 function file_write_text_file(filename, text, cryptkey = "") {
 	__ensure_file_cache();
 	TRY
@@ -94,6 +107,16 @@ function file_write_text_file(filename, text, cryptkey = "") {
 		buffer_delete(buffer);
 		return true;
 	CATCH return false; ENDTRY
+}
+
+/// @func	file_write_text_file_lines(filename, text, cryptkey = "")
+/// @param {string} filename	The name (relative path starting in working_directory) of the output file
+/// @param {string[]} lines_array	The string array to write out to the file
+/// @param {string}   line_delimiter	The newline expression to use, default is \n
+/// @returns {bool}				true, if the save succeeded, otherwise false.
+/// @desc	Saves a given string array as a plain text file.
+function file_write_text_file_lines(filename, lines_array, line_delimiter = "\n", cryptkey = "") {
+	return file_write_text_file(filename, string_join_ext(line_delimiter, lines_array), cryptkey);
 }
 
 /// @func					file_write_struct(filename, struct, cryptkey = "")
@@ -241,21 +264,51 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	return undefined;
 }
 
-/// @func		file_list_directory(wildcard, attributes = 0)
-/// @desc	list all matching files from a directory in an array
-/// @param {string} wildcard	Pattern to search (like *.*)
-/// @param {string} attributes	attr constants according to yoyo manual
-///                             https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FFile_Handling%2FFile_System%2Ffile_attributes.htm
-/// @returns {array}			The list of existing files
-function file_list_directory(wildcard, attributes = 0) {
-	var rv = [];
-	var f = file_find_first(wildcard, attributes);
-	while (f != "") {
-		array_push(rv, f);
-		f = file_find_next();
+/// @func	file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false, attributes = 0)
+/// @desc	List all matching files from a directory in an array, optionally recursive
+///			_attributes	is one of the attr constants according to yoyo manual
+///         https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FFile_Handling%2FFile_System%2Ffile_attributes.htm
+/// @returns {array}	The list of existing files
+function file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false, _attributes = 0) {
+	if (IS_HTML) {
+		wlog($"** WARNING ** The function file_list_directory does not work in html target! Avoid calling it with \"if (!IS_HTML) ...\"");
+		return [];
 	}
-	file_find_close();
-	return rv;
+	
+	var closure = {
+		mask:	_wildcard,
+		rec:	_recursive,
+		attr:	_attributes,
+		rv:		[],
+		reader:	function(root, p) {
+			
+			if (root != "" && !string_ends_with(root, "/")) root += "/";
+			var look_in = $"{working_directory}{root}";
+			
+			if (p.rec) {
+				var dirs = [];
+				var f = file_find_first($"{look_in}*", fa_directory);
+				while (f != "") {
+					if (file_attributes(f, fa_directory))
+						array_push(dirs, $"{root}{f}/");
+					f = file_find_next();
+				}
+				file_find_close();
+				for (var i = 0, len = array_length(dirs); i < len; i++)
+					p.reader(dirs[@i], p);
+			}
+			
+			var f = file_find_first($"{look_in}{p.mask}", p.attr);
+			while (f != "") {
+				array_push(p.rv, $"{root}{f}");
+				f = file_find_next();
+			}
+			file_find_close();		
+		}
+	}
+	
+	closure.reader(_folder, closure);
+	return closure.rv;
 }
 
 #region CONSTRUCTOR REGISTRATION

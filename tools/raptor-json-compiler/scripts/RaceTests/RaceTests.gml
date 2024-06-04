@@ -1,3 +1,5 @@
+if (!CONFIGURATION_UNIT_TESTING) exit;
+
 function unit_test_Race() {
 	if (!script_exists(asset_get_index("Race"))) {
 		ilog($"Skipped unit tests for 'Race': Not in project.");
