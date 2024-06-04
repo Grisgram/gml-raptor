@@ -19,3 +19,10 @@
 // a deep copy of the race struct on each dropped instance.
 // this flag is false by default for performance and memory usage optimization.
 #macro RACE_LOOT_DATA_DEEP_COPY		false
+
+// By default, each file loaded through Race will be put into a local cache, so 
+// additional loads of the file cause no physical drive access.
+// However, in some very big games with maybe hundreds of loot files, this might 
+// become a memory issue and you might want to turn global caching off in this case
+// and implement your own pre-load strategy.
+#macro RACE_CACHE_FILE_DEFAULT		true
