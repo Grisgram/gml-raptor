@@ -5,6 +5,15 @@ if (log_create_destroy)
 
 binder = new PropertyBinder(self);
 
+/// @func onPoolActivate(_data)
+/// @desc Invoked, when this is recovered from a pool.
+onPoolActivate = function(_data) {}
+ 
+/// @func onPoolDeactivate(_data)
+/// @desc Invoked, when this is returned to a pool.
+onPoolDeactivate = function(_data) {}
+
+
 #region skin
 SKIN.apply_skin(self); // apply sprites NOW...
 run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done

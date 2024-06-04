@@ -59,7 +59,7 @@ function SnapBufferMeasureBinary(_value)
         repeat(_count)
         {
             var _name = _names[_i];
-            if (!is_string(_name)) show_error("SNAP:\nKeys must be strings\n ", true);
+            if (!is_string(_name)) show_debug_message("SNAP:\nKeys must be strings\n ", true);
 			len += string_byte_length(_name) + 1;
             len += SnapBufferMeasureBinary(_struct[$ _name]);
             

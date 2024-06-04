@@ -80,10 +80,6 @@ function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, ad
 }
 
 /// @func	file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false)
-/// @param  {string} filename	The name (relative path starting in working_directory) of the file to read
-/// @param  {bool=true} remove_empty_lines If true (default) then empty lines in the file will be skipped/removed
-/// @param  {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
-/// @param  {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
 /// @desc	reads an entire file and returns the contents as string array, line by line
 ///			checks whether the file exists, and if not, an empty string array is returned.
 ///			crashes, if the file is not a text file

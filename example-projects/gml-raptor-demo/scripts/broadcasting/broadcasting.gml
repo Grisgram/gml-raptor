@@ -190,6 +190,10 @@ function Sender() constructor {
 		receivers = [];
 	}
 
+	static dump_to_string = function() {
+		return $"Receivers: {array_length(receivers)} Sent: {global.__raptor_broadcast_uid}";
+	}
+
 }
 
 /*

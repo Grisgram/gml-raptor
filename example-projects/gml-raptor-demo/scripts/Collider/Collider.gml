@@ -14,8 +14,8 @@ __COLLIDER_CACHE = {};
 
 /// @func collider_first()
 /// @desc Checks, if this is the first collision between self and other
-///				 (means: they has not been the same collision in the previous frame),
-///				 and returns true, if that's the case
+///		  (means: there has not been the same collision in the previous frame),
+///		  and returns true, if that's the case
 function collider_first() {
 	var key  = $"{MY_NAME}_{name_of(other)}";
 	var last = vsget(__COLLIDER_CACHE, key, -2);
@@ -25,7 +25,7 @@ function collider_first() {
 
 /// @func collider_cleanup()
 /// @desc This function is called in the "Room End" event of the RoomController.
-///				 It removes all cached collisions and works like a full reset.
+///		  It removes all cached collisions and works like a full reset.
 function collider_cleanup() {
 	__COLLIDER_CACHE = {};
 }

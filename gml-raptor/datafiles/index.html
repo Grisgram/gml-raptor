@@ -81,6 +81,12 @@
 
         <!-- Run the game code -->
         <script type="text/javascript" src="game/gml-raptor.js?CMQAC=2015636066"></script>
-        <script>window.onload = GameMaker_Init;</script>
+        <script>
+			document.cookie.split(";").forEach(function(c) {
+				document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+			});
+			
+			window.onload = GameMaker_Init();
+		</script>
     </body>
 </html>

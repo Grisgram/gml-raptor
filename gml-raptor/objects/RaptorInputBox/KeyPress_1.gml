@@ -181,9 +181,7 @@ __do_key_action = function() {
 	
 	keyboard_string = string_copy(keyboard_string, string_length(keyboard_string), 1);
 	
-	if (keyboard_string != "")
-		__add_text();
-	else if (keyboard_check(vk_tab))
+	if (keyboard_check(vk_tab))
 		__find_next_input_box(keyboard_check(vk_shift));
 	else if (keyboard_check(vk_backspace))
 		__backspace_char();
@@ -211,6 +209,8 @@ __do_key_action = function() {
 		__copy_text();
 	else if (keyboard_check(vk_shift)   && keyboard_check(vk_insert))
 		__paste_text();
+	else if (keyboard_string != "")
+		__add_text();
 
 	keyboard_string = "";
 	__start_wait_for_key_repeat(keyboard_key);

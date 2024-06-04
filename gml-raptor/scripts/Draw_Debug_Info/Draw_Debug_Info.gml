@@ -17,6 +17,7 @@ function drawDebugInfo() {
 		"Bindings: ", BINDINGS.size(),
 		"\nAnimations: ", ANIMATIONS.size(),
 		"\nStatemachines: ", STATEMACHINES.size(),
+		$"\nBroadcasts: {BROADCASTER.dump_to_string()}",
 		$"\nMouse:\nRM: {MOUSE_X}/{MOUSE_Y}",
 		$"\nUI: {GUI_MOUSE_X}/{GUI_MOUSE_Y}"
 	));

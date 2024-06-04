@@ -109,6 +109,18 @@ function onGameStart() {
 
 }
 
+/// @func onLoadingScreen(task, frame)
+/// @desc Use this function while the loading screen is visible 
+///		  to perform "async-like" tasks. Store your state in the task
+///		  struct, it will be sent to you every frame, as long as you 
+///		  return true from this function.
+///		  If you return false (or nothing), the GameStarter considers your
+///		  startup-loading actions as finished.
+///		  The frame parameter increases by 1 each time this is invoked and starts with 0.
+function onLoadingScreen(task, frame) {
+
+}
+
 /// @func function onGameEnd()
 function onGameEnd() {
 	

@@ -83,10 +83,9 @@ function pool_get_instance(pool_name, object, layer_name_or_depth_if_new, _struc
 	return rv;
 }
 
-/// @func	pool_return_instance(instance = self)
+/// @func	pool_return_instance(instance = self, _struct = undefined)
 /// @desc	Returns a previously fetched instance back into its pool
 ///			An optional _struct may be supplied as parameter to the onPoolDeactivate callback.
-/// @param {instance=self} 
 function pool_return_instance(instance = self, _struct = undefined) {
 	if (vsget(instance, __POOL_SOURCE_NAME) != undefined) {
 		var pool_name = instance[$ __POOL_SOURCE_NAME];
@@ -100,6 +99,23 @@ function pool_return_instance(instance = self, _struct = undefined) {
 		return;
 	}
 	elog($"** ERROR ** Tried to return instance to a pool, but this instance was not aquired from a pool!");
+}
+
+/// @func	pool_return_or_destroy(instance = self, _struct = undefined)
+/// @desc	In highly dynamic games, it may occur, that you don't know whether a specific
+///			instance has been aquired from a pool or not. In this case, this function is very handy,
+///			because it checks, if it's possible to return it to its pool, or just destroy it.
+function pool_return_or_destroy(instance = self, _struct = undefined) {
+	if (pool_is_assigned(instance))
+		pool_return_instance(instance, _struct);
+	else
+		instance_destroy(instance);
+}
+
+/// @func	pool_is_assigned(instance = self)
+/// @desc	Checks, whether the instance has a pool assign (i.e. "pool_return_instance" may be used)
+function pool_is_assigned(instance = self) {
+	return (vsget(instance, __POOL_SOURCE_NAME) != undefined);
 }
 
 /// @func					pool_assign_instance(pool_name, instance)
