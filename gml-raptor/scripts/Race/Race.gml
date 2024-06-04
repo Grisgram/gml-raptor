@@ -15,9 +15,9 @@ ENSURE_RACE;
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
-/// @func Race(_filename, _add_file_to_cache = false)
+/// @func Race(_filename, _add_file_to_cache = RACE_CACHE_FILE_DEFAULT)
 /// @desc Create a new random content engine
-function Race(_filename = "", _add_file_to_cache = false) constructor {
+function Race(_filename = "", _add_file_to_cache = RACE_CACHE_FILE_DEFAULT) constructor {
 	construct(Race);
 	
 	if (is_null(_filename)) return; // if we come from savegame, no file is given
