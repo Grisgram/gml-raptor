@@ -141,10 +141,10 @@ function array_contains_recursive(array, value, recursive = true) {
 		return false;
 		
 	var val;
-	for (var i = 0; i < array_length(array); i++) {
+	for (var i = 0, len = array_length(array); i < len; i++) {
 		val = array[@ i];
 		if (val == value ||
-			(recursive && is_array(val) && array_contains(val, value, recursive)))
+			(recursive && is_array(val) && array_contains_recursive(val, value, recursive)))
 			return true;
 	}
 	return false;
