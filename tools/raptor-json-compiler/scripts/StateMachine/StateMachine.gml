@@ -212,9 +212,12 @@ function StateMachine(_owner) constructor {
 			var prev_name  = active_state != undefined ? active_state.name	: undefined;
 
 			active_state = undefined;
-			for (var i = 0; i < array_length(__states); i++) {
-				if (__states[i].name == name) {
-					active_state = __states[i];
+			for (var i = 0, len = array_length(__states); i < len; i++) {
+				if (__states[@i].name == name) {
+					if (!__states[@i].enabled)
+						break;
+						
+					active_state = __states[@i];
 					active_state.data = data;
 					__listpool_processible = (active_state.on_step != undefined);
 					if (__listpool_processible)
@@ -239,8 +242,30 @@ function StateMachine(_owner) constructor {
 				if (!string_starts_with(name, "ev:"))
 					if (DEBUG_LOG_STATEMACHINE)
 						with(owner)
-							wlog($"{MY_NAME}: ** WARNING ** Could not activate state '{name}'. State not found!");
+							wlog($"{MY_NAME}: ** WARNING ** Could not activate state '{name}'. State not found or not enabled!");
 			}
+		}
+		return self;
+	}
+	
+	/// @func set_state_enabled(name_or_wildcard, enabled)
+	/// @desc	Set a state to be enabled or not
+	///			A disabled state can not be entered.
+	///			Disabling the active state does NOT cause
+	///			the state to be left! You stay in there.
+	///			NOTE: You may use a wildcard string (like "bc:*") as
+	///			the state name here! If you do, all states, that match
+	///			this wildcard will be set to the desired enabled state.
+	static set_state_enabled = function(name_or_wildcard, enabled) {
+		if (string_contains(name_or_wildcard, "*")) {
+			for (var i = 0, len = array_length(__states); i < len; i++) {
+				var st = __states[@i];
+				if (string_match(st.name, name_or_wildcard))
+					st.enabled = enabled;
+			}
+		} else {
+			var st = get_state(name_or_wildcard);
+			if (st != undefined) st.enabled = enabled;
 		}
 		return self;
 	}
@@ -253,8 +278,8 @@ function StateMachine(_owner) constructor {
 		if (active_state_name() == name) 
 			return;
 		var delidx = -1;
-		for (var i = 0; i < array_length(__states); i++) {
-			if (__states[i].name == name) {
+		for (var i = 0, len = array_length(__states); i < len; i++) {
+			if (__states[@i].name == name) {
 				delidx = i;
 				break;
 			}
@@ -284,10 +309,10 @@ function StateMachine(_owner) constructor {
 	static get_state = function(name) {
 		if (name == undefined)
 			return undefined;
-			
-		for (var i = 0; i < array_length(__states); i++) {
-			if (__states[i].name == name)
-				return __states[i];
+		
+		for (var i = 0, len = array_length(__states); i < len; i++) {
+			if (__states[@i].name == name)
+				return __states[@i];
 		}
 		return undefined;
 	}
@@ -396,6 +421,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 	on_enter	= _on_enter;
 	on_step		= _on_step;
 	on_leave	= _on_leave;
+	enabled		= true;
 	
 	static enter = function(prev_state, enter_override = undefined) {
 		var rv = undefined;
