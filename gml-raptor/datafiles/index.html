@@ -80,7 +80,22 @@
         </div>
 
         <!-- Run the game code -->
-        <script type="text/javascript" src="game/gml-raptor.js?CMQAC=2015636066"></script>
+       <script>
+     //Cache-Buster
+     function generateRandomNumber() {
+         return Math.floor(Math.random() * 1000000); 
+     }
+
+     var script = document.createElement('script');
+     var project_name = 'gml-raptor.js';
+     script.src = 'game/' + project_name + '?CacheBuster=' + generateRandomNumber();
+     script.type = 'text/javascript';
+
+     document.body.appendChild(script);
+ </script>
+ <!-- Run the game code -->
+ <!--<script type="text/javascript" src="game/gml-raptor.js?CMQAC=2015636066"></script>-->
+ <script>window.onload = GameMaker_Init;</script>
         <script>
 			document.cookie.split(";").forEach(function(c) {
 				document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
