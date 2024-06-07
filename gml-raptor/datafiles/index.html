@@ -15,7 +15,7 @@
         <!-- Set the background colour of the document -->
         <style>
             body {
-              background: #040404;
+              background: #000000;
               color:#cccccc;
               margin: 0px;
               padding: 0px;
@@ -80,23 +80,10 @@
         </div>
 
         <!-- Run the game code -->
-	<script>
-	     // Enter your project name here!
-	     var project_name = 'gml-raptor';
-	
-	     //Cache-Buster
-	     function generateRandomNumber() {
-	         return Math.floor(Math.random() * 1000000); 
-	     }
-	
-	     var script = document.createElement('script');
-	     script.src = 'game/' + project_name + '.js?CacheBuster=' + generateRandomNumber();
-	     script.type = 'text/javascript';
-	
-	     document.body.appendChild(script);
-	 </script>
-	 <!-- Run the game code -->
-	 <!--<script type="text/javascript" src="game/gml-raptor.js?CMQAC=2015636066"></script>-->
-	 <script>window.onload = GameMaker_Init;</script>
+		<script type="text/javascript" src="game/gml-raptor.js?cachebust=123456"></script>		 
+
+        <!-- Builtin injector for injecting runner path -->
+		<script>window.onload = GameMaker_Init;</script>
+		
     </body>
 </html>
