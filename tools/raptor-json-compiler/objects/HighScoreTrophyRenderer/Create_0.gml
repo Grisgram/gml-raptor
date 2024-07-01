@@ -4,6 +4,13 @@ event_inherited();
 __table = undefined;
 __surface = undefined;
 
+__startup_x = x;
+__startup_y = y;
+__align_h_multi = (screen_align_h == fa_left ? 0 : (screen_align_h == fa_center ? 0.5 : 1));
+__align_v_multi = (screen_align_v == fa_top  ? 0 : (screen_align_v == fa_middle ? 0.5 : 1));
+surfw = 0;
+surfh = 0;
+
 __release_surface = function() {
 	if (__surface != undefined) surface_free(__surface);
 	__surface = undefined;
@@ -35,7 +42,8 @@ set_table = function(_highscoretable) {
 	if (_render_time) trophyrows++;
 	if (render_create_date) trophyrows++;
 
-	var surfw = 0, surfh = 2 * space_between_columns;
+	surfw = 0;
+	surfh = 2 * space_between_columns;
 	
 	var draw_from_rank = max(0, from_rank - 1);
 	var draw_to_rank = (to_rank < 0 ? __table.size() : to_rank);

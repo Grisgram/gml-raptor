@@ -4,6 +4,13 @@ event_inherited();
 __table = undefined;
 __surface = undefined;
 
+__startup_x = x;
+__startup_y = y;
+__align_h_multi = (screen_align_h == fa_left ? 0 : (screen_align_h == fa_center ? 0.5 : 1));
+__align_v_multi = (screen_align_v == fa_top  ? 0 : (screen_align_v == fa_middle ? 0.5 : 1));
+surfw = 0;
+surfh = 0;
+
 __release_surface = function() {
 	if (__surface != undefined) surface_free(__surface);
 	__surface = undefined;
@@ -21,13 +28,14 @@ set_table = function(_highscoretable) {
 	var maxw_score	= 0;
 	var maxw_time	= 0;
 	var maxw_create = 0;
+
+	surfw = 0;
+	surfh = 0;
 	
 	var tmp = __table.data.entries[@ 0];
 	var _render_score = (render_score && tmp != undefined && tmp.data.Score != undefined);
 	var _render_time  = (render_time  && tmp != undefined && tmp.data.Time  != undefined);
-	
-	var surfw = 0, surfh = 0;
-	
+		
 	var draw_from_rank = max(0, from_rank - 1);
 	var draw_to_rank = (to_rank < 0 ? __table.size() : to_rank);
 	
