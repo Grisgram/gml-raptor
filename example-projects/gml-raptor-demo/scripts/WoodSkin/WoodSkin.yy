@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"WoodSkin",
   "isCompatibility":false,
   "isDnD":false,

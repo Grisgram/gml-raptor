@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"UiDemoDocking",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Savegame_Configuration",
   "isCompatibility":false,
   "isDnD":false,

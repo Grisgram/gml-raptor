@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"SpriteDim",
   "isCompatibility":false,
   "isDnD":false,

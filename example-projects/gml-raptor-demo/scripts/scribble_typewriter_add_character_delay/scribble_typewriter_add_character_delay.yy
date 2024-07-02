@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"scribble_typewriter_add_character_delay",
   "isCompatibility":false,
   "isDnD":false,

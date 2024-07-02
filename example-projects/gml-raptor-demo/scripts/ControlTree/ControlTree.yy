@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ControlTree",
   "isCompatibility":false,
   "isDnD":false,
