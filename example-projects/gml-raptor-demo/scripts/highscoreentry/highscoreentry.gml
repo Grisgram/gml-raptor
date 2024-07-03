@@ -38,12 +38,12 @@ function HighScoreEntry(_name, _score, _time, _id = undefined) constructor {
 	data.Created = date_current_datetime();
 	date_set_timezone(tmptz);
 
-	/// @function		format_time(_time)
-	/// @description	Formats the time of the entry to a common format hh:mm:ss.iii
+	/// @func		format_time(_time)
+	/// @desc	Formats the time of the entry to a common format hh:mm:ss.iii
 	/// @param {bool=true} with_hours	Include "00:" a place for the hours in the string
 	static format_time = function(with_hours = true) {
 		if (data.Time == undefined) 
-			return (with_hours ? "00:" : "") + "00:00.000";
+			return string_concat((with_hours ? "00:" : ""), "00:00.000");
 		
 		var ms = frac(data.Time / 1000) * 1000;
 		var secs = data.Time div 1000;
@@ -52,11 +52,11 @@ function HighScoreEntry(_name, _score, _time, _id = undefined) constructor {
 		var hrs = mins div 60;
 		if (with_hours)
 			mins -= 60 * hrs;
-		return 
-			(with_hours ? string_replace_all(string_format(hrs, 2, 0), " ", "0") + ":" : "") + 
-			string_replace_all(string_format(mins, 2, 0), " ", "0") + ":" + 
-			string_replace_all(string_format(secs, 2, 0), " ", "0") + "." + 
-			string_replace_all(string_format(ms, 3, 0), " ", "0");
+		return string_concat(
+			(with_hours ? string_concat(string_replace_all(string_format(hrs, 2, 0), " ", "0"), ":") : ""), 
+			string_concat(string_replace_all(string_format(mins, 2, 0), " ", "0"), ":"), 
+			string_concat(string_replace_all(string_format(secs, 2, 0), " ", "0"), "."), 
+			string_replace_all(string_format(ms, 3, 0), " ", "0"));
 	}
 
 }
