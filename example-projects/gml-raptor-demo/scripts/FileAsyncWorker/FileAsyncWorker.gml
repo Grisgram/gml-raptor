@@ -26,6 +26,8 @@ function __FileAsyncWorker(_mode, _filename, _crypt_key, _data = undefined) cons
 	crypt_key	= _crypt_key;
 	buffer		= undefined;
 	data		= _data;
+	
+	__binder	= self;
 
 	static start = function() {
 		vlog($"Starting async file {(mode == __raptor_file_access_mode.read ? "read" : "write")} for '{filename}'");
@@ -33,30 +35,58 @@ function __FileAsyncWorker(_mode, _filename, _crypt_key, _data = undefined) cons
 		var _id = mode == __raptor_file_access_mode.read ?
 			buffer_load_async(buffer, filename, 0, -1) :
 			buffer_save_async(buffer, filename, 0, -1);
-		GAMECONTROLLER.add_async_file_callback(_id, __finished, buffer, data);
+		GAMECONTROLLER.__add_async_file_callback(self, _id, __finished, buffer, data);
 		return self;
 	}
 	
 	static __finished = function(_success) {
 		vlog($"Finished async file {(mode == __raptor_file_access_mode.read ? "read" : "write")} for '{filename}' {(_success ? "successfully" : "with error")}");
 		TRY
-			if (_success)
+			if (_success && __raptor_finished_callback(buffer, data))
 				invoke_if_exists(self, "__finished_callback", buffer, data);
-			else
-				invoke_if_exists(self, "__failed_callback", data);
+			else __raptor_failed_callback(data);
 		CATCH ENDTRY
 		if (buffer != undefined)
 			buffer_delete(buffer);
 	}
 
+	/// @func on_finished(_callback)
+	/// @desc Set the function to be called when the file access finishes successfully.
+	///			The callback receives 2 arguments: 
+	///				_buffer (the data loaded from file)
+	///				_data (the data object you supplied initially)
 	static on_finished = function(_callback) {
 		__finished_callback = _callback;
 		return self;
 	}
-	
+
+	/// @func on_failed(_callback)
+	/// @desc Set the function to be called when the file access fails.
+	///			The callback receives 1 argument: _data (the data object you supplied initially)
 	static on_failed = function(_callback) {
 		__failed_callback = _callback;
 		return self;
+	}
+
+	static __raptor_finished = function(_callback) {
+		__raptor_finished_callback = _callback;
+		return self;
+	}
+	
+	static __raptor_failed = function(_callback) {
+		__raptor_failed_callback = _callback;
+		return self;
+	}
+
+	__raptor_finished_callback = function(_buffer, _data) {
+		elog($"** RAPTOR INTERNAL ERROR ** source: file.async.__raptor_finished_callback");
+		return false;
+	}
+	
+	__raptor_failed_callback = function(_data) {
+		TRY
+			invoke_if_exists(self, "__failed_callback", _data);
+		CATCH ENDTRY		
 	}
 
 	__finished_callback = function(_buffer, _data) {

@@ -798,8 +798,8 @@ function animation_abort_all(owner = self, _run_finished_triggers = true) {
 /// @returns {bool} True, if an animation has been aborted, otherwise false.
 function animation_abort(owner, name, _run_finished_triggers = true) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
-		var item = lst[| i];
+	for (var i = 0, len = array_length(lst); i < len; i++) {
+		var item = lst[@i];
 		if (eq(item.owner, owner) && name == item.name)
 		//if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			with(item) { abort(_run_finished_triggers); return true; }
@@ -814,8 +814,8 @@ function animation_abort(owner, name, _run_finished_triggers = true) {
 /// @returns {bool} True, if an animation has been finished, otherwise false.
 function animation_finish(owner, name) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
-		var item = lst[| i];
+	for (var i = 0, len = array_length(lst); i < len; i++) {
+		var item = lst[@i];
 		if (eq(item.owner, owner) && name == item.name)
 			with(item) { finish(); return true; }
 	}
@@ -868,8 +868,8 @@ function animation_resume_all(owner = self) {
 ///					one specific animation.
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
-		var item = lst[| i];
+	for (var i = 0, len = array_length(lst); i < len; i++) {
+		var item = lst[@i];
 		if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			return true;
 	}

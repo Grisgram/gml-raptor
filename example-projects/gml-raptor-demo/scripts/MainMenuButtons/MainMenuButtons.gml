@@ -12,8 +12,8 @@ function startRaceDemoButton_click() {
 function startPlaygroundButton_click() {
 	//var file = get_open_filename_ext("all|*.*","", working_directory, "bla");get_save_filename_ext
 	//ilog($"sandbox: {GM_is_sandboxed} {file}");
-	ui_demo_load();
-	//room_goto(rmDevPlayground);
+	//ui_demo_load();
+	room_goto(rmDevPlayground);
 }
 
 function startUiDemoButton_click() {
