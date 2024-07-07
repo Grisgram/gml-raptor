@@ -11,13 +11,23 @@ BROADCASTER = new Sender();
 #macro __RAPTOR_ASYNC_CALLBACKS	global.__raptor_async_callbacks
 __RAPTOR_ASYNC_CALLBACKS = {};
 
-add_async_callback = function(_async_id, _callback) {
+/// @func add_async_file_callback(_async_id, _callback, _buffer, _data)
+add_async_file_callback = function(_async_id, _callback, _buffer, _data) {
 	var cbn = $"RAC{_async_id}";
-	__RAPTOR_ASYNC_CALLBACKS[$ cbn] = _callback;
+	__RAPTOR_ASYNC_CALLBACKS[$ cbn] = {
+		callback: _callback,
+		buffer: _buffer,
+		data: _data
+	};
 }
 
 __invoke_async_callback = function(_async_id, _result) {
-	var cbn = $"RAC{_async_id}";
-	invoke_if_exists(__RAPTOR_ASYNC_CALLBACKS, cbn, _result);
-	struct_remove(__RAPTOR_ASYNC_CALLBACKS, cbn);
+	TRY
+		var cbn = $"RAC{_async_id}";
+		var cb = vsget(__RAPTOR_ASYNC_CALLBACKS, cbn);
+		if (cb != undefined) {
+			cb.callback(_result, cb.buffer, cb.data);
+			struct_remove(__RAPTOR_ASYNC_CALLBACKS, cbn);
+		}
+	CATCH ENDTRY
 }
