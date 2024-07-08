@@ -10,7 +10,7 @@
 __FILE_CACHE = {};
 
 #macro __FILE_WORKINGFOLDER_FILENAME	((string_starts_with(filename, "\\\\") || string_contains(filename, ":\\")) \
-										? filename : string_concat(working_directory + filename))
+										? filename : string_concat(working_directory, filename))
 
 /// @func					file_clear_cache()
 /// @desc				clears the entire file cache
