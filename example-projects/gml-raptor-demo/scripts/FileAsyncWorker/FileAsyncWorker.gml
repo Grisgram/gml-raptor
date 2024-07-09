@@ -4,77 +4,93 @@
 	
 	A common usage looks like this:
 	
-	file_read_struct_async("yourfilename", FILE_CRYPT_KEY, your_data_to_forward_to_callbacks)
-	.on_success(function(buffer, data) {
+	file_read_struct_async("yourfilename", FILE_CRYPT_KEY)
+	.on_finished(function(result) { 
 		ilog("Loading complete");
 	})
-	.on_failed(function(data) {
+	.on_failed(function() {
 		ilog("Loading failed");
 	})
 	.start();
 	
+	NOTE:
+	The on_failed callback gets invoked ONLY when an exception occurs!
+	If the file is not found, on_finished is invoked normally, but the result likely contains undefined.
+	
+	About the argument in the on_finished callback:
+	"result" is, whatever the file contained, a struct, a string, a byte[] or even undefined...
 */
 
-function __FileAsyncWorker(_filename, _crypt_key = "", _data = undefined) constructor {
+function __FileAsyncWorker(_filename, _crypt_key = "") constructor {
 
-	filename	= _filename;
-	crypt_key	= _crypt_key;
-	buffer		= undefined;
-	data		= _data;
+	filename		= _filename;
+	crypt_key		= _crypt_key;
+	buffer			= undefined;
+	data			= {};
+	__raptor_chain	= [];
 	
-	__binder	= self;
-
-
 	start = function() {
 	}
 	
 	__finished = function(_success) {
 	}
 
-	/// @func on_finished(_callback)
-	/// @desc Set the function to be called when the file access finishes successfully.
-	///			The callback receives 2 arguments: 
-	///				_buffer (the data loaded from file)
-	///				_data (the data object you supplied initially)
+	/// @func __raptor_data(_property, _value)
+	/// @desc Lets you set a property in the data struct to a value
+	///			This data struct is provided to each __raptor callback
+	static __raptor_data = function(_property, _value) {
+		data[$ _property] = _value;
+		return self;
+	}
+
+	/// @func	on_finished(_callback)
+	/// @desc	Set the function to be called when the file access finishes successfully.
+	///			The callback receives 1 argument: 
+	///				result (the data loaded from file or undefined if nothing could be loaded)
 	static on_finished = function(_callback) {
 		__finished_callback = _callback;
 		return self;
 	}
 
-	/// @func on_failed(_callback)
-	/// @desc Set the function to be called when the file access fails.
-	///			The callback receives 1 argument: _data (the data object you supplied initially)
+	/// @func	on_failed(_callback)
+	/// @desc	Set the function to be called when the file access fails.
+	///			The callback receives no arguments
 	static on_failed = function(_callback) {
 		__failed_callback = _callback;
 		return self;
 	}
 
 	static __raptor_finished = function(_callback) {
-		__raptor_finished_callback = _callback;
+		array_push(__raptor_chain, method(self, _callback));
 		return self;
 	}
 	
 	static __raptor_failed = function(_callback) {
-		__raptor_failed_callback = _callback;
+		__raptor_failed_callback = method(self, _callback);
 		return self;
 	}
 
-	__raptor_finished_callback = function(_buffer, _data) {
-		elog($"** RAPTOR INTERNAL ERROR ** source: file.async.__raptor_finished_callback");
-		return false;
+	__raptor_finished_callbacks = function() {
+		var rv = undefined;
+		for (var i = 0, len = array_length(__raptor_chain); i < len; i++) {
+			rv = __raptor_chain[@i](rv, buffer, data);
+		}
+		return rv;
 	}
 	
-	__raptor_failed_callback = function(_data) {
+	__raptor_failed_callback = function() {
 		TRY
-			invoke_if_exists(self, "__failed_callback", _data);
-		CATCH ENDTRY		
+			invoke_if_exists(self, "__failed_callback");
+		CATCH 
+		__cleanup();
+		ENDTRY		
 	}
 
-	__finished_callback = function(_buffer, _data) {
+	__finished_callback = function(result) {
 		elog("** ERROR ** Default on_finished function in place for FileAsyncLoader! You must override this!");
 	}
 
-	__failed_callback = function(_data) {
+	__failed_callback = function() {
 		elog($"** ERROR ** Async load of '{filename}' failed!");
 	}
 
@@ -85,29 +101,29 @@ function __FileAsyncWorker(_filename, _crypt_key = "", _data = undefined) constr
 
 }
 
-function __FileAsyncReader(_filename, _crypt_key = "", _data = undefined) :
- 		 __FileAsyncWorker(_filename, _crypt_key, _data) constructor {
+function __FileAsyncReader(_filename, _crypt_key = "") :
+ 		 __FileAsyncWorker(_filename, _crypt_key) constructor {
 
 	start = function() {
-		dlog($"Starting async file read for '{filename}'");
+		dlog($"Starting async file read for '{filename}'{(crypt_key == "" ? "" : " (encrypted)")}");
 		buffer = buffer_create(0, buffer_grow, 1);
 		var _id = buffer_load_async(buffer, filename, 0, -1);
-		GAMECONTROLLER.__add_async_file_callback(self, _id, __finished, buffer, data);
+		GAMECONTROLLER.__add_async_file_callback(self, _id, __finished);
 		return self;
 	}
 	
 	__finished = function(_success) {
 		dlog($"Finished async file read for '{filename}' {(_success ? "successfully" : "with error")}");
 		TRY
+			var rv = undefined;
 			if (_success) { 
 				if (crypt_key != "") encrypt_buffer(buffer, crypt_key);
-				if (__raptor_finished_callback(buffer, data)) {
-					invoke_if_exists(self, "__finished_callback", buffer, data);
-					return;
-				}
+				buffer_seek(buffer, buffer_seek_start, 0);
+				rv = __raptor_finished_callbacks();
 			} 
-			__raptor_failed_callback(data);
+			invoke_if_exists(self, "__finished_callback", rv);
 		CATCH 
+			__raptor_failed_callback(data);
 		FINALLY
 			__cleanup();
 		ENDTRY
@@ -115,26 +131,46 @@ function __FileAsyncReader(_filename, _crypt_key = "", _data = undefined) :
 
 }
 
-function __FileAsyncWriter(_filename, _buffer, _crypt_key = "", _data = undefined) :
- 		 __FileAsyncWorker(_filename, _crypt_key, _data) constructor {
+function __FileAsyncWriter(_filename, _buffer, _crypt_key = "") :
+ 		 __FileAsyncWorker(_filename, _crypt_key) constructor {
 
 	buffer = _buffer;
 
 	start = function() {
-		dlog($"Starting async file write for '{filename}'");
+		dlog($"Starting async file write for '{filename}'{(crypt_key == "" ? "" : " (encrypted)")}");
 		if (crypt_key != "") encrypt_buffer(buffer, crypt_key);
 		var _id = buffer_save_async(buffer, filename, 0, -1);
-		GAMECONTROLLER.__add_async_file_callback(self, _id, __finished, buffer, data);
+		GAMECONTROLLER.__add_async_file_callback(self, _id, __finished);
 		return self;
 	}
 	
 	__finished = function(_success) {
 		dlog($"Finished async file write for '{filename}' {(_success ? "successfully" : "with error")}");
 		TRY
-			if (_success && __raptor_finished_callback(buffer, data))
-				invoke_if_exists(self, "__finished_callback", buffer, data);
-			else __raptor_failed_callback(data);
+			var rv = undefined;
+			if (_success)
+				rv = __raptor_finished_callbacks();
+			invoke_if_exists(self, "__finished_callback", rv);
 		CATCH 
+			__raptor_failed_callback(data);
+		FINALLY
+			__cleanup();
+		ENDTRY
+	}
+
+}
+
+function __FileAsyncCacheHit(_filename, _cache_data) :
+ 		 __FileAsyncWorker(_filename, undefined, undefined) constructor {
+
+	cachedata = _cache_data;
+
+	start = function() {
+		vlog($"Cache hit for file '{filename}'");
+		TRY
+			invoke_if_exists(self, "__finished_callback", cachedata);
+		CATCH 
+			__raptor_failed_callback(data);
 		FINALLY
 			__cleanup();
 		ENDTRY

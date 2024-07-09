@@ -3,7 +3,6 @@
 	Requires juju's SNAP library and gml-raptor Buffers scripts to work.
 	
 	(c)2022- coldrock.games, @grisgram at github
-	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
 #macro __FILE_CACHE		global.__file_cache
@@ -25,14 +24,10 @@ function __ensure_file_cache() {
 		__FILE_CACHE = {};
 }
 
-/// @func					file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
-/// @param {string} filename	The name (full path) of the file to read
-/// @param {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
-/// @returns {string}			The contents of the file or undefined is something went wrong.
-/// @desc				reads an entire file and returns the contents as string
-///								checks whether the file exists, and if not, an empty string is returned.
-///								crashes, if the file is not a text file
+/// @func	file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
+/// @desc	reads an entire file and returns the contents as string
+///			checks whether the file exists, and if not, undefined is returned.
+///			crashes, if the file is not a text file
 function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	__ensure_file_cache();
 	
@@ -41,7 +36,6 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 		return struct_get(__FILE_CACHE, filename);
 	}
 	
-	var file = undefined;
 	TRY
 		dlog($"Loading text file {filename}");
 	    var _buffer = buffer_load(filename);
@@ -69,33 +63,25 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 }
 
 /// @func	file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
-/// @param  {string} filename	The name (relative path starting in working_directory) of the file to read
-/// @param  {bool=true} remove_utf8_bom	If true (default) then the UTF8 ByteOrderMark will be removed (which is what you normally want)
-/// @param  {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
-/// @desc				 reads an entire file and returns the contents as string
-///						 checks whether the file exists, and if not, an empty string is returned.
-///						 crashes, if the file is not a text file
+/// @desc	reads an entire file and returns the contents as string
+///			checks whether the file exists, and if not, undefined returned.
+///			crashes, if the file is not a text file
 function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	return file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache);
 }
 
 /// @func	file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false)
 /// @desc	reads an entire file and returns the contents as string array, line by line
-///			checks whether the file exists, and if not, an empty string array is returned.
+///			checks whether the file exists, and if not, undefined returned.
 ///			crashes, if the file is not a text file
 function file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false) {
-	return string_split(
-		string_replace_all(
-			file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache), 
-			"\r", ""),
-			"\n", remove_empty_lines
-		);
+	var content = file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache);
+	return content != undefined ?
+			string_split(string_replace_all(content, "\r", ""),	"\n", remove_empty_lines) :
+			undefined;
 }
 
 /// @func	file_write_text_file(filename, text, cryptkey = "")
-/// @param {string} filename	The name (relative path starting in working_directory) of the output file
-/// @param {string} text		The string to write out to the file
-/// @returns {bool}				true, if the save succeeded, otherwise false.
 /// @desc	Saves a given text as a plain text file. Can write any string, not only json.
 function file_write_text_file(filename, text, cryptkey = "") {
 	__ensure_file_cache();
@@ -110,21 +96,13 @@ function file_write_text_file(filename, text, cryptkey = "") {
 }
 
 /// @func	file_write_text_file_lines(filename, text, cryptkey = "")
-/// @param {string} filename	The name (relative path starting in working_directory) of the output file
-/// @param {string[]} lines_array	The string array to write out to the file
-/// @param {string}   line_delimiter	The newline expression to use, default is \n
-/// @returns {bool}				true, if the save succeeded, otherwise false.
 /// @desc	Saves a given string array as a plain text file.
 function file_write_text_file_lines(filename, lines_array, line_delimiter = "\n", cryptkey = "") {
 	return file_write_text_file(filename, string_join_ext(line_delimiter, lines_array), cryptkey);
 }
 
-/// @func					file_write_struct(filename, struct, cryptkey = "")
-/// @param {string} filename	The name (relative path starting in working_directory) of the output file
-/// @param {struct} struct		The struct to write out to a json file
-/// @param {string=""} cryptkey	Optional key to encrypt the file
-/// @returns {bool}				true, if the save succeeded, otherwise false.
-/// @desc				Saves a given struct to a file, optionally encrypted
+/// @func	file_write_struct(filename, struct, cryptkey = "")
+/// @desc	Saves a given struct to a file, optionally encrypted
 function file_write_struct(filename, struct, cryptkey = "") {
 	if (cryptkey == "")
 		return file_write_struct_plain(filename, struct)
@@ -132,12 +110,8 @@ function file_write_struct(filename, struct, cryptkey = "") {
 		return file_write_struct_encrypted(filename, struct, cryptkey);
 }
 
-/// @func					file_read_struct(filename, cryptkey = "", add_to_cache = false)
-/// @desc				Reads a given struct from a file, optionally encrypted
-/// @param {string} filename	The name (relative path starting in working_directory) of the input file
-/// @param {string=""} cryptkey	Optional key to encrypt the file
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
-/// @returns {struct}			The json_decoded struct.
+/// @func	file_read_struct(filename, cryptkey = "", add_to_cache = false)
+/// @desc	Reads a given struct from a file, optionally encrypted
 function file_read_struct(filename, cryptkey = "", add_to_cache = false) {
 	if (cryptkey == "")
 		return file_read_struct_plain(filename, add_to_cache);
@@ -145,19 +119,13 @@ function file_read_struct(filename, cryptkey = "", add_to_cache = false) {
 		return file_read_struct_encrypted(filename, cryptkey, add_to_cache);
 }
 
-/// @func					file_write_struct_plain(filename, struct)
-/// @param {string} filename	The name (relative path starting in working_directory) of the output file
-/// @param {struct} struct		The struct to write out to a json file
-/// @returns {bool}				true, if the save succeeded, otherwise false.
-/// @desc				Saves a given struct as a plain text json file. This json is NOT "user friendly" formatted!
-///								To create a user-friendly json use the SNAP library (https://github.com/JujuAdams/SNAP)
-///								and the function SnapToJSON with the second parameter (_pretty) set to true to get a json string
-///								and then send this json string to file_write_text_file(...).
-function file_write_struct_plain(filename, struct) {
+/// @func	file_write_struct_plain(filename, struct, print_pretty = true)
+/// @desc	Saves a given struct as a plain text json file.
+function file_write_struct_plain(filename, struct, print_pretty = true) {
 	__ensure_file_cache();
 	TRY
 		dlog($"Saving plain text struct to '{filename}'");
-		file_write_text_file(filename, SnapToJSON(struct, true));
+		file_write_text_file(filename, SnapToJSON(struct, print_pretty));
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Updated cache for file '{filename}' (struct)");
 			struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
@@ -166,13 +134,8 @@ function file_write_struct_plain(filename, struct) {
 	CATCH return false; ENDTRY
 }
 
-/// @func			file_read_struct_plain(filename, add_to_cache = false)
-/// @desc		Loads the contents of the file and tries to parse it as struct.
-///						Load is done synchronously.
-///						If you deal with large files here, consider using coroutines.
-/// @param {string} filename	Relative path inside the working_folder where to find the file
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
-/// @returns {struct}			The json_decoded struct or undefined if something went wrong.
+/// @func	file_read_struct_plain(filename, add_to_cache = false)
+/// @desc	Loads the contents of the file and tries to parse it as struct.
 function file_read_struct_plain(filename, add_to_cache = false) {
 	__ensure_file_cache();
 	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
@@ -199,14 +162,9 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 	return undefined;
 }
 
-/// @func			file_write_struct_encrypted(filename, struct, cryptkey)
-/// @desc		Encrypts the binary representation of the given struct with a key
-///						and saves this to a file. Save is done synchronously.
-///						If you deal with large files here, consider using coroutines.
-/// @param {string} filename	Relative path inside the working_folder where to put the file
-/// @param {struct}	struct		The struct to persist
-/// @param {string} cryptkey	A (hopefully) long string that makes the crypt mask
-/// @returns {bool}				true, if the save succeeded, otherwise false.
+/// @func	file_write_struct_encrypted(filename, struct, cryptkey)
+/// @desc	Encrypts the binary representation of the given struct with a key
+///			and saves this to a file.
 function file_write_struct_encrypted(filename, struct, cryptkey) {
 	__ensure_file_cache();
 	TRY
@@ -226,14 +184,8 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 	CATCH return false; ENDTRY
 }
 
-/// @func			file_read_struct_encrypted(filename, cryptkey, add_to_cache = false)
-/// @desc		Decrypts the data in the specified file with the specified key.
-///						Load is done synchronously.
-///						If you deal with large files here, consider using coroutines.
-/// @param {string} filename	Relative path inside the working_folder where to find the file
-/// @param {string} cryptkey	The same key that has been used to encrypt the file.
-/// @param {bool=false} add_to_cache	If true, the contents will be kept in a cache for later loads
-/// @returns {struct}			The decrypted struct.
+/// @func	file_read_struct_encrypted(filename, cryptkey, add_to_cache = false)
+/// @desc	Decrypts the data in the specified file with the specified key.
 function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {	
 	__ensure_file_cache();
 	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
@@ -268,7 +220,6 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 /// @desc	List all matching files from a directory in an array, optionally recursive
 ///			_attributes	is one of the attr constants according to yoyo manual
 ///         https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FFile_Handling%2FFile_System%2Ffile_attributes.htm
-/// @returns {array}	The list of existing files
 function file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false, _attributes = 0) {
 	if (IS_HTML) {
 		wlog($"** WARNING ** The function file_list_directory does not work in html target! Avoid calling it with \"if (!IS_HTML) ...\"");
@@ -312,10 +263,10 @@ function file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false
 }
 
 #region CONSTRUCTOR REGISTRATION
-/// @func		__file_get_constructed_class(from)
+/// @func	__file_get_constructed_class(from)
 /// @desc	Returns a struct with 'cached' and the instance
-///					if 'cached' is true, it has been taken from cache, so
-///					no further recursion needed from the caller side
+///			if 'cached' is true, it has been taken from cache, so
+///			no further recursion needed from the caller side
 function __file_get_constructed_class(from, restorestack) {
 	var restorename = $"restored_{name_of(from)}";
 	var rv = vsget(restorestack, restorename);
@@ -345,7 +296,7 @@ function __file_get_constructed_class(from, restorestack) {
 	};
 }
 
-/// @func		__file_reconstruct_root(from)
+/// @func	__file_reconstruct_root(from)
 function __file_reconstruct_root(from) {
 	var restorestack = {};
 	// The first instance here can't be from cache, as the restorestack is empty
@@ -354,9 +305,9 @@ function __file_reconstruct_root(from) {
 	return rv;
 }
 
-/// @func		__file_reconstruct_class(into, from, restorestack)
+/// @func	__file_reconstruct_class(into, from, restorestack)
 /// @desc	reconstruct a loaded data struct through its constructor
-///					if the constructor is known.
+///			if the constructor is known.
 function __file_reconstruct_class(into, from, restorestack) {
 	var names = struct_get_names(from);
 	
