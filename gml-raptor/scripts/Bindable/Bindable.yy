@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Bindable",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"MsgBoxControlTree",
   "isCompatibility":false,
   "isDnD":false,

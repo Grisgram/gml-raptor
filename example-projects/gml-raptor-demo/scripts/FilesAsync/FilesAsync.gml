@@ -81,9 +81,9 @@ function file_write_text_file_async(filename, text, cryptkey = "") {
 	CATCH return false; ENDTRY
 }
 
-/// @func	file_write_text_file_lines_async(filename, text, cryptkey = "")
+/// @func	file_write_text_file_lines_async(filename, text, cryptkey = "", line_delimiter = "\n")
 /// @desc	Saves a given string array as a plain text file.
-function file_write_text_file_lines_async(filename, lines_array, line_delimiter = "\n", cryptkey = "") {
+function file_write_text_file_lines_async(filename, lines_array, cryptkey = "", line_delimiter = "\n") {
 	return file_write_text_file_async(filename, string_join_ext(line_delimiter, lines_array), cryptkey);
 }
 

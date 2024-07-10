@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"RaptorFrameFormatter",
   "isCompatibility":false,
   "isDnD":false,

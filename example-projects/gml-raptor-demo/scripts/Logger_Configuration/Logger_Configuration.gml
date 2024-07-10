@@ -28,7 +28,7 @@
 //
 // A note on verbose logging (level 0): This logs every single mouse_enter/leave event, each tooltip shown, everything!
 // Turn it on in debug if you hunt a bug, but it's too much information for normal development
-#macro LOG_LEVEL			0
+#macro LOG_LEVEL			1
 #macro beta:LOG_LEVEL		2
 #macro release:LOG_LEVEL	3
 

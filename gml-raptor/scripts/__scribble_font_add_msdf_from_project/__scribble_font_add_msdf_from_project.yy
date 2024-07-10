@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"__scribble_font_add_msdf_from_project",
   "isCompatibility":false,
   "isDnD":false,

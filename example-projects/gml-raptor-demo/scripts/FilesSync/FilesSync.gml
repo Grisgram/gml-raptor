@@ -95,9 +95,9 @@ function file_write_text_file(filename, text, cryptkey = "") {
 	CATCH return false; ENDTRY
 }
 
-/// @func	file_write_text_file_lines(filename, text, cryptkey = "")
+/// @func	file_write_text_file_lines(filename, lines_array, cryptkey = "", line_delimiter = "\n")
 /// @desc	Saves a given string array as a plain text file.
-function file_write_text_file_lines(filename, lines_array, line_delimiter = "\n", cryptkey = "") {
+function file_write_text_file_lines(filename, lines_array, cryptkey = "", line_delimiter = "\n") {
 	return file_write_text_file(filename, string_join_ext(line_delimiter, lines_array), cryptkey);
 }
 

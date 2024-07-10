@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ExpensiveCache",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Draw_Debug_Info",
   "isCompatibility":false,
   "isDnD":false,

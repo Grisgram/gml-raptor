@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"RaceItemFilter",
   "isCompatibility":false,
   "isDnD":false,

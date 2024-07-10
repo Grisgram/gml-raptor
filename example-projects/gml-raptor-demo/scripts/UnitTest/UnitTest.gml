@@ -43,15 +43,58 @@
 
 // Unit test automation
 #macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
-#macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");									\
-										var ids = asset_get_ids(asset_script);						\
-										for (var i = 0, len = array_length(ids); i < len; i++) {	\
-											var scr = script_get_name(ids[@i]);						\
-											if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))	\
-												ids[@i]();											\
-										}															\
-										ilog("Unit tests finished");								\
-										game_end();
+#macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");										\
+										global.__raptor_unit_tests = [];								\
+										global.__raptor_unit_tests_total = 0;							\
+										global.__raptor_unit_tests_total_ok = 0;						\
+										global.__raptor_unit_tests_total_fail = 0;						\
+										global.__raptor_unit_test_scripts = [];							\
+										var ids = asset_get_ids(asset_script);							\
+										for (var i = 0, len = array_length(ids); i < len; i++) {		\
+											var scr = script_get_name(ids[@i]);							\
+											if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))		\
+												array_push(global.__raptor_unit_test_scripts, ids[@i]);	\
+										}																\
+										global.__raptor_unit_test_next_suite_index = 0;					\
+										global.__raptor_unit_test_next_suite = undefined;				\
+										global.test = undefined;										\
+										global.__raptor_unit_test_suite_runner = function() {			\
+											if (global.__raptor_unit_test_next_suite_index < array_length(global.__raptor_unit_test_scripts)) { \
+												global.__raptor_unit_test_next_suite =					\
+													global.__raptor_unit_test_scripts[@global.__raptor_unit_test_next_suite_index]; \
+												global.__raptor_unit_test_next_suite();					\
+											} else														\
+												global.test = undefined;								\
+											global.__raptor_unit_test_suite_checker();					\
+										}																\
+										global.__raptor_unit_test_suite_checker = function() {			\
+											if (global.test == undefined) {								\
+												global.__raptor_unit_test_summary();					\
+												return;													\
+											}															\
+											run_delayed(GAMESTARTER, 1, function() {					\
+												if (global.test.__suite_finished) {						\
+													global.__raptor_unit_test_next_suite_index++;		\
+													global.__raptor_unit_test_suite_runner();			\
+												} else {												\
+													global.__raptor_unit_test_suite_checker();			\
+												}														\
+											});															\
+										}																\
+										global.__raptor_unit_test_summary = function() {				\
+											ilog("   TEST SUMMARY");									\
+											ilog("   OK  FAIL  TEST SUITE ");							\
+											ilog("---------------------------------------------");		\
+											array_foreach(global.__raptor_unit_tests,					\
+												function(it, ix) { ilog(it); });						\
+											ilog("---------------------------------------------");		\
+											ilog($" {string_format(global.__raptor_unit_tests_total_ok, 4, 0)}  {string_format(global.__raptor_unit_tests_total_fail, 4, 0)}  {global.__raptor_unit_tests_total} total unit tests"); \
+											global.__raptor_unit_tests = [];							\
+											global.__raptor_unit_test_scripts = [];						\
+											ilog("Unit tests finished");								\
+											game_end();													\
+										}																\
+										global.__raptor_unit_test_suite_runner();
 
 if (!CONFIGURATION_UNIT_TESTING) exit;
 
@@ -62,11 +105,19 @@ if (!CONFIGURATION_UNIT_TESTING) exit;
 /// @returns {UnitTest}
 function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 
+	global.test = self;
+	
 	__test_suite_name	= name;
+	__suite_finished	= false;
 	__current_test_ok	= true;
 	__current_test_name = "";
 	__current_test_msg	= "";
 	__current_test_exc	= undefined;
+	__fail_count		= 0;
+	__next_test_index	= 0;
+	__test_names		= [];
+	__data_for_test		= {};
+	__this				= self;
 	
 	tests = {};
 
@@ -154,6 +205,21 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	}
 	#endregion
 	
+	#region async
+	__async_waiting		= false;
+	__async_timeout		= 60;
+
+	static start_async = function(_timeout_frames = 60) {
+		__async_waiting = true;
+		__async_timeout = _timeout_frames;
+	}
+	
+	static finish_async = function() {
+		__async_waiting = false;
+		animation_abort(GAMESTARTER, "test_loop");
+	}
+	#endregion
+	
 	/// @func					add_test(name, func)
 	/// @desc				add a unit test. alternatively you can simply set tests.name = func;
 	///								a test function receives one argument, the test_data. This is the struct
@@ -166,72 +232,119 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	/// @desc				runs all tests and prints the results to the log
 	static run = function() {
 		ilog($"<----- START TEST SUITE '{__test_suite_name}' ----->");
-		// ---- SUITE FINISH ----
+		// ---- SUITE START ----
 		try {
+			__suite_finished = false;
 			suite_start(test_data);
 		} catch (_ex) {
-			elog($"FAIL: suite_start threw '{_ex.message}';");
+			elog($"FAIL: suite_start threw '{_ex.message}'");
 			return;
 		}
 		
-		var fail_count = 0;
-		var names = struct_get_names(tests);
-		array_sort(names, true);
-		var i = 0; repeat(array_length(names)) {
-			__current_test_name = names[i++];
+		__test_names		= struct_get_names(tests);
+		array_sort(__test_names, true);
+		
+		__fail_count		= 0;
+		__next_test_index	= 0;
+		__prepare_next_test();		
+	}
+
+	static __prepare_next_test = function() {
+		if (__next_test_index < array_length(__test_names)) {
+			__current_test_name = __test_names[__next_test_index];
 			__current_test_ok	= true;
 			__current_test_exc	= undefined;
 			__current_test_msg	= "";
-			var new_data;
-			var data_for_test = test_data;
+			__async_waiting		= false;
+			__data_for_test		= {};
 			
-			// ---- TEST START ----
+			__start_test();
+			__check_test_completed();
+		} else
+			__finish_test_suite();
+	}
+
+	static __start_test = function() {
+		var new_data;
+		__data_for_test = test_data;
+			
+		// ---- TEST START ----
+		try {
+			new_data = test_start(__current_test_name, test_data);
+			if (is_struct(new_data))
+				__data_for_test = new_data;
+		} catch (_ex) {
+			elog($"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}'");
+			__current_test_ok = false;
+		}
+			
+		// ---- TEST RUN ----
+		if (__current_test_ok) {
 			try {
-				new_data = test_start(__current_test_name, test_data);
-				if (is_struct(new_data))
-					data_for_test = new_data;
+				struct_get(tests, __current_test_name)(self, __data_for_test);
 			} catch (_ex) {
-				elog($"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}';");
-				__current_test_ok = false;
-			}
-			
-			// ---- TEST RUN ----
-			if (__current_test_ok) {
-				try {
-					struct_get(tests, __current_test_name)(self, data_for_test);
-				} catch (_ex) {
-					if (__current_test_exc == undefined ||
-						(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
-						elog($"FAIL: {__current_test_name} exception='{_ex.message}'; {__current_test_msg}");
-						__current_test_ok = false;
-					}
+				if (__current_test_exc == undefined ||
+					(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
+					elog($"FAIL: {__current_test_name} exception='{_ex.message}'; msg='{__current_test_msg}'");
+					__current_test_ok = false;
 				}
 			}
-			
-			// ---- TEST FINISH ----
-			try {
-				test_finish(__current_test_name, data_for_test);
-			} catch (_ex) {
-				elog($"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}';");
-				__current_test_ok = false;
-			}
-			
-			if (__current_test_ok) {
-				ilog($" OK : {__current_test_name}");
-			} else {
-				fail_count++;
-			}
+		}
+	}
+	
+	static __check_test_completed = function() {
+		// ---- WAIT FOR ASYNC COMPLETION ----
+		if (__async_waiting) {
+			run_delayed(GAMESTARTER, 1, function(t) {
+				with(t) {
+					__async_timeout--;
+					if (__async_timeout <= 0) {
+						__async_waiting = false;
+						__current_test_ok = false;
+						elog($"FAIL: async timeout reached in '{__current_test_name}'");
+					}
+					__check_test_completed();
+				}
+			}, __this).set_name("test_loop");
+			return;
 		}
 		
+		// ---- TEST FINISH ----
+		try {
+			test_finish(__current_test_name, __data_for_test);
+		} catch (_ex) {
+			elog($"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}'");
+			__current_test_ok = false;
+		}
+		
+		if (__current_test_ok) {
+			ilog($" OK : {__current_test_name}");
+		} else {
+			__fail_count++;
+		}
+		
+		__next_test_index++;
+		__prepare_next_test();		
+	}
+
+	static __finish_test_suite = function() {
 		// ---- SUITE FINISH ----
 		try {
 			suite_finish(test_data);
 		} catch (_ex) {
-			elog($"FAIL: suite_finish threw '{_ex.message}';");
+			elog($"FAIL: suite_finish threw '{_ex.message}'");
 		}
 		
-		var total = array_length(names);
-		ilog($"DONE: TEST RESULTS '{__test_suite_name}': {total} tests, {(total - fail_count)} succeeded, {fail_count} failed");
+		var total = array_length(__test_names);
+		ilog($"DONE: TEST RESULTS '{__test_suite_name}': {total} tests, {(total - __fail_count)} succeeded, {__fail_count} failed");
+		
+		array_push(global.__raptor_unit_tests,
+			$" {string_format(total - __fail_count, 4, 0)}  {string_format(__fail_count, 4, 0)}  {__test_suite_name}"
+		);
+		global.__raptor_unit_tests_total += total;
+		global.__raptor_unit_tests_total_ok += (total - __fail_count);
+		global.__raptor_unit_tests_total_fail += __fail_count;
+		__suite_finished = true;
 	}
 
 }

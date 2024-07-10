@@ -177,7 +177,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.6.0.157",
+    "IDEVersion":"2024.6.1.160",
   },
   "name":"gml-raptor-demo",
   "resources":[
@@ -400,6 +400,7 @@
     {"id":{"name":"FileAsyncWorker","path":"scripts/FileAsyncWorker/FileAsyncWorker.yy",},},
     {"id":{"name":"FilesAsync","path":"scripts/FilesAsync/FilesAsync.yy",},},
     {"id":{"name":"FilesSync","path":"scripts/FilesSync/FilesSync.yy",},},
+    {"id":{"name":"FilesTests","path":"scripts/FilesTests/FilesTests.yy",},},
     {"id":{"name":"Game_Configuration","path":"scripts/Game_Configuration/Game_Configuration.yy",},},
     {"id":{"name":"Game_Exception_Handler","path":"scripts/Game_Exception_Handler/Game_Exception_Handler.yy",},},
     {"id":{"name":"Game_ParticleTypes","path":"scripts/Game_ParticleTypes/Game_ParticleTypes.yy",},},
