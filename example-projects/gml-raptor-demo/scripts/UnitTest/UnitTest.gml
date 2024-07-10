@@ -43,58 +43,59 @@
 
 // Unit test automation
 #macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
-#macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");										\
-										global.__raptor_unit_tests = [];								\
-										global.__raptor_unit_tests_total = 0;							\
-										global.__raptor_unit_tests_total_ok = 0;						\
-										global.__raptor_unit_tests_total_fail = 0;						\
-										global.__raptor_unit_test_scripts = [];							\
-										var ids = asset_get_ids(asset_script);							\
-										for (var i = 0, len = array_length(ids); i < len; i++) {		\
-											var scr = script_get_name(ids[@i]);							\
-											if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))		\
-												array_push(global.__raptor_unit_test_scripts, ids[@i]);	\
-										}																\
-										global.__raptor_unit_test_next_suite_index = 0;					\
-										global.__raptor_unit_test_next_suite = undefined;				\
-										global.test = undefined;										\
-										global.__raptor_unit_test_suite_runner = function() {			\
-											if (global.__raptor_unit_test_next_suite_index < array_length(global.__raptor_unit_test_scripts)) { \
-												global.__raptor_unit_test_next_suite =					\
-													global.__raptor_unit_test_scripts[@global.__raptor_unit_test_next_suite_index]; \
-												global.__raptor_unit_test_next_suite();					\
-											} else														\
-												global.test = undefined;								\
-											global.__raptor_unit_test_suite_checker();					\
-										}																\
-										global.__raptor_unit_test_suite_checker = function() {			\
-											if (global.test == undefined) {								\
-												global.__raptor_unit_test_summary();					\
-												return;													\
-											}															\
-											run_delayed(GAMESTARTER, 1, function() {					\
-												if (global.test.__suite_finished) {						\
-													global.__raptor_unit_test_next_suite_index++;		\
-													global.__raptor_unit_test_suite_runner();			\
-												} else {												\
-													global.__raptor_unit_test_suite_checker();			\
-												}														\
-											});															\
-										}																\
-										global.__raptor_unit_test_summary = function() {				\
-											ilog("   TEST SUMMARY");									\
-											ilog("   OK  FAIL  TEST SUITE ");							\
-											ilog("---------------------------------------------");		\
-											array_foreach(global.__raptor_unit_tests,					\
-												function(it, ix) { ilog(it); });						\
-											ilog("---------------------------------------------");		\
-											ilog($" {string_format(global.__raptor_unit_tests_total_ok, 4, 0)}  {string_format(global.__raptor_unit_tests_total_fail, 4, 0)}  {global.__raptor_unit_tests_total} total unit tests"); \
-											global.__raptor_unit_tests = [];							\
-											global.__raptor_unit_test_scripts = [];						\
-											ilog("Unit tests finished");								\
-											game_end();													\
-										}																\
-										global.__raptor_unit_test_suite_runner();
+#macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");	\
+	global.__raptor_unit_tests = [];								\
+	global.__raptor_unit_tests_total = 0;							\
+	global.__raptor_unit_tests_total_ok = 0;						\
+	global.__raptor_unit_tests_total_fail = 0;						\
+	global.__raptor_unit_test_scripts = [];							\
+	var ids = asset_get_ids(asset_script);							\
+	for (var i = 0, len = array_length(ids); i < len; i++) {		\
+		var scr = script_get_name(ids[@i]);							\
+		if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))		\
+			array_push(global.__raptor_unit_test_scripts, ids[@i]);	\
+	}																\
+	ilog($"Discovered {array_length(global.__raptor_unit_test_scripts)} test suites");	\
+	global.__raptor_unit_test_next_suite_index = 0;					\
+	global.__raptor_unit_test_next_suite = undefined;				\
+	global.test = undefined;										\
+	global.__raptor_unit_test_suite_runner = function() {			\
+		if (global.__raptor_unit_test_next_suite_index < array_length(global.__raptor_unit_test_scripts)) { \
+			global.__raptor_unit_test_next_suite =					\
+				global.__raptor_unit_test_scripts[@global.__raptor_unit_test_next_suite_index]; \
+			global.__raptor_unit_test_next_suite();					\
+		} else														\
+			global.test = undefined;								\
+		global.__raptor_unit_test_suite_checker();					\
+	}																\
+	global.__raptor_unit_test_suite_checker = function() {			\
+		if (global.test == undefined) {								\
+			global.__raptor_unit_test_summary();					\
+			return;													\
+		}															\
+		run_delayed(GAMESTARTER, 1, function() {					\
+			if (global.test.__suite_finished) {						\
+				global.__raptor_unit_test_next_suite_index++;		\
+				global.__raptor_unit_test_suite_runner();			\
+			} else {												\
+				global.__raptor_unit_test_suite_checker();			\
+			}														\
+		});															\
+	}																\
+	global.__raptor_unit_test_summary = function() {				\
+		ilog("   TEST SUMMARY");									\
+		ilog("   OK  FAIL  TEST SUITE ");							\
+		ilog("---------------------------------------------");		\
+		array_foreach(global.__raptor_unit_tests,					\
+			function(it, ix) { ilog(it); });						\
+		ilog("---------------------------------------------");		\
+		ilog($" {string_format(global.__raptor_unit_tests_total_ok, 4, 0)}  {string_format(global.__raptor_unit_tests_total_fail, 4, 0)}  {global.__raptor_unit_tests_total} total unit tests"); \
+		global.__raptor_unit_tests = [];							\
+		global.__raptor_unit_test_scripts = [];						\
+		ilog("Unit tests finished");								\
+		game_end();													\
+	}																\
+	global.__raptor_unit_test_suite_runner();	
 
 if (!CONFIGURATION_UNIT_TESTING) exit;
 
