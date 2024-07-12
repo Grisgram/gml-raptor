@@ -16,6 +16,13 @@ for /f "delims== tokens=1,2" %%G in (%VTXT%) do set %%G=%%H
 SET /A BUILD=BUILD+1
 (ECHO { "version": "%MAJOR%.%MINOR%.%BUILD%", "major": %MAJOR%, "minor": %MINOR%, "build": %BUILD%}) >%VJSN%
 (ECHO MAJOR=%MAJOR%&ECHO MINOR=%MINOR%&ECHO BUILD=%BUILD%) >%VTXT%
+
+IF [%YYconfig%]==[Default] GOTO COMPILE
+SET OPT=%~dp0\options
+frep %OPT%\html5\options_html5.yy """option_html5_version""" "  ""option_html5_version"":""%MAJOR%.%MINOR%.%BUILD%.0""," -l
+frep %OPT%\windows\options_windows.yy """option_windows_version""" "  ""option_windows_version"":""%MAJOR%.%MINOR%.%BUILD%.0""," -l
+frep %OPT%\android\options_android.yy """option_android_version""" "  ""option_android_version"":""%MAJOR%.%MINOR%.%BUILD%.0""," -l
+
 GOTO COMPILE
 
 :SKIP
