@@ -127,7 +127,6 @@ function unit_test_Files() {
 			global.test.assert_true(res, "save enc file");
 			var content = file_read_text_file_lines_async("unit_test/test_enc.jx", "")
 			.on_finished(function(content) {
-				ilog($"--- {content} ---");
 				global.test.assert_not_null(content, "file content");
 				global.test.assert_equals(4, array_length(content), "file array");
 				global.test.assert_true(array_contains(content, "Contains"), "file contains");		
@@ -152,7 +151,6 @@ function unit_test_Files() {
 			global.test.assert_true(res, "save enc file");
 			var content = file_read_struct_async("unit_test/test_enc.jx", "")
 			.on_finished(function(content) {
-				ilog($"--- {content} ---");
 				global.test.assert_not_null(content, "file content");
 				global.test.assert_equals(4, array_length(struct_get_names(content)), "content length");
 				global.test.assert_equals(content.third, "Contains", "file contains");		
@@ -190,7 +188,6 @@ function unit_test_Files() {
 			global.test.assert_true(res, "save enc file");
 			var content = file_read_text_file_lines_async("unit_test/test_enc.jx", "cryptkey$.some.key")
 			.on_finished(function(content) {
-				ilog($"--- {content} ---");
 				global.test.assert_not_null(content, "file content");
 				global.test.assert_equals(4, array_length(content), "file array");
 				global.test.assert_true(array_contains(content, "Contains"), "file contains");		
@@ -215,7 +212,6 @@ function unit_test_Files() {
 			global.test.assert_true(res, "save enc file");
 			var content = file_read_struct_async("unit_test/test_enc.jx", "cryptkey$.some.key")
 			.on_finished(function(content) {
-				ilog($"--- {content} ---");
 				global.test.assert_not_null(content, "file content");
 				global.test.assert_equals(4, array_length(struct_get_names(content)), "content length");
 				global.test.assert_equals(content.third, "Contains", "file contains");		

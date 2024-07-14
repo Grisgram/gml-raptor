@@ -47,18 +47,21 @@
 #macro unit_testing:STARTER_FIRST_ROOM_FADE_IN		0
 
 // Unit test automation
+
 #macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
 #macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");	\
 	global.__raptor_unit_tests = [];								\
 	global.__raptor_unit_tests_total = 0;							\
 	global.__raptor_unit_tests_total_ok = 0;						\
 	global.__raptor_unit_tests_total_fail = 0;						\
+	global.__raptor_unit_test_logger = new UnitTest().__log;		\
 	global.__raptor_unit_test_scripts = [];							\
 	var ids = asset_get_ids(asset_script);							\
 	for (var i = 0, len = array_length(ids); i < len; i++) {		\
 		var scr = script_get_name(ids[@i]);							\
-		if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))		\
+		if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))	{	\
 			array_push(global.__raptor_unit_test_scripts, ids[@i]);	\
+		}															\
 	}																\
 	ilog($"Discovered {array_length(global.__raptor_unit_test_scripts)} test suites");	\
 	global.__raptor_unit_test_next_suite_index = 0;					\
@@ -87,18 +90,18 @@
 			}														\
 		});															\
 	}																\
-	global.__raptor_unit_test_summary = function() {				\
-		ilog("   TEST SUMMARY");									\
-		ilog("   OK  FAIL  TEST SUITE ");							\
-		ilog("---------------------------------------------");		\
-		array_foreach(global.__raptor_unit_tests,					\
-			function(it, ix) { ilog(it); });						\
-		ilog("---------------------------------------------");		\
-		ilog($" {string_format(global.__raptor_unit_tests_total_ok, 4, 0)}  {string_format(global.__raptor_unit_tests_total_fail, 4, 0)}  {global.__raptor_unit_tests_total} total unit tests"); \
-		global.__raptor_unit_tests = [];							\
-		global.__raptor_unit_test_scripts = [];						\
-		ilog("Unit tests finished");								\
-	}																\
+	global.__raptor_unit_test_summary = function() {											\
+		global.__raptor_unit_test_logger(2, "   TEST SUMMARY");									\
+		global.__raptor_unit_test_logger(2, "   OK  FAIL  TEST SUITE ");						\
+		global.__raptor_unit_test_logger(2, "---------------------------------------------");	\
+		array_foreach(global.__raptor_unit_tests,												\
+			function(it, ix) { global.__raptor_unit_test_logger(2, it); });						\
+		global.__raptor_unit_test_logger(2, "---------------------------------------------");	\
+		global.__raptor_unit_test_logger(2, $" {string_format(global.__raptor_unit_tests_total_ok, 4, 0)}  {string_format(global.__raptor_unit_tests_total_fail, 4, 0)}  {global.__raptor_unit_tests_total} total unit tests"); \
+		global.__raptor_unit_tests = [];														\
+		global.__raptor_unit_test_scripts = [];													\
+		global.__raptor_unit_test_logger(2, "Unit tests finished");								\
+	}																							\
 	global.__raptor_unit_test_suite_runner();	
 
 //		game_end();													\
@@ -130,6 +133,16 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 
 	test_data = _test_data ?? {};
 
+	/// @func __log(_type, _line)
+	static __log = function(_type, _line) {
+		if (string_starts_with(_line, "FAIL")) elog(_line); else ilog(_line);
+		switch (_type) {
+			case 0: with(UnitTestResultsViewer) report_log_line(_line); break;
+			case 1: with(UnitTestResultsViewer) report_suite_line(_line); break;
+			case 2: with(UnitTestResultsViewer) report_summary_line(_line); break;
+		}
+	}
+
 	suite_start = function(data) {
 	}
 	
@@ -147,7 +160,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	static __assert_condition = function(condition, expected, actual, message) {
 		__current_test_msg	= message;
 		if (!condition) {
-			elog($"FAIL: {__current_test_name} *ASSERT*: expected='{expected}'; actual='{actual}'; message='{message}';");
+			__log(0, $"FAIL: {__current_test_name} *ASSERT*: expected='{expected}'; actual='{actual}'; message='{message}';");
 			__current_test_ok	= false;
 		}		
 	}
@@ -155,7 +168,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	/// @func fail(message = "")
 	/// @desc fails the test immediately
 	static fail = function(message = "") {
-		elog($"FAIL: {__current_test_name} *fail() reached*: message='{message}';");
+		__log(0, $"FAIL: {__current_test_name} *fail() reached*: message='{message}';");
 		__current_test_ok = false;
 	}
 	
@@ -242,13 +255,13 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	/// @func					run()
 	/// @desc				runs all tests and prints the results to the log
 	static run = function() {
-		ilog($"<----- START TEST SUITE '{__test_suite_name}' ----->");
+		__log(0, $"<----- START TEST SUITE '{__test_suite_name}' ----->");
 		// ---- SUITE START ----
 		try {
 			__suite_finished = false;
 			suite_start(test_data);
 		} catch (_ex) {
-			elog($"FAIL: suite_start threw '{_ex.message}'");
+			__log(0, $"FAIL: suite_start threw '{_ex.message}'");
 			return;
 		}
 		
@@ -285,7 +298,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			if (is_struct(new_data))
 				__data_for_test = new_data;
 		} catch (_ex) {
-			elog($"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}'");
+			__log(0, $"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}'");
 			__current_test_ok = false;
 		}
 			
@@ -296,7 +309,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			} catch (_ex) {
 				if (__current_test_exc == undefined ||
 					(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
-					elog($"FAIL: {__current_test_name} exception='{_ex.message}'; msg='{__current_test_msg}'");
+					__log(0, $"FAIL: {__current_test_name} exception='{_ex.message}'; msg='{__current_test_msg}'");
 					__current_test_ok = false;
 				}
 			}
@@ -312,7 +325,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 					if (__async_timeout <= 0) {
 						__async_waiting = false;
 						__current_test_ok = false;
-						elog($"FAIL: async timeout reached in '{__current_test_name}'");
+						__log(0, $"FAIL: async timeout reached in '{__current_test_name}'");
 					}
 					__check_test_completed();
 				}
@@ -324,12 +337,12 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		try {
 			test_finish(__current_test_name, __data_for_test);
 		} catch (_ex) {
-			elog($"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}'");
+			__log(0, $"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}'");
 			__current_test_ok = false;
 		}
 		
 		if (__current_test_ok) {
-			ilog($" OK : {__current_test_name}");
+			__log(0, $" OK : {__current_test_name}");
 		} else {
 			__fail_count++;
 		}
@@ -343,11 +356,11 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		try {
 			suite_finish(test_data);
 		} catch (_ex) {
-			elog($"FAIL: suite_finish threw '{_ex.message}'");
+			__log(0, $"FAIL: suite_finish threw '{_ex.message}'");
 		}
 		
 		var total = array_length(__test_names);
-		ilog($"DONE: TEST RESULTS '{__test_suite_name}': {total} tests, {(total - __fail_count)} succeeded, {__fail_count} failed");
+		__log(1, $"DONE: {string_format(total, 4, 0)} tests, {string_format((total - __fail_count), 4, 0)} succeeded, {string_format(__fail_count, 4, 0)} failed in '{__test_suite_name}'");
 		
 		array_push(global.__raptor_unit_tests,
 			$" {string_format(total - __fail_count, 4, 0)}  {string_format(__fail_count, 4, 0)}  {__test_suite_name}"
