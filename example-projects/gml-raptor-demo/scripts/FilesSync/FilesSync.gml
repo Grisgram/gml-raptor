@@ -65,7 +65,7 @@ function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom =
 /// @func	file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
 /// @desc	reads an entire file and returns the contents as string
 ///			checks whether the file exists, and if not, undefined returned.
-///			crashes, if the file is not a text file
+///			Returns undefined, if the file is not a text file
 function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	return file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache);
 }
@@ -73,7 +73,7 @@ function file_read_text_file(filename, cryptkey = "", remove_utf8_bom = true, ad
 /// @func	file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false)
 /// @desc	reads an entire file and returns the contents as string array, line by line
 ///			checks whether the file exists, and if not, undefined returned.
-///			crashes, if the file is not a text file
+///			Returns undefined, if the file is not a text file
 function file_read_text_file_lines(filename, cryptkey = "", remove_empty_lines = true, remove_utf8_bom = true, add_to_cache = false) {
 	var content = file_read_text_file_absolute(__FILE_WORKINGFOLDER_FILENAME, cryptkey, remove_utf8_bom, add_to_cache);
 	return content != undefined ?

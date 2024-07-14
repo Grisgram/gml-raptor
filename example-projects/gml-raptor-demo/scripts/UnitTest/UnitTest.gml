@@ -41,6 +41,11 @@
 
 */
 
+// Unit test room redirection
+#macro unit_testing:ROOM_AFTER_STARTER				rmUnitTests
+#macro unit_testing:STARTER_ASYNC_MIN_WAIT_TIME		1
+#macro unit_testing:STARTER_FIRST_ROOM_FADE_IN		0
+
 // Unit test automation
 #macro __RUN_UNIT_TESTS					ilog("Unit tests disabled");
 #macro unit_testing:__RUN_UNIT_TESTS	ilog("Running unit tests");	\
@@ -93,9 +98,10 @@
 		global.__raptor_unit_tests = [];							\
 		global.__raptor_unit_test_scripts = [];						\
 		ilog("Unit tests finished");								\
-		game_end();													\
 	}																\
 	global.__raptor_unit_test_suite_runner();	
+
+//		game_end();													\
 
 if (!CONFIGURATION_UNIT_TESTING) exit;
 
@@ -210,11 +216,15 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	__async_waiting		= false;
 	__async_timeout		= 60;
 
+	/// @func start_async(_timeout_frames = 60)
+	/// @desc Tell the engine to wait for "finish_async" or a timeout
 	static start_async = function(_timeout_frames = 60) {
 		__async_waiting = true;
 		__async_timeout = _timeout_frames;
 	}
-	
+
+	/// @func finish_async()
+	/// @desc Tell the engine, that the async operation is complete
 	static finish_async = function() {
 		__async_waiting = false;
 		animation_abort(GAMESTARTER, "test_loop");

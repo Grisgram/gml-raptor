@@ -12,6 +12,9 @@
     "release":{
       "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
+    "unit_testing":{
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+    },
   },
   "DynamicTexturePage":false,
   "edgeFiltering":false,

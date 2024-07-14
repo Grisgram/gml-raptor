@@ -33,13 +33,13 @@
 #macro DATA_FILE_EXTENSION				".json"
 #macro release:DATA_FILE_EXTENSION		".jx"
 
-// The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
-// all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_{GML_RAPTOR_VERSION}_game_settings{DATA_FILE_EXTENSION}"
-
 // Replace the production crypt key with a good salty key of your own!
 #macro FILE_CRYPT_KEY					""
 #macro release:FILE_CRYPT_KEY			"/�0^^4 0= 4!/! �-:-71!/!9_15I-I�|)-(4/�,!/!1^0/�,�-v|_/�,4551( 11=�=0/�,!v!"
+
+// The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
+// all your games! Do NOT reuse the same name over and over again!
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_{GML_RAPTOR_VERSION}_game_settings{DATA_FILE_EXTENSION}"
 
 // Global functionality setup for the game
 
