@@ -178,7 +178,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.6.1.160",
+    "IDEVersion":"2024.6.2.162",
   },
   "name":"gml-raptor-demo",
   "resources":[
@@ -467,6 +467,7 @@
     {"id":{"name":"savegame_load_game","path":"scripts/savegame_load_game/savegame_load_game.yy",},},
     {"id":{"name":"savegame_save_game","path":"scripts/savegame_save_game/savegame_save_game.yy",},},
     {"id":{"name":"Savegame","path":"scripts/Savegame/Savegame.yy",},},
+    {"id":{"name":"SaveGameTests","path":"scripts/SaveGameTests/SaveGameTests.yy",},},
     {"id":{"name":"scribble_add_macro","path":"scripts/scribble_add_macro/scribble_add_macro.yy",},},
     {"id":{"name":"scribble_anim_blink","path":"scripts/scribble_anim_blink/scribble_anim_blink.yy",},},
     {"id":{"name":"scribble_anim_cycle","path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},},

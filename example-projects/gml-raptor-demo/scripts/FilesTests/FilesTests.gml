@@ -220,6 +220,45 @@ function unit_test_Files() {
 		}).start();		
 	}
 
+	ut.tests.file_multiple_callbacks_async_ok = function(test, data) {
+		test.start_async(300);
+		var testfile = "unit_test/test_enc.jx";
+		var testkey = "cryptkey$.some.key";
+		var testcontent = { "hello": "world" };
+
+		test.test_data.w_callback_count = 0;
+		test.test_data.r_callback_count = 0;
+
+		file_write_struct_async(testfile, testcontent, testkey)
+		.on_finished(function(res) {
+			global.test.assert_true(res, "save enc file");
+			global.test.test_data.w_callback_count++;
+
+			var content = file_read_struct_async("unit_test/test_enc.jx", "cryptkey$.some.key")
+			.on_finished(function(content) {
+				global.test.test_data.r_callback_count++;
+			}).start()
+			.on_finished(function(res) {
+				global.test.test_data.r_callback_count++;
+			})
+			.on_finished(function(res) {
+				global.test.test_data.r_callback_count++;
+				global.test.assert_equals(3, global.test.test_data.r_callback_count, "read callbacks");
+				run_delayed(ROOMCONTROLLER, 30, function() {
+					global.test.finish_async();
+				});
+			});
+		})
+		.start()
+		.on_finished(function(res) {
+			global.test.test_data.w_callback_count++;
+		})
+		.on_finished(function(res) {
+			global.test.test_data.w_callback_count++;
+			global.test.assert_equals(3, global.test.test_data.w_callback_count, "write callbacks");
+		});
+	}
+
 	#endregion
 	
 	ut.run();

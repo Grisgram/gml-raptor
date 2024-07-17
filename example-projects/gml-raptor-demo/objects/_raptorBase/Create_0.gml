@@ -67,7 +67,8 @@ __can_touch_this = function(_instance) {
 			is_child_of(self, RaptorTooltip) ||
 			is_child_of(self, RaptorUiRootPanel) ||
 			is_child_of(self, MouseCursor);
-		if (__can_touch_this_child || !__CONTROL_IS_ENABLED || __INSTANCE_UNREACHABLE) return false;
+		if (__can_touch_this_child || !__CONTROL_IS_ENABLED || __INSTANCE_UNREACHABLE) 
+			return false;
 	}
 	return true;
 }

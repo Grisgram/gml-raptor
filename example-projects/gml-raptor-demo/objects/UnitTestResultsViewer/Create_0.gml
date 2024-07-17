@@ -1,7 +1,8 @@
 /// @description event
 event_inherited();
 
-__lines_per_wheel	= 3;
+__drag_factor		= 6;
+__lines_per_wheel	= 16;
 __line_height		= 12;
 
 last_down_y = -1;
@@ -21,7 +22,8 @@ report_log_line = function(line) {
 report_suite_line = function(line) {
 	if (detail_mode) return;
 	if (string_starts_with(line, "DONE")) {
-		line = $"[ci_accent]DONE[/]{string_skip_start(line, 4)}";
+		var col = string_contains(line, " 0 failed") ? "[c_green]" : "[c_red]";
+		line = $"{col}DONE[/]{string_skip_start(line, 4)}";
 		line = string_replace(line, " in '", " in [ci_accent]'") + "[/]";
 	}
 	text += $"{line}\n";	
@@ -45,5 +47,5 @@ mouse_wheel = function(_distance) {
 }
 
 mouse_drag = function() {
-	y = clamp(y + MOUSE_DELTA_Y, ROOM_HEIGHT - sprite_height - 40, startup_y);
+	y = clamp(y + (MOUSE_DELTA_Y * __drag_factor), ROOM_HEIGHT - sprite_height - 40, startup_y);
 }
