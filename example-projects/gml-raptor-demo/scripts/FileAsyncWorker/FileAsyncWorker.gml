@@ -21,12 +21,12 @@
 	"result" is, whatever the file contained, a struct, a string, a byte[] or even undefined...
 */
 
-function __FileAsyncWorker(_filename, _crypt_key = "") constructor {
+function __FileAsyncWorker(_filename, _crypt_key = "") : DataBuilder() constructor {
+	construct(__FileAsyncWorker);
 
 	filename				= _filename;
 	crypt_key				= _crypt_key;
 	buffer					= undefined;
-	user_data				= {};
 	raptor_data				= {};
 	__finished_callbacks	= [];
 	__failed_callbacks		= [];
@@ -39,15 +39,6 @@ function __FileAsyncWorker(_filename, _crypt_key = "") constructor {
 	}
 	
 	__finished = function(_success) {
-	}
-
-	/// @func set_data(_property, _value)
-	/// @desc Lets you set a property in the data struct of the async worker
-	///			This data struct is provided to each callback as last argument.
-	///			This is a convenient way to transport some values to the callback.
-	static set_data = function(_property, _value) {
-		user_data[$ _property] = _value;
-		return self;
 	}
 
 	/// @func __raptor_data(_property, _value)
@@ -88,10 +79,10 @@ function __FileAsyncWorker(_filename, _crypt_key = "") constructor {
 	static __invoke_array = function(_array, _arg = undefined) {
 		if (_arg == undefined)
 			for (var i = 0, len = array_length(_array); i < len; i++)
-				_array[@i](user_data);
+				_array[@i](data);
 		else
 			for (var i = 0, len = array_length(_array); i < len; i++)
-				_array[@i](_arg, user_data);
+				_array[@i](_arg, data);
 	}
 
 	__raptor_finished_callbacks = function() {

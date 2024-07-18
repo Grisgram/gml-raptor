@@ -50,7 +50,8 @@ ANIMATIONS		= new ListPool("ANIMATIONS");
 ///										you can supply the name of a state here to set when this animation
 ///										finishes (A finished_trigger will be added for you).
 /// @param {struct}		_data		A user defined data struct that will be delivered to all trigger functions
-function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) constructor {
+function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+	: DataBuilder() constructor {
 	owner				= _obj_owner;
 	finished_state		= _finished_state;
 	delay				= _delay;
@@ -211,16 +212,6 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @desc Gets the PropertyBinder for the values of this animation
 	static binder = function() {
 		return values.binder();
-	}
-
-	/// @func set_data(_property, _value)
-	/// @desc Lets you set a property in the data struct to a value.
-	///				 This method is a convenience function for the builder pattern,
-	///				 so you can declare your initial data values directly while
-	///				 building the animation
-	static set_data = function(_property, _value) {
-		data[$ _property] = _value;
-		return self;
 	}
 
 	/// @func		set_name(_name)
