@@ -394,6 +394,7 @@
     {"id":{"name":"Coord3","path":"scripts/Coord3/Coord3.yy",},},
     {"id":{"name":"Coord4","path":"scripts/Coord4/Coord4.yy",},},
     {"id":{"name":"CoordTranslator","path":"scripts/CoordTranslator/CoordTranslator.yy",},},
+    {"id":{"name":"DataBuilder","path":"scripts/DataBuilder/DataBuilder.yy",},},
     {"id":{"name":"Debug_Mode","path":"scripts/Debug_Mode/Debug_Mode.yy",},},
     {"id":{"name":"DefaultSkin","path":"scripts/DefaultSkin/DefaultSkin.yy",},},
     {"id":{"name":"DefaultTheme","path":"scripts/DefaultTheme/DefaultTheme.yy",},},

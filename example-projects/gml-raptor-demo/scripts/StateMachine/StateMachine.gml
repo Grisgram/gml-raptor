@@ -25,7 +25,7 @@ STATEMACHINES		= new ListPool("STATEMACHINES");
 /// @desc Create a new state machine with a list of states
 /// @param {instance} _owner  The owner of the StateMachine. MUST be an object instance!
 /// @param {State...} states  Any number (up to 15) of State(...) instances that define the states
-function StateMachine(_owner) constructor {
+function StateMachine(_owner) : BindableDataBuilder() constructor {
 	owner				= _owner;
 	__states			= [];
 	active_state		= undefined;
@@ -33,8 +33,6 @@ function StateMachine(_owner) constructor {
 	__allow_re_enter	= false;
 	__state_frame		= 0;
 	__objectpool_paused = false;
-	
-	data				= new Bindable(self);
 	
 	locking_animation	= undefined;
 	lock_state_buffered	= false;
@@ -385,23 +383,7 @@ function StateMachine(_owner) constructor {
 			with(owner) vlog($"{MY_NAME}: StateMachine destroyed");
 		STATEMACHINES.remove(self);
 	}
-	
-	/// @func set_data(_property, _value)
-	/// @desc Lets you set a property in the data struct to a value.
-	///				 This method is a convenience function for the builder pattern,
-	///				 so you can declare your initial data values directly while
-	///				 building the animation
-	static set_data = function(_property, _value) {
-		data[$ _property] = _value;
-		return self;
-	}
-	
-	/// @func binder()
-	/// @desc Gets the PropertyBinder for the values of this animation
-	static binder = function() {
-		return data.binder();
-	}
-	
+		
 	toString = function() {
 		var me = name_of(owner) ?? "";
 		return $"{me}: state='{active_state_name()}'; locked='{locking_animation}'; paused={__objectpool_paused};";
