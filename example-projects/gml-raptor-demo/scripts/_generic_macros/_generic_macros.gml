@@ -6,7 +6,7 @@
 */
 
 /// this macro ends the game if the platform supports it
-#macro EXIT_GAME	if (os_type == os_windows || os_type == os_android || os_type == os_macosx || os_type == os_linux) game_end();
+#macro EXIT_GAME	GAMECONTROLLER.exit_game();
 
 // detect if running the html5 target
 #macro IS_HTML		(browser_not_a_browser != os_browser)

@@ -5,9 +5,10 @@ event_inherited();
 #macro __FAKE_GAMECONTROLLER	if (!variable_global_exists("__game_controller")) GAMECONTROLLER=SnapFromJSON("{\"image_index\":0}");
 GAMECONTROLLER = self;
 
-#macro BROADCASTER		global.__broadcaster
+#macro BROADCASTER				global.__broadcaster
 BROADCASTER = new Sender();
 
+#macro ASYNC_OPERATION_RUNNING	(array_length(struct_get_names(__RAPTOR_ASYNC_CALLBACKS)) > 0)
 #macro __RAPTOR_ASYNC_CALLBACKS	global.__raptor_async_callbacks
 __RAPTOR_ASYNC_CALLBACKS = {};
 
@@ -31,4 +32,14 @@ __invoke_async_file_callback = function(_async_id, _result) {
 			struct_remove(__RAPTOR_ASYNC_CALLBACKS, cbn);
 		}
 	CATCH ENDTRY
+}
+
+/// @func exit_game()
+/// @desc Ends the game as soon as all async operations are finished.
+exit_game = function() {
+	if (ASYNC_OPERATION_RUNNING) {
+		run_delayed(self, 30, function() { GAMECONTROLLER.exit_game(); });
+	} else {
+		if (os_type == os_windows || os_type == os_android || os_type == os_macosx || os_type == os_linux) game_end();
+	}
 }
