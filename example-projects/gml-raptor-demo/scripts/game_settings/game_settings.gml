@@ -55,6 +55,8 @@ function save_settings() {
 	// --------------------------------------------------------
 	if (HIGHSCORES != undefined)
 		GAMESETTINGS.highscoredata = HIGHSCORES.data;
-	file_write_struct(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY);
-	vlog($"Settings saved");
+	file_write_struct_async(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
+	.on_finished(function() {
+		vlog($"Settings saved");
+	});
 }

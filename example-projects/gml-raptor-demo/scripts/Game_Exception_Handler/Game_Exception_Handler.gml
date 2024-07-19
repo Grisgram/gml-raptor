@@ -13,8 +13,8 @@
 */
 
 #macro USE_CRASHDUMP_HANDLER			false
-#macro beta:USE_CRASHDUMP_HANDLER		true
-#macro release:USE_CRASHDUMP_HANDLER	true
+#macro beta:USE_CRASHDUMP_HANDLER		(!IS_CONSOLE)
+#macro release:USE_CRASHDUMP_HANDLER	(!IS_CONSOLE)
 #macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
 
 function Game_Exception_Handler(_unhandled) {
@@ -24,6 +24,8 @@ function Game_Exception_Handler(_unhandled) {
 			"\n[--- CRASH POINT ---]\n",
 			string(_unhandled)
 		);
+		// We already left the game loop here, async file access no longer possible
+		// This function never gets called on consoles, so all is good
 		file_write_text_file(CRASH_DUMP_FILENAME, error, FILE_CRYPT_KEY);
 		flog($"Crash dump written to disk!");
 	} catch (_ignored) { 

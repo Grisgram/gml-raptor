@@ -88,6 +88,8 @@ function onGameStart() {
 
 	// Load start data
 	// Example lines to show that you can load your startup files here
+	// NOTE: ONLY SYNC FILE ACCESS! To load bigger files async use the
+	//       onLoadingScreen function below this one!
 	// ------------------------------------------------------------------
 	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
 	//global.loot_system = new Race(RACE_FILE_NAME);
@@ -120,6 +122,22 @@ function onGameStart() {
 ///		  startup-loading actions as finished.
 ///		  The frame parameter increases by 1 each time this is invoked and starts with 0.
 function onLoadingScreen(task, frame) {
+
+	// ASYNC File load example at startup:
+	
+	// Write a block like this for each async file load you want to do
+	//if (vsget(task, "my_file_loading") == undefined) {
+	//	task.my_file_loading = true;
+	//	file_read_struct_async(MY_FILE_NAME)
+	//	.set_data("load_task", task)
+	//	.on_finished(function(content, data) { 
+	//		// do whatever you need to do with the file content
+	//		// ...then mark this file as loaded
+	//		data.load_task.my_file_loading = false; 
+	//	});
+	//}
+	
+	//return !task.my_file_loading;
 
 }
 

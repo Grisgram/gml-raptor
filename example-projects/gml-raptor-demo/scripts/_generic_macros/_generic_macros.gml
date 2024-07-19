@@ -6,13 +6,12 @@
 */
 
 /// this macro ends the game if the platform supports it
-#macro EXIT_GAME	GAMECONTROLLER.exit_game();
+#macro EXIT_GAME			GAMECONTROLLER.exit_game();
 
-// detect if running the html5 target
-#macro IS_HTML		(browser_not_a_browser != os_browser)
-
-// detect if running on a mobile device - works even for html runtime (mobile browsers)!
-#macro IS_MOBILE	(os_type == os_android || os_type == os_ios)
+#macro IS_HTML				(browser_not_a_browser != os_browser)
+#macro IS_MOBILE			(is_any_of(os_type, os_android, os_ios))
+#macro IS_DESKTOP_OS		(is_any_of(os_type, os_windows, os_linux))
+#macro IS_CONSOLE			(is_any_of(os_type, os_ps4, os_ps5, os_switch, os_gdk, os_xboxone, os_xboxseriesxs))
 
 // detect if the scribble library is loaded
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
