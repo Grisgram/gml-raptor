@@ -25,11 +25,15 @@
 // detect if the SNAP library is loaded
 #macro IS_SNAP_LOADED		script_exists(asset_get_index("SnapToJSON"))
 
-/// better human readable version of this instance's name (for logging mostly)
+/// stringify data of "self"
 #macro MY_ID				string(real(id))
 #macro MY_NAME				string_concat(object_get_name(object_index), real(id))
 #macro MY_LAYER_OR_DEPTH	((layer == -1) ? depth : layer_get_name(layer))
-//#macro MY_NAME	$"{object_get_name(object_index)}({real(id)})@{depth}"
+
+/// stringify data of "other"
+#macro OTHER_ID				string(real(other.id))
+#macro OTHER_NAME			string_concat(object_get_name(other.object_index), real(other.id))
+#macro OTHER_LAYER_OR_DEPTH	((other.layer == -1) ? other.depth : layer_get_name(other.layer))
 
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed

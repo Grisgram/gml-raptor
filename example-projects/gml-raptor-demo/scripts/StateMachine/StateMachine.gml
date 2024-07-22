@@ -33,6 +33,7 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 	__allow_re_enter	= false;
 	__state_frame		= 0;
 	__objectpool_paused = false;
+	__step_rv			= undefined; // step method return value for performance
 	
 	locking_animation	= undefined;
 	lock_state_buffered	= false;
@@ -346,10 +347,10 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 	static step = function() {
 		if (!__objectpool_paused && active_state != undefined) {
 			active_state.data = data;
-			var rv = active_state.on_step != undefined ? active_state.step(__state_frame) : undefined;
+			__step_rv = active_state.on_step != undefined ? active_state.step(__state_frame) : undefined;
 			__state_frame++;
-			if (rv != undefined)
-				__perform_state_change("step", rv);
+			if (__step_rv != undefined)
+				__perform_state_change("step", __step_rv);
 		}
 	}
 	
