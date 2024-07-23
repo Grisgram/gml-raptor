@@ -15,10 +15,9 @@
 
 __LG_INIT_ERROR_SHOWN = false;
 
-/// @func		__LG_load_avail_languages()
-/// @returns {bool} True, if at least one language was found, otherwise false.
+/// @func	__LG_load_avail_languages()
 /// @desc	Loads and fills an array of available languages. Normally you do not need to call this function,
-///					as it gets called through the LG_init() process.
+///			as it gets called through the LG_init() process.
 function __LG_load_avail_languages() {
 	if (!directory_exists(working_directory + LG_ROOT_FOLDER)) {
 		flog($"No locale folder found!");
@@ -42,26 +41,20 @@ function __LG_load_avail_languages() {
 	return true;
 }
 
-/// @func					__LG_get_locale_filename(localeName)
-/// @param {string} localeName	The two-letter name of the locale to find (i.e. "en", "de", "es",...)
-/// @returns {string}			True or false, telling you, whether the file exists.
-/// @desc				Builds the full filename of a language json resource file.
+/// @func	__LG_get_locale_filename(localeName)
+/// @desc	Builds the full filename of a language json resource file.
 function __LG_get_locale_filename(localeName) {
 	return string_concat(LG_ROOT_FOLDER, __LG_LOCALE_BASE_NAME, localeName, DATA_FILE_EXTENSION);
 }
 
-/// @func					__LG_locale_exists(localeName)
-/// @param {string} localeName	The two-letter name of the locale to find (i.e. "en", "de", "es",...)
-/// @returns {bool}				True or false, telling you, whether the file exists.
-/// @desc				Checks, whether a file for the specified locale exists.
+/// @func	__LG_locale_exists(localeName)
+/// @desc	Checks, whether a file for the specified locale exists.
 function __LG_locale_exists(localeName) {
 	return IS_HTML ? array_contains(LG_AVAIL_LOCALES, localeName) : file_exists(__LG_get_locale_filename(localeName));
 }
 
-/// @func					__LG_load_file(localeName)
-/// @param {string} localeName	The two-letter name of the locale to find (i.e. "en", "de", "es",...)
-/// @returns {bool}				True or false, telling you, whether the file exists.
-/// @desc				Checks, whether a file for the specified locale exists.
+/// @func	__LG_load_file(localeName)
+/// @desc	Checks, whether a file for the specified locale exists.
 function __LG_load_file(localeName) {
 	if (__LG_locale_exists(localeName)) {
 		dlog($"Loading locale '{localeName}'...");
@@ -72,29 +65,67 @@ function __LG_load_file(localeName) {
 	return false;
 }
 
-/// @func					LG_get_stringmap()
-/// @desc				Gets the string map of the currently active locale file.
-///								This returns the entire string struct. Treat as read-only!
+/// @func	LG_add_file_async(_filename)
+/// @desc	Loads the specified file for the default locale AND the current locale
+///			and merges the strings into the string map for each locale.
+///			NOTE: As the function name says, this is an async function!
+///			It returns an asyncReader, so you may add an .on_finished(...) callback.
+///			This functions load TWO files in parallel (default locale + current)
+///			The return value is the loader of the _default_ locale, as this always exists.
+///			to the returned builder pattern of this function.
+///			BEST USE FOR THIS FUNCTION IS "onLoadingScreen" in the Game_Configuration script!
+function LG_add_file_async(_filename) {
+	var deffile = string_concat(LG_ROOT_FOLDER, _filename, "_", LG_DEFAULT_LANGUAGE, DATA_FILE_EXTENSION);
+	var curfile = string_concat(LG_ROOT_FOLDER, _filename, "_", LG_CURRENT_LOCALE, DATA_FILE_EXTENSION);
+	var def = file_read_struct_async(deffile, FILE_CRYPT_KEY);
+	if (def != undefined)
+		def
+		.__raptor_data("filename", deffile)
+		.__raptor_finished(function(res, _buffer, _data) {
+			if (res != undefined) {
+				dlog($"LG successfully added strings from '{_data.filename}' to default locale ('{LG_DEFAULT_LANGUAGE}')");
+				struct_join_into(__LG_FALLBACK, res);
+			} else
+				elog($"** ERROR ** Async load of locale file '{_data.filename}' failed!");
+			return res;
+		}).start();
+	
+	var cur = file_read_struct_async(curfile, FILE_CRYPT_KEY);
+	if (cur != undefined)
+		cur
+		.__raptor_data("filename", curfile)
+		.__raptor_finished(function(res, _buffer, _data) {
+			if (res != undefined) {
+				dlog($"LG successfully added strings from '{_data.filename}' to current locale ('{LG_CURRENT_LOCALE}')");
+				struct_join_into(__LG_STRINGS, res);
+			} else
+				elog($"** ERROR ** Async load of locale file '{_data.filename}' failed!");
+			return res;
+		}).start();
+
+	return def;
+}
+
+/// @func	LG_get_stringmap()
+/// @desc	Gets the string map of the currently active locale file.
+///			This returns the entire string struct. Treat as read-only!
 function LG_get_stringmap() {
 	return __LG_STRINGS;
 }
 
-/// @func					LG_get_fallback_stringmap()
-/// @desc				Gets the fallback string map (the default language if a key is not found in the string map).
+/// @func	LG_get_fallback_stringmap()
+/// @desc	Gets the fallback string map (the default language if a key is not found in the string map).
 ///								This returns the entire string struct. Treat as read-only!
 function LG_get_fallback_stringmap() {
 	return __LG_FALLBACK;
 }
 
-/// @func		LG_init(locale_to_use = undefined)
-/// @param {string=undefined} locale_to_use	If not supplied or undefined, the OS language will be used.
-///									You can supply here the locale from your game's settings files
-///									that the user might have set in your game's options.
-/// @desc					Initializes the LG system. If LG_AUTO_INIT_ON_STARTUP is set to false, 
-///									must be called at start of the game.
-///									Subsequent calls will re-initialize and reload the language file 
-///									of the current language.
-///									To "hot-swap" the display language, use the LG_hotswap(...) function.
+/// @func	LG_init(locale_to_use = undefined)
+/// @desc	Initializes the LG system. If LG_AUTO_INIT_ON_STARTUP is set to false, 
+///			must be called at start of the game.
+///			Subsequent calls will re-initialize and reload the language file 
+///			of the current language.
+///			To "hot-swap" the display language, use the LG_hotswap(...) function.
 function LG_init(locale_to_use = undefined) {
 	__LG_FALLBACK		= undefined;
 	__LG_STRINGS		= undefined;
@@ -125,32 +156,30 @@ function LG_init(locale_to_use = undefined) {
 	}	
 }
 
-/// @func					LG_hotswap(new_locale)
-/// @param {string} new_locale	The new locale to switch to.
-/// @desc				Reload the LG system with a new language. ATTENTION! This function will restart the current room.
+/// @func	LG_hotswap(new_locale)
+/// @desc	Reload the LG system with a new language. ATTENTION! This function will restart the current room.
 function LG_hotswap(new_locale) {
 	LG_init(new_locale);
-	room_restart();
+	GAMESTARTER.reinit_game(room);
+	//room_restart();
 }
 
-/// @func			LG()
-/// @param {string} key	At least one key parameter must be supplied. You can add as many as you like for sub-key/sub-objects in the json.
-/// @returns {string}	The resolved string or "??? [key] ???" if no string was found.
-/// @desc		Retrieve a string from the loaded locale file.
-///						NOTE: The key parameters support also "path" syntax, so it's the same, whether you call:
-///						a) LG("key1", "subkey", "keybelow")
-///						   OR
-///						b) LG("key1/subkey/keybelow")
-///						You may even mix the formats: LG("key", "subkey/keybelow") will work just fine!
-///						LG supports string references. Use [?key] to reference a string from within another string.
-///						Also works recursively!
-///						EXAMPLE:
-///						"author" : "Mike"
-///						"credit" : "Written by [?author]." -> Will resolve to "Written by Mike."
+/// @func	LG()
+/// @desc	Retrieve a string from the loaded locale file.
+///			NOTE: The key parameters support also "path" syntax, so it's the same, whether you call:
+///			a) LG("key1", "subkey", "keybelow")
+///			   OR
+///			b) LG("key1/subkey/keybelow")
+///			You may even mix the formats: LG("key", "subkey/keybelow") will work just fine!
+///			LG supports string references. Use [?key] to reference a string from within another string.
+///			Also works recursively!
+///			EXAMPLE:
+///			"author" : "Mike"
+///			"credit" : "Written by [?author]." -> Will resolve to "Written by Mike."
 ///
-///						RANDOM PICKS: If your path ends with an '*' as wildcard, LG will pick a random string from
-///						all string that match the path. This is useful if you want to let your character say a random response
-///						from a pool of possible resources (like different curses or greetings)
+///			RANDOM PICKS: If your path ends with an '*' as wildcard, LG will pick a random string from
+///			all string that match the path. This is useful if you want to let your character say a random response
+///			from a pool of possible resources (like different curses or greetings)
 function LG() {
 	var wildcard = false;
 	

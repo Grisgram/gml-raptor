@@ -85,14 +85,6 @@ function onGameStart() {
 	UI_THEMES.activate_theme("coldrock");
 
 	UI_SKINS.add_skin(new WoodSkin());
-
-	// Load start data
-	// Example lines to show that you can load your startup files here
-	// NOTE: ONLY SYNC FILE ACCESS! To load bigger files async use the
-	//       onLoadingScreen function below this one!
-	// ------------------------------------------------------------------
-	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
-	//global.loot_system = new Race(RACE_FILE_NAME);
 	
 	// Setup Scribble
 	// ------------------------------------------------------------------
@@ -113,32 +105,36 @@ function onGameStart() {
 
 }
 
-/// @func onLoadingScreen(task, frame)
-/// @desc Use this function while the loading screen is visible 
-///		  to perform "async-like" tasks. Store your state in the task
-///		  struct, it will be sent to you every frame, as long as you 
-///		  return true from this function.
-///		  If you return false (or nothing), the GameStarter considers your
-///		  startup-loading actions as finished.
-///		  The frame parameter increases by 1 each time this is invoked and starts with 0.
+/// @func   onLoadingScreen(task, frame)
+/// @desc   Use this function while the loading screen is visible 
+///		    to perform "async-like" tasks. Store your state in the task
+///		    struct, it will be sent to you every frame, as long as you 
+///		    return true from this function.
+///			If you return false (or nothing), and there are no more async
+///			file operations running, the GameStarter considers your
+///		    startup-loading actions as finished.
+///		    The frame parameter increases by 1 each time this is invoked and starts with 0.
+///			------------------------
+///			What you SHOULD do here:
+///			- LOAD ALL YOUR RACE INSTANCES, THEY ARE ASYNC AND THIS FUNCTION TAKES CARE OF IT
+///			- LOAD ALL YOU ADDITIONAL LOCALE FILES, THEY ARE ALSO ASYNC
 function onLoadingScreen(task, frame) {
 
-	// ASYNC File load example at startup:
+	// Load async start data IN THE FIRST FRAME
+	// Example lines to show that you can load your startup files here
+	// Loading screen only disappears when NO MORE ASYNC operations run
+	// AND this function did not return true.
+	// ------------------------------------------------------------------
+	if (frame == 0) {
+		//SOME_GLOBAL_THING = file_read_struct_plain_async(GLOBAL_THING_FILE_NAME, FILE_CRYPT_KEY);
+		//global.loot_system = new Race(RACE_FILE_NAME);
+		//LG_add_file_async("dialogs");
+		LG_add_file_async("raptor_demo");
+	}
 	
-	// Write a block like this for each async file load you want to do
-	//if (vsget(task, "my_file_loading") == undefined) {
-	//	task.my_file_loading = true;
-	//	file_read_struct_async(MY_FILE_NAME)
-	//	.set_data("load_task", task)
-	//	.on_finished(function(content, data) { 
-	//		// do whatever you need to do with the file content
-	//		// ...then mark this file as loaded
-	//		data.load_task.my_file_loading = false; 
-	//	});
-	//}
-	
-	//return !task.my_file_loading;
-
+	// If you do other async things here, don't forget to return TRUE until they are
+	// are finished (return code means something like "still busy?", so return true while working)
+	//return true;
 }
 
 /// @func function onGameEnd()
