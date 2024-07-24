@@ -28,7 +28,9 @@ function exitButton_click() {
     hotswap languages
 */
 function languageButton_click(sender) {
-	LG_hotswap(sender.locale_name);
+	LG_hotswap(sender.locale_name, function() {
+		ilog("Async reload of locale finished.");
+	});
 }
 
 /*

@@ -142,7 +142,7 @@ function __FileAsyncWriter(_filename, _buffer, _crypt_key = "") :
  		 __FileAsyncWorker(_filename, _crypt_key) constructor {
 
 	buffer = _buffer;
-
+	
 	start = function() {
 		dlog($"Starting async file write for '{filename}'{(crypt_key == "" ? "" : " (encrypted)")}");
 		if (crypt_key != "") encrypt_buffer(buffer, crypt_key);

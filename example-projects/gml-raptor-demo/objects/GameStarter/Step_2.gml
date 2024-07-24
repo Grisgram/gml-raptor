@@ -34,11 +34,19 @@ if (!wait_for_async_tasks && !trampoline_done) {
 	visible = false; // turn off the draw event to save this now unneccesary funct
 	draw_spinner = false;
 	trampoline_done = true;
-	vlog($"GameStarter trampoline to next room");
-	pool_clear_all();
-	if (fade_in_frames_first_room != 0) {
-		var rc = instance_create_layer(0,0,layer,RoomController);
-		rc.transit(new FadeTransition(goto_room_after_init,0,fade_in_frames_first_room));
+	if (goto_room_after_init != undefined) {
+		vlog($"GameStarter trampoline to next room");
+		pool_clear_all();
+		var waitframes = 0;
+		if (fade_in_frames_first_room != 0) {
+			waitframes = fade_in_frames_first_room;
+			ROOMCONTROLLER.transit(new FadeTransition(goto_room_after_init,0,fade_in_frames_first_room));
+		} else
+			room_goto(goto_room_after_init);
+		
+		call_later(waitframes + 1, time_source_units_frames, function() {
+			invoke_if_exists(self, async_looper_finished, async_looper_data);
+		}, false);
 	} else
-		room_goto(goto_room_after_init);
+		invoke_if_exists(self, async_looper_finished, async_looper_data);
 }

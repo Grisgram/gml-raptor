@@ -5,6 +5,7 @@
 #macro __LG_FALLBACK			global.__lg_fallback_map
 #macro __LG_STRINGS				global.__lg_string_map
 #macro __LG_RESOLVE_CACHE		global.__lg_cache
+#macro __LG_ASYNC_FILES			global.__lg_async_files
 
 #macro __LG_LOCALE_BASE_NAME	"locale_"
 
@@ -13,7 +14,8 @@
 #macro __LG_HTML_NEED_CHECK		global.__lg_html_need_check
 #macro __LG_HTML_INITIALIZED	(!__LG_HTML_NEED_CHECK || (variable_global_exists("__lg_languages") && is_array(LG_AVAIL_LOCALES) && array_length(LG_AVAIL_LOCALES) > 0))
 
-__LG_INIT_ERROR_SHOWN = false;
+__LG_ASYNC_FILES		= [];
+__LG_INIT_ERROR_SHOWN	= false;
 
 /// @func	__LG_load_avail_languages()
 /// @desc	Loads and fills an array of available languages. Normally you do not need to call this function,
@@ -69,12 +71,16 @@ function __LG_load_file(localeName) {
 /// @desc	Loads the specified file for the default locale AND the current locale
 ///			and merges the strings into the string map for each locale.
 ///			NOTE: As the function name says, this is an async function!
-///			It returns an asyncReader, so you may add an .on_finished(...) callback.
+///			It returns an asyncReader or undefined (if file is not found or already
+///			loaded), so you may add an .on_finished(...) callback to the returned builder.
 ///			This functions load TWO files in parallel (default locale + current)
 ///			The return value is the loader of the _default_ locale, as this always exists.
-///			to the returned builder pattern of this function.
 ///			BEST USE FOR THIS FUNCTION IS "onLoadingScreen" in the Game_Configuration script!
 function LG_add_file_async(_filename) {
+	if (array_contains(__LG_ASYNC_FILES, _filename))
+		return undefined;
+	
+	array_push(__LG_ASYNC_FILES, _filename);
 	var deffile = string_concat(LG_ROOT_FOLDER, _filename, "_", LG_DEFAULT_LANGUAGE, DATA_FILE_EXTENSION);
 	var curfile = string_concat(LG_ROOT_FOLDER, _filename, "_", LG_CURRENT_LOCALE, DATA_FILE_EXTENSION);
 	var def = file_read_struct_async(deffile, FILE_CRYPT_KEY);
@@ -127,6 +133,7 @@ function LG_get_fallback_stringmap() {
 ///			of the current language.
 ///			To "hot-swap" the display language, use the LG_hotswap(...) function.
 function LG_init(locale_to_use = undefined) {
+	__LG_ASYNC_FILES	= [];
 	__LG_FALLBACK		= undefined;
 	__LG_STRINGS		= undefined;
 	__LG_RESOLVE_CACHE	= {};
@@ -156,12 +163,33 @@ function LG_init(locale_to_use = undefined) {
 	}	
 }
 
-/// @func	LG_hotswap(new_locale)
-/// @desc	Reload the LG system with a new language. ATTENTION! This function will restart the current room.
-function LG_hotswap(new_locale) {
+/// @func	LG_hotswap(new_locale, _finished_callback = undefined, _switch_to_loading_screen = false)
+/// @desc	Reload the LG system with a new language.
+///			As this is an async function, you may specify a callback to be
+///			invoked, when loading finished.
+///			The third argument tells raptor, whether it shall move to the loading screen with the spinner
+///			while reloading. Default = false, but you should set it to true, if you have very large language
+///			files, which might take a second or two to load
+function LG_hotswap(new_locale, _finished_callback = undefined, _switch_to_loading_screen = false) {
+	var filelist = [];
+	array_copy(filelist, 0, __LG_ASYNC_FILES, 0, array_length(__LG_ASYNC_FILES));
 	LG_init(new_locale);
-	GAMESTARTER.reinit_game(room);
-	//room_restart();
+	GAMESTARTER.run_async_loop(
+		function(task, frame, data) {
+			if (frame == 0) {
+				dlog($"Reloading {array_length(data.files)} additional async language files");
+				for (var i = 0, len = array_length(data.files); i < len; i++)
+					LG_add_file_async(data.files[@i]);
+			}
+		},
+		function(data) {
+			if (data.need_restart) room_restart();
+			invoke_if_exists(data, "finished");
+			ilog("LG_hotswap finished");
+		}, 
+		{ files: filelist, finished: _finished_callback, need_restart: !_switch_to_loading_screen }, 
+		_switch_to_loading_screen ? room : undefined
+	);
 }
 
 /// @func	LG()
