@@ -11,9 +11,7 @@
                                     var _quad_v1       = _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__QUAD_V1];\
                                     ;\
                                     var _half_w = 0.5*_glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__WIDTH ];\
-                                    var _half_h = 0.5*_glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__HEIGHT];\
-                                    ;\\
-                                    var _glyph_scale   = _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__SCALE];
+                                    var _half_h = 0.5*_glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__HEIGHT];
 
 
 
@@ -21,8 +19,8 @@
                                      {\
                                          _last_glyph_texture = _glyph_texture;\
                                          _vbuff = _page_data.__get_vertex_buffer(_glyph_texture,\
-                                                                                 _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__MSDF_PXRANGE],\
-                                                                                 _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__MSDF_THICKNESS_OFFSET],\
+                                                                                 _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__SDF_PXRANGE],\
+                                                                                 _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__SDF_THICKNESS_OFFSET],\
                                                                                  _glyph_grid[# _i, __SCRIBBLE_GEN_GLYPH.__BILINEAR],\
                                                                                  self);\
                                      }\
@@ -59,12 +57,12 @@
                                          _quad_b = _quad_cy;\
                                      }\
                                      ;\
-                                     vertex_position_3d(_vbuff, _quad_l, _quad_t, _packed_indexes); vertex_normal(_vbuff,  _half_w, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u0, _quad_v0); vertex_float2(_vbuff, _glyph_scale,  _half_h);\
-                                     vertex_position_3d(_vbuff, _quad_r, _quad_b, _packed_indexes); vertex_normal(_vbuff, -_half_w, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u1, _quad_v1); vertex_float2(_vbuff, _glyph_scale, -_half_h);\
-                                     vertex_position_3d(_vbuff, _quad_l, _quad_b, _packed_indexes); vertex_normal(_vbuff,  _half_w, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u0, _quad_v1); vertex_float2(_vbuff, _glyph_scale, -_half_h);\
-                                     vertex_position_3d(_vbuff, _quad_r, _quad_b, _packed_indexes); vertex_normal(_vbuff, -_half_w, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u1, _quad_v1); vertex_float2(_vbuff, _glyph_scale, -_half_h);\
-                                     vertex_position_3d(_vbuff, _quad_l, _quad_t, _packed_indexes); vertex_normal(_vbuff,  _half_w, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u0, _quad_v0); vertex_float2(_vbuff, _glyph_scale,  _half_h);\
-                                     vertex_position_3d(_vbuff, _quad_r, _quad_t, _packed_indexes); vertex_normal(_vbuff, -_half_w, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u1, _quad_v0); vertex_float2(_vbuff, _glyph_scale,  _half_h);
+                                     vertex_position_3d(_vbuff, _quad_l, _quad_t, _packed_indexes); vertex_normal(_vbuff, 0, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u0, _quad_v0); vertex_float2(_vbuff,  _half_w,  _half_h);\
+                                     vertex_position_3d(_vbuff, _quad_r, _quad_b, _packed_indexes); vertex_normal(_vbuff, 0, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u1, _quad_v1); vertex_float2(_vbuff, -_half_w, -_half_h);\
+                                     vertex_position_3d(_vbuff, _quad_l, _quad_b, _packed_indexes); vertex_normal(_vbuff, 0, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u0, _quad_v1); vertex_float2(_vbuff,  _half_w, -_half_h);\
+                                     vertex_position_3d(_vbuff, _quad_r, _quad_b, _packed_indexes); vertex_normal(_vbuff, 0, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u1, _quad_v1); vertex_float2(_vbuff, -_half_w, -_half_h);\
+                                     vertex_position_3d(_vbuff, _quad_l, _quad_t, _packed_indexes); vertex_normal(_vbuff, 0, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u0, _quad_v0); vertex_float2(_vbuff,  _half_w,  _half_h);\
+                                     vertex_position_3d(_vbuff, _quad_r, _quad_t, _packed_indexes); vertex_normal(_vbuff, 0, _glyph_sprite_data, _glyph_effect_flags); vertex_argb(_vbuff, _write_colour); vertex_texcoord(_vbuff, _quad_u1, _quad_v0); vertex_float2(_vbuff, -_half_w,  _half_h);
 
 
 
@@ -112,7 +110,6 @@ function __scribble_gen_9_write_vbuffs()
         _bezier_do = false;
     }
     
-    var _glyph_scale        = 1.0;
     var _glyph_colour       = 0xFFFFFFFF;
     var _glyph_cycle        = 0x00000000;
     var _glyph_effect_flags = 0;
@@ -304,16 +301,16 @@ function __scribble_gen_9_write_vbuffs()
                 }
                 
                 var _sprite_number = sprite_get_number(_sprite_index);
-                if (_sprite_number >= 64)
+                if (_sprite_number > 127)
                 {
-                    __scribble_trace("In-line sprites cannot have more than 64 frames (", sprite_get_name(_sprite_index), ")");
-                    _sprite_number = 64;
+                    __scribble_trace("In-line sprites cannot have more than 127 frames (", sprite_get_name(_sprite_index), ")");
+                    _sprite_number = 127;
                 }
                 
-                if (_image_speed >= 4)
+                if (_image_speed >= 2)
                 {
-                    __scribble_trace("Image speed cannot be more than 4.0 (" + string(_image_speed) + ")");
-                    _image_speed = 4;
+                    __scribble_trace("Image speed cannot be more than 2.0 (" + string(_image_speed) + ")");
+                    _image_speed = 2;
                 }
                 
                 if (_image_speed < 0)
@@ -322,7 +319,7 @@ function __scribble_gen_9_write_vbuffs()
                     _image_speed = 0;
                 }
                 
-                var _glyph_sprite_data = 4096*floor(1024*_image_speed) + 64*_sprite_number + _image_index;
+                var _glyph_sprite_data = 16384*floor(256*_image_speed) + 128*_sprite_number + _image_index;
                 
                 var _j = _image_index;
                 repeat((_image_speed > 0)? _sprite_number : 1) //Only draw one image if we have an image speed of 0 since we're not animating
@@ -523,10 +520,6 @@ function __scribble_gen_9_write_vbuffs()
                 
         _control_index++;
     }
-    
-    //Ensure that the model thinks it is using at least one of the font types
-    //This ensures typists still process even if there's no drawable text
-    if (!__uses_standard_font && !__uses_msdf_font) __uses_standard_font = true;
     
     //Ensure we've ended the vertex buffers we created
     __finalize_vertex_buffers(_element.__freeze);
