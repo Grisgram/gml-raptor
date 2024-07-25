@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"__savegame_restore_pointers",
   "isCompatibility":false,
   "isDnD":false,

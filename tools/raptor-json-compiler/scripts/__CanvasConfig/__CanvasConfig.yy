@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"__CanvasConfig",
   "isCompatibility":false,
   "isDnD":false,

@@ -6,13 +6,12 @@
 */
 
 /// this macro ends the game if the platform supports it
-#macro EXIT_GAME	if (os_type == os_windows || os_type == os_android || os_type == os_macosx || os_type == os_linux) game_end();
+#macro EXIT_GAME			GAMECONTROLLER.exit_game();
 
-// detect if running the html5 target
-#macro IS_HTML		(browser_not_a_browser != os_browser)
-
-// detect if running on a mobile device - works even for html runtime (mobile browsers)!
-#macro IS_MOBILE	(os_type == os_android || os_type == os_ios)
+#macro IS_HTML				(browser_not_a_browser != os_browser)
+#macro IS_MOBILE			(is_any_of(os_type, os_android, os_ios))
+#macro IS_DESKTOP_OS		(is_any_of(os_type, os_windows, os_linux))
+#macro IS_CONSOLE			(is_any_of(os_type, os_ps4, os_ps5, os_switch, os_gdk, os_xboxone, os_xboxseriesxs))
 
 // detect if the scribble library is loaded
 #macro IS_SCRIBBLE_LOADED	script_exists(asset_get_index("scribble"))
@@ -26,11 +25,15 @@
 // detect if the SNAP library is loaded
 #macro IS_SNAP_LOADED		script_exists(asset_get_index("SnapToJSON"))
 
-/// better human readable version of this instance's name (for logging mostly)
+/// stringify data of "self"
 #macro MY_ID				string(real(id))
 #macro MY_NAME				string_concat(object_get_name(object_index), real(id))
 #macro MY_LAYER_OR_DEPTH	((layer == -1) ? depth : layer_get_name(layer))
-//#macro MY_NAME	$"{object_get_name(object_index)}({real(id)})@{depth}"
+
+/// stringify data of "other"
+#macro OTHER_ID				string(real(other.id))
+#macro OTHER_NAME			string_concat(object_get_name(other.object_index), real(other.id))
+#macro OTHER_LAYER_OR_DEPTH	((other.layer == -1) ? other.depth : layer_get_name(other.layer))
 
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed

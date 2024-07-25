@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Browser_Click_Handler",
   "isCompatibility":false,
   "isDnD":false,

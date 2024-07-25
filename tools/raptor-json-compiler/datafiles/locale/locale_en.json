@@ -10,8 +10,14 @@
     "game_channel_prod": "Production",
     "game_channel_dev": "Development"
   },
+  "startup_server": {
+	  "connecting": "Connecting to Server...",
+	  "connection_success": "[?states/connected]",
+	  "connection_failed": "[?states/disconnected]",
+  },
   "credits": {
-    "credits_title": "Credits"
+    "credits_title": "Credits",
+	"credits_text": "",
   },
   "global_words": {
     "buttons": {

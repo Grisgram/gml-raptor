@@ -133,8 +133,14 @@ WINDOW_SIZE_X_PREVIOUS	= WINDOW_SIZE_X;
 WINDOW_SIZE_Y_PREVIOUS	= WINDOW_SIZE_Y;
 WINDOW_SIZE_HAS_CHANGED	= false;
 
+#macro GAME_SPEED				global.__game_speed
+GAME_SPEED = 1;
+
 #macro DELTA_TIME_SECS			global.__delta_time_secs
 DELTA_TIME_SECS = 0;
+
+#macro DELTA_TIME_SECS_REAL		global.__delta_time_secs_real
+DELTA_TIME_SECS_REAL = 0;
 
 #endregion
 

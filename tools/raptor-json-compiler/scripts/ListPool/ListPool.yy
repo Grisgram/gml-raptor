@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ListPool",
   "isCompatibility":false,
   "isDnD":false,

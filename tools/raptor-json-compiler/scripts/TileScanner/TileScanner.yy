@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"TileScanner",
   "isCompatibility":false,
   "isDnD":false,

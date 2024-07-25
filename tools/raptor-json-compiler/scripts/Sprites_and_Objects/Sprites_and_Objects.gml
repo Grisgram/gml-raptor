@@ -67,6 +67,24 @@ function scale_sprite_to(target_width, target_height) {
 	image_yscale = target_height / h1;
 }
 
+/// @func	scale_sprite_aspect_width(new_width)
+/// @desc	Scale an instances' sprite to a new width by keeping the aspect ratio
+///			(this means, the yscale will be calculated based on the new xscale)
+function scale_sprite_aspect_width(new_width) {
+	var w1 = sprite_get_width(sprite_index);
+	image_xscale = new_width / w1;
+	image_yscale = image_xscale;
+}
+
+/// @func	scale_sprite_aspect_height(new_height)
+/// @desc	Scale an instances' sprite to a new height by keeping the aspect ratio
+///			(this means, the xscale will be calculated based on the new yscale)
+function scale_sprite_aspect_height(new_height) {
+	var h1 = sprite_get_height(sprite_index);
+	image_yscale = new_height / h1;
+	image_xscale = image_yscale;
+}
+
 /// @func is_mouse_over(_instance)
 /// @desc	Checks whether the current mouse position in the world (_is_gui = false) or
 ///					in the GUI coordinate space (_is_gui = true) is within the bounds of _instance

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Sprites_and_Objects",
   "isCompatibility":false,
   "isDnD":false,

@@ -15,10 +15,19 @@ ENSURE_RACE;
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
-/// @func Race(_filename, _add_file_to_cache = RACE_CACHE_FILE_DEFAULT)
-/// @desc Create a new random content engine
-function Race(_filename = "", _add_file_to_cache = RACE_CACHE_FILE_DEFAULT) constructor {
+/// @func	Race(_filename, _load_async = true, _add_file_to_cache = RACE_CACHE_FILE_DEFAULT)
+/// @desc	Create a new random content engine, optionally loading the file async
+///			NOTE: When you load the file async, you may NOT use this race instance immediately after
+///			creating it! Instead, you should add a callback through the on_load_finished(...) function
+///			of this Race instance
+///			Async loading should be the default and it should be done during game-startup
+///			in the onLoadingScreen callback of the Game_Configuration script.
+///			This callback handles all waiting and async management for you.
+///			Recommendation: Load _all_ your Race files at startup async.
+function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACHE_FILE_DEFAULT) constructor {
 	construct(Race);
+	
+	__async_init_done = undefined;
 	
 	if (is_null(_filename)) return; // if we come from savegame, no file is given
 	
@@ -35,24 +44,46 @@ function Race(_filename = "", _add_file_to_cache = RACE_CACHE_FILE_DEFAULT) cons
 
 	__cache_name	= string_replace(__filename, "/", "_");
 	vsgetx(__RACE_CACHE,  __cache_name, {}); // ensure, the file is created in the cache
-	
-	var tablefile = file_read_struct(__filename, FILE_CRYPT_KEY, _add_file_to_cache);
-	
-	if (tablefile != undefined) {
-		var names = struct_get_names(tablefile);
-		var tablecnt = array_length(names);
-			
-		if (DEBUG_LOG_RACE)
-			ilog($"Successfully loaded {tablecnt} table(s) from '{__filename}'");
-		for (var i = 0; i < tablecnt; i++) {
-			var name = names[@i];
-			var table = struct_get(tablefile, name);
-			__put_to_cache(name, table);
-			add_table(__clone_from_cache(name));
-		}
-	} else
-		elog($"** ERROR ** Failed to load race table file '{__filename}'!")
 
+	if (_load_async) {
+		file_read_struct_async(__filename, FILE_CRYPT_KEY, _add_file_to_cache)
+		.__raptor_data("inst", self)
+		.__raptor_finished(function(_prev, _buffer, _data) {
+			with(_data.inst) {
+				__process_table_file(_prev);
+				invoke_if_exists(self, __async_init_done);
+			}
+		}).start();
+	} else {
+		var tablefile = file_read_struct(__filename, FILE_CRYPT_KEY, _add_file_to_cache);
+		__process_table_file(tablefile);
+	}
+
+	/// @func __process_table_file(tablefile)
+	static __process_table_file = function(tablefile) {
+		if (tablefile != undefined) {
+			var names = struct_get_names(tablefile);
+			var tablecnt = array_length(names);
+			
+			if (DEBUG_LOG_RACE)
+				ilog($"Successfully loaded {tablecnt} table(s) from '{__filename}'");
+			for (var i = 0; i < tablecnt; i++) {
+				var name = names[@i];
+				var table = struct_get(tablefile, name);
+				__put_to_cache(name, table);
+				add_table(__clone_from_cache(name));
+			}
+		} else
+			elog($"** ERROR ** Failed to load race table file '{__filename}'!")
+	}
+
+	/// @func	on_load_finished(_callback)
+	/// @desc	Register a function to be invoked when the async loading of this instance
+	///			is finished.
+	static on_load_finished = function(_callback) {
+		__async_init_done = _callback;
+		return self;
+	}
 	
 	/// @func __is_in_cache(_name)
 	static __is_in_cache = function(_name) {

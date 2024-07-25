@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"__CanvasCleanupQueue",
   "isCompatibility":false,
   "isDnD":false,

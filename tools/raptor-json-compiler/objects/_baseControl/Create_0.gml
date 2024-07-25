@@ -243,7 +243,8 @@ is_topmost = function(_x, _y) {
 		__topmost_runner = undefined;
 		for (var i = 0; i < __topmost_count; i++) {
 			__topmost_runner = __topmost_list[|i];
-			if (!__can_touch_this(__topmost_runner)) continue;
+			if (vsget(__topmost_runner, "draw_on_gui", false) != draw_on_gui || !__can_touch_this(__topmost_runner)) 
+				continue;
 			__topmost_mindepth = min(__topmost_mindepth, __topmost_runner.depth);
 		}
 		return __topmost_cache.set(__topmost_mindepth == depth);
@@ -407,8 +408,8 @@ __draw_self = function() {
 				ninetop		= nine.top;
 				ninebottom	= nine.bottom;
 			}
-			var distx		= nineleft + nineright;
-			var disty		= ninetop + ninebottom;
+			var distx		= text_xoffset + nineleft + nineright;
+			var disty		= text_yoffset + ninetop + ninebottom;
 		
 			if (autosize) {
 				image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + distx) / sprite_get_width(sprite_index));
@@ -422,8 +423,8 @@ __draw_self = function() {
 			// No sprite - update edges by hand
 			edges.left = x;
 			edges.top = y;
-			edges.width  = text != "" ? __text_width : 0;
-			edges.height = text != "" ? __text_height : 0;
+			edges.width  = text_xoffset + (text != "" ? __text_width : 0);
+			edges.height = text_yoffset + (text != "" ? __text_height : 0);
 			edges.right = edges.left + edges.width - 1;
 			edges.bottom = edges.top + edges.height - 1;
 			edges.center_x = x + edges.width / 2;

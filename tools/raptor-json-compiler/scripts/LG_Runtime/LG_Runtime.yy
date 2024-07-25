@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"LG_Runtime",
   "isCompatibility":false,
   "isDnD":false,

@@ -25,6 +25,7 @@ RAPTOR_LOGGER.set_formatter(new LOG_FORMATTER());
 // Look for version file
 mlog(__LOG_GAME_INIT_START);
 if (file_exists(working_directory + "version.json")) {
+	// can't load this async (yet) as we have no gamecontroller yet
 	var verinfo = file_read_struct_plain("version.json");
 	GAME_VERSION_STRING = verinfo.version;
 	GAME_VERSION_MAJOR	= verinfo.major;
@@ -68,4 +69,3 @@ onGameStart();
 if (DEBUG_MODE_ACTIVE)
 	window_set_size(DEBUG_MODE_WINDOW_WIDTH, DEBUG_MODE_WINDOW_HEIGHT);
 
-__RUN_UNIT_TESTS

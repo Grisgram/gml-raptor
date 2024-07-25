@@ -16,6 +16,8 @@ function __scribble_class_typist(_per_line) constructor
     __skip_paused = false;
     __drawn_since_skip = false;
     
+    __sound_tag_gain = 1;
+    
     __sound_array                   = undefined;
     __sound_overlap                 = 0;
     __sound_pitch_min               = 1;
@@ -117,6 +119,7 @@ function __scribble_class_typist(_per_line) constructor
         __skip = _state;
         __skip_paused = true;
         __drawn_since_skip = false;
+        __delay_end = -infinity;
         
         return self;
     }
@@ -126,6 +129,7 @@ function __scribble_class_typist(_per_line) constructor
         __skip = _state;
         __skip_paused = false;
         __drawn_since_skip = false;
+        __delay_end = -infinity;
         
         return self;
     }
@@ -419,6 +423,23 @@ function __scribble_class_typist(_per_line) constructor
     
     
     
+    #region Gain
+    
+    static set_sound_tag_gain = function(_gain)
+    {
+        __sound_tag_gain = _gain;
+        return self;
+    }
+    
+    static get_sound_tag_gain = function()
+    {
+        return __sound_tag_gain;
+    }
+    
+    #endregion
+    
+    
+    
     #region Private Methods
     
     static __associate = function(_text_element)
@@ -528,7 +549,7 @@ function __scribble_class_typist(_per_line) constructor
                     {
                         var _asset = _event_data[0];
                         if (is_string(_asset)) _asset = asset_get_index(_asset);
-                        audio_play_sound(_asset, 1, false);
+                        audio_play_sound(_asset, 1, false, __sound_tag_gain);
                     }
                 break;
                 
@@ -654,7 +675,7 @@ function __scribble_class_typist(_per_line) constructor
         if (__skip) __drawn_since_skip = true;
         
         //Don't tick if it's been less than a frame since we were last updated
-        if (__scribble_state.__frames < __last_tick_frame) return undefined;
+        if (__scribble_state.__frames <= __last_tick_frame) return undefined;
         __last_tick_frame = __scribble_state.__frames;
         
         //If __in hasn't been set yet (.in() / .out() haven't been set) then just nope out
@@ -914,57 +935,6 @@ function __scribble_class_typist(_per_line) constructor
         shader_set_uniform_f(_u_fTypewriterStartRotation,     __ease_rotation);
         shader_set_uniform_f(_u_fTypewriterAlphaDuration,     __ease_alpha_duration);
         shader_set_uniform_f_array(_u_fTypewriterWindowArray, __window_array);
-    }
-    
-    static __set_msdf_shader_uniforms = function()
-    {
-        static _msdf_u_iTypewriterUseLines      = shader_get_uniform(__shd_scribble_msdf, "u_iTypewriterUseLines"     );
-        static _msdf_u_iTypewriterMethod        = shader_get_uniform(__shd_scribble_msdf, "u_iTypewriterMethod"       );
-        static _msdf_u_iTypewriterCharMax       = shader_get_uniform(__shd_scribble_msdf, "u_iTypewriterCharMax"      );
-        static _msdf_u_fTypewriterWindowArray   = shader_get_uniform(__shd_scribble_msdf, "u_fTypewriterWindowArray"  );
-        static _msdf_u_fTypewriterSmoothness    = shader_get_uniform(__shd_scribble_msdf, "u_fTypewriterSmoothness"   );
-        static _msdf_u_vTypewriterStartPos      = shader_get_uniform(__shd_scribble_msdf, "u_vTypewriterStartPos"     );
-        static _msdf_u_vTypewriterStartScale    = shader_get_uniform(__shd_scribble_msdf, "u_vTypewriterStartScale"   );
-        static _msdf_u_fTypewriterStartRotation = shader_get_uniform(__shd_scribble_msdf, "u_fTypewriterStartRotation");
-        static _msdf_u_fTypewriterAlphaDuration = shader_get_uniform(__shd_scribble_msdf, "u_fTypewriterAlphaDuration");
-        
-        //If __in hasn't been set yet (.in() / .out() haven't been set) then just nope out
-        if (__in == undefined)
-        {
-            shader_set_uniform_i(_msdf_u_iTypewriterMethod, SCRIBBLE_EASE.NONE);
-            return undefined;
-        }
-        
-        var _method = __ease_method;
-        if (!__in) _method += SCRIBBLE_EASE.__SIZE;
-        
-        var _char_max = 0;
-        if (__backwards)
-        {
-            var _model = __last_element.ref.__get_model(true);
-            if (!is_struct(_model)) return undefined;
-            
-            var _pages_array = _model.__get_page_array();
-            if (array_length(_pages_array) > __last_page)
-            {
-                var _page_data = _pages_array[__last_page];
-                _char_max = __per_line? _page_data.__line_count : _page_data.__character_count;
-            }
-            else
-            {
-                __scribble_trace("Warning! Typist page (", __last_page, ") exceeds text element page count (", array_length(_pages_array), ")");
-            }
-        }
-        
-        shader_set_uniform_i(_msdf_u_iTypewriterUseLines,          __per_line);
-        shader_set_uniform_i(_msdf_u_iTypewriterMethod,            _method);
-        shader_set_uniform_i(_msdf_u_iTypewriterCharMax,           _char_max);
-        shader_set_uniform_f(_msdf_u_fTypewriterSmoothness,        __smoothness);
-        shader_set_uniform_f(_msdf_u_vTypewriterStartPos,          __ease_dx, __ease_dy);
-        shader_set_uniform_f(_msdf_u_vTypewriterStartScale,        __ease_xscale, __ease_yscale);
-        shader_set_uniform_f(_msdf_u_fTypewriterStartRotation,     __ease_rotation);
-        shader_set_uniform_f(_msdf_u_fTypewriterAlphaDuration,     __ease_alpha_duration);
-        shader_set_uniform_f_array(_msdf_u_fTypewriterWindowArray, __window_array);
     }
     
     #endregion

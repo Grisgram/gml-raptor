@@ -33,13 +33,14 @@
 #macro DATA_FILE_EXTENSION				".json"
 #macro release:DATA_FILE_EXTENSION		".jx"
 
+// Replace the production crypt key with a good salty key of your own!
+#macro FILE_CRYPT_KEY					""
+#macro release:FILE_CRYPT_KEY			"W4!DdFwX2f9#HcJnTvY7LmBQe1GkXzPpOySr6$VaIu3o5#@RjKg8NhZ!Uq0EiMs9"
+
 // The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
 // all your games! Do NOT reuse the same name over and over again!
 #macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings{DATA_FILE_EXTENSION}"
 
-// Replace the production crypt key with a good salty key of your own!
-#macro FILE_CRYPT_KEY					""
-#macro release:FILE_CRYPT_KEY			"W4!DdFwX2f9#HcJnTvY7LmBQe1GkXzPpOySr6$VaIu3o5#@RjKg8NhZ!Uq0EiMs9"
 
 // Global functionality setup for the game
 
@@ -83,11 +84,6 @@ function onGameStart() {
 	//UI_THEMES.add_theme(new your_game_theme_name(), true);
 	//UI_SKINS.add_skin(new your_game_skin_name(), true);
 
-	// Load start data
-	// Example lines to show that you can load your startup files here
-	// ------------------------------------------------------------------
-	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
-	//global.loot_system = new Race(RACE_FILE_NAME);
 
 	// Setup Scribble
 	// ------------------------------------------------------------------
@@ -102,23 +98,42 @@ function onGameStart() {
 	//SCRIBBLE_COLORS.my_col3 = $FFE5E5E5; // $AABBGGRR
 	
 	SCRIBBLE_REFRESH;
-	
+
 	// Audio setup for rooms
 	//set_room_default_audio(rmMain, mus_theme, amb_theme);
 	//set_room_default_audio(rmPlay, mus_theme, amb_theme);
 
 }
 
-/// @func onLoadingScreen(task, frame)
-/// @desc Use this function while the loading screen is visible 
-///		  to perform "async-like" tasks. Store your state in the task
-///		  struct, it will be sent to you every frame, as long as you 
-///		  return true from this function.
-///		  If you return false (or nothing), the GameStarter considers your
-///		  startup-loading actions as finished.
-///		  The frame parameter increases by 1 each time this is invoked and starts with 0.
+/// @func   onLoadingScreen(task, frame)
+/// @desc   Use this function while the loading screen is visible 
+///		    to perform "async-like" tasks. Store your state in the task
+///		    struct, it will be sent to you every frame, as long as you 
+///		    return true from this function.
+///			If you return false (or nothing), and there are no more async
+///			file operations running, the GameStarter considers your
+///		    startup-loading actions as finished.
+///		    The frame parameter increases by 1 each time this is invoked and starts with 0.
+///			------------------------
+///			What you SHOULD do here:
+///			- LOAD ALL YOUR RACE INSTANCES, THEY ARE ASYNC AND THIS FUNCTION TAKES CARE OF IT
+///			- LOAD ALL YOU ADDITIONAL LOCALE FILES, THEY ARE ALSO ASYNC
 function onLoadingScreen(task, frame) {
 
+	// Load async start data IN THE FIRST FRAME
+	// Example lines to show that you can load your startup files here
+	// Loading screen only disappears when NO MORE ASYNC operations run
+	// AND this function did not return true.
+	// ------------------------------------------------------------------
+	if (frame == 0) {
+		//SOME_GLOBAL_THING = file_read_struct_plain_async(GLOBAL_THING_FILE_NAME, FILE_CRYPT_KEY);
+		//global.loot_system = new Race(RACE_FILE_NAME);
+		//LG_add_file_async("dialogs");
+	}
+	
+	// If you do other async things here, don't forget to return TRUE until they are
+	// are finished (return code means something like "still busy?", so return true while working)
+	//return true;
 }
 
 /// @func function onGameEnd()

@@ -50,7 +50,8 @@ ANIMATIONS		= new ListPool("ANIMATIONS");
 ///										you can supply the name of a state here to set when this animation
 ///										finishes (A finished_trigger will be added for you).
 /// @param {struct}		_data		A user defined data struct that will be delivered to all trigger functions
-function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {}) constructor {
+function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _finished_state = undefined, _data = {})
+	: DataBuilder() constructor {
 	owner				= _obj_owner;
 	finished_state		= _finished_state;
 	delay				= _delay;
@@ -211,16 +212,6 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	/// @desc Gets the PropertyBinder for the values of this animation
 	static binder = function() {
 		return values.binder();
-	}
-
-	/// @func set_data(_property, _value)
-	/// @desc Lets you set a property in the data struct to a value.
-	///				 This method is a convenience function for the builder pattern,
-	///				 so you can declare your initial data values directly while
-	///				 building the animation
-	static set_data = function(_property, _value) {
-		data[$ _property] = _value;
-		return self;
 	}
 
 	/// @func		set_name(_name)
@@ -798,8 +789,8 @@ function animation_abort_all(owner = self, _run_finished_triggers = true) {
 /// @returns {bool} True, if an animation has been aborted, otherwise false.
 function animation_abort(owner, name, _run_finished_triggers = true) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
-		var item = lst[| i];
+	for (var i = 0, len = array_length(lst); i < len; i++) {
+		var item = lst[@i];
 		if (eq(item.owner, owner) && name == item.name)
 		//if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			with(item) { abort(_run_finished_triggers); return true; }
@@ -814,8 +805,8 @@ function animation_abort(owner, name, _run_finished_triggers = true) {
 /// @returns {bool} True, if an animation has been finished, otherwise false.
 function animation_finish(owner, name) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
-		var item = lst[| i];
+	for (var i = 0, len = array_length(lst); i < len; i++) {
+		var item = lst[@i];
 		if (eq(item.owner, owner) && name == item.name)
 			with(item) { finish(); return true; }
 	}
@@ -868,8 +859,8 @@ function animation_resume_all(owner = self) {
 ///					one specific animation.
 function is_in_animation(owner = self, name = undefined) {
 	var lst = ANIMATIONS.list;
-	for (var i = 0, len = ds_list_size(lst); i < len; i++) {
-		var item = lst[| i];
+	for (var i = 0, len = array_length(lst); i < len; i++) {
+		var item = lst[@i];
 		if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			return true;
 	}

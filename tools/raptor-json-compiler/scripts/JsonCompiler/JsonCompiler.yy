@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"JsonCompiler",
   "isCompatibility":false,
   "isDnD":false,

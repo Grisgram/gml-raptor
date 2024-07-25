@@ -2,7 +2,6 @@
     Management class for one single loot table of the Race system
 */
 
-
 /// @func RaceTable(_name, _table_struct)
 function RaceTable(_name = "", _table_struct = undefined) constructor {
 	construct(RaceTable);

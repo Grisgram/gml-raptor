@@ -80,7 +80,7 @@ pre_calculate_knob = function() {
 	calculate_knob_size();
 	scale_sprite_to(w, h);
 
-	__value_offset = floor(value * __tilesize);
+	__value_offset = floor((value - min_value) * __tilesize);
 	__last_value_offset = __value_offset;
 	if (orientation_horizontal) {
 		__knob_x = x + __knob_rel_x + __value_offset;
@@ -259,7 +259,7 @@ __draw_self = function() {
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
 		
-	__value_offset = floor(__tilesize * value);
+	__value_offset = floor(__tilesize * (value - min_value));
 	if (__value_offset != __last_value_offset && !__knob_grabbed) {
 		if (orientation_horizontal) {
 			__knob_new_x = x + __knob_rel_x + __value_offset;

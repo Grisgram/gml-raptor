@@ -11,7 +11,7 @@ function unit_test_Race() {
 	var ut = new UnitTest("Race");
 
 	ut.test_start = function(name, data) {
-		data.t = new Race("demotable", true);
+		data.t = new Race("demotable", false, true);
 		
 		if (string_contains(name, "query"))
 			data.t.add_table(new RaceTable("loot", {

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"__GML_RAPTOR_VERSION__",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Game_Exception_Handler",
   "isCompatibility":false,
   "isDnD":false,

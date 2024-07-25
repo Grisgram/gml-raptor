@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"StringBuilderTests",
   "isCompatibility":false,
   "isDnD":false,

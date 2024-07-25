@@ -36,27 +36,34 @@ function GameSettings() constructor {
 	}
 }
 
+/// @function load_settings()
 function load_settings() {
 	dlog($"Loading settings...");
 	GAMESETTINGS = file_read_struct(GAME_SETTINGS_FILENAME,FILE_CRYPT_KEY) ?? new GameSettings();
-	if (USE_HIGHSCORES && HIGHSCORES != undefined && variable_struct_exists(GAMESETTINGS, "highscoredata"))
+	if (USE_HIGHSCORES && HIGHSCORES != undefined && struct_exists(GAMESETTINGS, "highscoredata"))
 		HIGHSCORES.assign_data(GAMESETTINGS.highscoredata);
 	AUDIOSETTINGS = GAMESETTINGS.audio;
 	// --- Custom / additional actions after loading settings ---
 	
 	// ----------------------------------------------------------
-	vlog($"Settings loaded");
+	dlog($"Settings loaded");
 }
 
-function save_settings() {
+/// @function save_settings(_sync = false)
+function save_settings(_sync = false) {
 	dlog($"Saving settings...");
 	// --- Custom / additional actions when saving settings ---
 	
 	// --------------------------------------------------------
 	if (HIGHSCORES != undefined)
 		GAMESETTINGS.highscoredata = HIGHSCORES.data;
-	file_write_struct_async(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
-	.on_finished(function() {
-		vlog($"Settings saved");
-	});
+	if (_sync) {
+		file_write_struct(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
+		dlog($"Settings saved");
+	} else {
+		file_write_struct_async(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
+		.on_finished(function() {
+			dlog($"Settings saved");
+		}).start();
+	}
 }
