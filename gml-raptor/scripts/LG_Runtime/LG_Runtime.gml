@@ -1,5 +1,6 @@
+
 #macro LG_AVAIL_LOCALES			global.__lg_languages
-#macro LG_OS_LANGUAGE			global.__lg_os
+#macro LG_OS_LANGUAGE			global.__lg_os_language
 #macro LG_CURRENT_LOCALE		global.__lg_current
 
 #macro __LG_FALLBACK			global.__lg_fallback_map
@@ -22,7 +23,7 @@ __LG_INIT_ERROR_SHOWN	= false;
 ///			as it gets called through the LG_init() process.
 function __LG_load_avail_languages() {
 	if (!directory_exists(working_directory + LG_ROOT_FOLDER)) {
-		flog($"No locale folder found!");
+		flog($"No locale folder found! ** EXITING **");
 		EXIT_GAME;
 		return false;
 	}
