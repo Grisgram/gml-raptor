@@ -16,8 +16,8 @@
 	  "connection_failed": "[?states/disconnected]",
   },
   "credits": {
-    "credits_title": "Credits",
-	"credits_text": "",
+    "title": "Credits",
+	"text": "",
   },
   "global_words": {
     "buttons": {
