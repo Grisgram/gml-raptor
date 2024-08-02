@@ -44,7 +44,7 @@ function is_child_class_of(_struct, _class_name) {
 		string_contains(vsget(_struct, __PARENT_CONSTRUCTOR_NAME, ""), $"|{_class_name}|");
 }
 
-/// @func	implement(_interface)
+/// @func	implement(_interface, ...)
 /// @desc	Works like an interface implementation by copying all members
 ///			and re-binding all methods from "interface" to "self"
 ///			Creates a hidden member __raptor_interfaces in this struct which contains
@@ -61,8 +61,27 @@ function implement(_interface) {
 		sclass = _interface;
 	}
 	
-	var i = new sclass();
-	struct_join_into(self, i);
+	var res;
+	switch (argument_count) {
+		case  1: res = new sclass(); break;
+		case  2: res = new sclass(argument[1]); break;
+		case  3: res = new sclass(argument[1],argument[2]); break;
+		case  4: res = new sclass(argument[1],argument[2],argument[3]); break;
+		case  5: res = new sclass(argument[1],argument[2],argument[3],argument[4]); break;
+		case  6: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5]); break;
+		case  7: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+		case  8: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+		case  9: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+		case 10: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+		case 11: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+		case 12: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+		case 13: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+		case 14: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+		case 15: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+		case 16: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+	}
+	
+	struct_join_into(self, res);
 	if (!variable_struct_exists(self, __INTERFACES_NAME))
 		self[$ __INTERFACES_NAME] = [];
 	if (!array_contains(self[$ __INTERFACES_NAME], sname))

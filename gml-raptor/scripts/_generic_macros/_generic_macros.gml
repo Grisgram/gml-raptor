@@ -6,7 +6,7 @@
 */
 
 /// this macro ends the game if the platform supports it
-#macro EXIT_GAME			try { GAMECONTROLLER.exit_game(); } catch(_){ try{game_end(-1);}catch(_){} }
+#macro EXIT_GAME			try { GAMECONTROLLER.exit_game(); } catch(_){ try{game_end(0);}catch(_){} }
 
 #macro IS_HTML				(browser_not_a_browser != os_browser)
 #macro IS_MOBILE			(is_any_of(os_type, os_android, os_ios))

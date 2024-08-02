@@ -29,7 +29,6 @@ GOTO END
 :RUNJX
 ECHO Compiling included files...
 %JSON_COMPILER% %~dp0 %YYconfig%
-
 GOTO END
 
 :END

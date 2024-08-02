@@ -74,7 +74,7 @@ function __LG_load_file(localeName) {
 ///			NOTE: As the function name says, this is an async function!
 ///			It returns an asyncReader or undefined (if file is not found or already
 ///			loaded), so you may add an .on_finished(...) callback to the returned builder.
-///			This functions load TWO files in parallel (default locale + current)
+///			This function loads TWO files in parallel (default locale + current)
 ///			The return value is the loader of the _default_ locale, as this always exists.
 ///			BEST USE FOR THIS FUNCTION IS "onLoadingScreen" in the Game_Configuration script!
 function LG_add_file_async(_filename) {

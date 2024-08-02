@@ -22,7 +22,7 @@
   "name":"rmStartup",
   "parent":{
     "name":"startup",
-    "path":"folders/__GAME_SETUP_/startup.yy",
+    "path":"folders/__GAME_SETUP__/startup.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

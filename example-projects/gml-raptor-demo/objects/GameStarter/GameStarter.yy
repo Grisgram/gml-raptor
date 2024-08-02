@@ -15,7 +15,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"startup",
-    "path":"folders/__GAME_SETUP_/startup.yy",
+    "path":"folders/__GAME_SETUP__/startup.yy",
   },
   "parentObjectId":{
     "name":"_raptorBase",
