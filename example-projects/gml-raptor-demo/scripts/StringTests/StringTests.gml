@@ -80,5 +80,11 @@ function unit_test_Strings() {
 		test.assert_equals("34", string_substring("1234",3));
 	}
 
+	ut.tests.string_format_number_ok = function(test, data) {
+		test.assert_equals("  42", string_format_number(42,4));
+		test.assert_equals("  42.0", string_format_number(42,4,1));
+		test.assert_equals("0042.0", string_format_number(42,4,1, true));
+	}
+	
 	ut.run();
 }

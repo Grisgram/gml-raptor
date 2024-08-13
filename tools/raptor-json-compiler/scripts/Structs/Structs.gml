@@ -153,9 +153,13 @@ function struct_join_into(target, sources) {
 ///			and even allows you to create that member in the struct, if it is missing
 function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true) {
 	gml_pragma("forceinline");
-	if (_create_if_missing)
-		_struct[$ _key] ??= _default_if_missing;
-	return _struct[$ _key] ?? _default_if_missing;
+	if (_struct == undefined) 
+		return _default_if_missing;
+		
+	if (_create_if_missing && _struct[$ _key] == undefined)
+        _struct[$ _key] = _default_if_missing;
+		
+    return _struct[$ _key];		
 }
 
 /// @func	vsget(_struct, _key, _default_if_missing = undefined)
@@ -163,7 +167,7 @@ function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missi
 ///			but does not create the missing member in the struct
 function vsget(_struct, _key, _default_if_missing = undefined) {
 	gml_pragma("forceinline");
-	return _struct[$ _key] ?? _default_if_missing;
+	return (_struct != undefined && _struct[$ _key] != undefined) ? _struct[$ _key] : _default_if_missing;
 }
 
 

@@ -1,3 +1,4 @@
+
 #macro LG_AVAIL_LOCALES			global.__lg_languages
 #macro LG_OS_LANGUAGE			global.__lg_os_language
 #macro LG_CURRENT_LOCALE		global.__lg_current

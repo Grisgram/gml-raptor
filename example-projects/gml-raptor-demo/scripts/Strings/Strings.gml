@@ -21,6 +21,15 @@ function sprintf(str) {
 	return rv;
 }
 
+/// @func	string_format_number(value, total, dec = 0, leading_zeros = false)
+/// @desc	Format a number to a string, optionally with leading zeros
+function string_format_number(value, total, dec = 0, leading_zeros = false) {
+	gml_pragma("forceinline");
+	return leading_zeros ?
+		string_replace_all(string_format(value,total,dec)," ", "0") :
+		string_format(value,total,dec);
+}
+
 /// @func					string_skip_start(str, count)
 /// @desc				Returns a substring of str that skipped the first {count} characters
 /// @param {string} str			The string

@@ -344,8 +344,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		try {
 			with(__root_tree.control) {
 				animation_abort(self, "##__raptor_##.control_tree_build", false);
-				run_delayed(self, 1, function() { control_tree.layout(true); })
-					.set_name("##__raptor_##.control_tree_build");
+				run_delayed(self, 1, function() { 
+					if (control_tree.__alive)
+						control_tree.layout(true); 
+				})
+				.set_name("##__raptor_##.control_tree_build");
 			}
 		} catch (_) {}
 		return self;
@@ -386,6 +389,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
+		if (!__alive) return self;
+		
 		update_render_area();
 		
 		runner.left		= render_area.left;
@@ -586,7 +591,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			var child = children[@i];
 			struct_remove(controls, child.name);
 			var inst = child.instance;
-			if (is_child_of(inst, _baseContainerControl))
+			if (is_child_of(inst, _baseContainerControl) && instance_exists(inst))
 				inst.control_tree.clear();
 			else
 				instance_destroy(inst);

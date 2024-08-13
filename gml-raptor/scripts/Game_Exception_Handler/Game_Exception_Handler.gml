@@ -13,8 +13,8 @@
 */
 
 #macro USE_CRASHDUMP_HANDLER			false
-#macro beta:USE_CRASHDUMP_HANDLER		(!IS_CONSOLE)
-#macro release:USE_CRASHDUMP_HANDLER	(!IS_CONSOLE)
+#macro beta:USE_CRASHDUMP_HANDLER		!IS_CONSOLE
+#macro release:USE_CRASHDUMP_HANDLER	!IS_CONSOLE
 #macro CRASH_DUMP_FILENAME				$"{GAME_FILE_PREFIX}_crashdump.bin"
 
 function Game_Exception_Handler(_unhandled) {
