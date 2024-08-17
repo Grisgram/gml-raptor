@@ -41,7 +41,7 @@ function file_read_text_file_absolute_async(filename, cryptkey = "", remove_utf8
 			CATCH ENDTRY
 			return _string;
 		});
-	CATCH return undefined; 
+	CATCH return new __FileAsyncFailedWorker(filename, cryptkey);
 	ENDTRY
 }
 
@@ -78,7 +78,7 @@ function file_write_text_file_async(filename, text, cryptkey = "") {
 		.__raptor_finished(function(_prev, _buffer, _data) {
 			return true;
 		});
-	CATCH return false; ENDTRY
+	CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
 }
 
 /// @func	file_write_text_file_lines_async(filename, text, cryptkey = "", line_delimiter = "\n")
@@ -99,6 +99,7 @@ function file_write_struct_async(filename, struct, cryptkey = "") {
 /// @func	file_read_struct_async(filename, cryptkey = "", add_to_cache = false)
 /// @desc	Reads a given struct from a file, optionally encrypted
 function file_read_struct_async(filename, cryptkey = "", add_to_cache = false) {
+	ilog($"--- Attempting to read {filename}");
 	if (cryptkey == "")
 		return file_read_struct_plain_async(filename, add_to_cache);
 	else
@@ -121,7 +122,7 @@ function file_write_struct_plain_async(filename, struct, print_pretty = true) {
 			}
 			return true;
 		});
-	CATCH return false; ENDTRY
+	CATCH return new __FileAsyncFailedWorker(filename, ""); ENDTRY
 }
 
 /// @func	file_read_struct_plain_async(filename, add_to_cache = false)
@@ -151,9 +152,9 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 				CATCH ENDTRY
 				return rv;
 			});
-		CATCH return undefined;	ENDTRY
+		CATCH return new __FileAsyncFailedWorker(filename, "");	ENDTRY
 	}
-	return undefined;
+	return new __FileAsyncFailedWorker(filename, "");
 }
 
 /// @func	file_write_struct_encrypted_async(filename, struct, cryptkey)
@@ -179,7 +180,7 @@ function file_write_struct_encrypted_async(filename, struct, cryptkey) {
 			return true;
 		});
 		
-	CATCH return false; ENDTRY
+	CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
 }
 
 /// @func	file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = false)
@@ -211,7 +212,7 @@ function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = fal
 				CATCH ENDTRY
 				return rv;
 			});
-		CATCH return undefined; ENDTRY
+		CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
 	}
-	return undefined;
+	return new __FileAsyncFailedWorker(filename, cryptkey);
 }

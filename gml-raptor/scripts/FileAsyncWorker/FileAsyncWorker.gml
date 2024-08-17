@@ -138,6 +138,14 @@ function __FileAsyncReader(_filename, _crypt_key = "") :
 
 }
 
+function __FileAsyncFailedWorker(_filename, _crypt_key = "") :
+ 		 __FileAsyncWorker(_filename, _crypt_key) constructor {
+	start = function() {
+		__raptor_failed_callback();
+		__cleanup();
+	}
+}
+
 function __FileAsyncWriter(_filename, _buffer, _crypt_key = "") :
  		 __FileAsyncWorker(_filename, _crypt_key) constructor {
 

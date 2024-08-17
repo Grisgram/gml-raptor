@@ -41,7 +41,6 @@
 // all your games! Do NOT reuse the same name over and over again!
 #macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_game_settings{DATA_FILE_EXTENSION}"
 
-
 // Global functionality setup for the game
 
 // Set fullscreen mode
