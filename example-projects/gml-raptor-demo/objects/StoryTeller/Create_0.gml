@@ -71,6 +71,9 @@ __create_scribble_object = function(align, str) {
 	}
 	// Feather ignore GM1041
 	return scribble(string_concat(align, str), MY_NAME)
-			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
-							 animated_text_color);
+			.starting_format(
+				font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
+				animated_text_color)
+			.outline(outline_color)
+			.shadow(shadow_color, shadow_alpha);
 }

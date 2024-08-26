@@ -1,7 +1,7 @@
 // Feather disable all
 // @jujuadams
-#macro __SCRIBBLE_VERSION           "9.1.0"
-#macro __SCRIBBLE_DATE              "2024-07-23"
+#macro __SCRIBBLE_VERSION           "9.2.0"
+#macro __SCRIBBLE_DATE              "2024-08-13"
 #macro __SCRIBBLE_DEBUG             false
 #macro __SCRIBBLE_VERBOSE_GC        false
 #macro __SCRIBBLE_RUNNING_FROM_IDE  (GM_build_type == "run")
@@ -457,10 +457,17 @@ enum __SCRIBBLE_VERTEX_BUFFER
     __SDF_THICKNESS_OFFSET, //3
     __TEXEL_WIDTH,          //4
     __TEXEL_HEIGHT,         //5
-    __SDF,                  //6
+    __FONT_TYPE,            //6
     __BUFFER,               //7
     __BILINEAR,             //8
     __SIZE                  //9
+}
+
+enum __SCRIBBLE_FONT_TYPE
+{
+    __RASTER,
+    __RASTER_WITH_EFFECTS,
+    __SDF,
 }
 
 enum __SCRIBBLE_ANIM
@@ -515,18 +522,16 @@ enum __SCRIBBLE_GEN_GLYPH
     __QUAD_V0,               //13   |
     __QUAD_V1,               //14   |
                              //     |
-    __SDF_PXRANGE,          //15   |
-    __SDF_THICKNESS_OFFSET, //16   |
-    __BILINEAR,              //17  /
+    __FONT_NAME,             //15  /
     
-    __CONTROL_COUNT,         //18
-    __ANIMATION_INDEX,       //19
+    __CONTROL_COUNT,         //16
+    __ANIMATION_INDEX,       //17
                       
-    __SPRITE_INDEX,          //20  \
-    __IMAGE_INDEX,           //21   | Only used for sprites
-    __IMAGE_SPEED,           //22  /
+    __SPRITE_INDEX,          //18  \
+    __IMAGE_INDEX,           //19   | Only used for sprites
+    __IMAGE_SPEED,           //20  /
                       
-    __SIZE,                   //23
+    __SIZE,                  //21
 }
 
 enum __SCRIBBLE_GEN_VBUFF_POS

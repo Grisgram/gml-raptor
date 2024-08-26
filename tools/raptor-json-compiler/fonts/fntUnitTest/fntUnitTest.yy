@@ -146,8 +146,8 @@
   "size":12.0,
   "styleName":"Regular",
   "textureGroupId":{
-    "name":"Default",
-    "path":"texturegroups/Default",
+    "name":"ui",
+    "path":"texturegroups/ui",
   },
   "TTFName":"",
   "usesSDF":false,

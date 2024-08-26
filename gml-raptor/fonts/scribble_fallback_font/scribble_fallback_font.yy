@@ -8,14 +8,6 @@
   "bold":false,
   "canGenerateBitmap":true,
   "charset":0,
-  "ConfigValues":{
-    "unit_testing":{
-      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
-    },
-    "beta":{
-      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
-    },
-  },
   "first":0,
   "fontName":"Droid Sans Mono",
   "glyphOperations":0,
@@ -143,8 +135,8 @@
   "size":11.0,
   "styleName":"Regular",
   "textureGroupId":{
-    "name":"Default",
-    "path":"texturegroups/Default",
+    "name":"ui",
+    "path":"texturegroups/ui",
   },
   "TTFName":"",
   "usesSDF":false,

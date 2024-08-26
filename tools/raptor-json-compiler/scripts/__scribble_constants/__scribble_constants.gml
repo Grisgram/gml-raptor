@@ -13,35 +13,6 @@
 
 #macro SCRIBBLE_NO_PREPROCESS  (function(_string) { return _string; })
 
-enum SCRIBBLE_GLYPH
-{
-    CHARACTER,             // 0
-                   
-    UNICODE,               // 1
-    BIDI,                  // 2
-                           //  
-    X_OFFSET,              // 3
-    Y_OFFSET,              // 4
-    WIDTH,                 // 5
-    HEIGHT,                // 6
-    FONT_HEIGHT,           // 7
-    SEPARATION,            // 8
-    LEFT_OFFSET,           // 9
-    FONT_SCALE,            //10
-                           //  
-    TEXTURE,               //11
-    U0,                    //12
-    U1,                    //13
-    V0,                    //14
-    V1,                    //15
-                           //  
-    SDF_PXRANGE,           //16
-    SDF_THICKNESS_OFFSET,  //17
-    BILINEAR,              //18
-    
-    __SIZE                 //19
-}
-
 enum SCRIBBLE_EASE
 {
     NONE,     // 0
@@ -60,4 +31,38 @@ enum SCRIBBLE_EASE
     CUSTOM_2, //13
     CUSTOM_3, //14
     __SIZE    //15
+}
+
+enum SCRIBBLE_OUTLINE
+{
+    NO_OUTLINE,      // 0
+    FOUR_DIR,        // 1
+    EIGHT_DIR,       // 2
+    EIGHT_DIR_THICK, // 3
+}
+
+enum SCRIBBLE_GLYPH
+{
+    CHARACTER,             // 0
+                           //  
+    UNICODE,               // 1
+    BIDI,                  // 2
+                           //  
+    X_OFFSET,              // 3
+    Y_OFFSET,              // 4
+    WIDTH,                 // 5
+    HEIGHT,                // 6
+    FONT_HEIGHT,           // 7
+    SEPARATION,            // 8
+    LEFT_OFFSET,           // 9
+    FONT_SCALE,            //10
+                           //  
+    TEXTURE,               //11
+    U0,                    //12
+    U1,                    //13
+    V0,                    //14
+    V1,                    //15
+    FONT_NAME,             //16
+                           //  
+    __SIZE                 //17
 }

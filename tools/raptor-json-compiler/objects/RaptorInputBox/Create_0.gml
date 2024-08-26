@@ -220,9 +220,13 @@ __create_scribble_object = function(align, str, test_only = false) {
 	do {
 		var pw = !string_is_empty(password_char);
 		var scstr = (pw ? string_repeat(string_copy(password_char,1,1), max_chars) : string_copy(str, 1, max_chars));
-		sbc = scribble(string_concat(align, scstr), MY_NAME)
-				.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use,
-								 animated_text_color);
+		sbc = scribble(string_concat(align, str), MY_NAME)
+				.starting_format(
+					font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
+					animated_text_color)
+				.outline(outline_color)
+				.shadow(shadow_color, shadow_alpha);
+
 		bb = sbc.get_bbox();
 		if (!pw && !test_only) text = scstr;
 		max_chars--;

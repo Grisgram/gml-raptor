@@ -36,7 +36,7 @@ states
 		// enemies are dumb
 		// we just have a 1% chance (so every 100 frames it hits roughly) to make a turn
 		// and when we touch the border of the room we turn random 90° left or right
-		if (race_random_percent_hit(1))
+		if (IS_PERCENT_HIT(1))
 			return "rotate45";
 		
 		if (sdata.rotate_lock_countdown > 0) {

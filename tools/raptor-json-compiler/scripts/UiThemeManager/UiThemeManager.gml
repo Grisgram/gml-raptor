@@ -76,8 +76,10 @@ function UiThemeManager() constructor {
 		THEME_MAIN					= _theme.main			;
 		THEME_BRIGHT				= _theme.bright			;
 		THEME_DARK					= _theme.dark			;
-		THEME_SHADOW				= _theme.shadow			;
+		THEME_OUTLINE				= _theme.outline		;
 		THEME_ACCENT				= _theme.accent			;
+		THEME_SHADOW				= _theme.shadow			;
+		THEME_SHADOW_ALPHA			= _theme.shadow_alpha	;
 		
 		THEME_CONTROL_DARK			= _theme.control_dark	;
 		THEME_CONTROL_BACK			= _theme.control_back	;
@@ -93,8 +95,9 @@ function UiThemeManager() constructor {
 		SCRIBBLE_COLORS.ci_main					= THEME_MAIN	;
 		SCRIBBLE_COLORS.ci_bright				= THEME_BRIGHT	;
 		SCRIBBLE_COLORS.ci_dark					= THEME_DARK	;
-		SCRIBBLE_COLORS.ci_shadow				= THEME_SHADOW	;
+		SCRIBBLE_COLORS.ci_outline				= THEME_OUTLINE ;
 		SCRIBBLE_COLORS.ci_accent				= THEME_ACCENT	;
+		SCRIBBLE_COLORS.ci_shadow				= THEME_SHADOW	;
 		
 		SCRIBBLE_COLORS.ci_control_dark			= THEME_CONTROL_DARK	;
 		SCRIBBLE_COLORS.ci_control_back			= THEME_CONTROL_BACK	;

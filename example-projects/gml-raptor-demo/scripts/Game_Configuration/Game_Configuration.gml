@@ -88,7 +88,7 @@ function onGameStart() {
 	
 	// Setup Scribble
 	// ------------------------------------------------------------------
-	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
+	//scribble_font_bake_outline_and_shadow("acme28","acme28_out",0,0,SCRIBBLE_OUTLINE.EIGHT_DIR,2,true);
 	//scribble_font_set_default("acme28");
 	scribble_font_set_default("fntArial");
 
