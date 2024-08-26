@@ -32,7 +32,7 @@ function SpriteDim(sprite = -1) constructor {
 		origin_y = 0;
 		nineslice = empty_nineslice;
 	}
-	
+
 	toString = function() {
 		return $"{width}x{height}";
 	}

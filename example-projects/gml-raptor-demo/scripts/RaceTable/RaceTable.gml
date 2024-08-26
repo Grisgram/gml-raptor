@@ -6,14 +6,17 @@
 function RaceTable(_name = "", _table_struct = undefined) constructor {
 	construct(RaceTable);
 	
+	// the member "items" comes from the json file - it is not declared here
 	race = undefined;
 	name = _name;
 	if (_table_struct != undefined) { // if we come from savegame, no struct is given
 		struct_join_into(self, RACE_LOOT_DATA_DEEP_COPY ? SnapDeepCopy(_table_struct) : _table_struct);
 		// create attributes as empty struct if they don't exist
 		var names = struct_get_names(items);
-		for (var i = 0, len = array_length(names); i < len; i++)
+		for (var i = 0, len = array_length(names); i < len; i++) {
 			vsgetx(items[$ names[@i]], "attributes", {});
+			items[$ names[@i]].name = names[@i];
+		}
 		vsgetx(self, "loot_count", 1);
 	}
 	

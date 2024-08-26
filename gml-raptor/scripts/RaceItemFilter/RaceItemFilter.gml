@@ -7,12 +7,19 @@
 function RaceItemFilter(_items) constructor {
 
 	__items				= _items;
+	filter_name			= undefined;
 	filter_type			= undefined;
 	filter_always		= undefined;
 	filter_unique		= undefined;
 	filter_enabled		= undefined;
 	filter_chance		= undefined;
 	filter_attributes	= undefined;
+
+	/// @func for_name(_name_wildcard)
+	static for_name = function(_name_wildcard) {
+		filter_name = _name_wildcard;
+		return self;
+	}
 
 	/// @func for_type(_type_wildcard)
 	static for_type = function(_type_wildcard) {
@@ -61,6 +68,7 @@ function RaceItemFilter(_items) constructor {
 			var name = names[@i];
 			var item = __items[$ name];
 			if (
+				(filter_name == undefined || string_match(item.name, filter_name)) &&
 				(filter_type == undefined || string_match(item.type, filter_type)) &&
 				((filter_always  ?? item.always ) == item.always ) &&
 				((filter_unique  ?? item.unique ) == item.unique ) &&

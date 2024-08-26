@@ -21,13 +21,28 @@ function sprintf(str) {
 	return rv;
 }
 
-/// @func	string_format_number(value, total, dec = 0, leading_zeros = false)
-/// @desc	Format a number to a string, optionally with leading zeros
-function string_format_number(value, total, dec = 0, leading_zeros = false) {
+
+/// @func	string_format_number(value, int_digits, dec_digits = 0, leading_zeros = false)
+/// @desc	Just an alias for string_format_number_right (which is the default)
+function string_format_number(value, int_digits, dec_digits = 0, leading_zeros = false) {
+	gml_pragma("forceinline");
+	return string_format_number_right(value, int_digits, dec_digits, leading_zeros);
+}
+
+/// @func	string_format_number_right(value, int_digits, dec_digits = 0, leading_zeros = false)
+/// @desc	Format a number to a string, right aligned, optionally with leading zeros
+function string_format_number_right(value, int_digits, dec_digits = 0, leading_zeros = false) {
 	gml_pragma("forceinline");
 	return leading_zeros ?
-		string_replace_all(string_format(value,total,dec)," ", "0") :
-		string_format(value,total,dec);
+		string_replace_all(string_format(value, int_digits, dec_digits)," ", "0") :
+		string_format(value, int_digits, dec_digits);
+}
+
+/// @func	string_format_number_left(value, int_digits, dec_digits = 0)
+/// @desc	Format a number to a string, left aligned, no leading zeros or blanks
+function string_format_number_left(value, int_digits, dec_digits = 0) {
+	gml_pragma("forceinline");
+	return string_replace_all(string_format(value, int_digits, dec_digits)," ", "");
 }
 
 /// @func					string_skip_start(str, count)

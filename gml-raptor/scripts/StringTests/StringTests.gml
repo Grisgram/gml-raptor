@@ -84,7 +84,20 @@ function unit_test_Strings() {
 		test.assert_equals("  42", string_format_number(42,4));
 		test.assert_equals("  42.0", string_format_number(42,4,1));
 		test.assert_equals("0042.0", string_format_number(42,4,1, true));
+		test.assert_equals("42.0", string_format_number(42,1,1, true));
 	}
 	
+	ut.tests.string_format_number_right_ok = function(test, data) {
+		test.assert_equals("  42", string_format_number_right(42,4));
+		test.assert_equals("  42.0", string_format_number_right(42,4,1));
+		test.assert_equals("42.0", string_format_number_right(42,1,1, true));
+	}
+
+	ut.tests.string_format_number_left_ok = function(test, data) {
+		test.assert_equals("42", string_format_number_left(42,4));
+		test.assert_equals("42.0", string_format_number_left(42,4,1));
+		test.assert_equals("42.0", string_format_number_left(42,1,1));
+	}
+
 	ut.run();
 }
