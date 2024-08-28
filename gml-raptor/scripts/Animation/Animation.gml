@@ -556,6 +556,10 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 						__unbind_me();
 						__invoke_triggers(__finished_triggers);
 						__process_final_state();
+					} else {
+						var keep = __repeat_counter;
+						reset();
+						__repeat_counter = keep;
 					}
 				}
 				__frame_counter		= 0;

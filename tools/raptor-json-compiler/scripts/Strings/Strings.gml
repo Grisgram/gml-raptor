@@ -38,9 +38,9 @@ function string_format_number_right(value, int_digits, dec_digits = 0, leading_z
 		string_format(value, int_digits, dec_digits);
 }
 
-/// @func	string_format_number_left(value, int_digits, dec_digits = 0)
+/// @func	string_format_number_left(value, int_digits = 1, dec_digits = 0)
 /// @desc	Format a number to a string, left aligned, no leading zeros or blanks
-function string_format_number_left(value, int_digits, dec_digits = 0) {
+function string_format_number_left(value, int_digits = 1, dec_digits = 0) {
 	gml_pragma("forceinline");
 	return string_replace_all(string_format(value, int_digits, dec_digits)," ", "");
 }
