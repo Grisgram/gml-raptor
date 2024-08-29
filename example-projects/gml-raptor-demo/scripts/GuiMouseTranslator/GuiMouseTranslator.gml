@@ -31,8 +31,8 @@ function GuiMouseTranslator() constructor {
 	/// @desc				check if mouse is over the control and perform enter/leave events accordingly
 	static update_gui_mouse_over = function() {
 		
-		if (last_frame_checked == GAMEFRAME) return;
-		last_frame_checked = GAMEFRAME;
+		if (last_frame_checked == GAME_FRAME) return;
+		last_frame_checked = GAME_FRAME;
 		
 		with (other) {
 			if (__INSTANCE_UNREACHABLE) return;
@@ -69,8 +69,8 @@ function GuiMouseTranslator() constructor {
 	/// @desc				check mouse button states and perform press/release events accordingly
 	static check_gui_mouse_clicks = function() {
 
-		if (last_frame_checked == GAMEFRAME) return;
-		last_frame_checked = GAMEFRAME;
+		if (last_frame_checked == GAME_FRAME) return;
+		last_frame_checked = GAME_FRAME;
 
 		with (other) {
 			if (__INSTANCE_UNREACHABLE) return;

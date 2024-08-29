@@ -49,7 +49,7 @@ global.__unique_count_up_id	= 0;
 #macro SUID		string(++global.__unique_count_up_id)
 
 // undocumented feature: a sprite-less object counts the frames - gamecontroller likely never has a sprite!
-#macro GAMEFRAME	GAMECONTROLLER.image_index
+#macro GAME_FRAME	GAMECONTROLLER.image_index
 
 // Comfortable detection whether the current instance has moved
 #macro INSTANCE_HAS_MOVED			(x != xprevious || y != yprevious)

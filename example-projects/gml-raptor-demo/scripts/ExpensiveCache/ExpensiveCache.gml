@@ -26,18 +26,18 @@ __RAPTOR_EXPENSIVE_CACHE = {};
 function ExpensiveCache(_ttl = 1) constructor {
 	ttl				= _ttl;
 	valid			= false;
-	alive_until		= GAMEFRAME + _ttl;
+	alive_until		= GAME_FRAME + _ttl;
 	return_value	= undefined;
 	
 	static is_valid = function() {
-		valid &= (GAMEFRAME - alive_until < ttl);
+		valid &= (GAME_FRAME - alive_until < ttl);
 		return valid;
 	}
 	
 	static set = function(_return_value = undefined) {
 		valid		 = true;
 		return_value = _return_value;
-		alive_until	 = GAMEFRAME + ttl;
+		alive_until	 = GAME_FRAME + ttl;
 		return return_value;
 	}
 	

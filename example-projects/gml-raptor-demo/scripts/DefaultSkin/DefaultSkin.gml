@@ -31,17 +31,16 @@ function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 	}
 
 	asset_skin[? "CheckBox"]			= { sprite_index: sprDefaultCheckbox }
-	asset_skin[? "ImageButton"]			= { sprite_to_use: sprDefaultButton }
 	asset_skin[? "InputBox"]			= { sprite_index: sprDefaultInputBox }
-	asset_skin[? "Label"]				= { sprite_index: sprDefaultLabel }
+	asset_skin[? "Label"]				= { sprite_index: sprDefaultLabel	 }
 
 	asset_skin[? "MouseCursor"]			= { 
  											sprite_index: sprDefaultMouseCursor,
 											mouse_cursor_sprite: sprDefaultMouseCursor,
  											mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
  										  }
-	asset_skin[? "MouseCursorCompanion"]= { sprite_index: spr1pxTrans }
-	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans }
+	asset_skin[? "MouseCursorCompanion"]= { sprite_index: spr1pxTrans			}
+	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans			}
 	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton }
 	asset_skin[? "Slider"]				= { 
 											sprite_index: sprDefaultSliderRailH,
@@ -55,7 +54,8 @@ function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 											rail_sprite_vertical: sprDefaultScrollbarRailV,
 											knob_sprite: sprDefaultScrollbarKnob
 										  }
-	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton }
+	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton  }
+	asset_skin[? "ImageButton"]			= { sprite_index: sprDefaultButton  }
 	asset_skin[? "Tooltip"]				= { sprite_index: sprDefaultTooltip }
 	asset_skin[? "Window"]				= window_def(WindowXButton);
 	asset_skin[? "MessageBoxWindow"]	= window_def(MessageBoxXButton);

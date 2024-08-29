@@ -15,18 +15,17 @@ function UiSkin(_name = "default") constructor {
 	
 	asset_skin = ds_map_create();
 		
-	asset_skin[? "CheckBox"]			= { sprite_index: sprDefaultCheckbox			}
-	asset_skin[? "ImageButton"]			= { sprite_to_use: sprDefaultButton				}
-	asset_skin[? "InputBox"]			= { sprite_index: sprDefaultInputBox			}
-	asset_skin[? "Label"]				= { sprite_index: sprDefaultLabel				}
+	asset_skin[? "CheckBox"]			= { sprite_index: sprDefaultCheckbox }
+	asset_skin[? "InputBox"]			= { sprite_index: sprDefaultInputBox }
+	asset_skin[? "Label"]				= { sprite_index: sprDefaultLabel	 }
 	asset_skin[? "MouseCursor"]			= { 
  											sprite_index: sprDefaultMouseCursor,
 											mouse_cursor_sprite: sprDefaultMouseCursor,
  											mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
  										  }
-	asset_skin[? "MouseCursorCompanion"]= { sprite_index: spr1pxTrans					}
-	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans					}
-	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton			}
+	asset_skin[? "MouseCursorCompanion"]= { sprite_index: spr1pxTrans			}
+	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans			}
+	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton	}
 	asset_skin[? "Slider"]				= { 
 											sprite_index: sprDefaultSliderRailH,
 											rail_sprite_horizontal: sprDefaultSliderRailH,
@@ -39,20 +38,21 @@ function UiSkin(_name = "default") constructor {
 											rail_sprite_vertical: sprDefaultScrollbarRailV,
 											knob_sprite: sprDefaultScrollbarKnob
 										  }
-	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton				}
-	asset_skin[? "Tooltip"]				= { sprite_index: sprDefaultTooltip				}
+	asset_skin[? "TextButton"]			= { sprite_index: sprDefaultButton	}
+	asset_skin[? "ImageButton"]			= { sprite_index: sprDefaultButton	}
+	asset_skin[? "Tooltip"]				= { sprite_index: sprDefaultTooltip	}
 	asset_skin[? "Window"]				= { 
 											sprite_index: sprDefaultWindow,
 											window_x_button_object: WindowXButton,
 											titlebar_height: 34
 										  }
-	asset_skin[? "WindowXButton"]		= { sprite_index: sprDefaultXButton				}
+	asset_skin[? "WindowXButton"]		= { sprite_index: sprDefaultXButton	}
 	asset_skin[? "MessageBoxWindow"]	= { 
 											sprite_index: sprDefaultWindow,
 											window_x_button_object: MessageBoxXButton,
 											titlebar_height: 34
 										  }
-	asset_skin[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton				}
+	asset_skin[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton	}
 	
 	/// @func delete_map()
 	static delete_map = function() {

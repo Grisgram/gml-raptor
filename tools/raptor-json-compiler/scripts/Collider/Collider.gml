@@ -19,8 +19,8 @@ __COLLIDER_CACHE = {};
 function collider_first() {
 	var key  = $"{MY_NAME}_{name_of(other)}";
 	var last = vsget(__COLLIDER_CACHE, key, -2);
-	struct_set(__COLLIDER_CACHE, key, GAMEFRAME);
-	return last < GAMEFRAME - 1;
+	struct_set(__COLLIDER_CACHE, key, GAME_FRAME);
+	return last < GAME_FRAME - 1;
 }
 
 /// @func collider_cleanup()

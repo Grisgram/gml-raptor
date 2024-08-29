@@ -99,7 +99,6 @@ function file_write_struct_async(filename, struct, cryptkey = "") {
 /// @func	file_read_struct_async(filename, cryptkey = "", add_to_cache = false)
 /// @desc	Reads a given struct from a file, optionally encrypted
 function file_read_struct_async(filename, cryptkey = "", add_to_cache = false) {
-	ilog($"--- Attempting to read {filename}");
 	if (cryptkey == "")
 		return file_read_struct_plain_async(filename, add_to_cache);
 	else

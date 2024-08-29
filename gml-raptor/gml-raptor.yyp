@@ -306,6 +306,7 @@
     {"id":{"name":"Audio_Configuration","path":"scripts/Audio_Configuration/Audio_Configuration.yy",},},
     {"id":{"name":"AudioHelper","path":"scripts/AudioHelper/AudioHelper.yy",},},
     {"id":{"name":"AudioSettings","path":"scripts/AudioSettings/AudioSettings.yy",},},
+    {"id":{"name":"AudioToken","path":"scripts/AudioToken/AudioToken.yy",},},
     {"id":{"name":"Bindable","path":"scripts/Bindable/Bindable.yy",},},
     {"id":{"name":"Binding","path":"scripts/Binding/Binding.yy",},},
     {"id":{"name":"Broadcasting","path":"scripts/Broadcasting/Broadcasting.yy",},},
