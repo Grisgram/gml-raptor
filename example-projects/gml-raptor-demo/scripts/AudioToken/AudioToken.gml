@@ -1,15 +1,8 @@
 /*
     An audio-token is pre-defined set of these values, which are the common
-	parameters for all play_sound/play_ui_sound/play_voice commands.
-	
-	It makes launching an audio easier to write
-	
-	gain		  = 1.0, 
-	loop		  = false, 
-	pitch		  = AUDIO_VOICE_DEFAULT_PITCH, 
-	offset		  = 0, 
-	listener_mask = AUDIO_VOICE_DEFAULT_LISTENER_MASK, 
-	priority	  = AUDIO_VOICE_DEFAULT_PRIORITY
+	parameters for all play_sound/play_ui_sound/play_voice commands
+	(gain, loop, pitch, offset, listener_mask, priority).
+	It makes launching an audio easier to write.
 	
 	All these values offer builder-pattern setter function and there is also
 	a reset() function available, which reverts all changes to the original state
@@ -21,34 +14,25 @@
 	
 */
 
-/// @func __AudioToken(_channel_func, _sound_asset, _gain = 1.0, _loop = false, _pitch = 1.0, _offset = 0, _listener_mask = -1, _priority = 7)
-function __AudioToken(
-		_channel_func,
-		_sound_asset, 
-		_gain		   = 1.0, 
-		_loop		   = false, 
-		_pitch		   = AUDIO_SOUND_DEFAULT_PITCH, 
-		_offset		   = 0, 
-		_listener_mask = AUDIO_SOUND_DEFAULT_LISTENER_MASK, 
-		_priority	   = AUDIO_SOUND_DEFAULT_PRIORITY
-	) constructor {
+/// @func __AudioToken(_channel_func, _sound_asset, _gain, _loop, _pitch, _offset, _listener_mask, _priority, _cooldown, _max_concurrent)
+function __AudioToken(_channel_func, _sound_asset, _gain, _loop, _pitch, _offset, _listener_mask, _priority, _cooldown, _max_concurrent) constructor {
 
 	__channel_func		= _channel_func;
 	__sound_id			= [];
 	__removers			= [];
-	__cooldown			= 0;
-	__max_concurrent	= -1;
 	
 	// holds the GAME_FRAME when this sound token is available again
 	__cooldown_runner	= 0;
 	
-	_original_sound_asset	= _sound_asset;
-	_original_gain			= _gain;
-	_original_loop			= _loop;
-	_original_pitch			= _pitch;
-	_original_offset		= _offset;
-	_original_listener_mask = _listener_mask;
-	_original_priority		= _priority;
+	_original_sound_asset		= _sound_asset;
+	_original_gain				= _gain;
+	_original_loop				= _loop;
+	_original_pitch				= _pitch;
+	_original_offset			= _offset;
+	_original_listener_mask		= _listener_mask;
+	_original_priority			= _priority;
+	_original_cooldown			= _cooldown;
+	_original_max_concurrent	= _max_concurrent;
 	reset();
 
 	/// @func reset()
@@ -60,6 +44,8 @@ function __AudioToken(
 		offset			= _original_offset;
 		listener_mask	= _original_listener_mask;
 		priority		= _original_priority;
+		cooldown		= _original_cooldown;
+		max_concurrent	= _original_max_concurrent;
 		return self;
 	}
 	
@@ -74,14 +60,16 @@ function __AudioToken(
 	/// @func play()
 	static play = function() {
 		__cleanup_finished_plays();
-		if (__max_concurrent == -1 || array_length(__sound_id) < __max_concurrent) {
-			if (__cooldown == 0 || GAME_FRAME >= __cooldown_runner) {
-				array_push(__sound_id, __channel_func(sound_asset, gain, loop, pitch, offset, listener_mask, priority));
-				__cooldown_runner = (__cooldown > 0 ? GAME_FRAME + __cooldown : 0);
+		var rv = undefined;
+		if (max_concurrent == -1 || array_length(__sound_id) < max_concurrent) {
+			if (cooldown == 0 || GAME_FRAME >= __cooldown_runner) {
+				rv = __channel_func(sound_asset, gain, loop, pitch, offset, listener_mask, priority);
+				array_push(__sound_id, rv);
+				__cooldown_runner = (cooldown > 0 ? GAME_FRAME + cooldown : 0);
 			} else
 				dlog($"Ignored play of sound '{audio_get_name(sound_asset)}', it is on cooldown for {(__cooldown_runner - GAME_FRAME)} more frames");
 		} else
-			dlog($"Ignored play of sound '{audio_get_name(sound_asset)}', max_concurrent is set to {__max_concurrent} and {array_length(__sound_id)} already playing");
+			dlog($"Ignored play of sound '{audio_get_name(sound_asset)}', max_concurrent is set to {max_concurrent} and {array_length(__sound_id)} already playing");
 		
 		return self;
 	}
@@ -91,7 +79,6 @@ function __AudioToken(
 	static stop = function() {
 		for (var i = 0, len = array_length(__sound_id); i < len; i++)
 			stop_sound(__sound_id[@i]);
-		
 
 		__sound_id = [];
 		return self;
@@ -100,13 +87,13 @@ function __AudioToken(
 	#region setter functions
 	/// @func set_cooldown(_cooldown_frames)
 	static set_cooldown = function(_cooldown_frames) {
-		__cooldown = _cooldown_frames;
+		cooldown = _cooldown_frames;
 		return self;
 	}
 
 	/// @func set_max_concurrent(_max_concurrent = -1_to_disable)
 	static set_max_concurrent = function(_max_concurrent) {
-		__max_concurrent = _max_concurrent;
+		max_concurrent = _max_concurrent;
 		return self;
 	}
 
@@ -149,64 +136,29 @@ function __AudioToken(
 	
 }
 
-/// @func UiSoundToken(_sound_asset, _gain = 1.0, _pitch = 1.0, _offset = 0, _listener_mask = -1, _priority = 7)
-function UiSoundToken(
-	_sound_asset, 
-	_gain		   = 1.0, 
-	_pitch		   = AUDIO_UI_DEFAULT_PITCH, 
-	_offset		   = 0, 
-	_listener_mask = AUDIO_UI_DEFAULT_LISTENER_MASK, 
-	_priority	   = AUDIO_UI_DEFAULT_PRIORITY
-) : __AudioToken(
-	play_ui_sound	,
-	_sound_asset	,
-	_gain		  	,
-	false		  	,
-	_pitch		  	,
-	_offset		  	,
-	_listener_mask	,
-	_priority	  	
-) constructor {
+/// @func UiSoundToken(_sound_asset, _max_concurrent = -1, _cooldown = 0)
+function UiSoundToken(_sound_asset, _max_concurrent = -1, _cooldown = 0) : __AudioToken(
+		play_ui_sound,
+		_sound_asset,
+		1.0, false, AUDIO_UI_DEFAULT_PITCH, 0, AUDIO_UI_DEFAULT_LISTENER_MASK, AUDIO_UI_DEFAULT_PRIORITY,
+		_cooldown, _max_concurrent
+	) constructor {
 }
 
-/// @func SoundToken(_sound_asset, _gain = 1.0, _loop = false, _pitch = 1.0, _offset = 0, _listener_mask = -1, _priority = 7)
-function SoundToken(
-	_sound_asset, 
-	_gain		   = 1.0, 
-	_loop		   = false,
-	_pitch		   = AUDIO_SOUND_DEFAULT_PITCH, 
-	_offset		   = 0, 
-	_listener_mask = AUDIO_SOUND_DEFAULT_LISTENER_MASK, 
-	_priority	   = AUDIO_SOUND_DEFAULT_PRIORITY
-) : __AudioToken(
-	play_sound		,
-	_sound_asset	,
-	_gain		  	,
-	_loop		  	,
-	_pitch		  	,
-	_offset		  	,
-	_listener_mask	,
-	_priority	  	
-) constructor {
+/// @func SoundToken(_sound_asset, _max_concurrent = -1, _cooldown = 0)
+function SoundToken(_sound_asset, _max_concurrent = -1, _cooldown = 0) : __AudioToken(
+		play_sound		,
+		_sound_asset	,
+		1.0, false, AUDIO_SOUND_DEFAULT_PITCH, 0, AUDIO_SOUND_DEFAULT_LISTENER_MASK, AUDIO_SOUND_DEFAULT_PRIORITY,
+		_cooldown, _max_concurrent
+	) constructor {
 }
 
-/// @func VoiceToken(_sound_asset, _gain = 1.0, _loop = false, _pitch = 1.0, _offset = 0, _listener_mask = -1, _priority = 7)
-function VoiceToken(
-	_sound_asset, 
-	_gain		   = 1.0, 
-	_loop		   = false,
-	_pitch		   = AUDIO_VOICE_DEFAULT_PITCH, 
-	_offset		   = 0, 
-	_listener_mask = AUDIO_VOICE_DEFAULT_LISTENER_MASK, 
-	_priority	   = AUDIO_VOICE_DEFAULT_PRIORITY
-) : __AudioToken(
-	play_voice		,
-	_sound_asset	,
-	_gain		  	,
-	_loop		  	,
-	_pitch		  	,
-	_offset		  	,
-	_listener_mask	,
-	_priority	  	
-) constructor {
+/// @func VoiceToken(_sound_asset, _max_concurrent = -1, _cooldown = 0)
+function VoiceToken(_sound_asset, _max_concurrent = -1, _cooldown = 0) : __AudioToken(
+		play_voice		,
+		_sound_asset	,
+		1.0, false, AUDIO_VOICE_DEFAULT_PITCH, 0, AUDIO_VOICE_DEFAULT_LISTENER_MASK, AUDIO_VOICE_DEFAULT_PRIORITY,
+		_cooldown, _max_concurrent
+	) constructor {
 }

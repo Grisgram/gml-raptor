@@ -298,7 +298,7 @@ __draw_instance = function(_force = false) {
 		__knob_x, 
 		__knob_y,
 		knob_xscale, knob_yscale, 0,
-		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 
+		(__mouse_over_knob || (__SLIDER_IN_FOCUS == self && __knob_grabbed)) ? knob_color_mouse_over : draw_color, 
 		image_alpha);
 }
 
