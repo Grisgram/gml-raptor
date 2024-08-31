@@ -58,6 +58,7 @@ set_focus = function(from_tab = false) {
 	
 	with (RaptorInputBox) lose_focus();
 	vlog($"{MY_NAME}: tab index {tab_index} got focus");
+	keyboard_string = "";
 	__RAPTORDATA.has_focus = true;
 	__backup_text_color = text_color;
 	__backup_text_color_mouse_over = text_color_mouse_over;
