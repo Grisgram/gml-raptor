@@ -41,6 +41,7 @@ if (file_exists(working_directory + "version.json")) {
 }
 
 ilog($"Game seed is {random_get_seed()}");
+ilog($"Startup arguments are {ARGS.args}");
 ilog($"Detecting scribble library: {(IS_SCRIBBLE_LOADED ? "" : "NOT ")}found!");
 ilog($"Detecting Canvas library: {(IS_CANVAS_LOADED ? "" : "NOT ")}found!");
 ilog($"Detecting SNAP library: {(IS_SNAP_LOADED ? "" : "NOT ")}found!");
