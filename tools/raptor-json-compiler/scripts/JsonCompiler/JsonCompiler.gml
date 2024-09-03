@@ -4,7 +4,7 @@
 
 // set this to true to use hardcoded folder/config values
 #macro IDE_MODE			CONFIGURATION_DEV
-#macro IDE_MODE_PATH	"c:\\work\\dev\\github\\gml-raptor\\gml-raptor\\"
+#macro IDE_MODE_PATH	"C:\\Work\\dev\\github\\gml-raptor\\tools\\raptor-json-compiler\\"
 #macro IDE_MODE_CONFIG	"beta"
 
 global.run_in		= "";
@@ -24,6 +24,9 @@ function get_commandline_arguments() {
 	
 		global.run_in = parameter_string(1);
 		global.config = parameter_string(2);
+		
+		if (!string_ends_with(global.run_in, "\\"))
+			global.run_in += "\\";
 	}
 
 	if (string_is_empty(global.config) || global.config == "Default")
