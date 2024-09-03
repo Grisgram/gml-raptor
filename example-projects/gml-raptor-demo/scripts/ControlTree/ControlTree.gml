@@ -287,6 +287,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @desc Give a child control a name to retrieve it later through get_element(_name)
 	static set_name = function(_name) {
 		__last_entry.name = _name;
+		__last_entry.instance.name = _name;
 		controls[$ _name] = __last_entry.instance;
 		return self;
 	}
@@ -328,6 +329,22 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				rv = child.instance;
 			else if (is_child_of(child.instance, _baseContainerControl))
 				rv = child.instance.control_tree.get_element(_name);
+			if (rv != undefined) 
+				return rv;
+		}
+		return undefined;
+	}
+
+	/// @func get_element_name(_control)
+	/// @desc Retrieve a child control's name by its instance pointer. Returns the name or undefined
+	static get_element_name = function(_control) {
+		var rv = undefined;
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			var child = children[@i];
+			if (child.instance == _control)
+				rv = child.name;
+			else if (is_child_of(child.instance, _baseContainerControl))
+				rv = child.instance.control_tree.get_element_name(child.instance);
 			if (rv != undefined) 
 				return rv;
 		}

@@ -50,6 +50,7 @@ function __room_audio_session() constructor {
 
 	/// @func __ambience_private(amb, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign)
 	static __ambience_private = function(amb, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
+		amb ??= (ambience_asset ?? get_default_ambience_for_room());
 		if (AUDIOSETTINGS.ambience_enabled && amb != undefined) {
 			var finalgain = gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume;
 			var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
@@ -69,6 +70,7 @@ function __room_audio_session() constructor {
 
 	/// @func __music_private(mus, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign)
 	static __music_private = function(mus, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
+		mus ??= (music_asset ?? get_default_music_for_room());
 		if (AUDIOSETTINGS.music_enabled && mus != undefined) {
 			var finalgain = gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume;
 			var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);

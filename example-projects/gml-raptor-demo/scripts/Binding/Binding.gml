@@ -25,6 +25,12 @@ function __Binding(
 	converter		 = _converter;
 	on_value_changed = _on_value_changed;
 
+	// when binding is set up, a change occurs from "undefined"->"initial value"
+	// This flag prevents a "on_value_changed" from being invoked during set up.
+	__first_change	 = true;
+	__value_buf		 = undefined; // Buffers the old value for on_value_changed callback
+
+
 	BINDINGS.add(self);
 
 	if (DEBUG_LOG_BINDINGS)
@@ -39,9 +45,11 @@ function __Binding(
 
 		if (__new_value != __old_value) {
 			target_instance[$ target_property] = __new_value;
+			__value_buf = __old_value;
 			__old_value = __new_value;
-			if (on_value_changed != undefined)
-				on_value_changed(__new_value, __old_value);
+			if (!__first_change && on_value_changed != undefined)
+				on_value_changed(__new_value, __value_buf, source_instance);
+			__first_change = false;
 		}
 	}
 
@@ -87,15 +95,17 @@ function WatcherBinding(
 	_source_property	= undefined, 
 	_on_value_changed	= undefined) : 
 	PushBinding(_source_instance, _source_property, _source_instance, _source_property,,_on_value_changed) constructor {
-	construct("WatcherBinding");
+	construct(WatcherBinding);
 		
 	static update_binding = function() {
 		__new_value = source_instance[$ source_property];
 
 		if (__new_value != __old_value) {
+			__value_buf = __old_value;
 			__old_value = __new_value;
-			if (on_value_changed != undefined)
-				on_value_changed(__new_value, __old_value);
+			if (!__first_change && on_value_changed != undefined)
+				on_value_changed(__new_value, __value_buf, source_instance);
+			__first_change = false;
 		}
 	}
 }
