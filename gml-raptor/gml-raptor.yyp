@@ -25,6 +25,7 @@
     {"$GMFolder":"","%Name":"_unit_tests_","folderPath":"folders/_gml_raptor_/_unit_tests_.yy","name":"_unit_tests_","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Animations","folderPath":"folders/_gml_raptor_/Animations.yy","name":"Animations","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Audio","folderPath":"folders/_gml_raptor_/Audio.yy","name":"Audio","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"CommandLineArgs","folderPath":"folders/_gml_raptor_/CommandLineArgs.yy","name":"CommandLineArgs","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"DataBinding","folderPath":"folders/_gml_raptor_/DataBinding.yy","name":"DataBinding","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Files","folderPath":"folders/_gml_raptor_/Files.yy","name":"Files","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"LG","folderPath":"folders/_gml_raptor_/LG.yy","name":"LG","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -85,7 +86,6 @@
     {"$GMFolder":"","%Name":"VDF","folderPath":"folders/_third_party_packages_/SNAP/VDF.yy","name":"VDF","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"XML","folderPath":"folders/_third_party_packages_/SNAP/XML.yy","name":"XML","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"YAML","folderPath":"folders/_third_party_packages_/SNAP/YAML.yy","name":"YAML","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"CommandLineArgs","folderPath":"folders/_gml_raptor_/CommandLineArgs.yy","name":"CommandLineArgs","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"main","folderPath":"folders/Rooms/main.yy","name":"main","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -143,7 +143,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.6.2.162",
+    "IDEVersion":"2024.8.0.169",
   },
   "name":"gml-raptor",
   "resources":[
