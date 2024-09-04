@@ -64,7 +64,7 @@ run_async_loop = function(
 	
 	if (_target_room_after != undefined || _transition != undefined) {		
 		goto_room_after_init = _target_room_after != undefined ? _target_room_after : __original_first_room;
-		wlog($"** GLOBAL ASYNC LOOP ** Target room after is '{room_get_name(goto_room_after_init)}'");
+		ilog($"Running GLOBAL ASYNC LOOP with room change to '{room_get_name(goto_room_after_init)}'");
 		if (_transition != undefined) {
 			_transition.target_room = rmStartup;
 			ROOMCONTROLLER.transit(_transition);
@@ -72,7 +72,7 @@ run_async_loop = function(
 			room_goto(rmStartup);
 	} else {
 		goto_room_after_init = undefined;
-		wlog($"** GLOBAL ASYNC LOOP ** Running async in current room");
+		ilog($"Running GLOBAL ASYNC LOOP in current room");
 	}
 }
 

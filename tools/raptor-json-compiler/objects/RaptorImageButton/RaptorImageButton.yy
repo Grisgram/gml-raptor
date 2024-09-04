@@ -37,7 +37,7 @@
   "properties":[
     {"$GMObjectProperty":"v1","%Name":"sprite_to_use","filters":[
         "GMSprite",
-      ],"listItems":[],"multiselect":false,"name":"sprite_to_use","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
+      ],"listItems":[],"multiselect":false,"name":"sprite_to_use","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":5,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

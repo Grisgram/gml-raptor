@@ -90,7 +90,7 @@ function LG_add_file_async(_filename) {
 		.__raptor_data("filename", deffile)
 		.__raptor_finished(function(res, _buffer, _data) {
 			if (res != undefined) {
-				dlog($"LG successfully added strings from '{_data.filename}' to default locale ('{LG_DEFAULT_LANGUAGE}')");
+				dlog($"LG successfully added {array_length(struct_get_names(res))} strings from '{_data.filename}' to default locale ('{LG_DEFAULT_LANGUAGE}')");
 				struct_join_into(__LG_FALLBACK, res);
 			} else
 				elog($"** ERROR ** Async load of locale file '{_data.filename}' failed!");
@@ -103,7 +103,7 @@ function LG_add_file_async(_filename) {
 		.__raptor_data("filename", curfile)
 		.__raptor_finished(function(res, _buffer, _data) {
 			if (res != undefined) {
-				dlog($"LG successfully added strings from '{_data.filename}' to current locale ('{LG_CURRENT_LOCALE}')");
+				dlog($"LG successfully added {array_length(struct_get_names(res))} strings from '{_data.filename}' to current locale ('{LG_CURRENT_LOCALE}')");
 				struct_join_into(__LG_STRINGS, res);
 			} else
 				elog($"** ERROR ** Async load of locale file '{_data.filename}' failed!");
@@ -349,6 +349,7 @@ function LG() {
 	for (var i = 0; i < argument_count; i++) {
 		if (string_is_empty(argument[i]))
 			continue;
+			
 		var argconv = string_starts_with(argument[i], "=") ? string_skip_start(argument[i], 1) : argument[i];
 		if (string_ends_with(argconv, "*")) {
 			wildcard = true;

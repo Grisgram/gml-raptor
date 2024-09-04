@@ -44,9 +44,12 @@ if (!wait_for_async_tasks && !trampoline_done) {
 		} else
 			room_goto(goto_room_after_init);
 		
-		call_later(waitframes + 1, time_source_units_frames, function() {
+		call_later(waitframes + 2, time_source_units_frames, function() {
 			invoke_if_exists(self, async_looper_finished, async_looper_data);
 		}, false);
-	} else
-		invoke_if_exists(self, async_looper_finished, async_looper_data);
+	} else {
+		call_later(2, time_source_units_frames, function() {
+			invoke_if_exists(self, async_looper_finished, async_looper_data);
+		}, false);
+	}
 }
