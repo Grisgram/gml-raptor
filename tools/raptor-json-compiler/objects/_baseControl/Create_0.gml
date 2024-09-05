@@ -403,7 +403,7 @@ __draw_self = function() {
 
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0;
 		var nine = -1;
-		if (sprite_index != -1) {
+		if (sprite_index != -1 && sprite_index != noone) {
 			nine = sprite_get_nineslice(sprite_index);
 			if (nine != -1 && nine.enabled) {
 				nineleft	= nine.left;
