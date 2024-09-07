@@ -34,6 +34,8 @@
   "properties":[
     {"$GMObjectProperty":"v1","%Name":"horizontal_scrollbar","filters":[],"listItems":[],"multiselect":false,"name":"horizontal_scrollbar","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
     {"$GMObjectProperty":"v1","%Name":"vertical_scrollbar","filters":[],"listItems":[],"multiselect":false,"name":"vertical_scrollbar","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"drag_xoffset","filters":[],"listItems":[],"multiselect":false,"name":"drag_xoffset","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
+    {"$GMObjectProperty":"v1","%Name":"drag_yoffset","filters":[],"listItems":[],"multiselect":false,"name":"drag_yoffset","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
