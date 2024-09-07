@@ -286,6 +286,7 @@
     {"id":{"name":"RaptorPanel","path":"objects/RaptorPanel/RaptorPanel.yy",},},
     {"id":{"name":"RaptorRadioButton","path":"objects/RaptorRadioButton/RaptorRadioButton.yy",},},
     {"id":{"name":"RaptorScrollbar","path":"objects/RaptorScrollbar/RaptorScrollbar.yy",},},
+    {"id":{"name":"RaptorScrollPanel","path":"objects/RaptorScrollPanel/RaptorScrollPanel.yy",},},
     {"id":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},},
     {"id":{"name":"RaptorTextButton","path":"objects/RaptorTextButton/RaptorTextButton.yy",},},
     {"id":{"name":"RaptorTooltip","path":"objects/RaptorTooltip/RaptorTooltip.yy",},},

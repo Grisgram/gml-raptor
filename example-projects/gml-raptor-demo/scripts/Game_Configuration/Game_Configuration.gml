@@ -64,7 +64,8 @@
 // The min_wait_time constant is measured in frames. Default is 90 (1.5secs) to show loading spinner
 // The fade_in time for the first room is also measured in frames
 #macro ROOM_AFTER_STARTER			rmMain
-#macro STARTER_ASYNC_MIN_WAIT_TIME	90
+#macro STARTER_ASYNC_MIN_WAIT_TIME	0
+#macro release:STARTER_ASYNC_MIN_WAIT_TIME	90
 #macro STARTER_FIRST_ROOM_FADE_IN	0
 
 /// @func function onGameStart()
