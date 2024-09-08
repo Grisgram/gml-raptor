@@ -536,6 +536,7 @@
     {"id":{"name":"Strings","path":"scripts/Strings/Strings.yy",},},
     {"id":{"name":"StringTests","path":"scripts/StringTests/StringTests.yy",},},
     {"id":{"name":"Structs","path":"scripts/Structs/Structs.yy",},},
+    {"id":{"name":"StructTests","path":"scripts/StructTests/StructTests.yy",},},
     {"id":{"name":"TileScanner","path":"scripts/TileScanner/TileScanner.yy",},},
     {"id":{"name":"TooltipManager","path":"scripts/TooltipManager/TooltipManager.yy",},},
     {"id":{"name":"UiSkin","path":"scripts/UiSkin/UiSkin.yy",},},

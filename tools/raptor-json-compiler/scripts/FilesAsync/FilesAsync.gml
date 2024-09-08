@@ -157,7 +157,8 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 				return rv;
 			});
 		CATCH return new __FileAsyncFailedWorker(filename, "");	ENDTRY
-	}
+	} else
+		elog($"** ERROR ** File '{__FILE_WORKINGFOLDER_FILENAME}' does not exist!");
 	return new __FileAsyncFailedWorker(filename, "");
 }
 
@@ -219,6 +220,7 @@ function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = fal
 				return rv;
 			});
 		CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
-	}
+	} else
+		elog($"** ERROR ** File '{__FILE_WORKINGFOLDER_FILENAME}' does not exist!");
 	return new __FileAsyncFailedWorker(filename, cryptkey);
 }

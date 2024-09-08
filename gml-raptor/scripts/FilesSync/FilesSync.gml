@@ -170,7 +170,8 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 			}
 			return rv;
 		CATCH return undefined;	ENDTRY
-	}
+	} else
+		elog($"** ERROR ** File '{__FILE_WORKINGFOLDER_FILENAME}' does not exist!");
 	return undefined;
 }
 
@@ -226,7 +227,8 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 			}
 			return rv;
 		CATCH return undefined; ENDTRY
-	}
+	} else
+		elog($"** ERROR ** File '{__FILE_WORKINGFOLDER_FILENAME}' does not exist!");
 	return undefined;
 }
 
