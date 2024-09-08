@@ -15,7 +15,6 @@ function unit_test_SaveGame() {
 		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
 		.on_finished(function(result) {
 			global.test.assert_true(result, "success");
-			
 			// test the file contents manually with a sync file load
 			var savedata = file_read_struct($"{SAVEGAME_FOLDER}/unit_test{DATA_FILE_EXTENSION}");
 			var tdname = savedata.global_data;

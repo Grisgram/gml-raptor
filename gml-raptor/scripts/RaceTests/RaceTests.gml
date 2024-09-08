@@ -631,10 +631,16 @@ function unit_test_Race() {
 	
 	ut.tests.query_refs_and_subs_ok = function(test, data) {
 		var race = data.t;
+		test.assert_not_null(race, "race null");
+		test.assert_not_null(race.tables, "race tables null");
+		
 		var tbl = race.tables.demotable;
 		var ref = race.tables.subtable_ref;
 		var cpy_original = race.tables.subtable_copy;
-		
+		test.assert_not_null(tbl, "demotable null");
+		test.assert_not_null(ref, "ref subtable null");
+		test.assert_not_null(cpy_original, "clone subtable null");
+				
 		var cpy_copy;
 		var res;
 

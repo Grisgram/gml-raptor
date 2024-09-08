@@ -16,6 +16,7 @@
   "defaultScriptType":1,
   "Folders":[
     {"$GMFolder":"","%Name":"__GAME_SETUP__","folderPath":"folders/__GAME_SETUP__.yy","name":"__GAME_SETUP__","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"_game_version","folderPath":"folders/__GAME_SETUP__/_game_version.yy","name":"_game_version","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"browser_extensions","folderPath":"folders/__GAME_SETUP__/browser_extensions.yy","name":"browser_extensions","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"_loading_bar_files","folderPath":"folders/__GAME_SETUP__/browser_extensions/_loading_bar_files.yy","name":"_loading_bar_files","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"startup","folderPath":"folders/__GAME_SETUP__/startup.yy","name":"startup","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -133,7 +134,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.6.2.162",
+    "IDEVersion":"2024.8.0.169",
   },
   "name":"raptor-json-compiler",
   "resources":[
@@ -154,6 +155,7 @@
     {"id":{"name":"fntUnitTest","path":"fonts/fntUnitTest/fntUnitTest.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
     {"id":{"name":"_about_the_version_file_MUST_READ_","path":"notes/_about_the_version_file_MUST_READ_/_about_the_version_file_MUST_READ_.yy",},},
+    {"id":{"name":"_README_about_version_file","path":"notes/_README_about_version_file/_README_about_version_file.yy",},},
     {"id":{"name":"version","path":"notes/version/version.yy",},},
     {"id":{"name":"__sprite_anim_runner","path":"objects/__sprite_anim_runner/__sprite_anim_runner.yy",},},
     {"id":{"name":"_baseCheckableControl","path":"objects/_baseCheckableControl/_baseCheckableControl.yy",},},
@@ -328,6 +330,7 @@
     {"id":{"name":"draw_text_scribble","path":"scripts/draw_text_scribble/draw_text_scribble.yy",},},
     {"id":{"name":"Edges","path":"scripts/Edges/Edges.yy",},},
     {"id":{"name":"ExpensiveCache","path":"scripts/ExpensiveCache/ExpensiveCache.yy",},},
+    {"id":{"name":"file_exists_html_safe","path":"scripts/file_exists_html_safe/file_exists_html_safe.yy",},},
     {"id":{"name":"FileAsyncWorker","path":"scripts/FileAsyncWorker/FileAsyncWorker.yy",},},
     {"id":{"name":"FilesAsync","path":"scripts/FilesAsync/FilesAsync.yy",},},
     {"id":{"name":"FilesSync","path":"scripts/FilesSync/FilesSync.yy",},},

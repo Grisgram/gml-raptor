@@ -184,7 +184,7 @@ function savegame_get_id_array_of(instance_array) {
 /// @desc	Checks, whether the specified savegame exists. Takes the
 ///					SAVEGAME_FOLDER configuration path into account
 function savegame_exists(_filename) {
-	return file_exists(string_concat(SAVEGAME_FOLDER, _filename));
+	return file_exists_html_safe(string_concat(SAVEGAME_FOLDER, _filename));
 }
 
 function __ensure_savegame_folder_name() {

@@ -37,12 +37,13 @@ function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACH
 	
 	tables = {}; // Holds the runtime tables for this Race
 	
-	if (!file_exists(__filename)) {
+	__filename = __clean_file_name(__filename);
+	if (!file_exists_html_safe(__filename)) {
 		elog($"** ERROR ** race table file '{__filename}' not found!");
 		return;
 	}
 
-	__cache_name	= string_replace(__filename, "/", "_");
+	__cache_name	= string_replace_all(string_replace_all(__filename, "/", "_"), "\\", "_");
 	vsgetx(__RACE_CACHE,  __cache_name, {}); // ensure, the file is created in the cache
 
 	if (_load_async) {
@@ -226,7 +227,7 @@ function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACH
 	/// @param {string=""} pool_name	Optional. If supplied, objects will be taken from the
 	///									specified ObjectPool, so less new instances are created.
 	static query_table = function(_name, _layer_name_or_depth = undefined, _pool_name = "") {
-		return tables[$ _name].query(_layer_name_or_depth, _pool_name);
+		with(tables[$ _name]) return query(_layer_name_or_depth, _pool_name);
 	}
 	
 	toString = function() {

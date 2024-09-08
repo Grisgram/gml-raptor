@@ -67,7 +67,7 @@
 #macro STARTER_ASYNC_MIN_WAIT_TIME	90
 #macro STARTER_FIRST_ROOM_FADE_IN	45
 
-/// @func function onGameStart()
+/// @func	onGameStart()
 /// @desc	When this runs, load_settings() has already been called and 
 ///			you can access your settings through the GAMESETTINGS macro.
 function onGameStart() {
@@ -130,12 +130,13 @@ function onLoadingScreen(task, frame) {
 		//LG_add_file_async("dialogs");
 	}
 	
-	// If you do other async things here, don't forget to return TRUE until they are
+	// If you do other async things here, don't forget to RETURN TRUE until they are
 	// are finished (return code means something like "still busy?", so return true while working)
 	//return true;
 }
 
-/// @func function onGameEnd()
+/// @func	onGameEnd()
+/// @desc   Invoked when the game ends. NEVER OCCURS IN HTML GAMES.
 function onGameEnd() {
 	
 }

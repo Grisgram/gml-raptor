@@ -16,6 +16,7 @@
   "defaultScriptType":1,
   "Folders":[
     {"$GMFolder":"","%Name":"__GAME_SETUP__","folderPath":"folders/__GAME_SETUP__.yy","name":"__GAME_SETUP__","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"_game_version","folderPath":"folders/__GAME_SETUP__/_game_version.yy","name":"_game_version","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"browser_extensions","folderPath":"folders/__GAME_SETUP__/browser_extensions.yy","name":"browser_extensions","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"_loading_bar_files","folderPath":"folders/__GAME_SETUP__/browser_extensions/_loading_bar_files.yy","name":"_loading_bar_files","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"startup","folderPath":"folders/__GAME_SETUP__/startup.yy","name":"startup","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -86,7 +87,6 @@
     {"$GMFolder":"","%Name":"VDF","folderPath":"folders/_third_party_packages_/SNAP/VDF.yy","name":"VDF","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"XML","folderPath":"folders/_third_party_packages_/SNAP/XML.yy","name":"XML","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"YAML","folderPath":"folders/_third_party_packages_/SNAP/YAML.yy","name":"YAML","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"main","folderPath":"folders/Rooms/main.yy","name":"main","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
@@ -339,6 +339,7 @@
     {"id":{"name":"draw_text_scribble","path":"scripts/draw_text_scribble/draw_text_scribble.yy",},},
     {"id":{"name":"Edges","path":"scripts/Edges/Edges.yy",},},
     {"id":{"name":"ExpensiveCache","path":"scripts/ExpensiveCache/ExpensiveCache.yy",},},
+    {"id":{"name":"file_exists_html_safe","path":"scripts/file_exists_html_safe/file_exists_html_safe.yy",},},
     {"id":{"name":"FileAsyncWorker","path":"scripts/FileAsyncWorker/FileAsyncWorker.yy",},},
     {"id":{"name":"FilesAsync","path":"scripts/FilesAsync/FilesAsync.yy",},},
     {"id":{"name":"FilesSync","path":"scripts/FilesSync/FilesSync.yy",},},

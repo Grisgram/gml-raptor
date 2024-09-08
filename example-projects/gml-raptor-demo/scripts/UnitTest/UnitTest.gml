@@ -61,36 +61,37 @@
 		var scr = script_get_name(ids[@i]);							\
 		if (string_starts_with(scr, UNIT_TEST_FUNCTION_PREFIX))	{	\
 			array_push(global.__raptor_unit_test_scripts, ids[@i]);	\
+			ilog($"Discovered suite '{script_get_name(ids[@i])}'");	\
 		}															\
 	}																\
-	ilog($"Discovered {array_length(global.__raptor_unit_test_scripts)} test suites");	\
+	ilog($"Discovered {array_length(global.__raptor_unit_test_scripts)} test suites total");	\
 	global.__raptor_unit_test_next_suite_index = 0;					\
 	global.__raptor_unit_test_next_suite = undefined;				\
 	global.test = undefined;										\
-	global.__raptor_unit_test_suite_runner = function() {			\
+	function __raptor_unit_test_suite_runner() {					\
 		if (global.__raptor_unit_test_next_suite_index < array_length(global.__raptor_unit_test_scripts)) { \
 			global.__raptor_unit_test_next_suite =					\
 				global.__raptor_unit_test_scripts[@global.__raptor_unit_test_next_suite_index]; \
 			global.__raptor_unit_test_next_suite();					\
 		} else														\
 			global.test = undefined;								\
-		global.__raptor_unit_test_suite_checker();					\
+		__raptor_unit_test_suite_checker();							\
 	}																\
-	global.__raptor_unit_test_suite_checker = function() {			\
+	function __raptor_unit_test_suite_checker() {					\
 		if (global.test == undefined) {								\
-			global.__raptor_unit_test_summary();					\
+			__raptor_unit_test_summary();							\
 			return;													\
 		}															\
 		run_delayed(GAMESTARTER, 1, function() {					\
 			if (global.test.__suite_finished) {						\
 				global.__raptor_unit_test_next_suite_index++;		\
-				global.__raptor_unit_test_suite_runner();			\
+				__raptor_unit_test_suite_runner();					\
 			} else {												\
-				global.__raptor_unit_test_suite_checker();			\
+				__raptor_unit_test_suite_checker();					\
 			}														\
 		});															\
 	}																\
-	global.__raptor_unit_test_summary = function() {											\
+	function __raptor_unit_test_summary() {														\
 		global.__raptor_unit_test_logger(2, "   TEST SUMMARY");									\
 		global.__raptor_unit_test_logger(2, "   OK  FAIL  TEST SUITE ");						\
 		global.__raptor_unit_test_logger(2, "---------------------------------------------");	\
@@ -102,9 +103,7 @@
 		global.__raptor_unit_test_scripts = [];													\
 		global.__raptor_unit_test_logger(2, "Unit tests finished");								\
 	}																							\
-	global.__raptor_unit_test_suite_runner();	
-
-//		game_end();													\
+	__raptor_unit_test_suite_runner();
 
 if (!CONFIGURATION_UNIT_TESTING) exit;
 
@@ -308,7 +307,10 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 				struct_get(tests, __current_test_name)(self, __data_for_test);
 			} catch (_ex) {
 				if (__current_test_exc == undefined ||
-					(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc))) {
+						(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc) &&
+							(!IS_HTML || string_contains(_ex.measure, "undefined to a number"))
+						)
+					) {
 					__log(0, $"FAIL: {__current_test_name} exception='{_ex.message}'; msg='{__current_test_msg}'");
 					__current_test_ok = false;
 				}

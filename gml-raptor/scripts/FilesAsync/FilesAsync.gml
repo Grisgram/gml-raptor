@@ -9,6 +9,7 @@
 /// @desc	reads an entire file and returns the AsyncReader where you must attach your .on_finished callback
 function file_read_text_file_absolute_async(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
 		return new __FileAsyncCacheHit(filename, struct_get(__FILE_CACHE, filename));
@@ -18,6 +19,7 @@ function file_read_text_file_absolute_async(filename, cryptkey = "", remove_utf8
 		return new __FileAsyncReader(filename, cryptkey)
 		.__raptor_data("bom", remove_utf8_bom)
 		.__raptor_data("cache", add_to_cache)
+		.__raptor_data("filename", filename)
 		.__raptor_finished(function(_prev, _buffer, data) {
 			var bufsize = max(0, buffer_get_size(_buffer));
 			vlog($"Loaded {bufsize} bytes from file");
@@ -34,8 +36,8 @@ function file_read_text_file_absolute_async(filename, cryptkey = "", remove_utf8
 				    _string = buffer_read(_buffer, buffer_string);
 	
 					if (data.cache) {
-						dlog($"Added file '{filename}' to cache");
-						struct_set(__FILE_CACHE, filename, _string);
+						dlog($"Added file '{data.filename}' to cache");
+						struct_set(__FILE_CACHE, data.filename, _string);
 					}
 				}
 			CATCH ENDTRY
@@ -70,6 +72,7 @@ function file_read_text_file_lines_async(filename, cryptkey = "", remove_empty_l
 /// @desc	Saves a given text as a plain text file. Can write any string, not only json.
 function file_write_text_file_async(filename, text, cryptkey = "") {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
 	TRY
 		var buffer = buffer_create(string_byte_length(text) + 1, buffer_fixed, 1);
@@ -109,6 +112,7 @@ function file_read_struct_async(filename, cryptkey = "", add_to_cache = false) {
 /// @desc	Saves a given struct as a plain text json file.
 function file_write_struct_plain_async(filename, struct, print_pretty = true) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
 	TRY
 		return file_write_text_file_async(filename, SnapToJSON(struct, print_pretty))
@@ -128,8 +132,9 @@ function file_write_struct_plain_async(filename, struct, print_pretty = true) {
 /// @desc	Loads the contents of the file and tries to parse it as struct.
 function file_read_struct_plain_async(filename, add_to_cache = false) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
-	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
+	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename)));
 		}
@@ -161,6 +166,7 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 ///			and saves this to a file.
 function file_write_struct_encrypted_async(filename, struct, cryptkey) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
 	TRY
 		var len = SnapBufferMeasureBinary(struct);
@@ -186,8 +192,9 @@ function file_write_struct_encrypted_async(filename, struct, cryptkey) {
 /// @desc	Decrypts the data in the specified file with the specified key.
 function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = false) {	
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
-	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
+	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename)));
 		}

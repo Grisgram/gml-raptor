@@ -112,17 +112,26 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		if (string_starts_with(typename, "=")) {
 			// go into recursion
 			typename = string_skip_start(typename, 1);
-			race.tables[$ typename].__query_recursive(_result, _uniques);
+			// ATTENTION! The split in several local variables is for HTML
+			// It breaks with the nested struct access
+			var tbls = race.tables;
+			var tbl = tbls[$ typename];
+			tbl.__query_recursive(_result, _uniques);
+			//race.tables[$ typename].__query_recursive(_result, _uniques);
 		} else if (string_starts_with(typename, "+")) {
 			// deep copy, THEN go into recursion
 			typename = string_skip_start(typename, 1);
+			// ATTENTION! The split in several local variables is for HTML
+			// It breaks with the nested struct access
 			var deepcopy = race.clone_table(typename);
 			var newname = deepcopy.name;
 			// find a free new name for the deep copy
 			_item.type = $"={newname}";
 			if (DEBUG_LOG_RACE)
 				vlog($"Added dynamic global race table: '{newname}'");
-			race.tables[$ newname].__query_recursive(_result, _uniques);
+			var tbls = race.tables;
+			var tbl = tbls[$ newname];
+			tbl.__query_recursive(_result, _uniques);
 		} else {
 			array_push(_result, new RaceResult(_item, _name, name));
 		}

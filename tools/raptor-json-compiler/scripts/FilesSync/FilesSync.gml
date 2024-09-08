@@ -8,8 +8,8 @@
 #macro __FILE_CACHE		global.__file_cache
 __FILE_CACHE = {};
 
-#macro __FILE_WORKINGFOLDER_FILENAME	((string_starts_with(filename, "\\\\") || string_contains(filename, ":\\")) \
-										? filename : string_concat(working_directory, filename))
+#macro __FILE_WORKINGFOLDER_FILENAME	__clean_file_name(((string_starts_with(filename, "\\\\") || string_contains(filename, ":\\")) \
+										? filename : string_concat(working_directory, filename)))
 
 /// @func					file_clear_cache()
 /// @desc				clears the entire file cache
@@ -24,12 +24,22 @@ function __ensure_file_cache() {
 		__FILE_CACHE = {};
 }
 
+function __clean_file_name(_filename) {
+	while (string_contains(_filename, "//") || string_contains(_filename, "\\/"))
+		_filename = 
+			string_replace_all(
+				string_replace_all(_filename, "\\/", "/"), 
+			"//", "/");
+	return _filename;
+}
+
 /// @func	file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false)
 /// @desc	reads an entire file and returns the contents as string
 ///			checks whether the file exists, and if not, undefined is returned.
 ///			crashes, if the file is not a text file
 function file_read_text_file_absolute(filename, cryptkey = "", remove_utf8_bom = true, add_to_cache = false) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
 		vlog($"Cache hit for file '{filename}'");
@@ -123,6 +133,7 @@ function file_read_struct(filename, cryptkey = "", add_to_cache = false) {
 /// @desc	Saves a given struct as a plain text json file.
 function file_write_struct_plain(filename, struct, print_pretty = true) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	TRY
 		dlog($"Saving plain text struct to '{filename}'");
 		file_write_text_file(filename, SnapToJSON(struct, print_pretty));
@@ -138,7 +149,8 @@ function file_write_struct_plain(filename, struct, print_pretty = true) {
 /// @desc	Loads the contents of the file and tries to parse it as struct.
 function file_read_struct_plain(filename, add_to_cache = false) {
 	__ensure_file_cache();
-	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
+	filename = __clean_file_name(filename);
+	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			vlog($"Cache hit for file '{filename}'");
 			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
@@ -167,6 +179,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 ///			and saves this to a file.
 function file_write_struct_encrypted(filename, struct, cryptkey) {
 	__ensure_file_cache();
+	filename = __clean_file_name(filename);
 	TRY
 		dlog($"Saving encrypted struct to '{filename}'");
 		var len = SnapBufferMeasureBinary(struct);
@@ -188,7 +201,8 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 /// @desc	Decrypts the data in the specified file with the specified key.
 function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {	
 	__ensure_file_cache();
-	if (file_exists(__FILE_WORKINGFOLDER_FILENAME)) {
+	filename = __clean_file_name(filename);
+	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			vlog($"Cache hit for file '{filename}' (buffer deep copy)");
 			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
@@ -225,6 +239,7 @@ function file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false
 		wlog($"** WARNING ** The function file_list_directory does not work in html target! Avoid calling it with \"if (!IS_HTML) ...\"");
 		return [];
 	}
+	_folder = __clean_file_name(_folder);
 	
 	var closure = {
 		mask:	_wildcard,
