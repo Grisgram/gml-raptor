@@ -178,7 +178,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				(!strcompare && eq(_control_or_name, inst))) {
 				struct_remove(controls, child.name);
 				array_delete(children, i, 1);
-				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
+				dlog($"Removed {name_of(control)} from tree of {name_of(control)}");
 				break;
 			}
 		}
