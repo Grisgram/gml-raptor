@@ -39,8 +39,8 @@ set_content = function(_instance, _custom_draw_method = undefined) {
 	content = _instance;
 	draw_method = undefined;// = _custom_draw_method ?? vsget(content, "__draw_self");
 	content.visible = false;
-	content.draw_on_gui = false;
-	draw_on_gui = false;
+	//content.draw_on_gui = false;
+	//draw_on_gui = false;
 }
 
 __draw_instance = function(_force = false) {
