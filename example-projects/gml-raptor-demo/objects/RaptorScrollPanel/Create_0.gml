@@ -10,21 +10,29 @@ enum mouse_drag {
 
 __base_draw_instance = __draw_instance;
 
-__scissor		= undefined;
-__vscroll		= { value_percent: 0, max_value: 100, };
-__hscroll		= { value_percent: 0, max_value: 100, };
-__clipw			= 0;
-__cliph			= 0;
-__drag_xmax		= 0;
-__draw_ymax		= 0;
-__mouse_delta	= 0;
+__scissor			= undefined;
+__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, };
+__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, };
+__ap_default		= [0, 0];		// app pos
+__ap				= __ap_default;	// app pos
+__aw				= 0;			// app width
+__ah				= 0;			// app height
+__clipw				= 0;
+__cliph				= 0;
+__drag_xmax			= 0;
+__draw_ymax			= 0;
+__mouse_delta		= 0;
+__mouse_multi		= mouse_drag_inverted ? mouse_drag_multiplier : -mouse_drag_multiplier;
+__mouse_in_content	= false;
+__scale_x			= 1;
+__scale_y			= 1;
 
-__scrolldim		= new SpriteDim(object_get_sprite(Scrollbar));
-__hbarsize		= (horizontal_scrollbar ? __scrolldim.height : 0);
-__vbarsize		= (vertical_scrollbar ? __scrolldim.height : 0);
-
-content			= undefined;
-draw_method		= undefined
+__scrolldim			= new SpriteDim(object_get_sprite(Scrollbar));
+__hbarsize			= (horizontal_scrollbar ? __scrolldim.height : 0);
+__vbarsize			= (vertical_scrollbar ? __scrolldim.height : 0);
+					
+content				= undefined;
+draw_method			= undefined
 
 /// @func	set_content(_instance, _custom_draw_method = undefined)
 /// @desc	sets the content instance for this scroll panel.
@@ -38,9 +46,27 @@ draw_method		= undefined
 set_content = function(_instance, _custom_draw_method = undefined) {
 	content = _instance;
 	draw_method = undefined;// = _custom_draw_method ?? vsget(content, "__draw_self");
-	content.visible = false;
+	content.is_in_scrollpanel = true;
+	//content.visible = false;
 	//content.draw_on_gui = false;
 	//draw_on_gui = false;
+}
+
+clear_content = function() {
+	content.is_in_scrollpanel = false;
+}
+
+__mouse_in_content = function() {
+	return point_in_rectangle(
+		CTL_MOUSE_X, CTL_MOUSE_Y,
+		SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE,
+		SELF_VIEW_LEFT_EDGE + __clipw - 1, SELF_VIEW_TOP_EDGE + __cliph - 1
+	);
+}
+
+__update_scroller = function(_inst, _by) {
+	_inst.value = clamp(_inst.value + _by, 0, 100);
+	_inst.value_percent = (_inst.value - _inst.min_value) / _inst.max_value;
 }
 
 __draw_instance = function(_force = false) {
@@ -51,71 +77,47 @@ __draw_instance = function(_force = false) {
 	
 	__drag_xmax = content.sprite_width  - __clipw;
 	__drag_ymax = content.sprite_height - __cliph;
+
+	// how many % of the content size is the mouse delta?
+	if (__mouse_delta) {
+		__update_scroller(__hscroll, CTL_MOUSE_DELTA_X * 100 * __mouse_multi / content.sprite_width);
+		__update_scroller(__vscroll, CTL_MOUSE_DELTA_Y * 100 * __mouse_multi / content.sprite_width);
+	}
 	
 	drag_xoffset = -__drag_xmax * __hscroll.value_percent;
 	drag_yoffset = -__drag_ymax * __vscroll.value_percent;
 	
-	content.x = x + content.sprite_xoffset + drag_xoffset;// + CTL_MOUSE_DELTA_X * __mouse_delta;
-	content.y = y + content.sprite_xoffset + drag_yoffset;// + CTL_MOUSE_DELTA_Y * __mouse_delta;
+	content.x = x + content.sprite_xoffset + drag_xoffset;
+	content.y = y + content.sprite_xoffset + drag_yoffset;
 
+	// calculate scissor multiplier based on draw mode	
+	if (draw_on_gui) {
+		__ap		= application_get_position();
+		__aw		= __ap[2] - __ap[0] + 1;
+		__ah		= __ap[3] - __ap[1] + 1;
+		__scale_x	= __aw / APP_SURF_WIDTH;
+		__scale_y	= __ah / APP_SURF_HEIGHT;
+	} else {
+		__ap		= __ap_default;
+		__scale_x	= 1;
+		__scale_y	= 1;
+	}
+	
 	__scissor = gpu_get_scissor();
-	gpu_set_scissor(x, y, __clipw, __cliph);
+	gpu_set_scissor(
+		x * __scale_x + __ap[0], 
+		y * __scale_y + __ap[1], 
+		ceil(__clipw * __scale_x), 
+		ceil(__cliph * __scale_y)
+	);
 	with(content) {
+		//visible = true;
 		if (other.draw_method != undefined) other.draw_method(); else draw_self();
+		//visible = false;
 	}
 	gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);
 	
 	__base_draw_instance(_force);
-
-//draw_self();
-//ilog($"--- {surface_get_width(application_surface)} {window_get_width()}");
-//var srat = APP_SURF_WIDTH / APP_SURF_HEIGHT;
-//var wrat = window_get_width() / window_get_height();
-//var scx=1, scy;
-//if (wrat < srat) {
-//	ilog("blackbar on top");
-	
-//} else {
-//	ilog("blackbar on the left");
-//}
-//scy = scx;
-var scx = 1;
-var scy = 1;
-var ap = [0,0];
-if (draw_on_gui) {
-	ap = application_get_position();
-	aw = ap[2] - ap[0] + 1;
-	ah = ap[3] - ap[1] + 1;
-	ilog($"--- {aw} {ah}");
-	scx = aw/surface_get_width(application_surface);
-	scy = ah/surface_get_height(application_surface);
-}
-//var scx = window_get_width()/surface_get_width(application_surface);
-//var scy = window_get_height()/surface_get_height(application_surface);
-
-//ilog($"--- {application_get_position()} {window_get_width()} {surface_get_width(application_surface)}");
-
-__scissor = gpu_get_scissor();
-//gpu_set_scissor(x, y, __clipw, __cliph);
-//if (WINDOW_SIZE_HAS_CHANGED) ilog($"--- {scx} {scy} {window_get_width()} {surface_get_width(application_surface)}");
-gpu_set_scissor(x * scx + ap[0], y * scy + ap[1], __clipw * scx, __cliph * scy);
-//gpu_set_scissor((x - ap[0]) * scx, (y + ap[1]) * scy, __clipw * scx, __cliph * scy);
-draw_set_color(c_red);
-draw_set_alpha(0.5)
-draw_rectangle(0,0,1920,1080,false)
-draw_set_alpha(1)
-draw_set_color(c_white)
-gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);	
-
-draw_circle(x,y,16,false);
-draw_circle(x+__clipw,y,16,false);
-draw_circle(x,y+__cliph,16,false);
-draw_circle(x+__clipw,y+__cliph,16,false);
-
-draw_circle(0,0,32,false);
-draw_circle(room_width,0,32,false);
-draw_circle(0,room_height,32,false);
-draw_circle(room_width,room_height,32,false);
 }
 
 if (vertical_scrollbar)
@@ -124,9 +126,10 @@ if (vertical_scrollbar)
 		orientation_horizontal: false,
 		startup_width: __vbarsize,
 		startup_height: sprite_height - (horizontal_scrollbar ? __hbarsize : 0) + 1,
-		on_mouse_enter_knob: function() {
-			ilog($"--- {name} {x}/{y} {sprite_width}x{sprite_height}");
-		}
+		knob_autoscale: false,
+		knob_xscale: 1,
+		knob_yscale: 3,
+		wheel_value_change: wheel_value_change,
 	})
 	.set_align(fa_top, fa_right)
 	.set_anchor(anchor.top | anchor.bottom)
@@ -140,9 +143,10 @@ if (horizontal_scrollbar)
 		orientation_horizontal: true,
 		startup_width: sprite_width - (vertical_scrollbar ? __vbarsize : 0) + 1,
 		startup_height: __hbarsize,
-		on_mouse_enter_knob: function() {
-			ilog($"--- {name} {x}/{y} {sprite_width}x{sprite_height}");
-		}
+		knob_autoscale: false,
+		knob_xscale: 3,
+		knob_yscale: 1,
+		wheel_value_change: wheel_value_change,
 	})
 	.set_align(fa_bottom, fa_left)
 	.set_anchor(anchor.left | anchor.right)

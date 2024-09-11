@@ -4,6 +4,8 @@
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":60,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":61,"eventType":6,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"RaptorScrollPanel",
@@ -42,6 +44,9 @@
         "mouse_drag.middle",
         "mouse_drag.right",
       ],"multiselect":false,"name":"mouse_drag_mode","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"mouse_drag.none","varType":6,},
+    {"$GMObjectProperty":"v1","%Name":"mouse_drag_inverted","filters":[],"listItems":[],"multiselect":false,"name":"mouse_drag_inverted","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"False","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"mouse_drag_multiplier","filters":[],"listItems":[],"multiselect":false,"name":"mouse_drag_multiplier","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"1.0","varType":0,},
+    {"$GMObjectProperty":"v1","%Name":"wheel_value_change","filters":[],"listItems":[],"multiselect":false,"name":"wheel_value_change","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"3","varType":1,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
