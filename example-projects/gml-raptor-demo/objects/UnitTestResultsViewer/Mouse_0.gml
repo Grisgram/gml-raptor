@@ -1,2 +1,2 @@
 /// @description event
-mouse_drag();
+__mouse_drag();

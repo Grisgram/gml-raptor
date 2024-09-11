@@ -46,6 +46,6 @@ mouse_wheel = function(_distance) {
 	y = clamp(y + __line_height * __lines_per_wheel * _distance, ROOM_HEIGHT - sprite_height - 40, startup_y);
 }
 
-mouse_drag = function() {
+__mouse_drag = function() {
 	y = clamp(y + (MOUSE_DELTA_Y * __drag_factor), ROOM_HEIGHT - sprite_height - 40, startup_y);
 }

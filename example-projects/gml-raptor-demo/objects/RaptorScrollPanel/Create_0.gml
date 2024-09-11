@@ -11,8 +11,8 @@ enum mouse_drag {
 __base_draw_instance = __draw_instance;
 
 __scissor			= undefined;
-__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, };
-__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, };
+__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, };
+__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, };
 __ap_default		= [0, 0];		// app pos
 __ap				= __ap_default;	// app pos
 __aw				= 0;			// app width
@@ -23,7 +23,6 @@ __drag_xmax			= 0;
 __draw_ymax			= 0;
 __mouse_delta		= 0;
 __mouse_multi		= mouse_drag_inverted ? mouse_drag_multiplier : -mouse_drag_multiplier;
-__mouse_in_content	= false;
 __scale_x			= 1;
 __scale_y			= 1;
 
@@ -47,9 +46,7 @@ set_content = function(_instance, _custom_draw_method = undefined) {
 	content = _instance;
 	draw_method = undefined;// = _custom_draw_method ?? vsget(content, "__draw_self");
 	content.is_in_scrollpanel = true;
-	//content.visible = false;
-	//content.draw_on_gui = false;
-	//draw_on_gui = false;
+	return self;
 }
 
 clear_content = function() {
@@ -91,8 +88,13 @@ __draw_instance = function(_force = false) {
 		drag_yoffset = -__drag_ymax * __vscroll.value_percent;
 	}
 	
+	__hscroll.is_enabled = (__drag_xmax > 0);
+	__vscroll.is_enabled = (__drag_ymax > 0);
+	if (!__hscroll.is_enabled) { __hscroll.value = 50; drag_xoffset = __clipw / 2 - content.sprite_width  / 2; }	
+	if (!__vscroll.is_enabled) { __vscroll.value = 50; drag_yoffset = __cliph / 2 - content.sprite_height / 2; }
+	
 	content.x = x + content.sprite_xoffset + drag_xoffset;
-	content.y = y + content.sprite_xoffset + drag_yoffset;
+	content.y = y + content.sprite_yoffset + drag_yoffset;
 
 	// calculate scissor multiplier based on draw mode	
 	if (draw_on_gui) {
@@ -107,6 +109,7 @@ __draw_instance = function(_force = false) {
 		__scale_y	= 1;
 	}
 	
+	__base_draw_instance(_force);
 	__scissor = gpu_get_scissor();
 	gpu_set_scissor(
 		x * __scale_x + __ap[0], 
@@ -118,8 +121,6 @@ __draw_instance = function(_force = false) {
 		if (other.draw_method != undefined) other.draw_method(); else draw_self();
 	}
 	gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);
-	
-	__base_draw_instance(_force);
 }
 
 if (vertical_scrollbar)
@@ -157,10 +158,3 @@ if (horizontal_scrollbar)
 	;
 
 control_tree.build();
-
-set_content(instance_create(0,0,"ui_instances",ImageButton,{
-	sprite_to_use: sprDefaultFlag,
-	autosize: false,
-	startup_width: 400,
-	startup_height: 300,
-}));

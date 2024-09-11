@@ -297,6 +297,7 @@
     {"id":{"name":"RoomController","path":"objects/RoomController/RoomController.yy",},},
     {"id":{"name":"Saveable","path":"objects/Saveable/Saveable.yy",},},
     {"id":{"name":"Scrollbar","path":"objects/Scrollbar/Scrollbar.yy",},},
+    {"id":{"name":"ScrollPanel","path":"objects/ScrollPanel/ScrollPanel.yy",},},
     {"id":{"name":"Slider","path":"objects/Slider/Slider.yy",},},
     {"id":{"name":"Spawner","path":"objects/Spawner/Spawner.yy",},},
     {"id":{"name":"StatefulObject","path":"objects/StatefulObject/StatefulObject.yy",},},
