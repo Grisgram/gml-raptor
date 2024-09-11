@@ -4,7 +4,6 @@ event_inherited();
 if (mouse_drag_mode == mouse_drag.none) {
 	__mouse_delta = 0;
 	exit;
-} else if (vertical_scrollbar) {
 }
 
 __mouse_delta = 

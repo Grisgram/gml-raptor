@@ -80,12 +80,16 @@ __draw_instance = function(_force = false) {
 
 	// how many % of the content size is the mouse delta?
 	if (__mouse_delta) {
-		__update_scroller(__hscroll, CTL_MOUSE_DELTA_X * 100 * __mouse_multi / content.sprite_width);
-		__update_scroller(__vscroll, CTL_MOUSE_DELTA_Y * 100 * __mouse_multi / content.sprite_width);
+		drag_xoffset = clamp(drag_xoffset + CTL_MOUSE_DELTA_X * mouse_drag_multiplier, -__drag_xmax, 0);
+		drag_yoffset = clamp(drag_yoffset + CTL_MOUSE_DELTA_Y * mouse_drag_multiplier, -__drag_ymax, 0);
+		__hscroll.value_percent = -drag_xoffset / __drag_xmax;
+		__vscroll.value_percent = -drag_yoffset / __drag_ymax;
+		__hscroll.value = ceil(__hscroll.value_percent * 100);
+		__vscroll.value = ceil(__vscroll.value_percent * 100);
+	} else {	
+		drag_xoffset = -__drag_xmax * __hscroll.value_percent;
+		drag_yoffset = -__drag_ymax * __vscroll.value_percent;
 	}
-	
-	drag_xoffset = -__drag_xmax * __hscroll.value_percent;
-	drag_yoffset = -__drag_ymax * __vscroll.value_percent;
 	
 	content.x = x + content.sprite_xoffset + drag_xoffset;
 	content.y = y + content.sprite_xoffset + drag_yoffset;
@@ -111,9 +115,7 @@ __draw_instance = function(_force = false) {
 		ceil(__cliph * __scale_y)
 	);
 	with(content) {
-		//visible = true;
 		if (other.draw_method != undefined) other.draw_method(); else draw_self();
-		//visible = false;
 	}
 	gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);
 	
@@ -158,7 +160,7 @@ control_tree.build();
 
 set_content(instance_create(0,0,"ui_instances",ImageButton,{
 	sprite_to_use: sprDefaultFlag,
-	autosize: true,
-	startup_width: 800,
-	startup_height: 600,
+	autosize: false,
+	startup_width: 400,
+	startup_height: 300,
 }));

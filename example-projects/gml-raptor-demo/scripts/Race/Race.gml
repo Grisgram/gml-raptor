@@ -26,16 +26,20 @@ ENSURE_RACE;
 ///			Recommendation: Load _all_ your Race files at startup async.
 function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACHE_FILE_DEFAULT) constructor {
 	construct(Race);
+
+	tables = {}; // Holds the runtime tables for this Race
 	
 	__async_init_done = undefined;
 	
-	if (is_null(_filename)) return; // if we come from savegame, no file is given
+	if (is_null(_filename)) {
+		__cache_name = $"__#race_manual_instance#__{SUID}";
+		vsgetx(__RACE_CACHE,  __cache_name, {}); // ensure, the file is created in the cache
+		return; // if we come from savegame, no file is given
+	}
 	
 	__filename = _filename;
 	if (!string_starts_with(__filename, RACE_ROOT_FOLDER)) __filename = $"{RACE_ROOT_FOLDER}{__filename}";
 	if (!string_ends_with(__filename, DATA_FILE_EXTENSION)) __filename += DATA_FILE_EXTENSION;
-	
-	tables = {}; // Holds the runtime tables for this Race
 	
 	__filename = __clean_file_name(__filename);
 	if (!file_exists_html_safe(__filename)) {
