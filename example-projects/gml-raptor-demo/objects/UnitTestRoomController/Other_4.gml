@@ -20,19 +20,37 @@ UI_ROOT
 		.add_control(Label, struct_join(label_struct, {	text: "[scale,1.5]Discovered Test Suites", }))
 		.set_position(48, 84)
 		.add_control(Label, struct_join(label_struct, {	text: "[scale,1.5]Detailled Test Results", }))
-		.set_position(868, 84)
+		.set_position(840, 84)
 		.step_out()
-	.add_control(ScrollPanel, {startup_width:1096, startup_height: 936})
+	.add_control(ScrollPanel, { 
+			startup_width:1096, 
+			startup_height: 936, 
+			wheel_scroll_lines: 6, 
+			mouse_drag_mode: mouse_drag.right,
+			mouse_drag_multiplier: 4.0,
+		})
 		.set_dock(dock.right)
 		.step_out()
 		.get_instance()
-		.set_content(instance_create(0,0,0,UnitTestResultsViewer, { detail_mode: true, startup_width: 1070, startup_height:936 }))
+		.set_content_object(UnitTestResultsViewer, {
+			detail_mode: true, 
+			startup_width: 1070, 
+			startup_height:936 
+		})
 		.get_parent_tree()
-	.add_control(ScrollPanel, {startup_width:824, startup_height: 936})
+	.add_control(ScrollPanel, { 
+			startup_width:824, 
+			startup_height: 936, 
+			wheel_scroll_lines: 6, 
+			mouse_drag_mode: mouse_drag.right,
+			mouse_drag_multiplier: 4.0,
+		})
 		.set_dock(dock.fill)
 		.step_out()
 		.get_instance()
-		.set_content(instance_create(0,0,0,UnitTestResultsViewer, { detail_mode: false }))
+		.set_content_object(UnitTestResultsViewer, { 
+			detail_mode: false 
+		})
 		.get_parent_tree()
 	.step_out()
 .build();

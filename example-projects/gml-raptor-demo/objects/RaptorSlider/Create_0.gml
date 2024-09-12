@@ -226,11 +226,17 @@ calculate_knob_size = function() {
 	if (orientation_horizontal) {
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
 		if (knob_autoscale)	
-			knob_xscale = max(1, (nine_slice_data.width / ((max_value - min_value) + 1)) / __knob_dims.width);
+			knob_xscale = clamp(
+				(nine_slice_data.width / ((max_value - min_value) + 1)), 
+				1, nine_slice_data.width / (1.5 * __knob_dims.width)
+			);
 	} else {
 		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
 		if (knob_autoscale)	
-			knob_yscale = max(1, (nine_slice_data.height / ((max_value - min_value) + 1)) / __knob_dims.height);
+			knob_yscale = clamp(
+				(nine_slice_data.height / ((max_value - min_value) + 1)), 
+				1, nine_slice_data.height / (1.5 * __knob_dims.height)
+			);
 	}
 }
 

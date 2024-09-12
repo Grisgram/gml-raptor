@@ -1,13 +1,6 @@
 /// @description event
 event_inherited();
 
-__drag_factor		= 6;
-__lines_per_wheel	= 16;
-__line_height		= 12;
-
-last_down_y = -1;
-startup_y = y;
-
 /// @func report_log_line(line)
 report_log_line = function(line) {
 	if (!detail_mode) return;
@@ -39,13 +32,4 @@ report_summary_line = function(line) {
 	}
 	if (string_contains(line, "Unit tests finished")) line = $"\n\n{line}";
 	text += $"{line}\n";	
-}
-
-mouse_wheel = function(_distance) {
-	if (!mouse_is_over) return;
-	y = clamp(y + __line_height * __lines_per_wheel * _distance, ROOM_HEIGHT - sprite_height - 40, startup_y);
-}
-
-__mouse_drag = function() {
-	y = clamp(y + (MOUSE_DELTA_Y * __drag_factor), ROOM_HEIGHT - sprite_height - 40, startup_y);
 }

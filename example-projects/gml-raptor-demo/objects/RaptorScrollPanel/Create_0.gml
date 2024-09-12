@@ -44,13 +44,23 @@ draw_method			= undefined
 ///			custom draw, when setting any raptor control as content.
 set_content = function(_instance, _custom_draw_method = undefined) {
 	content = _instance;
-	draw_method = undefined;// = _custom_draw_method ?? vsget(content, "__draw_self");
+	draw_method = _custom_draw_method ?? vsget(content, "__draw_self");
 	content.is_in_scrollpanel = true;
 	return self;
 }
 
+/// @func	set_content_object(_object_type, _init_struct = undefined, _custom_draw_method = undefined)
+/// @desc	Convenience shortcut to set the content through an object type
+///			This method will call "instance_create" on the object type for you and supply the init struct.
+set_content_object = function(_object_type, _init_struct = undefined, _custom_draw_method = undefined) {
+	return set_content(instance_create(0,0,0, _object_type, _init_struct), _custom_draw_method);
+}
+
+/// @func	clear_content()
+/// @desc	Removes the content object
 clear_content = function() {
 	content.is_in_scrollpanel = false;
+	content = undefined;
 }
 
 __mouse_in_content = function() {
@@ -129,10 +139,7 @@ if (vertical_scrollbar)
 		orientation_horizontal: false,
 		startup_width: __vbarsize,
 		startup_height: sprite_height - (horizontal_scrollbar ? __hbarsize : 0) + 1,
-		knob_autoscale: false,
-		knob_xscale: 1,
-		knob_yscale: 3,
-		wheel_value_change: wheel_value_change,
+		wheel_scroll_lines: wheel_scroll_lines,
 	})
 	.set_align(fa_top, fa_right)
 	.set_anchor(anchor.top | anchor.bottom)
@@ -146,10 +153,7 @@ if (horizontal_scrollbar)
 		orientation_horizontal: true,
 		startup_width: sprite_width - (vertical_scrollbar ? __vbarsize : 0) + 1,
 		startup_height: __hbarsize,
-		knob_autoscale: false,
-		knob_xscale: 3,
-		knob_yscale: 1,
-		wheel_value_change: wheel_value_change,
+		wheel_scroll_lines: wheel_scroll_lines,
 	})
 	.set_align(fa_bottom, fa_left)
 	.set_anchor(anchor.left | anchor.right)
