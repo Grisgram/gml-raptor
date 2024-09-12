@@ -42,7 +42,6 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
-
 /// @func onGameLoadFailed(_exception)
 onGameLoadFailed = function(_exception) {
 	elog($"** ERROR ** Game load failed: {_exception.message}");
@@ -72,6 +71,10 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 
 }
 
+// Resizes the app surface to the dimensions of this room's main viewport
+if (adapt_app_surface && view_get_visible(0)) {
+	surface_resize(application_surface,VIEW_WIDTH,VIEW_HEIGHT);
+}
 
 /*
 	-------------------

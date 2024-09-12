@@ -90,8 +90,8 @@ __draw_instance = function(_force = false) {
 	if (__mouse_delta) {
 		drag_xoffset = clamp(drag_xoffset + CTL_MOUSE_DELTA_X * mouse_drag_multiplier, -__drag_xmax, 0);
 		drag_yoffset = clamp(drag_yoffset + CTL_MOUSE_DELTA_Y * mouse_drag_multiplier, -__drag_ymax, 0);
-		__hscroll.value_percent = -drag_xoffset / __drag_xmax;
-		__vscroll.value_percent = -drag_yoffset / __drag_ymax;
+		__hscroll.value_percent = (__drag_xmax > 0 ? (-drag_xoffset / __drag_xmax) : 0);
+		__vscroll.value_percent = (__drag_ymax > 0 ? (-drag_yoffset / __drag_ymax) : 0);
 		__hscroll.value = ceil(__hscroll.value_percent * 100);
 		__vscroll.value = ceil(__vscroll.value_percent * 100);
 	} else {	
