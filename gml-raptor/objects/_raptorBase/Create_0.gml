@@ -3,6 +3,10 @@
 if (log_create_destroy)
 	vlog($"{MY_NAME} created.");
 
+// all raptor objects have this member, so they can be
+// inserted as content into a ScrollPanel control
+is_in_scrollpanel = false;
+
 binder = new PropertyBinder(self);
 
 /// @func onPoolActivate(_data)

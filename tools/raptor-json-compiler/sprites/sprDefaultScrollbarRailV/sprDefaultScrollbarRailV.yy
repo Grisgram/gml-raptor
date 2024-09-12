@@ -12,11 +12,8 @@
     "unit_testing":{
       "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
     },
-    "beta":{
-      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
-    },
     "release":{
-      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
     },
   },
   "DynamicTexturePage":false,

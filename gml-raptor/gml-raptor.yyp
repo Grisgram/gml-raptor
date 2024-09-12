@@ -143,7 +143,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.8.0.169",
+    "IDEVersion":"2024.8.1.171",
   },
   "name":"gml-raptor",
   "resources":[
@@ -219,6 +219,7 @@
     {"id":{"name":"RaptorPanel","path":"objects/RaptorPanel/RaptorPanel.yy",},},
     {"id":{"name":"RaptorRadioButton","path":"objects/RaptorRadioButton/RaptorRadioButton.yy",},},
     {"id":{"name":"RaptorScrollbar","path":"objects/RaptorScrollbar/RaptorScrollbar.yy",},},
+    {"id":{"name":"RaptorScrollPanel","path":"objects/RaptorScrollPanel/RaptorScrollPanel.yy",},},
     {"id":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},},
     {"id":{"name":"RaptorTextButton","path":"objects/RaptorTextButton/RaptorTextButton.yy",},},
     {"id":{"name":"RaptorTooltip","path":"objects/RaptorTooltip/RaptorTooltip.yy",},},
@@ -228,6 +229,7 @@
     {"id":{"name":"RoomController","path":"objects/RoomController/RoomController.yy",},},
     {"id":{"name":"Saveable","path":"objects/Saveable/Saveable.yy",},},
     {"id":{"name":"Scrollbar","path":"objects/Scrollbar/Scrollbar.yy",},},
+    {"id":{"name":"ScrollPanel","path":"objects/ScrollPanel/ScrollPanel.yy",},},
     {"id":{"name":"Slider","path":"objects/Slider/Slider.yy",},},
     {"id":{"name":"StatefulObject","path":"objects/StatefulObject/StatefulObject.yy",},},
     {"id":{"name":"StoryTeller","path":"objects/StoryTeller/StoryTeller.yy",},},

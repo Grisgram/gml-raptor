@@ -65,8 +65,9 @@
 // The fade_in time for the first room is also measured in frames
 #macro ROOM_AFTER_STARTER			rmMain
 #macro STARTER_ASYNC_MIN_WAIT_TIME	0
-#macro release:STARTER_ASYNC_MIN_WAIT_TIME	90
 #macro STARTER_FIRST_ROOM_FADE_IN	0
+#macro release:STARTER_ASYNC_MIN_WAIT_TIME	90
+#macro release:STARTER_FIRST_ROOM_FADE_IN	60
 
 /// @func	onGameStart()
 /// @desc	When this runs, load_settings() has already been called and 

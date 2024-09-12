@@ -8,6 +8,11 @@
   "bold":false,
   "canGenerateBitmap":true,
   "charset":0,
+  "ConfigValues":{
+    "release":{
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+    },
+  },
   "first":0,
   "fontName":"Droid Sans Mono",
   "glyphOperations":0,

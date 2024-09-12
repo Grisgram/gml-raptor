@@ -83,7 +83,7 @@ global.__unique_count_up_id	= 0;
 #macro __DUMP_GUI_EVENT_NO_MOUSE	ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} target:{__CONTROL_IS_TARGET_XY}");
 #macro __DUMP_GUI_EVENT_UNTARGETTED	ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} enabled:{__INSTANCE_IS_ENABLED}");
 
-#macro DEPTH_BOTTOM_MOST			 16000
+#macro DEPTH_BOTTOM_MOST			 15998
 #macro DEPTH_TOP_MOST				-15998
 
 // Used by the MouseCursor object but must exist always, as the RoomController checks it

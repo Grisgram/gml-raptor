@@ -35,7 +35,7 @@ UI_ROOT
 		.set_content_object(UnitTestResultsViewer, {
 			detail_mode: true, 
 			startup_width: 1070, 
-			startup_height:936 
+			startup_height:912,
 		})
 		.get_parent_tree()
 	.add_control(ScrollPanel, { 
@@ -49,7 +49,9 @@ UI_ROOT
 		.step_out()
 		.get_instance()
 		.set_content_object(UnitTestResultsViewer, { 
-			detail_mode: false 
+			detail_mode: false,
+			startup_width: 798, 
+			startup_height:912,
 		})
 		.get_parent_tree()
 	.step_out()

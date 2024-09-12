@@ -87,10 +87,8 @@
     {"$GMFolder":"","%Name":"VDF","folderPath":"folders/_third_party_packages_/SNAP/VDF.yy","name":"VDF","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"XML","folderPath":"folders/_third_party_packages_/SNAP/XML.yy","name":"XML","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"YAML","folderPath":"folders/_third_party_packages_/SNAP/YAML.yy","name":"YAML","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rooms","folderPath":"folders/Rooms.yy","name":"Rooms","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"main","folderPath":"folders/Rooms/main.yy","name":"main","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"index.html","ConfigValues":{
@@ -134,7 +132,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.8.0.169",
+    "IDEVersion":"2024.8.1.171",
   },
   "name":"raptor-json-compiler",
   "resources":[
@@ -154,7 +152,6 @@
     {"id":{"name":"ImageLoadBar","path":"extensions/ImageLoadBar/ImageLoadBar.yy",},},
     {"id":{"name":"fntUnitTest","path":"fonts/fntUnitTest/fntUnitTest.yy",},},
     {"id":{"name":"scribble_fallback_font","path":"fonts/scribble_fallback_font/scribble_fallback_font.yy",},},
-    {"id":{"name":"_about_the_version_file_MUST_READ_","path":"notes/_about_the_version_file_MUST_READ_/_about_the_version_file_MUST_READ_.yy",},},
     {"id":{"name":"_README_about_version_file","path":"notes/_README_about_version_file/_README_about_version_file.yy",},},
     {"id":{"name":"version","path":"notes/version/version.yy",},},
     {"id":{"name":"__sprite_anim_runner","path":"objects/__sprite_anim_runner/__sprite_anim_runner.yy",},},
@@ -210,6 +207,7 @@
     {"id":{"name":"RaptorPanel","path":"objects/RaptorPanel/RaptorPanel.yy",},},
     {"id":{"name":"RaptorRadioButton","path":"objects/RaptorRadioButton/RaptorRadioButton.yy",},},
     {"id":{"name":"RaptorScrollbar","path":"objects/RaptorScrollbar/RaptorScrollbar.yy",},},
+    {"id":{"name":"RaptorScrollPanel","path":"objects/RaptorScrollPanel/RaptorScrollPanel.yy",},},
     {"id":{"name":"RaptorSlider","path":"objects/RaptorSlider/RaptorSlider.yy",},},
     {"id":{"name":"RaptorTextButton","path":"objects/RaptorTextButton/RaptorTextButton.yy",},},
     {"id":{"name":"RaptorTooltip","path":"objects/RaptorTooltip/RaptorTooltip.yy",},},
@@ -219,6 +217,7 @@
     {"id":{"name":"RoomController","path":"objects/RoomController/RoomController.yy",},},
     {"id":{"name":"Saveable","path":"objects/Saveable/Saveable.yy",},},
     {"id":{"name":"Scrollbar","path":"objects/Scrollbar/Scrollbar.yy",},},
+    {"id":{"name":"ScrollPanel","path":"objects/ScrollPanel/ScrollPanel.yy",},},
     {"id":{"name":"Slider","path":"objects/Slider/Slider.yy",},},
     {"id":{"name":"StatefulObject","path":"objects/StatefulObject/StatefulObject.yy",},},
     {"id":{"name":"StoryTeller","path":"objects/StoryTeller/StoryTeller.yy",},},
