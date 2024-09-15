@@ -225,6 +225,39 @@ get_parent_tree = function() {
 	return undefined;
 }
 
+#region ScrollPanel integration
+__scrollpanel_over_cache = new ExpensiveCache(3);
+__scrollpanel_cache = new ExpensiveCache(6);
+/// @func get_parent_scrollpanel()
+/// @desc If this control (or any of its parents) is embedded in a ScrollPanel, this function returns
+///		  the ScrollPanel or undefined
+get_parent_scrollpanel = function() {
+	if (__scrollpanel_cache.is_valid())
+		return __scrollpanel_cache.return_value;
+		
+	var rv = parent_scrollpanel;
+	var up = self;
+	while (rv == undefined) {
+		up = up.get_parent();
+		if (up == undefined) break;
+		rv = up.parent_scrollpanel;
+	}
+	return __scrollpanel_cache.set(rv);
+}
+
+/// @func	is_mouse_over_my_scrollpanel_content()
+/// @desc	Returns true, if this control is not embedded in a ScrollPanel OR it IS embedded AND 
+///			the mouse is currently inside the clipping area of this scroll panel
+///			(used in _generic_macros_ for mouse events of child controls in a scrollpanel)
+is_mouse_over_my_scrollpanel_content = function() {
+	if (__scrollpanel_over_cache.is_valid())
+		return __scrollpanel_over_cache.return_value;
+		
+	var sp = get_parent_scrollpanel();
+	return __scrollpanel_over_cache.set(sp == undefined || sp.mouse_over_content());
+}
+#endregion
+
 /// @func is_topmost()
 /// @desc True, if this control is the topmost (= lowest depth) at the specified position
 ///				 NOTE: This is an override of the method in _raptorBase, which compares against _raptorBase!

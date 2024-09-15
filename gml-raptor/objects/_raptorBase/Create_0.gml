@@ -3,10 +3,6 @@
 if (log_create_destroy)
 	vlog($"{MY_NAME} created.");
 
-// all raptor objects have this member, so they can be
-// inserted as content into a ScrollPanel control
-is_in_scrollpanel = false;
-
 binder = new PropertyBinder(self);
 
 /// @func onPoolActivate(_data)
@@ -62,7 +58,18 @@ set_enabled = function(_enabled) {
 
 #endregion
 
-#region topmost
+#region ui functions
+// all raptor objects have this member, so they can be
+// inserted as content into a ScrollPanel control
+parent_scrollpanel = undefined;
+
+/// @func	commit_move()
+/// @desc	Let this object look like it hasn't moved
+commit_move = function() {
+	xprevious = x;
+	yprevious = y;
+}
+
 /// @func __can_touch_this(_instance)
 __can_touch_this_child = undefined;
 __can_touch_this = function(_instance) {

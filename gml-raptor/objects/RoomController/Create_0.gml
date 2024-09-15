@@ -107,13 +107,13 @@ set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 #macro MOUSE_DELTA_Y			global.__world_mouse_ymove
 #macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
 
-#macro CTL_MOUSE_X_PREVIOUS		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
-#macro CTL_MOUSE_Y_PREVIOUS		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
-#macro CTL_MOUSE_X				((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_X			 : MOUSE_X)
-#macro CTL_MOUSE_Y				((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_Y			 : MOUSE_Y)
-#macro CTL_MOUSE_DELTA_X		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_DELTA_X	 : MOUSE_DELTA_X)
-#macro CTL_MOUSE_DELTA_Y		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_DELTA_Y	 : MOUSE_DELTA_Y)
-#macro CTL_MOUSE_HAS_MOVED		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
+#macro CTL_MOUSE_X_PREVIOUS		(SELF_DRAW_ON_GUI ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
+#macro CTL_MOUSE_Y_PREVIOUS		(SELF_DRAW_ON_GUI ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
+#macro CTL_MOUSE_X				(SELF_DRAW_ON_GUI ? GUI_MOUSE_X			 : MOUSE_X)
+#macro CTL_MOUSE_Y				(SELF_DRAW_ON_GUI ? GUI_MOUSE_Y			 : MOUSE_Y)
+#macro CTL_MOUSE_DELTA_X		(SELF_DRAW_ON_GUI ? GUI_MOUSE_DELTA_X	 : MOUSE_DELTA_X)
+#macro CTL_MOUSE_DELTA_Y		(SELF_DRAW_ON_GUI ? GUI_MOUSE_DELTA_Y	 : MOUSE_DELTA_Y)
+#macro CTL_MOUSE_HAS_MOVED		(SELF_DRAW_ON_GUI ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
 
 GUI_MOUSE_X = device_mouse_x_to_gui(0);
 GUI_MOUSE_Y = device_mouse_y_to_gui(0);

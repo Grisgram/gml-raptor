@@ -12,7 +12,7 @@
 			
 		// ... do your expensive stuff ...
 		
-		mycache.set(_return_value);  // or just .set() if you don't want to store a return value
+		return mycache.set(_return_value);  // or just .set() if you don't want to store a return value
 	}
 		
 */

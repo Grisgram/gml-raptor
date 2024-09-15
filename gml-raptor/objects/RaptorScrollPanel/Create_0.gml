@@ -43,9 +43,13 @@ draw_method			= undefined
 ///			will be detected and invoked, you don't need to specify a
 ///			custom draw, when setting any raptor control as content.
 set_content = function(_instance, _custom_draw_method = undefined) {
+	if (!is_child_of(_instance, _baseControl)) {
+		instance_destroy(_instance);
+		throw("ScrollPanel accepts only raptor controls (child of _baseControl) as children!");
+	}
 	content = _instance;
 	draw_method = _custom_draw_method ?? vsget(content, "__draw_self");
-	content.is_in_scrollpanel = true;
+	content.parent_scrollpanel = self;
 	content.depth = depth + 1;
 	return self;
 }
@@ -60,11 +64,13 @@ set_content_object = function(_object_type, _init_struct = undefined, _custom_dr
 /// @func	clear_content()
 /// @desc	Removes the content object
 clear_content = function() {
-	content.is_in_scrollpanel = false;
+	content.parent_scrollpanel = undefined;
 	content = undefined;
 }
 
-__mouse_in_content = function() {
+/// @func mouse_over_content()
+/// @desc Determines, whether the mouse is currently over the clipping area
+mouse_over_content = function() {
 	return point_in_rectangle(
 		CTL_MOUSE_X, CTL_MOUSE_Y,
 		SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE,
@@ -106,6 +112,9 @@ __draw_instance = function(_force = false) {
 	
 	content.x = x + content.sprite_xoffset + drag_xoffset;
 	content.y = y + content.sprite_yoffset + drag_yoffset;
+	with(content)
+		if (control_tree != undefined) 
+			control_tree.move_children(SELF_MOVE_DELTA_X, SELF_MOVE_DELTA_Y);
 
 	// calculate scissor multiplier based on draw mode	
 	if (draw_on_gui) {

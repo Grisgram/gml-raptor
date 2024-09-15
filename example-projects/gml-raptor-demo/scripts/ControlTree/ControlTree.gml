@@ -561,6 +561,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			inst.y += _by_y;
 			inst.__text_x += _by_x;
 			inst.__text_y += _by_y;
+			with(inst) commit_move();
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.move_children(_by_x, _by_y);
 		}
@@ -578,8 +579,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 					control_tree.move_children_after_sizing(_force);
 			}
 		}
-		if (_force)
-			control.force_redraw(false);
+		control.force_redraw(_force);
 	}
 
 	/// @func clear_children()

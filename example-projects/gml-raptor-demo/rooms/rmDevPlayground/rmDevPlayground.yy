@@ -17,6 +17,7 @@
     {"name":"inst_7D95EB9C","path":"rooms/rmDevPlayground/rmDevPlayground.yy",},
     {"name":"inst_3F64AAA8","path":"rooms/rmDevPlayground/rmDevPlayground.yy",},
     {"name":"inst_17DAAA1F","path":"rooms/rmDevPlayground/rmDevPlayground.yy",},
+    {"name":"SPN","path":"rooms/rmDevPlayground/rmDevPlayground.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -68,6 +69,9 @@
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"ASYNC",},
             {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"propertyId":{"name":"on_left_click","path":"objects/_baseClickableControl/_baseClickableControl.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"load_testfile_async",},
           ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":5.0,"scaleY":1.5,"x":304.0,"y":688.0,},
+        {"$GMRInstance":"v1","%Name":"SPN","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"SPN","objectId":{"name":"ScrollPanel","path":"objects/ScrollPanel/ScrollPanel.yy",},"properties":[
+            {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"RaptorScrollPanel","path":"objects/RaptorScrollPanel/RaptorScrollPanel.yy",},"propertyId":{"name":"mouse_drag_mode","path":"objects/RaptorScrollPanel/RaptorScrollPanel.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"mouse_drag.right",},
+          ],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":300.0,"scaleY":300.0,"x":1232.0,"y":336.0,},
       ],"layers":[],"name":"ui_instances","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Actors","depth":600,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v1","%Name":"AnimTestObject","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"AnimTestObject","objectId":{"name":"AnimationTester","path":"objects/AnimationTester/AnimationTester.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":128.0,"y":320.0,},

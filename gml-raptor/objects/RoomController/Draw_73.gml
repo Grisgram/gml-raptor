@@ -20,7 +20,7 @@ if (DEBUG_SHOW_OBJECT_FRAMES) {
 
 			draw_set_color(vsget(self, "__raptor_debug_frame_color", c_green));
 
-			if (vsget(self, "draw_on_gui", false)) {
+			if (SELF_DRAW_ON_GUI) {
 				translate_gui_to_world(x,y,trans);
 				draw_rectangle(
 					trans.x - sprite_xoffset, 

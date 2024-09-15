@@ -262,6 +262,7 @@
     {"id":{"name":"MessageBoxXButton","path":"objects/MessageBoxXButton/MessageBoxXButton.yy",},},
     {"id":{"name":"MouseCursor","path":"objects/MouseCursor/MouseCursor.yy",},},
     {"id":{"name":"MouseCursorCompanion","path":"objects/MouseCursorCompanion/MouseCursorCompanion.yy",},},
+    {"id":{"name":"MultiPanel","path":"objects/MultiPanel/MultiPanel.yy",},},
     {"id":{"name":"OutlineObject","path":"objects/OutlineObject/OutlineObject.yy",},},
     {"id":{"name":"OutlineObjectBaked","path":"objects/OutlineObjectBaked/OutlineObjectBaked.yy",},},
     {"id":{"name":"Panel","path":"objects/Panel/Panel.yy",},},
