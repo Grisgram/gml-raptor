@@ -95,7 +95,7 @@ function LG_add_file_async(_filename) {
 			} else
 				elog($"** ERROR ** Async load of locale file '{_data.filename}' failed!");
 			return res;
-		}).start();
+		});
 	
 	var cur = file_read_struct_async(curfile, FILE_CRYPT_KEY);
 	if (cur != undefined)
@@ -108,7 +108,7 @@ function LG_add_file_async(_filename) {
 			} else
 				elog($"** ERROR ** Async load of locale file '{_data.filename}' failed!");
 			return res;
-		}).start();
+		});
 
 	return def;
 }

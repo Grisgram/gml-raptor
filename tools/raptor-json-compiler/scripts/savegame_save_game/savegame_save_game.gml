@@ -108,7 +108,6 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 		if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
 	
 		ilog($"[----- SAVING GAME FINISHED -----]");
-	})
-	.start();
+	});
 
 }

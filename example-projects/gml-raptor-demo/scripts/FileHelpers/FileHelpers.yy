@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"file_exists_html_safe",
+  "%Name":"FileHelpers",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"file_exists_html_safe",
+  "name":"FileHelpers",
   "parent":{
     "name":"Files",
     "path":"folders/_gml_raptor_/Files.yy",

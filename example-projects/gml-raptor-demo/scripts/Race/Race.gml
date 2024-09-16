@@ -58,7 +58,7 @@ function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACH
 				__process_table_file(_prev);
 				invoke_if_exists(self, __async_init_done);
 			}
-		}).start();
+		});
 	} else {
 		var tablefile = file_read_struct(__filename, FILE_CRYPT_KEY, _add_file_to_cache);
 		__process_table_file(tablefile);

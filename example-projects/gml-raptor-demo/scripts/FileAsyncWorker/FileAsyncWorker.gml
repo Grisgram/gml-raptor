@@ -10,8 +10,7 @@
 	})
 	.on_failed(function() {
 		ilog("Loading failed");
-	})
-	.start();
+	});
 	
 	NOTE:
 	The on_failed callback gets invoked ONLY when an exception occurs!
@@ -28,6 +27,7 @@ function __FileAsyncWorker(_filename, _crypt_key = "") : DataBuilder() construct
 	crypt_key				= _crypt_key;
 	buffer					= undefined;
 	raptor_data				= {};
+	__started				= false;
 	__finished_callbacks	= [];
 	__failed_callbacks		= [];
 	__raptor_chain			= [];
@@ -112,6 +112,9 @@ function __FileAsyncReader(_filename, _crypt_key = "") :
  		 __FileAsyncWorker(_filename, _crypt_key) constructor {
 
 	start = function() {
+		if (__started) return self;
+		__started = true;
+		
 		dlog($"Starting async file read for '{filename}'{(crypt_key == "" ? "" : " (encrypted)")}");
 		buffer = buffer_create(0, buffer_grow, 1);
 		var _id = buffer_load_async(buffer, filename, 0, -1);
@@ -141,8 +144,12 @@ function __FileAsyncReader(_filename, _crypt_key = "") :
 function __FileAsyncFailedWorker(_filename, _crypt_key = "") :
  		 __FileAsyncWorker(_filename, _crypt_key) constructor {
 	start = function() {
+		if (__started) return self;
+		__started = true;
+		
 		__raptor_failed_callback();
 		__cleanup();
+		return self;
 	}
 }
 
@@ -152,6 +159,9 @@ function __FileAsyncWriter(_filename, _buffer, _crypt_key = "") :
 	buffer = _buffer;
 	
 	start = function() {
+		if (__started) return self;
+		__started = true;
+		
 		dlog($"Starting async file write for '{filename}'{(crypt_key == "" ? "" : " (encrypted)")}");
 		if (crypt_key != "") encrypt_buffer(buffer, crypt_key);
 		var _id = buffer_save_async(buffer, filename, 0, -1);
@@ -181,6 +191,9 @@ function __FileAsyncCacheHit(_filename, _cache_data) :
 	cachedata = _cache_data;
 
 	start = function() {
+		if (__started) return self;
+		__started = true;
+		
 		vlog($"Cache hit for file '{filename}'");
 		TRY
 			__invoke_array(__finished_callbacks, cachedata);

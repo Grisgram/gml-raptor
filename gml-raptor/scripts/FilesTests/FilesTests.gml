@@ -112,8 +112,8 @@ function unit_test_Files() {
 				global.test.assert_not_null(content, "file content");
 				global.test.assert_true(string_contains(content, "Contains"), "file contains");
 				global.test.finish_async();
-			}).start();
-		}).start();
+			});
+		});
 	}
 	
 	ut.tests.file_text_plain_lines_async_ok = function(test, data) {
@@ -131,8 +131,8 @@ function unit_test_Files() {
 				global.test.assert_equals(4, array_length(content), "file array");
 				global.test.assert_true(array_contains(content, "Contains"), "file contains");		
 				global.test.finish_async();
-			}).start();
-		}).start();		
+			});
+		});		
 	}
 
 	ut.tests.file_struct_plain_async_ok = function(test, data) {
@@ -155,8 +155,8 @@ function unit_test_Files() {
 				global.test.assert_equals(4, array_length(struct_get_names(content)), "content length");
 				global.test.assert_equals(content.third, "Contains", "file contains");		
 				global.test.finish_async();
-			}).start();
-		}).start();		
+			});
+		});		
 	}
 
 	ut.tests.file_text_encrypted_async_ok = function(test, data) {
@@ -173,8 +173,8 @@ function unit_test_Files() {
 				global.test.assert_not_null(content, "file content");
 				global.test.assert_true(string_contains(content, "Contains"), "file contains");
 				global.test.finish_async();
-			}).start();
-		}).start();
+			});
+		});
 	}
 	
 	ut.tests.file_text_encrypted_lines_async_ok = function(test, data) {
@@ -192,8 +192,8 @@ function unit_test_Files() {
 				global.test.assert_equals(4, array_length(content), "file array");
 				global.test.assert_true(array_contains(content, "Contains"), "file contains");		
 				global.test.finish_async();
-			}).start();
-		}).start();		
+			});
+		});		
 	}
 
 	ut.tests.file_struct_encrypted_async_ok = function(test, data) {
@@ -216,8 +216,8 @@ function unit_test_Files() {
 				global.test.assert_equals(4, array_length(struct_get_names(content)), "content length");
 				global.test.assert_equals(content.third, "Contains", "file contains");		
 				global.test.finish_async();
-			}).start();
-		}).start();		
+			});
+		});		
 	}
 
 	ut.tests.file_multiple_callbacks_async_ok = function(test, data) {
@@ -237,7 +237,7 @@ function unit_test_Files() {
 			var content = file_read_struct_async("unit_test/test_enc.jx", "cryptkey$.some.key")
 			.on_finished(function(content) {
 				global.test.test_data.r_callback_count++;
-			}).start()
+			})
 			.on_finished(function(res) {
 				global.test.test_data.r_callback_count++;
 			})
@@ -249,7 +249,6 @@ function unit_test_Files() {
 				});
 			});
 		})
-		.start()
 		.on_finished(function(res) {
 			global.test.test_data.w_callback_count++;
 		})
@@ -260,6 +259,13 @@ function unit_test_Files() {
 	}
 
 	#endregion
+	
+	ut.tests.file_get_filename_ok = function(test, data) {
+		test.assert_equals("file.txt", file_get_filename("c:\\work\\some\\file.txt", true ), "backslash+");
+		test.assert_equals("file",     file_get_filename("c:\\work\\some\\file.txt", false), "backslash-");
+		test.assert_equals("file.txt", file_get_filename("c:/work/some/file.txt", true ),    "slash+");
+		test.assert_equals("file",     file_get_filename("c:/work/some/file.txt", false),    "slash-");
+	}
 	
 	ut.run();
 }

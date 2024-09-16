@@ -107,8 +107,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 			ENDTRY
 
 		}
-	})
-	.start();
+	});
 }
 
 function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_version) {

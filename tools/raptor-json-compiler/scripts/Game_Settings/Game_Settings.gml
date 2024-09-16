@@ -64,6 +64,6 @@ function save_settings(_sync = false) {
 		file_write_struct_async(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
 		.on_finished(function() {
 			dlog($"Settings saved");
-		}).start();
+		});
 	}
 }

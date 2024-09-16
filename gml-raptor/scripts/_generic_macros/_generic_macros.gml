@@ -28,6 +28,7 @@
 /// stringify data of "self"
 #macro MY_ID				string(real(id))
 #macro MY_NAME				string_concat(object_get_name(object_index), real(id))
+#macro MY_OBJECT_NAME		object_get_name(object_index)
 #macro MY_LAYER_OR_DEPTH	((layer == -1) ? depth : layer_get_name(layer))
 
 /// stringify data of "other"
