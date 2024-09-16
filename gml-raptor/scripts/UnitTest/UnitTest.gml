@@ -107,11 +107,8 @@
 
 if (!CONFIGURATION_UNIT_TESTING) exit;
 
-/// @func					UnitTest(name = "UnitTest", _test_data = {})
-/// @desc				Create a new unit test suite to perform a group of tests
-/// @param {string} name		Optional, for log output only
-/// @param {struct} _test_data	Optional, will be sent to each test function as second argument
-/// @returns {UnitTest}
+/// @func	UnitTest(name = "UnitTest", _test_data = {})
+/// @desc	Create a new unit test suite to perform a group of tests
 function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 
 	global.test = self;
@@ -181,8 +178,8 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		__current_test_exc = _error_message_contains;
 	}
 	
-	/// @func					assert_equals(expected, actual, message = "")
-	/// @desc				performs an equality value check. test fails, if "expected != actual"
+	/// @func	assert_equals(expected, actual, message = "")
+	/// @desc	performs an equality value check. test fails, if "expected != actual"
 	static assert_equals = function(expected, actual, message = "") {
 		if (is_array(actual))
 			__assert_condition(array_equals(expected, actual), expected, actual, message);
@@ -190,8 +187,8 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			__assert_condition(expected == actual, expected, actual, message);
 	}
 	
-	/// @func					assert_not_equals(expected, actual, message = "")
-	/// @desc				performs an non-equality value check. test fails, if "expected == actual"
+	/// @func	assert_not_equals(expected, actual, message = "")
+	/// @desc	performs an non-equality value check. test fails, if "expected == actual"
 	static assert_not_equals = function(expected, actual, message = "") {
 		if (is_array(actual))
 			__assert_condition(!array_equals(expected, actual), expected, actual, message);
@@ -199,29 +196,55 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			__assert_condition(expected != actual, expected, actual, message);
 	}
 
-	/// @func					assert_true(actual, message = "")
-	/// @desc				performs a value check for true. test fails, if actual == false
+	/// @func	assert_true(actual, message = "")
+	/// @desc	performs a value check for true. test fails, if actual == false
 	static assert_true = function(actual, message = "") {
 		__assert_condition(actual, true, actual, message);
 	}
 
-	/// @func					assert_false(actual, message = "")
-	/// @desc				performs a value check for false. test fails, if actual == true
+	/// @func	assert_false(actual, message = "")
+	/// @desc	performs a value check for false. test fails, if actual == true
 	static assert_false = function(actual, message = "") {
 		__assert_condition(!actual, false, actual, message);
 	}
 	
-	/// @func					assert_null(actual, message = "")
-	/// @desc				performs a value check against "undefined" and "noone". test fails, if actual is neither.
+	/// @func	assert_null(actual, message = "")
+	/// @desc	performs a value check against "undefined" and "noone". test fails, if actual is neither.
 	static assert_null = function(actual, message = "") {
 		__assert_condition(actual == undefined || actual == noone, true, actual, message);
 	}
 	
-	/// @func					assert_not_null(actual, message = "")
-	/// @desc				performs a value check against "undefined" and "noone". test fails, if actual is any of them.
+	/// @func	assert_not_null(actual, message = "")
+	/// @desc	performs a value check against "undefined" and "noone". test fails, if actual is any of them.
 	static assert_not_null = function(actual, message = "") {
 		__assert_condition(actual != undefined && actual != noone, true, actual, message);
 	}
+	
+	/// @func	assert_zero(actual, message = "")
+	static assert_zero = function(actual, message = "") {
+		__assert_condition(actual == 0, true, actual, message);
+	}
+	
+	/// @func	assert_zero_or_greater(actual, message = "")
+	static assert_zero_or_greater = function(actual, message = "") {
+		__assert_condition(actual >= 0, true, actual, message);
+	}
+
+	/// @func	assert_zero_or_less(actual, message = "")
+	static assert_zero_or_less = function(actual, message = "") {
+		__assert_condition(actual <= 0, true, actual, message);
+	}
+
+	/// @func	assert_greater_than_zero(actual, message = "")
+	static assert_greater_than_zero = function(actual, message = "") {
+		__assert_condition(actual > 0, true, actual, message);
+	}
+	
+	/// @func	assert_less_than_zero(actual, message = "")
+	static assert_less_than_zero = function(actual, message = "") {
+		__assert_condition(actual < 0, true, actual, message);
+	}
+	
 	#endregion
 	
 	#region async
