@@ -1,10 +1,15 @@
-/// @func	file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false, attributes = 0)
+/*
+	Small file and directory helper functions
+*/
+
+#region DIRECTORY FUNCTIONS
+/// @func	directory_list_files(_folder = "", _wildcard = "*.*", _recursive = false, attributes = 0)
 /// @desc	List all matching files from a directory in an array, optionally recursive
 ///			_attributes	is one of the attr constants according to yoyo manual
 ///         https://manual-en.yoyogames.com/#t=GameMaker_Language%2FGML_Reference%2FFile_Handling%2FFile_System%2Ffile_attributes.htm
-function file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false, _attributes = 0) {
+function directory_list_files(_folder = "", _wildcard = "*.*", _recursive = false, _attributes = 0) {
 	if (IS_HTML) {
-		wlog($"** WARNING ** The function file_list_directory does not work in html target! Avoid calling it with \"if (!IS_HTML) ...\"");
+		wlog($"** WARNING ** The function directory_list_files does not work in html target! Avoid calling it with \"if (!IS_HTML) ...\"");
 		return [];
 	}
 	_folder = __clean_file_name(_folder);
@@ -44,6 +49,20 @@ function file_list_directory(_folder = "", _wildcard = "*.*", _recursive = false
 	closure.reader(_folder, closure);
 	return closure.rv;
 }
+
+/// @function	directory_list_directories(_folder = "", _recursive = false)
+/// @desc		Lists all sub directories from the given directory
+function directory_list_directories(_folder = "", _recursive = false) {
+	return directory_list_files(_folder, "*", _recursive, fa_directory);
+}
+
+/// @function	directory_list_data_files(_folder = "", _recursive = false)
+/// @desc		Lists all files with the current DATA_FILE_EXTENSION from the given directory
+function directory_list_data_files(_folder = "", _recursive = false) {
+	return directory_list_files(_folder, string_concat("*", DATA_FILE_EXTENSION), _recursive, fa_none);
+}
+
+#endregion
 
 #region CONSTRUCTOR REGISTRATION
 /// @func	__file_get_constructed_class(from)

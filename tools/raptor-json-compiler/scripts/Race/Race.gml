@@ -11,7 +11,7 @@ show_debug_message("RACE - The (RA)ndom (C)ontent (E)ngine loaded.");
 #macro __RACE_CACHE_CURRENT		__RACE_CACHE[$ __cache_name]
 
 #macro ENSURE_RACE				if (!variable_global_exists("__race_cache"))  __RACE_CACHE  = {};
-ENSURE_RACE;
+ENSURE_RACE
 
 #macro __RACE_TEMP_TABLE_PREFIX	"##_racetemp_##."
 
