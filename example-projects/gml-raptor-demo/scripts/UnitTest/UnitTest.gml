@@ -225,6 +225,11 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		__assert_condition(actual == 0, true, actual, message);
 	}
 	
+	/// @func	assert_not_zero(actual, message = "")
+	static assert_not_zero = function(actual, message = "") {
+		__assert_condition(actual != 0, true, actual, message);
+	}
+	
 	/// @func	assert_zero_or_greater(actual, message = "")
 	static assert_zero_or_greater = function(actual, message = "") {
 		__assert_condition(actual >= 0, true, actual, message);

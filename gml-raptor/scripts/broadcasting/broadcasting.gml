@@ -36,10 +36,13 @@
 */
 
 // ---- RAPTOR INTERNAL BROADCASTS ----
-#macro __RAPTOR_BROADCAST_MSGBOX_OPENED			"__raptor_msgbox_opened"
-#macro __RAPTOR_BROADCAST_MSGBOX_CLOSED			"__raptor_msgbox_closed"
-#macro __RAPTOR_BROADCAST_POPUP_SHOWN			"__raptor_popup_shown"
-#macro __RAPTOR_BROADCAST_POPUP_HIDDEN			"__raptor_popup_hidden"
+#macro __RAPTOR_BROADCAST_MSGBOX_OPENED				"__raptor_msgbox_opened"
+#macro __RAPTOR_BROADCAST_MSGBOX_CLOSED				"__raptor_msgbox_closed"
+#macro __RAPTOR_BROADCAST_POPUP_SHOWN				"__raptor_popup_shown"
+#macro __RAPTOR_BROADCAST_POPUP_HIDDEN				"__raptor_popup_hidden"
+#macro __RAPTOR_BROADCAST_GAME_LOADED				"__raptor_game_loaded"
+#macro __RAPTOR_BROADCAST_GAME_SAVED				"__raptor_game_saved"
+#macro __RAPTOR_BROADCAST_SAVEGAME_VERSION_CHECK	"__raptor_savegame_version_check"
 // ---- RAPTOR INTERNAL BROADCASTS ----
 
 global.__raptor_broadcast_uid = 0;
@@ -70,9 +73,8 @@ function Sender() constructor {
 	///					as you need!
 	///	@return {self}	Returns self for call chaining
 	static add_receiver = function(_owner, _name, _message_filter, _callback) {
-		if (_owner == undefined || !variable_instance_exists(_owner, "depth")) {
-			if (DEBUG_LOG_BROADCASTS)
-				wlog($"** WARNING ** add_receiver '{_name}' ignored, because 'owner' is undefined or has no depth!");
+		if (_owner == undefined) {
+			wlog($"** WARNING ** add_receiver '{_name}' ignored, no 'owner' given!");
 			return;
 		}
 		
@@ -148,7 +150,7 @@ function Sender() constructor {
 		array_sort(receivers, function(elm1, elm2)
 		{
 			TRY 
-				return elm1.owner.depth - elm2.owner.depth; 
+				return (elm1.has_depth ? elm1.owner.depth : 0) - (elm2.has_depth ? elm2.owner.depth : 0); 
 			CATCH 
 				return 0; 
 			ENDTRY
@@ -160,7 +162,7 @@ function Sender() constructor {
 				if (DEBUG_LOG_BROADCASTS)
 					dlog($"Sending broadcast #{bcid}: title='{_title}'; to='{r.name}';");
 				var rv = undefined;
-				if (is_object_instance(r.owner))
+				if (is_object_instance(r.owner) || is_struct(r.owner))
 					with (r.owner) rv = r.callback(bc);
 				else
 					rv = r.callback(bc);
@@ -207,6 +209,7 @@ function Sender() constructor {
 /// @desc	Contains a receiver.
 function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	owner			= _owner;
+	has_depth		= (vsget(_owner, "depth") != undefined);
 	name			= _name;
 	message_filter  = string_split(_message_filter, "|", true);
 	callback		= _callback;
@@ -224,7 +227,7 @@ function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	}
 	
 	toString = function() {
-		return $"{name_of(owner)}@{owner.depth}";
+		return $"{name_of(owner)}@{order}";
 	}
 }
 

@@ -18,7 +18,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
-	
+	ilog($"SaveGame File Version {SAVEGAME_FILE_VERSION}");
 	SAVEGAME_SAVE_IN_PROGRESS = true;
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
 	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
@@ -33,7 +33,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	struct_set(savegame,	__SAVEGAME_ENGINE_HEADER	, engine);
 	
 	// save global data
-	struct_set(savegame,__SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+	struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
 	
 	// Then add all custom structs that shall be saved
 	struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);
@@ -106,6 +106,8 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	
 		if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
 		if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
+	
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED);
 	
 		ilog($"[----- SAVING GAME FINISHED -----]");
 	});

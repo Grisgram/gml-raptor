@@ -33,6 +33,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 
 		// prepare refstack
 		var refstack = vsget(savegame, __SAVEGAME_REFSTACK_HEADER);
+		refstack.loaded_version = 0;
 		refstack.savegame = savegame;
 		refstack.recover = method(refstack, function(_name, _from = undefined) {
 			_from = _from ?? savegame;
@@ -47,33 +48,38 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 				recover_array(rv);
 			} else if (is_struct(rv)) {
 				var names = struct_get_names(rv);
-				for (var i = 0, len = array_length(names); i < len; i++) {
+				for (var i = 0, len = array_length(names); i < len; i++)
 					recover(rv[$ names[@i]], rv);
-				}
 			}
+			
 			return rv;
 		});
 		refstack.recover_array = method(refstack, function(_array) {
+			var rv = _array;
 			for (var i = 0, len = array_length(_array); i < len; i++) {
-				var rv = self[$ _array[@i]];
+				rv = self[$ _array[@i]] ?? _array[@i];
 				_array[@i] = rv;
-				if (is_array(rv))
+				if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) 
+					recover(rv);
+				else if (is_array(rv))
 					recover_array(rv);
 				else if (is_struct(rv))
 					recover_struct(rv);
 			}
+			return rv;
 		});
 		refstack.recover_struct = method(refstack, function(_struct) {
 			var names = struct_get_names(_struct);
-			for (var i = 0, len = array_length(names); i < len; i++) {
+			for (var i = 0, len = array_length(names); i < len; i++)
 				recover(names[@i], _struct);
-			}
 		});
 
 		// load engine data
 		var engine = refstack.recover(__SAVEGAME_ENGINE_HEADER);
 		random_set_seed(struct_get(engine, __SAVEGAME_ENGINE_SEED));
 		var loaded_version = vsgetx(engine, __SAVEGAME_ENGINE_VERSION, 1);
+		refstack.loaded_version = loaded_version;
+		ilog($"SaveGame File Version {loaded_version}");
 	
 		// restore room
 		var current_room_name = room_get_name(room);
@@ -120,15 +126,20 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	// load the structs
 	__savegame_clear_structs();
 	__SAVEGAME_STRUCTS = refstack.recover(__SAVEGAME_STRUCT_HEADER);
-	
+
+	// set the recovered structs into the savegame
+	struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+	struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);
+
+	var created_instances	= [];
 	// If data_only is specified, we do skip over the instance part
 	if (!data_only) {
 		// recreate object instances
 		with (Saveable) if (add_to_savegame) instance_destroy();
 	
-		var restorestack = {};
-		var instances = refstack.recover(__SAVEGAME_OBJECT_HEADER);
-		var names = struct_get_names(instances);
+		var restorestack	= {};
+		var instances		= refstack.recover(__SAVEGAME_OBJECT_HEADER);
+		var names			= struct_get_names(instances);
 		
 		for (var i = 0, len = array_length(names); i < len; i++) {
 			var inst	= vsget(instances, names[i]);
@@ -147,6 +158,8 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 			var created = (lname != -1 && !is_null(lname)) ? 
 				instance_create_layer(xpos,ypos,lname,asset_idx) : 
 				instance_create_depth(xpos,ypos,ldepth,asset_idx);
+		
+			array_push(created_instances, created);
 		
 			with (created) {
 				direction		= vsget(inst, __SAVEGAME_OBJ_PROP_DIR, 0);
@@ -173,37 +186,46 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 				var loaded_data = struct_get(inst, __SAVEGAME_DATA_HEADER);
 				__file_reconstruct_class(data, loaded_data, restorestack);
 				
-				// Savegame versioning
-				if (SAVEGAME_FILE_VERSION > loaded_version) {
-					for (var i = loaded_version + 1; i <= SAVEGAME_FILE_VERSION; i++) {
-						var method_name = sprintf(SAVEGAME_UPGRADE_METHOD_PATTERN, i);
-						if (variable_instance_exists(self, method_name) &&
-							variable_instance_get(self, method_name) != undefined) {
-							ilog($"{MY_NAME} Upgrading object to version {i}");
-							self[$ method_name]();
-						}
-					}
-				}
-				
 				if (vsget(self, __SAVEGAME_ONLOADING_NAME))
 					__SAVEGAME_ONLOADING_FUNCTION();
 				
 			}		
 		}
+	}
 
-		// Now all instances are loaded... restore object links
-		ilog($"Restoring object instance pointers...");
-		struct_remove(savegame, __SAVEGAME_REFSTACK_HEADER);
-		refstack = {};
-		savegame = __file_reconstruct_root(savegame);
-		__savegame_restore_pointers(savegame, refstack);
+	// Now all instances are loaded... restore object links
+	ilog($"Restoring object instance pointers...");
+	struct_remove(savegame, __SAVEGAME_REFSTACK_HEADER);
+	refstack = {};
+	savegame = __file_reconstruct_root(savegame);
+	__savegame_restore_pointers(savegame, refstack);
 		
-		var instancenames = savegame_get_instance_names();
-		for (var i = 0, len = array_length(instancenames); i < len; i++) {
-			var ini = __SAVEGAME_INSTANCES[$ instancenames[@i]];
-			__savegame_restore_pointers(ini.data, refstack);
+	var instancenames = savegame_get_instance_names();
+	for (var i = 0, len = array_length(instancenames); i < len; i++) {
+		var ini = __SAVEGAME_INSTANCES[$ instancenames[@i]];
+		__savegame_restore_pointers(ini.data, refstack);
+	}
+
+	// Savegame versioning
+	if (SAVEGAME_FILE_VERSION > loaded_version) {
+		// First, upgrade all data structs, as instances might depend on them
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_SAVEGAME_VERSION_CHECK, {
+			file_version: loaded_version
+		});
+		// Then, upgrade all instances
+		var method_name;
+	for (var j = 0, jen = array_length(created_instances); j < jen; j++) {
+			with(created_instances[@j]) {
+				for (var i = loaded_version + 1; i <= SAVEGAME_FILE_VERSION; i++) {
+					method_name = sprintf(SAVEGAME_UPGRADE_METHOD_PATTERN, i);
+					if (variable_instance_exists(self, method_name) &&
+						variable_instance_get(self, method_name) != undefined) {
+						ilog($"{MY_NAME} Upgrading object to version {i}");
+						self[$ method_name]();
+					}
+				}
+			}
 		}
-		
 	}
 	
 	SAVEGAME_LOAD_IN_PROGRESS = false;
@@ -223,6 +245,8 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 		
 	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
+	
+	BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED);
 	
 	ilog($"[----- LOADING GAME FINISHED -----]");
 
