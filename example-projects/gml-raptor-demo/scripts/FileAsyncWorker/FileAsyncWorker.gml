@@ -151,6 +151,8 @@ function __FileAsyncFailedWorker(_filename, _crypt_key = "") :
 		__cleanup();
 		return self;
 	}
+	
+	run_delayed(GAMESTARTER, 1, start);
 }
 
 function __FileAsyncWriter(_filename, _buffer, _crypt_key = "") :
@@ -205,4 +207,5 @@ function __FileAsyncCacheHit(_filename, _cache_data) :
 		return self;
 	}
 
+	run_delayed(GAMESTARTER, 1, start);
 }

@@ -237,9 +237,11 @@ get_parent_scrollpanel = function() {
 		
 	var rv = parent_scrollpanel;
 	var up = self;
+	var pa = undefined;
 	while (rv == undefined) {
-		up = up.get_parent();
-		if (up == undefined) break;
+		pa = up.get_parent();
+		if (pa == undefined || up == pa) break;
+		up = pa;
 		rv = up.parent_scrollpanel;
 	}
 	return __scrollpanel_cache.set(rv);

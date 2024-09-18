@@ -251,17 +251,23 @@ camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true,
 	----------------------
 */
 #region TRANSITION CONTROL
-#macro __ACTIVE_TRANSITION		global.__active_transition
-if (!variable_global_exists("__active_transition"))
-	__ACTIVE_TRANSITION	= undefined;
-
+#macro __TRANSIT_ROOM_CHAIN			global.__transit_room_chain
+#macro __ACTIVE_TRANSITION			global.__active_transition
+#macro TRANSITION_RUNNING			global.__transition_running
 #macro __ACTIVE_TRANSITION_STEP		global.__active_transition_step
-if (!variable_global_exists("__active_transition_step"))
-	__ACTIVE_TRANSITION_STEP = -1; // Step 0 = out, Step 1 = in and -1 means inactive
 
-#macro TRANSITION_RUNNING		global.__transition_running
-if (!variable_global_exists("__transition_running"))
-	TRANSITION_RUNNING = false;
+if (!variable_global_exists("__transit_room_chain"))		__TRANSIT_ROOM_CHAIN = [];
+if (!variable_global_exists("__active_transition"))			__ACTIVE_TRANSITION	 = undefined;
+if (!variable_global_exists("__transition_running"))		TRANSITION_RUNNING	 = false;
+if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STEP = -1; 
+// __ACTIVE_TRANSITION_STEP 0 = out, 1 = in and -1 means inactive
+
+__is_transit_back = false;
+
+if (room != rmStartup) {
+	array_push(__TRANSIT_ROOM_CHAIN, room); // record this room, if not the startup room
+	vlog($"{ROOM_NAME} recorded in transit chain, length is now {array_length(__TRANSIT_ROOM_CHAIN)}");
+}
 
 /// @func		transit(_transition, skip_if_another_running = false)
 /// @desc	Perform an animated transition to another room
@@ -279,10 +285,63 @@ transit = function(_transition, skip_if_another_running = false) {
 	TRANSITION_RUNNING = true;
 }
 
+/// @func	transit_back()
+/// @desc	Transit back one room in the transit chain.
+///			If the chain is empty, game might exit.
+///			In either way, "onLeaveRoom" is invoked with a 
+///			transition_data struct.
+transit_back = function() {
+	__is_transit_back = true;
+	var leave_struct = {
+		target_room: undefined, 
+		transition: undefined, 
+		cancel: false
+	};
+	
+	if (array_length(__TRANSIT_ROOM_CHAIN) > 1) {
+		array_pop(__TRANSIT_ROOM_CHAIN); // This is our room, ignore it
+		var target = array_pop(__TRANSIT_ROOM_CHAIN); // Go to this one
+		leave_struct.target_room = target;
+		vlog($"Transit back from {ROOM_NAME} targets {room_get_name(target)}");
+		onTransitBack(leave_struct);
+		if (!leave_struct.cancel) {
+			vlog($"Transit back to targets {room_get_name(target)} starting");
+			if (leave_struct.transition != undefined) {
+				// in case the user redirected, update the target room
+				leave_struct.transition.target_room = leave_struct.target_room;
+				transit(leave_struct.transition);
+			} else 
+				room_goto(leave_struct.target_room);
+		} else {
+			vlog($"Transit back to {room_get_name(target)} aborted, staying in this room");
+			// re-push the chain
+			array_push(__TRANSIT_ROOM_CHAIN, target);
+			array_push(__TRANSIT_ROOM_CHAIN, room);
+		}
+	} else {
+		vlog($"Transit back from {ROOM_NAME} is end of chain, preparing game exit");
+		leave_struct.target_room = undefined;
+		onTransitBack(leave_struct);
+		if (!leave_struct.cancel)
+			EXIT_GAME;
+	}
+}
+
 /// @func onTransitFinished()
 /// @desc Invoked when a transition to this room is finished.
 ///				 Override (redefine) to execute code when a room is no longer animating
 onTransitFinished = function() {
+}
+
+/// @func	onTransitBack(_transition_data)
+/// @desc	Invoked, when the "transit_back" method is called
+onTransitBack = function(_transition_data) {
+	// Example reaction:
+	// If you want to stay in this room
+	// _transition_data.cancel = true;
+	// ...or supply a transition to the target room
+	// _transition_data.transition = new FadeTransition(_transition_data.target_room, 20, 20);
+	// ...or do nothing of the above to have a simple room_goto fired to the target room
 }
 
 #endregion

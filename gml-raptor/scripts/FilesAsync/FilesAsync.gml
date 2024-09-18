@@ -12,7 +12,7 @@ function file_read_text_file_absolute_async(filename, cryptkey = "", remove_utf8
 	filename = __clean_file_name(filename);
 	
 	if (variable_struct_exists(__FILE_CACHE, filename)) {
-		return new __FileAsyncCacheHit(filename, struct_get(__FILE_CACHE, filename)).start();
+		return new __FileAsyncCacheHit(filename, struct_get(__FILE_CACHE, filename));
 	}
 	
 	TRY
@@ -44,7 +44,7 @@ function file_read_text_file_absolute_async(filename, cryptkey = "", remove_utf8
 			return _string;
 		})
 		.start();
-	CATCH return new __FileAsyncFailedWorker(filename, cryptkey).start();
+	CATCH return new __FileAsyncFailedWorker(filename, cryptkey);
 	ENDTRY
 }
 
@@ -83,7 +83,7 @@ function file_write_text_file_async(filename, text, cryptkey = "") {
 			return true;
 		})
 		.start();
-	CATCH return new __FileAsyncFailedWorker(filename, cryptkey).start(); ENDTRY
+	CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
 }
 
 /// @func	file_write_text_file_lines_async(filename, text, cryptkey = "", line_delimiter = "\n")
@@ -127,7 +127,7 @@ function file_write_struct_plain_async(filename, struct, print_pretty = true) {
 			}
 			return true;
 		});
-	CATCH return new __FileAsyncFailedWorker(filename, "").start(); ENDTRY
+	CATCH return new __FileAsyncFailedWorker(filename, ""); ENDTRY
 }
 
 /// @func	file_read_struct_plain_async(filename, add_to_cache = false)
@@ -138,7 +138,7 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 	
 	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename))).start();
+			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename)));
 		}
 		TRY
 			return file_read_text_file_async(filename, "", add_to_cache)
@@ -159,10 +159,10 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 				return rv;
 			})
 			.start();
-		CATCH return new __FileAsyncFailedWorker(filename, "").start();	ENDTRY
+		CATCH return new __FileAsyncFailedWorker(filename, "");	ENDTRY
 	} else
 		elog($"** ERROR ** File '{__FILE_WORKINGFOLDER_FILENAME}' does not exist!");
-	return new __FileAsyncFailedWorker(filename, "").start();
+	return new __FileAsyncFailedWorker(filename, "");
 }
 
 /// @func	file_write_struct_encrypted_async(filename, struct, cryptkey)
@@ -190,7 +190,7 @@ function file_write_struct_encrypted_async(filename, struct, cryptkey) {
 		})
 		.start();
 		
-	CATCH return new __FileAsyncFailedWorker(filename, cryptkey).start(); ENDTRY
+	CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
 }
 
 /// @func	file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = false)
@@ -201,7 +201,7 @@ function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = fal
 	
 	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename))).start();
+			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename)));
 		}
 		TRY
 			return new __FileAsyncReader(__FILE_WORKINGFOLDER_FILENAME, cryptkey)
@@ -224,8 +224,8 @@ function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = fal
 				return rv;
 			})
 			.start();
-		CATCH return new __FileAsyncFailedWorker(filename, cryptkey).start(); ENDTRY
+		CATCH return new __FileAsyncFailedWorker(filename, cryptkey); ENDTRY
 	} else
 		elog($"** ERROR ** File '{__FILE_WORKINGFOLDER_FILENAME}' does not exist!");
-	return new __FileAsyncFailedWorker(filename, cryptkey).start();
+	return new __FileAsyncFailedWorker(filename, cryptkey);
 }

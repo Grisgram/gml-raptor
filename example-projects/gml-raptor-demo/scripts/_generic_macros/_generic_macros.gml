@@ -36,6 +36,7 @@
 #macro OTHER_NAME			string_concat(object_get_name(other.object_index), real(other.id))
 #macro OTHER_LAYER_OR_DEPTH	((other.layer == -1) ? other.depth : layer_get_name(other.layer))
 
+#macro ROOM_NAME				room_get_name(room)
 #macro SECONDS_TO_FRAMES		* room_speed
 #macro FRAMES_TO_SECONDS		/ room_speed
 

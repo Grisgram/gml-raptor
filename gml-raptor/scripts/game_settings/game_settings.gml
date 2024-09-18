@@ -61,7 +61,7 @@ function save_settings(_sync = false) {
 		file_write_struct(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
 		dlog($"Settings saved");
 	} else {
-		file_write_struct_async(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
+		return file_write_struct_async(GAME_SETTINGS_FILENAME, GAMESETTINGS, FILE_CRYPT_KEY)
 		.on_finished(function() {
 			dlog($"Settings saved");
 		});
