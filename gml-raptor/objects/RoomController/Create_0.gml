@@ -335,13 +335,11 @@ onTransitFinished = function() {
 
 /// @func	onTransitBack(_transition_data)
 /// @desc	Invoked, when the "transit_back" method is called
+///			_transition_data has these members:
+///			.cancel (set to true to stay in this room)
+///			.target_room
+///			.transition (set a transition to animate room change)
 onTransitBack = function(_transition_data) {
-	// Example reaction:
-	// If you want to stay in this room
-	// _transition_data.cancel = true;
-	// ...or supply a transition to the target room
-	// _transition_data.transition = new FadeTransition(_transition_data.target_room, 20, 20);
-	// ...or do nothing of the above to have a simple room_goto fired to the target room
 }
 
 #endregion
