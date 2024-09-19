@@ -123,6 +123,19 @@ function string_contains(str, substr, startpos = 1) {
 	return string_pos_ext(substr, str, startpos) > 0;
 }
 
+/// @func	string_count_char(str, character, startpos = 1)
+/// @desc	Counts the number of occurences of character in str
+function string_count_char(str, character, startpos = 1) {
+	var rv = 0;
+	
+    for (var i = startpos, len = string_length(str); i <= len; i++) {
+        if (string_char_at(str, i) == character) 
+            rv++;
+    }
+    
+    return rv;
+}
+
 /// @function string_index_of(str, substr, startpos = 1)
 function string_index_of(str, substr, startpos = 1) {
 	gml_pragma("forceinline");

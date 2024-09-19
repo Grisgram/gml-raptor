@@ -60,6 +60,9 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	__layout_done	= false;
 	__alive			= true; // used for cleanup
 
+	__on_shown_done = false;
+	__on_shown		= undefined;
+
 	/// @func bind_to(_control)
 	static bind_to = function(_control) {
 		if (!is_child_of(_control, _baseContainerControl))
@@ -134,6 +137,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
 		inst.control_tree_layout = new ControlTreeLayout();
+		inst.control_tree_layout.xpos = -control.sprite_xoffset;
+		inst.control_tree_layout.ypos = -control.sprite_yoffset;
 
 		__last_entry = new ControlTreeEntry(inst);
 		array_push(children, __last_entry);
@@ -178,7 +183,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				(!strcompare && eq(_control_or_name, inst))) {
 				struct_remove(controls, child.name);
 				array_delete(children, i, 1);
-				dlog($"Removed {name_of(control)} from tree of {name_of(control)}");
+				dlog($"Removed {name_of(inst)} from tree of {name_of(control)}");
 				break;
 			}
 		}
@@ -383,6 +388,25 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		return self;
 	}
 
+	/// @func	on_shown()
+	/// @desc	Occurs once after first draw event
+	static on_shown = function(_callback) {
+		__on_shown = _callback;
+		return self;
+	}
+
+	/// @func	invoke_on_shown()
+	static invoke_on_shown = function() {
+		if (!__on_shown_done) {
+			__on_shown_done = true;
+			if (__on_shown != undefined) {
+				ilog($"Invoking on_shown callback for {name_of(control)}");
+				__on_shown(control);
+			}
+		}
+		return self;
+	}
+
 	/// @func invoke_on_opened()
 	static invoke_on_opened = function() {
 		if (__on_opened != undefined) {
@@ -538,6 +562,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			if (child.instance.visible) child.instance.__draw_instance();
 			child.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
 		}
+		
+		if (!__on_shown_done) invoke_on_shown();
 	}
 	
 	static update_children_depth = function() {
@@ -613,9 +639,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			else
 				instance_destroy(inst);
 		}
-		instance_destroy(control);
 		if (is_root_tree())
 			ilog($"{name_of(control)} ControlTree cleanup finished");
+		instance_destroy(control);
+		control = undefined;
 	}
 }
 

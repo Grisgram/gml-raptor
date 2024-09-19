@@ -9,7 +9,9 @@
   ],
   "managed":true,
   "name":"RaptorScrollPanel",
-  "overriddenProperties":[],
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"LGTextObject","path":"objects/LGTextObject/LGTextObject.yy",},"propertyId":{"name":"text","path":"objects/LGTextObject/LGTextObject.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"",},
+  ],
   "parent":{
     "name":"controls",
     "path":"folders/_gml_raptor_/UI/controls.yy",

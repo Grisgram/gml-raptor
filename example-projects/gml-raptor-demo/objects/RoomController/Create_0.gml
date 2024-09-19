@@ -264,7 +264,7 @@ if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STE
 
 __is_transit_back = false;
 
-if (room != rmStartup) {
+if (room != rmStartup && room != array_last(__TRANSIT_ROOM_CHAIN)) {
 	array_push(__TRANSIT_ROOM_CHAIN, room); // record this room, if not the startup room
 	vlog($"{ROOM_NAME} recorded in transit chain, length is now {array_length(__TRANSIT_ROOM_CHAIN)}");
 }

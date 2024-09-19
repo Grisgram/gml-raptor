@@ -45,7 +45,8 @@ __delete_char = function() {
 }
 
 __filter_character = function( _char) {
-	if (!array_contains(forbidden_characters, _char)) {
+	if (!array_contains(forbidden_characters, _char) ||
+		(_char == "\\" && input_filter == character_filter.pathname)) {
 		switch (input_filter) {
 			case character_filter.none:
 				return _char;
@@ -55,6 +56,18 @@ __filter_character = function( _char) {
 				break;
 			case character_filter.forbidden:
 				if (!string_contains(filtered_characters, _char))
+					return _char;
+				break;
+			case character_filter.filename:
+				if (!array_contains(forbidden_characters_file, _char))
+					return _char;
+				break;
+			case character_filter.pathname:
+				if (!array_contains(forbidden_characters_path, _char))
+					return _char;
+				break;
+			case character_filter.numbers:
+				if (array_contains(allowed_characters_numbers, _char))
 					return _char;
 				break;
 		}
