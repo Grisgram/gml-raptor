@@ -11,5 +11,6 @@ if (mouse_is_over) {
 	__animate_draw_color(draw_color);
 	__animate_text_color(text_color);
 	force_redraw(false);
+	invoke_if_exists(self, "on_mouse_leave", self);
 	__mouse_enter_topmost_control();
 }

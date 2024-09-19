@@ -72,6 +72,8 @@
         "adopt_properties.alpha",
         "adopt_properties.full",
       ],"multiselect":false,"name":"adopt_object_properties","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"adopt_properties.none","varType":6,},
+    {"$GMObjectProperty":"v1","%Name":"on_mouse_enter","filters":[],"listItems":[],"multiselect":false,"name":"on_mouse_enter","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
+    {"$GMObjectProperty":"v1","%Name":"on_mouse_leave","filters":[],"listItems":[],"multiselect":false,"name":"on_mouse_leave","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":4,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

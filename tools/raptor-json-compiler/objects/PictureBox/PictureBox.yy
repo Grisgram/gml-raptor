@@ -1,19 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"MultiPanel",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"PictureBox",
+  "eventList":[],
   "managed":true,
-  "name":"MultiPanel",
+  "name":"PictureBox",
   "overriddenProperties":[],
   "parent":{
-    "name":"dev-playground",
-    "path":"folders/Rooms/dev-playground.yy",
+    "name":"_gml_raptor_ui_",
+    "path":"folders/_gml_raptor_ui_.yy",
   },
   "parentObjectId":{
-    "name":"Panel",
-    "path":"objects/Panel/Panel.yy",
+    "name":"RaptorPictureBox",
+    "path":"objects/RaptorPictureBox/RaptorPictureBox.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
@@ -33,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr1pxTrans",
-    "path":"sprites/spr1pxTrans/spr1pxTrans.yy",
+    "name":"spr1pxWhite128",
+    "path":"sprites/spr1pxWhite128/spr1pxWhite128.yy",
   },
   "spriteMaskId":null,
   "visible":true,
