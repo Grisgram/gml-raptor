@@ -372,6 +372,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				})
 				.set_name("##__raptor_##.control_tree_build");
 			}
+			__on_shown_done = false;
 		} catch (_) {}
 		return self;
 	}

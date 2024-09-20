@@ -47,6 +47,7 @@ set_content = function(_instance, _custom_draw_method = undefined) {
 		instance_destroy(_instance);
 		throw("ScrollPanel accepts only raptor controls (child of _baseControl) as children!");
 	}
+
 	content = _instance;
 	draw_method = _custom_draw_method ?? vsget(content, "__draw_self");
 	content.parent_scrollpanel = self;
@@ -79,6 +80,7 @@ mouse_over_content = function() {
 }
 
 __update_scroller = function(_inst, _by) {
+	if (!instance_exists(_inst) || !_inst.is_enabled) return;
 	_inst.value = clamp(_inst.value + _by, 0, 100);
 	_inst.value_percent = (_inst.value - _inst.min_value) / _inst.max_value;
 }
