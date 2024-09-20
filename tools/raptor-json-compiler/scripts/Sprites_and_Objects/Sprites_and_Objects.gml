@@ -62,6 +62,11 @@ function is_object_instance(_inst) {
 /// @func		scale_sprite_to(target_width, target_height)
 /// @desc	Scale an instances' sprite so that it has the desired dimensions.
 function scale_sprite_to(target_width, target_height) {
+	if (sprite_index == -1 || sprite_index == noone) {
+		image_xscale = 1;
+		image_yscale = 1;
+		return;
+	}
 	var w1 = sprite_get_width(sprite_index);
 	var h1 = sprite_get_height(sprite_index);
 	image_xscale = target_width / w1;
@@ -72,6 +77,11 @@ function scale_sprite_to(target_width, target_height) {
 /// @desc	Scale an instances' sprite to a new width by keeping the aspect ratio
 ///			(this means, the yscale will be calculated based on the new xscale)
 function scale_sprite_aspect_width(new_width) {
+	if (sprite_index == -1 || sprite_index == noone) {
+		image_xscale = 1;
+		image_yscale = 1;
+		return;
+	}
 	var w1 = sprite_get_width(sprite_index);
 	image_xscale = new_width / w1;
 	image_yscale = image_xscale;
@@ -81,6 +91,11 @@ function scale_sprite_aspect_width(new_width) {
 /// @desc	Scale an instances' sprite to a new height by keeping the aspect ratio
 ///			(this means, the xscale will be calculated based on the new yscale)
 function scale_sprite_aspect_height(new_height) {
+	if (sprite_index == -1 || sprite_index == noone) {
+		image_xscale = 1;
+		image_yscale = 1;
+		return;
+	}
 	var h1 = sprite_get_height(sprite_index);
 	image_yscale = new_height / h1;
 	image_xscale = image_yscale;

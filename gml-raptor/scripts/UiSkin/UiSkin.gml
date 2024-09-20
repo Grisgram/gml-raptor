@@ -69,8 +69,9 @@ function UiSkin(_name = "default") constructor {
 				if (upd != undefined) {
 					upd(skindata);
 				} else {
-					if (vsget(skindata, "sprite_index") != undefined && sprite_index != -1) {
-						replace_sprite(skindata.sprite_index);
+					//if (vsget(skindata, "sprite_index") != undefined && sprite_index != -1) {
+					if (vsget(skindata, "sprite_index") != undefined) {
+						replace_sprite(skindata.sprite_index,-1,-1,false);
 					}
 				}
 			}

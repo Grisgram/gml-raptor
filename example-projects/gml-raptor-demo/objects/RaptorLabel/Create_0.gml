@@ -17,21 +17,25 @@ update_client_area = function() {
 		data.__raptordata.client_area.height);
 }
 
-if (remove_sprite_at_runtime) {
-	var w = (startup_width  >= 0 ? startup_width  : sprite_width);
-	var h = (startup_height >= 0 ? startup_height : sprite_height);
-	sprite_index = spr1pxTrans;
-	image_xscale = w;
-	image_yscale = h;
-	__startup_xscale = w;
-	__startup_yscale = h;
+check_remove_sprite = function() {
+	if (remove_sprite_at_runtime) {
+		var w = (startup_width  >= 0 ? startup_width  : sprite_width);
+		var h = (startup_height >= 0 ? startup_height : sprite_height);
+		sprite_index = spr1pxTrans;
+		image_xscale = w;
+		image_yscale = h;
+		__startup_xscale = w;
+		__startup_yscale = h;
+	}
 }
+check_remove_sprite();
 
 on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
-	if (remove_sprite_at_runtime) return;
 	integrate_skin_data(_skindata);
+	set_startup_size();
 	update_startup_coordinates();
+	check_remove_sprite();
 }
 
 scribble_add_text_effects = function(scribbletext) {

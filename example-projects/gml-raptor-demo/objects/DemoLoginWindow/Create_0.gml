@@ -18,7 +18,7 @@ control_tree
 				startup_height: 32,
 				on_left_click: function() {
 					with(get_window()) {
-						msg_show_ok("=ui_demo/login_window_title", 
+						msg_show_ok("=ui_demo/window_title_login", 
 							$"{LG("=ui_demo/login_entered_values")}\n\n" +
 							$"{LG("=ui_demo/login_user")} [ci_accent]{get_element("txtUser").text}[/]\n" +
 							$"{LG("=ui_demo/login_pwd")} [ci_accent]{get_element("txtPwd").text}[/]\n" +

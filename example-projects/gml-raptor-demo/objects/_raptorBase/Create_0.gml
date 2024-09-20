@@ -23,6 +23,7 @@ run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full 
 ///				 Then, if we have a sprite, we replace it
 integrate_skin_data = function(_skindata) {
 	if (!skinnable) return;
+	
 	struct_foreach(_skindata, function(name, value) {
 		if (name != "sprite_index") {
 			if (is_method(value))
@@ -31,8 +32,9 @@ integrate_skin_data = function(_skindata) {
 				self[$ name] = value;
 		}
 	});
-	if (vsget(_skindata, "sprite_index") != undefined && sprite_index != -1)
-		replace_sprite(_skindata.sprite_index);
+	
+	if (vsget(_skindata, "sprite_index") != undefined)
+		replace_sprite(_skindata.sprite_index,-1,-1,false);
 }
 
 /// @func on_skin_changed(_skindata)

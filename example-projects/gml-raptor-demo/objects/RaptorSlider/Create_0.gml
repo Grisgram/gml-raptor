@@ -99,6 +99,7 @@ on_skin_changed = function(_skindata) {
 	integrate_skin_data(_skindata);
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;
+	set_startup_size();
 	pre_calculate_knob();	
 	update_startup_coordinates();
 	update_client_area();

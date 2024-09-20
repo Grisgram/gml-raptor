@@ -332,6 +332,7 @@ on_skin_changed = function(_skindata) {
 	integrate_skin_data(_skindata);
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;
+	set_startup_size();
 	update_startup_coordinates();
 	force_redraw();
 }
