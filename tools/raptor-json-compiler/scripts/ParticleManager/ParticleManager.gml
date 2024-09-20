@@ -433,4 +433,8 @@ function __emitter_range(name) constructor {
 		baseminco.set(minco.x, minco.y);
 		basemaxco.set(maxco.x, maxco.y);
 	}
+	
+	toString = function() {
+		return $"{minco} - {maxco}";
+	}
 }
