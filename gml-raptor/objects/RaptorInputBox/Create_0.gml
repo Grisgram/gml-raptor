@@ -62,13 +62,14 @@ __contains_character = function(_str, _array) {
 		if (string_count_char(_str, _array[@i]) > 0) 
 			return true;
 	}
-	return false;
+	
+return false;
 }
 
 /// @func	is_valid_filename(_str)
 is_valid_filename = function(_str) {
 	return 
-		!array_contains(forbidden_filenames, file_get_filename(_str, false)) &&
+		!array_contains(forbidden_filenames, string_upper(file_get_filename(_str, false))) &&
 		!string_contains(_str, "..") &&
 		!__contains_character(_str, forbidden_characters_file);
 }
