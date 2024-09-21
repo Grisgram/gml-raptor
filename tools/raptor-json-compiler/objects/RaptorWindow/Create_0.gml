@@ -51,6 +51,9 @@ on_skin_changed = function(_skindata) {
 	if (!skinnable) return;
 	__base_skin_changed(_skindata);
 	create_x_button();
+	text = LG_resolve(text);
+	title = LG_resolve(title);
+	__check_center_on_open();
 }
 
 /// @func is_focus_window()
@@ -65,10 +68,13 @@ center_on_screen = function() {
 	control_tree.update_render_area();
 }
 
-if ((!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS) && center_on_open) {
-	center_on_screen();
-	update_startup_coordinates();
+__check_center_on_open = function() {
+	if ((!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS) && center_on_open) {
+		center_on_screen();
+		update_startup_coordinates();
+	}
 }
+__check_center_on_open();
 
 #region x-button
 
@@ -77,7 +83,12 @@ __x_button_closing	= undefined;
 __have_x_button		= false;
 
 create_x_button = function() {
-	if (__have_x_button) instance_destroy(__x_button);
+	if (__have_x_button && instance_exists(__x_button)) {
+		if (__x_button.object_index == window_x_button_object)
+			return;
+		else
+			instance_destroy(__x_button);
+	}
 	if (window_x_button_visible && !is_null(window_x_button_object)) {
 		__have_x_button = true;
 		__x_button = instance_create(0, 0, MY_LAYER_OR_DEPTH, window_x_button_object);
@@ -524,8 +535,7 @@ __draw_instance = function(_force = false) {
 
 	if (__first_draw || _force) {
 		control_tree.layout();
-		if (!is_null(on_opening))
-			on_opening(self);
+		invoke_if_exists(self, "on_opening", self);
 	}
 
 	control_tree.draw_children();

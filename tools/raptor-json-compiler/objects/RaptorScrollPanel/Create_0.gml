@@ -48,6 +48,7 @@ set_content = function(_instance, _custom_draw_method = undefined) {
 		throw("ScrollPanel accepts only raptor controls (child of _baseControl) as children!");
 	}
 
+	clear_content();
 	content = _instance;
 	draw_method = _custom_draw_method ?? vsget(content, "__draw_self");
 	content.parent_scrollpanel = self;
@@ -65,8 +66,12 @@ set_content_object = function(_object_type, _init_struct = undefined, _custom_dr
 /// @func	clear_content()
 /// @desc	Removes the content object
 clear_content = function() {
-	content.parent_scrollpanel = undefined;
-	content = undefined;
+	if (content != undefined) {
+		content.parent_scrollpanel = undefined;
+		instance_destroy(content);
+		content = undefined;
+	}
+	return self;
 }
 
 /// @func mouse_over_content()

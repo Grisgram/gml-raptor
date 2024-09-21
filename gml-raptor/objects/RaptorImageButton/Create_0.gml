@@ -15,6 +15,7 @@ on_skin_changed = function(_skindata) {
 	animated_draw_color = draw_color;
 	set_startup_size();
 	if (sprite_to_use != undefined) replace_sprite(sprite_to_use);
+	__set_default_image();
 	update_startup_coordinates();
 	force_redraw();
 }
