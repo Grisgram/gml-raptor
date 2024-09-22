@@ -46,10 +46,8 @@ __scribble_title	= undefined;
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
 
-__base_skin_changed = on_skin_changed;
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	__base_skin_changed(_skindata);
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata);
 	create_x_button();
 	text = LG_resolve(text);
 	title = LG_resolve(title);
@@ -504,11 +502,8 @@ __draw_self = function() {
 		__last_title			= title;
 		
 		update_client_area();
-		if (__have_x_button) {
+		if (__have_x_button) 
 			with(__x_button) update_position();
-			__x_button.x += window_x_button_xoffset;
-			__x_button.y += window_x_button_yoffset;
-		}
 	} else {
 		__finalize_scribble_title();
 		__finalize_scribble_text();

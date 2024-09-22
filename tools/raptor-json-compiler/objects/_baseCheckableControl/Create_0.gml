@@ -112,16 +112,12 @@ __set_default_image();
 
 event_inherited();
 
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	__reset_graphics();
-	integrate_skin_data(_skindata);
-	animated_text_color = text_color;
-	animated_draw_color = draw_color;
-	set_startup_size();	
-	__update_graphics();
-	update_startup_coordinates();
-	force_redraw(true);
+onSkinChanging = function(_skindata) {
+	__reset_graphics();	
+}
+ 
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata, __update_graphics);
 }
 
 __apply_autosize_alignment = function(distx, disty) {

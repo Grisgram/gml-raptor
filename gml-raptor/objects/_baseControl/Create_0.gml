@@ -325,16 +325,20 @@ __mouse_enter_topmost_control = function() {
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
-/// @func on_skin_changed(_skindata)
-/// @desc	Invoked, when the skin changed
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata);
+}
+// Hold a reference to the base skin change code 
+// for all derived controls
+/// @func	_baseControl_onSkinChanged(_skindata, _before_update_coordinates = undefined)
+_baseControl_onSkinChanged = function(_skindata, _before_update_coordinates = undefined) {
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;
 	set_startup_size();
+	if (_before_update_coordinates != undefined)
+		_before_update_coordinates(_skindata);
 	update_startup_coordinates();
-	force_redraw();
+	force_redraw();	
 }
 
 /// @func					force_redraw(_redraw_all = true)

@@ -8,16 +8,11 @@ scale_sprite_to(w, h);
 // Inherit the parent event
 event_inherited();
 
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
-	animated_text_color = text_color;
-	animated_draw_color = draw_color;
-	set_startup_size();
-	if (sprite_to_use != undefined) replace_sprite(sprite_to_use);
-	__set_default_image();
-	update_startup_coordinates();
-	force_redraw();
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata, function() {
+		if (sprite_to_use != undefined) replace_sprite(sprite_to_use);
+		__set_default_image();
+	});
 }
 
 __apply_autosize_alignment = function() {

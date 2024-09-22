@@ -52,7 +52,7 @@ function UiSkin(_name = "default") constructor {
 											window_x_button_object: MessageBoxXButton,
 											titlebar_height: 34
 										  }
-	asset_skin[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton	}
+	asset_skin[? "MessageBoxXButton"]	= { sprite_to_use: sprDefaultXButton }
 	
 	/// @func delete_map()
 	static delete_map = function() {
@@ -65,15 +65,18 @@ function UiSkin(_name = "default") constructor {
 		if (ds_map_exists(asset_skin, key)) {
 			var skindata = asset_skin[?key];
 			with(_instance) {
-				var upd = vsget(self, "on_skin_changed");
-				if (upd != undefined) {
-					upd(skindata);
-				} else {
-					//if (vsget(skindata, "sprite_index") != undefined && sprite_index != -1) {
-					if (vsget(skindata, "sprite_index") != undefined) {
-						replace_sprite(skindata.sprite_index,-1,-1,false);
+				if (skinnable) {
+					// ATTENTION! if != false does NOT mean if true!! (undefined is also != false!)
+					ilog($"--- {MY_NAME}");
+					if (onSkinChanging(skindata) != false) {
+						// each step MIGHT set skinnable to false to avoid further manipulation!
+						if (skinnable) integrate_skin_data(skindata);
+						if (skinnable) onSkinChanged(skindata);
 					}
 				}
+					//if (vsget(skindata, "sprite_index") != undefined) {
+					//	replace_sprite(skindata.sprite_index,-1,-1,false);
+					//}
 			}
 		}
 	}

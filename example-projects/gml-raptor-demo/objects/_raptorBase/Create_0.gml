@@ -15,15 +15,19 @@ onPoolDeactivate = function(_data) {}
 
 
 #region skin
-SKIN.apply_skin(self); // apply sprites NOW...
-run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done
+/// @func onSkinChanging(_skindata)
+/// @desc	Invoked, when the skin is about to change
+///			You may return false here to abort skill apply
+onSkinChanging = function(_skindata) {}
+ 
+/// @func onSkinChanged(_skindata)
+/// @desc	Invoked, when the skin has changed
+onSkinChanged = function(_skindata) {}
 
 /// @func integrate_skin_data(_skindata)
 /// @desc Copy all values EXCEPT SPRITE_INDEX to self
 ///				 Then, if we have a sprite, we replace it
 integrate_skin_data = function(_skindata) {
-	if (!skinnable) return;
-	
 	struct_foreach(_skindata, function(name, value) {
 		if (name != "sprite_index") {
 			if (is_method(value))
@@ -37,12 +41,9 @@ integrate_skin_data = function(_skindata) {
 		replace_sprite(_skindata.sprite_index,-1,-1,false);
 }
 
-/// @func on_skin_changed(_skindata)
-/// @desc	Invoked, when the skin changed
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
-}
+SKIN.apply_skin(self); // apply sprites NOW...
+run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done
+
 #endregion
 
 #region enabled

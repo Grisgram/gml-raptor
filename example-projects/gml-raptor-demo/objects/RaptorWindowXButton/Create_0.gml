@@ -11,6 +11,10 @@ __window_top = 0;
 __nine_slice_calculated = false;
 __nine_right = 0;
 __nine_top = 0;
+ 
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata, update_position);
+}
 
 /// @func attach_to_window(_window)
 attach_to_window = function(_window) {
@@ -37,6 +41,6 @@ update_position = function() {
 		other.__window_top = SELF_VIEW_TOP_EDGE + titlebar_height / 2;
 	}
 
-	x = __window_right;
-	y = __window_top;
+	x = __window_right + x_button_xoffset;
+	y = __window_top + x_button_yoffset;
 }

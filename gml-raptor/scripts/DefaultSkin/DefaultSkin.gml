@@ -60,8 +60,8 @@ function DefaultSkin(_name = "default") : UiSkin(_name) constructor {
 	asset_skin[? "Window"]				= window_def(WindowXButton);
 	asset_skin[? "MessageBoxWindow"]	= window_def(MessageBoxXButton);
 	
-	asset_skin[? "WindowXButton"]		= { sprite_index: sprDefaultXButton }
-	asset_skin[? "MessageBoxXButton"]	= { sprite_index: sprDefaultXButton }
+	asset_skin[? "WindowXButton"]		= { sprite_to_use: sprDefaultXButton }
+	asset_skin[? "MessageBoxXButton"]	= { sprite_to_use: sprDefaultXButton }
 
 }
 

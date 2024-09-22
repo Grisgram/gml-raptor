@@ -30,9 +30,7 @@ check_remove_sprite = function() {
 }
 check_remove_sprite();
 
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
+onSkinChanged = function(_skindata) {
 	set_startup_size();
 	update_startup_coordinates();
 	check_remove_sprite();

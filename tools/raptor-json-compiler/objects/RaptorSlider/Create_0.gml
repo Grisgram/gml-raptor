@@ -94,16 +94,9 @@ pre_calculate_knob = function() {
 
 }
 
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
-	animated_text_color = text_color;
-	animated_draw_color = draw_color;
-	set_startup_size();
-	pre_calculate_knob();	
-	update_startup_coordinates();
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata, pre_calculate_knob);
 	update_client_area();
-	force_redraw();
 }
 
 update_client_area = function() {
