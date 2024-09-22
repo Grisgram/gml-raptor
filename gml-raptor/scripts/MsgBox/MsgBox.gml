@@ -153,6 +153,11 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 			y = UI_VIEW_CENTER_Y - SELF_CENTER_Y - UI_VIEW_HEIGHT / 6;
 			y = min(max(y, 0), UI_VIEW_HEIGHT - sprite_height);
 			force_redraw();
+			run_delayed(self, 1, function() { 
+				// tweak to avoid button rubberbanding part 2
+				control_tree.get_element("panButtons").control_tree.control.visible = true;
+				control_tree.layout(true); 
+			});
 		}
 		
 		if (__find_button_with_hotkey(__MSGBOX_HOTKEY_ESCAPE) == undefined)
@@ -162,7 +167,8 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		for (var i = 0; i < array_length(__buttons); i++) 
 			__buttons[@i].__button = __buttons[@i].create_instance(panel);
 		panel.control.set_client_area(button_total_width, max_button_height);
-
+		panel.control.visible = false; // tweak to avoid button rubberbanding part 1
+		
 		show_popup(MESSAGEBOX_LAYER);
 		BROADCASTER.send(self, __RAPTOR_BROADCAST_MSGBOX_OPENED);
 		return self;

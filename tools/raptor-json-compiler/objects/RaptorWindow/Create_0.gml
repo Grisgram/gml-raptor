@@ -504,7 +504,11 @@ __draw_self = function() {
 		__last_title			= title;
 		
 		update_client_area();
-		if (__have_x_button) with(__x_button) update_position();
+		if (__have_x_button) {
+			with(__x_button) update_position();
+			__x_button.x += window_x_button_xoffset;
+			__x_button.y += window_x_button_yoffset;
+		}
 	} else {
 		__finalize_scribble_title();
 		__finalize_scribble_text();

@@ -16,7 +16,9 @@ enum anchor {
 	all_sides	= 15
 }
 
-function ControlTree(_control = undefined, _parent_tree = undefined, _margin = undefined, _padding = undefined) constructor {
+function ControlTree(
+	_control = undefined, _parent_tree = undefined, 
+	_margin = undefined, _padding = undefined) : BindableDataBuilder() constructor {
 	construct(ControlTree);
 	
 	// This is the control, the tree is bound to. Gets set in Create of _baseContainerControl
@@ -294,9 +296,11 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @func set_name(_name)
 	/// @desc Give a child control a name to retrieve it later through get_element(_name)
 	static set_name = function(_name) {
-		if (__last_container != undefined) 
-			__last_container.set_name(_name);
-		else {
+		if (__last_container != undefined) {
+			__last_container.__last_entry.name = _name;
+			__last_container.__last_entry.instance.name = _name;
+			__last_container.controls[$ _name] = __last_container.__last_entry.instance;
+		} else {
 			__last_entry.name = _name;
 			__last_entry.instance.name = _name;
 			controls[$ _name] = __last_entry.instance;
