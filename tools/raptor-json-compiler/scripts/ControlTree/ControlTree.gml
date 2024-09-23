@@ -146,7 +146,7 @@ function ControlTree(
 		__last_entry = new ControlTreeEntry(inst);
 		array_push(children, __last_entry);
 		
-		dlog($"Control {name_of(inst)} added to tree of {name_of(control)}");
+		vlog($"Control {name_of(inst)} added to tree of {name_of(control)}");
 		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
@@ -188,7 +188,7 @@ function ControlTree(
 				(!strcompare && eq(_control_or_name, inst))) {
 				struct_remove(controls, child.name);
 				array_delete(children, i, 1);
-				dlog($"Removed {name_of(inst)} from tree of {name_of(control)}");
+				vlog($"Removed {name_of(inst)} from tree of {name_of(control)}");
 				break;
 			}
 		}
@@ -335,6 +335,38 @@ function ControlTree(
 			throw($"Control '{name_of(_control)}' not found in tree of '{name_of(control)}'!");
 	}
 
+	/// @func	set_visible(_visible)
+	/// @desc	Sets the visible state for this and all children
+	static set_visible = function(_visible) {
+		control.visible = _visible;
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child	= children[@i];
+			var inst	= child.instance;
+			
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.control_tree.set_visible(_visible);
+			}
+			inst.visible = _visible;
+		}
+		return self;
+	}
+
+	/// @func	set_enabled(_enabled)
+	/// @desc	Sets the enabled state for this and all children
+	static set_enabled = function(_enabled) {
+		control.set_enabled(_enabled);
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child	= children[@i];
+			var inst	= child.instance;
+			
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.control_tree.set_enabled(_enabled);
+			}
+			inst.set_enabled(_enabled);
+		}
+		return self;
+	}
+
 	/// @func get_element(_name)
 	/// @desc Retrieve a child control by its name. Returns the instance or undefined
 	static get_element = function(_name) {
@@ -412,7 +444,7 @@ function ControlTree(
 		if (!__on_shown_done) {
 			__on_shown_done = true;
 			if (array_length(__on_shown) > 0) {
-				ilog($"Invoking on_shown callback for {name_of(control)}");
+				dlog($"Invoking on_shown callback for {name_of(control)}");
 				for (var i = 0, len = array_length(__on_shown); i < len; i++) {
 					__on_shown[@i](control);
 				}
@@ -424,7 +456,7 @@ function ControlTree(
 	/// @func invoke_on_opened()
 	static invoke_on_opened = function() {
 		if (array_length(__on_opened) > 0) {
-			ilog($"Invoking on_window_opened callback for {name_of(control)}");
+			dlog($"Invoking on_window_opened callback for {name_of(control)}");
 			for (var i = 0, len = array_length(__on_opened); i < len; i++) {
 				__on_opened[@i](control);
 			}
@@ -435,7 +467,7 @@ function ControlTree(
 	/// @func invoke_on_closed()
 	static invoke_on_closed = function() {
 		if (array_length(__on_closed) > 0) {
-			ilog($"Invoking on_window_closed callback for {name_of(control)}");
+			dlog($"Invoking on_window_closed callback for {name_of(control)}");
 			for (var i = 0, len = array_length(__on_closed); i < len; i++) {
 				__on_closed[@i](control);
 			}
@@ -649,7 +681,7 @@ function ControlTree(
 	static clear = function() {
 		if (!__alive) return;
 		__alive = false;
-		dlog($"CleanUp ControlTree of {name_of(control)}");
+		vlog($"CleanUp ControlTree of {name_of(control)}");
 		__on_shown	= [];
 		__on_opened	= [];
 		__on_closed	= [];
@@ -663,7 +695,7 @@ function ControlTree(
 			instance_destroy(inst);
 		}
 		if (is_root_tree())
-			ilog($"{name_of(control)} ControlTree cleanup finished");
+			dlog($"{name_of(control)} ControlTree cleanup finished");
 		instance_destroy(control);
 		control = undefined;
 	}

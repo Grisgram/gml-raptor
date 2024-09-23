@@ -381,7 +381,7 @@ if (!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS)
 
 /// @func close()
 close = function() {
-	ilog($"{MY_NAME} closing");
+	dlog($"{MY_NAME} closing");
 	invoke_if_exists(self, "on_closing", self);
 	__remove_self();
 	control_tree.invoke_on_closed();

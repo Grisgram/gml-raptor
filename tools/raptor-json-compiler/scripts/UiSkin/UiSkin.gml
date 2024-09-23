@@ -67,7 +67,6 @@ function UiSkin(_name = "default") constructor {
 			with(_instance) {
 				if (skinnable) {
 					// ATTENTION! if != false does NOT mean if true!! (undefined is also != false!)
-					ilog($"--- {MY_NAME}");
 					if (onSkinChanging(skindata) != false) {
 						// each step MIGHT set skinnable to false to avoid further manipulation!
 						if (skinnable) integrate_skin_data(skindata);
