@@ -351,11 +351,13 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		if (__async_waiting) {
 			run_delayed(GAMESTARTER, 1, function(t) {
 				with(t) {
-					__async_timeout--;
-					if (__async_timeout <= 0) {
-						__async_waiting = false;
-						__current_test_ok = false;
-						__log(0, $"FAIL: async timeout reached in '{__current_test_name}'");
+					if (__async_waiting) {
+						__async_timeout--;
+						if (__async_timeout <= 0) {
+							__async_waiting = false;
+							__current_test_ok = false;
+							__log(0, $"FAIL: async timeout reached in '{__current_test_name}'");
+						}
 					}
 					__check_test_completed();
 				}

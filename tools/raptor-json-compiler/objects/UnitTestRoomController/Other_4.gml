@@ -12,6 +12,7 @@ var label_struct = {
 };
 
 UI_ROOT
+	.clear_children()
 	.add_control(Panel, {sprite_index: spr1pxWhite128, startup_height:144})
 		.set_padding_all(12)
 		.set_dock(dock.top)
