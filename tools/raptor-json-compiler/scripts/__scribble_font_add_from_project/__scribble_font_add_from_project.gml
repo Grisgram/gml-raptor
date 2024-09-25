@@ -5,7 +5,7 @@ function __scribble_font_add_from_project(_font)
 {
     var _name = font_get_name(_font);
     
-    static _font_data_map = __scribble_get_font_data_map();
+    static _font_data_map = __scribble_initialize().__font_data_map;
     if (ds_map_exists(_font_data_map, _name))
     {
         __scribble_trace("Warning! A font for \"", _name, "\" has already been added. Destroying the old font and creating a new one");
@@ -14,7 +14,7 @@ function __scribble_font_add_from_project(_font)
     
     if (SCRIBBLE_VERBOSE) __scribble_trace("Adding \"", _name, "\" as standard font");
     
-    var _scribble_state = __scribble_get_state();
+    var _scribble_state = __scribble_initialize().__state;
     if (_scribble_state.__default_font == undefined)
     {
         if (SCRIBBLE_VERBOSE) __scribble_trace("Setting default font to \"" + string(_name) + "\"");
@@ -24,7 +24,7 @@ function __scribble_font_add_from_project(_font)
     try
     {
         var _is_krutidev = __scribble_asset_is_krutidev(_font, asset_font);
-        var _global_glyph_bidi_map = __scribble_get_glyph_data().__bidi_map;
+        var _global_glyph_bidi_map = __scribble_initialize().__glyph_data.__bidi_map;
         
         //Get font info from the runtime
         var _font_info = font_get_info(_font);

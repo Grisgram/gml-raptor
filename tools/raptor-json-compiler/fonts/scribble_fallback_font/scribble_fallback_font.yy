@@ -9,6 +9,9 @@
   "canGenerateBitmap":true,
   "charset":0,
   "ConfigValues":{
+    "unit_testing":{
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+    },
     "release":{
       "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
     },
