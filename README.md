@@ -2,8 +2,8 @@
 <h1 align="center">Release 2410 - Pre-Release</h1>
 
 > [!CAUTION]
-> Due to massive problems with the HTML5-runtime currently in GameMaker, this release is marked as a pre-release
-> If you don't plan to use HTML5, go ahead, use it!
+> Due to massive problems with the HTML5-runtime currently in GameMaker, this release is marked as a pre-release.
+> If you don't plan to use HTML5, go ahead, use it!\
 > This version will not run in HTML5 until the 2410/11 release of GameMaker, but I didn't want to hold back all the new features another month.
 > _Cheers, Gris_
 
