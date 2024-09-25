@@ -10,8 +10,16 @@ function unit_test_Race() {
 	
 	var ut = new UnitTest("Race");
 
+	ut.suite_start = function() {
+		file_write_text_file("race/race_unit_test" + DATA_FILE_EXTENSION, "{\"demotable\":{\"loot_count\":6,\"items\":{\"object\":{\"type\":\"RaceObject\",\"always\":0,\"unique\":0,\"enabled\":1,\"chance\":10.0},\"with_attribs\":{\"type\":\"OtherObject\",\"always\":0,\"unique\":0,\"enabled\":1,\"chance\":10.0,\"attributes\":{\"goldvalue\":42}},\"subtable_copy\":{\"type\":\"+subtable_copy\",\"always\":0,\"unique\":0,\"enabled\":1,\"chance\":50.0},\"subtable_ref\":{\"type\":\"=subtable_ref\",\"always\":0,\"unique\":1,\"enabled\":1,\"chance\":100.0},\"nulldrop\":{\"type\":null,\"always\":0,\"unique\":1,\"enabled\":1,\"chance\":33.0}}},\"subtable_copy\":{\"loot_count\":1,\"items\":{\"object\":{\"type\":\"RaceObject\",\"always\":0,\"unique\":0,\"enabled\":1,\"chance\":10.0}}},\"subtable_ref\":{\"loot_count\":1,\"items\":{\"object\":{\"type\":\"RaceObject\",\"always\":0,\"unique\":0,\"enabled\":1,\"chance\":10.0}}}}", FILE_CRYPT_KEY);
+	}
+	
+	ut.suite_finish = function() {
+		file_delete("race/race_unit_test" + DATA_FILE_EXTENSION);
+	}
+
 	ut.test_start = function(name, data) {
-		data.t = new Race("demotable", true);
+		data.t = new Race("race_unit_test", false, true);
 		
 		if (string_contains(name, "query"))
 			data.t.add_table(new RaceTable("loot", {
@@ -631,10 +639,16 @@ function unit_test_Race() {
 	
 	ut.tests.query_refs_and_subs_ok = function(test, data) {
 		var race = data.t;
+		test.assert_not_null(race, "race null");
+		test.assert_not_null(race.tables, "race tables null");
+		
 		var tbl = race.tables.demotable;
 		var ref = race.tables.subtable_ref;
 		var cpy_original = race.tables.subtable_copy;
-		
+		test.assert_not_null(tbl, "demotable null");
+		test.assert_not_null(ref, "ref subtable null");
+		test.assert_not_null(cpy_original, "clone subtable null");
+				
 		var cpy_copy;
 		var res;
 

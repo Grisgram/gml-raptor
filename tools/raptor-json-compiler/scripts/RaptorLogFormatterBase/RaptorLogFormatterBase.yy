@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"RaptorLogFormatterBase",
   "isCompatibility":false,
   "isDnD":false,

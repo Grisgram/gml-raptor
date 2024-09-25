@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"UiThemeManager",
   "isCompatibility":false,
   "isDnD":false,

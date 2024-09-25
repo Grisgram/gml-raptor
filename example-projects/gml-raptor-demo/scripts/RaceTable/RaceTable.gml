@@ -2,19 +2,21 @@
     Management class for one single loot table of the Race system
 */
 
-
 /// @func RaceTable(_name, _table_struct)
 function RaceTable(_name = "", _table_struct = undefined) constructor {
 	construct(RaceTable);
 	
+	// the member "items" comes from the json file - it is not declared here
 	race = undefined;
 	name = _name;
 	if (_table_struct != undefined) { // if we come from savegame, no struct is given
 		struct_join_into(self, RACE_LOOT_DATA_DEEP_COPY ? SnapDeepCopy(_table_struct) : _table_struct);
 		// create attributes as empty struct if they don't exist
 		var names = struct_get_names(items);
-		for (var i = 0, len = array_length(names); i < len; i++)
+		for (var i = 0, len = array_length(names); i < len; i++) {
 			vsgetx(items[$ names[@i]], "attributes", {});
+			items[$ names[@i]].name = names[@i];
+		}
 		vsgetx(self, "loot_count", 1);
 	}
 	
@@ -110,17 +112,26 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		if (string_starts_with(typename, "=")) {
 			// go into recursion
 			typename = string_skip_start(typename, 1);
-			race.tables[$ typename].__query_recursive(_result, _uniques);
+			// ATTENTION! The split in several local variables is for HTML
+			// It breaks with the nested struct access
+			var tbls = race.tables;
+			var tbl = tbls[$ typename];
+			tbl.__query_recursive(_result, _uniques);
+			//race.tables[$ typename].__query_recursive(_result, _uniques);
 		} else if (string_starts_with(typename, "+")) {
 			// deep copy, THEN go into recursion
 			typename = string_skip_start(typename, 1);
+			// ATTENTION! The split in several local variables is for HTML
+			// It breaks with the nested struct access
 			var deepcopy = race.clone_table(typename);
 			var newname = deepcopy.name;
 			// find a free new name for the deep copy
 			_item.type = $"={newname}";
 			if (DEBUG_LOG_RACE)
 				vlog($"Added dynamic global race table: '{newname}'");
-			race.tables[$ newname].__query_recursive(_result, _uniques);
+			var tbls = race.tables;
+			var tbl = tbls[$ newname];
+			tbl.__query_recursive(_result, _uniques);
 		} else {
 			array_push(_result, new RaceResult(_item, _name, name));
 		}

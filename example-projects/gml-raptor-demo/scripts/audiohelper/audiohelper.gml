@@ -47,6 +47,47 @@ function __room_audio_session() constructor {
 			ambience_asset = undefined;
 		}
 	}
+
+	/// @func __ambience_private(amb, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign)
+	static __ambience_private = function(amb, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
+		amb ??= (ambience_asset ?? get_default_ambience_for_room());
+		if (AUDIOSETTINGS.ambience_enabled && amb != undefined) {
+			var finalgain = gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume;
+			var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
+			
+			var newid =
+				audio_play_sound(amb, priority, loop, startgain, offset, pitch, listener_mask);
+		
+			if (fade_in_time_ms > 0)
+				audio_sound_gain(newid, finalgain, fade_in_time_ms);
+		
+			if (reassign) {
+				ambience_id = newid;
+				ambience_asset = amb;
+			}
+		}
+	}
+
+	/// @func __music_private(mus, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign)
+	static __music_private = function(mus, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
+		mus ??= (music_asset ?? get_default_music_for_room());
+		if (AUDIOSETTINGS.music_enabled && mus != undefined) {
+			var finalgain = gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume;
+			var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
+		
+			var newid =
+				audio_play_sound(mus, priority, loop, startgain, offset, pitch, listener_mask);
+
+			if (fade_in_time_ms > 0)
+				audio_sound_gain(newid, finalgain, fade_in_time_ms);
+
+			if (reassign) {
+				__ACTIVE_AUDIO_SESSION.music_id = newid;
+				__ACTIVE_AUDIO_SESSION.music_asset = mus;
+			}
+		}
+	}
+
 }
 
 #macro __ACTIVE_AUDIO_SESSION		global.__active_audio_session
@@ -200,7 +241,7 @@ function play_music(mus,
 	stop_music();
 	run_delayed(GAMECONTROLLER, (AUDIO_MUSIC_CHANGE_OVERLAY ? 0 : ms_to_frames(AUDIO_MUSIC_DEFAULT_FADE_OUT_MS)),
 		function(p) {
-			__play_music_private(
+			__ACTIVE_AUDIO_SESSION.__music_private(
 				p._mus,
 				p._gain,
 				p._fade_in_time_ms,
@@ -232,25 +273,8 @@ function play_music_overlay(mus,
 							pitch			= AUDIO_MUSIC_DEFAULT_PITCH, 
 							offset			= 0, 
 							listener_mask	= AUDIO_MUSIC_DEFAULT_LISTENER_MASK) {
-	__play_music_private(mus,gain,fade_in_time_ms,false,pitch,offset,listener_mask,AUDIO_MUSIC_DEFAULT_PRIORITY,false);
-}
-
-function __play_music_private(mus, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
-	if (AUDIOSETTINGS.music_enabled && mus != undefined) {
-		var finalgain = gain * AUDIOSETTINGS.music_volume * AUDIOSETTINGS.master_volume;
-		var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
-		
-		var newid =
-			audio_play_sound(mus, priority, loop, startgain, offset, pitch, listener_mask);
-
-		if (fade_in_time_ms > 0)
-			audio_sound_gain(newid, finalgain, fade_in_time_ms);
-
-		if (reassign) {
-			__ACTIVE_AUDIO_SESSION.music_id = newid;
-			__ACTIVE_AUDIO_SESSION.music_asset = mus;
-		}
-	}
+	__ACTIVE_AUDIO_SESSION.__music_private(
+		mus,gain,fade_in_time_ms,false,pitch,offset,listener_mask,AUDIO_MUSIC_DEFAULT_PRIORITY,false);
 }
 
 /// @func		stop_music(fade_out_time_ms = 1000)
@@ -283,7 +307,7 @@ function play_ambience( amb,
 	stop_ambience();
 	run_delayed(GAMECONTROLLER, (AUDIO_AMBIENCE_CHANGE_OVERLAY ? 0 : ms_to_frames(AUDIO_AMBIENCE_DEFAULT_FADE_OUT_MS)),
 		function(p) {
-			__play_ambience_private(
+			__ACTIVE_AUDIO_SESSION.__ambience_private(
 				p._amb,
 				p._gain,
 				p._fade_in_time_ms,
@@ -316,26 +340,8 @@ function play_ambience_overlay( amb,
 								pitch			= AUDIO_AMBIENCE_DEFAULT_PITCH, 
 								offset			= 0, 
 								listener_mask	= AUDIO_AMBIENCE_DEFAULT_LISTENER_MASK) {
-	__play_ambience_private(amb,gain,fade_in_time_ms,false,pitch,offset,listener_mask,AUDIO_AMBIENCE_DEFAULT_PRIORITY,false);
-}
-
-function __play_ambience_private(amb, gain, fade_in_time_ms, loop, pitch, offset, listener_mask, priority, reassign) {
-
-	if (AUDIOSETTINGS.ambience_enabled && amb != undefined) {
-		var finalgain = gain * AUDIOSETTINGS.ambience_volume * AUDIOSETTINGS.master_volume;
-		var startgain = (fade_in_time_ms > 0 ? 0 : finalgain);
-			
-		var newid =
-			audio_play_sound(amb, priority, loop, startgain, offset, pitch, listener_mask);
-		
-		if (fade_in_time_ms > 0)
-			audio_sound_gain(newid, finalgain, fade_in_time_ms);
-		
-		if (reassign) {
-			__ACTIVE_AUDIO_SESSION.ambience_id = newid;
-			__ACTIVE_AUDIO_SESSION.ambience_asset = amb;
-		}
-	}
+	__ACTIVE_AUDIO_SESSION.__ambience_private(
+		amb,gain,fade_in_time_ms,false,pitch,offset,listener_mask,AUDIO_AMBIENCE_DEFAULT_PRIORITY,false);
 }
 
 /// @func		stop_ambience(fade_out_time_ms = 1000)

@@ -18,3 +18,7 @@ __set_down_image = function() {
 }
 
 __set_default_image();
+
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata, __set_default_image);
+}

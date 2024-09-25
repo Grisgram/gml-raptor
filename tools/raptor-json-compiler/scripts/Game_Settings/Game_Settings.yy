@@ -1,12 +1,12 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Game_Settings",
   "isCompatibility":false,
   "isDnD":false,
   "name":"Game_Settings",
   "parent":{
-    "name":"__GAME_SETUP_",
-    "path":"folders/__GAME_SETUP_.yy",
+    "name":"__GAME_SETUP__",
+    "path":"folders/__GAME_SETUP__.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

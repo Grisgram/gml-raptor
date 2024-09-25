@@ -1,4 +1,3 @@
 /// @desc draw sprite & text
-
-if (!draw_on_gui) 
-	__draw_me();
+GUI_EVENT_DRAW;
+__draw_me();

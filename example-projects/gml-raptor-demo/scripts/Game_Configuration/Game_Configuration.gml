@@ -33,13 +33,13 @@
 #macro DATA_FILE_EXTENSION				".json"
 #macro release:DATA_FILE_EXTENSION		".jx"
 
-// The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
-// all your games! Do NOT reuse the same name over and over again!
-#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_{GML_RAPTOR_VERSION}_game_settings{DATA_FILE_EXTENSION}"
-
 // Replace the production crypt key with a good salty key of your own!
 #macro FILE_CRYPT_KEY					""
 #macro release:FILE_CRYPT_KEY			"/�0^^4 0= 4!/! �-:-71!/!9_15I-I�|)-(4/�,!/!1^0/�,�-v|_/�,4551( 11=�=0/�,!v!"
+
+// The name of your settings file. ATTENTION FOR ITCH.IO: This name must be UNIQUE across
+// all your games! Do NOT reuse the same name over and over again!
+#macro GAME_SETTINGS_FILENAME			$"{GAME_FILE_PREFIX}_{GML_RAPTOR_VERSION}_game_settings{DATA_FILE_EXTENSION}"
 
 // Global functionality setup for the game
 
@@ -64,16 +64,18 @@
 // The min_wait_time constant is measured in frames. Default is 90 (1.5secs) to show loading spinner
 // The fade_in time for the first room is also measured in frames
 #macro ROOM_AFTER_STARTER			rmMain
-#macro STARTER_ASYNC_MIN_WAIT_TIME	90
+#macro STARTER_ASYNC_MIN_WAIT_TIME	0
 #macro STARTER_FIRST_ROOM_FADE_IN	0
+#macro release:STARTER_ASYNC_MIN_WAIT_TIME	90
+#macro release:STARTER_FIRST_ROOM_FADE_IN	60
 
-/// @func function onGameStart()
+/// @func	onGameStart()
 /// @desc	When this runs, load_settings() has already been called and 
 ///			you can access your settings through the GAMESETTINGS macro.
 function onGameStart() {
 
 	// Debug/Dev configuration
-	DEBUG_SHOW_OBJECT_FRAMES	= false;
+	DEBUG_SHOW_OBJECT_FRAMES	= true;
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 
@@ -85,16 +87,10 @@ function onGameStart() {
 	UI_THEMES.activate_theme("coldrock");
 
 	UI_SKINS.add_skin(new WoodSkin());
-
-	// Load start data
-	// Example lines to show that you can load your startup files here
-	// ------------------------------------------------------------------
-	//SOME_GLOBAL_THING = file_read_struct_plain(GLOBAL_THING_FILE_NAME);
-	//global.loot_system = new Race(RACE_FILE_NAME);
 	
 	// Setup Scribble
 	// ------------------------------------------------------------------
-	//scribble_font_bake_outline_8dir("acme28","acme28out",c_black,true);
+	//scribble_font_bake_outline_and_shadow("acme28","acme28_out",0,0,SCRIBBLE_OUTLINE.EIGHT_DIR,2,true);
 	//scribble_font_set_default("acme28");
 	scribble_font_set_default("fntArial");
 
@@ -111,19 +107,40 @@ function onGameStart() {
 
 }
 
-/// @func onLoadingScreen(task, frame)
-/// @desc Use this function while the loading screen is visible 
-///		  to perform "async-like" tasks. Store your state in the task
-///		  struct, it will be sent to you every frame, as long as you 
-///		  return true from this function.
-///		  If you return false (or nothing), the GameStarter considers your
-///		  startup-loading actions as finished.
-///		  The frame parameter increases by 1 each time this is invoked and starts with 0.
+/// @func   onLoadingScreen(task, frame)
+/// @desc   Use this function while the loading screen is visible 
+///		    to perform "async-like" tasks. Store your state in the task
+///		    struct, it will be sent to you every frame, as long as you 
+///		    return true from this function.
+///			If you return false (or nothing), and there are no more async
+///			file operations running, the GameStarter considers your
+///		    startup-loading actions as finished.
+///		    The frame parameter increases by 1 each time this is invoked and starts with 0.
+///			------------------------
+///			What you SHOULD do here:
+///			- LOAD ALL YOUR RACE INSTANCES, THEY ARE ASYNC AND THIS FUNCTION TAKES CARE OF IT
+///			- LOAD ALL YOU ADDITIONAL LOCALE FILES, THEY ARE ALSO ASYNC
 function onLoadingScreen(task, frame) {
 
+	// Load async start data IN THE FIRST FRAME
+	// Example lines to show that you can load your startup files here
+	// Loading screen only disappears when NO MORE ASYNC operations run
+	// AND this function did not return true.
+	// ------------------------------------------------------------------
+	if (frame == 0) {
+		//SOME_GLOBAL_THING = file_read_struct_plain_async(GLOBAL_THING_FILE_NAME, FILE_CRYPT_KEY);
+		//global.loot_system = new Race(RACE_FILE_NAME);
+		//LG_add_file_async("dialogs");
+		LG_add_file_async("raptor_demo");
+	}
+	
+	// If you do other async things here, don't forget to RETURN TRUE until they are
+	// are finished (return code means something like "still busy?", so return true while working)
+	//return true;
 }
 
-/// @func function onGameEnd()
+/// @func	onGameEnd()
+/// @desc   Invoked when the game ends. NEVER OCCURS IN HTML GAMES.
 function onGameEnd() {
 	
 }

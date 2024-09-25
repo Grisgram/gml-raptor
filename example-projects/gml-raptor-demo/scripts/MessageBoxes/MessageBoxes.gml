@@ -49,5 +49,5 @@ function msg_show_save_cancel(title, text, save_callback = undefined, cancel_cal
 }
 
 function __get_default_msgbox(title, text) {
-	return new MessageBox(MESSAGEBOX_WINDOW, MESSAGEBOX_LAYER, title, text);
+	return new MessageBox(MESSAGEBOX_WINDOW, MESSAGEBOX_LAYER, LG_resolve(title), LG_resolve(text));
 }

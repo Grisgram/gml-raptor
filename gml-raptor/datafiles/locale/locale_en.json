@@ -4,14 +4,20 @@
     "company": "Coldrock Games",
 	"company_website": "https://www.coldrock.games",
     "copyright": "Copyright (c) [? legal/company]",
-    "locale_author": "Haerion Coldrock aka Grisgram",
-    "developer": "Haerion Coldrock aka Grisgram",
+    "locale_author": "Michael Barthold aka Grisgram",
+    "developer": "[? legal/company]",
     "game_channel_beta": "Beta",
     "game_channel_prod": "Production",
     "game_channel_dev": "Development"
   },
+  "startup_server": {
+	  "connecting": "Connecting to Server...",
+	  "connection_success": "[?states/connected]",
+	  "connection_failed": "[?states/disconnected]",
+  },
   "credits": {
-    "credits_title": "Credits"
+    "title": "Credits",
+	"text": "",
   },
   "global_words": {
     "buttons": {

@@ -15,14 +15,19 @@ onPoolDeactivate = function(_data) {}
 
 
 #region skin
-SKIN.apply_skin(self); // apply sprites NOW...
-run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done
+/// @func onSkinChanging(_skindata)
+/// @desc	Invoked, when the skin is about to change
+///			You may return false here to abort skill apply
+onSkinChanging = function(_skindata) {}
+ 
+/// @func onSkinChanged(_skindata)
+/// @desc	Invoked, when the skin has changed
+onSkinChanged = function(_skindata) {}
 
 /// @func integrate_skin_data(_skindata)
 /// @desc Copy all values EXCEPT SPRITE_INDEX to self
 ///				 Then, if we have a sprite, we replace it
 integrate_skin_data = function(_skindata) {
-	if (!skinnable) return;
 	struct_foreach(_skindata, function(name, value) {
 		if (name != "sprite_index") {
 			if (is_method(value))
@@ -31,16 +36,14 @@ integrate_skin_data = function(_skindata) {
 				self[$ name] = value;
 		}
 	});
-	if (vsget(_skindata, "sprite_index") != undefined && sprite_index != -1)
-		replace_sprite(_skindata.sprite_index);
+	
+	if (vsget(_skindata, "sprite_index") != undefined)
+		replace_sprite(_skindata.sprite_index,-1,-1,false);
 }
 
-/// @func on_skin_changed(_skindata)
-/// @desc	Invoked, when the skin changed
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
-}
+SKIN.apply_skin(self); // apply sprites NOW...
+run_delayed(self, 0, function() { SKIN.apply_skin(self); }); //... and the full skin after all create code is done
+
 #endregion
 
 #region enabled
@@ -58,7 +61,18 @@ set_enabled = function(_enabled) {
 
 #endregion
 
-#region topmost
+#region ui functions
+// all raptor objects have this member, so they can be
+// inserted as content into a ScrollPanel control
+parent_scrollpanel = undefined;
+
+/// @func	commit_move()
+/// @desc	Let this object look like it hasn't moved
+commit_move = function() {
+	xprevious = x;
+	yprevious = y;
+}
+
 /// @func __can_touch_this(_instance)
 __can_touch_this_child = undefined;
 __can_touch_this = function(_instance) {
@@ -67,7 +81,8 @@ __can_touch_this = function(_instance) {
 			is_child_of(self, RaptorTooltip) ||
 			is_child_of(self, RaptorUiRootPanel) ||
 			is_child_of(self, MouseCursor);
-		if (__can_touch_this_child || !__CONTROL_IS_ENABLED || __INSTANCE_UNREACHABLE) return false;
+		if (__can_touch_this_child || !__CONTROL_IS_ENABLED || __INSTANCE_UNREACHABLE) 
+			return false;
 	}
 	return true;
 }

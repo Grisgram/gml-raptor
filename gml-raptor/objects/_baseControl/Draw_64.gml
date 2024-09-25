@@ -1,5 +1,5 @@
 /// @desc draw_self
 
-if (draw_on_gui) 
-	__draw_self();
+GUI_EVENT_DRAW_GUI;
+__draw_self();
 	

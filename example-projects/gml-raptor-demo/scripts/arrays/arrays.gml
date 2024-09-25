@@ -113,11 +113,15 @@ function array_pick_random(array, number = 1) {
 		array_copy(rv,0,array,0,len);
 	} else {
 		var hit = [];
+		var idx;
 		repeat(number) {
-			var idx;
 			do {
 				idx = irandom_range(0, len - 1);
-			} until (!array_contains(hit, idx, false));
+			} until (!array_contains(hit, idx));
+			array_push(hit, idx);
+		}
+		for (var i = 0, len = array_length(hit); i < len; i++) {
+			idx = hit[@i];
 			array_push(rv, array[@ idx]);
 		}
 	}

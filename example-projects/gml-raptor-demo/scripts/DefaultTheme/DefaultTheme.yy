@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"DefaultTheme",
   "isCompatibility":false,
   "isDnD":false,

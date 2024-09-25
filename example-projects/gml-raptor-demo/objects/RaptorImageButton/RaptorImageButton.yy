@@ -2,7 +2,7 @@
   "$GMObject":"",
   "%Name":"RaptorImageButton",
   "eventList":[
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"RaptorImageButton",
@@ -37,7 +37,7 @@
   "properties":[
     {"$GMObjectProperty":"v1","%Name":"sprite_to_use","filters":[
         "GMSprite",
-      ],"listItems":[],"multiselect":false,"name":"sprite_to_use","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":5,},
+      ],"listItems":[],"multiselect":false,"name":"sprite_to_use","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"undefined","varType":5,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

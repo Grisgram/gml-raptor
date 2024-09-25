@@ -56,7 +56,7 @@
   "packageId":"",
   "parent":{
     "name":"browser_extensions",
-    "path":"folders/__GAME_SETUP_/browser_extensions.yy",
+    "path":"folders/__GAME_SETUP__/browser_extensions.yy",
   },
   "productId":"",
   "resourceType":"GMExtension",

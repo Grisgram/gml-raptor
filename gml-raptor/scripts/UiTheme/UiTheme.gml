@@ -11,6 +11,8 @@
 #macro CI_GLOBAL_WHITE					#FAFAFA
 #macro CI_GLOBAL_BLACK					#070707
 #macro CI_GLOBAL_SHADOW					#808080
+#macro CI_GLOBAL_SHADOW_ALPHA			0.75
+#macro CI_GLOBAL_OUTLINE				CI_GLOBAL_BLACK
 										
 #macro CI_GLOBAL_CONTROL_DARK			#A0A0A0
 #macro CI_GLOBAL_CONTROL_BACK			#C0C0C0
@@ -30,6 +32,8 @@
 #macro THEME_WHITE					global.__ci_theme_white
 #macro THEME_BLACK					global.__ci_theme_black
 #macro THEME_SHADOW					global.__ci_theme_shadow
+#macro THEME_SHADOW_ALPHA			global.__ci_theme_shadow_alpha
+#macro THEME_OUTLINE				global.__ci_theme_outline
 
 #macro THEME_CONTROL_DARK			global.__ci_theme_control_dark
 #macro THEME_CONTROL_BACK			global.__ci_theme_control_back
@@ -44,7 +48,7 @@
 ///				 the existing theme will be overwritte by the added theme!
 ///				 After the constructor ran, the new theme is initialized with raptor's default colors,
 ///				 and you can use the "set_colors" function to define (main, bright, dark, accent)
-///				 and "set_grayscales" to define (white, black, shadow) colors.
+///				 and "set_grayscales" to define (white, black, outline, shadow, shadow_alpha) colors.
 ///				 But the best way is to derive your own theme from this and just set the colors you wish.
 function UiTheme(_name = "default") constructor {
 	construct(UiTheme);
@@ -59,6 +63,8 @@ function UiTheme(_name = "default") constructor {
 	white			= CI_GLOBAL_WHITE;
 	black			= CI_GLOBAL_BLACK;
 	shadow			= CI_GLOBAL_SHADOW;
+	shadow_alpha	= CI_GLOBAL_SHADOW_ALPHA;
+	outline			= CI_GLOBAL_OUTLINE;
 
 	control_back	= CI_GLOBAL_CONTROL_BACK;
 	control_dark	= CI_GLOBAL_CONTROL_DARK;
@@ -75,11 +81,13 @@ function UiTheme(_name = "default") constructor {
 		accent	= _accent;
 	}
 	
-	/// @func set_grayscales(_white, _black, _shadow)
-	static set_grayscales = function(_white, _black, _shadow) {
-		white	= _white;
-		black	= _black;
-		shadow	= _shadow;
+	/// @func set_grayscales(_white, _black, _outline, _shadow, _shadow_alpha)
+	static set_grayscales = function(_white, _black, _outline, _shadow, _shadow_alpha) {
+		white		 = _white;
+		black		 = _black;
+		outline		 = _outline;
+		shadow		 = _shadow;
+		shadow_alpha = _shadow_alpha;
 	}
 
 	/// @func set_control_colors(_control_back, _dark, _bright, _text, _window_back, _window_focus)

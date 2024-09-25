@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ColdrockTheme",
   "isCompatibility":false,
   "isDnD":false,

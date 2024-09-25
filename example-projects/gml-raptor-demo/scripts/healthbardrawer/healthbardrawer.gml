@@ -90,7 +90,7 @@ function HealthBarDrawer(_max_value = 100, _font = undefined, start_filled = tru
 		if (font != undefined && (draw_max || draw_current)) {
 			draw_set_font(font);
 			if (__prev_current != current_value || __prev_max != max_value) {
-				__prev_string = string(current_value);
+				__prev_string = string_format_number_left(floor(current_value));
 				if (draw_max) __prev_string = string_concat(__prev_string, "/", max_value);
 				__prev_current = current_value;
 				__prev_max = max_value;

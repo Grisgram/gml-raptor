@@ -213,12 +213,14 @@ if (array_length(items ?? []) > 0) {
 	vlog($"{MY_NAME} adding {array_length(newitems)} design time items to list");
 	var sa;
 	for (var i = 0, len = array_length(newitems); i < len; i++) {
-		var it = newitems[@i];
-		if (is_string(it) && string_contains(it, ":")) {
+		var it = string(newitems[@i] ?? "<null>");
+		if (string_contains(it, ":")) {
 			sa = string_split(it, ":", false, 1);
 			add_item(sa[1], sa[0]);
-		} else
-			throw("Designtime items for a listbox must follow the \"value:text\" pattern!");
+		} else {
+			add_item(it, i);
+			dlog($"Design time Listbox item '{it}' does not follow the \"value:text\" pattern! Added with value {i}");
+		}
 	}
 	
 	if (selected_index > -1 && array_length(items) > selected_index)

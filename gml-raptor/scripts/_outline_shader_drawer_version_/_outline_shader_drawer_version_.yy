@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"_OUTLINE_SHADER_DRAWER_VERSION_",
   "isCompatibility":false,
   "isDnD":false,

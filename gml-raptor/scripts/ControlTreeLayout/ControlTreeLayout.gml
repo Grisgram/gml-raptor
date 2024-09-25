@@ -243,7 +243,7 @@ function ControlTreeLayout() constructor {
 				break;
 			case fa_bottom:
 				var dist = _inst.sprite_height + tree.margin_bottom + tree.padding_bottom;
-				_inst.y = ypos + _area.get_bottom() - dist;
+				_inst.y = ypos + _area.get_bottom() - dist + 1;
 				break;
 		}
 		switch (halign) {
@@ -255,7 +255,7 @@ function ControlTreeLayout() constructor {
 				break;
 			case fa_right:
 				var dist = _inst.sprite_width + tree.margin_right + tree.padding_right;
-				_inst.x = xpos + _area.get_right() - dist;
+				_inst.x = xpos + _area.get_right() - dist + 1;
 				break;
 		}
 	}

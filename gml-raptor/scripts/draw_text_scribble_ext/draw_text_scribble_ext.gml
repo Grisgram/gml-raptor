@@ -19,7 +19,7 @@
 
 function draw_text_scribble_ext(_x, _y, _string, _width, _reveal = undefined)
 {
-    static _scribble_state = __scribble_get_state();
+    static _scribble_state = __scribble_initialize().__state;
     
     var _font = draw_get_font();
     if (font_exists(_font))
@@ -39,5 +39,4 @@ function draw_text_scribble_ext(_x, _y, _string, _width, _reveal = undefined)
     .wrap(_width);
     if (_reveal != undefined) _element.reveal(_reveal);
     _element.draw(_x, _y);
-    return _element;
 }

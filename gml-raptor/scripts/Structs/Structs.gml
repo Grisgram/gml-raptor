@@ -32,6 +32,8 @@ function construct(_class_name_or_asset) {
 /// @func is_class_of(_struct, _class_name)
 /// @desc Returns, whether the struct has used the "construct" command and the type is the specified class_name
 function is_class_of(_struct, _class_name) {
+	gml_pragma("forceinline");
+	if (!is_string(_class_name)) _class_name = script_get_name(_class_name);
 	return vsget(_struct, __CONSTRUCTOR_NAME) == _class_name;
 }
 
@@ -39,12 +41,14 @@ function is_class_of(_struct, _class_name) {
 /// @desc	Returns, whether the struct has used the "construct" command and the type is the specified class_name
 ///			or the specified _class_name appears anywhere in the inheritance chain of this _struct
 function is_child_class_of(_struct, _class_name) {
+	gml_pragma("forceinline");
+	if (!is_string(_class_name)) _class_name = script_get_name(_class_name);
 	return 
 		is_class_of(_struct, _class_name) ||
 		string_contains(vsget(_struct, __PARENT_CONSTRUCTOR_NAME, ""), $"|{_class_name}|");
 }
 
-/// @func	implement(_interface)
+/// @func	implement(_interface, ...)
 /// @desc	Works like an interface implementation by copying all members
 ///			and re-binding all methods from "interface" to "self"
 ///			Creates a hidden member __raptor_interfaces in this struct which contains
@@ -61,10 +65,30 @@ function implement(_interface) {
 		sclass = _interface;
 	}
 	
-	var i = new sclass();
-	struct_join_into(self, i);
+	var res;
+	switch (argument_count) {
+		case  1: res = new sclass(); break;
+		case  2: res = new sclass(argument[1]); break;
+		case  3: res = new sclass(argument[1],argument[2]); break;
+		case  4: res = new sclass(argument[1],argument[2],argument[3]); break;
+		case  5: res = new sclass(argument[1],argument[2],argument[3],argument[4]); break;
+		case  6: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5]); break;
+		case  7: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6]); break;
+		case  8: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7]); break;
+		case  9: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8]); break;
+		case 10: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9]); break;
+		case 11: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10]); break;
+		case 12: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11]); break;
+		case 13: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12]); break;
+		case 14: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
+		case 15: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
+		case 16: res = new sclass(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+	}
+	
+	struct_join_into(self, res);
 	if (!variable_struct_exists(self, __INTERFACES_NAME))
 		self[$ __INTERFACES_NAME] = [];
+	sname = vsget(res, __CONSTRUCTOR_NAME, sname);
 	if (!array_contains(self[$ __INTERFACES_NAME], sname))
 		array_push(self[$ __INTERFACES_NAME], sname);
 }
@@ -115,14 +139,19 @@ function struct_join_into(target, sources) {
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
 		var names = struct_get_names(from);
-		for (var i = 0; i < array_length(names); i++) {
-			var name = names[i];
+		for (var j = 0; j < array_length(names); j++) {
+			var name = names[@j];
 			var member = from[$ name];
 			with (target) {
 				if (is_method(member))
 					self[$ name] = method(self, member);
-				else
-					self[$ name] = member;
+				else {
+					vsgetx(self, name, member);
+					if (member != undefined && is_struct(member))
+						struct_join_into(self[$ name], member);
+					else
+						self[$ name] = member;
+				}
 			}
 		}
 	}
@@ -134,9 +163,13 @@ function struct_join_into(target, sources) {
 ///			and even allows you to create that member in the struct, if it is missing
 function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true) {
 	gml_pragma("forceinline");
-	if (_create_if_missing)
-		_struct[$ _key] ??= _default_if_missing;
-	return _struct[$ _key] ?? _default_if_missing;
+	if (_struct == undefined) 
+		return _default_if_missing;
+		
+	if (_create_if_missing && _struct[$ _key] == undefined)
+        _struct[$ _key] = _default_if_missing;
+		
+    return _struct[$ _key];		
 }
 
 /// @func	vsget(_struct, _key, _default_if_missing = undefined)
@@ -144,7 +177,7 @@ function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missi
 ///			but does not create the missing member in the struct
 function vsget(_struct, _key, _default_if_missing = undefined) {
 	gml_pragma("forceinline");
-	return _struct[$ _key] ?? _default_if_missing;
+	return (_struct != undefined && _struct[$ _key] != undefined) ? _struct[$ _key] : _default_if_missing;
 }
 
 
@@ -172,7 +205,7 @@ function virtual(_object_type, _function_name, _function = undefined) {
 		self[$ _function_name] = method(self, _function);
 }
 
-/// @func	override(_function_name, _new_function)
+/// @func	override(_object_type, _function_name, _new_function)
 /// @desc	NOTE: WORKS FOR OBJECTS ONLY! NOT FOR STRUCTS!
 ///			Allows a clean override of any function in an object instance and keeps
 ///			the original function available under the parent objects' name + function_name

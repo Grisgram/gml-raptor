@@ -7,6 +7,7 @@
       "option_windows_installer_finished":"installer/finished.bmp",
       "option_windows_installer_header":"installer/header.bmp",
       "option_windows_nsis_file":"installer/installer.nsi",
+      "option_windows_version":"24.10.0.0",
     },
   },
   "name":"Windows",

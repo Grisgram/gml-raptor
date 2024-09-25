@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"TooltipManager",
   "isCompatibility":false,
   "isDnD":false,

@@ -80,5 +80,36 @@ function unit_test_Strings() {
 		test.assert_equals("34", string_substring("1234",3));
 	}
 
+	ut.tests.string_format_number_ok = function(test, data) {
+		test.assert_equals("  42", string_format_number(42,4));
+		test.assert_equals("  42.0", string_format_number(42,4,1));
+		test.assert_equals("0042.0", string_format_number(42,4,1, true));
+		test.assert_equals("42.0", string_format_number(42,1,1, true));
+	}
+	
+	ut.tests.string_format_number_right_ok = function(test, data) {
+		test.assert_equals("  42", string_format_number_right(42,4));
+		test.assert_equals("  42.0", string_format_number_right(42,4,1));
+		test.assert_equals("42.0", string_format_number_right(42,1,1, true));
+	}
+
+	ut.tests.string_format_number_left_ok = function(test, data) {
+		test.assert_equals("42", string_format_number_left(42,4));
+		test.assert_equals("42.0", string_format_number_left(42,4,1));
+		test.assert_equals("42.0", string_format_number_left(42,1,1));
+	}
+
+	ut.tests.string_index_of_ok = function(test, data) {
+		test.assert_equals( 5, string_index_of("data/files/file.txt", "/"   ));
+		test.assert_equals(11, string_index_of("data/files/file.txt", "/", 6));
+		test.assert_equals( 0, string_index_of("data/files/file.txt", ":"   ));
+	}
+
+	ut.tests.string_last_index_of_ok = function(test, data) {
+		test.assert_equals(11, string_last_index_of("data/files/file.txt", "/"   ));
+		test.assert_equals(11, string_last_index_of("data/files/file.txt", "/", 6));
+		test.assert_equals( 0, string_last_index_of("data/files/file.txt", ":"   ));
+	}
+
 	ut.run();
 }

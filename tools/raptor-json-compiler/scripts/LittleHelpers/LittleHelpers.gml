@@ -60,6 +60,8 @@ function percent_mult(val, total) {
 #macro __OBJECT_HAS_NO_PARENT	-100
 #macro __OBJECT_DOES_NOT_EXIST	-1
 function is_child_of(child, parent) {
+	if (is_null(child)) return false;
+	
 	var to_find, to_find_parent;
 	if (instance_exists(child)) {
 		to_find = child.object_index;

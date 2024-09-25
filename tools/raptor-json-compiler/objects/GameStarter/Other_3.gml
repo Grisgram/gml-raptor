@@ -2,5 +2,5 @@
 
 mlog($"Invoking onGameEnd()");
 onGameEnd();
-save_settings();
+save_settings(true);
 

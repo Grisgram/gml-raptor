@@ -41,8 +41,15 @@ is_streaming	= false;
 __clone_created = !stream_with_clone;
 __my_emitter	= emitter_name;
 
+__raptor_onPoolActivate = function() {
+	follow_instance = undefined;
+	__clone_created = !stream_with_clone;
+	__my_emitter	= emitter_name;
+}
+
 __raptor_onPoolDeactivate = function() {
 	stop();
+	struct_remove(__get_partsys().__emitter_ranges, __my_emitter);
 }
 
 __get_partsys = function() {
@@ -57,7 +64,7 @@ set_offset = function(xoff, yoff) {
 	return self;
 }
 
-/// @func		__update_position(ps = undefined)
+/// @func		__update_position(ps = undefined, force = false)
 __update_position = function(ps = undefined, force = false) {
 	if (follow_instance != undefined && instance_exists(follow_instance)) {
 		x = follow_instance.x + follow_offset.x * follow_instance.image_xscale;

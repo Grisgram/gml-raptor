@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"LinqArrayTests",
   "isCompatibility":false,
   "isDnD":false,

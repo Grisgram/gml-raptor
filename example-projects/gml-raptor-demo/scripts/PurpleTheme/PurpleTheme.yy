@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"PurpleTheme",
   "isCompatibility":false,
   "isDnD":false,

@@ -17,12 +17,17 @@ function layer_set_all_visible(wildcard, vis, object_activation = true) {
 		var lname = layer_get_name(lid);
 		
 		if (string_match(lname, wildcard)) {
+			if (object_activation && vis) {
+				vlog($"Activating layer {lid} ('{lname}')");
+				instance_activate_layer(lid);
+			}
 			layer_set_visible(lid, vis);
 			ldepth = layer_get_depth(lid);
 			min_depth = min(min_depth, ldepth);
 			max_depth = max(max_depth, ldepth);
-			if (object_activation && layer_get_element_type(lid) == layerelementtype_instance) {
-				if (vis) instance_activate_layer(lid); else instance_deactivate_layer(lid);
+			if (object_activation && !vis) {
+				vlog($"Deactivating layer {lid} ('{lname}')");
+				instance_deactivate_layer(lid);
 			}
 			dlog($"Setting layer visibility: layer='{lname}'; visible={vis};");
 		}

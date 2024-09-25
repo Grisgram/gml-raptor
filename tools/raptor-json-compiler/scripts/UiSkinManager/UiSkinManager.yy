@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"UiSkinManager",
   "isCompatibility":false,
   "isDnD":false,

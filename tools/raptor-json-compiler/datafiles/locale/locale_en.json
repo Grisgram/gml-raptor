@@ -1,6 +1,6 @@
 {
   "legal": {
-    "game_name": "enter-game-name-here",
+    "game_name": "raptor-json-compiler",
     "company": "Coldrock Games",
 	"company_website": "https://www.coldrock.games",
     "copyright": "Copyright (c) [? legal/company]",
@@ -10,8 +10,14 @@
     "game_channel_prod": "Production",
     "game_channel_dev": "Development"
   },
+  "startup_server": {
+	  "connecting": "Connecting to Server...",
+	  "connection_success": "[?states/connected]",
+	  "connection_failed": "[?states/disconnected]",
+  },
   "credits": {
-    "credits_title": "Credits"
+    "title": "Credits",
+	"text": "",
   },
   "global_words": {
     "buttons": {

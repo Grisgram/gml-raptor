@@ -18,7 +18,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
-	
+	ilog($"SaveGame File Version {SAVEGAME_FILE_VERSION}");
 	SAVEGAME_SAVE_IN_PROGRESS = true;
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
 	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
@@ -33,7 +33,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	struct_set(savegame,	__SAVEGAME_ENGINE_HEADER	, engine);
 	
 	// save global data
-	struct_set(savegame,__SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+	struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
 	
 	// Then add all custom structs that shall be saved
 	struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);
@@ -91,22 +91,25 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	var struct_to_save = __savegame_remove_pointers(savegame, refstack);
 	struct_to_save[$ __SAVEGAME_REFSTACK_HEADER] = refstack;
 	
-	var rv = file_write_struct(filename, struct_to_save, cryptkey);		
-	SAVEGAME_SAVE_IN_PROGRESS = false;
+	return file_write_struct_async(filename, struct_to_save, cryptkey)
+	.__raptor_data("only", data_only)
+	.__raptor_finished(function(res, _buffer, _data) {
+		SAVEGAME_SAVE_IN_PROGRESS = false;
 
-	// invoke the post event
-	if (!data_only) {
-		with (Saveable) {
-			if (add_to_savegame && variable_instance_exists(self, __SAVEGAME_ONSAVED_NAME))
-				__SAVEGAME_ONSAVED_FUNCTION();
+		// invoke the post event
+		if (!_data.only) {
+			with (Saveable) {
+				if (add_to_savegame && variable_instance_exists(self, __SAVEGAME_ONSAVED_NAME))
+					__SAVEGAME_ONSAVED_FUNCTION(res);
+			}
 		}
-	}
 	
-	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION();
-	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION();
+		if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
+		if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
 	
-	ilog($"[----- SAVING GAME FINISHED -----]");
-
-	return rv;
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED);
+	
+		ilog($"[----- SAVING GAME FINISHED -----]");
+	});
 
 }

@@ -77,12 +77,16 @@ visible = true;
 
 companion = undefined;
 
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	var havedefault = (sprite_index == mouse_cursor_sprite);
-	var custom = sprite_index;
-	integrate_skin_data(_skindata);
-	sprite_index = (havedefault ? mouse_cursor_sprite : custom);
+__have_default = true;
+__custom = undefined;
+
+onSkinChanging = function(_skindata) {
+	__havedefault	= (sprite_index == mouse_cursor_sprite);
+	__custom		= sprite_index;
+}
+ 
+onSkinChanged = function(_skindata) {
+	sprite_index = (__havedefault ? mouse_cursor_sprite : __custom);	
 }
 
 /// @func set_cursor_custom(_cursor_sprite)

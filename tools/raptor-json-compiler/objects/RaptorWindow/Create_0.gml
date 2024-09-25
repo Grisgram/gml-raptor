@@ -46,11 +46,12 @@ __scribble_title	= undefined;
 __in_drag_mode		= false;
 __drag_rect			= new Rectangle();
 
-__base_skin_changed = on_skin_changed;
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	__base_skin_changed(_skindata);
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata);
 	create_x_button();
+	text = LG_resolve(text);
+	title = LG_resolve(title);
+	__check_center_on_open();
 }
 
 /// @func is_focus_window()
@@ -65,10 +66,13 @@ center_on_screen = function() {
 	control_tree.update_render_area();
 }
 
-if ((!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS) && center_on_open) {
-	center_on_screen();
-	update_startup_coordinates();
+__check_center_on_open = function() {
+	if ((!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS) && center_on_open) {
+		center_on_screen();
+		update_startup_coordinates();
+	}
 }
+__check_center_on_open();
 
 #region x-button
 
@@ -77,7 +81,12 @@ __x_button_closing	= undefined;
 __have_x_button		= false;
 
 create_x_button = function() {
-	if (__have_x_button) instance_destroy(__x_button);
+	if (__have_x_button && instance_exists(__x_button)) {
+		if (__x_button.object_index == window_x_button_object)
+			return;
+		else
+			instance_destroy(__x_button);
+	}
 	if (window_x_button_visible && !is_null(window_x_button_object)) {
 		__have_x_button = true;
 		__x_button = instance_create(0, 0, MY_LAYER_OR_DEPTH, window_x_button_object);
@@ -89,8 +98,6 @@ create_x_button = function() {
 			if (!is_null(__x_button_closing))
 				__x_button_closing(__x_button);
 			// Launch the closing callback set on the window
-			if (!is_null(on_closing)) 
-				on_closing(self);
 			close();
 		}
 	}
@@ -374,7 +381,8 @@ if (!add_to_savegame || !SAVEGAME_LOAD_IN_PROGRESS)
 
 /// @func close()
 close = function() {
-	ilog($"{MY_NAME} closing");
+	dlog($"{MY_NAME} closing");
+	invoke_if_exists(self, "on_closing", self);
 	__remove_self();
 	control_tree.invoke_on_closed();
 	control_tree.clear();
@@ -494,7 +502,8 @@ __draw_self = function() {
 		__last_title			= title;
 		
 		update_client_area();
-		if (__have_x_button) with(__x_button) update_position();
+		if (__have_x_button) 
+			with(__x_button) update_position();
 	} else {
 		__finalize_scribble_title();
 		__finalize_scribble_text();
@@ -525,8 +534,7 @@ __draw_instance = function(_force = false) {
 
 	if (__first_draw || _force) {
 		control_tree.layout();
-		if (!is_null(on_opening))
-			on_opening(self);
+		invoke_if_exists(self, "on_opening", self);
 	}
 
 	control_tree.draw_children();

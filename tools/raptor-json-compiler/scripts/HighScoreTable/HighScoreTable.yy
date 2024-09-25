@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"HighScoreTable",
   "isCompatibility":false,
   "isDnD":false,

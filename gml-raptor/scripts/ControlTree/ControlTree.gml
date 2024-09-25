@@ -16,31 +16,33 @@ enum anchor {
 	all_sides	= 15
 }
 
-function ControlTree(_control = undefined, _parent_tree = undefined, _margin = undefined, _padding = undefined) constructor {
+function ControlTree(
+	_control = undefined, _parent_tree = undefined, 
+	_margin = undefined, _padding = undefined) : BindableDataBuilder() constructor {
 	construct(ControlTree);
 	
 	// This is the control, the tree is bound to. Gets set in Create of _baseContainerControl
-	control			= _control;
-	controls		= {};
+	control				= _control;
+	controls			= {};
 
 	// if the parent_tree is undefined, this means, it's the top-level tree
 	// ONLY the top-level tree invokes layout() when the control moves or changes size,
 	// so the hierarchy is processed only once
-	parent_tree		= _parent_tree;
-	children		= [];
+	parent_tree			= _parent_tree;
+	children			= [];
 	
-	margin_left		= _margin ?? 0;
-	margin_top		= _margin ?? 0;
-	margin_right	= _margin ?? 0;
-	margin_bottom	= _margin ?? 0;
+	margin_left			= _margin ?? 0;
+	margin_top			= _margin ?? 0;
+	margin_right		= _margin ?? 0;
+	margin_bottom		= _margin ?? 0;
 	
-	padding_left	= _padding ?? 0;
-	padding_top		= _padding ?? 0;
-	padding_right	= _padding ?? 0;
-	padding_bottom	= _padding ?? 0;
+	padding_left		= _padding ?? 0;
+	padding_top			= _padding ?? 0;
+	padding_right		= _padding ?? 0;
+	padding_bottom		= _padding ?? 0;
 
-	render_area		= new Rectangle(); // client area minus all applied dockings (= free undocked render space)
-	reorder_docks	= true;
+	render_area			= new Rectangle(); // client area minus all applied dockings (= free undocked render space)
+	reorder_docks		= true;
 
 	// holds rendering coordinates
 	runner  = {
@@ -50,15 +52,19 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		bottom: 0
 	}
 	
-	__on_opened		= undefined;
-	__on_closed		= undefined;
-	__last_instance	= undefined;
-	__last_entry	= undefined;
-	__last_layout	= undefined;
-	__root_tree		= self;
-	__force_next	= false;
-	__layout_done	= false;
-	__alive			= true; // used for cleanup
+	__last_instance		= undefined;
+	__last_container	= undefined;
+	__last_entry		= undefined;
+	__last_layout		= undefined;
+	__root_tree			= self;
+	__force_next		= false;
+	__layout_done		= false;
+	__alive				= true; // used for cleanup
+
+	__on_shown_done		= false;
+	__on_shown			= [];
+	__on_opened			= [];
+	__on_closed			= [];
 
 	/// @func bind_to(_control)
 	static bind_to = function(_control) {
@@ -134,11 +140,13 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		inst.draw_on_gui = control.draw_on_gui;
 		inst.autosize = false;
 		inst.control_tree_layout = new ControlTreeLayout();
+		inst.control_tree_layout.xpos = -control.sprite_xoffset;
+		inst.control_tree_layout.ypos = -control.sprite_yoffset;
 
 		__last_entry = new ControlTreeEntry(inst);
 		array_push(children, __last_entry);
 		
-		dlog($"Control {name_of(inst)} added to tree of {name_of(control)}");
+		vlog($"Control {name_of(inst)} added to tree of {name_of(control)}");
 		
 		__last_instance = inst;
 		if (is_child_of(inst, _baseContainerControl)) {
@@ -146,8 +154,10 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			inst.control_tree.__root_tree = __root_tree;
 			inst.control_tree.__last_layout = inst.control_tree_layout;
 			inst.control_tree.__last_entry = __last_entry;
+			inst.control_tree.__last_container = self;
 			return inst.control_tree;
 		} else {
+			__last_container = undefined;
 			__last_layout = inst.control_tree_layout;
 			return self;
 		}
@@ -178,7 +188,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				(!strcompare && eq(_control_or_name, inst))) {
 				struct_remove(controls, child.name);
 				array_delete(children, i, 1);
-				dlog($"Removed {name_of(_control)} from tree of {name_of(control)}");
+				vlog($"Removed {name_of(inst)} from tree of {name_of(control)}");
 				break;
 			}
 		}
@@ -286,8 +296,15 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	/// @func set_name(_name)
 	/// @desc Give a child control a name to retrieve it later through get_element(_name)
 	static set_name = function(_name) {
-		__last_entry.name = _name;
-		controls[$ _name] = __last_entry.instance;
+		if (__last_container != undefined) {
+			__last_container.__last_entry.name = _name;
+			__last_container.__last_entry.instance.name = _name;
+			__last_container.controls[$ _name] = __last_container.__last_entry.instance;
+		} else {
+			__last_entry.name = _name;
+			__last_entry.instance.name = _name;
+			controls[$ _name] = __last_entry.instance;
+		}
 		return self;
 	}
 
@@ -318,6 +335,38 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			throw($"Control '{name_of(_control)}' not found in tree of '{name_of(control)}'!");
 	}
 
+	/// @func	set_visible(_visible)
+	/// @desc	Sets the visible state for this and all children
+	static set_visible = function(_visible) {
+		control.visible = _visible;
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child	= children[@i];
+			var inst	= child.instance;
+			
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.control_tree.set_visible(_visible);
+			}
+			inst.visible = _visible;
+		}
+		return self;
+	}
+
+	/// @func	set_enabled(_enabled)
+	/// @desc	Sets the enabled state for this and all children
+	static set_enabled = function(_enabled) {
+		control.set_enabled(_enabled);
+		for (var i = 0, len = array_length(children); i < len; i++) {			
+			var child	= children[@i];
+			var inst	= child.instance;
+			
+			if (is_child_of(inst, _baseContainerControl)) {
+				inst.control_tree.set_enabled(_enabled);
+			}
+			inst.set_enabled(_enabled);
+		}
+		return self;
+	}
+
 	/// @func get_element(_name)
 	/// @desc Retrieve a child control by its name. Returns the instance or undefined
 	static get_element = function(_name) {
@@ -328,6 +377,22 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 				rv = child.instance;
 			else if (is_child_of(child.instance, _baseContainerControl))
 				rv = child.instance.control_tree.get_element(_name);
+			if (rv != undefined) 
+				return rv;
+		}
+		return undefined;
+	}
+
+	/// @func get_element_name(_control)
+	/// @desc Retrieve a child control's name by its instance pointer. Returns the name or undefined
+	static get_element_name = function(_control) {
+		var rv = undefined;
+		for (var i = 0, len = array_length(children); i < len; i++) {
+			var child = children[@i];
+			if (child.instance == _control)
+				rv = child.name;
+			else if (is_child_of(child.instance, _baseContainerControl))
+				rv = child.instance.control_tree.get_element_name(child.instance);
 			if (rv != undefined) 
 				return rv;
 		}
@@ -344,39 +409,68 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 		try {
 			with(__root_tree.control) {
 				animation_abort(self, "##__raptor_##.control_tree_build", false);
-				run_delayed(self, 1, function() { control_tree.layout(true); })
-					.set_name("##__raptor_##.control_tree_build");
+				run_delayed(self, 1, function() { 
+					if (control_tree.__alive)
+						control_tree.layout(true); 
+				})
+				.set_name("##__raptor_##.control_tree_build");
 			}
+			__on_shown_done = false;
 		} catch (_) {}
 		return self;
 	}
 	
 	/// @func on_window_opened(_callback)
 	static on_window_opened = function(_callback) {
-		__on_opened = _callback;
+		array_push(__on_opened, _callback);
 		return self;
 	}
 	
 	/// @func on_window_closed(_callback)
 	static on_window_closed = function(_callback) {
-		__on_closed = _callback;
+		array_push(__on_closed, _callback);
+		return self;
+	}
+
+	/// @func	on_shown()
+	/// @desc	Occurs once after first draw event
+	static on_shown = function(_callback) {
+		array_push(__on_shown, _callback);
+		return self;
+	}
+
+	/// @func	invoke_on_shown()
+	static invoke_on_shown = function() {
+		if (!__on_shown_done) {
+			__on_shown_done = true;
+			if (array_length(__on_shown) > 0) {
+				dlog($"Invoking on_shown callback for {name_of(control)}");
+				for (var i = 0, len = array_length(__on_shown); i < len; i++) {
+					__on_shown[@i](control);
+				}
+			}
+		}
 		return self;
 	}
 
 	/// @func invoke_on_opened()
 	static invoke_on_opened = function() {
-		if (__on_opened != undefined) {
-			ilog($"Invoking on_window_opened callback for {name_of(control)}");
-			__on_opened(control);
+		if (array_length(__on_opened) > 0) {
+			dlog($"Invoking on_window_opened callback for {name_of(control)}");
+			for (var i = 0, len = array_length(__on_opened); i < len; i++) {
+				__on_opened[@i](control);
+			}
 		}
 		return self;
 	}
 	
 	/// @func invoke_on_closed()
 	static invoke_on_closed = function() {
-		if (__on_closed != undefined) {
-			ilog($"Invoking on_window_closed callback for {name_of(control)}");
-			__on_closed(control);
+		if (array_length(__on_closed) > 0) {
+			dlog($"Invoking on_window_closed callback for {name_of(control)}");
+			for (var i = 0, len = array_length(__on_closed); i < len; i++) {
+				__on_closed[@i](control);
+			}
 		}
 		return self;
 	}
@@ -386,6 +480,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	///					changes its size or position.
 	///					also calls layout() on all children
 	static layout = function(_forced = false) {
+		if (!__alive) return self;
+		
 		update_render_area();
 		
 		runner.left		= render_area.left;
@@ -516,6 +612,8 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			if (child.instance.visible) child.instance.__draw_instance();
 			child.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
 		}
+		
+		if (!__on_shown_done) invoke_on_shown();
 	}
 	
 	static update_children_depth = function() {
@@ -539,6 +637,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			inst.y += _by_y;
 			inst.__text_x += _by_x;
 			inst.__text_y += _by_y;
+			with(inst) commit_move();
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.move_children(_by_x, _by_y);
 		}
@@ -556,13 +655,16 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 					control_tree.move_children_after_sizing(_force);
 			}
 		}
-		if (_force)
-			control.force_redraw(false);
+		control.force_redraw(_force);
 	}
 
 	/// @func clear_children()
 	static clear_children = function() {
 		dlog($"Clearing all children in ControlTree of {name_of(control)}");
+		
+		__on_shown	= [];
+		__on_opened	= [];
+		__on_closed	= [];
 		
 		while (array_length(children) > 0) {
 			var child = array_shift(children);
@@ -570,8 +672,7 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 			struct_remove(controls, child.name);
 			if (is_child_of(inst, _baseContainerControl))
 				inst.control_tree.clear_children();
-			else
-				instance_destroy(inst);
+			instance_destroy(inst);
 		}
 		return self;
 	}
@@ -580,20 +681,23 @@ function ControlTree(_control = undefined, _parent_tree = undefined, _margin = u
 	static clear = function() {
 		if (!__alive) return;
 		__alive = false;
-		dlog($"CleanUp ControlTree of {name_of(control)}");
+		vlog($"CleanUp ControlTree of {name_of(control)}");
+		__on_shown	= [];
+		__on_opened	= [];
+		__on_closed	= [];
 		var have_elements = (array_length(children) > 0);
 		for (var i = 0, len = array_length(children); i < len; i++) {
 			var child = children[@i];
 			struct_remove(controls, child.name);
 			var inst = child.instance;
-			if (is_child_of(inst, _baseContainerControl))
+			if (is_child_of(inst, _baseContainerControl) && instance_exists(inst))
 				inst.control_tree.clear();
-			else
-				instance_destroy(inst);
+			instance_destroy(inst);
 		}
-		instance_destroy(control);
 		if (is_root_tree())
-			ilog($"{name_of(control)} ControlTree cleanup finished");
+			dlog($"{name_of(control)} ControlTree cleanup finished");
+		instance_destroy(control);
+		control = undefined;
 	}
 }
 

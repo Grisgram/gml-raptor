@@ -1,13 +1,16 @@
 /// @description event
 event_inherited();
 
-var _panel_height = { startup_height: 256 }
+var _panel_height = { startup_height: 256, max_height: 256, }
 
-var _info_label = {
+var _info_label = struct_join(_panel_height, {
+	startup_width: 400,
+	min_width: 400,
+	scribble_text_align: "[fa_top][fa_left]",
 	text: "=ui_demo/label_made_with_tree",
 	text_color: THEME_WHITE,
-	text_color_mouse_over: THEME_WHITE
-}
+	text_color_mouse_over: THEME_WHITE,
+});
 
 __button = function(_text, _click, _hk = "") {
 	return {
@@ -59,8 +62,11 @@ UI_ROOT
 			.add_control(TextButton, __button("=ui_demo/show_anchoring"		, ui_demo_control_anchoring_click))
 			.set_align(fa_bottom, fa_left)
 			.step_out()
-		.add_control(Label, _info_label)
+		.add_control(Panel, _panel_height)
 		.set_dock(dock.left)
+			.add_control(Label, _info_label)
+			.set_dock(dock.fill)
+			.step_out()
 		.add_control(TextButton, __button_save_load("=play/ui/race_exit_button"	, ui_demo_exit_click, "vk_escape"))
 		.set_align(fa_middle, fa_right)
 		.step_out()

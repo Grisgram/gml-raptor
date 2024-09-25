@@ -1,5 +1,5 @@
-/// @func					SpriteDim(sprite)
-/// @desc				Scan a sprite's width and height (asset dimensions)
+/// @func	SpriteDim(sprite)
+/// @desc	Scan a sprite's width and height (asset dimensions)
 /// @param {asset} sprite
 function SpriteDim(sprite = -1) constructor {
 	construct(SpriteDim);
@@ -32,7 +32,7 @@ function SpriteDim(sprite = -1) constructor {
 		origin_y = 0;
 		nineslice = empty_nineslice;
 	}
-	
+
 	toString = function() {
 		return $"{width}x{height}";
 	}

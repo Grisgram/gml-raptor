@@ -55,7 +55,7 @@ __fill_list = function(len, textdims) {
 				orientation_horizontal: false,
 				min_value: 0,
 				max_value: max(1, max_scroll_index),
-				wheel_value_change: 0,
+				wheel_scroll_lines: 0,
 				startup_width: 24,
 				draw_on_gui: mygui
 			})

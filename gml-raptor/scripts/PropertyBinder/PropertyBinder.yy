@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"PropertyBinder",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,2 +1,4 @@
 /// @desc draw
-if (__drawable && !draw_on_gui) __draw();
+GUI_EVENT_DRAW;
+
+if (__drawable) __draw();

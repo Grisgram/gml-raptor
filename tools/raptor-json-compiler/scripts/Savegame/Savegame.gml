@@ -10,15 +10,17 @@
 // STATUS/PROGRESS GLOBALS
 #macro SAVEGAME_SAVE_IN_PROGRESS		global.__savegame_save_in_progress
 #macro SAVEGAME_LOAD_IN_PROGRESS		global.__savegame_load_in_progress
+#macro ENSURE_SAVEGAME					if (!variable_global_exists("__savegame_save_in_progress"))	global.__savegame_save_in_progress = false; \
+										if (!variable_global_exists("__savegame_load_in_progress"))	global.__savegame_load_in_progress = false;
 
 // Room change on load, state preserve
 #macro __SAVEGAME_CONTINUE_LOAD_STATE	global.__savegame_load_state
 __SAVEGAME_CONTINUE_LOAD_STATE			= undefined;
 
 // The GLOBALDATA struct is persisted with the savegame
-#macro ENSURE_GLOBALDATA	if (!variable_global_exists("__global_data"))	global.__global_data = {};
 #macro GLOBALDATA			global.__global_data
-ENSURE_GLOBALDATA
+#macro ENSURE_GLOBALDATA	if (!variable_global_exists("__global_data"))	global.__global_data = {};
+ENSURE_GLOBALDATA;
 
 // This macro is used internally on objects that push their own data
 // into the savegame. __raptordata is the root of internal data structs
@@ -184,7 +186,7 @@ function savegame_get_id_array_of(instance_array) {
 /// @desc	Checks, whether the specified savegame exists. Takes the
 ///					SAVEGAME_FOLDER configuration path into account
 function savegame_exists(_filename) {
-	return file_exists(string_concat(SAVEGAME_FOLDER, _filename));
+	return file_exists_html_safe(string_concat(SAVEGAME_FOLDER, _filename));
 }
 
 function __ensure_savegame_folder_name() {

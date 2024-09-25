@@ -24,7 +24,8 @@ RAPTOR_LOGGER.set_formatter(new LOG_FORMATTER());
 
 // Look for version file
 mlog(__LOG_GAME_INIT_START);
-if (file_exists(working_directory + "version.json")) {
+if (file_exists_html_safe(working_directory + "version.json")) {
+	// can't load this async (yet) as we have no gamecontroller yet
 	var verinfo = file_read_struct_plain("version.json");
 	GAME_VERSION_STRING = verinfo.version;
 	GAME_VERSION_MAJOR	= verinfo.major;
@@ -40,6 +41,7 @@ if (file_exists(working_directory + "version.json")) {
 }
 
 ilog($"Game seed is {random_get_seed()}");
+ilog($"Startup arguments are {ARGS.args}");
 ilog($"Detecting scribble library: {(IS_SCRIBBLE_LOADED ? "" : "NOT ")}found!");
 ilog($"Detecting Canvas library: {(IS_CANVAS_LOADED ? "" : "NOT ")}found!");
 ilog($"Detecting SNAP library: {(IS_SNAP_LOADED ? "" : "NOT ")}found!");
@@ -68,4 +70,3 @@ onGameStart();
 if (DEBUG_MODE_ACTIVE)
 	window_set_size(DEBUG_MODE_WINDOW_WIDTH, DEBUG_MODE_WINDOW_HEIGHT);
 
-__RUN_UNIT_TESTS

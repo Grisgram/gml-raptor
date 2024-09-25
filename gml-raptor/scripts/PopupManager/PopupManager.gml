@@ -15,21 +15,23 @@ GUI_POPUP_LAYER_GROUP = undefined;
 /// @desc						shows all popup layers
 /// @param {string="popup_"} _layer_group_name	starts_with for layers to show
 function show_popup(_layer_group_name = "popup_*") {
-	vlog($"Showing popup view");
 	if (!GUI_POPUP_VISIBLE) {
+		dlog($"Showing popup view '{_layer_group_name}'");
 		var depth_range = layer_set_all_visible(_layer_group_name, true);
 		GUI_POPUP_LAYER_GROUP = _layer_group_name;
 		GUI_POPUP_VISIBLE = true;
 		GUI_POPUP_MIN_DEPTH = depth_range[0];
 		BROADCASTER.send(self, __RAPTOR_BROADCAST_POPUP_SHOWN, { layer_group_name: _layer_group_name });
-	}
+	} else 
+		wlog($"** WARNING ** Attempt to show popup '{_layer_group_name}' ignored, a popup '{GUI_POPUP_LAYER_GROUP}' is already visible");
 }
 
 /// @func				hide_popup()
 /// @desc			hides all popup layers shown through show_popup
 function hide_popup() {
-	vlog($"Hiding popup view");
+	vlog($"Attempting to hide popup '{GUI_POPUP_LAYER_GROUP}'");
 	if (GUI_POPUP_VISIBLE) {
+		dlog($"Hiding popup view '{GUI_POPUP_LAYER_GROUP}'");
 		layer_set_all_visible(GUI_POPUP_LAYER_GROUP, false);
 		var _layer_group_name = GUI_POPUP_LAYER_GROUP;
 		GUI_POPUP_LAYER_GROUP = undefined;

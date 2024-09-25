@@ -73,22 +73,30 @@ event_inherited();
 	ALL DATA has been saved/loaded.
 */
 
-/// @func					onGameSaving()
-/// @desc				invoked per instance during game save
+/// @func	onGameSaving()
+/// @desc	invoked per instance during game save
 onGameSaving = function() {
 };
 
-/// @func					onGameSaved()
-/// @desc				Invoked AFTER saving 
-onGameSaved = function() {
+/// @func	onGameSaved(_result)
+/// @desc	Invoked AFTER saving 
+///			_result is a bool containing the success state
+onGameSaved = function(_result) {
 }
 
-/// @func					onGameLoading()
-/// @desc				occurs when this object has been loaded
+/// @func	onGameLoading()
+/// @desc	occurs when this object has been loaded
 onGameLoading = function() {
 }
 
-/// @func					onGameLoaded()
-/// @desc				occurs after all objects have been loaded
-onGameLoaded = function() {
+/// @func	onGameLoaded(_result)
+/// @desc	occurs after all objects have been loaded
+///			_result is a bool containing the success state
+onGameLoaded = function(_result) {
 }
+
+/// @func onRaceDrop(_item)
+/// @desc occurs if this is dropped by a Race query
+onRaceDrop = function(_item) {	
+}
+

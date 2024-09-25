@@ -225,6 +225,41 @@ get_parent_tree = function() {
 	return undefined;
 }
 
+#region ScrollPanel integration
+__scrollpanel_over_cache = new ExpensiveCache(3);
+__scrollpanel_cache = new ExpensiveCache(6);
+/// @func get_parent_scrollpanel()
+/// @desc If this control (or any of its parents) is embedded in a ScrollPanel, this function returns
+///		  the ScrollPanel or undefined
+get_parent_scrollpanel = function() {
+	if (__scrollpanel_cache.is_valid())
+		return __scrollpanel_cache.return_value;
+		
+	var rv = parent_scrollpanel;
+	var up = self;
+	var pa = undefined;
+	while (rv == undefined) {
+		pa = up.get_parent();
+		if (pa == undefined || up == pa) break;
+		up = pa;
+		rv = up.parent_scrollpanel;
+	}
+	return __scrollpanel_cache.set(rv);
+}
+
+/// @func	is_mouse_over_my_scrollpanel_content()
+/// @desc	Returns true, if this control is not embedded in a ScrollPanel OR it IS embedded AND 
+///			the mouse is currently inside the clipping area of this scroll panel
+///			(used in _generic_macros_ for mouse events of child controls in a scrollpanel)
+is_mouse_over_my_scrollpanel_content = function() {
+	if (__scrollpanel_over_cache.is_valid())
+		return __scrollpanel_over_cache.return_value;
+		
+	var sp = get_parent_scrollpanel();
+	return __scrollpanel_over_cache.set(sp == undefined || sp.mouse_over_content());
+}
+#endregion
+
 /// @func is_topmost()
 /// @desc True, if this control is the topmost (= lowest depth) at the specified position
 ///				 NOTE: This is an override of the method in _raptorBase, which compares against _raptorBase!
@@ -243,7 +278,8 @@ is_topmost = function(_x, _y) {
 		__topmost_runner = undefined;
 		for (var i = 0; i < __topmost_count; i++) {
 			__topmost_runner = __topmost_list[|i];
-			if (!__can_touch_this(__topmost_runner)) continue;
+			if (vsget(__topmost_runner, "draw_on_gui", false) != draw_on_gui || !__can_touch_this(__topmost_runner)) 
+				continue;
 			__topmost_mindepth = min(__topmost_mindepth, __topmost_runner.depth);
 		}
 		return __topmost_cache.set(__topmost_mindepth == depth);
@@ -289,15 +325,20 @@ __mouse_enter_topmost_control = function() {
 		vlog($"{MY_NAME}: onMouseLeave");
 }
 
-/// @func on_skin_changed(_skindata)
-/// @desc	Invoked, when the skin changed
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata);
+}
+// Hold a reference to the base skin change code 
+// for all derived controls
+/// @func	_baseControl_onSkinChanged(_skindata, _before_update_coordinates = undefined)
+_baseControl_onSkinChanged = function(_skindata, _before_update_coordinates = undefined) {
 	animated_text_color = text_color;
 	animated_draw_color = draw_color;
+	set_startup_size();
+	if (_before_update_coordinates != undefined)
+		_before_update_coordinates(_skindata);
 	update_startup_coordinates();
-	force_redraw();
+	force_redraw();	
 }
 
 /// @func					force_redraw(_redraw_all = true)
@@ -329,8 +370,11 @@ draw_scribble_text = function() {
 /// @param {string} str			
 __create_scribble_object = function(align, str) {
 	return scribble(string_concat(align, str), MY_NAME)
-			.starting_format(font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
-							 animated_text_color);
+			.starting_format(
+				font_to_use == "undefined" ? scribble_font_get_default() : font_to_use, 
+				animated_text_color)
+			.outline(outline_color)
+			.shadow(shadow_color, shadow_alpha);
 }
 
 /// @func					__adopt_object_properties()
@@ -399,7 +443,7 @@ __draw_self = function() {
 
 		var nineleft = 0, nineright = 0, ninetop = 0, ninebottom = 0;
 		var nine = -1;
-		if (sprite_index != -1) {
+		if (sprite_index != -1 && sprite_index != noone) {
 			nine = sprite_get_nineslice(sprite_index);
 			if (nine != -1 && nine.enabled) {
 				nineleft	= nine.left;
@@ -407,8 +451,8 @@ __draw_self = function() {
 				ninetop		= nine.top;
 				ninebottom	= nine.bottom;
 			}
-			var distx		= nineleft + nineright;
-			var disty		= ninetop + ninebottom;
+			var distx		= text_xoffset + nineleft + nineright;
+			var disty		= text_yoffset + ninetop + ninebottom;
 		
 			if (autosize) {
 				image_xscale = max(__startup_xscale, (max(min_width, __text_width)  + distx) / sprite_get_width(sprite_index));
@@ -422,8 +466,8 @@ __draw_self = function() {
 			// No sprite - update edges by hand
 			edges.left = x;
 			edges.top = y;
-			edges.width  = text != "" ? __text_width : 0;
-			edges.height = text != "" ? __text_height : 0;
+			edges.width  = text_xoffset + (text != "" ? __text_width : 0);
+			edges.height = text_yoffset + (text != "" ? __text_height : 0);
 			edges.right = edges.left + edges.width - 1;
 			edges.bottom = edges.top + edges.height - 1;
 			edges.center_x = x + edges.width / 2;

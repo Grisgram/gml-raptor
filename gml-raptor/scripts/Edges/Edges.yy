@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Edges",
   "isCompatibility":false,
   "isDnD":false,

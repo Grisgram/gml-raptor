@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"Pythagoras",
   "isCompatibility":false,
   "isDnD":false,

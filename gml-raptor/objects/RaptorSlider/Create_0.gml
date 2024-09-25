@@ -80,7 +80,7 @@ pre_calculate_knob = function() {
 	calculate_knob_size();
 	scale_sprite_to(w, h);
 
-	__value_offset = floor(value * __tilesize);
+	__value_offset = floor((value - min_value) * __tilesize);
 	__last_value_offset = __value_offset;
 	if (orientation_horizontal) {
 		__knob_x = x + __knob_rel_x + __value_offset;
@@ -94,15 +94,9 @@ pre_calculate_knob = function() {
 
 }
 
-on_skin_changed = function(_skindata) {
-	if (!skinnable) return;
-	integrate_skin_data(_skindata);
-	animated_text_color = text_color;
-	animated_draw_color = draw_color;
-	pre_calculate_knob();	
-	update_startup_coordinates();
+onSkinChanged = function(_skindata) {
+	_baseControl_onSkinChanged(_skindata, pre_calculate_knob);
 	update_client_area();
-	force_redraw();
 }
 
 update_client_area = function() {
@@ -226,11 +220,17 @@ calculate_knob_size = function() {
 	if (orientation_horizontal) {
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
 		if (knob_autoscale)	
-			knob_xscale = max(1, (nine_slice_data.width / ((max_value - min_value) + 1)) / __knob_dims.width);
+			knob_xscale = clamp(
+				(nine_slice_data.width / ((max_value - min_value) + 1)), 
+				1, nine_slice_data.width / (1.5 * __knob_dims.width)
+			);
 	} else {
 		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
 		if (knob_autoscale)	
-			knob_yscale = max(1, (nine_slice_data.height / ((max_value - min_value) + 1)) / __knob_dims.height);
+			knob_yscale = clamp(
+				(nine_slice_data.height / ((max_value - min_value) + 1)), 
+				1, nine_slice_data.height / (1.5 * __knob_dims.height)
+			);
 	}
 }
 
@@ -259,7 +259,7 @@ __draw_self = function() {
 __draw_instance = function(_force = false) {
 	__basecontrol_draw_instance(_force);
 		
-	__value_offset = floor(__tilesize * value);
+	__value_offset = floor(__tilesize * (value - min_value));
 	if (__value_offset != __last_value_offset && !__knob_grabbed) {
 		if (orientation_horizontal) {
 			__knob_new_x = x + __knob_rel_x + __value_offset;
@@ -297,8 +297,8 @@ __draw_instance = function(_force = false) {
 		knob_sprite, 0, 
 		__knob_x, 
 		__knob_y,
-		knob_xscale, knob_yscale, 0,
-		(__SLIDER_IN_FOCUS == self && (__mouse_over_knob || __knob_grabbed)) ? knob_color_mouse_over : draw_color, 
+		knob_xscale, knob_yscale, 0, (!is_enabled ? THEME_SHADOW : (
+		(__mouse_over_knob || (__SLIDER_IN_FOCUS == self && __knob_grabbed)) ? knob_color_mouse_over : draw_color)), 
 		image_alpha);
 }
 

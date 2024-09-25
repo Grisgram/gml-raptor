@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"_GML_HIGHSCORER_VERSION_",
   "isCompatibility":false,
   "isDnD":false,

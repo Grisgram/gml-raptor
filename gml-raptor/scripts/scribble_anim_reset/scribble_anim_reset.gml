@@ -3,12 +3,12 @@
 
 function scribble_anim_reset()
 {
-    static _scribble_state = __scribble_get_state();
+    static _scribble_state = __scribble_initialize().__state;
     with(_scribble_state)
     {
-        if (!__standard_anim_default || !__msdf_anim_default)
+        if (!__shader_anim_default)
         {
-            static _array = __scribble_get_anim_properties();
+            static _array = __scribble_initialize().__anim_properties;
             _array[@ __SCRIBBLE_ANIM.__WAVE_SIZE       ] = SCRIBBLE_DEFAULT_WAVE_SIZE;
             _array[@ __SCRIBBLE_ANIM.__WAVE_FREQ       ] = SCRIBBLE_DEFAULT_WAVE_FREQUENCY;
             _array[@ __SCRIBBLE_ANIM.__WAVE_SPEED      ] = SCRIBBLE_DEFAULT_WAVE_SPEED;
@@ -36,16 +36,10 @@ function scribble_anim_reset()
             __blink_time_offset  = SCRIBBLE_DEFAULT_BLINK_TIME_OFFSET;
         }
         
-        if (!__standard_anim_default)
+        if (!__shader_anim_desync)
         {
-            __standard_anim_desync            = true;
-            __standard_anim_desync_to_default = true;
-        }
-        
-        if (!__msdf_anim_desync)
-        {
-            __msdf_anim_desync            = true;
-            __msdf_anim_desync_to_default = true;
+            __shader_anim_desync            = (not __shader_anim_disabled); //Only re-set uniforms when the animations aren't disabled
+            __shader_anim_desync_to_default = true;
         }
     }
 }

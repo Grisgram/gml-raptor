@@ -3,7 +3,7 @@ event_inherited();
 
 __first_draw			 = true;
 __auto_size_with_content = false;
-__mouse_events_locked	 = true;
+__mouse_events_locked	 = !container_is_touchable;
 
 if (!is_instanceof(control_tree, ControlTree)) {
 	control_tree = construct_or_invoke(control_tree, self);
@@ -48,7 +48,7 @@ __draw_instance = function(_force = false) {
 	control_tree.draw_children();
 	
 	__first_draw = false;
-	
+		
 	// this code draws the client area in red, if one day there's a bug with alignment
 	//draw_set_color(c_red);
 	//draw_rectangle(x+data.__raptordata.client_area.left, y+data.__raptordata.client_area.top, x+data.__raptordata.client_area.get_right(), y+data.__raptordata.client_area.get_bottom(), true);

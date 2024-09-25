@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"RaptorSimpleFormatter",
   "isCompatibility":false,
   "isDnD":false,

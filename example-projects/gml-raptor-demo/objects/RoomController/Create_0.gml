@@ -42,7 +42,6 @@ event_inherited();
 #macro ROOMCONTROLLER			global.__room_controller
 ROOMCONTROLLER = self;
 
-
 /// @func onGameLoadFailed(_exception)
 onGameLoadFailed = function(_exception) {
 	elog($"** ERROR ** Game load failed: {_exception.message}");
@@ -72,6 +71,10 @@ if (particle_layer_names == undefined || (is_string(particle_layer_names) && str
 
 }
 
+// Resizes the app surface to the dimensions of this room's main viewport
+if (adapt_app_surface && view_get_visible(0)) {
+	surface_resize(application_surface,VIEW_WIDTH,VIEW_HEIGHT);
+}
 
 /*
 	-------------------
@@ -104,13 +107,13 @@ set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 #macro MOUSE_DELTA_Y			global.__world_mouse_ymove
 #macro MOUSE_HAS_MOVED			global.__world_mouse_has_moved
 
-#macro CTL_MOUSE_X_PREVIOUS		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
-#macro CTL_MOUSE_Y_PREVIOUS		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
-#macro CTL_MOUSE_X				((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_X			 : MOUSE_X)
-#macro CTL_MOUSE_Y				((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_Y			 : MOUSE_Y)
-#macro CTL_MOUSE_DELTA_X		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_DELTA_X	 : MOUSE_DELTA_X)
-#macro CTL_MOUSE_DELTA_Y		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_DELTA_Y	 : MOUSE_DELTA_Y)
-#macro CTL_MOUSE_HAS_MOVED		((self[$ "draw_on_gui"] ?? false) ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
+#macro CTL_MOUSE_X_PREVIOUS		(SELF_DRAW_ON_GUI ? GUI_MOUSE_X_PREVIOUS : MOUSE_X_PREVIOUS)
+#macro CTL_MOUSE_Y_PREVIOUS		(SELF_DRAW_ON_GUI ? GUI_MOUSE_Y_PREVIOUS : MOUSE_Y_PREVIOUS)
+#macro CTL_MOUSE_X				(SELF_DRAW_ON_GUI ? GUI_MOUSE_X			 : MOUSE_X)
+#macro CTL_MOUSE_Y				(SELF_DRAW_ON_GUI ? GUI_MOUSE_Y			 : MOUSE_Y)
+#macro CTL_MOUSE_DELTA_X		(SELF_DRAW_ON_GUI ? GUI_MOUSE_DELTA_X	 : MOUSE_DELTA_X)
+#macro CTL_MOUSE_DELTA_Y		(SELF_DRAW_ON_GUI ? GUI_MOUSE_DELTA_Y	 : MOUSE_DELTA_Y)
+#macro CTL_MOUSE_HAS_MOVED		(SELF_DRAW_ON_GUI ? GUI_MOUSE_HAS_MOVED  : MOUSE_HAS_MOVED)
 
 GUI_MOUSE_X = device_mouse_x_to_gui(0);
 GUI_MOUSE_Y = device_mouse_y_to_gui(0);
@@ -133,8 +136,14 @@ WINDOW_SIZE_X_PREVIOUS	= WINDOW_SIZE_X;
 WINDOW_SIZE_Y_PREVIOUS	= WINDOW_SIZE_Y;
 WINDOW_SIZE_HAS_CHANGED	= false;
 
+#macro GAME_SPEED				global.__game_speed
+GAME_SPEED = 1;
+
 #macro DELTA_TIME_SECS			global.__delta_time_secs
 DELTA_TIME_SECS = 0;
+
+#macro DELTA_TIME_SECS_REAL		global.__delta_time_secs_real
+DELTA_TIME_SECS_REAL = 0;
 
 #endregion
 
@@ -242,17 +251,23 @@ camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true,
 	----------------------
 */
 #region TRANSITION CONTROL
-#macro __ACTIVE_TRANSITION		global.__active_transition
-if (!variable_global_exists("__active_transition"))
-	__ACTIVE_TRANSITION	= undefined;
-
+#macro __TRANSIT_ROOM_CHAIN			global.__transit_room_chain
+#macro __ACTIVE_TRANSITION			global.__active_transition
+#macro TRANSITION_RUNNING			global.__transition_running
 #macro __ACTIVE_TRANSITION_STEP		global.__active_transition_step
-if (!variable_global_exists("__active_transition_step"))
-	__ACTIVE_TRANSITION_STEP = -1; // Step 0 = out, Step 1 = in and -1 means inactive
 
-#macro TRANSITION_RUNNING		global.__transition_running
-if (!variable_global_exists("__transition_running"))
-	TRANSITION_RUNNING = false;
+if (!variable_global_exists("__transit_room_chain"))		__TRANSIT_ROOM_CHAIN = [];
+if (!variable_global_exists("__active_transition"))			__ACTIVE_TRANSITION	 = undefined;
+if (!variable_global_exists("__transition_running"))		TRANSITION_RUNNING	 = false;
+if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STEP = -1; 
+// __ACTIVE_TRANSITION_STEP 0 = out, 1 = in and -1 means inactive
+
+__is_transit_back = false;
+
+if (room != rmStartup && room != array_last(__TRANSIT_ROOM_CHAIN)) {
+	array_push(__TRANSIT_ROOM_CHAIN, room); // record this room, if not the startup room
+	vlog($"{ROOM_NAME} recorded in transit chain, length is now {array_length(__TRANSIT_ROOM_CHAIN)}");
+}
 
 /// @func		transit(_transition, skip_if_another_running = false)
 /// @desc	Perform an animated transition to another room
@@ -270,10 +285,63 @@ transit = function(_transition, skip_if_another_running = false) {
 	TRANSITION_RUNNING = true;
 }
 
+/// @func	transit_back()
+/// @desc	Transit back one room in the transit chain.
+///			If the chain is empty, game might exit.
+///			In either way, "onLeaveRoom" is invoked with a 
+///			transition_data struct.
+transit_back = function() {
+	__is_transit_back = true;
+	var leave_struct = {
+		target_room: undefined, 
+		transition: undefined, 
+		cancel: false
+	};
+	
+	if (array_length(__TRANSIT_ROOM_CHAIN) > 1) {
+		array_pop(__TRANSIT_ROOM_CHAIN); // This is our room, ignore it
+		var target = array_pop(__TRANSIT_ROOM_CHAIN); // Go to this one
+		leave_struct.target_room = target;
+		vlog($"Transit back from {ROOM_NAME} targets {room_get_name(target)}");
+		onTransitBack(leave_struct);
+		if (!leave_struct.cancel) {
+			vlog($"Transit back to targets {room_get_name(target)} starting");
+			if (leave_struct.transition != undefined) {
+				// in case the user redirected, update the target room
+				leave_struct.transition.target_room = leave_struct.target_room;
+				transit(leave_struct.transition);
+			} else 
+				room_goto(leave_struct.target_room);
+		} else {
+			vlog($"Transit back to {room_get_name(target)} aborted, staying in this room");
+			// re-push the chain
+			array_push(__TRANSIT_ROOM_CHAIN, target);
+			array_push(__TRANSIT_ROOM_CHAIN, room);
+		}
+	} else {
+		vlog($"Transit back from {ROOM_NAME} is end of chain, preparing game exit");
+		leave_struct.target_room = undefined;
+		onTransitBack(leave_struct);
+		if (!leave_struct.cancel)
+			EXIT_GAME;
+	}
+}
+
 /// @func onTransitFinished()
 /// @desc Invoked when a transition to this room is finished.
 ///				 Override (redefine) to execute code when a room is no longer animating
 onTransitFinished = function() {
+}
+
+/// @func	onTransitBack(_transition_data)
+/// @desc	Invoked, when the "transit_back" method is called
+onTransitBack = function(_transition_data) {
+	// Example reaction:
+	// If you want to stay in this room
+	// _transition_data.cancel = true;
+	// ...or supply a transition to the target room
+	// _transition_data.transition = new FadeTransition(_transition_data.target_room, 20, 20);
+	// ...or do nothing of the above to have a simple room_goto fired to the target room
 }
 
 #endregion

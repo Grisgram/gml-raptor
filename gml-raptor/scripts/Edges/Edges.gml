@@ -35,7 +35,7 @@ function Edges(obj = undefined) constructor {
 	/// @desc	re-read the properties of the object
 	/// @param			nineslice struct as received from sprite_get_nineslice(...)
 	static update = function(nineslicedata = -1) {
-		if (__inst == undefined)
+		if (__inst == undefined || nineslicedata == undefined)
 			return;
 			
 		with (__inst) {

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"outline_shader_init_globals",
   "isCompatibility":false,
   "isDnD":false,
