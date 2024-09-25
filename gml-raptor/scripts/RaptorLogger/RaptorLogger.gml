@@ -4,7 +4,7 @@
 
 #macro RAPTOR_LOGGER	global.__raptor_logger
 #macro ENSURE_LOGGER	if (!variable_global_exists("__raptor_logger"))	global.__raptor_logger = new RaptorLogger();
-ENSURE_LOGGER
+ENSURE_LOGGER;
 
 #macro __LOG_GAME_INIT_START	$"[--- RAPTOR INIT STARTING ---]"
 #macro __LOG_GAME_INIT_FINISH	$"[--- RAPTOR INIT FINISHED ---]"

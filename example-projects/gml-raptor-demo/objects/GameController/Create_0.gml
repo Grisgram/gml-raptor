@@ -7,7 +7,8 @@ event_inherited();
 GAMECONTROLLER = self;
 
 #macro BROADCASTER				global.__broadcaster
-BROADCASTER = new Sender();
+#macro ENSURE_BROADCASTER		if (!variable_global_exists("__broadcaster")) BROADCASTER = new Sender();
+ENSURE_BROADCASTER;
 
 // --- ASYNC OPERATION MANAGEMENT ---
 #macro ASYNC_OPERATION_RUNNING	(array_length(struct_get_names(__RAPTOR_ASYNC_CALLBACKS)) > 0)

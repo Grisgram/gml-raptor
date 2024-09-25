@@ -410,7 +410,7 @@ function LG_resolve(str) {
 	return str;
 }
 
-ENSURE_LOGGER
+ENSURE_LOGGER;
 
 __LG_HTML_NEED_CHECK = IS_HTML;
 __LG_INITIALIZED = IS_HTML; // for html, we start initialized, there is a second check __LG_HTML_INITIALIZED 
