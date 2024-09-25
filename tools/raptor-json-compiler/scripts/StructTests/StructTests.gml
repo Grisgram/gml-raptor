@@ -85,6 +85,17 @@ function unit_test_Structs() {
 		test.assert_equals(1337, vsget(root, "hello", 1337), "1337");
 	}
 
+	ut.tests.versioned_data_struct_names_ok = function(test, data) {
+		var vds = new VersionedDataStruct();
+		var names = struct_get_names(vds);
+		test.assert_equals(2, array_length(names), "length");
+		test.assert_true(array_contains(names, __CONSTRUCTOR_NAME), "const");
+		test.assert_true(array_contains(names, __PARENT_CONSTRUCTOR_NAME), "parent const");
+		
+		names = vds.get_names();
+		test.assert_zero(array_length(names), "zero");
+	}
+
 	ut.run();
 }
-
+
