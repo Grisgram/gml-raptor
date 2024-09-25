@@ -4,7 +4,7 @@
 > [!CAUTION]
 > Due to massive problems with the HTML5-runtime currently in GameMaker, this release is marked as a pre-release.
 > If you don't plan to use HTML5, go ahead, use it!\
-> This version will not run in HTML5 until the 2410/11 release of GameMaker, but I didn't want to hold back all the new features another month.
+> This version will not run in HTML5 until the 2410/11 release of GameMaker, but I didn't want to hold back all the new features another month.\
 > _Cheers, Gris_
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
