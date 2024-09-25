@@ -214,7 +214,7 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 		});
 		// Then, upgrade all instances
 		var method_name;
-	for (var j = 0, jen = array_length(created_instances); j < jen; j++) {
+		for (var j = 0, jen = array_length(created_instances); j < jen; j++) {
 			with(created_instances[@j]) {
 				for (var i = loaded_version + 1; i <= SAVEGAME_FILE_VERSION; i++) {
 					method_name = sprintf(SAVEGAME_UPGRADE_METHOD_PATTERN, i);

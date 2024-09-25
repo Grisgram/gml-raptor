@@ -11,6 +11,9 @@
 	https://github.com/Grisgram/gml-raptor/wiki/Savegame-Versioning
 */
 
+ENSURE_SAVEGAME
+ENSURE_LOGGER
+
 function VersionedDataStruct() constructor {
 	construct(VersionedDataStruct);
 	
