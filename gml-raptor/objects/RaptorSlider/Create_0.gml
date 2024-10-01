@@ -220,7 +220,6 @@ __apply_post_positioning = function() {
 /// @func calculate_knob_size()
 calculate_knob_size = function() {
 	if (orientation_horizontal) {
-		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
 		if (knob_autoscale)	{
 			__range_scale = shown_range > 0 ? (nine_slice_data.width * shown_range) / __knob_dims.width : 1;
 			knob_xscale = clamp(
@@ -228,8 +227,8 @@ calculate_knob_size = function() {
 				1, max(__range_scale, nine_slice_data.width / (1.5 * __knob_dims.width))
 			);
 		}
+		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
 	} else {
-		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
 		if (knob_autoscale)	{
 			__range_scale = shown_range > 0 ? (nine_slice_data.height * shown_range) / __knob_dims.height : 1;
 			knob_yscale = clamp(
@@ -237,6 +236,7 @@ calculate_knob_size = function() {
 				1, max(__range_scale, nine_slice_data.height / (1.5 * __knob_dims.height))
 			);
 		}
+		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
 	}
 }
 

@@ -107,7 +107,7 @@ __draw_instance = function(_force = false) {
 		__vscroll.value_percent = (__drag_ymax > 0 ? (-drag_yoffset / __drag_ymax) : 0);
 		__hscroll.value = ceil(__hscroll.value_percent * 100);
 		__vscroll.value = ceil(__vscroll.value_percent * 100);
-	} else {	
+	} else {
 		drag_xoffset = -__drag_xmax * __hscroll.value_percent;
 		drag_yoffset = -__drag_ymax * __vscroll.value_percent;
 	}
