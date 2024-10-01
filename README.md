@@ -1,11 +1,5 @@
 <p align="center"><img src="https://github.com/Grisgram/gml-raptor/blob/dev/_assets_/logos_and_banners/gml-raptor-anim.gif" style="display:block; margin:auto; width:438px"></p>
-<h1 align="center">Release 2410 - Pre-Release</h1>
-
-> [!CAUTION]
-> Due to massive problems with the HTML5-runtime currently in GameMaker, this release is marked as a pre-release.
-> If you don't plan to use HTML5, go ahead, use it!\
-> This version will not run in HTML5 until the 2410/11 release of GameMaker, but I didn't want to hold back all the new features another month.\
-> _Cheers, Gris_
+<h1 align="center">Release 2411</h1>
 
 `gml-raptor` is a ready-to-use project template for [GameMaker Studio 2.3+](https://gamemaker.io) with a comprehensive [wiki documentation](https://github.com/Grisgram/gml-raptor/wiki) that provides lots of classes and functions that will speed up your game development!<br/>
 [The Releases page](https://github.com/Grisgram/gml-raptor/releases) contains the latest version in `.yyz` format (project template) and ready-to-import local packages in `.yymps` format.

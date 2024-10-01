@@ -11,8 +11,8 @@ enum mouse_drag {
 __base_draw_instance = __draw_instance;
 
 __scissor			= undefined;
-__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, };
-__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, };
+__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, shown_range: -1, };
+__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, shown_range: -1, };
 __ap_default		= [0, 0];		// app pos
 __ap				= __ap_default;	// app pos
 __aw				= 0;			// app width
@@ -114,13 +114,13 @@ __draw_instance = function(_force = false) {
 	
 	__hscroll.is_enabled = (__drag_xmax > 0);
 	__vscroll.is_enabled = (__drag_ymax > 0);
-	if (!__hscroll.is_enabled) { drag_xoffset = __clipw / 2 - content.sprite_width  / 2; }	
-	if (!__vscroll.is_enabled) { drag_yoffset = __cliph / 2 - content.sprite_height / 2; }
+	if (!__hscroll.is_enabled) { drag_xoffset = __clipw / 2 - content.sprite_width  / 2; } else { __hscroll.shown_range = sprite_width  / content.sprite_width; }
+	if (!__vscroll.is_enabled) { drag_yoffset = __cliph / 2 - content.sprite_height / 2; } else { __vscroll.shown_range = sprite_height / content.sprite_height; }
 	
 	content.x = x + content.sprite_xoffset + drag_xoffset;
 	content.y = y + content.sprite_yoffset + drag_yoffset;
 	with(content)
-		if (control_tree != undefined) 
+		if (SELF_HAVE_MOVED && control_tree != undefined) 
 			control_tree.move_children(SELF_MOVE_DELTA_X, SELF_MOVE_DELTA_Y);
 
 	// calculate scissor multiplier based on draw mode	

@@ -30,7 +30,9 @@ enum slider_text {
 event_inherited();
 
 value_percent			= 0;
+shown_range				= -1;
 
+__range_scale			= 1;
 __vertical_zero_is_top	= false;
 __text_dims				= scribble_measure_text(string(max_value));
 __text_xoffset_mod		= 0;
@@ -219,18 +221,22 @@ __apply_post_positioning = function() {
 calculate_knob_size = function() {
 	if (orientation_horizontal) {
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
-		if (knob_autoscale)	
+		if (knob_autoscale)	{
+			__range_scale = shown_range > 0 ? (nine_slice_data.width * shown_range) / __knob_dims.width : 1;
 			knob_xscale = clamp(
-				(nine_slice_data.width / ((max_value - min_value) + 1)), 
-				1, nine_slice_data.width / (1.5 * __knob_dims.width)
+				max(__range_scale, nine_slice_data.width / ((max_value - min_value) + 1)), 
+				1, max(__range_scale, nine_slice_data.width / (1.5 * __knob_dims.width))
 			);
+		}
 	} else {
 		__tilesize = (nine_slice_data.height - __knob_dims.height * knob_yscale) / (max_value - min_value);
-		if (knob_autoscale)	
+		if (knob_autoscale)	{
+			__range_scale = shown_range > 0 ? (nine_slice_data.height * shown_range) / __knob_dims.height : 1;
 			knob_yscale = clamp(
-				(nine_slice_data.height / ((max_value - min_value) + 1)), 
-				1, nine_slice_data.height / (1.5 * __knob_dims.height)
+				max(__range_scale, nine_slice_data.height / ((max_value - min_value) + 1)), 
+				1, max(__range_scale, nine_slice_data.height / (1.5 * __knob_dims.height))
 			);
+		}
 	}
 }
 
