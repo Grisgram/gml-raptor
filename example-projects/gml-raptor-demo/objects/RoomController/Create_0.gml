@@ -262,7 +262,8 @@ if (!variable_global_exists("__transition_running"))		TRANSITION_RUNNING	 = fals
 if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STEP = -1; 
 // __ACTIVE_TRANSITION_STEP 0 = out, 1 = in and -1 means inactive
 
-__is_transit_back = false;
+__is_transit_back		= false;
+__escape_was_pressed	= false;
 
 if (room != rmStartup && room != array_last(__TRANSIT_ROOM_CHAIN)) {
 	array_push(__TRANSIT_ROOM_CHAIN, room); // record this room, if not the startup room
@@ -293,10 +294,12 @@ transit = function(_transition, skip_if_another_running = false) {
 transit_back = function() {
 	__is_transit_back = true;
 	var leave_struct = {
+		escape_pressed: __escape_was_pressed,
 		target_room: undefined, 
 		transition: undefined, 
 		cancel: false
 	};
+	__escape_was_pressed = false; // reset this in case of a cancel
 	
 	if (array_length(__TRANSIT_ROOM_CHAIN) > 1) {
 		array_pop(__TRANSIT_ROOM_CHAIN); // This is our room, ignore it
