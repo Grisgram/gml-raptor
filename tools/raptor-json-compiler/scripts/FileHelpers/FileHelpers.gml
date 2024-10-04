@@ -70,7 +70,13 @@ function directory_list_data_files(_folder = "", _recursive = false) {
 ///			if 'cached' is true, it has been taken from cache, so
 ///			no further recursion needed from the caller side
 function __file_get_constructed_class(from, restorestack) {
-	var restorename = $"restored_{name_of(from)}";
+	if (is_null(from))
+		return {
+			cached: true,
+			instance: undefined
+		};
+		
+	var restorename = $"restored_{address_of(from)}";
 	var rv = vsget(restorestack, restorename);
 	if (rv != undefined) 
 		return {
@@ -91,6 +97,8 @@ function __file_get_constructed_class(from, restorestack) {
 	} else {
 		rv = {};
 	}
+	
+	rv = __recover_struct_class_recursive(rv, from);
 	restorestack[$ restorename] = rv;
 	return {
 		cached: false,
@@ -98,8 +106,46 @@ function __file_get_constructed_class(from, restorestack) {
 	};
 }
 
+function __recover_struct_class_recursive(target, source) {
+	var cr = vsget(__SAVEGAME_CIRCSTACK, address_of(source));
+	if (cr != undefined)
+		return cr;
+	
+	__SAVEGAME_CIRCSTACK[$ address_of(source)] = target;
+	var names = struct_get_names(source);
+	for (var j = 0; j < array_length(names); j++) {
+		var name = names[@j];
+		var member = source[$ name];
+		with (target) {
+			if (is_method(member))
+				self[$ name] = method(self, member);
+			else {
+				vsgetx(self, name, member);
+				if (member == undefined)
+					continue;
+				else if (is_struct(member))
+					__recover_struct_class_recursive(self[$ name], member);
+				else if (is_array(member)) {
+					for (var i = 0, len = array_length(member); i < len; i++) {
+						var amem = member[@i];
+						if (amem == undefined)
+							continue;
+						else if (is_method(amem))
+							member[@i] = method(self, amem);
+						else if (is_struct(amem))
+							member[@i] = __recover_struct_class_recursive({}, amem);
+					}
+				} else
+					self[$ name] = member;
+			}
+		}
+	}
+	return target;
+}
+
 /// @func	__file_reconstruct_root(from)
 function __file_reconstruct_root(from) {
+	__SAVEGAME_CIRCSTACK = {};
 	var restorestack = {};
 	// The first instance here can't be from cache, as the restorestack is empty
 	var rv = __file_get_constructed_class(from, restorestack).instance;
@@ -112,7 +158,6 @@ function __file_reconstruct_root(from) {
 ///			if the constructor is known.
 function __file_reconstruct_class(into, from, restorestack) {
 	var names = struct_get_names(from);
-	
 	with (into) {
 		for (var i = 0; i < array_length(names); i++) {
 			var name = names[i];

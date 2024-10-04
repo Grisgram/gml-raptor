@@ -19,6 +19,8 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	ilog($"[----- LOADING GAME FROM '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	
+	__SAVEGAME_CIRCSTACK = {};
+	
 	return file_read_struct_async(filename, cryptkey)
 	.__raptor_data("trans", _room_transition)
 	.__raptor_data("only", data_only)
@@ -38,20 +40,21 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		refstack.recover = method(refstack, function(_name, _from = undefined) {
 			_from = _from ?? savegame;
 			var rv = _from[$ _name];
-			if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) {
-				rv = self[$ rv];
-				_from[$ _name] = rv;
-				var names = struct_get_names(rv);
-				for (var i = 0, len = array_length(names); i < len; i++) 
-					recover(names[@i], rv);
-			} else if (is_array(rv)) {
-				recover_array(rv);
-			} else if (is_struct(rv)) {
-				var names = struct_get_names(rv);
-				for (var i = 0, len = array_length(names); i < len; i++)
-					recover(rv[$ names[@i]], rv);
+			if (!is_method(rv)) {
+				if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) {
+					rv = self[$ rv];
+					_from[$ _name] = rv;
+					var names = struct_get_names(rv);
+					for (var i = 0, len = array_length(names); i < len; i++)
+						recover(names[@i], rv);
+				} else if (is_array(rv)) {
+					recover_array(rv);
+				} else if (is_struct(rv)) {
+					var names = struct_get_names(rv);
+					for (var i = 0, len = array_length(names); i < len; i++)
+						recover(rv[$ names[@i]], _from);
+				}
 			}
-			
 			return rv;
 		});
 		refstack.recover_array = method(refstack, function(_array) {
@@ -59,7 +62,9 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 			for (var i = 0, len = array_length(_array); i < len; i++) {
 				rv = self[$ _array[@i]] ?? _array[@i];
 				_array[@i] = rv;
-				if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) 
+				if (is_method(rv)) 
+					continue;
+				else if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) 
 					recover(rv);
 				else if (is_array(rv))
 					recover_array(rv);
@@ -70,7 +75,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		});
 		refstack.recover_struct = method(refstack, function(_struct) {
 			var names = struct_get_names(_struct);
-			for (var i = 0, len = array_length(names); i < len; i++)
+			for (var i = 0, len = array_length(names); i < len; i++) 
 				recover(names[@i], _struct);
 		});
 
@@ -247,6 +252,8 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
 	
 	BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED);
+	
+	__SAVEGAME_CIRCSTACK = {};
 	
 	ilog($"[----- LOADING GAME FINISHED -----]");
 

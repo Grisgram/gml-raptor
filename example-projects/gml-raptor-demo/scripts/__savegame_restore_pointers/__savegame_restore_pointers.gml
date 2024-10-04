@@ -1,15 +1,10 @@
 /*
-    This code is 95% identical with SNAP's deep_copy but it handles methods
-	and instance ids differently as both can not be persisted to the savegame file.
-	
-	methods are simply skipped and instance ids are replaced with their real(id) value
-	only but in a special syntax that can be detected by savegame_load_game when this
-	file gets restored.
+    Restores all pointers of object instances through the entire savegame structure
 */
 
-/// @func		__savegame_remove_pointers(struct, refstack)
+/// @func		__savegame_restore_pointers(struct, refstack)
 /// @desc
-/// @arg {struct} struct	The struct to clone and remove pointers
+/// @arg {struct} struct	The struct to restore pointers
 function __savegame_restore_pointers(struct, refstack) {        
     if (is_struct(struct))
     {

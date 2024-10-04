@@ -30,6 +30,8 @@ ENSURE_GLOBALDATA;
 // holds custom structs for the savegame
 #macro __SAVEGAME_STRUCTS				global.__savegame_structs
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances
+#macro __SAVEGAME_CIRCSTACK				global.__savegame_circstack
+__SAVEGAME_CIRCSTACK = {}; // circular struct reference resolve stack
 
 #macro __SAVEGAME_GLOBAL_DATA_HEADER	"global_data"
 #macro __SAVEGAME_OBJECT_HEADER			"instances"

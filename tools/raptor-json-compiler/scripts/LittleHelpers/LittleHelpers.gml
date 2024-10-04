@@ -1,6 +1,6 @@
 
-/// @func					is_between(val, lower_bound, upper_bound)
-/// @desc				test if a value is between lower and upper (both INCLUDING!)
+/// @func	is_between(val, lower_bound, upper_bound)
+/// @desc	test if a value is between lower and upper (both INCLUDING!)
 /// @param {real/int} val
 /// @param {real/int} lower_bound
 /// @param {real/int} upper_bound
@@ -10,8 +10,8 @@ function is_between(val, lower_bound, upper_bound) {
 	return val >= lower_bound && val <= upper_bound;
 }
 
-/// @func					is_between_ex(val, lower_bound, upper_bound)
-/// @desc				test if a value is between lower and upper (both EXCLUDING!)
+/// @func	is_between_ex(val, lower_bound, upper_bound)
+/// @desc	test if a value is between lower and upper (both EXCLUDING!)
 /// @param {real/int} val
 /// @param {real/int} lower_bound
 /// @param {real/int} upper_bound
@@ -21,9 +21,9 @@ function is_between_ex(val, lower_bound, upper_bound) {
 	return val > lower_bound && val < upper_bound;
 }
 
-/// @func					is_any_of(val, ...)
-/// @desc				after val, specify any number of parameters.
-///								determines if val is equal to any of them.
+/// @func	is_any_of(val, ...)
+/// @desc	after val, specify any number of parameters.
+///			determines if val is equal to any of them.
 /// @param {any} val
 /// @returns {bool}	y/n
 function is_any_of(val) {
@@ -32,7 +32,7 @@ function is_any_of(val) {
 	return false;
 }
 
-/// @func		percent(val, total)
+/// @func	percent(val, total)
 /// @desc	Gets, how many % "val" is of "total"
 /// @param {real} val	The value
 /// @param {real} total	100%
@@ -42,8 +42,8 @@ function percent(val, total) {
 	return (val/total) * 100;
 }
 
-/// @func					percent_mul(val, total)
-/// @desc				Gets, how many % "val" is of "total" as multiplier (30,50 => 0.6)
+/// @func	percent_mul(val, total)
+/// @desc	Gets, how many % "val" is of "total" as multiplier (30,50 => 0.6)
 /// @param {real} val
 /// @param {real} total
 /// @returns {real}	percent value as multiplier (0..1)
@@ -52,8 +52,8 @@ function percent_mult(val, total) {
 	return (val/total);
 }
 
-/// @func					is_child_of(child, parent)
-/// @desc				True, if the child is parent or derived anywhere from parent.
+/// @func	is_child_of(child, parent)
+/// @desc	True, if the child is parent or derived anywhere from parent.
 /// @param {object_index} child An object instance or object_index of the child to analyze
 /// @param {object} parent		The object_index (just the type) of the parent to find
 /// @returns {bool}
@@ -92,12 +92,12 @@ function is_child_of(child, parent) {
 	return to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST;
 }
 
-/// @func					name_of(_instance)
-/// @desc				If _instance is undefined, undefined is returned,
-///								otherwise MY_NAME or object_get_name of the instance is returned,
-///								depending on the _with_ref_id parameter.
-///								To cover the undefined scenario, this function is normally used like this:
-///								var instname = name_of(my_instance) ?? "my default";
+/// @func	name_of(_instance)
+/// @desc	If _instance is undefined, undefined is returned,
+///			otherwise MY_NAME or object_get_name of the instance is returned,
+///			depending on the _with_ref_id parameter.
+///			To cover the undefined scenario, this function is normally used like this:
+///			var instname = name_of(my_instance) ?? "my default";
 /// @param {object_index} _instance	The instance to retrieve the name of.
 function name_of(_instance, _with_ref_id = true) {
 	if (!is_null(_instance)) {
@@ -105,7 +105,7 @@ function name_of(_instance, _with_ref_id = true) {
 			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
 		else {
 			if (IS_HTML) {
-				var hash = string_replace(sha1_string_unicode(string(_instance)), " ", "");
+				var hash = string_replace_all(sha1_string_unicode(string(_instance)), " ", "");
 				return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? hash : "")}";
 			} else
 				return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? ptr(_instance) : "")}";
@@ -115,19 +115,32 @@ function name_of(_instance, _with_ref_id = true) {
 	return undefined;
 }
 
-/// @func					layer_of(_instance)
-/// @desc				retrieve the layer name or depth of _instance
-///								if instance is nullish, -1 is returned (gms default for "no layer")
+/// @func	address_of(_instance)
+/// @desc	Similar to name_of, but returns only the pointer (hash in html5) of the instance
+///			as a string, without its type name or other informations or undefined, when _instance is undefined
+function address_of(_instance) {
+	if (!is_null(_instance)) {
+		if (IS_HTML) {
+			return string_replace_all(sha1_string_unicode(string(_instance)), " ", "");
+		} else
+			return $"{ptr(_instance)}";
+	}
+	return undefined;
+}
+
+/// @func	layer_of(_instance)
+/// @desc	retrieve the layer name or depth of _instance
+///			if instance is nullish, -1 is returned (gms default for "no layer")
 function layer_of(_instance) {
 	if (!is_null(_instance))
 		with(_instance) return MY_LAYER_OR_DEPTH;
 	return -1;
 }
 
-/// @func construct_or_invoke(_script, args...)
+/// @func	construct_or_invoke(_script, args...)
 /// @desc	Now, that's an ugly one, I know, but at the moment of writing this, GameMaker
-///					has no way to tell normal functions apart from constructors.
-///					There's not other way, to find out, as to fall in a catch if constructing fails.
+///			has no way to tell normal functions apart from constructors.
+///			There's not other way, to find out, as to fall in a catch if constructing fails.
 function construct_or_invoke(_script) {
 	var res;
 	try {
@@ -192,13 +205,13 @@ function frames_to_seconds(_frames) {
 	return _frames / room_speed;
 }
 
-/// @func		run_delayed(owner, delay, func, data = undefined)
+/// @func	run_delayed(owner, delay, func, data = undefined)
 /// @desc	Executes a specified function in <delay> frames from now.
-///					Behind the scenes this uses the __animation_empty function which
-///					is part of the ANIMATIONS ListPool, so if you clear all animations,
-///					or use animation_run_ex while this is waiting for launch, 
-///					you will also abort this one here.
-///					Keep that in mind.
+///			Behind the scenes this uses the __animation_empty function which
+///			is part of the ANIMATIONS ListPool, so if you clear all animations,
+///			or use animation_run_ex while this is waiting for launch, 
+///			you will also abort this one here.
+///			Keep that in mind.
 /// @param {instance} owner	The owner of the delayed runner
 /// @param {int} delay		Number of frames to wait
 /// @param {func} func		The function to execute
@@ -211,15 +224,15 @@ function run_delayed(owner, delay, func, data = undefined) {
 	return anim;
 }
 
-/// @func		run_delayed_ex(owner, delay, func, data = undefined)
+/// @func	run_delayed_ex(owner, delay, func, data = undefined)
 /// @desc	Executes a specified function EXCLUSIVELY in <delay> frames from now.
-///					Exclusively means in this case, animation_abort_all is invoked before
-///					starting the delayed waiter.
-///					Behind the scenes this uses the __animation_empty function which
-///					is part of the ANIMATIONS ListPool, so if you clear all animations,
-///					or use animation_run_ex while this is waiting for launch, 
-///					you will also abort this one here.
-///					Keep that in mind.
+///			Exclusively means in this case, animation_abort_all is invoked before
+///			starting the delayed waiter.
+///			Behind the scenes this uses the __animation_empty function which
+///			is part of the ANIMATIONS ListPool, so if you clear all animations,
+///			or use animation_run_ex while this is waiting for launch, 
+///			you will also abort this one here.
+///			Keep that in mind.
 /// @param {instance} owner	The owner of the delayed runner
 /// @param {int} delay		Number of frames to wait
 /// @param {func} func		The function to execute
@@ -230,16 +243,16 @@ function run_delayed_ex(owner, delay, func, data = undefined) {
 	return run_delayed(owner, delay, func, data);
 }
 
-/// @func		run_delayed_exf(owner, delay, func, data = undefined)
+/// @func	run_delayed_exf(owner, delay, func, data = undefined)
 /// @desc	Read _exf as "exclusive with finish"
-///					Executes a specified function EXCLUSIVELY in <delay> frames from now.
-///					Exclusively means in this case, animation_finish_all is invoked before
-///					starting the delayed waiter.
-///					Behind the scenes this uses the __animation_empty function which
-///					is part of the ANIMATIONS ListPool, so if you clear all animations,
-///					or use animation_run_ex while this is waiting for launch, 
-///					you will also abort this one here.
-///					Keep that in mind.
+///			Executes a specified function EXCLUSIVELY in <delay> frames from now.
+///			Exclusively means in this case, animation_finish_all is invoked before
+///			starting the delayed waiter.
+///			Behind the scenes this uses the __animation_empty function which
+///			is part of the ANIMATIONS ListPool, so if you clear all animations,
+///			or use animation_run_ex while this is waiting for launch, 
+///			you will also abort this one here.
+///			Keep that in mind.
 /// @param {instance} owner	The owner of the delayed runner
 /// @param {int} delay		Number of frames to wait
 /// @param {func} func		The function to execute
@@ -250,11 +263,11 @@ function run_delayed_exf(owner, delay, func, data = undefined) {
 	return run_delayed(owner, delay, func, data);
 }
 
-/// @func		if_null(value, value_if_null)
+/// @func	if_null(value, value_if_null)
 /// @desc	Tests if the specified value is undefined or noone, or,
-///					if it is a string, is empty.
-///					In any of those cases value_if_null is returned, otherwise
-///					value is returned.
+///			if it is a string, is empty.
+///			In any of those cases value_if_null is returned, otherwise
+///			value is returned.
 /// @param {any} value	The value to test
 /// @param {any} value_if_null	the value to return, if value is null.
 /// @returns {any}	value or value_if_null
@@ -266,11 +279,11 @@ function if_null(value, value_if_null) {
 	return value;
 }
 
-/// @func		is_null(value)
+/// @func	is_null(value)
 /// @desc	Tests if the specified value is undefined or noone, or,
-///					if it is a string, is empty.
-///					In any of those cases true is returned, otherwise
-///					false is returned.
+///			if it is a string, is empty.
+///			In any of those cases true is returned, otherwise
+///			false is returned.
 /// @param {any} value	The value to test
 /// @returns {bool}	value is nullish or not
 function is_null(value) {
@@ -281,21 +294,21 @@ function is_null(value) {
 	return false;
 }
 
-/// @func		eq(inst1, inst2)
+/// @func	eq(inst1, inst2)
 /// @desc	Compare, whether two object instances are the same instance
-///					Due to a html bug you can not simply compare inst1==inst2,
-///					but you have to compare their ids instead.
+///			Due to a html bug you can not simply compare inst1==inst2,
+///			but you have to compare their ids instead.
 function eq(inst1, inst2) {
 	try { return name_of(inst1) == name_of(inst2); } catch (_) { return false; }
 }
 
-/// @func with_tag(_tag, _func, _data = undefined)
-/// @desc Executes the specified function for all object instances
-///				 that are tagged with the specified tag.
-///				 NOTE: The function is temporary bound to the instance, so
-///				 the code IN the function will run in the scope of the instance!
-///				 You may also specify any _data object to be sent into each of 
-///				 the invoked functions
+/// @func	with_tag(_tag, _func, _data = undefined)
+/// @desc	Executes the specified function for all object instances
+///			that are tagged with the specified tag.
+///			NOTE: The function is temporary bound to the instance, so
+///			the code IN the function will run in the scope of the instance!
+///			You may also specify any _data object to be sent into each of 
+///			the invoked functions
 function with_tag(_tag, _func, _data = undefined) {
 	var tagged = tag_get_asset_ids(_tag, asset_object);
 	for (var i = 0, len = array_length(tagged); i < len; i++) {
@@ -306,18 +319,18 @@ function with_tag(_tag, _func, _data = undefined) {
 	}
 }
 
-/// @func method_exists(_instance, _method)
-/// @desc Checks, whether a method with the specified name exists in _instance
+/// @func	method_exists(_instance, _method)
+/// @desc	Checks, whether a method with the specified name exists in _instance
 /// @returns {bool}	True, if a method with that name exists, otherwise false
 function method_exists(_instance, _method) {
 	return is_callable(vsget(_instance, _method));
 }
 
-/// @func invoke_if_exists(_instance, _method, ...)
-/// @desc Invoke the method, if it exists, with all arguments specified after the
-///				 _instance and _method arguments.
-///				 NOTE: GameMaker supports a maximum of 16 arguments, 2 are already used for
-///				 _instance and _method, so this leaves a maximum of 14 arguments for your call.
+/// @func	invoke_if_exists(_instance, _method, ...)
+/// @desc	Invoke the method, if it exists, with all arguments specified after the
+///			_instance and _method arguments.
+///			NOTE: GameMaker supports a maximum of 16 arguments, 2 are already used for
+///			_instance and _method, so this leaves a maximum of 14 arguments for your call.
 /// @returns {any} The return value of the method or undefined, if the method does not exist
 function invoke_if_exists(_instance, _method) {
 	var meth = is_callable(_method) ? _method : vsget(_instance, _method);

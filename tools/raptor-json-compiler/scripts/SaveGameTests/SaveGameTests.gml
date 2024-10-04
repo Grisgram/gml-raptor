@@ -52,7 +52,7 @@ function unit_test_SaveGame() {
 			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
 			.on_finished(function(result) {
 				// assert simple string
-			global.test.assert_equals("Hello World", GLOBALDATA.testdata, "testdata");
+				global.test.assert_equals("Hello World", GLOBALDATA.testdata, "testdata");
 				
 				// assert simple array
 				global.test.assert_equals(3, array_length(GLOBALDATA.testarray), "simple array length");
@@ -85,6 +85,35 @@ function unit_test_SaveGame() {
 
 				global.test.finish_async();
 			})
+		});
+	}
+
+	ut.tests.savegame_circular_ok = function(test, data) {
+		var recursive_struct = {
+			direct_parent: undefined,
+			entry: {
+				child: undefined
+			}
+		};
+		recursive_struct.entry.child = recursive_struct;
+		recursive_struct.direct_parent = recursive_struct;
+		
+		GLOBALDATA.testdata = recursive_struct;
+		
+		test.start_async();
+		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		.on_finished(function(result) {
+			global.test.assert_true(result, "success");
+			GLOBALDATA.testdata = undefined;
+			
+			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			.on_finished(function(result) {
+				global.test.assert_true(result, "success");
+				var rc = GLOBALDATA.testdata;
+				global.test.assert_equals(rc, rc.entry.child, "testdata");
+				global.test.assert_equals(rc, rc.direct_parent, "parent");
+				global.test.finish_async();
+			});			
 		});
 	}
  
