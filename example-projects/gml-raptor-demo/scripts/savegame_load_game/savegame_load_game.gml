@@ -19,8 +19,6 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
 	ilog($"[----- LOADING GAME FROM '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	
-	__SAVEGAME_CIRCSTACK = {};
-	
 	return file_read_struct_async(filename, cryptkey)
 	.__raptor_data("trans", _room_transition)
 	.__raptor_data("only", data_only)
@@ -37,6 +35,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		var refstack = vsget(savegame, __SAVEGAME_REFSTACK_HEADER);
 		refstack.loaded_version = 0;
 		refstack.savegame = savegame;
+		refstack.restorestack = {};
 		refstack.recover = method(refstack, function(_name, _from = undefined) {
 			_from = _from ?? savegame;
 			var rv = _from[$ _name];
@@ -89,7 +88,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		// restore room
 		var current_room_name = room_get_name(room);
 		var room_name = vsgetx(engine, __SAVEGAME_ENGINE_ROOM_NAME, current_room_name);
-		if (room_name != current_room_name) {
+		if (!_data.only && room_name != current_room_name) {
 			__SAVEGAME_CONTINUE_LOAD_STATE = {
 				_savegame: savegame,
 				_refstack: refstack,
@@ -107,6 +106,8 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		
 			return true;
 		} else {
+			if (_data.only) 
+				ilog($"data_only is set");
 			ilog($"Continuing game load in current room...");
 			TRY
 				__continue_load_savegame(savegame, refstack, engine, _data.only, loaded_version);
@@ -203,7 +204,12 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	struct_remove(savegame, __SAVEGAME_REFSTACK_HEADER);
 	refstack = {};
 	savegame = __file_reconstruct_root(savegame);
+	// Now replace the global pointers with the restored ones
+	GLOBALDATA				= vsget(savegame, __SAVEGAME_GLOBAL_DATA_HEADER);
+	__SAVEGAME_STRUCTS		= vsget(savegame, __SAVEGAME_STRUCT_HEADER);
+	
 	__savegame_restore_pointers(savegame, refstack);
+	//__SAVEGAME_INSTANCES	= vsget(savegame, __SAVEGAME_OBJECT_HEADER);
 		
 	var instancenames = savegame_get_instance_names();
 	for (var i = 0, len = array_length(instancenames); i < len; i++) {
@@ -252,8 +258,6 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
 	
 	BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED);
-	
-	__SAVEGAME_CIRCSTACK = {};
 	
 	ilog($"[----- LOADING GAME FINISHED -----]");
 

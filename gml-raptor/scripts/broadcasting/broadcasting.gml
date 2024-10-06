@@ -227,7 +227,7 @@ function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	}
 	
 	toString = function() {
-		return $"{name_of(owner)}@{order}";
+		return $"{name_of(owner)}/{message_filter[@0]}";
 	}
 }
 

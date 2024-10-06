@@ -17,6 +17,11 @@ ENSURE_LOGGER;
 function VersionedDataStruct() constructor {
 	construct(VersionedDataStruct);
 
+	/// @func	on_game_loaded()
+	/// @desc	This callback gets invoked, when a VersionedDataStruct
+	///			has been loaded from a savegame (after all version upgrades)
+	on_game_loaded = function() {}
+
 	/// @func	get_names()
 	/// @desc	Returns struct_get_names but cleaned from all
 	///			raptor-internal members for construction, so
@@ -25,7 +30,7 @@ function VersionedDataStruct() constructor {
 		var rv = struct_get_names(self);
 		var i = 0;
 		while (i < array_length(rv)) {
-			if (is_any_of(rv[@i], __CONSTRUCTOR_NAME, __PARENT_CONSTRUCTOR_NAME))
+			if (is_any_of(rv[@i], __CONSTRUCTOR_NAME, __PARENT_CONSTRUCTOR_NAME, "on_game_loaded"))
 				array_delete(rv, i, 1);
 			else 
 				i++;
@@ -52,9 +57,10 @@ function VersionedDataStruct() constructor {
 		);
 		BROADCASTER.add_receiver(self, $"{SUID}game_load_finished_{address_of(self)}", __RAPTOR_BROADCAST_GAME_LOADED,
 			function(bc) {
+				on_game_loaded();
 				BROADCASTER.remove_owner(self);
 				return true;
 			}
 		);
-	}
+	}	
 }

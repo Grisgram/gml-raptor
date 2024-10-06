@@ -112,10 +112,41 @@ function unit_test_SaveGame() {
 				var rc = GLOBALDATA.testdata;
 				global.test.assert_equals(rc, rc.entry.child, "testdata");
 				global.test.assert_equals(rc, rc.direct_parent, "parent");
+				global.test.assert_equals(address_of(rc), address_of(rc.entry.child), "addr testdata");
+				global.test.assert_equals(address_of(rc), address_of(rc.direct_parent), "addr parent");
 				global.test.finish_async();
 			});			
 		});
 	}
  
+	ut.tests.savegame_circular_constructor_ok = function(test, data) {
+		var recursive_struct = new VersionedDataStruct();
+		recursive_struct.direct_parent = recursive_struct;
+		recursive_struct.entry = new VersionedDataStruct();
+		recursive_struct.entry.parent = recursive_struct;
+		recursive_struct.entry.child = recursive_struct.entry;
+		GLOBALDATA.testdata = recursive_struct;
+		
+		test.start_async();
+		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		.on_finished(function(result) {
+			global.test.assert_true(result, "success");
+			GLOBALDATA.testdata = undefined;
+			
+			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			.on_finished(function(result) {
+				global.test.assert_true(result, "success");
+				var rc = GLOBALDATA.testdata;
+				global.test.assert_equals(rc, rc.entry.parent, "testdata");
+				global.test.assert_equals(rc.entry, rc.entry.child, "testdata child");
+				global.test.assert_equals(rc, rc.direct_parent, "parent");
+				global.test.assert_equals(address_of(rc), address_of(rc.entry.parent), "addr testdata");
+				global.test.assert_equals(address_of(rc.entry), address_of(rc.entry.child), "addr testdata child");
+				global.test.assert_equals(address_of(rc), address_of(rc.direct_parent), "addr parent");
+				global.test.finish_async();
+			});			
+		});
+	}
+
 	ut.run();
 }

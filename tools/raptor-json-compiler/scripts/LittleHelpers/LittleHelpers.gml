@@ -355,3 +355,15 @@ function invoke_if_exists(_instance, _method) {
 	}
 	return undefined;
 }
+
+/// @func	dump_array(_array, _to_console = true)
+/// @desc	Dumps an array to a string (returned) and to console (optional)
+function dump_array(_array, _to_console = true) {
+	var rv = string_join_ext("\n", _array);
+	if (_to_console) {
+		dlog($"[--- ARRAY DUMP START ---]");
+		dlog(rv);
+		dlog($"[--- ARRAY DUMP  END  ---]");
+	}
+	return rv;
+}

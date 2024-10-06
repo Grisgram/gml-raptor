@@ -65,7 +65,7 @@ function directory_list_data_files(_folder = "", _recursive = false) {
 #endregion
 
 #region CONSTRUCTOR REGISTRATION
-/// @func	__file_get_constructed_class(from)
+/// @func	__file_get_constructed_class(from, restorestack)
 /// @desc	Returns a struct with 'cached' and the instance
 ///			if 'cached' is true, it has been taken from cache, so
 ///			no further recursion needed from the caller side
@@ -75,7 +75,7 @@ function __file_get_constructed_class(from, restorestack) {
 			cached: true,
 			instance: undefined
 		};
-		
+
 	var restorename = $"restored_{address_of(from)}";
 	var rv = vsget(restorestack, restorename);
 	if (rv != undefined) 
@@ -83,12 +83,13 @@ function __file_get_constructed_class(from, restorestack) {
 			cached: true,
 			instance: rv
 		};
-	
+		
+	var constname = "";
 	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
-		var constname = from[$ __CONSTRUCTOR_NAME];
-		//vlog($"Constructing '{constname}'");
+		constname = from[$ __CONSTRUCTOR_NAME];
 		var class = asset_get_index(constname);
 		rv = new class();
+		dlog($"Constructed '{constname}' {restorename} -> {address_of(rv)}");
 		if (variable_struct_exists(rv, __INTERFACES_NAME)) {
 			var interfaces = rv[$ __INTERFACES_NAME];
 			for (var i = 0, len = array_length(interfaces); i < len; i++)
@@ -98,7 +99,6 @@ function __file_get_constructed_class(from, restorestack) {
 		rv = {};
 	}
 	
-	rv = __recover_struct_class_recursive(rv, from);
 	restorestack[$ restorename] = rv;
 	return {
 		cached: false,
@@ -106,50 +106,12 @@ function __file_get_constructed_class(from, restorestack) {
 	};
 }
 
-function __recover_struct_class_recursive(target, source) {
-	var cr = vsget(__SAVEGAME_CIRCSTACK, address_of(source));
-	if (cr != undefined)
-		return cr;
-	
-	__SAVEGAME_CIRCSTACK[$ address_of(source)] = target;
-	var names = struct_get_names(source);
-	for (var j = 0; j < array_length(names); j++) {
-		var name = names[@j];
-		var member = source[$ name];
-		with (target) {
-			if (is_method(member))
-				self[$ name] = method(self, member);
-			else {
-				vsgetx(self, name, member);
-				if (member == undefined)
-					continue;
-				else if (is_struct(member))
-					__recover_struct_class_recursive(self[$ name], member);
-				else if (is_array(member)) {
-					for (var i = 0, len = array_length(member); i < len; i++) {
-						var amem = member[@i];
-						if (amem == undefined)
-							continue;
-						else if (is_method(amem))
-							member[@i] = method(self, amem);
-						else if (is_struct(amem))
-							member[@i] = __recover_struct_class_recursive({}, amem);
-					}
-				} else
-					self[$ name] = member;
-			}
-		}
-	}
-	return target;
-}
-
 /// @func	__file_reconstruct_root(from)
 function __file_reconstruct_root(from) {
-	__SAVEGAME_CIRCSTACK = {};
 	var restorestack = {};
 	// The first instance here can't be from cache, as the restorestack is empty
 	var rv = __file_get_constructed_class(from, restorestack).instance;
-	__file_reconstruct_class(rv, from, restorestack);
+	rv = __file_reconstruct_class(rv, from, restorestack);
 	return rv;
 }
 
@@ -162,7 +124,9 @@ function __file_reconstruct_class(into, from, restorestack) {
 		for (var i = 0; i < array_length(names); i++) {
 			var name = names[i];
 			var member = from[$ name];
-			if (is_struct(member)) {
+			if (is_method(member))
+				self[$ name] = method(self, member);
+			else if (is_struct(member)) {
 				var restored = __file_get_constructed_class(member, restorestack);
 				var classinst = restored.instance;
 				self[$ name] = classinst;
@@ -184,6 +148,7 @@ function __file_reconstruct_class(into, from, restorestack) {
 				self[$ name] = from[$ name];
 		}
 	}
+	return into;
 }
 
 #endregion
