@@ -10,8 +10,8 @@
 
 #macro __DEFAULT_EMITTER_OBJECT	ParticleEmitter
 
-/// @func					ParticleManager(particle_layer_name)
-/// @desc				Helps in organizing particles for a level
+/// @func	ParticleManager(particle_layer_name)
+/// @desc	Helps in organizing particles for a level
 /// @param {string} particle_layer_name
 /// @returns {struct} ParticleManager
 function ParticleManager(particle_layer_name, system_index = 0) constructor {
@@ -28,39 +28,38 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	__buffered_delta	= {};
 	__buffered_target	= {};
 	
-	/// @func		__resolve_emitter_name(name_or_emitter)
+	/// @func	__resolve_emitter_name(name_or_emitter)
 	static __resolve_emitter_name = function(name_or_emitter) {
 		return is_string(name_or_emitter) ? name_or_emitter : name_or_emitter.emitter_name;
 	}
 	
-	/// @func		set_emitter_object(_emitter_object)
+	/// @func	set_emitter_object(_emitter_object)
 	/// @desc	Set an object type to use when attaching or cloning emitters (default = ParticleEmitter)
 	static set_emitter_object = function(_emitter_object) {
 		__emitter_object = _emitter_object;
 	}
 	
-	/// @func		reset_emitter_object()
+	/// @func	reset_emitter_object()
 	/// @desc	Reset the emitter object to the default ParticleEmitter
 	static reset_emitter_object = function() {
 		__emitter_object = __DEFAULT_EMITTER_OBJECT;
 	}
 	
-	/// @func					particle_type_get(name)
-	/// @desc				register (or get existing) part type for leak-free destroying at end of level
+	/// @func	particle_type_get(name)
+	/// @desc	register (or get existing) part type for leak-free destroying at end of level
 	static particle_type_get = function(name) {
 		var rv = variable_struct_exists(__particle_types, name) ? struct_get(__particle_types, name) : part_type_create();
 		struct_set(__particle_types, name, rv);
 		return rv;
 	}
 
-	/// @func					particle_type_exists(name)
-	/// @returns {bool}	y/n
+	/// @func	particle_type_exists(name)
 	static particle_type_exists = function(name) {
 		return variable_struct_exists(__particle_types, name);
 	}
 
-	/// @func					particle_type_destroy(name)
-	/// @desc				immediately destroy a particle type
+	/// @func	particle_type_destroy(name)
+	/// @desc	immediately destroy a particle type
 	static particle_type_destroy = function(name) {
 		if (variable_struct_exists(__particle_types, name)) {
 			part_type_destroy(struct_get(__particle_types, name));
@@ -68,8 +67,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		}
 	}
 	
-	/// @func					emitter_get(name_or_emitter, default_particle_if_new = undefined)
-	/// @desc				register (or get existing) emitter for leak-free destroying at end of level
+	/// @func	emitter_get(name_or_emitter, default_particle_if_new = undefined)
+	/// @desc	register (or get existing) emitter for leak-free destroying at end of level
 	static emitter_get = function(name_or_emitter, default_particle_if_new = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		
@@ -84,8 +83,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		return rv;
 	}
 	
-	/// @func					emitter_clone(name_or_emitter, new_name = undefined)
-	/// @desc				clone an emitter (and its range) to a new name
+	/// @func	emitter_clone(name_or_emitter, new_name = undefined)
+	/// @desc	clone an emitter (and its range) to a new name
 	static emitter_clone = function(name_or_emitter, new_name = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		
@@ -99,12 +98,10 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		return rv;
 	}
 	
-	/// @func		emitter_attach(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, 
-	///								   follow_this_instance = true, use_object_pools = true)
+	/// @func	emitter_attach(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, follow_this_instance = true, use_object_pools = true)
 	/// @desc	Attach a new ParticleEmitter instance on the specified layer to an instance
-	///					with optional follow-setting.
-	///					NOTE: If you need more than one emitter of this kind, look at emitter_attach_clone
-	/// @returns {ParticleEmitter}	the created object instance on the layer for cleanup if you no longer need it
+	///			with optional follow-setting.
+	///			NOTE: If you need more than one emitter of this kind, look at emitter_attach_clone
 	static emitter_attach = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
 									 follow_this_instance = true, use_object_pools = true) {
 		var ix  = __system_index;
@@ -135,26 +132,26 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			if (stream_on_create) stream(); // NOW you may stream!
 		}	
 		
+		if (DEBUG_LOG_PARTICLES)
+			dlog($"Emitter '{name_or_emitter}' created at {xp}/{yp} {__emitter_ranges[$ name_or_emitter]}");
+		
 		return rv;
 	}
 	
-	/// @func		emitter_attach_clone(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
-	///										 follow_this_instance = true, use_object_pools = true)
+	/// @func	emitter_attach_clone(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, follow_this_instance = true, use_object_pools = true)
 	/// @desc	Attach a clone of an existing emitter to a new ParticleEmitter instance 
-	///					on the specified layer to an instance with optional follow-setting.
-	/// @returns {ParticleEmitter}	the created object instance on the layer for cleanup if you no longer need it
+	///			on the specified layer to an instance with optional follow-setting.
 	static emitter_attach_clone = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined, 
 										   follow_this_instance = true, use_object_pools = true) {
 		return emitter_attach(emitter_clone(name_or_emitter), instance, layer_name_or_depth, particle_type_name, follow_this_instance, use_object_pools);
 	}
 	
-	/// @func					emitter_exists(name)
-	/// @returns {bool}	y/n
+	/// @func	emitter_exists(name)
 	static emitter_exists = function(name) {
 		return variable_struct_exists(__emitters, name);
 	}
 
-	/// @func		emitter_set_range(name_or_emitter, xmin, xmax, ymin, ymax, shape, distribution)
+	/// @func	emitter_set_range(name_or_emitter, xmin, xmax, ymin, ymax, shape, distribution)
 	/// @desc	Set the range of an emitter
 	static emitter_set_range = function(name_or_emitter, xmin, xmax, ymin, ymax, shape, distribution) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
@@ -172,9 +169,9 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		struct_set(__emitter_ranges, name_or_emitter, rng);
 	}
 
-	/// @func		emitter_move_range_by(name_or_emitter, xdelta, ydelta)
+	/// @func	emitter_move_range_by(name_or_emitter, xdelta, ydelta)
 	/// @desc	Move the range of the emitter by the specified delta, keeping its size, shape and distribution.
-	///					Use this, if an emitter shall follow another object on screen (like the mouse cursor)
+	///			Use this, if an emitter shall follow another object on screen (like the mouse cursor)
 	static emitter_move_range_by = function(name_or_emitter, xdelta, ydelta) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var rng = struct_get(__emitter_ranges, name_or_emitter);
@@ -190,9 +187,9 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		part_emitter_region(system, emitter_get(name_or_emitter).emitter, rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 	}
 
-	/// @func		emitter_move_range_to(name_or_emitter, newx, newy)
+	/// @func	emitter_move_range_to(name_or_emitter, newx, newy)
 	/// @desc	Move the range of the emitter a new position, keeping its shape and distribution.
-	///					Use this, if an emitter shall follow another object on screen (like the mouse cursor)
+	///			Use this, if an emitter shall follow another object on screen (like the mouse cursor)
 	static emitter_move_range_to = function(name_or_emitter, newx, newy) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var rng = struct_get(__emitter_ranges, name_or_emitter);
@@ -209,7 +206,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		part_emitter_region(system, emitter_get(name_or_emitter).emitter, rng.minco.x, rng.maxco.x, rng.minco.y, rng.maxco.y, rng.eshape, rng.edist);
 	}
 
-	/// @func		emitter_scale_to(name_or_emitter, instance)
+	/// @func	emitter_scale_to(name_or_emitter, instance)
 	/// @desc	scales the emitter range to a specified object instance
 	static emitter_scale_to = function(name_or_emitter, instance) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
@@ -218,7 +215,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			rng.scale_to(instance);
 	}
 	
-	/// @func		emitter_get_range_min(name_or_emitter)
+	/// @func	emitter_get_range_min(name_or_emitter)
 	/// @desc	Gets the min coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_min = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
@@ -226,7 +223,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		return (rng != undefined ? rng.minco : new Coord2(-1, -1));
 	}
 
-	/// @func		emitter_get_range_max(name_or_emitter)
+	/// @func	emitter_get_range_max(name_or_emitter)
 	/// @desc	Gets the max coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_max = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
@@ -234,8 +231,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		return (rng != undefined ? rng.maxco : new Coord2(-1, -1));
 	}
 
-	/// @func					emitter_destroy(name_or_emitter)
-	/// @desc				immediately destroy an emitter
+	/// @func	emitter_destroy(name_or_emitter)
+	/// @desc	immediately destroy an emitter
 	static emitter_destroy = function(name_or_emitter) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		if (variable_struct_exists(__emitters, name_or_emitter)) {
@@ -249,8 +246,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		}
 	}
 
-	/// @func			cleanup()
-	/// @desc		you MUST call this in the cleanup event of your controller!
+	/// @func	cleanup()
+	/// @desc	you MUST call this in the cleanup event of your controller!
 	static cleanup = function() {
 		var names = struct_get_names(__particle_types);
 		var i = 0; repeat(array_length(names)) {
@@ -282,7 +279,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		__emitter_ranges = {};
 	}
 	
-	/// @func		__apply_buffering()
+	/// @func	__apply_buffering()
 	static __apply_buffering = function(name) {
 		var r = struct_get(__buffered_target, name);
 		if (r != undefined) {
@@ -306,8 +303,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		}
 	}
 	
-	/// @func			stream(name_or_emitter, particles_per_frame = 1, particle_name = undefined)
-	/// @desc		start streaming particles at a specified rate
+	/// @func	stream(name_or_emitter, particles_per_frame = 1, particle_name = undefined)
+	/// @desc	start streaming particles at a specified rate
 	static stream = function(name_or_emitter, particles_per_frame = 1, particle_name = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		__apply_buffering(name_or_emitter);
@@ -318,9 +315,9 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			particles_per_frame);
 	}
 	
-	/// @func			stream_at(xpos, ypos, name_or_emitter, particles_per_frame = 1, particle_name = undefined)
-	/// @desc		start streaming particles at a specified rate and at a specified coordinate
-	///						ATTENTION! This method will move the emitter range to the specified coordinates!
+	/// @func	stream_at(xpos, ypos, name_or_emitter, particles_per_frame = 1, particle_name = undefined)
+	/// @desc	start streaming particles at a specified rate and at a specified coordinate
+	///			ATTENTION! This method will move the emitter range to the specified coordinates!
 	static stream_at = function(xpos, ypos, name_or_emitter, particles_per_frame = 1, particle_name = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		__apply_buffering(name_or_emitter);
@@ -328,10 +325,10 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		stream(name_or_emitter, particles_per_frame, particle_name);
 	}
 
-	/// @func			stream_stop(name_or_emitter)
-	/// @desc		stop streaming particles.
-	///						ATTENTION! You must setup part_emitter_region again if this
-	///						emitter is going to be reused in the future!
+	/// @func	stream_stop(name_or_emitter)
+	/// @desc	stop streaming particles.
+	///			ATTENTION! You must setup part_emitter_region again if this
+	///			emitter is going to be reused in the future!
 	static stream_stop = function(name_or_emitter) {
 		if (!part_system_exists(system))
 			return;
@@ -346,8 +343,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		}
 	}
 	
-	/// @func			burst(name_or_emitter, particle_count = 32, particle_name = undefined)
-	/// @desc		one time particle explosion burst
+	/// @func	burst(name_or_emitter, particle_count = 32, particle_name = undefined)
+	/// @desc	one time particle explosion burst
 	static burst = function(name_or_emitter, particle_count = 32, particle_name = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		var emi = emitter_get(name_or_emitter);
@@ -358,9 +355,9 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			particle_count);
 	}
 
-	/// @func			burst_at(xpos, ypos, name_or_emitter, particle_count, particle_name)
-	/// @desc		one time particle explosion burst at a specified coordinate
-	///						ATTENTION! This method will move the emitter range to the specified coordinates!
+	/// @func	burst_at(xpos, ypos, name_or_emitter, particle_count, particle_name)
+	/// @desc	one time particle explosion burst at a specified coordinate
+	///			ATTENTION! This method will move the emitter range to the specified coordinates!
 	static burst_at = function(xpos, ypos, name_or_emitter, particle_count = 32, particle_name = undefined) {
 		name_or_emitter = __resolve_emitter_name(name_or_emitter);
 		__apply_buffering(name_or_emitter);
@@ -368,8 +365,8 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		burst(name_or_emitter, particle_count, particle_name);
 	}
 
-	/// @func			spawn_particles(xpos, ypos, particle_count, particle_name)
-	/// @desc		spawn particles at a specified position without an emitter
+	/// @func	spawn_particles(xpos, ypos, particle_count, particle_name)
+	/// @desc	spawn particles at a specified position without an emitter
 	static spawn_particles = function(xpos, ypos, particle_count, particle_name) {
 		part_particles_create(system, xpos, ypos,
 			particle_type_get(particle_name), particle_count);
