@@ -221,7 +221,7 @@ __apply_post_positioning = function() {
 calculate_knob_size = function() {
 	if (orientation_horizontal) {
 		if (knob_autoscale)	{
-			__range_scale = shown_range > 0 ? (nine_slice_data.width * shown_range) / __knob_dims.width : 1;
+			__range_scale = shown_range > 0 ? (nine_slice_data.width * min(0.99, shown_range)) / __knob_dims.width : 1;
 			knob_xscale = clamp(
 				max(__range_scale, nine_slice_data.width / ((max_value - min_value) + 1)), 
 				1, max(__range_scale, nine_slice_data.width / (1.5 * __knob_dims.width))
@@ -230,7 +230,7 @@ calculate_knob_size = function() {
 		__tilesize = (nine_slice_data.width - __knob_dims.width * knob_xscale) / (max_value - min_value);
 	} else {
 		if (knob_autoscale)	{
-			__range_scale = shown_range > 0 ? (nine_slice_data.height * shown_range) / __knob_dims.height : 1;
+			__range_scale = shown_range > 0 ? (nine_slice_data.height * min(0.99, shown_range)) / __knob_dims.height : 1;
 			knob_yscale = clamp(
 				max(__range_scale, nine_slice_data.height / ((max_value - min_value) + 1)), 
 				1, max(__range_scale, nine_slice_data.height / (1.5 * __knob_dims.height))
