@@ -30,6 +30,7 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	struct_set(engine,		__SAVEGAME_ENGINE_SEED		, random_get_seed());
 	struct_set(engine,		__SAVEGAME_ENGINE_VERSION	, SAVEGAME_FILE_VERSION);
 	struct_set(engine,		__SAVEGAME_ENGINE_ROOM_NAME	, room_get_name(room));
+	struct_set(engine,		__SAVEGAME_ENGINE_COUNTUP_ID, global.__unique_count_up_id);
 	struct_set(savegame,	__SAVEGAME_ENGINE_HEADER	, engine);
 	
 	// save global data

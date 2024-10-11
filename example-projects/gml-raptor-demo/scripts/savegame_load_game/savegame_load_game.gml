@@ -81,6 +81,8 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		// load engine data
 		var engine = refstack.recover(__SAVEGAME_ENGINE_HEADER);
 		random_set_seed(struct_get(engine, __SAVEGAME_ENGINE_SEED));
+		global.__unique_count_up_id = vsget(engine, __SAVEGAME_ENGINE_COUNTUP_ID, 0);
+		
 		var loaded_version = vsgetx(engine, __SAVEGAME_ENGINE_VERSION, 1);
 		refstack.loaded_version = loaded_version;
 		ilog($"SaveGame File Version {loaded_version}");

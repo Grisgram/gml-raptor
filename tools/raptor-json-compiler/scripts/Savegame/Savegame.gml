@@ -63,6 +63,7 @@ ENSURE_GLOBALDATA;
 #macro __SAVEGAME_ENGINE_SEED			"seed"
 #macro __SAVEGAME_ENGINE_VERSION		"file_version"
 #macro __SAVEGAME_ENGINE_ROOM_NAME		"room_name"
+#macro __SAVEGAME_ENGINE_COUNTUP_ID		"countup_id"
 										
 #macro __SAVEGAME_ONSAVING_NAME			"onGameSaving"
 #macro __SAVEGAME_ONSAVED_NAME			"onGameSaved"

@@ -10,19 +10,32 @@ function unit_test_SaveGame() {
  
 	ut.tests.savegame_save_ok = function(test, data) {
 		GLOBALDATA.testdata = "Hello World";
-		
+	
+		// increase the global id to test its restore in the load-test
+		var tmp = UID;
+		var uid = global.__unique_count_up_id;
+
 		test.start_async();
 		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
-		.on_finished(function(result) {
-			global.test.assert_true(result, "success");
+		.set_data("uid", uid)
+		.on_finished(function(_data) {
 			// test the file contents manually with a sync file load
 			var savedata = file_read_struct($"{SAVEGAME_FOLDER}/unit_test{DATA_FILE_EXTENSION}");
 			var tdname = savedata.global_data;
 			var glob = savedata.refstack[$ tdname];
 			var hello = glob.testdata;
 			global.test.assert_equals("Hello World", hello, "testdata");
+
+			tdname = savedata.engine;
+			glob = savedata.refstack[$ tdname];
+			var checkid = glob[$ __SAVEGAME_ENGINE_COUNTUP_ID];
+			global.test.assert_equals(_data.uid, checkid, "uid");
 			
 			global.test.finish_async();
+		})
+		.on_failed(function() {
+			global.test.finish_async();
+			global.test.fail("failed callback save");
 		});
 	}
  
@@ -45,12 +58,11 @@ function unit_test_SaveGame() {
 		
 		test.start_async();
 		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
-		.on_finished(function(result) {
-			global.test.assert_true(result, "success");
+		.on_finished(function(_data) {
 			GLOBALDATA.testdata = undefined;
 			
 			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
-			.on_finished(function(result) {
+			.on_finished(function(result, _data) {
 				// assert simple string
 				global.test.assert_equals("Hello World", GLOBALDATA.testdata, "testdata");
 				
@@ -85,6 +97,14 @@ function unit_test_SaveGame() {
 
 				global.test.finish_async();
 			})
+			.on_failed(function() {
+				global.test.finish_async();
+				global.test.fail("failed callback load");
+			})
+		})
+		.on_failed(function() {
+			global.test.finish_async();
+			global.test.fail("failed callback save");
 		});
 	}
 
