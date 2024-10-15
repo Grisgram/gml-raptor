@@ -168,5 +168,35 @@ function unit_test_SaveGame() {
 		});
 	}
 
+	ut.tests.savegame_circular_instances_ok = function(test, _data) {
+		var ini = instance_create(0,0,"test",Saveable);
+		ini.data.hello = "world";
+		with (ini) data.me = self;
+		
+		test.start_async();
+		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		.set_data("obj", ini)
+		.on_finished(function(_data) {
+			instance_destroy(_data.obj);
+			GLOBALDATA.testdata = undefined;
+			
+			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			.on_finished(function(result) {
+				global.test.assert_true(result, "success");
+				var found = false;
+				with(Saveable) {
+					if (vsget(data, "hello") != undefined) {
+						found = true;
+						global.test.assert_equals(address_of(self), address_of(data.me), "recursion");
+						instance_destroy(self);
+						break;
+					}
+				}
+				global.test.assert_true(found, "ini found");
+				global.test.finish_async();
+			});			
+		});		
+	}
+
 	ut.run();
 }

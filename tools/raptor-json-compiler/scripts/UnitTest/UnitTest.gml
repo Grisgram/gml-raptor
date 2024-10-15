@@ -301,6 +301,11 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	}
 
 	static __prepare_next_test = function() {
+		if (__async_waiting) {
+			dlog($"Unit Test must wait for next test to finish async tasks");
+			return;
+		}
+		
 		if (__next_test_index < array_length(__test_names)) {
 			__current_test_name = __test_names[__next_test_index];
 			__current_test_ok	= true;

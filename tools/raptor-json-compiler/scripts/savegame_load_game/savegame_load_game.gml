@@ -38,6 +38,8 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		refstack.restorestack = {};
 		refstack.recover = method(refstack, function(_name, _from = undefined) {
 			_from = _from ?? savegame;
+			if (!is_string(_name))
+				return _name;
 			var rv = _from[$ _name];
 			if (!is_method(rv)) {
 				if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) {
@@ -50,8 +52,8 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 					recover_array(rv);
 				} else if (is_struct(rv)) {
 					var names = struct_get_names(rv);
-					for (var i = 0, len = array_length(names); i < len; i++)
-						recover(rv[$ names[@i]], _from);
+					for (var i = 0, len = array_length(names); i < len; i++) 
+						recover(rv[$ names[@i]]);
 				}
 			}
 			return rv;
@@ -216,6 +218,7 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	var instancenames = savegame_get_instance_names();
 	for (var i = 0, len = array_length(instancenames); i < len; i++) {
 		var ini = __SAVEGAME_INSTANCES[$ instancenames[@i]];
+		ini.data = __file_reconstruct_root(ini.data, refstack);
 		__savegame_restore_pointers(ini.data, refstack);
 	}
 

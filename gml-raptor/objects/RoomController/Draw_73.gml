@@ -9,34 +9,5 @@ if (__ACTIVE_TRANSITION != undefined) {
 
 if (!global.__debug_shown) exit;
 
-if (DEBUG_SHOW_OBJECT_FRAMES) {
-	draw_set_color(c_green);
-	var trans = new Coord2();
-	for (var i = 0; i < instance_count; i++;) {
-	    with (instance_id[i]) {
-		
-			if (!visible || sprite_index < 0)
-				continue;
-
-			draw_set_color(vsget(self, "__raptor_debug_frame_color", c_green));
-
-			if (SELF_DRAW_ON_GUI) {
-				translate_gui_to_world(x,y,trans);
-				draw_rectangle(
-					trans.x - sprite_xoffset, 
-					trans.y - sprite_yoffset,			
-					trans.x - sprite_xoffset + sprite_width - 1, 
-					trans.y - sprite_yoffset + sprite_height - 1,
-					true);
-			} else {			
-				draw_rectangle(
-					x - sprite_xoffset, 
-					y - sprite_yoffset,			
-					x - sprite_xoffset + sprite_width - 1, 
-					y - sprite_yoffset + sprite_height - 1,
-					true);
-			}
-		}
-	}
-	draw_set_color(c_white);
-}
+if (DEBUG_SHOW_OBJECT_FRAMES)
+	__draw_bbox_rotated();
