@@ -14,7 +14,7 @@
 
 #macro TEXTURE_PAGE_BORDER_SIZE		2
 
-/// @func			OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = false)
+/// @func	OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = false)
 function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = false) constructor {
 	// html flips the final surface vertically... hell knows, why.
 	// so, on html we need to draw it upside down.
@@ -57,32 +57,11 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 	_surface_t			= 0;
 	_surface_r			= 0;
 	_surface_b			= 0;
-	_rot				= 0;
-	_sir				= 0; // sinus rotation
-	_cor				= 0; // cosinus rotation
-	_rot_ox				= 0;
-	_rot_oy				= 0;
-	_rot_xl				= 0;
-	_rot_yt				= 0;
-	_rot_xr				= 0;
-	_rot_yb				= 0;
-	_rot_x2				= 0;
-	_rot_y2				= 0;
-	_rot_x3				= 0;
-	_rot_y3				= 0;
-	_rot_x4				= 0;
-	_rot_y4				= 0;
-	_rot_min_x			= 0;
-	_rot_max_x			= 0;
-	_rot_min_y			= 0;
-	_rot_max_y			= 0;
 
 	bbox_w				= 0;
 	bbox_h				= 0;
 	bbox_l				= 0;
 	bbox_t				= 0;
-	bbox_w_rot			= 0;
-	bbox_h_rot			= 0;
 	
 	static __update_surfaces = function() {
 		if (!surface_exists(__outline_surface_1)) __outline_surface_1 = surface_create(1, 1);
@@ -97,43 +76,16 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		_sprite_xoffset	= sprite_get_xoffset(obj.sprite_index);
 		_sprite_yoffset	= sprite_get_yoffset(obj.sprite_index);
 		
-		if (use_bbox) {
-			bbox_w = obj.bbox_right - obj.bbox_left + 1;
-			bbox_h = obj.bbox_bottom - obj.bbox_top + 1;
+		if (use_bbox || obj.image_angle != 0) {
 			bbox_l = obj.bbox_left;
-			bbox_t = obj.bbox_top;
+			bbox_t = obj.bbox_top ;
+			bbox_w = obj.bbox_right  - bbox_l + 1;
+			bbox_h = obj.bbox_bottom - bbox_t + 1;
 		} else {
 			bbox_w = obj.sprite_width;
 			bbox_h = obj.sprite_height;
 			bbox_l = obj.x - obj.sprite_xoffset;
 			bbox_t = obj.y - obj.sprite_yoffset;
-		}
-		
-		// Now adapt the required surface with the rotation angle of the object
-		if (obj.image_angle != 0) {
-			_rot		= degtorad(obj.image_angle);
-			_sir		= sin(_rot);
-			_cor		= cos(_rot);
-			_rot_xl		= 0;
-			_rot_yt		= 0;
-			_rot_xr		= obj.sprite_width;
-			_rot_yb		= obj.sprite_height;
-			_rot_ox		= _rot_xl * _cor - _rot_yt * _sir;
-			_rot_oy		= _rot_yt * _sir + _rot_yb * _cor;
-			_rot_x2		= _rot_xr * _cor - _rot_yt * _sir;
-			_rot_y2		= _rot_xr * _sir + _rot_yt * _cor;
-			_rot_x3		= _rot_xr * _cor - _rot_yb * _sir;
-			_rot_y3		= _rot_xr * _sir + _rot_yb * _cor;
-			_rot_x4		= _rot_xl * _cor - _rot_yb * _sir;
-			_rot_y4		= _rot_xl * _sir + _rot_yb * _cor;
-			rot_min_x	= min(0, _rot_x2, _rot_x3, _rot_x4);
-			rot_max_x	= max(0, _rot_x2, _rot_x3, _rot_x4);
-			rot_min_y	= min(0, _rot_y2, _rot_y3, _rot_y4);
-			rot_max_y	= max(0, _rot_y2, _rot_y3, _rot_y4);
-			bbox_w		= rot_max_x - rot_min_x - obj.outline_strength;
-			bbox_h		= rot_max_y - rot_min_y - obj.outline_strength;
-			bbox_l		= obj.bbox_left - obj.outline_strength;
-			bbox_t		= obj.bbox_top  - obj.outline_strength;
 		}
 		
 		//Verify the two input surfaces
@@ -149,8 +101,8 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		    return false;
 		}
 
-		_surface_real_w = 2 * obj.outline_strength + obj.image_xscale * max(_sprite_width , bbox_w);
-		_surface_real_h = 2 * obj.outline_strength + obj.image_yscale * max(_sprite_height, bbox_h);
+		_surface_real_w = 2 * obj.outline_strength + bbox_w;
+		_surface_real_h = 2 * obj.outline_strength + bbox_h;
 		
 		if ((surface_get_width(__outline_surface_1) < _surface_real_w) || 
 			(surface_get_height(__outline_surface_1) < _surface_real_h))
@@ -180,8 +132,8 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		}
 
 		//Figure out what part of the application surface we need to chop out
-		_surface_l = max(0, _camera_xscale * (bbox_l - obj.outline_strength - _camera_x));
-		_surface_t = max(0, _camera_yscale * (bbox_t - obj.outline_strength - _camera_y));
+		_surface_l = max(0, _camera_xscale * (bbox_l - _camera_x) - obj.outline_strength);
+		_surface_t = max(0, _camera_yscale * (bbox_t - _camera_y) - obj.outline_strength);
 		_surface_r = _surface_l + _camera_xscale * _surface_real_w;
 		_surface_b = _surface_t + _camera_yscale * _surface_real_h;
 
@@ -269,6 +221,5 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		}
 
 		return true;
-
 	}
 }
