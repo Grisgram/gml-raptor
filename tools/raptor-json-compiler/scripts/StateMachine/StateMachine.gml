@@ -15,7 +15,6 @@
 	
 	NOTE: To avoid memory leaks and to avoid having the state machine queued forever,
 	you MUST call destroy() in the state machine when you no longer need it!
-	
 */
 
 #macro	STATEMACHINES	global.__statemachine_pool
@@ -433,7 +432,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 		for (var i = 0, len = array_length(on_step); i < len; i++)
 			__rv_prev = on_step[@i](data, frame, __rv_prev);
 		
-return __rv_prev;
+		return __rv_prev;
 	}		
 	#endregion
 	

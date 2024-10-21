@@ -9,8 +9,11 @@
   "collisionKind":1,
   "collisionTolerance":0,
   "ConfigValues":{
+    "mike":{
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+    },
     "unit_testing":{
-      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
   },
   "DynamicTexturePage":false,
@@ -86,8 +89,8 @@
   "swatchColours":null,
   "swfPrecision":2.525,
   "textureGroupId":{
-    "name":"ui",
-    "path":"texturegroups/ui",
+    "name":"Default",
+    "path":"texturegroups/Default",
   },
   "type":0,
   "VTile":false,

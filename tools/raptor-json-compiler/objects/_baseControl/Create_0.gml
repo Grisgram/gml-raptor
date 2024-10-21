@@ -436,7 +436,11 @@ __draw_self = function() {
 		if (sprite_index == -1)
 			word_wrap = false; // no wrapping on zero-size objects
 		
-		__scribble_text = (__CONTROL_TEXT_CHANGED ? __create_scribble_object(scribble_text_align, text) : __scribble_text);
+		if (__CONTROL_TEXT_CHANGED) {
+			cleanup_disabled_surface();
+			__scribble_text = __create_scribble_object(scribble_text_align, text);
+		}
+		
 		__finalize_scribble_text();
 		__text_width	= __scribble_text.get_width();
 		__text_height	= __scribble_text.get_height();

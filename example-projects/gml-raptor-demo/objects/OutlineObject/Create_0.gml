@@ -22,7 +22,10 @@ __draw_self_at = function(_x, _y) {
 }
 
 __draw = function() {
-	if (is_enabled && (outline_always || (outline_on_mouse_over && mouse_is_over)) && is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y))
+	if (is_enabled && (outline_always || 
+			(outline_on_mouse_over && mouse_is_over && 
+			(!protect_ui_events || is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y)))
+		))
 		outliner.draw_sprite_outline();
 	else
 		__draw_self();

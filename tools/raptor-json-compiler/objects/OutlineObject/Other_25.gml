@@ -1,4 +1,4 @@
-/// @desc event
+/// @desc game loaded
 event_inherited();
 
 draw_on_gui				= __RAPTORDATA.draw_on_gui				;

@@ -30,6 +30,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 		}
 
 		SAVEGAME_LOAD_IN_PROGRESS = true;
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADING);
 
 		// prepare refstack
 		var refstack = vsget(savegame, __SAVEGAME_REFSTACK_HEADER);
@@ -119,10 +120,14 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 			CATCH
 				if (onGameLoadFailed != undefined)
 					onGameLoadFailed(__exception);
+				BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED, { success: false });
 				return false;
 			ENDTRY
 
 		}
+	})
+	.on_failed(function() {
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED, { success: false });
 	});
 }
 
@@ -262,7 +267,7 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
 	
-	BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED);
+	BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED, { success: true });
 	
 	ilog($"[----- LOADING GAME FINISHED -----]");
 

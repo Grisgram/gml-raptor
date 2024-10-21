@@ -20,6 +20,9 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
 	ilog($"SaveGame File Version {SAVEGAME_FILE_VERSION}");
 	SAVEGAME_SAVE_IN_PROGRESS = true;
+	
+	BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVING);
+	
 	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
 	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
 	
@@ -108,9 +111,12 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 		if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
 		if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
 	
-		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED);
-	
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED, { success: true });
 		ilog($"[----- SAVING GAME FINISHED -----]");
+	})
+	.on_failed(function() {
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED, { success: false });
+		elog($"[----- SAVING GAME **FAILED** -----]");
 	});
 
 }

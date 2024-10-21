@@ -9,8 +9,11 @@
   "canGenerateBitmap":true,
   "charset":0,
   "ConfigValues":{
+    "mike":{
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+    },
     "unit_testing":{
-      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
   },
   "first":0,
@@ -140,8 +143,8 @@
   "size":11.0,
   "styleName":"Regular",
   "textureGroupId":{
-    "name":"ui",
-    "path":"texturegroups/ui",
+    "name":"Default",
+    "path":"texturegroups/Default",
   },
   "TTFName":"",
   "usesSDF":false,

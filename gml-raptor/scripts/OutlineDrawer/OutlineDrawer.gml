@@ -152,7 +152,10 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		//...but using a surface means you don't need to configure sprites at all
 		surface_set_target(__outline_surface_1);
 		draw_clear_alpha(c_black, 0.0);
+		tmpalpha = obj.image_alpha;
+		obj.image_alpha = 1;
 
+		draw_set_color(c_white);
 		if (custom_draw != undefined)
 			custom_draw(
 				obj.image_xscale * _sprite_xoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_l - bbox_l,
@@ -176,7 +179,6 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		draw_clear_alpha(c_black, 0.0);
 
 		pulse_time = (pulse_time + 1) % obj.pulse_frequency_frames;
-		
 		shader_set(shader);
 		_texture = surface_get_texture(__outline_surface_1);
 		texture_set_stage(shader_get_sampler_index(shader, "u_sSpriteSurface"), _texture);
@@ -185,14 +187,14 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		if (obj.pulse_active) {
 			color_1_rgb = make_color_rgb(color_get_red(obj.pulse_color_1),color_get_green(obj.pulse_color_1),color_get_blue(obj.pulse_color_1));
 			color_2_rgb = make_color_rgb(color_get_red(obj.pulse_color_2),color_get_green(obj.pulse_color_2),color_get_blue(obj.pulse_color_2));
-			shader_set_uniform_f(u_outline_color_1	, color_1_rgb, obj.outline_alpha); //colour, alpha
-			shader_set_uniform_f(u_outline_color_2	, color_2_rgb, obj.outline_alpha); //colour, alpha
+			shader_set_uniform_f(u_outline_color_1	, color_1_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
+			shader_set_uniform_f(u_outline_color_2	, color_2_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
 			shader_set_uniform_f(u_vPulse			, obj.pulse_min_strength, obj.pulse_max_strength, obj.pulse_frequency_frames, pulse_time);
 		} else {
 			color_1_rgb = make_color_rgb(color_get_red(obj.outline_color),color_get_green(obj.outline_color),color_get_blue(obj.outline_color));
-			shader_set_uniform_f(u_outline_color_1	, color_1_rgb, obj.outline_alpha); //colour, alpha
-			shader_set_uniform_f(u_outline_color_2	, color_1_rgb, obj.outline_alpha); //colour, alpha
-			shader_set_uniform_f(u_vPulse			, obj.outline_strength, obj.outline_strength, obj.pulse_frequency_frames, pulse_time);
+			shader_set_uniform_f(u_outline_color_1	, color_1_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
+			shader_set_uniform_f(u_outline_color_2	, color_1_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
+			shader_set_uniform_f(u_vPulse			, obj.outline_strength, obj.outline_strength, 1, 0);
 		}
 		
 		draw_surface_part_ext(application_surface,
@@ -204,7 +206,7 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 
 		shader_reset();
 		surface_reset_target();
-
+		
 		//Draw surface 2
 		if (__flip_vertical) {
 			// as we increase the surface only when needed but never shrink (for performance)
@@ -220,6 +222,7 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 				1, 1, 0, c_white, 1);
 		}
 
+		obj.image_alpha = tmpalpha;
 		return true;
 	}
 }

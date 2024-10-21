@@ -35,7 +35,7 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 
 	buffer_seek(buffer, buffer_seek_start, 0);
 	var i = 0;
-	ilog($"-- [BUFFER_DUMP_START] ({buffer_get_size(buffer)} bytes) --");
+	ilog($"[--- [BUFFER_DUMP_START] ({buffer_get_size(buffer)} bytes) ---]");
 	var outline = "0000: ";
 	var human = "";
 	repeat (buffer_get_size(buffer)) {
@@ -50,7 +50,7 @@ function dump_buffer_hex(buffer, bytes_per_line = 16) {
 	}
 	var length = bytes_per_line * 3 - 3 * (i mod bytes_per_line) + 1;
 	ilog($"{outline} {string_repeat(" ", length)} {human}");
-	ilog($"-- [BUFFER_DUMP_END] --");
+	ilog($"[--- [BUFFER_DUMP_END] ---]");
 }
 
 /// @func			encrypt_buffer(buffer, cryptkey)

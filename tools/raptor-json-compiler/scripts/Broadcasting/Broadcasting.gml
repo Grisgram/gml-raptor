@@ -40,9 +40,13 @@
 #macro __RAPTOR_BROADCAST_MSGBOX_CLOSED				"__raptor_msgbox_closed"
 #macro __RAPTOR_BROADCAST_POPUP_SHOWN				"__raptor_popup_shown"
 #macro __RAPTOR_BROADCAST_POPUP_HIDDEN				"__raptor_popup_hidden"
-#macro __RAPTOR_BROADCAST_GAME_LOADED				"__raptor_game_loaded"
-#macro __RAPTOR_BROADCAST_GAME_SAVED				"__raptor_game_saved"
+#macro __RAPTOR_BROADCAST_GAME_LOADING				"__raptor_gamefile_loading"
+#macro __RAPTOR_BROADCAST_GAME_LOADED				"__raptor_gamefile_loaded"
+#macro __RAPTOR_BROADCAST_GAME_SAVING				"__raptor_gamefile_saving"
+#macro __RAPTOR_BROADCAST_GAME_SAVED				"__raptor_gamefile_saved"
 #macro __RAPTOR_BROADCAST_SAVEGAME_VERSION_CHECK	"__raptor_savegame_version_check"
+
+#macro RAPTOR_SAVEGAME_ACTIVITY_BROADCAST_FILTER	"__raptor_gamefile_*"
 // ---- RAPTOR INTERNAL BROADCASTS ----
 
 global.__raptor_broadcast_uid = 0;
