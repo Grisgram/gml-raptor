@@ -12,6 +12,7 @@
 /// @func Bindable(_parent)
 function Bindable(_parent = undefined) constructor {
 	construct(Bindable);
+	savegame_ignore("__raptor_parent");
 	
 	__raptor_parent = _parent;
 	__raptor_binder = undefined;

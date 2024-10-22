@@ -27,6 +27,9 @@ ENSURE_GLOBALDATA;
 #macro ENSURE_RAPTORDATA	vsgetx(self, "data", {}); vsgetx(data, "__raptordata", {});
 #macro __RAPTORDATA			data.__raptordata
 
+// strings in this list will not be persisted in a savegame. see savegame_ignore(...)
+#macro __SAVEGAME_IGNORE	"##_raptor_##.__savegame_ignored"
+
 // holds custom structs for the savegame
 #macro __SAVEGAME_STRUCTS				global.__savegame_structs
 #macro __SAVEGAME_INSTANCES				global.__savegame_instances
@@ -84,6 +87,17 @@ enum savegame_event {
 }
 
 #region STRUCTS
+/// @func	savegame_ignore(_members...)
+/// @desc	Mark members of this struct class to be ignored when saved.
+///			Those members will not even persist their name in the savegame.
+function savegame_ignore(_members) {
+	for (var i = 0; i < argument_count; i++)
+		self[$ __SAVEGAME_IGNORE] = string_concat(
+			vsget(self, __SAVEGAME_IGNORE, "|"),
+			argument[@i], "|"
+		);
+}
+
 /// @func					savegame_add_struct(name, struct)
 /// @desc				Adds any custom struct to the save game.
 ///								Can be retrieved after loading through savegame_get_struct(name).
