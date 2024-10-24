@@ -106,9 +106,9 @@ function __file_get_constructed_class(from, restorestack) {
 	};
 }
 
-/// @func	__file_reconstruct_root(from)
-function __file_reconstruct_root(from) {
-	var restorestack = {};
+/// @func	__file_reconstruct_root(from, _restorestack = undefined)
+function __file_reconstruct_root(from, _restorestack = undefined) {
+	var restorestack = _restorestack ?? {};
 	// The first instance here can't be from cache, as the restorestack is empty
 	var rv = __file_get_constructed_class(from, restorestack).instance;
 	rv = __file_reconstruct_class(rv, from, restorestack);

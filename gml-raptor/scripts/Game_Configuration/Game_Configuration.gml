@@ -137,6 +137,14 @@ function onLoadingScreen(task, frame) {
 	//return true;
 }
 
+/// @func	onLoadingScreenFinished()
+/// @desc	Invoked, when all async tasks are done and before game proceeds to first room
+function onLoadingScreenFinished() {
+	// Use this callback to finish all your initialization steps
+	// that were depending/waiting for the async loading screen to finish
+	// When you reach this function, everything from onLoadingScreen is loaded and ready
+}
+
 /// @func	onGameEnd()
 /// @desc   Invoked when the game ends. NEVER OCCURS IN HTML GAMES.
 function onGameEnd() {

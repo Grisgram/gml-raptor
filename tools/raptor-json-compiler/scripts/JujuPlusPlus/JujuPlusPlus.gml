@@ -18,6 +18,42 @@ function scribble_measure_text(_string, _font = undefined, _coord2 = undefined) 
 	return _coord2;
 }
 
+/// @func	scribble_create(_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined)
+/// @desc	scribble shortcut to create a scribble object in one line
+function scribble_create(
+	_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined) {
+	return scribble(string_concat(_align, _string), _unique_key ?? $"scrib_{SUID}")
+		.starting_format(_font_name ?? scribble_font_get_default(), _text_color);
+}
+
+/// @func	scribble_create_outline(_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined, _outline_color = c_black)
+/// @desc	scribble shortcut to create an outlined scribble object in one line
+function scribble_create_outline(
+	_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined, 
+	_outline_color = c_black) {
+	return scribble_create(_align, _string, _font_name, _unique_key, _text_color)
+		.outline(_outline_color);
+}
+
+/// @func	scribble_create_shadow(_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined, _shadow_color = c_black, _shadow_alpha = 0.75)
+/// @desc	scribble shortcut to create a shadowed scribble object in one line
+function scribble_create_shadow(
+	_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined, 
+	_shadow_color = c_black, _shadow_alpha = 0.75) {
+	return scribble_create(_align, _string, _font_name, _unique_key, _text_color)
+		.shadow(_shadow_color, _shadow_alpha);
+}
+
+/// @func	scribble_create_outline_shadow(_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined, _outline_color = c_black, _shadow_color = c_black, _shadow_alpha = 0.75)
+/// @desc	scribble shortcut to create an outlined and shadowed scribble object in one line
+function scribble_create_outline_shadow(
+	_align, _string, _font_name = undefined, _text_color = c_white, _unique_key = undefined,
+	_outline_color = c_black, _shadow_color = c_black, _shadow_alpha = 0.75) {
+	return scribble_create(_align, _string, _font_name, _unique_key, _text_color)
+		.outline(_outline_color)
+		.shadow(_shadow_color, _shadow_alpha);
+}
+
 #endregion
 
 #region Snap++

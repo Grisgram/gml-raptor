@@ -98,20 +98,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @func	angle_xy()
 	/// @desc	gets alpha (angle from horizontal to hypo). 0 degrees is right ccw
 	static angle_xy = function() {
-		var angle = abs(darcsin(y / length_xy()));
-		if (x >= 0) {
-			if (y >= 0) {
-				return angle;
-			} else {
-				return 360 - angle;
-			}
-		} else {
-			if (y >= 0) {
-				return 180 - angle;
-			} else {
-				return 180 + angle;
-			}
-		}
+		return point_direction(0, 0, x, y);
 	}
 	
 	/// @func	distance_to_coord2(other_Coord2)
@@ -119,7 +106,7 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @param {Coord2} other_Coord2
 	/// @returns {Coord2}	new Coord2
 	static distance_to_coord2 = function(other_coord2) {
-		return new Coord2(abs(x - other_coord2.x), abs(y - other_coord2.y));
+		return point_distance(x, y, other_coord2.x, other_coord2.y);
 	}
 	
 	/// @func	distance_to_xy(xp, yp)
@@ -128,14 +115,21 @@ function Coord2(xp = 0, yp = 0) constructor {
 	/// @param {real} yp
 	/// @returns {Coord2}	new Coord2
 	static distance_to_xy = function(xp, yp) { 
-		return new Coord2(abs(x - xp), abs(y - yp));
+		return point_distance(x, y, xp, yp);
 	}
 	
-	/// @func	equals_xy(other_coord2)
+	/// @func	equals_coord2(other_coord2)
 	/// @desc	true, if both, x and y match	
 	/// @returns {bool}			
-	static equals_xy = function(other_coord2) {
+	static equals_coord2 = function(other_coord2) {
 		return (x == other_coord2.x) && (y == other_coord2.y);
+	}
+	
+	/// @func	equals_xy(xp, yp)
+	/// @desc	true, if both, x and y match	
+	/// @returns {bool}			
+	static equals_xy = function(xp, yp) {
+		return (x == xp) && (y == yp);
 	}
 	
 	toString = function() {

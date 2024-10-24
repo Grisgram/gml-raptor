@@ -17,7 +17,7 @@ __reset = function() {
 
 	async_looper			= onLoadingScreen;
 	async_looper_data		= undefined;
-	async_looper_finished	= undefined;
+	async_looper_finished	= onLoadingScreenFinished;
 	async_wait_timeout		= -1;
 	async_wait_counter		= 0;
 	draw_spinner			= false; // true while waiting for min-time

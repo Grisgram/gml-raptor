@@ -66,11 +66,11 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 				_array[@i] = rv;
 				if (is_method(rv)) 
 					continue;
-				else if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) 
+				else if (is_string(rv) && string_starts_with(rv, __SAVEGAME_STRUCT_REF_MARKER)) {
 					recover(rv);
-				else if (is_array(rv))
+				} else if (is_array(rv)) {
 					recover_array(rv);
-				else if (is_struct(rv))
+				} else if (is_struct(rv))
 					recover_struct(rv);
 			}
 			return rv;
@@ -118,7 +118,7 @@ function savegame_load_game(filename, cryptkey = "", _room_transition = undefine
 				__continue_load_savegame(savegame, refstack, engine, _data.only, loaded_version);
 				return true;
 			CATCH
-				if (onGameLoadFailed != undefined)
+				if (vsget(self, "onGameLoadFailed") != undefined)
 					onGameLoadFailed(__exception);
 				BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED, { success: false });
 				return false;
@@ -148,11 +148,11 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 
 	var created_instances	= [];
 	// If data_only is specified, we do skip over the instance part
+	var restorestack	= {};
 	if (!data_only) {
 		// recreate object instances
 		with (Saveable) if (add_to_savegame) instance_destroy();
 	
-		var restorestack	= {};
 		var instances		= refstack.recover(__SAVEGAME_OBJECT_HEADER);
 		var names			= struct_get_names(instances);
 		
@@ -212,19 +212,17 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	ilog($"Restoring object instance pointers...");
 	struct_remove(savegame, __SAVEGAME_REFSTACK_HEADER);
 	refstack = {};
-	savegame = __file_reconstruct_root(savegame);
+	savegame = __file_reconstruct_root(savegame, restorestack);
+	
 	// Now replace the global pointers with the restored ones
 	GLOBALDATA				= vsget(savegame, __SAVEGAME_GLOBAL_DATA_HEADER);
 	__SAVEGAME_STRUCTS		= vsget(savegame, __SAVEGAME_STRUCT_HEADER);
-	
-	__savegame_restore_pointers(savegame, refstack);
-	//__SAVEGAME_INSTANCES	= vsget(savegame, __SAVEGAME_OBJECT_HEADER);
 		
 	var instancenames = savegame_get_instance_names();
 	for (var i = 0, len = array_length(instancenames); i < len; i++) {
 		var ini = __SAVEGAME_INSTANCES[$ instancenames[@i]];
-		ini.data = __file_reconstruct_root(ini.data, refstack);
-		__savegame_restore_pointers(ini.data, refstack);
+		ini.data = __file_reconstruct_root(ini.data, restorestack);
+		__savegame_restore_pointers(ini.data, restorestack);
 	}
 
 	// Savegame versioning
@@ -257,9 +255,9 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 		for (var i = 0; i < array_length(names); i++) {
 			var inst = savegame_get_instance_of(names[i]);
 			with (inst) {
+				event_user(savegame_event.onGameLoaded);
 				if (variable_instance_exists(self, __SAVEGAME_ONLOADED_NAME)) 
 					__SAVEGAME_ONLOADED_FUNCTION();
-				event_user(savegame_event.onGameLoaded);
 			}
 		}
 	}

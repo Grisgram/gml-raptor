@@ -19,7 +19,8 @@ function __savegame_restore_pointers(struct, refstack) {
 
 function __savegame_restore_struct_pointers(_source, refstack, circstack)
 {
-	var restorename = $"restore_{name_of(_source)}";
+	var restorename = $"restored_{address_of(_source)}";
+	//var restorename = $"restore_{name_of(_source)}";
 	if (array_contains(circstack, restorename)) 
 		return;
 	array_push(circstack, restorename);
