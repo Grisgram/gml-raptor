@@ -13,7 +13,7 @@
       "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
     "unit_testing":{
-      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
     },
   },
   "first":0,

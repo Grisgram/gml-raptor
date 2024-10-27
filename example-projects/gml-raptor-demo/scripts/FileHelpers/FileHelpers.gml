@@ -170,9 +170,9 @@ function file_exists_html_safe(_filename) {
 	}
 }
 
-/// @function	file_get_filename(_path, _with_extension = true)
-/// @desc		Little helper function to get the filename only out of a path
-///				with the choice, to include or strip off the extension of the file
+/// @func	file_get_filename(_path, _with_extension = true)
+/// @desc	Little helper function to get the filename only out of a path
+///			with the choice, to include or strip off the extension of the file
 function file_get_filename(_path, _with_extension = true) {
 	var sa = string_split(string_replace_all(_path, "\\", "/"), "/");
 	var fn = array_pop(sa);
@@ -182,4 +182,15 @@ function file_get_filename(_path, _with_extension = true) {
 			fn = string_substring(fn, 1, dot - 1);
 	}
 	return fn;
+}
+
+/// @func	file_get_pathname(_path, _with_final_slash = true)
+/// @desc	Little helper function to get the path-part only out of a path
+///			with the choice, to include or strip off the final slash
+function file_get_pathname(_path, _with_final_slash = true) {
+	return 
+		string_replace_all(
+			_with_final_slash ? filename_path(_path) : filename_dir(_path),
+			"\\", "/"
+		);
 }

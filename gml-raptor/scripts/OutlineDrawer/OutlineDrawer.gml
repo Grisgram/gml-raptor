@@ -41,10 +41,6 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 	__outline_surface_1 = -1;
 	__outline_surface_2 = -1;
 	_texture			= undefined;
-	_sprite_width		= 0;
-	_sprite_height		= 0;
-	_sprite_xoffset		= 0;
-	_sprite_yoffset		= 0;
 	_surface_real_w		= 0;
 	_surface_real_h		= 0;
 	_sprite_l			= 0; 
@@ -71,10 +67,6 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 	/// @func	draw_sprite_outline()
 	static draw_sprite_outline = function() {
 		__update_surfaces();
-		_sprite_width	= sprite_get_width  (obj.sprite_index);
-		_sprite_height	= sprite_get_height (obj.sprite_index);
-		_sprite_xoffset	= sprite_get_xoffset(obj.sprite_index);
-		_sprite_yoffset	= sprite_get_yoffset(obj.sprite_index);
 		
 		if (use_bbox || obj.image_angle != 0) {
 			bbox_l = obj.bbox_left;
@@ -82,10 +74,10 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 			bbox_w = obj.bbox_right  - bbox_l + 1;
 			bbox_h = obj.bbox_bottom - bbox_t + 1;
 		} else {
+			bbox_l = obj.x - obj.sprite_xoffset + (obj.image_xscale < 0 ? obj.sprite_width  : 0);
+			bbox_t = obj.y - obj.sprite_yoffset + (obj.image_yscale < 0 ? obj.sprite_height : 0);
 			bbox_w = obj.sprite_width;
 			bbox_h = obj.sprite_height;
-			bbox_l = obj.x - obj.sprite_xoffset;
-			bbox_t = obj.y - obj.sprite_yoffset;
 		}
 		
 		//Verify the two input surfaces
@@ -101,8 +93,8 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		    return false;
 		}
 
-		_surface_real_w = 2 * obj.outline_strength + bbox_w;
-		_surface_real_h = 2 * obj.outline_strength + bbox_h;
+		_surface_real_w = 2 * obj.outline_strength + abs(bbox_w);
+		_surface_real_h = 2 * obj.outline_strength + abs(bbox_h);
 		
 		if ((surface_get_width(__outline_surface_1) < _surface_real_w) || 
 			(surface_get_height(__outline_surface_1) < _surface_real_h))
@@ -113,8 +105,8 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		    surface_resize(__outline_surface_2, _surface_real_w, _surface_real_h);
 
 		//Find the top-left corner of the sprite's quad, correcting for the sprite's origin
-		_sprite_l = obj.x - 1 - obj.image_xscale * _sprite_xoffset;
-		_sprite_t = obj.y - 1 - obj.image_yscale * _sprite_yoffset;
+		_sprite_l = obj.x - obj.sprite_xoffset - 1;
+		_sprite_t = obj.y - obj.sprite_yoffset - 1;
 
 		//Find the portion of the application surface that we want to borrow
 		_camera_xscale = 1;
@@ -142,7 +134,7 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		//draw_set_color(c_green);
 		//draw_rectangle(obj.bbox_left,obj.bbox_top, obj.bbox_right,obj.bbox_bottom,true);
 		//draw_set_color(c_red);
-		//draw_rectangle(bbox_l, bbox_t, bbox_l + bbox_w, bbox_t + bbox_h, true);
+		//draw_rectangle(bbox_l, bbox_t, bbox_l + bbox_w * sign(obj.image_xscale), bbox_t + bbox_h * sign(obj.image_yscale), true);
 		//draw_set_color(c_yellow);
 		//draw_rectangle(_surface_l, _surface_t, _surface_r, _surface_b, true);
 		//draw_set_color(c_white);
@@ -158,13 +150,13 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		draw_set_color(c_white);
 		if (custom_draw != undefined)
 			custom_draw(
-				obj.image_xscale * _sprite_xoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_l - bbox_l,
-				obj.image_yscale * _sprite_yoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_t - bbox_t,
+				obj.sprite_xoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_l - bbox_l,
+				obj.sprite_yoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_t - bbox_t,
 			);
 		else
 			draw_sprite_ext(obj.sprite_index, obj.image_index,
-				obj.image_xscale * _sprite_xoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_l - bbox_l,
-				obj.image_yscale * _sprite_yoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_t - bbox_t,
+				obj.sprite_xoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_l - bbox_l,
+				obj.sprite_yoffset + TEXTURE_PAGE_BORDER_SIZE + obj.outline_strength + _sprite_t - bbox_t,
 			    obj.image_xscale, obj.image_yscale, obj.image_angle, obj.image_blend, obj.image_alpha
 			);
 
@@ -185,13 +177,13 @@ function OutlineDrawer(_viewport, _obj, _custom_draw = undefined, _use_bbox = fa
 		shader_set_uniform_f(u_texel			, texture_get_texel_width(_texture), texture_get_texel_height(_texture));
 		shader_set_uniform_f(u_thickness		, obj.outline_strength, obj.outline_alpha_fading ? 1 : 0); // thickness x, y
 		if (obj.pulse_active) {
-			color_1_rgb = make_color_rgb(color_get_red(obj.pulse_color_1),color_get_green(obj.pulse_color_1),color_get_blue(obj.pulse_color_1));
-			color_2_rgb = make_color_rgb(color_get_red(obj.pulse_color_2),color_get_green(obj.pulse_color_2),color_get_blue(obj.pulse_color_2));
+			color_1_rgb = rgb_of(obj.pulse_color_1);
+			color_2_rgb = rgb_of(obj.pulse_color_2);
 			shader_set_uniform_f(u_outline_color_1	, color_1_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
 			shader_set_uniform_f(u_outline_color_2	, color_2_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
 			shader_set_uniform_f(u_vPulse			, obj.pulse_min_strength, obj.pulse_max_strength, obj.pulse_frequency_frames, pulse_time);
 		} else {
-			color_1_rgb = make_color_rgb(color_get_red(obj.outline_color),color_get_green(obj.outline_color),color_get_blue(obj.outline_color));
+			color_1_rgb = rgb_of(obj.outline_color);
 			shader_set_uniform_f(u_outline_color_1	, color_1_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
 			shader_set_uniform_f(u_outline_color_2	, color_1_rgb, obj.outline_alpha, tmpalpha); //colour, alpha
 			shader_set_uniform_f(u_vPulse			, obj.outline_strength, obj.outline_strength, 1, 0);

@@ -323,6 +323,7 @@ function with_tag(_tag, _func, _data = undefined) {
 /// @desc	Checks, whether a method with the specified name exists in _instance
 /// @returns {bool}	True, if a method with that name exists, otherwise false
 function method_exists(_instance, _method) {
+	gml_pragma("forceinline");
 	return is_callable(vsget(_instance, _method));
 }
 
@@ -366,4 +367,16 @@ function dump_array(_array, _to_console = true) {
 		dlog($"[--- ARRAY DUMP  END  ---]");
 	}
 	return rv;
+}
+
+/// @func	rgb_of(_color)
+/// @desc	Shortcut/convenience function to make_color_rgb of the channels
+///			on the supplied _color. Marked as #pragme inline
+function rgb_of(_color) {
+	gml_pragma("forceinline");
+	return make_color_rgb(
+		color_get_red(_color),
+		color_get_green(_color),
+		color_get_blue(_color)
+	);
 }

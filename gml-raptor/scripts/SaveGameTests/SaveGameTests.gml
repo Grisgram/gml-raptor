@@ -16,7 +16,7 @@ function unit_test_SaveGame() {
 		var uid = global.__unique_count_up_id;
 
 		test.start_async();
-		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		savegame_save_game_async("unit_test" + DATA_FILE_EXTENSION)
 		.set_data("uid", uid)
 		.on_finished(function(_data) {
 			// test the file contents manually with a sync file load
@@ -57,11 +57,11 @@ function unit_test_SaveGame() {
 		];
 		
 		test.start_async();
-		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		savegame_save_game_async("unit_test" + DATA_FILE_EXTENSION)
 		.on_finished(function(_data) {
 			GLOBALDATA.testdata = undefined;
 			
-			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			savegame_load_game_async("unit_test" + DATA_FILE_EXTENSION)
 			.on_finished(function(result, _data) {
 				// assert simple string
 				global.test.assert_equals("Hello World", GLOBALDATA.testdata, "testdata");
@@ -121,12 +121,12 @@ function unit_test_SaveGame() {
 		GLOBALDATA.testdata = recursive_struct;
 		
 		test.start_async();
-		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		savegame_save_game_async("unit_test" + DATA_FILE_EXTENSION)
 		.on_finished(function(result) {
 			global.test.assert_true(result, "success");
 			GLOBALDATA.testdata = undefined;
 			
-			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			savegame_load_game_async("unit_test" + DATA_FILE_EXTENSION)
 			.on_finished(function(result) {
 				global.test.assert_true(result, "success");
 				var rc = GLOBALDATA.testdata;
@@ -148,12 +148,12 @@ function unit_test_SaveGame() {
 		GLOBALDATA.testdata = recursive_struct;
 		
 		test.start_async();
-		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		savegame_save_game_async("unit_test" + DATA_FILE_EXTENSION)
 		.on_finished(function(result) {
 			global.test.assert_true(result, "success");
 			GLOBALDATA.testdata = undefined;
 			
-			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			savegame_load_game_async("unit_test" + DATA_FILE_EXTENSION)
 			.on_finished(function(result) {
 				global.test.assert_true(result, "success");
 				var rc = GLOBALDATA.testdata;
@@ -174,13 +174,13 @@ function unit_test_SaveGame() {
 		with (ini) data.me = self;
 		
 		test.start_async();
-		savegame_save_game("unit_test" + DATA_FILE_EXTENSION)
+		savegame_save_game_async("unit_test" + DATA_FILE_EXTENSION)
 		.set_data("obj", ini)
 		.on_finished(function(_data) {
 			instance_destroy(_data.obj);
 			GLOBALDATA.testdata = undefined;
 			
-			savegame_load_game("unit_test" + DATA_FILE_EXTENSION)
+			savegame_load_game_async("unit_test" + DATA_FILE_EXTENSION)
 			.on_finished(function(result) {
 				global.test.assert_true(result, "success");
 				var found = false;

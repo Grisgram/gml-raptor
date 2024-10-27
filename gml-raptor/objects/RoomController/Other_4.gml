@@ -47,7 +47,8 @@ if (__SAVEGAME_CONTINUE_LOAD_STATE != undefined) {
 			loadstate._refstack,
 			loadstate._engine,
 			loadstate._data_only,
-			loadstate._loaded_version
+			loadstate._loaded_version,
+			loadstate._reader
 		);
 	CATCH
 		if (onGameLoadFailed != undefined)

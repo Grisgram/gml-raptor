@@ -121,7 +121,6 @@ function struct_get_unique_key(struct, basename, prefix = "") {
 ///			NOTE: This is NOT a deep copy! If any struct contains other struct
 ///			references, they are simply copied, not recursively converted to new references!
 ///			ATTENTION! No static members can be transferred! Best use this for data structs only!
-/// @param  {struct...} any number of structs to be joined together
 function struct_join(structs) {
 	var rv = {};
 	for (var i = 0; i < argument_count; i++) 

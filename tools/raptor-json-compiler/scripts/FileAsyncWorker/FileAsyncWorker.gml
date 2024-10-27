@@ -31,6 +31,7 @@ function __FileAsyncWorker(_filename, _crypt_key = "") : DataBuilder() construct
 	__finished_callbacks	= [];
 	__failed_callbacks		= [];
 	__raptor_chain			= [];
+	__transactional			= false;
 	
 	/// @func	start()
 	/// @desc	Starts the async file operation. You will receive either on_finished or on_failed
@@ -49,6 +50,49 @@ function __FileAsyncWorker(_filename, _crypt_key = "") : DataBuilder() construct
 		return self;
 	}
 
+	/// @func	set_transaction_mode(_transactional)
+	/// @desc	By default false, but if you activate this, the .on_finished and .on_failed
+	///			callbacks will NOT be launched automatically, instead, you have to call
+	///			.invoke_finished()/.invoke_failed() manually to launch the registered callbacks.
+	///			Use this feature in delayed/split file operations that shall not autocomplete.
+	static set_transaction_mode = function(_transactional) {
+		__transactional = _transactional;
+		ilog($"Transaction mode for '{file_get_filename(filename)}' is now {(__transactional ? "ON" : "OFF")}");
+		return self;
+	}
+
+	/// @func	invoke_finished(_data = undefined)
+	/// @desc	NOTE: Works only in transactional mode!
+	///			Invokes the finished callbacks now (see set_transaction_mode)
+	static invoke_finished = function(_data = undefined) {
+		if (__transactional) {
+			ilog($"Invoking transactional .on_finished callbacks");
+			TRY		__invoke_array(__finished_callbacks, _data);
+			CATCH	__invoke_array(__failed_callbacks, _data);
+			FINALLY	__cleanup();
+			ENDTRY
+		} else
+			wlog($"** WARNING ** Tried to invoke async finished callbacks, but this worker is not in transactional mode!");
+
+		return self;
+	}
+
+	/// @func	invoke_failed()
+	/// @desc	NOTE: Works only in transactional mode!
+	///			Invokes the failed callbacks now (see set_transaction_mode)
+	static invoke_failed = function() {
+		if (__transactional) {
+			ilog($"Invoking transactional .on_failed callbacks");
+			TRY		__invoke_array(__failed_callbacks);
+			CATCH 
+			FINALLY	__cleanup();
+			ENDTRY
+		} else
+			wlog($"** WARNING ** Tried to invoke async failed callbacks, but this worker is not in transactional mode!");
+			
+		return self;
+	}
+	
 	/// @func	on_finished(_callback)
 	/// @desc	Set the function to be called when the file access finishes successfully.
 	///			The callback receives 1 argument: 
@@ -95,9 +139,10 @@ function __FileAsyncWorker(_filename, _crypt_key = "") : DataBuilder() construct
 	
 	__raptor_failed_callback = function() {
 		TRY
-			__invoke_array(__failed_callbacks);
+			if (!__transactional)
+				__invoke_array(__failed_callbacks);
 		CATCH 
-		__cleanup();
+		if (!__transactional) __cleanup();
 		ENDTRY		
 	}
 
@@ -131,11 +176,12 @@ function __FileAsyncReader(_filename, _crypt_key = "") :
 				buffer_seek(buffer, buffer_seek_start, 0);
 				rv = __raptor_finished_callbacks();
 			} 
-			__invoke_array(__finished_callbacks, rv);
+			if (!__transactional)
+				__invoke_array(__finished_callbacks, rv);
 		CATCH 
 			__raptor_failed_callback();
 		FINALLY
-			__cleanup();
+			if (!__transactional) __cleanup();
 		ENDTRY
 	}
 
@@ -148,7 +194,7 @@ function __FileAsyncFailedWorker(_filename, _crypt_key = "") :
 		__started = true;
 		
 		__raptor_failed_callback();
-		__cleanup();
+		if (!__transactional) __cleanup();
 		return self;
 	}
 	
@@ -177,11 +223,12 @@ function __FileAsyncWriter(_filename, _buffer, _crypt_key = "") :
 			var rv = undefined;
 			if (_success)
 				rv = __raptor_finished_callbacks();
-			__invoke_array(__finished_callbacks, rv);
+			if (!__transactional)
+				__invoke_array(__finished_callbacks, rv);
 		CATCH 
 			__raptor_failed_callback();
 		FINALLY
-			__cleanup();
+			if (!__transactional) __cleanup();
 		ENDTRY
 	}
 
@@ -198,11 +245,12 @@ function __FileAsyncCacheHit(_filename, _cache_data) :
 		
 		vlog($"Cache hit for file '{filename}'");
 		TRY
-			__invoke_array(__finished_callbacks, cachedata);
+			if (!__transactional)
+				__invoke_array(__finished_callbacks, cachedata);
 		CATCH 
 			__raptor_failed_callback();
 		FINALLY
-			__cleanup();
+			if (!__transactional) __cleanup();
 		ENDTRY
 		return self;
 	}
