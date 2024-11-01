@@ -237,7 +237,6 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	var instancenames = struct_get_names(instance_id_map);
 	for (var i = 0, len = array_length(instancenames); i < len; i++) {
 		var ini = instance_id_map[$ instancenames[@i]];
-		ini.data = __file_reconstruct_root(ini.data, restorestack);
 		__savegame_restore_pointers(ini.data, restorestack, instance_id_map);
 	}
 
