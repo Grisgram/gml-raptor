@@ -40,6 +40,8 @@
 #macro __RAPTOR_BROADCAST_MSGBOX_CLOSED				"__raptor_msgbox_closed"
 #macro __RAPTOR_BROADCAST_POPUP_SHOWN				"__raptor_popup_shown"
 #macro __RAPTOR_BROADCAST_POPUP_HIDDEN				"__raptor_popup_hidden"
+#macro __RAPTOR_BROADCAST_DATA_GAME_LOADED			"__raptor_gamefile_datamode_loaded"
+#macro __RAPTOR_BROADCAST_DATA_GAME_SAVED			"__raptor_gamefile_datamode_saved"
 #macro __RAPTOR_BROADCAST_GAME_LOADING				"__raptor_gamefile_loading"
 #macro __RAPTOR_BROADCAST_GAME_LOADED				"__raptor_gamefile_loaded"
 #macro __RAPTOR_BROADCAST_GAME_SAVING				"__raptor_gamefile_saving"
@@ -56,11 +58,9 @@ global.__raptor_broadcast_uid = 0;
 function Sender() constructor {
 	construct(Sender);	
 
-	receivers = [];
-	removers = [];
+	receivers		= [];
+	removers		= [];
 	
-	__in_send = false;
-
 	/// @func		add_receiver(_owner, _name, _message_filter, _callback)
 	/// @desc	adds a listener for a specific kind of message.
 	///					NOTE: If a receiver with that name already exists, it gets overwritten!
@@ -98,15 +98,9 @@ function Sender() constructor {
 		for (var i = 0, len = array_length(receivers); i < len; i++) {
 			var r = receivers[@ i];
 			if (r.name == _name) {
-				if (__in_send) { // we do not modify the array during send, so we buffer the remove.
-					array_push(removers, r.name);
-					if (DEBUG_LOG_BROADCASTS)
-						vlog($"Broadcast receiver remove of '{_name}' delayed. Currently sending a message");
-				} else {
-					array_delete(receivers, i, 1);
-					if (DEBUG_LOG_BROADCASTS)
-						vlog($"Broadcast receiver removed: name='{_name}';");
-				}
+				array_delete(receivers, i, 1);
+				if (DEBUG_LOG_BROADCASTS)
+					vlog($"Broadcast receiver removed: name='{_name}';");
 				return true;
 			}
 		}
@@ -145,23 +139,28 @@ function Sender() constructor {
 	///					send multiple broadcasts.
 	///					Set .handled to true in the broadcast object delivered to the function
 	///					to stop the send-loop from sending the same message to the remaining recipients.
-	static send = function(_from, _title, _data = undefined) {
+	static send = function(_from, _title, _data = undefined) {	
 		var bcid = __RAPTOR_BROADCAST_UID;
 		var bc = new __broadcast(_from, _title, _data);
 		bc.uniqueid = bcid;
-		__in_send = true;
-		removers = [];
-		array_sort(receivers, function(elm1, elm2)
-		{
-			TRY 
-				return (elm1.has_depth ? elm1.owner.depth : 0) - (elm2.has_depth ? elm2.owner.depth : 0); 
-			CATCH 
-				return 0; 
-			ENDTRY
-		});
 		
-		for (var i = 0, len = array_length(receivers); i < len; i++) {
-			var r = receivers[@ i];
+		var started = get_timer();
+		
+		removers = [];
+		var loopers = array_create(array_length(receivers));
+		array_copy(loopers, 0, receivers, 0, array_length(receivers));
+		array_sort(loopers, function(elm1, elm2)
+		{
+			// TODO: In case, broadcasts break, re-enable this try/catch
+			//TRY 
+				return (elm1.has_depth ? elm1.owner.depth : 0) - (elm2.has_depth ? elm2.owner.depth : 0); 
+			//CATCH 
+			//	return 0; 
+			//ENDTRY
+		});
+
+		for (var i = 0, len = array_length(loopers); i < len; i++) {
+			var r = loopers[@ i];
 			if (r.filter_hit(_title)) {
 				if (DEBUG_LOG_BROADCASTS)
 					dlog($"Sending broadcast #{bcid}: title='{_title}'; to='{r.name}';");
@@ -179,12 +178,13 @@ function Sender() constructor {
 				break;
 			}
 		}
+		
 		if (DEBUG_LOG_BROADCASTS)
-			vlog($"Broadcast #{bcid}: '{_title}' finished");
-		__in_send = false;
-		for (var i = 0, len = array_length(removers); i < len; i++) {
+			vlog($"Broadcast #{bcid}: '{_title}' finished in {(get_timer() - started)}µs");
+		
+		for (var i = 0, len = array_length(removers); i < len; i++) 
 			remove_receiver(removers[@ i]);
-		}
+		
 		return self;
 	}
 	

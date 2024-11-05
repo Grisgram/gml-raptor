@@ -263,7 +263,7 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 	}
 	
 	SAVEGAME_LOAD_IN_PROGRESS = false;
-	reader.invoke_finished(structs);
+//	reader.invoke_finished(structs);
 
 	if (!data_only) {
 		// invoke the post event
@@ -276,11 +276,13 @@ function __continue_load_savegame(savegame, refstack, engine, data_only, loaded_
 			}
 		}
 		if (vsget(ROOMCONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
-		if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();
-	
+		if (vsget(GAMECONTROLLER, __SAVEGAME_ONLOADED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONLOADED_FUNCTION();	
+		
 		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_LOADED, { success: true });
-	}
+	} else
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_DATA_GAME_LOADED, { success: true });
 	
+	reader.invoke_finished(structs);
 	ilog($"[----- LOADING GAME FINISHED -----]");
 
 	return structs;

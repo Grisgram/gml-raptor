@@ -40,8 +40,7 @@ function GuiMouseTranslator() constructor {
 				
 			other.event_redirection_active = true;
 			
-			other.gui_mouse_is_over = collision_point(
-				CTL_MOUSE_X, CTL_MOUSE_Y, self, true, false);
+			other.gui_mouse_is_over = collision_point(CTL_MOUSE_X, CTL_MOUSE_Y, self, true, false) != noone;
 
 			if (other.gui_last_mouse_is_over != other.gui_mouse_is_over) {
 				
@@ -54,7 +53,7 @@ function GuiMouseTranslator() constructor {
 					other.gui_last_middle_is_down	= other.gui_middle_is_down;
 					other.gui_last_right_is_down	= other.gui_right_is_down;
 					event_perform(ev_mouse, ev_mouse_enter);
-				} else 
+				} else
 					event_perform(ev_mouse, ev_mouse_leave);
 					
 				other.gui_last_mouse_is_over = other.gui_mouse_is_over;

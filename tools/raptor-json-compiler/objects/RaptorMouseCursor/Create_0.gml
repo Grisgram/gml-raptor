@@ -113,8 +113,9 @@ set_companion = function(_companion_sprite, _type = undefined) {
 	
 	var typ = _type ?? companion_type;
 	companion = pool_get_instance(__RAPTOR_MOUSE_COMPANION_POOL, typ, depth);
-	if (_companion_sprite != undefined)
-		companion.sprite_index = _companion_sprite;
+	companion.sprite_index = _companion_sprite ?? spr1pxTrans;
+		
+	return companion;
 }
 
 /// @func clear_companion(reset_blend_color = true)

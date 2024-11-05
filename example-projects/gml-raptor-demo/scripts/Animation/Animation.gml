@@ -569,7 +569,7 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 				__active			= (delay == 0);
 			}
 		} else {
-			__delay_counter = floor(__time * room_speed);
+			__delay_counter = max(__delay_counter, floor(abs(__time) * room_speed));
 			if (__delay_counter >= delay) {
 				__active	 = true;
 				__time		 = 0;
@@ -644,15 +644,16 @@ function Animation(_obj_owner, _delay, _duration, _animcurve, _repeats = 1, _fin
 	static finish = function() {
 		if (__finished) return;
 		
-		var paused_before  = __paused;
-		var repeats_before = repeats;
-		repeats = 1;
-		__paused = false;
+		var paused_before	= __paused;
+		var repeats_before	= repeats;
+		repeats				= 1;
+		__paused			= false;
+		__delay_counter		= delay;
 		
 		while (!__finished)
 			step();
 			
-		repeats = repeats_before;
+		repeats	 = repeats_before;
 		__paused = paused_before;
 	}
 	
@@ -796,7 +797,6 @@ function animation_abort(owner, name, _run_finished_triggers = true) {
 	for (var i = 0, len = array_length(lst); i < len; i++) {
 		var item = lst[@i];
 		if (eq(item.owner, owner) && name == item.name)
-		//if (item.owner.id == owner.id && (name == undefined || name == item.name))
 			with(item) { abort(_run_finished_triggers); return true; }
 	}
 	return false;

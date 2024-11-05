@@ -117,10 +117,12 @@ function savegame_save_game_async(_filename, _cryptkey = "", _data_only = undefi
 			}
 	
 			if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
-			if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
-	
+			if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);	
+
 			BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED, { success: res });
-		}
+		} else		
+			BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_DATA_GAME_SAVED, { success: res });
+			
 		ilog($"[----- SAVING GAME FINISHED -----]");
 	})
 	.on_failed(function(_data) {

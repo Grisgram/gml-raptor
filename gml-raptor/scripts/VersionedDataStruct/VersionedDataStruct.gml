@@ -55,12 +55,18 @@ function VersionedDataStruct() constructor {
 				return true; // remove the receiver, game load only happens once per instance lifetime
 			}
 		);
-		BROADCASTER.add_receiver(self, $"{SUID}game_load_finished_{address_of(self)}", __RAPTOR_BROADCAST_GAME_LOADED,
+		BROADCASTER.add_receiver(self, $"{SUID}game_load_finished_{address_of(self)}", 
+			RAPTOR_SAVEGAME_ACTIVITY_BROADCAST_FILTER,
 			function(bc) {
-				on_game_loaded();
-				BROADCASTER.remove_owner(self);
-				return true;
+				switch(bc.title) {
+					case __RAPTOR_BROADCAST_DATA_GAME_LOADED:
+					case __RAPTOR_BROADCAST_GAME_LOADED:
+						on_game_loaded();
+						BROADCASTER.remove_owner(self);
+						return true;
+				}
 			}
 		);
 	}	
+	
 }

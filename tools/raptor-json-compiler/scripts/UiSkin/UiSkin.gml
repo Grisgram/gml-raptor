@@ -23,7 +23,6 @@ function UiSkin(_name = "default") constructor {
 											mouse_cursor_sprite: sprDefaultMouseCursor,
  											mouse_cursor_sprite_sizing: sprDefaultMouseCursorSizing
  										  }
-	asset_skin[? "MouseCursorCompanion"]= { sprite_index: spr1pxTrans			}
 	asset_skin[? "Panel"]				= { sprite_index: spr1pxTrans			}
 	asset_skin[? "RadioButton"]			= { sprite_index: sprDefaultRadioButton	}
 	asset_skin[? "Slider"]				= { 
