@@ -40,7 +40,7 @@ function VersionedDataStruct() constructor {
 	
 	// only add the receiver if we get loaded from a savegame currently
 	if (SAVEGAME_LOAD_IN_PROGRESS) {
-		BROADCASTER.add_receiver(self, $"{SUID}game_load_{address_of(self)}", __RAPTOR_BROADCAST_SAVEGAME_VERSION_CHECK, 
+		BROADCASTER.add_receiver(self, $"vds_{SUID}game_load_{address_of(self)}", __RAPTOR_BROADCAST_SAVEGAME_VERSION_CHECK, 
 			function(bc) {
 				var file_version = bc.data.file_version;
 				if (SAVEGAME_FILE_VERSION > file_version) {
@@ -55,7 +55,7 @@ function VersionedDataStruct() constructor {
 				return true; // remove the receiver, game load only happens once per instance lifetime
 			}
 		);
-		BROADCASTER.add_receiver(self, $"{SUID}game_load_finished_{address_of(self)}", 
+		BROADCASTER.add_receiver(self, $"vds_{SUID}game_load_finished_{address_of(self)}", 
 			RAPTOR_SAVEGAME_ACTIVITY_BROADCAST_FILTER,
 			function(bc) {
 				switch(bc.title) {
@@ -68,5 +68,4 @@ function VersionedDataStruct() constructor {
 			}
 		);
 	}	
-	
 }

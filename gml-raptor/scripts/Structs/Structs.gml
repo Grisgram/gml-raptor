@@ -48,12 +48,12 @@ function is_child_class_of(_struct, _class_name) {
 		string_contains(vsget(_struct, __PARENT_CONSTRUCTOR_NAME, ""), $"|{_class_name}|");
 }
 
-/// @func	implement(_interface, ...)
+/// @func	implement(_interface, ...constructor_arguments...)
 /// @desc	Works like an interface implementation by copying all members
 ///			and re-binding all methods from "interface" to "self"
 ///			Creates a hidden member __raptor_interfaces in this struct which contains
 ///			all implemented interfaces, so you can always ask "if (implements(interface))..."
-///			NOTE: "interface" MUST BE A PARAMETERLESS CONSTRUCTOR FUNCTION!
+///			NOTE: Up to 15 constructor arguments are allowed for "_interface"
 ///			This function will create one instance and copy/rebind all elements to self.
 function implement(_interface) {
 	var sname, sclass;
