@@ -436,7 +436,7 @@ __draw_self = function() {
 		if (sprite_index == -1)
 			word_wrap = false; // no wrapping on zero-size objects
 		
-		if (__CONTROL_TEXT_CHANGED) {
+		if (__CONTROL_TEXT_CHANGED || was_forced) {
 			cleanup_disabled_surface();
 			__scribble_text = __create_scribble_object(scribble_text_align, text);
 		}
