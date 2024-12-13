@@ -9,7 +9,7 @@
   "canGenerateBitmap":true,
   "charset":0,
   "ConfigValues":{
-    "mike":{
+    "unit_testing":{
       "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
     "release":{

@@ -9,7 +9,7 @@
   "collisionKind":1,
   "collisionTolerance":0,
   "ConfigValues":{
-    "mike":{
+    "unit_testing":{
       "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
   },
