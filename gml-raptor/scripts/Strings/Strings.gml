@@ -196,7 +196,72 @@ function string_match(str, wildcard_str) {
 /// @returns {bool}		y/n
 function string_is_empty(str) {
 	gml_pragma("forceinline");
-	return str == undefined || string_trim(str) == "";
+	return (str == undefined || string_trim(str) == "");
+}
+
+/// @func	string_to_real(str)
+/// @desc	Tries to convert the string to a real. returns undefined, if failed
+function string_to_real(str) {
+	gml_pragma("forceinline");
+	try { return real(str); } catch(_) { return undefined; }
+}
+
+/// @func	string_to_real_ex(str)
+/// @desc	Closer examines the string to get a more reliable conversion 
+///			with some performance cost. "1,2,3" is an invalid string for this
+///			function, while string_to_real will return "1" as it takes only the first number
+function string_to_real_ex(str, __allow_decimal = true) {
+	if (string_is_empty(str)) 
+		return undefined;
+	
+	str = string_trim(str);
+	var len			= string_length(str);
+	var valid		= true;
+	var have_dec	= false;
+	var extracted	= string_starts_with(str, "-") ? "-" : "";
+	var startpoint	= string_starts_with(str, "-") ? 2 : 1;
+	var char;
+	
+	for (var i = startpoint; i <= len; i++) {
+		char = string_char_at(str, i);
+		if (ord(char) >= ord("0") && ord(char) <= ord("9")) {
+			extracted += char;
+			continue;
+		} else if (char == ".") {
+			if (!__allow_decimal) {
+				valid = false;
+				break;
+			}
+			if (!have_dec) {
+				have_dec = true;
+				extracted += char;
+				continue;
+			} else {
+				valid = false;
+				break;
+			}
+		} else {
+			valid = false;
+			break;
+		}
+	}
+	
+	return valid ? string_to_real(extracted) : undefined;
+}
+
+/// @func	string_to_real(str)
+/// @desc	Tries to convert the string to an int64. returns undefined, if failed
+function string_to_int(str) {
+	gml_pragma("forceinline");
+	try { return int64(str); } catch(_) { return undefined; }
+}
+
+/// @func	string_to_int_ex(str)
+/// @desc	Closer examines the string to get a more reliable conversion 
+///			with some performance cost. "1,2,3" is an invalid string for this
+///			function, while string_to_real will return "1" as it takes only the first number
+function string_to_int_ex(str) {
+	return string_to_real_ex(str, false);
 }
 
 /// @func	string_reverse(str)

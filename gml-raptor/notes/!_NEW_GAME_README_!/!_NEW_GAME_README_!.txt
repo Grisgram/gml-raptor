@@ -12,7 +12,7 @@
 	   
 	2) RELEVANT, BEFORE YOU MAKE YOUR FIRST beta OR release BUILD:
 	   Install the raptor-json-compiler setup
-	   Make sure, you enabled the "Add to PATH" checkbox! Otherwise it won't work.
+	   Make sure, you enabled the "Add to PATH" checkbox during setup! Otherwise it won't work.
 	
 	When both steps are done, feel free to delete this file.
 	

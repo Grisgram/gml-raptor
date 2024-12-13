@@ -49,7 +49,7 @@
 // After that, this setting is taken from the GameSettings.
 // This is to allow you easily changing the startup values through your
 // Settings dialog in the window, so the user can choose, what he prefers.
-#macro START_FULLSCREEN				false
+#macro		   START_FULLSCREEN		false
 #macro release:START_FULLSCREEN		true
 #macro FULLSCREEN_IS_BORDERLESS		true
 
@@ -63,10 +63,13 @@
 // Set the constant to undefined to use the instance variable of GameStarter in rmStartup
 // The min_wait_time constant is measured in frames. Default is 90 (1.5secs) to show loading spinner
 // The fade_in time for the first room is also measured in frames
-#macro ROOM_AFTER_STARTER			rmMain
-#macro STARTER_ASYNC_MIN_WAIT_TIME	0
-#macro STARTER_FIRST_ROOM_FADE_IN	0
+#macro		   ROOM_AFTER_STARTER	rmMain
+#macro release:ROOM_AFTER_STARTER	rmMain
+
+#macro		   STARTER_ASYNC_MIN_WAIT_TIME	0
 #macro release:STARTER_ASYNC_MIN_WAIT_TIME	90
+
+#macro		   STARTER_FIRST_ROOM_FADE_IN	0
 #macro release:STARTER_FIRST_ROOM_FADE_IN	60
 
 /// @func	onGameStart()
@@ -79,7 +82,7 @@ function onGameStart() {
 	DEBUG_MODE_WINDOW_WIDTH		= 1280;
 	DEBUG_MODE_WINDOW_HEIGHT	= 720;
 
-	// Themes - the "default" theme always exists
+	// Skin & Theme
 	UI_THEMES.add_theme(new ColdrockTheme(), false );	// name = "coldrock"
 	UI_THEMES.add_theme(new RaptorTheme()  , false );	// name = "raptor"
 	UI_THEMES.add_theme(new PurpleTheme());

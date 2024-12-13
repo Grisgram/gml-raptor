@@ -142,6 +142,9 @@ function layer_of(_instance) {
 ///			has no way to tell normal functions apart from constructors.
 ///			There's not other way, to find out, as to fall in a catch if constructing fails.
 function construct_or_invoke(_script) {
+	if (_script == undefined || _script == -1 || !is_callable(_script))
+		return undefined;
+		
 	var res;
 	try {
 		switch (argument_count) {
@@ -180,6 +183,64 @@ function construct_or_invoke(_script) {
 			case 14: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
 			case 15: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
 			case 16: res = _script(argument[1],argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+		}
+	}
+	return res;
+}
+
+/// @func	construct_or_invoke_ex(_script, _params_array)
+/// @desc	Construct or invoke the method, but uses an array for the arguments instead of direct supplied arguments.
+/// @returns {any} The return value of the method or undefined, if the method does not exist
+function construct_or_invoke_ex(_script, _pa) {
+	if (_script == undefined || _script == -1 || !is_callable(_script))
+		return undefined;
+		
+	var res;
+	try {
+		if (_pa == undefined) 
+			return new _script();
+			
+		switch (array_length(_pa)) {			
+			case  0: res = new _script(); break;
+			case  1: res = new _script(_pa[0]); break;
+			case  2: res = new _script(_pa[0],_pa[1]); break;
+			case  3: res = new _script(_pa[0],_pa[1],_pa[2]); break;
+			case  4: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3]); break;
+			case  5: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4]); break;
+			case  6: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5]); break;
+			case  7: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6]); break;
+			case  8: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7]); break;
+			case  9: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8]); break;
+			case 10: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9]); break;
+			case 11: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10]); break;
+			case 12: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11]); break;
+			case 13: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12]); break;
+			case 14: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13]); break;
+			case 15: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13],_pa[14]); break;
+			case 16: res = new _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13],_pa[14],_pa[15]); break;
+		}
+	} catch (_) {
+		if (_pa == undefined) 
+			return _script();
+			
+		switch (array_length(_pa)) {
+			case  0: res = _script(); break;
+			case  1: res = _script(_pa[0]); break;
+			case  2: res = _script(_pa[0],_pa[1]); break;
+			case  3: res = _script(_pa[0],_pa[1],_pa[2]); break;
+			case  4: res = _script(_pa[0],_pa[1],_pa[2],_pa[3]); break;
+			case  5: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4]); break;
+			case  6: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5]); break;
+			case  7: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6]); break;
+			case  8: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7]); break;
+			case  9: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8]); break;
+			case 10: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9]); break;
+			case 11: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10]); break;
+			case 12: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11]); break;
+			case 13: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12]); break;
+			case 14: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13]); break;
+			case 15: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13],_pa[14]); break;
+			case 16: res = _script(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13],_pa[14],_pa[15]); break;
 		}
 	}
 	return res;
@@ -352,6 +413,39 @@ function invoke_if_exists(_instance, _method) {
 			case 14: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13]); break;
 			case 15: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14]); break;
 			case 16: return meth(argument[2],argument[3],argument[4],argument[5],argument[6],argument[7],argument[8],argument[9],argument[10],argument[11],argument[12],argument[13],argument[14],argument[15]); break;
+		}
+	}
+	return undefined;
+}
+
+/// @func	invoke_if_exists_ex(_instance, _method, _params_array)
+/// @desc	Invoke the method, but uses an array for the arguments instead of direct supplied arguments.
+/// @returns {any} The return value of the method or undefined, if the method does not exist
+function invoke_if_exists_ex(_instance, _method, _pa) {
+	var meth = is_callable(_method) ? _method : vsget(_instance, _method);
+		
+	if (is_callable(meth)) {
+		if (_pa == undefined) 
+			return meth();
+			
+		switch (array_length(_pa)) {
+			case  0: return meth(); break;
+			case  1: return meth(_pa[0]); break;
+			case  2: return meth(_pa[0],_pa[1],); break;
+			case  3: return meth(_pa[0],_pa[1],_pa[2]); break;
+			case  4: return meth(_pa[0],_pa[1],_pa[2],_pa[3]); break;
+			case  5: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4]); break;
+			case  6: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5]); break;
+			case  7: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6]); break;
+			case  8: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7]); break;
+			case  9: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8]); break;
+			case 10: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9]); break;
+			case 11: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10]); break;
+			case 12: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11]); break;
+			case 13: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12]); break;
+			case 14: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13]); break;
+			case 15: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13],_pa[14]); break;
+			case 16: return meth(_pa[0],_pa[1],_pa[2],_pa[3],_pa[4],_pa[5],_pa[6],_pa[7],_pa[8],_pa[9],_pa[10],_pa[11],_pa[12],_pa[13],_pa[14],_pa[15]); break;
 		}
 	}
 	return undefined;

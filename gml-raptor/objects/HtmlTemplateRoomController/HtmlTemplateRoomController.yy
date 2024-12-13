@@ -1,15 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"RaptorTemplateRoomController",
+  "%Name":"HtmlTemplateRoomController",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"RaptorTemplateRoomController",
+  "name":"HtmlTemplateRoomController",
   "overriddenProperties":[],
   "parent":{
-    "name":"_raptorTemplateRoom",
-    "path":"folders/Rooms/_raptorTemplateRoom.yy",
+    "name":"_raptorHtmlTemplateRoom",
+    "path":"folders/Rooms/_raptorHtmlTemplateRoom.yy",
   },
   "parentObjectId":{
     "name":"RoomController",
