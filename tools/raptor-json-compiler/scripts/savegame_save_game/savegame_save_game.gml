@@ -4,44 +4,57 @@
 	saved to the save game as long as the declared instance variable [add_to_savegame] is true (which is the default).
 	
 	(c)2022- coldrock.games, @grisgram at github
-	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-/// @func					savegame_save_game(filename, cryptkey = "")
-/// @desc				Saves the entire game state to a file.
-///								See docu in Saveable object for full documentation.
-/// @param {string} filename	Relative path inside the working_folder where to save the file
-/// @param {string=""} cryptkey	Optional. The key to use to encrypt the file.
-///								If not provided, the file is written in plain text (NOT RECOMMENDED!).
-/// @param {bool=false} data_only	If set to true, no instances will be saved, only GLOBALDATA and structs
-function savegame_save_game(filename, cryptkey = "", data_only = false) {
+/// @func	savegame_save_struct_async(_filename, _cryptkey, _data)
+/// @desc	This is an alias function, utilizing the undocumented third argument to
+///			savegame_save_game, which will change the working style of save_game,
+///			to persist only the supplied struct, but no instances, no globaldata, no room info, etc
+///			Use this to "just save a struct" which you want to be restored exactly as you left it,
+///			with all the comfort of constructors being called and references being restored when loaded
+function savegame_save_struct_async(_filename, _cryptkey, _data) {
+	return savegame_save_game_async(_filename, _cryptkey, _data);
+}
 
-	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(filename, SAVEGAME_FOLDER)) filename = __ensure_savegame_folder_name() + filename;
-	ilog($"[----- SAVING GAME TO '{filename}' ({(cryptkey == "" ? "plain text" : "encrypted")}) {(data_only ? "(data only) " : "")}-----]");
+/// @func	savegame_save_game_async(_filename, _cryptkey = "")
+/// @desc	Saves the entire game state to a file.
+function savegame_save_game_async(_filename, _cryptkey = "", _data_only = undefined) {
+
+	if (!string_is_empty(SAVEGAME_FOLDER) && !string_starts_with(_filename, SAVEGAME_FOLDER)) _filename = __ensure_savegame_folder_name() + _filename;
+	ilog($"[----- SAVING GAME TO '{_filename}' ({(_cryptkey == "" ? "plain text" : "encrypted")}) {(_data_only != undefined ? "(data only) " : "")}-----]");
 	ilog($"SaveGame File Version {SAVEGAME_FILE_VERSION}");
 	SAVEGAME_SAVE_IN_PROGRESS = true;
-	if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
-	if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
 	
 	var savegame = {};
 	
 	// First things first: The Engine data
 	var engine = {};
-	struct_set(engine,		__SAVEGAME_ENGINE_SEED		, random_get_seed());
 	struct_set(engine,		__SAVEGAME_ENGINE_VERSION	, SAVEGAME_FILE_VERSION);
-	struct_set(engine,		__SAVEGAME_ENGINE_ROOM_NAME	, room_get_name(room));
+	struct_set(engine,		__SAVEGAME_DATA_FILE		, _data_only != undefined);
 	struct_set(savegame,	__SAVEGAME_ENGINE_HEADER	, engine);
+
+	if (_data_only != undefined) {
+		// Save structs only
+		struct_set(savegame, __SAVEGAME_STRUCT_HEADER, _data_only);
+	} else {
+		var instances = {};
+		struct_set(savegame, __SAVEGAME_OBJECT_HEADER, instances);
+		// Save everything (classic savegame)
+		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVING);
 	
-	// save global data
-	struct_set(savegame, __SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+		if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
+		if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVING_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVING_FUNCTION();
 	
-	// Then add all custom structs that shall be saved
-	struct_set(savegame, __SAVEGAME_STRUCT_HEADER, __SAVEGAME_STRUCTS);
+		struct_set(engine,		__SAVEGAME_ENGINE_SEED		, random_get_seed());
+		struct_set(engine,		__SAVEGAME_ENGINE_ROOM_NAME	, room_get_name(room));
+		struct_set(engine,		__SAVEGAME_ENGINE_COUNTUP_ID, global.__unique_count_up_id);
+		
+		struct_set(savegame,	__SAVEGAME_STRUCT_HEADER	, {});
 	
-	var instances = {};
-	var cnt = 0;
-	struct_set(savegame, __SAVEGAME_OBJECT_HEADER, instances);
-	if (!data_only) {
+		// save global data
+		struct_set(savegame,	__SAVEGAME_GLOBAL_DATA_HEADER, GLOBALDATA);
+
+		var cnt = 0;
 		with (Saveable) {
 			if (add_to_savegame) {
 				var instname = __SAVEGAME_INSTANCE_PREFIX + string(cnt);
@@ -91,25 +104,29 @@ function savegame_save_game(filename, cryptkey = "", data_only = false) {
 	var struct_to_save = __savegame_remove_pointers(savegame, refstack);
 	struct_to_save[$ __SAVEGAME_REFSTACK_HEADER] = refstack;
 	
-	return file_write_struct_async(filename, struct_to_save, cryptkey)
-	.__raptor_data("only", data_only)
+	return file_write_struct_async(_filename, struct_to_save, _cryptkey)
+	.__raptor_data("only", _data_only)
 	.__raptor_finished(function(res, _buffer, _data) {
 		SAVEGAME_SAVE_IN_PROGRESS = false;
 
 		// invoke the post event
-		if (!_data.only) {
+		if (_data.only == undefined) {
 			with (Saveable) {
 				if (add_to_savegame && variable_instance_exists(self, __SAVEGAME_ONSAVED_NAME))
 					__SAVEGAME_ONSAVED_FUNCTION(res);
 			}
-		}
 	
-		if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
-		if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
-	
-		BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED);
-	
+			if (vsget(ROOMCONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(ROOMCONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);
+			if (vsget(GAMECONTROLLER, __SAVEGAME_ONSAVED_NAME)) with(GAMECONTROLLER) __SAVEGAME_ONSAVED_FUNCTION(res);	
+
+			BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_GAME_SAVED, { success: res });
+		} else		
+			BROADCASTER.send(GAMECONTROLLER, __RAPTOR_BROADCAST_DATA_GAME_SAVED, { success: res });
+			
 		ilog($"[----- SAVING GAME FINISHED -----]");
+	})
+	.on_failed(function(_data) {
+		elog($"[----- SAVING GAME **FAILED** -----]");
 	});
 
 }

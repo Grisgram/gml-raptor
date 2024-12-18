@@ -21,6 +21,13 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 	refstack = _refstack;
     copy = undefined;
 
+	static is_ignored = function(_struct, _name) {
+		return string_contains(
+			vsget(_struct, __SAVEGAME_IGNORE, ""),
+			string_concat("|", _name, "|")
+		);
+	}
+
 	static to_refstack = function(_struct) {
 		var refname = string_concat(__SAVEGAME_STRUCT_REF_MARKER, name_of(_struct));
 		if (!vsget(refstack, refname)) {
@@ -68,7 +75,7 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
             var _name = _names[_i];
             var _value = struct_get(_source, _name);
 
-            if (is_method(_value)) {
+            if (is_method(_value) || is_ignored(_source, _name)) {
 				_i++;
 				continue;
 			}
@@ -111,7 +118,11 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
         {
             var _value = _source[_i];
             
-            if (is_object_instance(_value))
+            if (is_method(_value)) {
+				_i++;
+				continue;
+			}
+            else if (is_object_instance(_value))
 			{
 				var res = replace_ref(_value);
 				if (res.success)

@@ -67,10 +67,10 @@ set_offset = function(xoff, yoff) {
 /// @func		__update_position(ps = undefined, force = false)
 __update_position = function(ps = undefined, force = false) {
 	if (follow_instance != undefined && instance_exists(follow_instance)) {
-		x = follow_instance.x + follow_offset.x * follow_instance.image_xscale;
-		y = follow_instance.y + follow_offset.y * follow_instance.image_yscale;
+		x = follow_instance.x + follow_offset.x * (scale_with_instance ? follow_instance.image_xscale : 1);
+		y = follow_instance.y + follow_offset.y * (scale_with_instance ? follow_instance.image_yscale : 1);
 		if (x != xprevious || y != yprevious || force) {
-			ps = ps ?? __get_partsys();
+			ps ??= __get_partsys();
 			ps.emitter_move_range_to(__my_emitter, x, y);
 			if (scale_with_instance)
 				ps.emitter_scale_to(__my_emitter, self);
@@ -89,7 +89,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	if (!is_enabled) {
 		if (DEBUG_LOG_PARTICLES)
 			vlog($"{MY_NAME}: stream() ignored, emitter is disabled");
-		return;
+		return self;
 	}
 	
 	var pn = particle_name ?? stream_particle_name;
@@ -99,12 +99,12 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	if (string_is_empty(__my_emitter)) {
 		if (DEBUG_LOG_PARTICLES)
 			wlog($"{MY_NAME} ignored stream() call - no emitter name");
-		return;
+		return self;
 	}
 	
+	var temp_clone = self;
 	var ps = __get_partsys();
 	if (!__clone_created) {
-		var temp_clone;
 		if (follow_instance != undefined && instance_exists(follow_instance))
 			temp_clone = ps.emitter_attach_clone(__my_emitter, follow_instance);
 		else
@@ -121,7 +121,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	if (string_is_empty(pn)) {
 		if (DEBUG_LOG_PARTICLES)
 			wlog($"{MY_NAME} ignored stream() call - no particle name");
-		return;
+		return temp_clone;
 	}
 	
 	__update_position(ps, true);
@@ -130,7 +130,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	ps.stream_stop(__my_emitter);
 	ps.stream(__my_emitter, pc, pn);
 	is_streaming = true;
-	return self;
+	return temp_clone;
 }
 
 /// @func		stop()

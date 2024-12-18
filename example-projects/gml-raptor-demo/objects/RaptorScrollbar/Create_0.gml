@@ -46,9 +46,9 @@ check_knob_grabbed = function() {
 	check_mouse_over_arrows();
 	
 	if (__mouse_is_down && __mouse_over_minus) {
-		__change_value_with_arrow(-1);
+		__change_value_with_arrow(-wheel_scroll_lines);
 	} else if (__mouse_is_down && __mouse_over_plus) {
-		__change_value_with_arrow(1);
+		__change_value_with_arrow(wheel_scroll_lines);
 	} else 
 		__slider_check_knob_grabbed(); // call the base function
 }

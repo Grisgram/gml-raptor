@@ -158,7 +158,8 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		if (!condition) {
 			__log(0, $"FAIL: {__current_test_name} *ASSERT*: expected='{expected}'; actual='{actual}'; message='{message}';");
 			__current_test_ok	= false;
-		}		
+		}
+		__current_test_msg = "";
 	}
 	
 	/// @func fail(message = "")
@@ -301,18 +302,25 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 	}
 
 	static __prepare_next_test = function() {
-		if (__next_test_index < array_length(__test_names)) {
-			__current_test_name = __test_names[__next_test_index];
-			__current_test_ok	= true;
-			__current_test_exc	= undefined;
-			__current_test_msg	= "";
-			__async_waiting		= false;
-			__data_for_test		= {};
+		if (__async_waiting) {
+			dlog($"Unit Test must wait for next test to finish async tasks");
+			return;
+		}
+		
+		call_later(1, time_source_units_frames, function() {
+			if (__next_test_index < array_length(__test_names)) {
+				__current_test_name = __test_names[__next_test_index];
+				__current_test_ok	= true;
+				__current_test_exc	= undefined;
+				__current_test_msg	= "";
+				__async_waiting		= false;
+				__data_for_test		= {};
 			
-			__start_test();
-			__check_test_completed();
-		} else
-			__finish_test_suite();
+				__start_test();
+				__check_test_completed();
+			} else
+				__finish_test_suite();
+		}, false);
 	}
 
 	static __start_test = function() {
@@ -334,12 +342,13 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			try {
 				struct_get(tests, __current_test_name)(self, __data_for_test);
 			} catch (_ex) {
+				var exm = is_string(_ex) ? _ex : _ex.message;
 				if (__current_test_exc == undefined ||
-						(!string_is_empty(__current_test_exc) && !string_contains(_ex.message, __current_test_exc) &&
-							(!IS_HTML || string_contains(_ex.measure, "undefined to a number"))
+						(!string_is_empty(__current_test_exc) && !string_contains(exm, __current_test_exc) &&
+							(!IS_HTML || string_contains(exm, "undefined to a number"))
 						)
 					) {
-					__log(0, $"FAIL: {__current_test_name} exception='{_ex.message}'; msg='{__current_test_msg}'");
+					__log(0, $"FAIL: {__current_test_name} exception='{exm}'; msg='{__current_test_msg}'");
 					__current_test_ok = false;
 				}
 			}

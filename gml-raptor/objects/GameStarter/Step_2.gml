@@ -37,15 +37,13 @@ if (!wait_for_async_tasks && !trampoline_done) {
 	if (goto_room_after_init != undefined) {
 		vlog($"GameStarter trampoline to next room");
 		pool_clear_all();
-		var waitframes = 0;
-		if (fade_in_frames_first_room != 0) {
-			waitframes = fade_in_frames_first_room;
-			ROOMCONTROLLER.transit(new FadeTransition(goto_room_after_init,0,fade_in_frames_first_room));
-		} else
-			room_goto(goto_room_after_init);
 		
-		call_later(waitframes + 2, time_source_units_frames, function() {
+		call_later(2, time_source_units_frames, function() {
 			invoke_if_exists(self, async_looper_finished, async_looper_data);
+			if (fade_in_frames_first_room != 0) {
+				ROOMCONTROLLER.transit(new FadeTransition(goto_room_after_init,0,fade_in_frames_first_room));
+			} else
+				room_goto(goto_room_after_init);
 		}, false);
 	} else {
 		call_later(2, time_source_units_frames, function() {

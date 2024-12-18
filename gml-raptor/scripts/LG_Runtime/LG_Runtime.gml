@@ -347,7 +347,7 @@ function LG() {
 	var cacheKey = "";
 	var args = [__LG_STRINGS];
 	for (var i = 0; i < argument_count; i++) {
-		if (string_is_empty(argument[i]))
+		if (is_null(argument[@i]) || string_is_empty(argument[@i]))
 			continue;
 			
 		var argconv = string_starts_with(argument[i], "=") ? string_skip_start(argument[i], 1) : argument[i];
@@ -389,7 +389,7 @@ function LG() {
 	if (LG_SCRIBBLE_COMPATIBLE == false)
 		string_replace_all(result, "[[", "[");
 	
-	if (may_cache && !wildcard) // we do not cache random picks
+	if (may_cache && !wildcard && !string_is_empty(cacheKey)) // we do not cache random picks
 		struct_set(__LG_RESOLVE_CACHE, cacheKey, result);
 		
 	return result;

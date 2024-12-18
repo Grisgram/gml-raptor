@@ -11,9 +11,9 @@ varying vec2 v_vSurfaceUV;
 
 void main()
 {
-    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * vec4(in_Position.xyz, 1.0);
+    gl_Position  = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * vec4(in_Position.xyz, 1.0);
     
     v_vColour    = in_Colour;
     v_vTexcoord  = in_TextureCoord;
-    v_vSurfaceUV = 0.5*vec2(gl_Position.x, -gl_Position.y) + 0.5;
+    v_vSurfaceUV = 0.5 * vec2(gl_Position.x, -gl_Position.y) + 0.5;
 }

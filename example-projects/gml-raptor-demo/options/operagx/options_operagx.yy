@@ -1,6 +1,12 @@
 {
   "$GMOperaGXOptions":"",
   "%Name":"operagx",
+  "ConfigValues":{
+    "release":{
+      "option_operagx_game_name":"gml-raptor-demo",
+      "option_operagx_mod_game_name":"gml-raptor-demo",
+    },
+  },
   "name":"operagx",
   "option_operagx_display_cursor":true,
   "option_operagx_editUrl":"",

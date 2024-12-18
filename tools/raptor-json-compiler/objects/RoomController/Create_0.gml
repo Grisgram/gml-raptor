@@ -147,6 +147,79 @@ DELTA_TIME_SECS_REAL = 0;
 
 #endregion
 
+#region DRAW DEBUG FRAMES
+if (DEBUG_SHOW_OBJECT_FRAMES) {
+	__dbg_inst		= undefined;
+	__dbg_trans		= new Coord2();
+	__dbg_tl		= new Coord2();
+	__dbg_tr		= new Coord2();
+	__dbg_bl		= new Coord2();
+	__dbg_br		= new Coord2();	
+	__dbg_rot_tl	= new Coord2();
+	__dbg_rot_tr	= new Coord2();
+	__dbg_rot_bl	= new Coord2();
+	__dbg_rot_br	= new Coord2();
+	__dbg_angle		= 0;
+	__dbg_cos		= 0;
+	__dbg_sin		= 0;
+
+	__draw_bbox_rotated = function() {
+		for (var i = 0; i < instance_count; i++;) {
+			__dbg_inst = instance_id[i];
+
+			if (!__dbg_inst.visible || __dbg_inst.sprite_index < 0 || eq(__dbg_inst, __ui_root_control))
+				continue;
+
+			with(__dbg_inst) {
+				draw_set_color(vsget(self, "__raptor_debug_frame_color", c_green));
+				
+				if (SELF_DRAW_ON_GUI)
+					translate_gui_to_world(x, y, other.__dbg_trans);
+				else 
+					other.__dbg_trans.set(x, y);
+			}
+			
+			__dbg_tl.set(-__dbg_inst.sprite_xoffset, -__dbg_inst.sprite_yoffset);
+			__dbg_tr.set(__dbg_tl.x + __dbg_inst.sprite_width - 1, __dbg_tl.y);
+			__dbg_bl.set(__dbg_tl.x, __dbg_tl.y + __dbg_inst.sprite_height - 1);
+			__dbg_br.set(__dbg_tr.x, __dbg_bl.y);
+
+			__dbg_angle		= degtorad(-__dbg_inst.image_angle);
+			__dbg_cos		= cos(__dbg_angle);
+			__dbg_sin		= sin(__dbg_angle);
+
+			__dbg_rot_tl.set(
+				__dbg_trans.x + (__dbg_tl.x * __dbg_cos - __dbg_tl.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_tl.x * __dbg_sin + __dbg_tl.y * __dbg_cos)
+			);
+
+			__dbg_rot_tr.set(
+				__dbg_trans.x + (__dbg_tr.x * __dbg_cos - __dbg_tr.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_tr.x * __dbg_sin + __dbg_tr.y * __dbg_cos)
+			);
+
+			__dbg_rot_bl.set(
+				__dbg_trans.x + (__dbg_bl.x * __dbg_cos - __dbg_bl.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_bl.x * __dbg_sin + __dbg_bl.y * __dbg_cos)
+			);
+
+			__dbg_rot_br.set(
+				__dbg_trans.x + (__dbg_br.x * __dbg_cos - __dbg_br.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_br.x * __dbg_sin + __dbg_br.y * __dbg_cos)
+			);
+
+			draw_primitive_begin(pr_linestrip);
+			draw_vertex(__dbg_rot_tl.x, __dbg_rot_tl.y);
+			draw_vertex(__dbg_rot_tr.x, __dbg_rot_tr.y);
+			draw_vertex(__dbg_rot_br.x, __dbg_rot_br.y);
+			draw_vertex(__dbg_rot_bl.x, __dbg_rot_bl.y);
+			draw_vertex(__dbg_rot_tl.x, __dbg_rot_tl.y);
+			draw_primitive_end();
+		}
+		draw_set_color(c_white);
+	}
+}
+#endregion
 
 /*
 	----------------------
@@ -262,7 +335,8 @@ if (!variable_global_exists("__transition_running"))		TRANSITION_RUNNING	 = fals
 if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STEP = -1; 
 // __ACTIVE_TRANSITION_STEP 0 = out, 1 = in and -1 means inactive
 
-__is_transit_back = false;
+__is_transit_back		= false;
+__escape_was_pressed	= false;
 
 if (room != rmStartup && room != array_last(__TRANSIT_ROOM_CHAIN)) {
 	array_push(__TRANSIT_ROOM_CHAIN, room); // record this room, if not the startup room
@@ -293,10 +367,12 @@ transit = function(_transition, skip_if_another_running = false) {
 transit_back = function() {
 	__is_transit_back = true;
 	var leave_struct = {
+		escape_pressed: __escape_was_pressed,
 		target_room: undefined, 
 		transition: undefined, 
 		cancel: false
 	};
+	__escape_was_pressed = false; // reset this in case of a cancel
 	
 	if (array_length(__TRANSIT_ROOM_CHAIN) > 1) {
 		array_pop(__TRANSIT_ROOM_CHAIN); // This is our room, ignore it

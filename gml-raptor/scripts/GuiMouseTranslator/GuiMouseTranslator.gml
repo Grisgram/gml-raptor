@@ -13,36 +13,34 @@
 /// @desc				translates mouse coordinates from viewport to gui
 ///								and forwards click events
 function GuiMouseTranslator() constructor {
-	gui_mouse_is_over = false;
-	gui_last_mouse_is_over = false;
-	event_redirection_active = false;
+	gui_mouse_is_over			= false;
+	gui_last_mouse_is_over		= false;
+	event_redirection_active	= false;
 
-	gui_left_is_down = false;
-	gui_middle_is_down = false;
-	gui_right_is_down = false;
+	gui_left_is_down			= false;
+	gui_middle_is_down			= false;
+	gui_right_is_down			= false;
 
-	gui_last_left_is_down = false;
-	gui_last_middle_is_down = false;
-	gui_last_right_is_down = false;
+	gui_last_left_is_down		= false;
+	gui_last_middle_is_down		= false;
+	gui_last_right_is_down		= false;
 
-	last_frame_checked = -1;
+	last_frame_checked_over		= -1;
+	last_frame_checked_click	= -1;
 
 	/// @func					update_gui_mouse_over()
 	/// @desc				check if mouse is over the control and perform enter/leave events accordingly
 	static update_gui_mouse_over = function() {
 		
-		if (last_frame_checked == GAME_FRAME) return;
-		last_frame_checked = GAME_FRAME;
+		if (last_frame_checked_over == GAME_FRAME) return;
+		last_frame_checked_over = GAME_FRAME;
 		
 		with (other) {
 			if (__INSTANCE_UNREACHABLE) return;
 				
 			other.event_redirection_active = true;
 			
-			other.gui_mouse_is_over = point_in_rectangle(
-				CTL_MOUSE_X, CTL_MOUSE_Y,
-				SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE, 
-				SELF_VIEW_RIGHT_EDGE, SELF_VIEW_BOTTOM_EDGE);
+			other.gui_mouse_is_over = collision_point(CTL_MOUSE_X, CTL_MOUSE_Y, self, true, false) != noone;
 
 			if (other.gui_last_mouse_is_over != other.gui_mouse_is_over) {
 				
@@ -55,7 +53,7 @@ function GuiMouseTranslator() constructor {
 					other.gui_last_middle_is_down	= other.gui_middle_is_down;
 					other.gui_last_right_is_down	= other.gui_right_is_down;
 					event_perform(ev_mouse, ev_mouse_enter);
-				} else 
+				} else
 					event_perform(ev_mouse, ev_mouse_leave);
 					
 				other.gui_last_mouse_is_over = other.gui_mouse_is_over;
@@ -69,8 +67,8 @@ function GuiMouseTranslator() constructor {
 	/// @desc				check mouse button states and perform press/release events accordingly
 	static check_gui_mouse_clicks = function() {
 
-		if (last_frame_checked == GAME_FRAME) return;
-		last_frame_checked = GAME_FRAME;
+		if (last_frame_checked_click == GAME_FRAME) return;
+		last_frame_checked_click = GAME_FRAME;
 
 		with (other) {
 			if (__INSTANCE_UNREACHABLE) return;

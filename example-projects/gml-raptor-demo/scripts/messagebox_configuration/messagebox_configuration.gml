@@ -9,8 +9,8 @@
 
 // Asset name of the Window, Button and Label objects to use for Messageboxes
 #macro MESSAGEBOX_WINDOW				MessageBoxWindow
-#macro MESSAGEBOX_BUTTON				TextButton
-#macro MESSAGEBOX_TEXT_LABEL			Label
+#macro MESSAGEBOX_BUTTON				MessageBoxTextButton
+#macro MESSAGEBOX_TEXT_LABEL			MessageBoxLabel
 
 // Element dimensions
 #macro MESSAGEBOX_INNER_MARGIN			32
@@ -21,5 +21,7 @@
 // If this is undefined, the scribble_default_font will be used.
 // You set the scribble_default_font in the onGameStart method in the Game_Configuration
 // With this macro you can assign any different font for the messagebox (text + buttons)
+// and the title bar.
 // NOTE: This setting is a STRING, not a font resource. Specify "fntText", not fntText!
 #macro MESSAGEBOX_FONT					undefined
+#macro MESSAGEBOX_TITLE_FONT			MESSAGEBOX_FONT

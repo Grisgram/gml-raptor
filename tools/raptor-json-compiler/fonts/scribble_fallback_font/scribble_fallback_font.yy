@@ -10,7 +10,7 @@
   "charset":0,
   "ConfigValues":{
     "unit_testing":{
-      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
     "release":{
       "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
@@ -143,8 +143,8 @@
   "size":11.0,
   "styleName":"Regular",
   "textureGroupId":{
-    "name":"ui",
-    "path":"texturegroups/ui",
+    "name":"Default",
+    "path":"texturegroups/Default",
   },
   "TTFName":"",
   "usesSDF":false,

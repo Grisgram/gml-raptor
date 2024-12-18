@@ -113,6 +113,27 @@ function is_mouse_over(_instance, _is_gui = false) {
 	return position_meeting(xcheck, ycheck, _instance);
 }
 
+global.__topmost_instance_finder_list = ds_list_create();
+/// @func	get_topmost_instance_at(_x, _y, _obj_type = all)
+/// @desc	Gets the topmost object at the specified coordinates
+function get_topmost_instance_at(_x, _y, _obj_type = all) {
+	ds_list_clear(global.__topmost_instance_finder_list);
+	var cnt = instance_position_list(_x, _y, _obj_type, global.__topmost_instance_finder_list, false);
+	if (cnt > 0) {
+		var mindepth = ds_list_find_value(global.__topmost_instance_finder_list, 0);
+		var newdepth = undefined;
+		var i = 1;
+		repeat(ds_list_size(global.__topmost_instance_finder_list) - 1) {
+			newdepth = ds_list_find_value(global.__topmost_instance_finder_list, i);
+			if (newdepth.depth < mindepth.depth) mindepth = newdepth;
+			i++;
+		}
+		return mindepth;
+	}
+	return undefined;
+}
+
+
 /// @func		replace_sprite(replace_with, target_width = -1, target_height = -1, keep_empty = true, keep_size = true, keep_location = true)
 /// @desc	Replaces the current sprite with the specified one.
 ///					The method checks if "replace_with" is undefined or noone,

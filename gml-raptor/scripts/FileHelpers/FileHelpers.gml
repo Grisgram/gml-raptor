@@ -65,24 +65,31 @@ function directory_list_data_files(_folder = "", _recursive = false) {
 #endregion
 
 #region CONSTRUCTOR REGISTRATION
-/// @func	__file_get_constructed_class(from)
+/// @func	__file_get_constructed_class(from, restorestack)
 /// @desc	Returns a struct with 'cached' and the instance
 ///			if 'cached' is true, it has been taken from cache, so
 ///			no further recursion needed from the caller side
 function __file_get_constructed_class(from, restorestack) {
-	var restorename = $"restored_{name_of(from)}";
+	if (is_null(from))
+		return {
+			cached: true,
+			instance: undefined
+		};
+
+	var restorename = $"restored_{address_of(from)}";
 	var rv = vsget(restorestack, restorename);
 	if (rv != undefined) 
 		return {
 			cached: true,
 			instance: rv
 		};
-	
+		
+	var constname = "";
 	if (variable_struct_exists(from, __CONSTRUCTOR_NAME)) {
-		var constname = from[$ __CONSTRUCTOR_NAME];
-		//vlog($"Constructing '{constname}'");
+		constname = from[$ __CONSTRUCTOR_NAME];
 		var class = asset_get_index(constname);
 		rv = new class();
+		//dlog($"Constructed '{constname}' {restorename} -> {address_of(rv)}");
 		if (variable_struct_exists(rv, __INTERFACES_NAME)) {
 			var interfaces = rv[$ __INTERFACES_NAME];
 			for (var i = 0, len = array_length(interfaces); i < len; i++)
@@ -91,6 +98,7 @@ function __file_get_constructed_class(from, restorestack) {
 	} else {
 		rv = {};
 	}
+	
 	restorestack[$ restorename] = rv;
 	return {
 		cached: false,
@@ -98,12 +106,12 @@ function __file_get_constructed_class(from, restorestack) {
 	};
 }
 
-/// @func	__file_reconstruct_root(from)
-function __file_reconstruct_root(from) {
-	var restorestack = {};
+/// @func	__file_reconstruct_root(from, _restorestack = undefined)
+function __file_reconstruct_root(from, _restorestack = undefined) {
+	var restorestack = _restorestack ?? {};
 	// The first instance here can't be from cache, as the restorestack is empty
 	var rv = __file_get_constructed_class(from, restorestack).instance;
-	__file_reconstruct_class(rv, from, restorestack);
+	rv = __file_reconstruct_class(rv, from, restorestack);
 	return rv;
 }
 
@@ -112,12 +120,13 @@ function __file_reconstruct_root(from) {
 ///			if the constructor is known.
 function __file_reconstruct_class(into, from, restorestack) {
 	var names = struct_get_names(from);
-	
 	with (into) {
 		for (var i = 0; i < array_length(names); i++) {
 			var name = names[i];
 			var member = from[$ name];
-			if (is_struct(member)) {
+			if (is_method(member))
+				self[$ name] = method(self, member);
+			else if (is_struct(member)) {
 				var restored = __file_get_constructed_class(member, restorestack);
 				var classinst = restored.instance;
 				self[$ name] = classinst;
@@ -139,6 +148,7 @@ function __file_reconstruct_class(into, from, restorestack) {
 				self[$ name] = from[$ name];
 		}
 	}
+	return into;
 }
 
 #endregion
@@ -160,9 +170,9 @@ function file_exists_html_safe(_filename) {
 	}
 }
 
-/// @function	file_get_filename(_path, _with_extension = true)
-/// @desc		Little helper function to get the filename only out of a path
-///				with the choice, to include or strip off the extension of the file
+/// @func	file_get_filename(_path, _with_extension = true)
+/// @desc	Little helper function to get the filename only out of a path
+///			with the choice, to include or strip off the extension of the file
 function file_get_filename(_path, _with_extension = true) {
 	var sa = string_split(string_replace_all(_path, "\\", "/"), "/");
 	var fn = array_pop(sa);
@@ -172,4 +182,15 @@ function file_get_filename(_path, _with_extension = true) {
 			fn = string_substring(fn, 1, dot - 1);
 	}
 	return fn;
+}
+
+/// @func	file_get_pathname(_path, _with_final_slash = true)
+/// @desc	Little helper function to get the path-part only out of a path
+///			with the choice, to include or strip off the final slash
+function file_get_pathname(_path, _with_final_slash = true) {
+	return 
+		string_replace_all(
+			_with_final_slash ? filename_path(_path) : filename_dir(_path),
+			"\\", "/"
+		);
 }

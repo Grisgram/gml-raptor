@@ -88,7 +88,8 @@ function unit_test_Structs() {
 	ut.tests.versioned_data_struct_names_ok = function(test, data) {
 		var vds = new VersionedDataStruct();
 		var names = struct_get_names(vds);
-		test.assert_equals(2, array_length(names), "length");
+		test.assert_equals(3, array_length(names), "length");
+		test.assert_true(array_contains(names, "on_game_loaded"), "callback");
 		test.assert_true(array_contains(names, __CONSTRUCTOR_NAME), "const");
 		test.assert_true(array_contains(names, __PARENT_CONSTRUCTOR_NAME), "parent const");
 		

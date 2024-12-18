@@ -7,6 +7,7 @@ function __scribble_class_element(_string, _unique_id) constructor
     static __scribble_state    = __scribble_initialize().__state;
     static __ecache_array      = __scribble_initialize().__cache_state.__ecache_array;
     static __ecache_dict       = __scribble_initialize().__cache_state.__ecache_dict;
+    static __ecache_weak_array = __scribble_initialize().__cache_state.__ecache_weak_array;
     static __ecache_name_array = __scribble_initialize().__cache_state.__ecache_name_array;
     
     __text       = _string;
@@ -26,6 +27,7 @@ function __scribble_class_element(_string, _unique_id) constructor
     //Add this text element to the global cache
     __ecache_dict[$ __cache_name] = weak_ref_create(self);
     array_push(__ecache_array, self);
+    array_push(__ecache_weak_array, weak_ref_create(self));
     array_push(__ecache_name_array, __cache_name);
     
     __flushed = false;
@@ -651,15 +653,15 @@ function __scribble_class_element(_string, _unique_id) constructor
         repeat(_i+1)
         {
             var _region = _region_array[_i];
-            var _bbox_array = _region.__bbox_array;
+            var _bbox_array = _region.bbox_array;
             
             var _j = 0;
             repeat(array_length(_bbox_array))
             {
                 var _bbox = _bbox_array[_j];
-                if ((_x >= _bbox.__x1) && (_y >= _bbox.__y1) && (_x <= _bbox.__x2) && (_y <= _bbox.__y2))
+                if ((_x >= _bbox.x1) && (_y >= _bbox.y1) && (_x <= _bbox.x2) && (_y <= _bbox.y2))
                 {
-                    _found = _region.__name;
+                    _found = _region.name;
                     break;
                 }
                 
@@ -695,11 +697,11 @@ function __scribble_class_element(_string, _unique_id) constructor
         repeat(array_length(_region_array))
         {
             var _region = _region_array[_i];
-            if (_region.__name == _name)
+            if (_region.name == _name)
             {
                 __region_active      = _name;
-                __region_glyph_start = _region.__start_glyph;
-                __region_glyph_end   = _region.__end_glyph;
+                __region_glyph_start = _region.start_glyph;
+                __region_glyph_end   = _region.end_glyph;
                 __region_colour      = _colour;
                 __region_blend       = _blend_amount;
                 return;
@@ -1310,6 +1312,12 @@ function __scribble_class_element(_string, _unique_id) constructor
         if (_model != undefined)
         {
             _model.__flush();
+            
+            __model_cache_name_dirty = true;
+            __matrix_dirty           = true;
+            __bbox_dirty             = true;
+            __scale_to_box_dirty     = true;
+            
             __get_model(true);
         }
         
@@ -1318,6 +1326,8 @@ function __scribble_class_element(_string, _unique_id) constructor
     
     static flush = function()
     {
+        //Don't forget to update scribble_flush_everything() if you change anything here!
+        
         if (__flushed) return undefined;
         if (__SCRIBBLE_DEBUG) __scribble_trace("Flushing element \"" + string(__cache_name) + "\"");
         
@@ -1352,6 +1362,11 @@ function __scribble_class_element(_string, _unique_id) constructor
     {
         if (_function != __preprocessorFunc)
         {
+            if ((_function != undefined) && (not script_exists(_function)))
+            {
+                __scribble_error("Preprocessor functions must be stored in scripts in global scope");
+            }
+            
             __model_cache_name_dirty = true;
             __preprocessorFunc = _function;
         }

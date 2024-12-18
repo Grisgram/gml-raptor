@@ -178,6 +178,7 @@ function __pool_invoke_deactivate(inst, _struct) {
 	with (inst) {
 		__statemachine_pause_all(self, true);
 		animation_abort_all(self);
+		BROADCASTER.remove_owner(inst);
 		invoke_if_exists(self, __POOL_DEACTIVATE_RAPTOR_NAME);
 		invoke_if_exists(self, __POOL_DEACTIVATE_NAME, _struct);
 	}

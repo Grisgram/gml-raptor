@@ -11,8 +11,8 @@ enum mouse_drag {
 __base_draw_instance = __draw_instance;
 
 __scissor			= undefined;
-__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, };
-__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, };
+__vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, shown_range: -1, last_range: -1, };
+__hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, shown_range: -1, last_range: -1, };
 __ap_default		= [0, 0];		// app pos
 __ap				= __ap_default;	// app pos
 __aw				= 0;			// app width
@@ -107,20 +107,38 @@ __draw_instance = function(_force = false) {
 		__vscroll.value_percent = (__drag_ymax > 0 ? (-drag_yoffset / __drag_ymax) : 0);
 		__hscroll.value = ceil(__hscroll.value_percent * 100);
 		__vscroll.value = ceil(__vscroll.value_percent * 100);
-	} else {	
+	} else {
 		drag_xoffset = -__drag_xmax * __hscroll.value_percent;
 		drag_yoffset = -__drag_ymax * __vscroll.value_percent;
 	}
 	
 	__hscroll.is_enabled = (__drag_xmax > 0);
 	__vscroll.is_enabled = (__drag_ymax > 0);
-	if (!__hscroll.is_enabled) { drag_xoffset = __clipw / 2 - content.sprite_width  / 2; }	
-	if (!__vscroll.is_enabled) { drag_yoffset = __cliph / 2 - content.sprite_height / 2; }
+	
+	if (!__hscroll.is_enabled) { 
+		drag_xoffset = __clipw / 2 - content.sprite_width  / 2;
+	} else { 
+		__hscroll.shown_range = sprite_width  / content.sprite_width;
+		if (__hscroll.shown_range != __hscroll.last_range) {
+			__hscroll.last_range = __hscroll.shown_range;
+			__hscroll.calculate_knob_size();
+		}
+	}
+	
+	if (!__vscroll.is_enabled) { 
+		drag_yoffset = __cliph / 2 - content.sprite_height / 2;
+	} else { 
+		__vscroll.shown_range = sprite_height / content.sprite_height;
+		if (__vscroll.shown_range != __vscroll.last_range) {
+			__vscroll.last_range = __vscroll.shown_range;
+			__vscroll.calculate_knob_size();
+		}
+	}
 	
 	content.x = x + content.sprite_xoffset + drag_xoffset;
 	content.y = y + content.sprite_yoffset + drag_yoffset;
 	with(content)
-		if (control_tree != undefined) 
+		if (SELF_HAVE_MOVED && control_tree != undefined) 
 			control_tree.move_children(SELF_MOVE_DELTA_X, SELF_MOVE_DELTA_Y);
 
 	// calculate scissor multiplier based on draw mode	
@@ -153,6 +171,7 @@ __draw_instance = function(_force = false) {
 if (vertical_scrollbar)
 	__vscroll = control_tree
 	.add_control(Scrollbar, {
+		last_range: -1,
 		orientation_horizontal: false,
 		startup_width: __vbarsize,
 		startup_height: sprite_height - (horizontal_scrollbar ? __hbarsize : 0) + 1,
@@ -167,6 +186,7 @@ if (vertical_scrollbar)
 if (horizontal_scrollbar)
 	__hscroll = control_tree
 	.add_control(Scrollbar, {
+		last_range: -1,
 		orientation_horizontal: true,
 		startup_width: sprite_width - (vertical_scrollbar ? __vbarsize : 0) + 1,
 		startup_height: __hbarsize,

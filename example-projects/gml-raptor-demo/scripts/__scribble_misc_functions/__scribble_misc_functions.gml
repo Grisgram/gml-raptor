@@ -57,14 +57,25 @@ function __scribble_error()
     }
     
     show_debug_message("Scribble Deluxe " + SCRIBBLE_VERSION + ": " + string_replace_all(_string, "\n", "\n          "));
-    show_error("ScribbleDX:\n" + _string + "\n ", true);
+    show_error(" \nScribble Deluxe " + SCRIBBLE_VERSION + ":\n" + _string + "\n ", true);
 }
 
 function __scribble_get_font_data(_name)
 {
     static _font_data_map = __scribble_initialize().__font_data_map;
     var _data = _font_data_map[? _name];
-    if (_data == undefined) __scribble_error("Font \"", _name, "\" not recognised");
+    if (_data == undefined)
+    {
+        var _string = "Font \"" + string(_name) + "\" not recognised";
+        
+        if (__scribble_initialize().__gmMightRemoveUnusedAssets)
+        {
+            _string += "\nThis may indicate that unused assets have been stripped from the project\nPlease untick \"Automatically remove unused assets when compiling\" in Game Options";
+        }
+        
+        __scribble_error(_string);
+    }
+    
     return _data;
 }
 

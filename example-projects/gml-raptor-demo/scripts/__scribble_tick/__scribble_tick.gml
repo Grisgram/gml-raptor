@@ -5,9 +5,11 @@ function __scribble_tick()
     static _cache_state = __scribble_initialize().__cache_state;
     
     static _ecache_list_index = 0;
+    static _ecache_weak_index = 0;
     static _ecache_name_index = 0;
     static _ecache_array      = _cache_state.__ecache_array;
     static _ecache_dict       = _cache_state.__ecache_dict;
+    static _ecache_weak_array = _cache_state.__ecache_weak_array;
     static _ecache_name_array = _cache_state.__ecache_name_array;
     
     static _mcache_name_index = 0;
@@ -17,6 +19,10 @@ function __scribble_tick()
     static _vbuff_index   = 0;
     static _gc_vbuff_refs = _cache_state.__gc_vbuff_refs;
     static _gc_vbuff_ids  = _cache_state.__gc_vbuff_ids;
+    
+    static _grid_index   = 0;
+    static _gc_grid_refs = _cache_state.__gc_grid_refs;
+    static _gc_grid_ids  = _cache_state.__gc_grid_ids;
     
     _scribble_state.__frames++;
     var _frames = _scribble_state.__frames;
@@ -70,6 +76,15 @@ function __scribble_tick()
             if (__SCRIBBLE_VERBOSE_GC) __scribble_trace("\"", _element.__cache_name, "\" has timed out (", _frames, " > ", _element.__last_drawn, " + ", __SCRIBBLE_CACHE_TIMEOUT, ")");
             array_delete(_ecache_array, _ecache_list_index, 1);
             variable_struct_remove(_ecache_dict, _element.__cache_name);
+        }
+    }
+    
+    if (array_length(_ecache_weak_array) > 0)
+    {
+        _ecache_weak_index = (_ecache_weak_index + 1) mod array_length(_ecache_weak_array);
+        if (not weak_ref_alive(_ecache_weak_array[_ecache_weak_index]))
+        {
+            array_delete(_ecache_weak_array, _ecache_weak_index, 1);
         }
     }
     
@@ -165,7 +180,39 @@ function __scribble_tick()
             if (__SCRIBBLE_VERBOSE_GC) __scribble_trace("Cleaning up vertex buffer ", _gc_vbuff_ids[_vbuff_index]);
             vertex_delete_buffer(_gc_vbuff_ids[_vbuff_index]);
             array_delete(_gc_vbuff_refs, _vbuff_index, 1);
-            array_delete(_gc_vbuff_ids , _vbuff_index, 1);
+            array_delete(_gc_vbuff_ids,  _vbuff_index, 1);
+        }
+    }
+    
+    #endregion
+    
+    
+    
+    #region Check through glyph grid weak references to clean anything up
+    
+    var _size = array_length(_gc_grid_refs);
+    _grid_index = min(_grid_index, _size);
+    
+    repeat(max(__SCRIBBLE_GC_STEP_SIZE, ceil(sqrt(_size)))) //Choose a step size that scales with the size of the cache, but doesn't get too big
+    {
+        _grid_index--;
+        if (_grid_index < 0)
+        {
+            _grid_index += array_length(_gc_grid_refs);
+            if (_grid_index < 0)
+            {
+                _grid_index = 0;
+                break;
+            }
+        }
+        
+        var _weak = _gc_grid_refs[_grid_index];
+        if (!weak_ref_alive(_weak))
+        {
+            if (__SCRIBBLE_VERBOSE_GC) __scribble_trace("Cleaning up glyph grid ", _gc_grid_ids[_grid_index]);
+            ds_grid_destroy(_gc_grid_ids[_grid_index]);
+            array_delete(_gc_grid_refs, _grid_index, 1);
+            array_delete(_gc_grid_ids,  _grid_index, 1);
         }
     }
     

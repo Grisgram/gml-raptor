@@ -105,9 +105,6 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		if (_item.unique)
 			array_push(_uniques, string_concat(_name, "@", name));
 	
-		if (_item.type == undefined)
-			return;
-	
 		var typename = _item.type;
 		if (string_starts_with(typename, "=")) {
 			// go into recursion

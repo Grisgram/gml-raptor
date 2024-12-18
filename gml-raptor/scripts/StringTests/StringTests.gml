@@ -111,5 +111,33 @@ function unit_test_Strings() {
 		test.assert_equals( 0, string_last_index_of("data/files/file.txt", ":"   ));
 	}
 
+	ut.tests.string_to_real_ok = function(test, data) {
+		test.assert_equals(42, string_to_real(" 42 "));
+		test.assert_equals(-42, string_to_real(" -42 "));
+		test.assert_equals(42, string_to_real(" 42,43,44 "));
+		test.assert_null(string_to_real("hello world 42"));
+		
+		test.assert_equals(42, string_to_real_ex(" 42 "));
+		test.assert_equals(-42, string_to_real_ex(" -42. "));
+		test.assert_null(string_to_real_ex(" 42-43.44 "));
+		test.assert_null(string_to_real_ex(" 42.43.44 "));
+		test.assert_null(string_to_real_ex(" 42,43,44 "));
+		test.assert_null(string_to_real_ex("hello world 42"));		
+	}
+
+	ut.tests.string_to_int_ok = function(test, data) {
+		test.assert_equals(42, string_to_int(" 42 "));
+		test.assert_equals(-42, string_to_int(" -42,43,44 "));
+		test.assert_null(string_to_int("hello world 42"));
+		
+		test.assert_equals(42, string_to_int_ex(" 42 "));
+		test.assert_equals(-42, string_to_int_ex(" -42 "));
+		test.assert_null(string_to_int_ex(" -42. "));
+		test.assert_null(string_to_int_ex(" 42-43.44 "));
+		test.assert_null(string_to_int_ex(" 42.43.44 "));
+		test.assert_null(string_to_int_ex(" 42,43,44 "));
+		test.assert_null(string_to_int_ex("hello world 42"));
+	}
+
 	ut.run();
 }
