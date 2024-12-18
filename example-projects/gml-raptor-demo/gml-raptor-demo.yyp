@@ -154,7 +154,9 @@
         },
       },"CopyToMask":0,"filePath":"datafiles/locale","name":"locale_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"raptor_demo_de.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_de.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"raptor_demo_de.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_de.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"raptor_demo_en.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"raptor_demo_en.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"demotable.json","ConfigValues":{
         "release":{
           "CopyToMask":"0",
@@ -187,7 +189,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.8.1.171",
+    "IDEVersion":"2024.11.0.179",
   },
   "name":"gml-raptor-demo",
   "resources":[

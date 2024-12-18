@@ -169,6 +169,9 @@ function string_last_index_of(str, substr, startpos = 1) {
 /// @param {string} wildcard_str
 /// @returns {bool}	
 function string_match(str, wildcard_str) {
+	if (wildcard_str == "*") 
+		return true;
+	
 	var startwith = false, endwith = false;
 	if (string_starts_with(wildcard_str, "*")) {
 		endwith = true;

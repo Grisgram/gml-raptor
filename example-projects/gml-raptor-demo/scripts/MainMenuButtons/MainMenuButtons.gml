@@ -42,21 +42,21 @@ function languageButton_click(sender) {
 
 
 function save_plain_text() {
-	savegame_save_game(SAVE_FILE_NAME_PLAIN);
+	savegame_save_game_async(SAVE_FILE_NAME_PLAIN);
 	cmdLoad.set_enabled(true);
 }
 
 function save_encrypted() {
-	savegame_save_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
+	savegame_save_game_async(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
 	cmdLoadEncrypted.set_enabled(true);
 }
 
 function load_plain_text() {
-	savegame_load_game(SAVE_FILE_NAME_PLAIN);
+	savegame_load_game_async(SAVE_FILE_NAME_PLAIN);
 }
 
 function load_encrypted() {
-	savegame_load_game(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
+	savegame_load_game_async(SAVE_FILE_NAME_ENC, SAVE_FILE_CRYPT_KEY);
 }
 
 function activate_default_theme() {
