@@ -29,7 +29,7 @@ These versions of external libraries are packaged into the current `raptor` rele
 
 | GMS Version | Scribble | SNAP | Canvas | OutlineShader | AnimatedFlag | HighScorer |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|2411|9.3.5|7.0.1|2.2|3.3|1.5|1.5|
+|2411|9.3.5|7.0.1|2.2|3.3|1.5|1.6|
 
 ### HOW RELEASES ARE ORGANIZED
 * Find the latest release at the [Releases](https://github.com/Grisgram/gml-raptor/releases) page
