@@ -19,14 +19,15 @@
 ///			the constructor and then perform a struct_join_into with the loaded data, so
 ///			all members receive their loaded values after the constructor executed.
 function construct(_class_name_or_asset) {
-	
+	gml_pragma("forceinline");
+	if (!is_string(_class_name_or_asset)) _class_name_or_asset = script_get_name(_class_name_or_asset);
 	self[$ __PARENT_CONSTRUCTOR_NAME] = string_concat(
 		vsget(self, __PARENT_CONSTRUCTOR_NAME, "|"),
-		vsget(self, __CONSTRUCTOR_NAME, ""),
+		_class_name_or_asset,
 		"|"
 	);
 
-	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
+	self[$ __CONSTRUCTOR_NAME] = _class_name_or_asset;
 }
 
 /// @func is_class_of(_struct, _class_name)
@@ -44,7 +45,6 @@ function is_child_class_of(_struct, _class_name) {
 	gml_pragma("forceinline");
 	if (!is_string(_class_name)) _class_name = script_get_name(_class_name);
 	return 
-		is_class_of(_struct, _class_name) ||
 		string_contains(vsget(_struct, __PARENT_CONSTRUCTOR_NAME, ""), $"|{_class_name}|");
 }
 

@@ -28,7 +28,7 @@ function directory_list_files(_folder = "", _wildcard = "*.*", _recursive = fals
 				var dirs = [];
 				var f = file_find_first($"{look_in}*", fa_directory);
 				while (f != "") {
-					if (file_attributes(f, fa_directory))
+					if (file_attributes($"{look_in}{f}", fa_directory))
 						array_push(dirs, $"{root}{f}/");
 					f = file_find_next();
 				}
@@ -60,6 +60,42 @@ function directory_list_directories(_folder = "", _recursive = false) {
 /// @desc		Lists all files with the current DATA_FILE_EXTENSION from the given directory
 function directory_list_data_files(_folder = "", _recursive = false) {
 	return directory_list_files(_folder, string_concat("*", DATA_FILE_EXTENSION), _recursive, fa_none);
+}
+
+/// @func	directory_read_data_tree_async(_folder, _file_task_callback = undefined)
+/// @desc	Reads an entire tree of data files (DATA_FILE_EXTENSION) into a single
+///			struct. Duplicate names are merged, not replaced, so you can freely split
+///			your larger data volumes into multiple files containing the same root object (like LG)
+///			The _file_task_callback is invoked for every single file load that is enqueued, so you
+///			may attach your own on_finished callbacks or whatever you need for each file.
+function directory_read_data_tree_async(_folder, _file_task_callback = undefined) {
+	var rv = {};
+	var gamefiles = directory_list_data_files("game", true);
+	for (var i = 0, len = array_length(gamefiles); i < len; i++) {
+		var fn = gamefiles[@i];
+		var membername = file_get_filename(fn, false);
+		var sa = string_split(fn, "/");
+		array_shift(sa); // remove "game" folder name, this is the root
+		array_pop(sa);   // remove the filename, we need structure only
+		var child = rv;
+		for (var j = 0, jen = array_length(sa); j < jen; j++) {
+			var next = sa[@j];
+			child[$ next] = {};
+			child = child[$ next];
+		}
+		
+		var file_task = file_read_struct_async(fn, FILE_CRYPT_KEY)
+			.set_data("member", membername)
+			.set_data("child", child)
+			.on_finished(function(content, data) {
+				struct_join_into(vsgetx(data.child, data.member, {}), content);
+			}
+		);
+		
+		if (_file_task_callback != undefined)
+			_file_task_callback(file_task);
+	}
+	return rv;
 }
 
 #endregion
