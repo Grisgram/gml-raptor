@@ -75,7 +75,7 @@ function directory_read_data_tree_async(_folder, _file_task_callback = undefined
 		var fn = gamefiles[@i];
 		var membername = file_get_filename(fn, false);
 		var sa = string_split(fn, "/");
-		array_shift(sa); // remove "game" folder name, this is the root
+		array_shift(sa); // remove "first" folder name, this is the root
 		array_pop(sa);   // remove the filename, we need structure only
 		var child = rv;
 		for (var j = 0, jen = array_length(sa); j < jen; j++) {
@@ -88,7 +88,8 @@ function directory_read_data_tree_async(_folder, _file_task_callback = undefined
 			.set_data("member", membername)
 			.set_data("child", child)
 			.on_finished(function(content, data) {
-				struct_join_into(vsgetx(data.child, data.member, {}), content);
+				var into = vsgetx(data.child, data.member, {});
+				struct_join_into(into, content);
 			}
 		);
 		

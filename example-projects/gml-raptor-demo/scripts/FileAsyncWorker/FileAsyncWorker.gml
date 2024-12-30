@@ -257,3 +257,12 @@ function __FileAsyncCacheHit(_filename, _cache_data) :
 
 	run_delayed(GAMESTARTER, 1, start);
 }
+
+function __FileAsyncInstant(_filename, _crypt_key) :
+ 		 __FileAsyncWorker(_filename, _crypt_key) constructor {
+	
+	start = function() {
+		__started = true;
+		return self;
+	}
+}

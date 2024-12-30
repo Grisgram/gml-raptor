@@ -82,6 +82,7 @@ function __msgbox_x_button_default_callback() {
 /// @func	MessageBox(window_object, layer_name, message_title, message_text)
 /// @desc	create a new messagebox window with a specified window object
 function MessageBox(window_object, layer_name, message_title, message_text) constructor {
+	
 	if (!is_child_of(window_object, MessageBoxWindow)) {
 		elog($"** ERROR ** Invalid Window Object for MessageBox. MUST be a child of MessageBoxWindow!");
 	}
@@ -133,7 +134,8 @@ function MessageBox(window_object, layer_name, message_title, message_text) cons
 		// remove the distance_between after the last button, then we have total width of all buttons
 		button_total_width -= MESSAGEBOX_BUTTON_SPACE;
 		
-		window = instance_create(0, 0, __layer_name, __window_object, {
+		var atdepth = layer_exists(layer_get_id(MESSAGEBOX_LAYER)) ? MESSAGEBOX_LAYER : 0;
+		window = instance_create(0, 0, atdepth, __window_object, {
 			title: wintitle,
 			font_to_use: MESSAGEBOX_TITLE_FONT
 		});

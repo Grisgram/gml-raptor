@@ -22,12 +22,25 @@ function construct(_class_name_or_asset) {
 	gml_pragma("forceinline");
 	if (!is_string(_class_name_or_asset)) _class_name_or_asset = script_get_name(_class_name_or_asset);
 	self[$ __PARENT_CONSTRUCTOR_NAME] = string_concat(
-		vsget(self, __PARENT_CONSTRUCTOR_NAME, "|"),
+		"|",
 		_class_name_or_asset,
-		"|"
+		vsget(self, __PARENT_CONSTRUCTOR_NAME, "|")
 	);
 
 	self[$ __CONSTRUCTOR_NAME] = _class_name_or_asset;
+}
+
+/// @func	class_tree(_class_instance)
+/// @desc	Gets the entire class hierarchy as an array for the specified instance.
+///			At position[0] you will find the _class_instance's name and at the
+///			last position of the array you will find the root class name of the tree.
+///			NOTE: This function only works if you used the "construct" function of raptor
+///			and the argument MUST BE a living instance of the class!
+function class_tree(_class_instance) {
+	if (_class_instance == undefined || !struct_exists(_class_instance, __PARENT_CONSTRUCTOR_NAME))
+		return undefined;
+		
+	return string_split(_class_instance[$ __PARENT_CONSTRUCTOR_NAME], "|", true);
 }
 
 /// @func is_class_of(_struct, _class_name)
@@ -146,7 +159,7 @@ function struct_join_into(target, sources) {
 					self[$ name] = method(self, member);
 				else {
 					vsgetx(self, name, member);
-					if (member != undefined && is_struct(member))
+					if (member != undefined && is_struct(member)) 
 						struct_join_into(self[$ name], member);
 					else
 						self[$ name] = member;

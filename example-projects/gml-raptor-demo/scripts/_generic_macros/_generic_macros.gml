@@ -95,12 +95,16 @@ MOUSE_CURSOR = undefined;
 
 // try/catch/finally support
 #macro TRY		try {
-#macro CATCH	} catch (__exception) { \
-					elog(__exception.message); \
-					elog(__exception.longMessage); \
-					elog(__exception.script); \
-					for (var __st_i = 0; __st_i < array_length(__exception.stacktrace);__st_i++) \
-						elog(__exception.stacktrace[@ __st_i]); 
+#macro CATCH	} catch (__exception) {					\
+					if (is_string(__exception))			\
+						elog(__exception);				\
+					else {								\
+						elog(__exception.message);		\
+						elog(__exception.longMessage);	\
+						elog(__exception.script);		\
+						for (var __st_i = 0; __st_i < array_length(__exception.stacktrace);__st_i++) \
+							elog(__exception.stacktrace[@ __st_i]); \
+					}
 #macro FINALLY	} finally {
 #macro ENDTRY   }
 
