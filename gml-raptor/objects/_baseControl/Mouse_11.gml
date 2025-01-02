@@ -1,4 +1,5 @@
 /// @desc mouse_is_over=false
+event_inherited();
 
 // mouse_is_over goes to false, regardless whether we are visible or not.
 // this is for the case, that the mouse _entered_ the control, then became invisible

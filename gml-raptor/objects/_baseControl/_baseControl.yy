@@ -38,6 +38,7 @@
   "physicsShapePoints":[],
   "physicsStartAwake":true,
   "properties":[
+    {"$GMObjectProperty":"v1","%Name":"draw_on_gui","filters":[],"listItems":[],"multiselect":false,"name":"draw_on_gui","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
     {"$GMObjectProperty":"v1","%Name":"text_color","filters":[],"listItems":[],"multiselect":false,"name":"text_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"THEME_CONTROL_TEXT","varType":7,},
     {"$GMObjectProperty":"v1","%Name":"text_color_mouse_over","filters":[],"listItems":[],"multiselect":false,"name":"text_color_mouse_over","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"THEME_CONTROL_TEXT","varType":7,},
     {"$GMObjectProperty":"v1","%Name":"draw_color","filters":[],"listItems":[],"multiselect":false,"name":"draw_color","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"THEME_CONTROL_BACK","varType":7,},
@@ -65,7 +66,6 @@
     {"$GMObjectProperty":"v1","%Name":"text_xoffset","filters":[],"listItems":[],"multiselect":false,"name":"text_xoffset","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
     {"$GMObjectProperty":"v1","%Name":"text_yoffset","filters":[],"listItems":[],"multiselect":false,"name":"text_yoffset","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":1,},
     {"$GMObjectProperty":"v1","%Name":"text_angle","filters":[],"listItems":[],"multiselect":false,"name":"text_angle","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
-    {"$GMObjectProperty":"v1","%Name":"draw_on_gui","filters":[],"listItems":[],"multiselect":false,"name":"draw_on_gui","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
     {"$GMObjectProperty":"v1","%Name":"autosize","filters":[],"listItems":[],"multiselect":false,"name":"autosize","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"True","varType":3,},
     {"$GMObjectProperty":"v1","%Name":"adopt_object_properties","filters":[],"listItems":[
         "adopt_properties.none",

@@ -9,8 +9,11 @@
   "collisionKind":1,
   "collisionTolerance":0,
   "ConfigValues":{
-    "unit_testing":{
+    "mike":{
       "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+    },
+    "release":{
+      "textureGroupId":"{ \"name\":\"Default\", \"path\":\"texturegroups/Default\" }",
     },
   },
   "DynamicTexturePage":false,

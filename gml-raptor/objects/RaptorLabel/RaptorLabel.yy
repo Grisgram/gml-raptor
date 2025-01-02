@@ -16,8 +16,8 @@
     "path":"folders/_gml_raptor_/UI/controls.yy",
   },
   "parentObjectId":{
-    "name":"_baseControlWithTooltip",
-    "path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",
+    "name":"_baseControl",
+    "path":"objects/_baseControl/_baseControl.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

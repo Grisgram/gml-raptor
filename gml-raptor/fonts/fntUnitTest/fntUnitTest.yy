@@ -15,6 +15,9 @@
     "beta":{
       "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
     },
+    "release":{
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+    },
   },
   "first":0,
   "fontName":"Droid Sans Mono",

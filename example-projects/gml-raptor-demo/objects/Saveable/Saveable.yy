@@ -14,8 +14,8 @@
     "path":"folders/_gml_raptor_/Savegame.yy",
   },
   "parentObjectId":{
-    "name":"_raptorBase",
-    "path":"objects/_raptorBase/_raptorBase.yy",
+    "name":"_raptorTooltipBase",
+    "path":"objects/_raptorTooltipBase/_raptorTooltipBase.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

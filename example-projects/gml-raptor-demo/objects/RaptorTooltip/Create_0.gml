@@ -5,41 +5,34 @@ event_inherited();
 // this variable holds the object for which the tooltip is shown
 tooltip_parent = undefined;
 
-__active = false;
-__frame_countdown = -1;
-__last_activation_delay_frames = -1;
-__counting_up = false;
-
 __apply_autosize_alignment = function() {
 }
 
 __apply_post_positioning = function() {
 }
 
-/// @func	update_tooltip_text()
-/// @desc	Invoked when the tooltip becomes visible. Returns own text by default.
-///			Override, if you need to check for changed text on every shown-event
-update_tooltip_text = function() {
-	return text;
+__align_to_mouse = function() {
+	if (draw_on_gui) {
+		x = max(0, min(GUI_MOUSE_X + mouse_xoffset, UI_VIEW_WIDTH_SCALED - SELF_WIDTH ));
+		y = max(0, min(GUI_MOUSE_Y + mouse_yoffset, UI_VIEW_HEIGHT_SCALED - SELF_HEIGHT));
+	} else {
+		x = max(0, min(mouse_x + mouse_xoffset, VIEW_WIDTH  - SELF_WIDTH));
+		y = max(0, min(mouse_y + mouse_yoffset, VIEW_HEIGHT - SELF_HEIGHT));
+	}
 }
 
 /// @func	activate(delay_frames = -1)
 /// @desc	activate the tooltip to invoke func when shown 
-activate = function(delay_frames = -1) {
-	if (__frame_countdown <= -1) {
-		__frame_countdown = (delay_frames >= 0 ? delay_frames : GUI_RUNTIME_CONFIG.tooltip_delay_frames);
-	}
-	if (!__counting_up)
-		__last_activation_delay_frames = __frame_countdown;
-	vlog($"{MY_NAME}: Tooltip activated: delay_frames={__frame_countdown};");
-	__counting_up = false;
-	__active = true;
+activate = function() {
+	vlog($"{MY_NAME}: Tooltip activated on '{name_of(tooltip_parent)}'");
+	__align_to_mouse();
+	visible = true;
 }
 
 /// @func	deactivate()
 /// @desc	reset tooltip and hide
 deactivate = function() {
-	__active = false;
+	vlog($"{MY_NAME}: Tooltip deactivated on '{name_of(tooltip_parent)}'");
 	visible = false;
 	text = "";
 	tooltip_parent = undefined;

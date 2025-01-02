@@ -80,9 +80,9 @@ global.__unique_count_up_id	= 0;
 #macro GUI_EVENT_DRAW				if (parent_scrollpanel != undefined ||  SELF_DRAW_ON_GUI) exit;
 #macro GUI_EVENT_DRAW_GUI			if (parent_scrollpanel != undefined || !SELF_DRAW_ON_GUI) exit;
 
-#macro __DUMP_GUI_EVENT_MOUSE		ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} event_lock:{__GUI_MOUSE_EVENT_LOCK} target:{__CONTROL_IS_TARGET_MOUSE} enabled:{__CONTROL_IS_ENABLED} topmost={is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active}");
-#macro __DUMP_GUI_EVENT_NO_MOUSE	ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} target:{__CONTROL_IS_TARGET_XY} topmost={is_topmost(x, y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active}");
-#macro __DUMP_GUI_EVENT_UNTARGETTED	ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} enabled:{SELF_IS_ENABLED} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active}");
+#macro __DUMP_GUI_EVENT_MOUSE		ilog($"{MY_NAME} unreachable={__INSTANCE_UNREACHABLE} event_lock={__GUI_MOUSE_EVENT_LOCK} target={__CONTROL_IS_TARGET_MOUSE} enabled={__CONTROL_IS_ENABLED} topmost={is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active} RESULT={(SKIP_EVENT_MOUSE ? "EXIT" : "OK")}");
+#macro __DUMP_GUI_EVENT_NO_MOUSE	ilog($"{MY_NAME} unreachable={__INSTANCE_UNREACHABLE} target={__CONTROL_IS_TARGET_XY} topmost={is_topmost(x, y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active} RESULT={(SKIP_EVENT_NO_MOUSE ? "EXIT" : "OK")}");
+#macro __DUMP_GUI_EVENT_UNTARGETTED	ilog($"{MY_NAME} unreachable={__INSTANCE_UNREACHABLE} enabled={SELF_IS_ENABLED} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active} RESULT={(SKIP_EVENT_UNTARGETTED ? "EXIT" : "OK")}");
 
 #macro DEPTH_BOTTOM_MOST			 15998
 #macro DEPTH_TOP_MOST				-15998
