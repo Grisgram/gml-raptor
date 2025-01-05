@@ -118,7 +118,7 @@ function object_tree(_object_or_instance, _as_strings = true) {
 /// @param {object_index} _instance	The instance to retrieve the name of.
 function name_of(_instance, _with_ref_id = true) {
 	if (!is_null(_instance)) {
-		if (variable_struct_exists(_instance, "object_index"))
+		if (instance_exists(_instance) && variable_struct_exists(_instance, "object_index"))
 			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
 		else {
 			if (IS_HTML) {

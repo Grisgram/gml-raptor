@@ -80,7 +80,7 @@ function directory_read_data_tree_async(_folder, _file_task_callback = undefined
 		var child = rv;
 		for (var j = 0, jen = array_length(sa); j < jen; j++) {
 			var next = sa[@j];
-			child[$ next] = {};
+			child[$ next] ??= {};
 			child = child[$ next];
 		}
 		

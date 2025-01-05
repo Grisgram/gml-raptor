@@ -27,7 +27,7 @@
 
 /// stringify data of "self"
 #macro MY_ID				string(real(id))
-#macro MY_NAME				string_concat(object_get_name(object_index), real(id))
+#macro MY_NAME				string_concat(object_get_name(object_index), "-", real(id))
 #macro MY_CLASS_NAME		name_of(self, false)
 #macro MY_OBJECT_NAME		object_get_name(object_index)
 #macro MY_LAYER_OR_DEPTH	((layer == -1) ? depth : layer_get_name(layer))
@@ -66,7 +66,7 @@ global.__unique_count_up_id	= 0;
 #macro __INSTANCE_UNREACHABLE		(__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP || !__INSIDE_CLIPPING_AREA)
 
 // All controls skip their events, if this is true
-#macro SKIP_EVENT_MOUSE				(__INSTANCE_UNREACHABLE || __GUI_MOUSE_EVENT_LOCK || !__CONTROL_IS_TARGET_MOUSE)
+#macro SKIP_EVENT_MOUSE				(is_mouse_over_debug_overlay() || __INSTANCE_UNREACHABLE || __GUI_MOUSE_EVENT_LOCK || !__CONTROL_IS_TARGET_MOUSE)
 #macro SKIP_EVENT_NO_MOUSE			(__INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_XY)
 #macro SKIP_EVENT_UNTARGETTED		(__INSTANCE_UNREACHABLE || !SELF_IS_ENABLED)
 

@@ -96,6 +96,8 @@ __disabled_text_surface_width	= 0;
 __disabled_text_surface_height	= 0;
 __disabled_text_offset_x		= 0;
 __disabled_text_offset_y		= 0;
+__disabled_text_backup_x		= 0;
+__disabled_text_backup_y		= 0;
 
 __animate_draw_color = function(_to) {
 	if (color_anim_frames == 0) {
@@ -547,16 +549,16 @@ __draw_instance = function(_force = false) {
 				if      (string_contains(scribble_text_align, "[fa_middle]")) __disabled_text_offset_y = __disabled_text_surface_height / 2;
 				else if (string_contains(scribble_text_align, "[fa_bottom]")) __disabled_text_offset_y = __disabled_text_surface_height;
 
-				var backx = __text_x;
-				var backy = __text_y;
+				__disabled_text_backup_x = __text_x;
+				__disabled_text_backup_y = __text_y;
 				__text_x = __disabled_text_offset_x;
 				__text_y = __disabled_text_offset_y;
 				
 				__disabled_text_surface.Start();
 				draw_scribble_text();
 				__disabled_text_surface.Finish();
-				__text_x = backx;
-				__text_y = backy;
+				__text_x = __disabled_text_backup_x;
+				__text_y = __disabled_text_backup_y;
 			}
 
 			shader_set(DisabledShader);

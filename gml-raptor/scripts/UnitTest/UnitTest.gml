@@ -342,7 +342,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			try {
 				struct_get(tests, __current_test_name)(self, __data_for_test);
 			} catch (_ex) {
-				var exm = is_string(_ex) ? _ex : _ex.message;
+				var exm = is_string(_ex) ? _ex : _ex.longMessage;
 				if (__current_test_exc == undefined ||
 						(!string_is_empty(__current_test_exc) && !string_contains(exm, __current_test_exc) &&
 							(!IS_HTML || string_contains(exm, "undefined to a number"))

@@ -50,7 +50,7 @@ set_content = function(_instance, _custom_draw_method = undefined) {
 
 	clear_content();
 	content = _instance;
-	draw_method = _custom_draw_method ?? vsget(content, "__draw_self");
+	draw_method = (_custom_draw_method ?? vsget(content, "__draw_self")) ?? draw_self;
 	content.parent_scrollpanel = self;
 	content.depth = depth + 1;
 	return self;
@@ -141,29 +141,32 @@ __draw_instance = function(_force = false) {
 		if (SELF_HAVE_MOVED && control_tree != undefined) 
 			control_tree.move_children(SELF_MOVE_DELTA_X, SELF_MOVE_DELTA_Y);
 
-	// calculate scissor multiplier based on draw mode	
+	// calculate scissor multiplier based on draw mode
+	__ap		= application_get_position();
+	__aw		= __ap[2] - __ap[0] + 1;
+	__ah		= __ap[3] - __ap[1] + 1;
+	__scale_x	= __aw / APP_SURF_WIDTH;
+	__scale_y	= __ah / APP_SURF_HEIGHT;
+	
 	if (draw_on_gui) {
-		__ap		= application_get_position();
-		__aw		= __ap[2] - __ap[0] + 1;
-		__ah		= __ap[3] - __ap[1] + 1;
-		__scale_x	= __aw / APP_SURF_WIDTH;
-		__scale_y	= __ah / APP_SURF_HEIGHT;
+		__draw_x	= translate_gui_to_world_x(x);
+		__draw_y	= translate_gui_to_world_y(y);
 	} else {
-		__ap		= __ap_default;
-		__scale_x	= 1;
-		__scale_y	= 1;
+		__draw_x	= x;
+		__draw_y	= y;
 	}
 	
 	__base_draw_instance(_force);
 	__scissor = gpu_get_scissor();
 	gpu_set_scissor(
-		x * __scale_x + __ap[0], 
-		y * __scale_y + __ap[1], 
+		__draw_x * __scale_x + __ap[0], 
+		__draw_y * __scale_y + __ap[1], 
 		ceil(__clipw * __scale_x), 
 		ceil(__cliph * __scale_y)
 	);
 	with(content) {
-		if (other.draw_method != undefined) other.draw_method(); else draw_self();
+		other.draw_method();
+		//if (other.draw_method != undefined) other.draw_method(); else draw_self();
 	}
 	gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);
 }
