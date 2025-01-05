@@ -77,8 +77,10 @@ visible = true;
 
 companion = undefined;
 
-__have_default = true;
-__custom = undefined;
+__have_default		= true;
+__custom			= undefined;
+__now_over_debug	= false;
+__prev_over_debug	= false;
 
 onSkinChanging = function(_skindata) {
 	__havedefault	= (sprite_index == mouse_cursor_sprite);
@@ -87,6 +89,26 @@ onSkinChanging = function(_skindata) {
  
 onSkinChanged = function(_skindata) {
 	sprite_index = (__havedefault ? mouse_cursor_sprite : __custom);	
+}
+
+__align_to_mouse = function() {
+	
+	__now_over_debug = global.__debug_shown && is_mouse_over_debug_overlay();
+	if (__prev_over_debug != __now_over_debug) {
+		__prev_over_debug = __now_over_debug;
+		window_set_cursor(__now_over_debug ? cr_default : cr_none);
+		visible = !__now_over_debug;
+	}
+	if (__now_over_debug)
+		return;
+	
+	x = GUI_MOUSE_X;
+	y = GUI_MOUSE_Y;
+
+	if (companion != undefined) {
+		companion.x = x + sprite_width + companion_offset_x + companion.sprite_xoffset;
+		companion.y = y + sprite_height / 2 + companion_offset_y + companion.sprite_yoffset;
+	}
 }
 
 /// @func set_cursor_custom(_cursor_sprite)
