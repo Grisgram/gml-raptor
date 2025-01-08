@@ -22,6 +22,10 @@ __SAVEGAME_CONTINUE_LOAD_STATE			= undefined;
 #macro ENSURE_GLOBALDATA	if (!variable_global_exists("__global_data"))	global.__global_data = {};
 ENSURE_GLOBALDATA;
 
+#macro RAPTOR_SAVEGAMEDATA	GLOBALDATA.__raptor_savegamedata
+#macro ENSURE_RAPTOR_SAVEGAMEDATA	ENSURE_GLOBALDATA; if (!struct_exists(GLOBALDATA, "__raptor_savegamedata"))	RAPTOR_SAVEGAMEDATA = {};
+ENSURE_RAPTOR_SAVEGAMEDATA;
+
 // This macro is used internally on objects that push their own data
 // into the savegame. __raptordata is the root of internal data structs
 #macro ENSURE_RAPTORDATA	vsgetx(self, "data", {}); vsgetx(data, "__raptordata", {});
