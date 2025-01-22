@@ -5,11 +5,17 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-#macro __CONSTRUCTOR_NAME			"##_raptor_##.__constructor"
-#macro __PARENT_CONSTRUCTOR_NAME	"##_raptor_##.__parent_constructor"
-#macro __INTERFACES_NAME			"##_raptor_##.__interfaces"
+#macro __CONSTRUCTOR_NAME					"##_raptor_##.__constructor"
+#macro __PARENT_CONSTRUCTOR_NAME			"##_raptor_##.__parent_constructor"
+#macro __INTERFACES_NAME					"##_raptor_##.__interfaces"
 
-#macro interface	() constructor
+#macro interface							() constructor
+
+#macro __STRUCT_JOIN_CIRCULAR_LEVEL			global.__struct_join_circular_level
+#macro __STRUCT_JOIN_CIRCULAR_CACHE			global.__struct_join_circular_cache
+#macro __ENSURE_STRUCT_JOIN_CIRCULAR_CACHE	if (!variable_global_exists("__struct_join_circular_cache")) { __STRUCT_JOIN_CIRCULAR_CACHE = []; __STRUCT_JOIN_CIRCULAR_LEVEL = 0; }
+__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
+__STRUCT_JOIN_CIRCULAR_LEVEL = 0;
 
 /// @func	construct(_class_name_or_asset)
 /// @desc	Register a class as a constructible class to raptor.
@@ -146,8 +152,14 @@ function struct_join(structs) {
 ///			all members from source to target.
 ///			NOTE: This is NOT a deep copy! If source contains other struct
 ///			references, they are simply copied, not recursively converted to new references!
+///			Circular references are handled. It is safe to join child-parent-child references.
 ///			ATTENTION! No static members can be transferred! Best use this for data structs only!
 function struct_join_into(target, sources) {
+	__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = [];
+	
+	__STRUCT_JOIN_CIRCULAR_LEVEL++;
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
 		var names = struct_get_names(from);
@@ -159,14 +171,21 @@ function struct_join_into(target, sources) {
 					self[$ name] = method(self, member);
 				else {
 					vsgetx(self, name, member);
-					if (member != undefined && is_struct(member)) 
+					if (member != undefined && 
+						is_struct(member) && 
+						!array_contains(__STRUCT_JOIN_CIRCULAR_CACHE, member)) {
+						array_push(__STRUCT_JOIN_CIRCULAR_CACHE, member);
 						struct_join_into(self[$ name], member);
-					else
+					} else
 						self[$ name] = member;
 				}
 			}
 		}
 	}
+	__STRUCT_JOIN_CIRCULAR_LEVEL--;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = [];
+		
 	return target;
 }
 

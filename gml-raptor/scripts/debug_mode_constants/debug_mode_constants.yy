@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"Draw_Debug_Info",
+  "%Name":"debug_mode_constants",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"Draw_Debug_Info",
+  "name":"debug_mode_constants",
   "parent":{
-    "name":"__GAME_SETUP__",
-    "path":"folders/__GAME_SETUP__.yy",
+    "name":"Debug",
+    "path":"folders/_gml_raptor_/Debug.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

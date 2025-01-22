@@ -32,5 +32,20 @@ if (WATCH_FOR_WINDOW_SIZE_CHANGE && GAME_FRAME % 6 == 0) {
 	WINDOW_SIZE_HAS_CHANGED = WINDOW_SIZE_DELTA_X != 0 || WINDOW_SIZE_DELTA_Y != 0;
 }
 
+// Camera update
+__cam_left			= CAM_LEFT_EDGE;
+__cam_top			= CAM_TOP_EDGE;
+__cam_width			= CAM_WIDTH;
+__cam_height		= CAM_HEIGHT;
+
+CAM_HAS_MOVED		= (CAM_X_PREVIOUS != __cam_left || CAM_Y_PREVIOUS != __cam_top);
+CAM_HAS_SIZED		= (CAM_WIDTH_PREVIOUS != __cam_width || CAM_HEIGHT_PREVIOUS != __cam_height);
+CAM_HAS_CHANGED		= (CAM_HAS_MOVED || CAM_HAS_SIZED);
+
+CAM_X_PREVIOUS		= __cam_left;
+CAM_Y_PREVIOUS		= __cam_top;
+CAM_WIDTH_PREVIOUS	= __cam_width;
+CAM_HEIGHT_PREVIOUS	= __cam_height;
+
 DELTA_TIME_SECS_REAL	= delta_time / 1000000;
 DELTA_TIME_SECS			= DELTA_TIME_SECS_REAL * GAME_SPEED;

@@ -25,6 +25,31 @@ control_tree = vsgetx(self, "control_tree", undefined);
 control_tree_layout = vsgetx(self, "control_tree_layout", undefined);
 data.__raptordata.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 
+/// @func	get_gui_world_offset(_coord2 = undefined)
+/// @desc	if this control draws on gui, you can get the offset
+///			between gui position and current room position (camera)
+///			of this control.
+///			To do something on the world/room position of this control,
+///			do it at x + offset.x
+get_gui_world_offset = function(_coord2 = undefined) {
+	var rv = _coord2 ?? new Coord2();
+	if (SELF_DRAW_ON_GUI) translate_gui_to_world(x, y, rv).add(-x, -y);
+	else rv.set(0, 0);
+	return rv;
+}
+
+/// @func	get_gui_world_offset_x()
+/// @desc	x offset only, see get_gui_world_offset() description
+get_gui_world_offset_x = function() {
+	return SELF_DRAW_ON_GUI ? translate_gui_to_world_x(x) - x : 0;
+}
+
+/// @func	get_gui_world_offset_y()
+/// @desc	y offset only, see get_gui_world_offset() description
+get_gui_world_offset_y = function() {
+	return SELF_DRAW_ON_GUI ? translate_gui_to_world_y(y) - y : 0;
+}
+
 /// @func update_client_area()
 update_client_area = function() {
 	data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height);
@@ -533,6 +558,10 @@ __draw_instance = function(_force = false) {
 			draw_scribble_text();
 		} else {
 			if (__disabled_text_surface == undefined) {
+				__text_transform_running = false;
+				animation_abort_all(self);
+				__scribble_text.transform(1, 1, text_angle);
+				
 				if (__disabled_text_surface_height == 0) {
 					__disabled_text_surface_width = __scribble_text.get_width();
 					__disabled_text_surface_height = __scribble_text.get_height();

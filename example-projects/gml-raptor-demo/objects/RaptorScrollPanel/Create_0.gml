@@ -79,8 +79,10 @@ clear_content = function() {
 mouse_over_content = function() {
 	return point_in_rectangle(
 		CTL_MOUSE_X, CTL_MOUSE_Y,
-		SELF_VIEW_LEFT_EDGE, SELF_VIEW_TOP_EDGE,
-		SELF_VIEW_LEFT_EDGE + __clipw - 1, SELF_VIEW_TOP_EDGE + __cliph - 1
+		SELF_VIEW_LEFT_EDGE, 
+		SELF_VIEW_TOP_EDGE,
+		SELF_VIEW_LEFT_EDGE + __clipw * (draw_on_gui ? UI_CAM_TO_VIEW_FACTOR_X : 1) - 1, 
+		SELF_VIEW_TOP_EDGE  + __cliph * (draw_on_gui ? UI_CAM_TO_VIEW_FACTOR_Y : 1) - 1
 	);
 }
 
@@ -145,12 +147,16 @@ __draw_instance = function(_force = false) {
 	__ap		= application_get_position();
 	__aw		= __ap[2] - __ap[0] + 1;
 	__ah		= __ap[3] - __ap[1] + 1;
-	__scale_x	= __aw / APP_SURF_WIDTH;
+	__scale_x	= __aw / APP_SURF_WIDTH ;
 	__scale_y	= __ah / APP_SURF_HEIGHT;
 	
 	if (draw_on_gui) {
-		__draw_x	= translate_gui_to_world_x(x);
-		__draw_y	= translate_gui_to_world_y(y);
+		__draw_x	= x * UI_VIEW_TO_CAM_FACTOR_X;
+		__draw_y	= y * UI_VIEW_TO_CAM_FACTOR_Y;
+		__scale_x	/= UI_VIEW_TO_CAM_FACTOR_X;
+		__scale_y	/= UI_VIEW_TO_CAM_FACTOR_Y;
+		__clipw		*= UI_VIEW_TO_CAM_FACTOR_X;
+		__cliph		*= UI_VIEW_TO_CAM_FACTOR_Y;
 	} else {
 		__draw_x	= x;
 		__draw_y	= y;
@@ -158,6 +164,8 @@ __draw_instance = function(_force = false) {
 	
 	__base_draw_instance(_force);
 	__scissor = gpu_get_scissor();
+	//dlog($"SCISSOR DEBUG: {(__draw_x * __scale_x + __ap[0])}/{(__draw_y * __scale_y + __ap[1])}, {ceil(__clipw * __scale_x)}x{ceil(__cliph * __scale_y)}");
+	//dlog($"SCISSOR DEBUG: {__draw_x} * {__scale_x}, {__draw_y} * {__scale_y}");
 	gpu_set_scissor(
 		__draw_x * __scale_x + __ap[0], 
 		__draw_y * __scale_y + __ap[1], 

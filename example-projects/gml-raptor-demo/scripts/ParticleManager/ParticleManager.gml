@@ -105,13 +105,26 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 	static emitter_attach = function(name_or_emitter, instance, layer_name_or_depth = undefined, particle_type_name = undefined,
 									 follow_this_instance = true, use_object_pools = true) {
 		var ix  = __system_index;
-		var xp	= instance.x;
-		var yp	= instance.y;
+		
+		var xgui	= 0;
+		var ygui	= 0;
+		var is_gui = instance[$ "draw_on_gui"] ?? false;
+		
+		var xp	= instance.x + xgui;
+		var yp	= instance.y + ygui;
+		
+		var init = {
+			x				: xp,
+			y				: yp,
+			is_gui_draw		: is_gui,
+			partsys_index	: ix,
+			follow_instance	: follow_this_instance ? instance : undefined,
+		};
 		
 		layer_name_or_depth = layer_name_or_depth ?? __layer_name;
 		var rv	= use_object_pools ?
-			pool_get_instance(__POOL_EMITTERS, __emitter_object, layer_name_or_depth) :
-			instance_create(xp, yp, layer_name_or_depth, __emitter_object);
+			pool_get_instance(__POOL_EMITTERS, __emitter_object, layer_name_or_depth, init) :
+			instance_create(xp, yp, layer_name_or_depth, __emitter_object, init);
 
 		with(rv) if (stream_on_create) stop(); // stop for now - you don't have a particle!
 
@@ -121,15 +134,12 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 		particle_type_name = particle_type_name ?? emi.default_particle;
 
 		with(rv) {
-			x = xp;
-			y = yp;
-			partsys_index = ix;
-			follow_instance = follow_this_instance ? instance : undefined;
-			emitter_name = name_or_emitter;
-			__my_emitter = name_or_emitter;
-			stream_particle_name = particle_type_name;
-			burst_particle_name = particle_type_name;
-			if (stream_on_create) stream(); // NOW you may stream!
+			emitter_name			= name_or_emitter;
+			__my_emitter			= name_or_emitter;
+			stream_particle_name	= particle_type_name;
+			burst_particle_name		= particle_type_name;
+			
+			if (stream_on_create) rv = stream(); // NOW you may stream!
 		}	
 		
 		if (DEBUG_LOG_PARTICLES)
@@ -215,6 +225,15 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			rng.scale_to(instance);
 	}
 	
+	/// @func	emitter_scale_to_factor(name_or_emitter, _xscale, _yscale)
+	/// @desc	scales the emitter range to a specified factor in x and y
+	static emitter_scale_to_factor = function(name_or_emitter, _xscale, _yscale) {
+		name_or_emitter = __resolve_emitter_name(name_or_emitter);
+		var rng = struct_get(__emitter_ranges, name_or_emitter);
+		if (rng != undefined)
+			rng.scale_to_factor(_xscale, _yscale);
+	}
+
 	/// @func	emitter_get_range_min(name_or_emitter)
 	/// @desc	Gets the min coordinates of an emitter as Coord2 or Coord2(-1,-1) if not found
 	static emitter_get_range_min = function(name_or_emitter) {
@@ -264,7 +283,7 @@ function ParticleManager(particle_layer_name, system_index = 0) constructor {
 			names = struct_get_names(__emitters);
 			i = 0; repeat(array_length(names)) {
 				if (variable_struct_exists(__emitters, names[i]) && 
-					struct_get   (__emitters, names[i]) != undefined) {
+					struct_get(__emitters, names[i]) != undefined) {
 					var emitter = struct_get(__emitters, names[i]).emitter;
 					part_emitter_clear(system, emitter);
 					part_emitter_destroy(system, emitter);
@@ -422,13 +441,22 @@ function __emitter_range(name) constructor {
 		return self;
 	}
 	
-	/// @func		scale_to(instance)
-	static scale_to = function(instance) {
-		minco.set(ctor.minco.x * instance.image_xscale, ctor.minco.y * instance.image_yscale);
-		maxco.set(ctor.maxco.x * instance.image_xscale, ctor.maxco.y * instance.image_yscale);
+	/// @func		scale_to(_instance)
+	static scale_to = function(_instance) {
+		minco.set(ctor.minco.x * _instance.image_xscale, ctor.minco.y * _instance.image_yscale);
+		maxco.set(ctor.maxco.x * _instance.image_xscale, ctor.maxco.y * _instance.image_yscale);
 		center.set((maxco.x - minco.x) / 2, (maxco.y - minco.y) / 2);
 		baseminco.set(minco.x, minco.y);
 		basemaxco.set(maxco.x, maxco.y);
+	}
+
+	/// @func	scale_to_factor(_xscale, _yscale)
+	static scale_to_factor = function(_xscale, _yscale) {
+		minco.set(ctor.minco.x * _xscale, ctor.minco.y * _yscale);
+		maxco.set(ctor.maxco.x * _xscale, ctor.maxco.y * _yscale);
+		center.set((maxco.x - minco.x) / 2, (maxco.y - minco.y) / 2);
+		baseminco.set(minco.x, minco.y);
+		basemaxco.set(maxco.x, maxco.y);		
 	}
 	
 	toString = function() {

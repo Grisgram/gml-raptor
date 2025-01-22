@@ -89,7 +89,8 @@ set_gui_size = function(_gui_width, _gui_height) {
 	display_set_gui_size(_gui_width, _gui_height);
 	__ui_root_control.maximize_on_screen();
 }
-set_gui_size(CAM_WIDTH, CAM_HEIGHT);
+set_gui_size(VIEW_WIDTH, VIEW_HEIGHT);
+//set_gui_size(CAM_WIDTH, CAM_HEIGHT);
 
 #macro GUI_MOUSE_X_PREVIOUS		global.__gui_mouse_xprevious
 #macro GUI_MOUSE_Y_PREVIOUS		global.__gui_mouse_yprevious
@@ -128,13 +129,29 @@ MOUSE_Y_PREVIOUS = mouse_y;
 #macro WINDOW_SIZE_Y_PREVIOUS	global.__window_size_yprevious
 #macro WINDOW_SIZE_HAS_CHANGED	global.__window_size_has_changed
 
-WINDOW_SIZE_X			= window_get_width();
-WINDOW_SIZE_Y			= window_get_height();
-WINDOW_SIZE_DELTA_X		= 0;
-WINDOW_SIZE_DELTA_Y		= 0;
-WINDOW_SIZE_X_PREVIOUS	= WINDOW_SIZE_X;
-WINDOW_SIZE_Y_PREVIOUS	= WINDOW_SIZE_Y;
-WINDOW_SIZE_HAS_CHANGED	= false;
+WINDOW_SIZE_X					= window_get_width();
+WINDOW_SIZE_Y					= window_get_height();
+WINDOW_SIZE_DELTA_X				= 0;
+WINDOW_SIZE_DELTA_Y				= 0;
+WINDOW_SIZE_X_PREVIOUS			= WINDOW_SIZE_X;
+WINDOW_SIZE_Y_PREVIOUS			= WINDOW_SIZE_Y;
+WINDOW_SIZE_HAS_CHANGED			= false;
+
+#macro CAM_X_PREVIOUS			global.__cam_x_previous
+#macro CAM_Y_PREVIOUS			global.__cam_y_previous
+#macro CAM_WIDTH_PREVIOUS		global.__cam_width_previous
+#macro CAM_HEIGHT_PREVIOUS		global.__cam_height_previous
+#macro CAM_HAS_SIZED			global.__cam_has_sized
+#macro CAM_HAS_MOVED			global.__cam_has_moved
+#macro CAM_HAS_CHANGED			global.__cam_has_changed
+
+CAM_X_PREVIOUS					= CAM_LEFT_EDGE;
+CAM_Y_PREVIOUS					= CAM_TOP_EDGE;
+CAM_WIDTH_PREVIOUS				= CAM_WIDTH;
+CAM_HEIGHT_PREVIOUS				= CAM_HEIGHT;
+CAM_HAS_SIZED					= false;
+CAM_HAS_MOVED					= false;
+CAM_HAS_CHANGED					= false;
 
 #macro GAME_SPEED				global.__game_speed
 GAME_SPEED = 1;
@@ -149,6 +166,7 @@ DELTA_TIME_SECS_REAL = 0;
 
 #region DRAW DEBUG FRAMES
 __dbg_inst		= undefined;
+__dbg_scale		= new Coord2();
 __dbg_trans		= new Coord2();
 __dbg_tl		= new Coord2();
 __dbg_tr		= new Coord2();
@@ -163,6 +181,8 @@ __dbg_cos		= 0;
 __dbg_sin		= 0;
 
 __draw_bbox_rotated = function() {
+	__dbg_scale.set(UI_VIEW_TO_CAM_FACTOR_X, UI_VIEW_TO_CAM_FACTOR_Y);
+	
 	for (var i = 0; i < instance_count; i++;) {
 		__dbg_inst = instance_id[i];
 
@@ -177,10 +197,10 @@ __draw_bbox_rotated = function() {
 			else 
 				other.__dbg_trans.set(x, y);
 		}
-			
-		__dbg_tl.set(-__dbg_inst.sprite_xoffset, -__dbg_inst.sprite_yoffset);
-		__dbg_tr.set(__dbg_tl.x + __dbg_inst.sprite_width - 1, __dbg_tl.y);
-		__dbg_bl.set(__dbg_tl.x, __dbg_tl.y + __dbg_inst.sprite_height - 1);
+		
+		__dbg_tl.set(-__dbg_inst.sprite_xoffset * __dbg_scale.x, -__dbg_inst.sprite_yoffset * __dbg_scale.y);
+		__dbg_tr.set(__dbg_tl.x + (__dbg_inst.sprite_width - 1) * __dbg_scale.x, __dbg_tl.y);
+		__dbg_bl.set(__dbg_tl.x, __dbg_tl.y + (__dbg_inst.sprite_height - 1) * __dbg_scale.y);
 		__dbg_br.set(__dbg_tr.x, __dbg_bl.y);
 
 		__dbg_angle		= degtorad(-__dbg_inst.image_angle);
@@ -232,9 +252,15 @@ CAM_MIN_Y	= 0;
 CAM_MAX_X	= room_width;
 CAM_MAX_Y	= room_height;
 
-__screen_shaking = false;
-/// @func					screen_shake(frames, xinstensity, yintensity, camera_index = 0)
-/// @desc				lets rumble! NOTE: Ignored, if already rumbling!
+__current_cam_action	= undefined;
+__cam_left				= CAM_LEFT_EDGE;
+__cam_top				= CAM_TOP_EDGE;
+__cam_width				= CAM_WIDTH;
+__cam_height			= CAM_HEIGHT;
+
+__screen_shaking		= false;
+/// @func	screen_shake(frames, xinstensity, yintensity, camera_index = 0)
+/// @desc	lets rumble! NOTE: Ignored, if already rumbling!
 screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	if (__screen_shaking) {
 		dlog($"Screen_shake ignored. Already shaking!");
@@ -255,8 +281,8 @@ screen_shake = function(frames, xinstensity, yintensity, camera_index = 0) {
 	return a; 
 }
 
-/// @func					camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
-/// @desc				zoom the camera animated by X pixels
+/// @func	camera_zoom_to(frames, new_width, enqueue_if_running = true, camera_index = 0)
+/// @desc	zoom the camera animated by X pixels
 camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running, true);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -266,8 +292,8 @@ camera_zoom_to = function(frames, new_width, enqueue_if_running = true, camera_i
 	return a; 
 }
 
-/// @func					camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
-/// @desc				zoom the camera animated by X pixels
+/// @func	camera_zoom_by(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0)
+/// @desc	zoom the camera animated by X pixels
 camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_zoom, enqueue_if_running, true);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -279,13 +305,12 @@ camera_zoom_by = function(frames, width_delta, min_width, max_width, enqueue_if_
 	return a; 
 }
 
-/// @func					camera_move_to(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0)
-/// @desc				move the camera animated to a specified position with an optional
-///								alignment.
-///								The cam_align enum can be used to specify a different alignment than
-///								the default of top_left. For instance, if you specify align.middle_center here,
-///								this function works like a kind of "look at that point", as the CENTER of the view
-///								will be at target_x, target_y coordinates.
+/// @func	camera_move_to(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0)
+/// @desc	move the camera animated to a specified position with an optional alignment.
+///			The cam_align enum can be used to specify a different alignment than
+///			the default of top_left. For instance, if you specify align.middle_center here,
+///			this function works like a kind of "look at that point", as the CENTER of the view
+///			will be at target_x, target_y coordinates.
 camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true, camera_align = cam_align.top_left, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_move, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -297,8 +322,8 @@ camera_move_to = function(frames, target_x, target_y, enqueue_if_running = true,
 	return a; 
 }
 
-/// @func					camera_move_by(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0)
-/// @desc				move the camera animated by a specified distance
+/// @func	camera_move_by(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0)
+/// @desc	move the camera animated by a specified distance
 camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = true, camera_index = 0) {
 	var a = new camera_action_data(camera_index, frames, __camera_action_move, enqueue_if_running);
 	// as this is an enqueued action, the data calculation must happen in the camera action on first call
@@ -309,8 +334,8 @@ camera_move_by = function(frames, distance_x, distance_y, enqueue_if_running = t
 	return a; 
 }
 
-/// @func					camera_look_at(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0)
-/// @desc				move the camera animated so that target_x and target_y are in the center of the screen when finished.
+/// @func	camera_look_at(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0)
+/// @desc	move the camera animated so that target_x and target_y are in the center of the screen when finished.
 camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true, camera_index = 0) {
 	return camera_move_to(frames, target_x, target_y, enqueue_if_running, cam_align.middle_center, camera_index);
 }
@@ -342,9 +367,9 @@ if (room != rmStartup && room != array_last(__TRANSIT_ROOM_CHAIN)) {
 	vlog($"{ROOM_NAME} recorded in transit chain, length is now {array_length(__TRANSIT_ROOM_CHAIN)}");
 }
 
-/// @func		transit(_transition, skip_if_another_running = false)
+/// @func	transit(_transition, skip_if_another_running = false)
 /// @desc	Perform an animated transition to another room
-///					See RoomTransitions script for more info
+///			See RoomTransitions script for more info
 transit = function(_transition, skip_if_another_running = false) {
 	if (skip_if_another_running && TRANSITION_RUNNING) {
 		wlog($"** WARNING ** Transition ignored, another one is running");

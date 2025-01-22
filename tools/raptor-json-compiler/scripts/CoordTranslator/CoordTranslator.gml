@@ -3,132 +3,116 @@
 */
 
 #region GUI TO WORLD
-/// @func			translate_gui_to_world(gui_x, gui_y, coord2 = undefined)
-/// @desc		translate the specified ui coordinates to the current
-///						camera's view world coordinates.
-///						The optional coord2 parameter can be used to fill
-///						an existing instance of Coord2 with the values and
-///						therefore avoid creating new instances.
-///						Consider this for performance and GC.
-/// @param {real} gui_x
-/// @param {real} gui_y
-/// @param {Coord2=undefined} coord2
-/// @returns {Coord2} the result
+/// @func	translate_gui_to_world(gui_x, gui_y, coord2 = undefined)
+/// @desc	translate the specified ui coordinates to the current
+///			camera's view world coordinates.
+///			The optional coord2 parameter can be used to fill
+///			an existing instance of Coord2 with the values and
+///			therefore avoid creating new instances.
+///			Consider this for performance and GC.
 function translate_gui_to_world(gui_x, gui_y, coord2 = undefined) {
 	coord2 ??= new Coord2();
 
-	var xfac = CAM_WIDTH  / UI_VIEW_WIDTH  * UI_SCALE;
-	var yfac = CAM_HEIGHT / UI_VIEW_HEIGHT * UI_SCALE;
+	var xfac = UI_VIEW_TO_CAM_FACTOR_X * UI_SCALE;
+	var yfac = UI_VIEW_TO_CAM_FACTOR_Y * UI_SCALE;
 	with (coord2) set(
 		CAM_LEFT_EDGE + gui_x * xfac, 
-		CAM_TOP_EDGE  + gui_y * yfac);
+		CAM_TOP_EDGE  + gui_y * yfac
+	);
 		
 	return coord2;
 }
 
-/// @func			translate_gui_to_world_x(gui_x)
-/// @desc		translate the specified ui x-coordinate to the current
-///						camera's view world coordinate.
-/// @param {real} gui_x
-/// @returns {real} world_x
+/// @func	translate_gui_to_world_x(gui_x)
+/// @desc	translate the specified ui x-coordinate to the current
+///			camera's view world coordinate.
 function translate_gui_to_world_x(gui_x) {
-	return CAM_LEFT_EDGE + gui_x * CAM_WIDTH  / UI_VIEW_WIDTH * UI_SCALE;
+	gml_pragma("forceinline");
+	return CAM_LEFT_EDGE + gui_x * UI_VIEW_TO_CAM_FACTOR_X * UI_SCALE;
 }
 
-/// @func			translate_gui_to_world_y(gui_x)
-/// @desc		translate the specified ui y-coordinate to the current
-///						camera's view world coordinate.
-/// @param {real} gui_y
-/// @returns {real} world_y
+/// @func	translate_gui_to_world_y(gui_x)
+/// @desc	translate the specified ui y-coordinate to the current
+///			camera's view world coordinate.
 function translate_gui_to_world_y(gui_y) {
-	return CAM_TOP_EDGE + gui_y * CAM_HEIGHT / UI_VIEW_HEIGHT * UI_SCALE;
+	gml_pragma("forceinline");
+	return CAM_TOP_EDGE + gui_y * UI_VIEW_TO_CAM_FACTOR_Y * UI_SCALE;
 }
 
 
-/// @func			translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined)
-/// @desc		translate the specified ui coordinates to world coordinates.
-///						This function ignores camera and view! It just converts from one
-///						coordinate space to another.
-///						The optional coord2 parameter can be used to fill
-///						an existing instance of Coord2 with the values and
-///						therefore avoid creating new instances.
-///						Consider this for performance and GC.
-/// @param {real} gui_x
-/// @param {real} gui_y
-/// @param {Coord2=undefined} coord2
-/// @returns {Coord2} the result
+/// @func	translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined)
+/// @desc	translate the specified ui coordinates to world coordinates.
+///			This function ignores camera and view! It just converts from one
+///			coordinate space to another.
+///			The optional coord2 parameter can be used to fill
+///			an existing instance of Coord2 with the values and
+///			therefore avoid creating new instances.
+///			Consider this for performance and GC.
 function translate_gui_to_world_abs(gui_x, gui_y, coord2 = undefined) {
 	coord2 ??= new Coord2();
 
-	var xfac = CAM_WIDTH  / UI_VIEW_WIDTH  * UI_SCALE;
-	var yfac = CAM_HEIGHT / UI_VIEW_HEIGHT * UI_SCALE;
+	var xfac = UI_VIEW_TO_CAM_FACTOR_X * UI_SCALE;
+	var yfac = UI_VIEW_TO_CAM_FACTOR_Y * UI_SCALE;
 	with (coord2) set(
 		gui_x * xfac, 
-		gui_y * yfac);
+		gui_y * yfac
+	);
 		
 	return coord2;
 }
 #endregion
 
 #region WORLD TO GUI
-/// @func			translate_world_to_gui(world_x, world_y, coord2 = undefined)
-/// @desc		translate the specified world coordinates to gui coordinates.
-///						The optional coord2 parameter can be used to fill
-///						an existing instance of Coord2 with the values and
-///						therefore avoid creating new instances.
-///						Consider this for performance and GC.
-/// @param {real} world_x
-/// @param {real} world_y
-/// @param {Coord2=undefined} coord2
-/// @returns {Coord2} the result
+/// @func	translate_world_to_gui(world_x, world_y, coord2 = undefined)
+/// @desc	translate the specified world coordinates to gui coordinates.
+///			The optional coord2 parameter can be used to fill
+///			an existing instance of Coord2 with the values and
+///			therefore avoid creating new instances.
+///			Consider this for performance and GC.
 function translate_world_to_gui(world_x, world_y, coord2 = undefined) {
 	coord2 ??= new Coord2();
 		
-	var xfac = UI_VIEW_WIDTH  / CAM_WIDTH  / UI_SCALE;
-	var yfac = UI_VIEW_HEIGHT / CAM_HEIGHT / UI_SCALE;
+	var xfac = UI_CAM_TO_VIEW_FACTOR_X  / UI_SCALE;
+	var yfac = UI_CAM_TO_VIEW_FACTOR_Y / UI_SCALE;
 	with (coord2) set(
 		(world_x - CAM_LEFT_EDGE) * xfac, 
-		(world_y - CAM_TOP_EDGE)  * yfac);
+		(world_y - CAM_TOP_EDGE)  * yfac
+	);
 		
 	return coord2;
 }
 
-/// @func			translate_world_to_gui_x(world_x)
-/// @desc		translate the specified world x-coordinate to a	ui space coordinate.
-/// @param {real} world_x
-/// @returns {real} gui_x
+/// @func	translate_world_to_gui_x(world_x)
+/// @desc	translate the specified world x-coordinate to a	ui space coordinate.
 function translate_world_to_gui_x(world_x) {
-	return (world_x - CAM_LEFT_EDGE) * UI_VIEW_WIDTH / CAM_WIDTH / UI_SCALE;
+	gml_pragma("forceinline");
+	return (world_x - CAM_LEFT_EDGE) * UI_CAM_TO_VIEW_FACTOR_X / UI_SCALE;
 }
 
-/// @func			translate_world_to_gui_y(world_y)
-/// @desc		translate the specified world y-coordinate to a	ui space coordinate.
-/// @param {real} world_y
-/// @returns {real} gui_y
+/// @func	translate_world_to_gui_y(world_y)
+/// @desc	translate the specified world y-coordinate to a	ui space coordinate.
 function translate_world_to_gui_y(world_y) {
-	return (world_y - CAM_TOP_EDGE) * UI_VIEW_HEIGHT / CAM_HEIGHT / UI_SCALE;
+	gml_pragma("forceinline");
+	return (world_y - CAM_TOP_EDGE) * UI_CAM_TO_VIEW_FACTOR_Y / UI_SCALE;
 }
 
-/// @func			translate_world_to_gui_abs(world_x, world_y, coord2 = undefined)
-/// @desc		translate the specified world coordinates to gui coordinates.
-///						This function ignores camera and view! It just converts from one
-///						coordinate space to another.
-///						The optional coord2 parameter can be used to fill
-///						an existing instance of Coord2 with the values and
-///						therefore avoid creating new instances.
-///						Consider this for performance and GC.
-/// @param {real} world_x
-/// @param {real} world_y
-/// @param {Coord2=undefined} coord2
-/// @returns {Coord2} the result
+/// @func	translate_world_to_gui_abs(world_x, world_y, coord2 = undefined)
+/// @desc	translate the specified world coordinates to gui coordinates.
+///			This function ignores camera and view! It just converts from one
+///			coordinate space to another.
+///			The optional coord2 parameter can be used to fill
+///			an existing instance of Coord2 with the values and
+///			therefore avoid creating new instances.
+///			Consider this for performance and GC.
 function translate_world_to_gui_abs(world_x, world_y, coord2 = undefined) {
 	coord2 ??= new Coord2();
 	
-	var xfac = UI_VIEW_WIDTH  / CAM_WIDTH  / UI_SCALE;
-	var yfac = UI_VIEW_HEIGHT / CAM_HEIGHT / UI_SCALE;
+	var xfac = UI_CAM_TO_VIEW_FACTOR_X / UI_SCALE;
+	var yfac = UI_CAM_TO_VIEW_FACTOR_Y / UI_SCALE;
 	with (coord2) set(
 		world_x * xfac, 
-		world_y * yfac);
+		world_y * yfac
+	);
 		
 	return coord2;
 }

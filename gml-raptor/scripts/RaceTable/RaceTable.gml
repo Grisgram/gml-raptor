@@ -162,9 +162,14 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 				dropx ?? 0, 
 				dropy ?? 0, 
 				_layer_name_or_depth, 
-				asset_get_index(itemtype));
+				asset_get_index(itemtype)
+			);
 		else {
-			_drop.instance = pool_get_instance(_pool_name, asset_get_index(itemtype), _layer_name_or_depth);
+			_drop.instance = pool_get_instance(
+				_pool_name, 
+				asset_get_index(itemtype), 
+				_layer_name_or_depth
+			);
 			_drop.instance.x = dropx ?? 0;
 			_drop.instance.y = dropy ?? 0;
 		}
