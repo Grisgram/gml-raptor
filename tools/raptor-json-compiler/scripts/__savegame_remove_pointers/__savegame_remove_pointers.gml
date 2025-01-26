@@ -99,8 +99,8 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
             {
 				_value = to_refstack(_value);
             }
-            
-            struct_set(_copy, _name, _value);
+
+			struct_set(_copy, _name, _value);
             
             ++_i;
         }
@@ -121,6 +121,10 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
             if (is_method(_value)) {
 				_i++;
 				continue;
+			}
+			else if (typeof(_value) != "ref" && (is_real(_value) || is_string(_value)))
+			{
+				// do nothing, just avoid false positives with object instances
 			}
             else if (is_object_instance(_value))
 			{

@@ -362,8 +362,8 @@ if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STE
 __is_transit_back		= false;
 __escape_was_pressed	= false;
 
-if (room != rmStartup && room != array_last(__TRANSIT_ROOM_CHAIN)) {
-	array_push(__TRANSIT_ROOM_CHAIN, room); // record this room, if not the startup room
+if (record_in_transit_chain && array_last(__TRANSIT_ROOM_CHAIN) != room) {
+	array_push(__TRANSIT_ROOM_CHAIN, room);
 	vlog($"{ROOM_NAME} recorded in transit chain, length is now {array_length(__TRANSIT_ROOM_CHAIN)}");
 }
 
@@ -398,8 +398,10 @@ transit_back = function() {
 	};
 	__escape_was_pressed = false; // reset this in case of a cancel
 	
-	if (array_length(__TRANSIT_ROOM_CHAIN) > 1) {
+	if (record_in_transit_chain && array_last(__TRANSIT_ROOM_CHAIN) == room)
 		array_pop(__TRANSIT_ROOM_CHAIN); // This is our room, ignore it
+	
+	if (array_length(__TRANSIT_ROOM_CHAIN) > 0) {
 		var target = array_pop(__TRANSIT_ROOM_CHAIN); // Go to this one
 		leave_struct.target_room = target;
 		vlog($"Transit back from {ROOM_NAME} targets {room_get_name(target)}");

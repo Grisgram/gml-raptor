@@ -1,5 +1,5 @@
 /*
-    One lootet item
+    One loot item
 */
 
 

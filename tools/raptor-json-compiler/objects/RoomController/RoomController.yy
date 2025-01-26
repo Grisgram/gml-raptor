@@ -46,6 +46,7 @@
     {"$GMObjectProperty":"v1","%Name":"show_mouse_on_popups","filters":[],"listItems":[],"multiselect":false,"name":"show_mouse_on_popups","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
     {"$GMObjectProperty":"v1","%Name":"adapt_app_surface","filters":[],"listItems":[],"multiselect":false,"name":"adapt_app_surface","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
     {"$GMObjectProperty":"v1","%Name":"escape_leaves_room","filters":[],"listItems":[],"multiselect":false,"name":"escape_leaves_room","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"False","varType":3,},
+    {"$GMObjectProperty":"v1","%Name":"record_in_transit_chain","filters":[],"listItems":[],"multiselect":false,"name":"record_in_transit_chain","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

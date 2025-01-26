@@ -2,19 +2,23 @@
     Adds debug panels to gamemaker's debug view
 */
 
+#macro __RAPTOR_DEBUG_VIEW_EDGE			4
+
+#macro __RAPTOR_DEBUG_VIEW_WIDTH		300
+#macro __RAPTOR_DEBUG_VIEW_HEIGHT		274
+
+#macro __RAPTOR_DEBUG_CAM_VIEW_WIDTH	300
+#macro __RAPTOR_DEBUG_CAM_VIEW_HEIGHT	274
+
 function __raptor_debug_view_opened() {
-	var DEBUG_VIEW_EDGE		= 4;
 	
 	// Default debug view
-	var DEBUG_VIEW_WIDTH	= 300;
-	var DEBUG_VIEW_HEIGHT	= 274;
-	
 	dlog("Creating 'raptor' debug view");
 	global.__raptor_debug_view = dbg_view("raptor", DEBUG_VIEW_SHOW_RAPTOR_PANEL, 
-		DEBUG_VIEW_EDGE, 
-		WINDOW_SIZE_Y - DEBUG_VIEW_HEIGHT - DEBUG_VIEW_EDGE, 
-		DEBUG_VIEW_WIDTH, 
-		DEBUG_VIEW_HEIGHT
+		__RAPTOR_DEBUG_VIEW_EDGE, 
+		WINDOW_SIZE_Y - __RAPTOR_DEBUG_VIEW_HEIGHT - __RAPTOR_DEBUG_VIEW_EDGE, 
+		__RAPTOR_DEBUG_VIEW_WIDTH, 
+		__RAPTOR_DEBUG_VIEW_HEIGHT
 	);
 	dbg_section("Object Frames", true);
 	dbg_checkbox(ref_create(global, "__debug_show_object_frames"), "Show Object Frames");
@@ -30,16 +34,14 @@ function __raptor_debug_view_opened() {
 	dbg_text("UI   :"); dbg_same_line(); dbg_text(ref_create(global, "__gui_mouse_x"));	          dbg_same_line(); dbg_text("/"); dbg_same_line(); dbg_text(ref_create(global, "__gui_mouse_y"));
 
 	// Debug camera view
-	var DEBUG_CAM_VIEW_WIDTH	= 300;
-	var DEBUG_CAM_VIEW_HEIGHT	= 274;
 	var DEBUG_CAM_BUTTON_SIZE	= 20
 	
 	dlog("Creating 'raptor-camera' debug view");
 	global.__raptor_debug_cam_view = dbg_view("raptor-camera", DEBUG_VIEW_SHOW_CAMERA_PANEL, 
-		DEBUG_VIEW_EDGE + DEBUG_VIEW_WIDTH + DEBUG_VIEW_EDGE, 
-		WINDOW_SIZE_Y - DEBUG_CAM_VIEW_HEIGHT - DEBUG_VIEW_EDGE, 
-		DEBUG_CAM_VIEW_WIDTH, 
-		DEBUG_CAM_VIEW_HEIGHT
+		__RAPTOR_DEBUG_VIEW_EDGE + __RAPTOR_DEBUG_VIEW_WIDTH + __RAPTOR_DEBUG_VIEW_EDGE, 
+		WINDOW_SIZE_Y - __RAPTOR_DEBUG_CAM_VIEW_HEIGHT - __RAPTOR_DEBUG_VIEW_EDGE, 
+		__RAPTOR_DEBUG_CAM_VIEW_WIDTH, 
+		__RAPTOR_DEBUG_CAM_VIEW_HEIGHT
 	);
 	if (!variable_global_exists("__raptor_debug_cam_view_data"))
 		global.__raptor_debug_cam_view_data = {

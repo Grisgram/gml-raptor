@@ -54,8 +54,8 @@ function is_object_instance(_inst) {
 			!is_array(_inst) &&
 			real(_inst) >= 100000 &&
 			(typeof(_inst) == "ref" || is_struct(_inst) || instance_exists(_inst)) &&
-			vsget(_inst, "id") && 
-			vsget(_inst, "object_index") && 
+			struct_exists(_inst, "id") && 
+			struct_exists(_inst, "object_index") && 
 			!is_null(object_get_name(vsget(_inst, "object_index")));
 }
 	

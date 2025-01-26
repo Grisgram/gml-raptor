@@ -187,11 +187,12 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 	
 	#region batch methods and filtering
 	
-	/// @func	reset(_recursive)
+	/// @func	reset(_recursive = true)
 	/// @desc	Reset this table to the state when it was loaded from file.
 	///			NOTE: Temp tables and manually added tables can not be reset!
-	static reset = function(_recursive) {
+	static reset = function(_recursive = true) {
 		race.reset_table(name, _recursive);
+		return self;
 	}
 	
 	/// @func filter_items(_items = undefined)
