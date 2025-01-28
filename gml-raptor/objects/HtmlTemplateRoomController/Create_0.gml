@@ -5,7 +5,7 @@ event_inherited();
 // the scene is visible.
 // The _data argument contains the data that has been sent
 // when the transition was instantiated in the previous room.
-onTransitFinished = function() {
+onTransitFinished = function(_data) {
 }
 
 // Invoked, when you start loading a game in a different room

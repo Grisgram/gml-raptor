@@ -348,17 +348,19 @@ camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true,
 	----------------------
 */
 #region TRANSITION CONTROL
-#macro __TRANSIT_ROOM_CHAIN			global.__transit_room_chain
-#macro __ACTIVE_TRANSITION			global.__active_transition
+#macro ACTIVE_TRANSITION			global.__active_transition
 #macro TRANSITION_RUNNING			global.__transition_running
+
+#macro __TRANSIT_ROOM_CHAIN			global.__transit_room_chain
 #macro __ACTIVE_TRANSITION_STEP		global.__active_transition_step
 
-if (!variable_global_exists("__transit_room_chain"))		__TRANSIT_ROOM_CHAIN = [];
-if (!variable_global_exists("__active_transition"))			__ACTIVE_TRANSITION	 = undefined;
-if (!variable_global_exists("__transition_running"))		TRANSITION_RUNNING	 = false;
-if (!variable_global_exists("__active_transition_step"))	__ACTIVE_TRANSITION_STEP = -1; 
+if (!variable_global_exists("__active_transition"))		 ACTIVE_TRANSITION		  = undefined;
+if (!variable_global_exists("__transition_running"))	 TRANSITION_RUNNING		  = false;
+if (!variable_global_exists("__transit_room_chain"))	 __TRANSIT_ROOM_CHAIN	  = [];
+if (!variable_global_exists("__active_transition_step")) __ACTIVE_TRANSITION_STEP = -1; 
 // __ACTIVE_TRANSITION_STEP 0 = out, 1 = in and -1 means inactive
 
+enter_transition		= ACTIVE_TRANSITION;
 __is_transit_back		= false;
 __escape_was_pressed	= false;
 
@@ -378,7 +380,7 @@ transit = function(_transition, skip_if_another_running = false) {
 	
 	ilog($"Starting transit to '{room_get_name(_transition.target_room)}'");
 	
-	__ACTIVE_TRANSITION		 = _transition;
+	ACTIVE_TRANSITION		 = _transition;
 	__ACTIVE_TRANSITION_STEP = 0;
 	TRANSITION_RUNNING = true;
 }
@@ -432,7 +434,7 @@ transit_back = function() {
 /// @func onTransitFinished()
 /// @desc Invoked when a transition to this room is finished.
 ///				 Override (redefine) to execute code when a room is no longer animating
-onTransitFinished = function() {
+onTransitFinished = function(_data) {
 }
 
 /// @func	onTransitBack(_transition_data)

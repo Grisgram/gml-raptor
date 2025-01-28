@@ -91,6 +91,11 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 				else
 					elog($"** ERROR ** Failed to replace instance '{name_of(_value)}'");
 			} 
+			//else if (is_dead_object_instance(_value))
+			//{
+			//	_value = undefined;
+			//	wlog($"** WARNING ** Data integrity warning, removed dead object instance '{name_of(_value)}' before saving!");
+			//}
 			else if (is_array(_value))
             {
                 _value = copy_array(_value);
@@ -134,6 +139,11 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 				else
 					elog($"** ERROR ** Failed to replace instance '{name_of(_value)}'");
 			} 
+			//else if (is_dead_object_instance(_value))
+			//{
+			//	_value = undefined;
+			//	wlog($"** WARNING ** Data integrity warning, removed dead object instance '{name_of(_value)}' before saving!");
+			//}
             else if (is_struct(_value))
             {
 				_value = to_refstack(_value);

@@ -12,8 +12,11 @@
 */
 
 
-function __RoomTransition(_target_room, _need_fx_layer) constructor {
+function __RoomTransition(_target_room, _need_fx_layer, _data = undefined) : DataBuilder() constructor {
 	
+	data			= _data ?? {};
+	
+	source_room		= room;
 	target_room		= _target_room;
 	need_fx_layer	= _need_fx_layer;
 	
@@ -44,7 +47,7 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 			layer_destroy(fx_layer);
 	}
 
-	/// @func		do_transit()
+	/// @func	do_transit()
 	/// @desc	Perform transit to next room
 	static do_transit = function() {
 		dlog($"Out-Animation finished for transit to '{room_get_name(target_room)}'");
@@ -55,18 +58,18 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 			room_goto(target_room);
 	}
 
-	/// @func		transit_finished()
+	/// @func	transit_finished()
 	/// @desc	Call this, when transit is done
 	static transit_finished = function() {
 		dlog($"Transit to '{room_get_name(target_room)}' finished");
-		__ACTIVE_TRANSITION		 = undefined;
+		ACTIVE_TRANSITION		 = undefined;
 		__ACTIVE_TRANSITION_STEP = -1;
 		TRANSITION_RUNNING = false;
 		__destroy_fx_layer();
-		with(ROOMCONTROLLER) onTransitFinished();
+		with(ROOMCONTROLLER) onTransitFinished(other.data);
 	}
 
-	/// @func		get_app_canvas()
+	/// @func	get_app_canvas()
 	/// @desc	Copy the app surface to a canvas
 	static get_app_canvas = function() {
 		var rv = new Canvas(APP_SURF_WIDTH, APP_SURF_HEIGHT);
@@ -79,7 +82,8 @@ function __RoomTransition(_target_room, _need_fx_layer) constructor {
 	__create_fx_layer();
 }
 
-function FadeTransition(_target_room, _fade_out_frames, _fade_in_frames) : __RoomTransition(_target_room, true) constructor {
+/// @func	FadeTransition(_target_room, _fade_out_frames, _fade_in_frames, _data = undefined) : __RoomTransition(_target_room, true, _data)
+function FadeTransition(_target_room, _fade_out_frames, _fade_in_frames, _data = undefined) : __RoomTransition(_target_room, true, _data) constructor {
 		
 	fx = fx_create("_filter_tintfilter");
 	layer_set_fx(fx_layer, fx);
@@ -109,7 +113,8 @@ function FadeTransition(_target_room, _fade_out_frames, _fade_in_frames) : __Roo
 	out_step();
 }
 
-function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _max_pixelation) : __RoomTransition(_target_room, true) constructor {
+/// @func	PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _max_pixelation, _data = undefined) : __RoomTransition(_target_room, true, _data)
+function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _max_pixelation, _data = undefined) : __RoomTransition(_target_room, true, _data) constructor {
 	fx = fx_create("_filter_pixelate");
 	layer_set_fx(fx_layer, fx);
 
@@ -139,7 +144,8 @@ function PixelateTransition(_target_room, _fade_out_frames, _fade_in_frames, _ma
 	out_step();
 }
 
-function BlendTransition(_target_room, _blend_frames) : __RoomTransition(_target_room, false) constructor {
+/// @func	BlendTransition(_target_room, _blend_frames, _data = undefined) : __RoomTransition(_target_room, false, _data)
+function BlendTransition(_target_room, _blend_frames, _data = undefined) : __RoomTransition(_target_room, false, _data) constructor {
 	canvas = undefined;
 	
 	blend_frames = (_blend_frames > 0 ? _blend_frames : 1);
@@ -169,7 +175,8 @@ function BlendTransition(_target_room, _blend_frames) : __RoomTransition(_target
 	}
 }
 
-function SlideTransition(_target_room, _slide_frames, _animcurve) : __RoomTransition(_target_room, false) constructor {
+/// @func	SlideTransition(_target_room, _slide_frames, _animcurve, _data = undefined) : __RoomTransition(_target_room, false, _data)
+function SlideTransition(_target_room, _slide_frames, _animcurve, _data = undefined) : __RoomTransition(_target_room, false, _data) constructor {
 	source_canvas	= undefined;
 	dest_canvas		= undefined;
 	

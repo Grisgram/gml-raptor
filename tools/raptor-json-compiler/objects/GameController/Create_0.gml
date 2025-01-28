@@ -38,6 +38,19 @@ __invoke_async_file_callback = function(_async_id, _result) {
 	CATCH ENDTRY
 }
 
+/// @func	toggle_debug_view()
+toggle_debug_view = function() {
+	global.__debug_shown = !global.__debug_shown;
+	show_debug_overlay(global.__debug_shown);
+	if (global.__debug_shown) {
+		__raptor_debug_view_opened();
+		onDebugViewStarted(); 
+	} else {
+		__raptor_debug_view_closed();
+		onDebugViewClosed();
+	}
+}
+
 /// @func	exit_game()
 /// @desc	Ends the game as soon as all async operations are finished.
 ///			NOTE: This function can be reached also through the EXIT_GAME macro!
