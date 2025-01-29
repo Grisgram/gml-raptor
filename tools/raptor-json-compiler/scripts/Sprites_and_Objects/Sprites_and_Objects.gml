@@ -66,7 +66,7 @@ function is_dead_object_instance(_inst) {
 			!is_string(_inst) &&
 			!is_array(_inst) &&
 			real(_inst) >= 100000 &&
-			(typeof(_inst) == "ref" || is_struct(_inst)) &&
+			(typeof(_inst) == "ref" || is_struct(_inst) || vsget(_inst, "id")) &&
 			!instance_exists(_inst);
 }
 

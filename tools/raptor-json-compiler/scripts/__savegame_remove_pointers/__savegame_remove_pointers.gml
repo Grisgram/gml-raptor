@@ -74,7 +74,7 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
         {
             var _name = _names[_i];
             var _value = struct_get(_source, _name);
-
+			
             if (is_method(_value) || is_ignored(_source, _name)) {
 				_i++;
 				continue;
@@ -91,11 +91,11 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 				else
 					elog($"** ERROR ** Failed to replace instance '{name_of(_value)}'");
 			} 
-			//else if (is_dead_object_instance(_value))
-			//{
-			//	_value = undefined;
-			//	wlog($"** WARNING ** Data integrity warning, removed dead object instance '{name_of(_value)}' before saving!");
-			//}
+			else if (is_dead_object_instance(_value))
+			{
+				_value = undefined;
+				wlog($"** WARNING ** Data integrity warning, removed dead object instance of '{_name}' before saving!");
+			}
 			else if (is_array(_value))
             {
                 _value = copy_array(_value);
@@ -139,11 +139,11 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 				else
 					elog($"** ERROR ** Failed to replace instance '{name_of(_value)}'");
 			} 
-			//else if (is_dead_object_instance(_value))
-			//{
-			//	_value = undefined;
-			//	wlog($"** WARNING ** Data integrity warning, removed dead object instance '{name_of(_value)}' before saving!");
-			//}
+			else if (is_dead_object_instance(_value))
+			{
+				_value = undefined;
+				wlog($"** WARNING ** Data integrity warning, removed dead object instance #'{_i}' in array before saving!");
+			}
             else if (is_struct(_value))
             {
 				_value = to_refstack(_value);
