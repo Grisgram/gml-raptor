@@ -1,13 +1,27 @@
 /// @desc skins,audio,mouse
 
+if (DEBUG_MODE_ACTIVE && global.__debug_shown) {
+	// close/open the debug view if it was visible in previous room
+	// this forces a refresh of all custom debug views
+	GAMECONTROLLER.toggle_debug_view();
+	try {
+		// re-show might fail if room has special init code...
+		GAMECONTROLLER.toggle_debug_view();
+	} catch (_) {
+		// ... in this case, hide the view entirely
+		GAMECONTROLLER.toggle_debug_view();
+		elog($"** ERROR ** Could not open debug view. Previous room was incompatible!");
+	}
+}
+
 UI_THEMES.refresh_theme();
 UI_SKINS.refresh_skin();
 
 play_music(get_default_music_for_room());
 play_ambience(get_default_ambience_for_room());
 
-if (__ACTIVE_TRANSITION != undefined)
-	__ACTIVE_TRANSITION.__create_fx_layer();
+if (ACTIVE_TRANSITION != undefined)
+	ACTIVE_TRANSITION.__create_fx_layer();
 else
 	onTransitFinished();
 

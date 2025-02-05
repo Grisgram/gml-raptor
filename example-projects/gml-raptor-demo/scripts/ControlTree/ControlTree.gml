@@ -601,6 +601,7 @@ function ControlTree(
 		}
 	}
 
+	__child_looper = undefined;
 	static draw_children = function() {
 		if (__force_next) {
 			layout();
@@ -608,9 +609,9 @@ function ControlTree(
 			__force_next = false;
 		}
 		for (var i = 0, len = array_length(children); i < len; i++) {
-			var child = children[@i];
-			if (child.instance.visible) child.instance.__draw_instance();
-			child.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
+			__child_looper = children[@i];
+			if (__child_looper.instance.visible) __child_looper.instance.__draw_instance();
+			__child_looper.instance.depth = __root_tree.control.depth - 1; // set AFTER first draw! (gms draw chain... trust me)
 		}
 		
 		if (!__on_shown_done) invoke_on_shown();

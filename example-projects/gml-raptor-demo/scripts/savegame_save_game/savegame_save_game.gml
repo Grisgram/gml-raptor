@@ -57,6 +57,10 @@ function savegame_save_game_async(_filename, _cryptkey = "", _data_only = undefi
 		var cnt = 0;
 		with (Saveable) {
 			if (add_to_savegame) {
+				if (vsget(self, __SAVEGAME_ONSAVING_NAME))
+					__SAVEGAME_ONSAVING_FUNCTION();
+				event_user(savegame_event.onGameSaving);
+			
 				var instname = __SAVEGAME_INSTANCE_PREFIX + string(cnt);
 				var obj = object_get_name(object_index);
 				var instdata = {
@@ -84,10 +88,6 @@ function savegame_save_game_async(_filename, _cryptkey = "", _data_only = undefi
 				
 				vsgetx(self, __SAVEGAME_DATA_HEADER, {});
 				
-				event_user(savegame_event.onGameSaving);
-				if (vsget(self, __SAVEGAME_ONSAVING_NAME))
-					__SAVEGAME_ONSAVING_FUNCTION();
-			
 				if (is_struct(vsget(self, __SAVEGAME_DATA_HEADER)))
 					instdata[$ __SAVEGAME_DATA_HEADER] = data;
 				else

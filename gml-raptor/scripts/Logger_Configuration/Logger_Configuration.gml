@@ -28,9 +28,9 @@
 //
 // A note on verbose logging (level 0): This logs every single mouse_enter/leave event, each tooltip shown, everything!
 // Turn it on in debug if you hunt a bug, but it's too much information for normal development
-#macro LOG_LEVEL			1
-#macro beta:LOG_LEVEL		2
-#macro release:LOG_LEVEL	3
+#macro LOG_LEVEL			LOG_LEVEL_1_DEBUG
+#macro beta:LOG_LEVEL		LOG_LEVEL_2_INFO
+#macro release:LOG_LEVEL	LOG_LEVEL_3_WARNING
 
 // Raptor module logs
 // In addition to the LOG_LEVEL, you can turn off some modules entirely from logging anything.

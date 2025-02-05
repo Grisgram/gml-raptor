@@ -55,7 +55,7 @@ function ListPool(_name = "listPool") constructor {
 				obj.__listpool_processible = true;
 			array_push(list, obj);
 			if (DEBUG_LOG_LIST_POOLS)
-				vlog($"'{name}' item added: newSize={size()};");
+				vlog($"Listpool '{name}' item added: newSize={size()};");
 			__listcount = array_length(list);
 		}
 	}

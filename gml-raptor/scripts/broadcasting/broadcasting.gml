@@ -58,24 +58,24 @@ global.__raptor_broadcast_uid = 0;
 function Sender() constructor {
 	construct(Sender);	
 
+	__receivercount = 0;
 	receivers		= [];
 	removers		= [];
 	
-	/// @func		add_receiver(_owner, _name, _message_filter, _callback)
+	/// @func	add_receiver(_owner, _name, _message_filter, _callback)
 	/// @desc	adds a listener for a specific kind of message.
-	///					NOTE: If a receiver with that name already exists, it gets overwritten!
-	///					The _message_filter is a wildcard string, that may
-	///					contain "*" as placeholder either at the start of the string,
-	///					at the end, or both, but not in-between.
-	///					VALID FILTERS are:
-	///					*_died
-	///					enemy*
-	///					*dragon*
-	///					INVALID FILTERS are all that contain * in the middle, like
-	///					enemy_*_died
-	///					So, plan your broadcast names accordingly to be able to filter
-	///					as you need!
-	///	@return {self}	Returns self for call chaining
+	///			NOTE: If a receiver with that name already exists, it gets overwritten!
+	///			The _message_filter is a wildcard string, that may
+	///			contain "*" as placeholder either at the start of the string,
+	///			at the end, or both, but not in-between.
+	///			VALID FILTERS are:
+	///			*_died
+	///			enemy*
+	///			*dragon*
+	///			INVALID FILTERS are all that contain * in the middle, like
+	///			enemy_*_died
+	///			So, plan your broadcast names accordingly to be able to filter
+	///			as you need!
 	static add_receiver = function(_owner, _name, _message_filter, _callback) {
 		if (_owner == undefined) {
 			wlog($"** WARNING ** add_receiver '{_name}' ignored, no 'owner' given!");
@@ -85,20 +85,22 @@ function Sender() constructor {
 		var rcv = new __receiver(_owner, _name, _message_filter, _callback);
 		remove_receiver(_name);
 		array_push(receivers, rcv);
+		__receivercount++;
 		if (DEBUG_LOG_BROADCASTS)
 			vlog($"Broadcast receiver added: name='{_name}'; filter='{_message_filter}';");
 		
 		return self;
 	}
 
-	/// @func		remove_receiver(_name)
+	/// @func	remove_receiver(_name)
 	/// @desc	Removes the receiver with the specified name and returns true, if found.
-	///					If it does not exist, it is silently ignored, but false is returned.
+	///			If it does not exist, it is silently ignored, but false is returned.
 	static remove_receiver = function(_name) {
 		for (var i = 0, len = array_length(receivers); i < len; i++) {
 			var r = receivers[@ i];
 			if (r.name == _name) {
 				array_delete(receivers, i, 1);
+				__receivercount--;
 				if (DEBUG_LOG_BROADCASTS)
 					vlog($"Broadcast receiver removed: name='{_name}';");
 				return true;
@@ -107,10 +109,10 @@ function Sender() constructor {
 		return false;
 	}
 
-	/// @func remove_owner(_owner)
+	/// @func	remove_owner(_owner)
 	/// @desc	Removes ALL receivers with the specified owner and returns the number of removed receivers.
-	///					NOTE: If your object is a child of _raptorBase, you do not need to call this,
-	///					because the base object removes all owned receivers in the CleanUp event
+	///			NOTE: If your object is a child of _raptorBase, you do not need to call this,
+	///			because the base object removes all owned receivers in the CleanUp event
 	static remove_owner = function(_owner) {
 		var cnt = 0;
 		var tmpremovers = [];
@@ -134,11 +136,11 @@ function Sender() constructor {
 		return cnt;
 	}
 
-	/// @func		send(_from, _title, _data = undefined)
+	/// @func	send(_from, _title, _data = undefined)
 	/// @desc	Sends a broadcast and returns self for call chaining if you want to
-	///					send multiple broadcasts.
-	///					Set .handled to true in the broadcast object delivered to the function
-	///					to stop the send-loop from sending the same message to the remaining recipients.
+	///				send multiple broadcasts.
+	///				Set .handled to true in the broadcast object delivered to the function
+	///				to stop the send-loop from sending the same message to the remaining recipients.
 	static send = function(_from, _title, _data = undefined) {	
 		var bcid = __RAPTOR_BROADCAST_UID;
 		var bc = new __broadcast(_from, _title, _data);
@@ -188,12 +190,13 @@ function Sender() constructor {
 		return self;
 	}
 	
-	/// @func		clear()
+	/// @func	clear()
 	/// @desc	Removes all receivers.	
 	static clear = function() {
 		if (DEBUG_LOG_BROADCASTS)
 			ilog($"Broadcast receiver list cleared");
 		receivers = [];
+		__receivercount = 0;
 	}
 
 	static dump_to_string = function() {
@@ -209,7 +212,7 @@ function Sender() constructor {
 	containing "from", "title" and (optional) "data" members.
 */
 
-/// @func		__receiver(_owner, _name, _message_filter, _callback)
+/// @func	__receiver(_owner, _name, _message_filter, _callback)
 /// @desc	Contains a receiver.
 function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	owner			= _owner;
@@ -235,7 +238,7 @@ function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	}
 }
 
-/// @func		__broadcast(_from, _title, _data = undefined)
+/// @func	__broadcast(_from, _title, _data = undefined)
 /// @desc	Contains a broadcast message with at least a "from" and a "title".
 function __broadcast(_from, _title, _data = undefined) constructor {
 	uniqueid	= -1;

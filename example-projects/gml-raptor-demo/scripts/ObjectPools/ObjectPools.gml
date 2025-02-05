@@ -49,8 +49,11 @@ function __get_pool_list(pool_name) {
 ///			NOTE: To return an instance later to a pool, it must have been created with this function!
 ///			In the rare case, you need to manually assign an already existing instance
 ///			to a pool, use the function pool_assign_instance(...)
-///			The optional _struct will be sent as argument to onPoolActivate (which gets called ALWAYS,
-///			no matter if this is a fresh instance or resurrected from a pool)
+///			The optional _struct will be applied as struct_join_into(...) of the activated object,
+///			in the same as init structs work on newly created instances.
+///			In addition, it is sent as argument to onPoolActivate (which gets called ALWAYS,
+///			no matter if this is a fresh instance or resurrected from a pool),
+///			so you can see, which data has been applied to the instance.
 /// @returns {instance}
 function pool_get_instance(pool_name, object, layer_name_or_depth_if_new, _struct = undefined) {
 	var pool = __get_pool_list(pool_name);
@@ -170,6 +173,8 @@ function __pool_invoke_activate(inst, _struct) {
 	with (inst) {
 		__statemachine_pause_all(self, false);
 		invoke_if_exists(self, __POOL_ACTIVATE_RAPTOR_NAME);
+		if (_struct != undefined) 
+			struct_join_into(self, _struct);
 		invoke_if_exists(self, __POOL_ACTIVATE_NAME, _struct);
 	}
 }

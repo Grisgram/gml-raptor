@@ -1,5 +1,5 @@
 /// @description onTransitFinished override
 event_inherited();
 
-onTransitFinished = function() {
+onTransitFinished = function(_data) {
 }

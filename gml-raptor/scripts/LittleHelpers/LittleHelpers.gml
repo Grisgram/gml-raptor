@@ -92,6 +92,23 @@ function is_child_of(child, parent) {
 	return to_find != __OBJECT_HAS_NO_PARENT && to_find != __OBJECT_DOES_NOT_EXIST;
 }
 
+/// @func	object_tree(_object_or_instance, _as_strings = true)
+/// @desc	Gets the entire object hierarchy as an array for the specified object type or instance.
+///			At position[0] you will find the _object_or_instance's object_index and at the
+///			last position of the array you will find the root class of the tree.
+function object_tree(_object_or_instance, _as_strings = true) {
+	if (_object_or_instance == undefined) 
+		return undefined;
+	
+	var rv = [];
+	var ind = instance_exists(_object_or_instance) ? _object_or_instance.object_index : _object_or_instance;
+	while (ind != __OBJECT_HAS_NO_PARENT && ind != __OBJECT_DOES_NOT_EXIST) {
+		array_push(rv, _as_strings ? object_get_name(ind) : ind);
+		ind = object_get_parent(ind);
+	}
+	return rv;
+}
+
 /// @func	name_of(_instance)
 /// @desc	If _instance is undefined, undefined is returned,
 ///			otherwise MY_NAME or object_get_name of the instance is returned,
@@ -101,18 +118,42 @@ function is_child_of(child, parent) {
 /// @param {object_index} _instance	The instance to retrieve the name of.
 function name_of(_instance, _with_ref_id = true) {
 	if (!is_null(_instance)) {
-		if (variable_struct_exists(_instance, "object_index"))
+		if (instance_exists(_instance) && variable_struct_exists(_instance, "object_index"))
 			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
 		else {
 			if (IS_HTML) {
 				var hash = string_replace_all(sha1_string_unicode(string(_instance)), " ", "");
-				return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? hash : "")}";
+				return $"{(struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? hash : "")}";
 			} else
-				return $"{(variable_struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? ptr(_instance) : "")}";
+				return $"{(struct_exists(_instance, __CONSTRUCTOR_NAME) ? $"{_instance[$ __CONSTRUCTOR_NAME]}{(_with_ref_id ? "-" : "")}" : "")}{(_with_ref_id ? ptr(_instance) : "")}";
 		}
 	}
 	
 	return undefined;
+}
+
+/// @func	typename_of(_object_or_script_type)
+/// @desc	Gets the type name (= asset name) of either an object or a script asset
+function typename_of(_object_or_script_type) {
+	if (is_string(_object_or_script_type))
+		return _object_or_script_type;
+
+	var rv;	
+	try {
+		rv = object_get_name(_object_or_script_type);
+		if (is_null(rv) || rv == "<undefined>")
+			rv = script_get_name(_object_or_script_type);
+	} catch (_) {
+		try {
+			rv = script_get_name(_object_or_script_type);
+			if (is_null(rv) || rv == "<undefined>")
+				rv = undefined;
+		} catch (_) {
+			rv = undefined;
+		}
+	}
+	
+	return rv;
 }
 
 /// @func	address_of(_instance)

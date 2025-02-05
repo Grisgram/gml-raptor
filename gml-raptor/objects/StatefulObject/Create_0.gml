@@ -5,6 +5,13 @@ event_inherited();
 
 mouse_is_over = false;
 
+/// @func	on_state_changed(_state, _prev_state)
+/// @desc	This callback gets invoked, when the state changed.
+///			Useful to react on state changes, independent of the state.
+///			The arguments are string; the name of the new and previous state.
+on_state_changed = function(_state, _prev_state) {
+}
+
 /// StatefulObject adds an "animation_end" memmber to data
 if (states != undefined) 
 	states.data.animation_end = false;
@@ -16,9 +23,9 @@ set_state = function(name, enter_override = undefined, leave_override = undefine
 }
 
 /// @func		is_in_state(name)
-/// @desc	Convenience shortcut to states.active_state_name() == name
+/// @desc	Convenience shortcut to states.get_active_state_name() == name
 is_in_state = function(name) {
-	return states.active_state_name() == name;
+	return states.get_active_state_name() == name;
 }
 
 

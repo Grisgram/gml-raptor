@@ -9,9 +9,9 @@
 	because the object is not at that position when drawn to the ui layer.
 */
 
-/// @func					GuiMouseTranslator()
-/// @desc				translates mouse coordinates from viewport to gui
-///								and forwards click events
+/// @func	GuiMouseTranslator()
+/// @desc	translates mouse coordinates from viewport to gui
+///			and forwards click events
 function GuiMouseTranslator() constructor {
 	gui_mouse_is_over			= false;
 	gui_last_mouse_is_over		= false;
@@ -28,8 +28,8 @@ function GuiMouseTranslator() constructor {
 	last_frame_checked_over		= -1;
 	last_frame_checked_click	= -1;
 
-	/// @func					update_gui_mouse_over()
-	/// @desc				check if mouse is over the control and perform enter/leave events accordingly
+	/// @func	update_gui_mouse_over()
+	/// @desc	check if mouse is over the control and perform enter/leave events accordingly
 	static update_gui_mouse_over = function() {
 		
 		if (last_frame_checked_over == GAME_FRAME) return;
@@ -39,9 +39,10 @@ function GuiMouseTranslator() constructor {
 			if (__INSTANCE_UNREACHABLE) return;
 				
 			other.event_redirection_active = true;
-			
-			other.gui_mouse_is_over = collision_point(CTL_MOUSE_X, CTL_MOUSE_Y, self, true, false) != noone;
 
+			other.gui_mouse_is_over = 
+				collision_point(CTL_MOUSE_X, CTL_MOUSE_Y, self, true, false);
+			
 			if (other.gui_last_mouse_is_over != other.gui_mouse_is_over) {
 				
 				if (other.gui_mouse_is_over) {
@@ -63,8 +64,8 @@ function GuiMouseTranslator() constructor {
 		}
 	}
 	
-	/// @func					check_gui_mouse_clicks()
-	/// @desc				check mouse button states and perform press/release events accordingly
+	/// @func	check_gui_mouse_clicks()
+	/// @desc	check mouse button states and perform press/release events accordingly
 	static check_gui_mouse_clicks = function() {
 
 		if (last_frame_checked_click == GAME_FRAME) return;
@@ -74,7 +75,7 @@ function GuiMouseTranslator() constructor {
 			if (__INSTANCE_UNREACHABLE) return;
 			
 			other.event_redirection_active = true;
-			
+
 			// check clicks only if mouse is over
 			if (other.gui_mouse_is_over) {
 				other.gui_left_is_down	 = mouse_check_button(mb_left);

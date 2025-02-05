@@ -1,4 +1,5 @@
 /// @desc mouse_is_over=true
+event_inherited();
 GUI_EVENT_MOUSE;
 
 if (!mouse_is_over && !__mouse_events_locked) {

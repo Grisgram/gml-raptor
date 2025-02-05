@@ -9,13 +9,20 @@ ENSURE_LOGGER;
 #macro __LOG_GAME_INIT_START	$"[--- RAPTOR INIT STARTING ---]"
 #macro __LOG_GAME_INIT_FINISH	$"[--- RAPTOR INIT FINISHED ---]"
 
-#macro vlog				RAPTOR_LOGGER.log_verbose
-#macro dlog				RAPTOR_LOGGER.log_debug
-#macro ilog				RAPTOR_LOGGER.log_info
-#macro wlog				RAPTOR_LOGGER.log_warning
-#macro elog				RAPTOR_LOGGER.log_error
-#macro flog				RAPTOR_LOGGER.log_fatal
-#macro mlog				RAPTOR_LOGGER.log_master
+#macro vlog					RAPTOR_LOGGER.log_verbose
+#macro dlog					RAPTOR_LOGGER.log_debug
+#macro ilog					RAPTOR_LOGGER.log_info
+#macro wlog					RAPTOR_LOGGER.log_warning
+#macro elog					RAPTOR_LOGGER.log_error
+#macro flog					RAPTOR_LOGGER.log_fatal
+#macro mlog					RAPTOR_LOGGER.log_master
+
+#macro LOG_LEVEL_0_VERBOSE	0
+#macro LOG_LEVEL_1_DEBUG	1
+#macro LOG_LEVEL_2_INFO		2
+#macro LOG_LEVEL_3_WARNING	3
+#macro LOG_LEVEL_4_ERROR	4
+#macro LOG_LEVEL_5_FATAL	5
 
 function RaptorLogger() constructor {
 

@@ -2,11 +2,11 @@
     Helper functions for sprites and objects
 */
 
-/// @func		instance_create(xp, yp, layer_name_or_depth, object, struct = undefined)
+/// @func	instance_create(xp, yp, layer_name_or_depth, object, struct = undefined)
 /// @desc	Convenience function to avoid that nasty switching between 
-///					instance_create_layer and instance_create_depth.
-///					Should've been always like that... supply a string to create the instance
-///					on a named layer or supply an integer to create it on a specified depth
+///			instance_create_layer and instance_create_depth.
+///			Should've been always like that... supply a string to create the instance
+///			on a named layer or supply an integer to create it on a specified depth
 function instance_create(xp, yp, layer_name_or_depth, object, struct = undefined) {
 	layer_name_or_depth = if_null(layer_name_or_depth, 0);
 	if (struct == undefined)
@@ -19,13 +19,13 @@ function instance_create(xp, yp, layer_name_or_depth, object, struct = undefined
 			instance_create_depth(xp, yp, layer_name_or_depth, object, struct);
 }
 
-/// @func		instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined)
+/// @func	instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined)
 /// @desc	Clones an instance and returns the clone.
-///					"Cloning" for this function means:
-///					* A new instance of the same type is created at the same position and layer/depth
-///					* The Create event will run normally on the clone
-///					* "green" variables (x,y,scale,rotation,blend,alpha,...) are copied to the clone
-///					* All other variable values are *not* copied
+///			"Cloning" for this function means:
+///			* A new instance of the same type is created at the same position and layer/depth
+///			* The Create event will run normally on the clone
+///			* "green" variables (x,y,scale,rotation,blend,alpha,...) are copied to the clone
+///			* All other variable values are *not* copied
 function instance_clone(_instance = self, layer_name_or_depth = undefined, struct = undefined) {
 	var rv;
 	with (_instance) {
@@ -46,7 +46,7 @@ function instance_clone(_instance = self, layer_name_or_depth = undefined, struc
 	return rv;
 }
 
-/// @func		is_object_instance(_inst)
+/// @func	is_object_instance(_inst)
 /// @desc	Checks whether a variable holds a living (not deactivated) object instance
 function is_object_instance(_inst) {
 	return	!is_null(_inst) && 
@@ -54,12 +54,23 @@ function is_object_instance(_inst) {
 			!is_array(_inst) &&
 			real(_inst) >= 100000 &&
 			(typeof(_inst) == "ref" || is_struct(_inst) || instance_exists(_inst)) &&
-			vsget(_inst, "id") && 
-			vsget(_inst, "object_index") && 
+			struct_exists(_inst, "id") && 
+			struct_exists(_inst, "object_index") && 
 			!is_null(object_get_name(vsget(_inst, "object_index")));
 }
-	
-/// @func		scale_sprite_to(target_width, target_height)
+
+/// @func	is_dead_object_instance(_inst)
+/// @desc	Checks whether a variable holds a dead/destroyed object instance pointer
+function is_dead_object_instance(_inst) {
+	return	!is_null(_inst) && 
+			!is_string(_inst) &&
+			!is_array(_inst) &&
+			real(_inst) >= 100000 &&
+			(typeof(_inst) == "ref" || is_struct(_inst) || vsget(_inst, "id")) &&
+			!instance_exists(_inst);
+}
+
+/// @func	scale_sprite_to(target_width, target_height)
 /// @desc	Scale an instances' sprite so that it has the desired dimensions.
 function scale_sprite_to(target_width, target_height) {
 	if (sprite_index == -1 || sprite_index == noone) {
@@ -101,12 +112,12 @@ function scale_sprite_aspect_height(new_height) {
 	image_xscale = image_yscale;
 }
 
-/// @func is_mouse_over(_instance)
+/// @func	is_mouse_over(_instance)
 /// @desc	Checks whether the current mouse position in the world (_is_gui = false) or
-///					in the GUI coordinate space (_is_gui = true) is within the bounds of _instance
-///					_is_gui defaults to false, because all controls have their "mouse_is_over" anyway
-///					and in normal situations you want to know whether the mouse touches a specific
-///					game object, not a control
+///			in the GUI coordinate space (_is_gui = true) is within the bounds of _instance
+///			_is_gui defaults to false, because all controls have their "mouse_is_over" anyway
+///			and in normal situations you want to know whether the mouse touches a specific
+///			game object, not a control
 function is_mouse_over(_instance, _is_gui = false) {
 	var xcheck = _is_gui ? GUI_MOUSE_X : MOUSE_X;
 	var ycheck = _is_gui ? GUI_MOUSE_Y : MOUSE_Y;
@@ -134,12 +145,12 @@ function get_topmost_instance_at(_x, _y, _obj_type = all) {
 }
 
 
-/// @func		replace_sprite(replace_with, target_width = -1, target_height = -1, keep_empty = true, keep_size = true, keep_location = true)
+/// @func	replace_sprite(replace_with, target_width = -1, target_height = -1, keep_empty = true, keep_size = true, keep_location = true)
 /// @desc	Replaces the current sprite with the specified one.
-///					The method checks if "replace_with" is undefined or noone,
-///					so you don't need to check - just call it.
-///					It also takes care about the alignment and scaling by default
-///					but this behavior can be turned off through the parameters.
+///			The method checks if "replace_with" is undefined or noone,
+///			so you don't need to check - just call it.
+///			It also takes care about the alignment and scaling by default
+///			but this behavior can be turned off through the parameters.
 /// @param {sprite_asset} replace_with	The asset to set as the sprite
 /// @param {real=-1}	target_width	If set, force a new width after replacing
 /// @param {real=-1}	target_height	If set, force a new height after replacing

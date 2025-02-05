@@ -28,6 +28,7 @@
     {"$GMFolder":"","%Name":"Audio","folderPath":"folders/_gml_raptor_/Audio.yy","name":"Audio","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"CommandLineArgs","folderPath":"folders/_gml_raptor_/CommandLineArgs.yy","name":"CommandLineArgs","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"DataBinding","folderPath":"folders/_gml_raptor_/DataBinding.yy","name":"DataBinding","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Debug","folderPath":"folders/_gml_raptor_/Debug.yy","name":"Debug","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Files","folderPath":"folders/_gml_raptor_/Files.yy","name":"Files","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"LG","folderPath":"folders/_gml_raptor_/LG.yy","name":"LG","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Logger","folderPath":"folders/_gml_raptor_/Logger.yy","name":"Logger","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -118,16 +119,16 @@
     {"$GMFolder":"","%Name":"Timelines","folderPath":"folders/Timelines.yy","name":"Timelines","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2409_game_settings.json","ConfigValues":{
+    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2501_game_settings.json","ConfigValues":{
         "release":{
           "CopyToMask":"0",
         },
-      },"CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2409_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2409_game_settings.jx","ConfigValues":{
+      },"CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2501_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2501_game_settings.jx","ConfigValues":{
         "release":{
           "CopyToMask":"-1",
         },
-      },"CopyToMask":0,"filePath":"datafiles","name":"gml_raptor_demo_2409_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+      },"CopyToMask":0,"filePath":"datafiles","name":"gml_raptor_demo_2501_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"index.html","ConfigValues":{
         "release":{
           "CopyToMask":"0",
@@ -153,10 +154,26 @@
           "CopyToMask":"-1",
         },
       },"CopyToMask":0,"filePath":"datafiles/locale","name":"locale_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"raptor_demo_de.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_de.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"raptor_demo_de.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_de.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"raptor_demo_en.json","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"raptor_demo_en.jx","CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"raptor_demo_de.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_de.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"raptor_demo_de.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles/locale","name":"raptor_demo_de.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"raptor_demo_en.json","ConfigValues":{
+        "release":{
+          "CopyToMask":"0",
+        },
+      },"CopyToMask":-1,"filePath":"datafiles/locale","name":"raptor_demo_en.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"raptor_demo_en.jx","ConfigValues":{
+        "release":{
+          "CopyToMask":"-1",
+        },
+      },"CopyToMask":0,"filePath":"datafiles/locale","name":"raptor_demo_en.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"demotable.json","ConfigValues":{
         "release":{
           "CopyToMask":"0",
@@ -222,9 +239,9 @@
     {"id":{"name":"_baseClickableControl","path":"objects/_baseClickableControl/_baseClickableControl.yy",},},
     {"id":{"name":"_baseContainerControl","path":"objects/_baseContainerControl/_baseContainerControl.yy",},},
     {"id":{"name":"_baseControl","path":"objects/_baseControl/_baseControl.yy",},},
-    {"id":{"name":"_baseControlWithTooltip","path":"objects/_baseControlWithTooltip/_baseControlWithTooltip.yy",},},
     {"id":{"name":"_DemoWindowBase","path":"objects/_DemoWindowBase/_DemoWindowBase.yy",},},
     {"id":{"name":"_raptorBase","path":"objects/_raptorBase/_raptorBase.yy",},},
+    {"id":{"name":"_raptorTooltipBase","path":"objects/_raptorTooltipBase/_raptorTooltipBase.yy",},},
     {"id":{"name":"AnimatedFlag","path":"objects/AnimatedFlag/AnimatedFlag.yy",},},
     {"id":{"name":"AnimationTester","path":"objects/AnimationTester/AnimationTester.yy",},},
     {"id":{"name":"BouncyChuck","path":"objects/BouncyChuck/BouncyChuck.yy",},},
@@ -307,6 +324,7 @@
     {"id":{"name":"Saveable","path":"objects/Saveable/Saveable.yy",},},
     {"id":{"name":"Scrollbar","path":"objects/Scrollbar/Scrollbar.yy",},},
     {"id":{"name":"ScrollPanel","path":"objects/ScrollPanel/ScrollPanel.yy",},},
+    {"id":{"name":"SecretWordTracker","path":"objects/SecretWordTracker/SecretWordTracker.yy",},},
     {"id":{"name":"Slider","path":"objects/Slider/Slider.yy",},},
     {"id":{"name":"Spawner","path":"objects/Spawner/Spawner.yy",},},
     {"id":{"name":"StatefulObject","path":"objects/StatefulObject/StatefulObject.yy",},},
@@ -383,12 +401,14 @@
     {"id":{"name":"AnimCurves","path":"scripts/AnimCurves/AnimCurves.yy",},},
     {"id":{"name":"Arrays","path":"scripts/Arrays/Arrays.yy",},},
     {"id":{"name":"AsyncFileTests","path":"scripts/AsyncFileTests/AsyncFileTests.yy",},},
+    {"id":{"name":"AsyncWorkerBase","path":"scripts/AsyncWorkerBase/AsyncWorkerBase.yy",},},
     {"id":{"name":"Audio_Configuration","path":"scripts/Audio_Configuration/Audio_Configuration.yy",},},
     {"id":{"name":"AudioHelper","path":"scripts/AudioHelper/AudioHelper.yy",},},
     {"id":{"name":"AudioSettings","path":"scripts/AudioSettings/AudioSettings.yy",},},
     {"id":{"name":"AudioToken","path":"scripts/AudioToken/AudioToken.yy",},},
     {"id":{"name":"Bindable","path":"scripts/Bindable/Bindable.yy",},},
     {"id":{"name":"Binding","path":"scripts/Binding/Binding.yy",},},
+    {"id":{"name":"BitsnBytes","path":"scripts/BitsnBytes/BitsnBytes.yy",},},
     {"id":{"name":"Broadcasting","path":"scripts/Broadcasting/Broadcasting.yy",},},
     {"id":{"name":"Browser_Click_Handler","path":"scripts/Browser_Click_Handler/Browser_Click_Handler.yy",},},
     {"id":{"name":"Buffers","path":"scripts/Buffers/Buffers.yy",},},
@@ -410,10 +430,10 @@
     {"id":{"name":"Coord4","path":"scripts/Coord4/Coord4.yy",},},
     {"id":{"name":"CoordTranslator","path":"scripts/CoordTranslator/CoordTranslator.yy",},},
     {"id":{"name":"DataBuilder","path":"scripts/DataBuilder/DataBuilder.yy",},},
-    {"id":{"name":"Debug_Mode","path":"scripts/Debug_Mode/Debug_Mode.yy",},},
+    {"id":{"name":"Debug_Configuration","path":"scripts/Debug_Configuration/Debug_Configuration.yy",},},
+    {"id":{"name":"debug_mode_constants","path":"scripts/debug_mode_constants/debug_mode_constants.yy",},},
     {"id":{"name":"DefaultSkin","path":"scripts/DefaultSkin/DefaultSkin.yy",},},
     {"id":{"name":"DefaultTheme","path":"scripts/DefaultTheme/DefaultTheme.yy",},},
-    {"id":{"name":"Draw_Debug_Info","path":"scripts/Draw_Debug_Info/Draw_Debug_Info.yy",},},
     {"id":{"name":"draw_text_scribble_ext","path":"scripts/draw_text_scribble_ext/draw_text_scribble_ext.yy",},},
     {"id":{"name":"draw_text_scribble","path":"scripts/draw_text_scribble/draw_text_scribble.yy",},},
     {"id":{"name":"Edges","path":"scripts/Edges/Edges.yy",},},
@@ -428,10 +448,11 @@
     {"id":{"name":"Game_ParticleTypes","path":"scripts/Game_ParticleTypes/Game_ParticleTypes.yy",},},
     {"id":{"name":"Game_Settings","path":"scripts/Game_Settings/Game_Settings.yy",},},
     {"id":{"name":"gmcallback_imgloadbar","path":"scripts/gmcallback_imgloadbar/gmcallback_imgloadbar.yy",},},
-    {"id":{"name":"GUI_Configuration","path":"scripts/GUI_Configuration/GUI_Configuration.yy",},},
+    {"id":{"name":"gui_runtime_config","path":"scripts/gui_runtime_config/gui_runtime_config.yy",},},
     {"id":{"name":"Guid","path":"scripts/Guid/Guid.yy",},},
     {"id":{"name":"GuiMouseTranslator","path":"scripts/GuiMouseTranslator/GuiMouseTranslator.yy",},},
     {"id":{"name":"HealthBarDrawer","path":"scripts/HealthBarDrawer/HealthBarDrawer.yy",},},
+    {"id":{"name":"HelperTests","path":"scripts/HelperTests/HelperTests.yy",},},
     {"id":{"name":"Highscore_Configuration","path":"scripts/Highscore_Configuration/Highscore_Configuration.yy",},},
     {"id":{"name":"HighScoreEntry","path":"scripts/HighScoreEntry/HighScoreEntry.yy",},},
     {"id":{"name":"HighScorerTests","path":"scripts/HighScorerTests/HighScorerTests.yy",},},
@@ -471,6 +492,7 @@
     {"id":{"name":"RaceTable","path":"scripts/RaceTable/RaceTable.yy",},},
     {"id":{"name":"RaceTests","path":"scripts/RaceTests/RaceTests.yy",},},
     {"id":{"name":"Random","path":"scripts/Random/Random.yy",},},
+    {"id":{"name":"raptor_debug_views","path":"scripts/raptor_debug_views/raptor_debug_views.yy",},},
     {"id":{"name":"RaptorFrameFormatter","path":"scripts/RaptorFrameFormatter/RaptorFrameFormatter.yy",},},
     {"id":{"name":"RaptorLogFormatterBase","path":"scripts/RaptorLogFormatterBase/RaptorLogFormatterBase.yy",},},
     {"id":{"name":"RaptorLogger","path":"scripts/RaptorLogger/RaptorLogger.yy",},},
@@ -630,6 +652,7 @@
     {"id":{"name":"StructTests","path":"scripts/StructTests/StructTests.yy",},},
     {"id":{"name":"TileScanner","path":"scripts/TileScanner/TileScanner.yy",},},
     {"id":{"name":"TooltipManager","path":"scripts/TooltipManager/TooltipManager.yy",},},
+    {"id":{"name":"UI_Configuration","path":"scripts/UI_Configuration/UI_Configuration.yy",},},
     {"id":{"name":"uiDemoButtons","path":"scripts/uiDemoButtons/uiDemoButtons.yy",},},
     {"id":{"name":"UiDemoDocking","path":"scripts/UiDemoDocking/UiDemoDocking.yy",},},
     {"id":{"name":"UiSkin","path":"scripts/UiSkin/UiSkin.yy",},},

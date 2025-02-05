@@ -25,6 +25,31 @@ control_tree = vsgetx(self, "control_tree", undefined);
 control_tree_layout = vsgetx(self, "control_tree_layout", undefined);
 data.__raptordata.client_area = new Rectangle(0, 0, sprite_width, sprite_height);
 
+/// @func	get_gui_world_offset(_coord2 = undefined)
+/// @desc	if this control draws on gui, you can get the offset
+///			between gui position and current room position (camera)
+///			of this control.
+///			To do something on the world/room position of this control,
+///			do it at x + offset.x
+get_gui_world_offset = function(_coord2 = undefined) {
+	var rv = _coord2 ?? new Coord2();
+	if (SELF_DRAW_ON_GUI) translate_gui_to_world(x, y, rv).add(-x, -y);
+	else rv.set(0, 0);
+	return rv;
+}
+
+/// @func	get_gui_world_offset_x()
+/// @desc	x offset only, see get_gui_world_offset() description
+get_gui_world_offset_x = function() {
+	return SELF_DRAW_ON_GUI ? translate_gui_to_world_x(x) - x : 0;
+}
+
+/// @func	get_gui_world_offset_y()
+/// @desc	y offset only, see get_gui_world_offset() description
+get_gui_world_offset_y = function() {
+	return SELF_DRAW_ON_GUI ? translate_gui_to_world_y(y) - y : 0;
+}
+
 /// @func update_client_area()
 update_client_area = function() {
 	data.__raptordata.client_area.set(0, 0, sprite_width, sprite_height);
@@ -61,39 +86,43 @@ on_client_area_changed = function() {}
 /// @desc Invoke this if you did create the control dynamically at runtime 
 ///				 to set the current position as the startup position after placing it in the scene
 update_startup_coordinates = function() {
-	__startup_x				= x;
-	__startup_y				= y;
-	__startup_xscale		= image_xscale;
-	__startup_yscale		= image_yscale;
-	__startup_mycenterx		= SELF_VIEW_CENTER_X;
-	__startup_mycentery		= SELF_VIEW_CENTER_Y;
-	__startup_myright		= SELF_VIEW_RIGHT_EDGE;
-	__startup_mybottom		= SELF_VIEW_BOTTOM_EDGE;
+	__startup_x			= x;
+	__startup_y			= y;
+	__startup_xscale	= image_xscale;
+	__startup_yscale	= image_yscale;
+	__startup_mycenterx	= SELF_VIEW_CENTER_X;
+	__startup_mycentery	= SELF_VIEW_CENTER_Y;
+	__startup_myright	= SELF_VIEW_RIGHT_EDGE;
+	__startup_mybottom	= SELF_VIEW_BOTTOM_EDGE;
 }
 set_startup_size();
 update_startup_coordinates();
 
-__last_sprite_index			= undefined;
-__last_sprite_width			= sprite_width;
-__last_sprite_height		= sprite_height;
-__last_text					= "";
-__scribble_text				= undefined;
-__text_x					= 0;
-__text_y					= 0;
-__text_width				= 0;
-__text_height				= 0;
-__text_anim_running			= false;
-__text_transform_running	= false;
-animated_text_color			= text_color;
-animated_draw_color			= draw_color;
+__last_sprite_index				= undefined;
+__last_sprite_width				= sprite_width;
+__last_sprite_height			= sprite_height;
+__last_text						= "";
+__scribble_text					= undefined;
+__text_x						= 0;
+__text_y						= 0;
+__text_width					= 0;
+__text_height					= 0;
+__text_anim_running				= false;
+__text_transform_running		= false;
+animated_text_color				= text_color;
+animated_draw_color				= draw_color;
 
-__first_scribble_render		= true;
-__force_redraw				= true;	 // first draw is forced
-__force_redraw_text_only	= false; // flag for mouse_enter/leave event which just trigger coloring
+__first_scribble_render			= true;
+__force_redraw					= true;	 // first draw is forced
+__force_redraw_text_only		= false; // flag for mouse_enter/leave event which just trigger coloring
 
-__disabled_surface			= undefined;
-__disabled_surface_width	= 0;
-__disabled_surface_height	= 0;
+__disabled_text_surface			= undefined;
+__disabled_text_surface_width	= 0;
+__disabled_text_surface_height	= 0;
+__disabled_text_offset_x		= 0;
+__disabled_text_offset_y		= 0;
+__disabled_text_backup_x		= 0;
+__disabled_text_backup_y		= 0;
 
 __animate_draw_color = function(_to) {
 	if (color_anim_frames == 0) {
@@ -167,13 +196,13 @@ __animate_text_transform = function(_to_size, _to_angle) {
 		});
 }
 
-cleanup_disabled_surface = function() {
-	if (__disabled_surface == undefined) return;
+cleanup_disabled_text_surface = function() {
+	if (__disabled_text_surface == undefined) return;
 	
-	__disabled_surface.Free();
-	__disabled_surface			= undefined;
-	__disabled_surface_width	= 0;
-	__disabled_surface_height	= 0;
+	__disabled_text_surface.Free();
+	__disabled_text_surface			= undefined;
+	__disabled_text_surface_width	= 0;
+	__disabled_text_surface_height	= 0;
 }
 
 __container = undefined; // if this is part of a window, it's the parent container
@@ -437,7 +466,8 @@ __draw_self = function() {
 			word_wrap = false; // no wrapping on zero-size objects
 		
 		if (__CONTROL_TEXT_CHANGED || was_forced) {
-			cleanup_disabled_surface();
+			if (__disabled_text_surface != undefined) 
+				cleanup_disabled_text_surface();
 			__scribble_text = __create_scribble_object(scribble_text_align, text);
 		}
 		
@@ -513,8 +543,6 @@ __draw_instance = function(_force = false) {
 			image_blend = animated_draw_color;
 			draw_self();
 		} else {
-			__disabled_surface_width = sprite_width;
-			__disabled_surface_height = sprite_height;
 			shader_set(DisabledShader);
 			draw_self();
 			shader_reset();
@@ -524,29 +552,46 @@ __draw_instance = function(_force = false) {
 	if (text != "") {
 		if (is_enabled) {
 			// cleanup so the next disable will create a new surface (contents might have changed)
-			if (__disabled_surface != undefined) 
-				cleanup_disabled_surface();
+			if (__disabled_text_surface != undefined) 
+				cleanup_disabled_text_surface();
 				
 			draw_scribble_text();
 		} else {
-			if (__disabled_surface == undefined) {
-				if (__disabled_surface_height == 0) {
-					__disabled_surface_width = __scribble_text.get_width();
-					__disabled_surface_height = __scribble_text.get_height();
+			if (__disabled_text_surface == undefined) {
+				__text_transform_running = false;
+				animation_abort_all(self);
+				__scribble_text.transform(1, 1, text_angle);
+				
+				if (__disabled_text_surface_height == 0) {
+					__disabled_text_surface_width = __scribble_text.get_width();
+					__disabled_text_surface_height = __scribble_text.get_height();
 				}
-				__disabled_surface = new Canvas(__disabled_surface_width, __disabled_surface_height);
-				var backx = __text_x;
-				var backy = __text_y;
-				__text_x -= x;
-				__text_y -= y;
-				__disabled_surface.Start();
+				__disabled_text_surface = new Canvas(
+					__disabled_text_surface_width, 
+					__disabled_text_surface_height);
+				
+				__disabled_text_offset_x = 0;
+				__disabled_text_offset_y = 0;
+				
+				if      (string_contains(scribble_text_align, "[fa_center]")) __disabled_text_offset_x = __disabled_text_surface_width / 2;
+				else if (string_contains(scribble_text_align, "[fa_right]" )) __disabled_text_offset_x = __disabled_text_surface_width;
+				if      (string_contains(scribble_text_align, "[fa_middle]")) __disabled_text_offset_y = __disabled_text_surface_height / 2;
+				else if (string_contains(scribble_text_align, "[fa_bottom]")) __disabled_text_offset_y = __disabled_text_surface_height;
+
+				__disabled_text_backup_x = __text_x;
+				__disabled_text_backup_y = __text_y;
+				__text_x = __disabled_text_offset_x;
+				__text_y = __disabled_text_offset_y;
+				
+				__disabled_text_surface.Start();
 				draw_scribble_text();
-				__disabled_surface.Finish();
-				__text_x = backx;
-				__text_y = backy;
+				__disabled_text_surface.Finish();
+				__text_x = __disabled_text_backup_x;
+				__text_y = __disabled_text_backup_y;
 			}
+
 			shader_set(DisabledShader);
-			__disabled_surface.Draw(x - sprite_xoffset, y - sprite_yoffset);
+			__disabled_text_surface.Draw(__text_x - __disabled_text_offset_x, __text_y - __disabled_text_offset_y);
 			shader_reset();
 		}
 	}

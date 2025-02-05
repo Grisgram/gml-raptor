@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AsyncWorkerBase",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AsyncWorkerBase",
+  "parent":{
+    "name":"Tools",
+    "path":"folders/_gml_raptor_/Tools.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

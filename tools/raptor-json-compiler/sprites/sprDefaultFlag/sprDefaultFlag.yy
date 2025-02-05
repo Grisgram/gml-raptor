@@ -9,6 +9,9 @@
   "collisionKind":1,
   "collisionTolerance":0,
   "ConfigValues":{
+    "mike":{
+      "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
+    },
     "release":{
       "textureGroupId":"{ \"name\":\"ui\", \"path\":\"texturegroups/ui\" }",
     },

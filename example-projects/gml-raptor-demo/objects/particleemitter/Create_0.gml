@@ -37,6 +37,7 @@
 event_inherited();
 
 is_streaming	= false;
+is_gui_draw		= false;
 
 __clone_created = !stream_with_clone;
 __my_emitter	= emitter_name;
@@ -56,35 +57,48 @@ __get_partsys = function() {
 	return (is_array(PARTSYS) ? PARTSYS[@ partsys_index] : PARTSYS);
 }
 
-/// @func		set_offset(xoff, yoff)
+/// @func	set_offset(xoff, yoff, _follow_instance = undefined)
 /// @desc	sets a static offset distance to apply when following an instance
-set_offset = function(xoff, yoff) {
-	follow_offset.set(xoff, yoff);
+set_offset = function(_xoff, _yoff, _follow_instance = undefined) {
+	if (_follow_instance != undefined) 
+		follow_instance = _follow_instance;
+
+	follow_offset.set(_xoff, _yoff);
 	__update_position(,true);
+	
 	return self;
 }
 
-/// @func		__update_position(ps = undefined, force = false)
+/// @func	__update_position(ps = undefined, force = false)
 __update_position = function(ps = undefined, force = false) {
-	if (follow_instance != undefined && instance_exists(follow_instance)) {
-		x = follow_instance.x + follow_offset.x * (scale_with_instance ? follow_instance.image_xscale : 1);
-		y = follow_instance.y + follow_offset.y * (scale_with_instance ? follow_instance.image_yscale : 1);
-		if (x != xprevious || y != yprevious || force) {
+	if (instance_exists(follow_instance)) {
+		if (is_gui_draw) {
+			x = translate_gui_to_world_x(follow_instance.x) + follow_offset.x * UI_VIEW_TO_CAM_FACTOR_X * (scale_with_instance ? follow_instance.image_xscale : 1);
+			y = translate_gui_to_world_y(follow_instance.y) + follow_offset.y * UI_VIEW_TO_CAM_FACTOR_Y * (scale_with_instance ? follow_instance.image_yscale : 1);
+		} else {
+			x = follow_instance.x + follow_offset.x * (scale_with_instance ? follow_instance.image_xscale : 1);
+			y = follow_instance.y + follow_offset.y * (scale_with_instance ? follow_instance.image_yscale : 1);
+		}
+		if (x != xprevious || y != yprevious || force || (is_gui_draw && CAM_HAS_CHANGED)) {
 			ps ??= __get_partsys();
-			ps.emitter_move_range_to(__my_emitter, x, y);
-			if (scale_with_instance)
+			
+			if (is_gui_draw)
+				ps.emitter_scale_to_factor(__my_emitter, UI_VIEW_TO_CAM_FACTOR_X, UI_VIEW_TO_CAM_FACTOR_Y);
+			else if (scale_with_instance)
 				ps.emitter_scale_to(__my_emitter, self);
+
+			ps.emitter_move_range_to(__my_emitter, x, y);
 		}
 	}
-	
+
 	if (is_streaming && !is_enabled)
 		stop();
 }
 
-/// @func		stream(particles_per_frame = undefined, particle_name = undefined)
+/// @func	stream(particles_per_frame = undefined, particle_name = undefined)
 /// @desc	Starts streaming particles as defined for the emitter.
-///					If you don't supply any parameters, the values from the variable definitions
-///					are used.
+///			If you don't supply any parameters, the values from the variable definitions
+///			are used.
 stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	if (!is_enabled) {
 		if (DEBUG_LOG_PARTICLES)
@@ -105,7 +119,7 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 	var temp_clone = self;
 	var ps = __get_partsys();
 	if (!__clone_created) {
-		if (follow_instance != undefined && instance_exists(follow_instance))
+		if (instance_exists(follow_instance))
 			temp_clone = ps.emitter_attach_clone(__my_emitter, follow_instance);
 		else
 			temp_clone = ps.emitter_clone(__my_emitter);
@@ -124,16 +138,16 @@ stream = function(particles_per_frame = undefined, particle_name = undefined) {
 		return temp_clone;
 	}
 	
+	ps.stream_stop(__my_emitter);
 	__update_position(ps, true);
 	if (DEBUG_LOG_PARTICLES)
 		dlog($"{MY_NAME}: Started streaming {pc} '{pn}' ppf at {ps.emitter_get_range_min(__my_emitter)} through '{__my_emitter}'");
-	ps.stream_stop(__my_emitter);
 	ps.stream(__my_emitter, pc, pn);
 	is_streaming = true;
 	return temp_clone;
 }
 
-/// @func		stop()
+/// @func	stop()
 /// @desc	Stops streaming
 stop = function() {
 	if (DEBUG_LOG_PARTICLES)
@@ -144,12 +158,12 @@ stop = function() {
 	return self;
 }
 
-/// @func		burst(particle_count = undefined, particle_name = undefined, stop_streaming = true)
+/// @func	burst(particle_count = undefined, particle_name = undefined, stop_streaming = true)
 /// @desc	Immediately bursts out n particles
-///					If you don't supply any parameters, the values from the variable definitions
-///					are used.
-///					If no burst_particle_name is set in the variable definitions, the
-///					stream_particle_name is used.
+///			If you don't supply any parameters, the values from the variable definitions
+///			are used.
+///			If no burst_particle_name is set in the variable definitions, the
+///			stream_particle_name is used.
 burst = function(particle_count = undefined, particle_name = undefined, stop_streaming = true) {
 	if (!is_enabled) {
 		if (DEBUG_LOG_PARTICLES)

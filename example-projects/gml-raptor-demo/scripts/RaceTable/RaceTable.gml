@@ -39,6 +39,21 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		return rv;
 	}
 
+	/// @func	create_instances(_query_result, _layer_name_or_depth, _pool_name)
+	/// @desc	Creates object instances from a given query result.
+	///			If the item structs already contain instances, they are overwritten.
+	///			This method has two use cases:
+	///			1) You queried a table without a layer, just to prepare a result,
+	///			   then you changed room to the action scene and _now_ want the instances
+	///			2) You kept this result to be used multiple times.
+	///			Returns an array of instances. The "onRaceDrop" callback has already been executed.
+	static create_instances = function(_query_result, _layer_name_or_depth, _pool_name) {
+		var rv = [];
+		for (var i = 0, len = array_length(_query_result); i < len; i++) 
+			array_push(rv, __drop_item(_query_result[@i], _layer_name_or_depth, _pool_name));
+		return rv;
+	}
+
 	/// @func __query_recursive(result, uniques)
 	static __query_recursive = function(_result, _uniques) {
 		// first, all enabled elements that are set to "always" will be part of the drop
@@ -147,9 +162,14 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 				dropx ?? 0, 
 				dropy ?? 0, 
 				_layer_name_or_depth, 
-				asset_get_index(itemtype));
+				asset_get_index(itemtype)
+			);
 		else {
-			_drop.instance = pool_get_instance(_pool_name, asset_get_index(itemtype), _layer_name_or_depth);
+			_drop.instance = pool_get_instance(
+				_pool_name, 
+				asset_get_index(itemtype), 
+				_layer_name_or_depth
+			);
 			_drop.instance.x = dropx ?? 0;
 			_drop.instance.y = dropy ?? 0;
 		}
@@ -158,18 +178,21 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 		invoke_if_exists(_drop.instance, "onRaceDrop", _drop.item);
 		
 		if (DEBUG_LOG_RACE) 
-			dlog($"Dropped item: instance='{name_of(_drop.instance)}'; object='{itemtype}'; layer='{_layer_name_or_depth}';");		
+			dlog($"Dropped item: instance='{name_of(_drop.instance)}'; object='{itemtype}'; layer='{_layer_name_or_depth}';");
+		
+		return _drop.instance;
 	}
 
 	#endregion
 	
 	#region batch methods and filtering
 	
-	/// @func	reset(_recursive)
+	/// @func	reset(_recursive = true)
 	/// @desc	Reset this table to the state when it was loaded from file.
 	///			NOTE: Temp tables and manually added tables can not be reset!
-	static reset = function(_recursive) {
+	static reset = function(_recursive = true) {
 		race.reset_table(name, _recursive);
+		return self;
 	}
 	
 	/// @func filter_items(_items = undefined)

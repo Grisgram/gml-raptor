@@ -1,7 +1,7 @@
 /// @description onTransitFinished override
 event_inherited();
 
-onTransitFinished = function() {
+onTransitFinished = function(_data) {
 }
 
 // Invoked, when you start loading a game in a different room

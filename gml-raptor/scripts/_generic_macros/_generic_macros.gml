@@ -27,7 +27,7 @@
 
 /// stringify data of "self"
 #macro MY_ID				string(real(id))
-#macro MY_NAME				string_concat(object_get_name(object_index), real(id))
+#macro MY_NAME				string_concat(object_get_name(object_index), "-", real(id))
 #macro MY_CLASS_NAME		name_of(self, false)
 #macro MY_OBJECT_NAME		object_get_name(object_index)
 #macro MY_LAYER_OR_DEPTH	((layer == -1) ? depth : layer_get_name(layer))
@@ -66,7 +66,7 @@ global.__unique_count_up_id	= 0;
 #macro __INSTANCE_UNREACHABLE		(__LAYER_OR_OBJECT_HIDDEN || __HIDDEN_BEHIND_POPUP || !__INSIDE_CLIPPING_AREA)
 
 // All controls skip their events, if this is true
-#macro SKIP_EVENT_MOUSE				(__INSTANCE_UNREACHABLE || __GUI_MOUSE_EVENT_LOCK || !__CONTROL_IS_TARGET_MOUSE)
+#macro SKIP_EVENT_MOUSE				(is_mouse_over_debug_overlay() || __INSTANCE_UNREACHABLE || __GUI_MOUSE_EVENT_LOCK || !__CONTROL_IS_TARGET_MOUSE)
 #macro SKIP_EVENT_NO_MOUSE			(__INSTANCE_UNREACHABLE || !__CONTROL_IS_TARGET_XY)
 #macro SKIP_EVENT_UNTARGETTED		(__INSTANCE_UNREACHABLE || !SELF_IS_ENABLED)
 
@@ -80,9 +80,9 @@ global.__unique_count_up_id	= 0;
 #macro GUI_EVENT_DRAW				if (parent_scrollpanel != undefined ||  SELF_DRAW_ON_GUI) exit;
 #macro GUI_EVENT_DRAW_GUI			if (parent_scrollpanel != undefined || !SELF_DRAW_ON_GUI) exit;
 
-#macro __DUMP_GUI_EVENT_MOUSE		ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} event_lock:{__GUI_MOUSE_EVENT_LOCK} target:{__CONTROL_IS_TARGET_MOUSE} enabled:{__CONTROL_IS_ENABLED} topmost={is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active}");
-#macro __DUMP_GUI_EVENT_NO_MOUSE	ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} target:{__CONTROL_IS_TARGET_XY} topmost={is_topmost(x, y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active}");
-#macro __DUMP_GUI_EVENT_UNTARGETTED	ilog($"{MY_NAME} unreachable:{__INSTANCE_UNREACHABLE} enabled:{SELF_IS_ENABLED} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active}");
+#macro __DUMP_GUI_EVENT_MOUSE		ilog($"{MY_NAME} unreachable={__INSTANCE_UNREACHABLE} event_lock={__GUI_MOUSE_EVENT_LOCK} target={__CONTROL_IS_TARGET_MOUSE} enabled={__CONTROL_IS_ENABLED} topmost={is_topmost(CTL_MOUSE_X, CTL_MOUSE_Y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active} RESULT={(SKIP_EVENT_MOUSE ? "EXIT" : "OK")}");
+#macro __DUMP_GUI_EVENT_NO_MOUSE	ilog($"{MY_NAME} unreachable={__INSTANCE_UNREACHABLE} target={__CONTROL_IS_TARGET_XY} topmost={is_topmost(x, y)} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active} RESULT={(SKIP_EVENT_NO_MOUSE ? "EXIT" : "OK")}");
+#macro __DUMP_GUI_EVENT_UNTARGETTED	ilog($"{MY_NAME} unreachable={__INSTANCE_UNREACHABLE} enabled={SELF_IS_ENABLED} gui={SELF_DRAW_ON_GUI} redirect={gui_mouse.event_redirection_active} RESULT={(SKIP_EVENT_UNTARGETTED ? "EXIT" : "OK")}");
 
 #macro DEPTH_BOTTOM_MOST			 15998
 #macro DEPTH_TOP_MOST				-15998
@@ -95,12 +95,16 @@ MOUSE_CURSOR = undefined;
 
 // try/catch/finally support
 #macro TRY		try {
-#macro CATCH	} catch (__exception) { \
-					elog(__exception.message); \
-					elog(__exception.longMessage); \
-					elog(__exception.script); \
-					for (var __st_i = 0; __st_i < array_length(__exception.stacktrace);__st_i++) \
-						elog(__exception.stacktrace[@ __st_i]); 
+#macro CATCH	} catch (__exception) {					\
+					if (is_string(__exception))			\
+						elog(__exception);				\
+					else {								\
+						elog(__exception.message);		\
+						elog(__exception.longMessage);	\
+						elog(__exception.script);		\
+						for (var __st_i = 0; __st_i < array_length(__exception.stacktrace);__st_i++) \
+							elog(__exception.stacktrace[@ __st_i]); \
+					}
 #macro FINALLY	} finally {
 #macro ENDTRY   }
 

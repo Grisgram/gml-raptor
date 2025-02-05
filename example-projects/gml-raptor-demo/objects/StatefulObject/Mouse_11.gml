@@ -2,7 +2,6 @@
 event_inherited();
 
 mouse_is_over = false;
-if (protect_ui_events) GUI_EVENT_MOUSE;
 
 if (__shall_forward_mouse_event("ev:mouse_leave")) {
 	

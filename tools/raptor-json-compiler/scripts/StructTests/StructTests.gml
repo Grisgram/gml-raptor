@@ -97,6 +97,52 @@ function unit_test_Structs() {
 		test.assert_zero(array_length(names), "zero");
 	}
 
+	ut.tests.class_tree_ok = function(test, data) {
+		var undef = class_tree(undefined);
+		test.assert_null(undef, "undefined arg");
+		
+		var tree = class_tree(Coord4);
+		test.assert_null(tree, "not an instance");
+		
+		tree = class_tree(new Coord4());
+		test.assert_equals(3, array_length(tree));
+		test.assert_equals("Coord4", tree[0], "tree[0]");
+		test.assert_equals("Coord3", tree[1], "tree[1]");
+		test.assert_equals("Coord2", tree[2], "tree[2]");
+	}
+
+	ut.tests.object_tree_ok = function(test, data) {
+		var undef = object_tree(undefined);
+		test.assert_null(undef, "undefined arg");
+
+		var tree = object_tree(Scrollbar, true); // as strings
+		test.assert_equals(8, array_length(tree));
+		test.assert_equals("Scrollbar"  , tree[0], "string tree[0]");
+		test.assert_equals("_raptorBase", tree[7], "string tree[7]");
+
+		tree = object_tree(Scrollbar, false); // as object indices
+		test.assert_equals(8, array_length(tree));
+		test.assert_equals(asset_get_index("Scrollbar")  , tree[0], "index tree[0]");
+		test.assert_equals(asset_get_index("_raptorBase"), tree[7], "index tree[7]");
+		
+		// We know, UTE uses scrollbars, so we have an instance
+		var firstscroll = undefined;
+		with (Scrollbar) {
+			firstscroll = self;
+			break;
+		}
+		
+		tree = object_tree(firstscroll, true);
+		test.assert_equals(8, array_length(tree));
+		test.assert_equals("Scrollbar"  , tree[0], "string tree[0]");
+		test.assert_equals("_raptorBase", tree[7], "string tree[7]");
+
+		tree = object_tree(firstscroll, false); // as object indices
+		test.assert_equals(8, array_length(tree));
+		test.assert_equals(asset_get_index("Scrollbar")  , tree[0], "index tree[0]");
+		test.assert_equals(asset_get_index("_raptorBase"), tree[7], "index tree[7]");
+	}
+
 	ut.run();
 }
 

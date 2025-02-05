@@ -1,27 +1,49 @@
 /*
-    short utility functions to measure time.
-	Mostly used to track runtime of functions while developing and optimizing
+    Short utility class to measure time.
 	
-	stopwatch_start([idx]) starts a stop watch
-	stopwatch_stop([idx],[write_to_log],[convert_ms]) calculates the elapsed time
-		and returns the value.
-		By default, it will be converted to ms (from µs) and printed to the log.
+	Starts automatically when constructed, but offers a .restart() method to reset
+	Use the .millis() or .micros() methods to get the elapsed time since start.
+	If you want to immediately also write the time to the log on debug level (dlog),
+	use .log_millis() or .log_micros() respectively. Those also return the time, they
+	just create the log in addition for you.
+	(The "name" you set in the constructor is part of the log line).
 */
 
-#macro __RAPTOR_STOPWATCH		global.__raptor_stopwatch
-__RAPTOR_STOPWATCH				= [];
+/// @func	StopWatch(_name = "StopWatch")
+function StopWatch(_name = "StopWatch") constructor {
+	
+	tstart	= get_timer();
+	name	= _name;
 
+	/// @func	restart()
+	static restart = function() {
+		tstart = get_timer();
+		return self;
+	}
 
-/// @func		stopwatch_start(_index = 0)
-function stopwatch_start(_index = 0) {
-	__RAPTOR_STOPWATCH[@ _index] = get_timer();
-}
+	/// @func	millis()
+	static millis = function() {
+		return (get_timer() - tstart) / 1000;
+	}
 
-/// @func		stopwatch_stop(_index = 0, _write_to_log = true, _convert_to_ms = true)
-function stopwatch_stop(_index = 0, _write_to_log = true, _convert_to_ms = true) {
-	var rv = get_timer() - __RAPTOR_STOPWATCH[@ _index];
-	if (_convert_to_ms) rv /= 1000;
-	if (_write_to_log)
-		ilog($"Stopwatch {_index}: {rv}{(_convert_to_ms ? "m" : "µ")}s");
-	return rv;
+	/// @func	micros()
+	static micros = function() {
+		return (get_timer() - tstart);
+	}
+	
+	/// @func	log_millis(_action = "elapsed")
+	/// @desc	Logs the time with an optional action (like "stopwatch <elapsed> 000ms")
+	static log_millis = function(_action = "elapsed") {
+		var rv = (get_timer() - tstart) / 1000;
+		dlog($"{name} {action} {rv}ms");
+		return rv;
+	}
+
+	/// @func	log_micros(_action = "elapsed")
+	/// @desc	Logs the time with an optional action (like "stopwatch <elapsed> 000µs")
+	static log_micros = function(_action = "elapsed") {
+		var rv = (get_timer() - tstart);
+		dlog($"{name} {action} {rv}µs");
+		return rv;
+	}
 }

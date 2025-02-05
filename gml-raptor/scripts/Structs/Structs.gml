@@ -5,11 +5,17 @@
 	Please respect the MIT License for this library: https://opensource.org/licenses/MIT
 */
 
-#macro __CONSTRUCTOR_NAME			"##_raptor_##.__constructor"
-#macro __PARENT_CONSTRUCTOR_NAME	"##_raptor_##.__parent_constructor"
-#macro __INTERFACES_NAME			"##_raptor_##.__interfaces"
+#macro __CONSTRUCTOR_NAME					"##_raptor_##.__constructor"
+#macro __PARENT_CONSTRUCTOR_NAME			"##_raptor_##.__parent_constructor"
+#macro __INTERFACES_NAME					"##_raptor_##.__interfaces"
 
-#macro interface	() constructor
+#macro interface							() constructor
+
+#macro __STRUCT_JOIN_CIRCULAR_LEVEL			global.__struct_join_circular_level
+#macro __STRUCT_JOIN_CIRCULAR_CACHE			global.__struct_join_circular_cache
+#macro __ENSURE_STRUCT_JOIN_CIRCULAR_CACHE	if (!variable_global_exists("__struct_join_circular_cache")) { __STRUCT_JOIN_CIRCULAR_CACHE = []; __STRUCT_JOIN_CIRCULAR_LEVEL = 0; }
+__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
+__STRUCT_JOIN_CIRCULAR_LEVEL = 0;
 
 /// @func	construct(_class_name_or_asset)
 /// @desc	Register a class as a constructible class to raptor.
@@ -19,14 +25,28 @@
 ///			the constructor and then perform a struct_join_into with the loaded data, so
 ///			all members receive their loaded values after the constructor executed.
 function construct(_class_name_or_asset) {
-	
+	gml_pragma("forceinline");
+	if (!is_string(_class_name_or_asset)) _class_name_or_asset = script_get_name(_class_name_or_asset);
 	self[$ __PARENT_CONSTRUCTOR_NAME] = string_concat(
-		vsget(self, __PARENT_CONSTRUCTOR_NAME, "|"),
-		vsget(self, __CONSTRUCTOR_NAME, ""),
-		"|"
+		"|",
+		_class_name_or_asset,
+		vsget(self, __PARENT_CONSTRUCTOR_NAME, "|")
 	);
 
-	self[$ __CONSTRUCTOR_NAME] = is_string(_class_name_or_asset) ? _class_name_or_asset : script_get_name(_class_name_or_asset);
+	self[$ __CONSTRUCTOR_NAME] = _class_name_or_asset;
+}
+
+/// @func	class_tree(_class_instance)
+/// @desc	Gets the entire class hierarchy as an array for the specified instance.
+///			At position[0] you will find the _class_instance's name and at the
+///			last position of the array you will find the root class name of the tree.
+///			NOTE: This function only works if you used the "construct" function of raptor
+///			and the argument MUST BE a living instance of the class!
+function class_tree(_class_instance) {
+	if (_class_instance == undefined || !struct_exists(_class_instance, __PARENT_CONSTRUCTOR_NAME))
+		return undefined;
+		
+	return string_split(_class_instance[$ __PARENT_CONSTRUCTOR_NAME], "|", true);
 }
 
 /// @func is_class_of(_struct, _class_name)
@@ -44,7 +64,6 @@ function is_child_class_of(_struct, _class_name) {
 	gml_pragma("forceinline");
 	if (!is_string(_class_name)) _class_name = script_get_name(_class_name);
 	return 
-		is_class_of(_struct, _class_name) ||
 		string_contains(vsget(_struct, __PARENT_CONSTRUCTOR_NAME, ""), $"|{_class_name}|");
 }
 
@@ -133,10 +152,18 @@ function struct_join(structs) {
 ///			all members from source to target.
 ///			NOTE: This is NOT a deep copy! If source contains other struct
 ///			references, they are simply copied, not recursively converted to new references!
+///			Circular references are handled. It is safe to join child-parent-child references.
 ///			ATTENTION! No static members can be transferred! Best use this for data structs only!
 function struct_join_into(target, sources) {
+	__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = [];
+	
+	__STRUCT_JOIN_CIRCULAR_LEVEL++;
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
+		if (from == undefined) continue;
+		
 		var names = struct_get_names(from);
 		for (var j = 0; j < array_length(names); j++) {
 			var name = names[@j];
@@ -146,14 +173,21 @@ function struct_join_into(target, sources) {
 					self[$ name] = method(self, member);
 				else {
 					vsgetx(self, name, member);
-					if (member != undefined && is_struct(member))
+					if (member != undefined && 
+						is_struct(member) && 
+						!array_contains(__STRUCT_JOIN_CIRCULAR_CACHE, member)) {
+						array_push(__STRUCT_JOIN_CIRCULAR_CACHE, member);
 						struct_join_into(self[$ name], member);
-					else
+					} else
 						self[$ name] = member;
 				}
 			}
 		}
 	}
+	__STRUCT_JOIN_CIRCULAR_LEVEL--;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = [];
+		
 	return target;
 }
 
