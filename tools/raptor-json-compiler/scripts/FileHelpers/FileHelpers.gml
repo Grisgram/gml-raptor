@@ -70,7 +70,7 @@ function directory_list_data_files(_folder = "", _recursive = false) {
 ///			may attach your own on_finished callbacks or whatever you need for each file.
 function directory_read_data_tree_async(_folder, _file_task_callback = undefined) {
 	var rv = {};
-	var gamefiles = directory_list_data_files("game", true);
+	var gamefiles = directory_list_data_files(_folder, true);
 	for (var i = 0, len = array_length(gamefiles); i < len; i++) {
 		var fn = gamefiles[@i];
 		var membername = file_get_filename(fn, false);

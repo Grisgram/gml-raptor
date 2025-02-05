@@ -196,44 +196,49 @@ __draw_bbox_rotated = function() {
 				translate_gui_to_world(x, y, other.__dbg_trans);
 			else 
 				other.__dbg_trans.set(x, y);
+			
+			if (DEBUG_SHOW_OBJECT_DEPTH)
+				draw_text(x - sprite_xoffset + 4, y - sprite_yoffset + 4, string(depth));
 		}
 		
-		__dbg_tl.set(-__dbg_inst.sprite_xoffset * __dbg_scale.x, -__dbg_inst.sprite_yoffset * __dbg_scale.y);
-		__dbg_tr.set(__dbg_tl.x + (__dbg_inst.sprite_width - 1) * __dbg_scale.x, __dbg_tl.y);
-		__dbg_bl.set(__dbg_tl.x, __dbg_tl.y + (__dbg_inst.sprite_height - 1) * __dbg_scale.y);
-		__dbg_br.set(__dbg_tr.x, __dbg_bl.y);
+		if (DEBUG_SHOW_OBJECT_FRAMES) {		
+			__dbg_tl.set(-__dbg_inst.sprite_xoffset * __dbg_scale.x, -__dbg_inst.sprite_yoffset * __dbg_scale.y);
+			__dbg_tr.set(__dbg_tl.x + (__dbg_inst.sprite_width - 1) * __dbg_scale.x, __dbg_tl.y);
+			__dbg_bl.set(__dbg_tl.x, __dbg_tl.y + (__dbg_inst.sprite_height - 1) * __dbg_scale.y);
+			__dbg_br.set(__dbg_tr.x, __dbg_bl.y);
 
-		__dbg_angle		= degtorad(-__dbg_inst.image_angle);
-		__dbg_cos		= cos(__dbg_angle);
-		__dbg_sin		= sin(__dbg_angle);
+			__dbg_angle		= degtorad(-__dbg_inst.image_angle);
+			__dbg_cos		= cos(__dbg_angle);
+			__dbg_sin		= sin(__dbg_angle);
 
-		__dbg_rot_tl.set(
-			__dbg_trans.x + (__dbg_tl.x * __dbg_cos - __dbg_tl.y * __dbg_sin),
-			__dbg_trans.y + (__dbg_tl.x * __dbg_sin + __dbg_tl.y * __dbg_cos)
-		);
+			__dbg_rot_tl.set(
+				__dbg_trans.x + (__dbg_tl.x * __dbg_cos - __dbg_tl.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_tl.x * __dbg_sin + __dbg_tl.y * __dbg_cos)
+			);
 
-		__dbg_rot_tr.set(
-			__dbg_trans.x + (__dbg_tr.x * __dbg_cos - __dbg_tr.y * __dbg_sin),
-			__dbg_trans.y + (__dbg_tr.x * __dbg_sin + __dbg_tr.y * __dbg_cos)
-		);
+			__dbg_rot_tr.set(
+				__dbg_trans.x + (__dbg_tr.x * __dbg_cos - __dbg_tr.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_tr.x * __dbg_sin + __dbg_tr.y * __dbg_cos)
+			);
 
-		__dbg_rot_bl.set(
-			__dbg_trans.x + (__dbg_bl.x * __dbg_cos - __dbg_bl.y * __dbg_sin),
-			__dbg_trans.y + (__dbg_bl.x * __dbg_sin + __dbg_bl.y * __dbg_cos)
-		);
+			__dbg_rot_bl.set(
+				__dbg_trans.x + (__dbg_bl.x * __dbg_cos - __dbg_bl.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_bl.x * __dbg_sin + __dbg_bl.y * __dbg_cos)
+			);
 
-		__dbg_rot_br.set(
-			__dbg_trans.x + (__dbg_br.x * __dbg_cos - __dbg_br.y * __dbg_sin),
-			__dbg_trans.y + (__dbg_br.x * __dbg_sin + __dbg_br.y * __dbg_cos)
-		);
+			__dbg_rot_br.set(
+				__dbg_trans.x + (__dbg_br.x * __dbg_cos - __dbg_br.y * __dbg_sin),
+				__dbg_trans.y + (__dbg_br.x * __dbg_sin + __dbg_br.y * __dbg_cos)
+			);
 
-		draw_primitive_begin(pr_linestrip);
-		draw_vertex(__dbg_rot_tl.x, __dbg_rot_tl.y);
-		draw_vertex(__dbg_rot_tr.x, __dbg_rot_tr.y);
-		draw_vertex(__dbg_rot_br.x, __dbg_rot_br.y);
-		draw_vertex(__dbg_rot_bl.x, __dbg_rot_bl.y);
-		draw_vertex(__dbg_rot_tl.x, __dbg_rot_tl.y);
-		draw_primitive_end();
+			draw_primitive_begin(pr_linestrip);
+			draw_vertex(__dbg_rot_tl.x, __dbg_rot_tl.y);
+			draw_vertex(__dbg_rot_tr.x, __dbg_rot_tr.y);
+			draw_vertex(__dbg_rot_br.x, __dbg_rot_br.y);
+			draw_vertex(__dbg_rot_bl.x, __dbg_rot_bl.y);
+			draw_vertex(__dbg_rot_tl.x, __dbg_rot_tl.y);
+			draw_primitive_end();
+		}
 	}
 	draw_set_color(c_white);
 }

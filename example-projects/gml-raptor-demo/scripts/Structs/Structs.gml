@@ -162,6 +162,8 @@ function struct_join_into(target, sources) {
 	__STRUCT_JOIN_CIRCULAR_LEVEL++;
 	for (var i = 1; i < argument_count; i++) {
 		var from = argument[i];
+		if (from == undefined) continue;
+		
 		var names = struct_get_names(from);
 		for (var j = 0; j < array_length(names); j++) {
 			var name = names[@j];

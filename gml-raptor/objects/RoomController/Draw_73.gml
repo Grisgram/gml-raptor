@@ -7,7 +7,9 @@ if (ACTIVE_TRANSITION != undefined) {
 	}
 }
 
-if (!global.__debug_shown) exit;
+if (CONFIGURATION_DEV) {
+	if (!global.__debug_shown) exit;
 
-if (DEBUG_SHOW_OBJECT_FRAMES)
-	__draw_bbox_rotated();
+	if (DEBUG_SHOW_OBJECT_FRAMES || DEBUG_SHOW_OBJECT_DEPTH)
+		__draw_bbox_rotated();
+}

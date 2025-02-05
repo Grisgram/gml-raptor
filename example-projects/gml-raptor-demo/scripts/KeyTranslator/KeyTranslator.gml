@@ -38,16 +38,16 @@ function keyboard_to_string(_key_to_translate = undefined) {
         //Universal non-UTF8 keycodes
         switch(_key)
         {             
-            case vk_up:			return "vk_up";    break;
-            case vk_down:		return "vk_down";  break;
-            case vk_left:		return "vk_left";  break;
-            case vk_right:		return "vk_right"; break;
+            case vk_up:			return "vk_up";    
+            case vk_down:		return "vk_down";  
+            case vk_left:		return "vk_left";  
+            case vk_right:		return "vk_right"; 
             
-            case vk_escape:		return "vk_escape";    break;
-            case vk_backspace:	return "vk_backspace"; break;
-            case vk_space:		return "vk_space";     break;
-            case vk_tab:		return "vk_tab";       break;
-            case vk_enter:		return "vk_enter";     break;
+            case vk_escape:		return "vk_escape";   
+            case vk_backspace:	return "vk_backspace";
+            case vk_space:		return "vk_space";    
+            case vk_tab:		return "vk_tab";      
+            case vk_enter:		return "vk_enter";    
         }
         
         //Apple Web exceptions
@@ -55,9 +55,9 @@ function keyboard_to_string(_key_to_translate = undefined) {
         {
             switch(_key)
             {
-                case 12: return "vk_numlock";   break;
-                case 92: return "vk_meta1";		break;
-                case 93: return "vk_meta2";		break;
+                case 12: return "vk_numlock";   
+                case 92: return "vk_meta1";		
+                case 93: return "vk_meta2";		
             }
         }
         
@@ -66,9 +66,9 @@ function keyboard_to_string(_key_to_translate = undefined) {
         {
             switch(_key)
             {
-                case 107: return "+"; break;
-                case 109: return "-"; break;
-                case 110: return "."; break;
+                case 107: return "+"; 
+                case 109: return "-"; 
+                case 110: return "."; 
             }
         }
 
@@ -84,59 +84,59 @@ function keyboard_to_string(_key_to_translate = undefined) {
             switch(_key)
             {                 
                 //Symbols
-                case 186: return ";";  break;
-                case 188: return ",";  break;
-                case 190: return ".";  break;
-                case 191: return "/";  break;
-                case 219: return "[";  break;
-                case 220: return "\\"; break;
-                case 221: return "]";  break;
+                case 186: return ";";  
+                case 188: return ",";  
+                case 190: return ".";  
+                case 191: return "/";  
+                case 219: return "[";  
+                case 220: return "\\"; 
+                case 221: return "]";  
             
                 //Control
-                case  93: return "vk_menu";      break;
-                case 144: return "vk_numlock";   break;
-                case 145: return "vk_scrollock"; break;
+                case  93: return "vk_menu";      
+                case 144: return "vk_numlock";   
+                case 145: return "vk_scrollock"; 
                                                    
                 //Command pairs
-                case vk_ralt: return "vk_ralt";	 break;
-                case vk_lalt: return "vk_lalt";  break;
-                case vk_alt:  return "vk_alt";   break;
+                case vk_ralt: return SEPARATE_LALT_RALT_KEYS ? "vk_ralt" : "vk_alt";
+                case vk_lalt: return SEPARATE_LALT_RALT_KEYS ? "vk_lalt" : "vk_alt";
+                case vk_alt:  return "vk_alt";
 
-                case vk_rshift: return "vk_rshift"; break;
-                case vk_lshift: return "vk_lshift";  break;
-                case vk_shift:  return "vk_shift";       break;
+                case vk_rshift: return SEPARATE_LSHIFT_RSHIFT_KEYS ? "vk_rshift" : "vk_shift";
+                case vk_lshift: return SEPARATE_LSHIFT_RSHIFT_KEYS ? "vk_lshift" : "vk_shift";
+                case vk_shift:  return "vk_shift"; 
             
-                case vk_rcontrol: return "vk_rcontrol"; break;
-                case vk_lcontrol: return "vk_lcontrol";  break;
-                case vk_control:  return "vk_control";       break;
+                case vk_rcontrol: return SEPARATE_LCONTROL_RCONTROL_KEYS ? "vk_rcontrol" : "vk_control";
+                case vk_lcontrol: return SEPARATE_LCONTROL_RCONTROL_KEYS ? "vk_lcontrol" : "vk_control";
+                case vk_control:  return "vk_control"; 
                 
                 //Numpad
-                case vk_numpad0:  return "vk_numpad0";	break;
-                case vk_numpad1:  return "vk_numpad1";	break;
-                case vk_numpad2:  return "vk_numpad2";	break;
-                case vk_numpad3:  return "vk_numpad3";	break;
-                case vk_numpad4:  return "vk_numpad4";	break;
-                case vk_numpad5:  return "vk_numpad5";	break;
-                case vk_numpad6:  return "vk_numpad6";	break;
-                case vk_numpad7:  return "vk_numpad7";	break;
-                case vk_numpad8:  return "vk_numpad8";	break;
-                case vk_numpad9:  return "vk_numpad9";	break;
-                case vk_divide:   return "vk_divide";	break;
-                case vk_decimal:  return "vk_decimal";	break;
-                case vk_multiply: return "vk_multiply"; break;
-                case vk_add:      return "vk_add";		break;
-                case vk_subtract: return "vk_subtract"; break;            
+                case vk_numpad0:  return "vk_numpad0";	
+                case vk_numpad1:  return "vk_numpad1";	
+                case vk_numpad2:  return "vk_numpad2";	
+                case vk_numpad3:  return "vk_numpad3";	
+                case vk_numpad4:  return "vk_numpad4";	
+                case vk_numpad5:  return "vk_numpad5";	
+                case vk_numpad6:  return "vk_numpad6";	
+                case vk_numpad7:  return "vk_numpad7";	
+                case vk_numpad8:  return "vk_numpad8";	
+                case vk_numpad9:  return "vk_numpad9";	
+                case vk_divide:   return "vk_divide";	
+                case vk_decimal:  return "vk_decimal";	
+                case vk_multiply: return "vk_multiply"; 
+                case vk_add:      return "vk_add";		
+                case vk_subtract: return "vk_subtract"; 
 
                 //Misc.
-                case 20:			 return "vk_capslock";    break;
-                case vk_home:        return "vk_home";         break;
-                case vk_end:         return "vk_end";          break;
-                case vk_insert:      return "vk_insert";       break;
-                case vk_delete:      return "vk_delete";       break;
-                case vk_pagedown:    return "vk_pagedown";    break;
-                case vk_pageup:      return "vk_pageup";      break;
-                case vk_printscreen: return "vk_printscreen"; break;
-                case vk_pause:       return "vk_pause";  break;
+                case 20:			 return "vk_capslock";    
+                case vk_home:        return "vk_home";        
+                case vk_end:         return "vk_end";         
+                case vk_insert:      return "vk_insert";      
+                case vk_delete:      return "vk_delete";      
+                case vk_pagedown:    return "vk_pagedown";    
+                case vk_pageup:      return "vk_pageup";      
+                case vk_printscreen: return "vk_printscreen"; 
+                case vk_pause:       return "vk_pause";		  
             }
         }
         
@@ -154,36 +154,36 @@ function keyboard_to_string(_key_to_translate = undefined) {
             case os_uwp:
                switch(_key)      
                {
-                   case 195: return "gamepad_face_south"; break;
-                   case 196: return "gamepad_face_east";  break;
-                   case 197: return "gamepad_face_west";  break;
-                   case 198: return "gamepad_face_north"; break;
+                   case 195: return "gamepad_face_south"; 
+                   case 196: return "gamepad_face_east";  
+                   case 197: return "gamepad_face_west";  
+                   case 198: return "gamepad_face_north"; 
 											
-                   case 200: return "gamepad_shoulder_l"; break;
-                   case 199: return "gamepad_shoulder_r"; break;
-                   case 201: return "gamepad_trigger_l";  break;
-                   case 202: return "gamepad_trigger_r";  break;
+                   case 200: return "gamepad_shoulder_l"; 
+                   case 199: return "gamepad_shoulder_r"; 
+                   case 201: return "gamepad_trigger_l";  
+                   case 202: return "gamepad_trigger_r";  
 											
-                   case 208: return "gamepad_select"; break;
-                   case 207: return "gamepad_start";  break;
+                   case 208: return "gamepad_select";	  
+                   case 207: return "gamepad_start";	  
 											
-                   case 209: return "gamepad_thumbstick_l_click"; break;
-                   case 210: return "gamepad_thumbstick_r_click"; break;
+                   case 209: return "gamepad_thumbstick_l_click"; 
+                   case 210: return "gamepad_thumbstick_r_click"; 
 											
-                   case 203: return "gamepad_dpad_up";    break;
-                   case 204: return "gamepad_dpad_down";  break;
-                   case 205: return "gamepad_dpad_left";  break;
-                   case 206: return "gamepad_dpad_right"; break;
+                   case 203: return "gamepad_dpad_up";    
+                   case 204: return "gamepad_dpad_down";  
+                   case 205: return "gamepad_dpad_left";  
+                   case 206: return "gamepad_dpad_right"; 
 											
-                   case 214: return "gamepad_thumbstick_l_left";  break;
-                   case 213: return "gamepad_thumbstick_l_right"; break;
-                   case 211: return "gamepad_thumbstick_l_up";    break;
-                   case 212: return "gamepad_thumbstick_l_down";  break;
+                   case 214: return "gamepad_thumbstick_l_left";  
+                   case 213: return "gamepad_thumbstick_l_right"; 
+                   case 211: return "gamepad_thumbstick_l_up";    
+                   case 212: return "gamepad_thumbstick_l_down";  
 													   
-                   case 218: return "gamepad_thumbstick_r_left";  break;
-                   case 217: return "gamepad_thumbstick_r_right"; break;
-                   case 215: return "gamepad_thumbstick_r_up";    break;
-                   case 216: return "gamepad_thumbstick_r_down";  break;
+                   case 218: return "gamepad_thumbstick_r_left";  
+                   case 217: return "gamepad_thumbstick_r_right"; 
+                   case 215: return "gamepad_thumbstick_r_up";    
+                   case 216: return "gamepad_thumbstick_r_down";  
                }
                 
             //UWP also uses Windows case
@@ -197,47 +197,47 @@ function keyboard_to_string(_key_to_translate = undefined) {
             
                 switch(_key)
                 {
-                    case 187: return "="; break;
-                    case 189: return "-"; break;
-                    case 192: return "`"; break;
-                    case 222: return "'"; break;
+                    case 187: return "="; 
+                    case 189: return "-"; 
+                    case 192: return "`"; 
+                    case 222: return "'"; 
             
-                    case 12:  return "vk_clear"; break;
+                    case 12:  return "vk_clear"; 
                     
-                    case 91: return "vk_meta1";  break;
-                    case 92: return "vk_meta2"; break;
+                    case 91: return "vk_meta1";  
+                    case 92: return "vk_meta2";  
                 }
             break;
             
             case os_macosx:
                 switch(_key)      
                 {
-                    case 128: return "F11"; break;
-                    case 129: return "F12"; break;
+                    case 128: return "F11"; 
+                    case 129: return "F12"; 
                     
-                    case 24:  return "="; break;
-                    case 109: return "-"; break;
-                    case 222: return "'"; break;
+                    case 24:  return "=";   
+                    case 109: return "-";   
+                    case 222: return "'";   
                     
                     //Swapped on Mac
-                    case 91:  return "vk_meta1"; break;
-                    case 92:  return "vk_meta2"; break;
+                    case 91:  return "vk_meta1"; 
+                    case 92:  return "vk_meta2"; 
                 }
             break;
             
             case os_linux:
                 switch(_key)      
                 {
-                    case 128: return "F11"; break;
-                    case 129: return "F12"; break;
+                    case 128: return "F11"; 
+                    case 129: return "F12"; 
                     
-                    case 187: return "="; break;
-                    case 189: return "-"; break;
-                    case 192: return "'"; break;
-                    case 223: return "`"; break;
+                    case 187: return "="; 
+                    case 189: return "-"; 
+                    case 192: return "'"; 
+                    case 223: return "`"; 
                     
-                    case 91:  return "vk_meta1"; break;
-                    case 92:  return "vk_meta2"; break;
+                    case 91:  return "vk_meta1"; 
+                    case 92:  return "vk_meta2"; 
                 }
             break;
             
@@ -254,10 +254,9 @@ function keyboard_to_string(_key_to_translate = undefined) {
                     case 2: case 3: case 4: 
                     case 5: case 6: case 7:
                         return string(_key);
-                    break;
                     
-                    case 128: return "F11"; break;
-                    case 129: return "F12"; break; 
+                    case 128: return "F11"; 
+                    case 129: return "F12"; 
                 }
             break;
         }

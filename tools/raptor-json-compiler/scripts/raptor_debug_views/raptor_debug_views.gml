@@ -5,10 +5,10 @@
 #macro __RAPTOR_DEBUG_VIEW_EDGE			4
 
 #macro __RAPTOR_DEBUG_VIEW_WIDTH		300
-#macro __RAPTOR_DEBUG_VIEW_HEIGHT		274
+#macro __RAPTOR_DEBUG_VIEW_HEIGHT		276
 
 #macro __RAPTOR_DEBUG_CAM_VIEW_WIDTH	300
-#macro __RAPTOR_DEBUG_CAM_VIEW_HEIGHT	274
+#macro __RAPTOR_DEBUG_CAM_VIEW_HEIGHT	276
 
 function __raptor_debug_view_opened() {
 	
@@ -21,13 +21,15 @@ function __raptor_debug_view_opened() {
 		__RAPTOR_DEBUG_VIEW_HEIGHT
 	);
 	dbg_section("Object Frames", true);
-	dbg_checkbox(ref_create(global, "__debug_show_object_frames"), "Show Object Frames");
+	dbg_checkbox(ref_create(global, "__debug_show_object_frames"), "Object Frames"); 
+	dbg_checkbox(ref_create(global, "__debug_show_object_depth"), "Depth");
 	dbg_section("ListPools", true);
 	dbg_text("Bindings:     "); dbg_same_line(); dbg_text(ref_create(BINDINGS, "__listcount"));
 	dbg_text("Animations:   "); dbg_same_line(); dbg_text(ref_create(ANIMATIONS, "__listcount"));
 	dbg_text("StateMachines:"); dbg_same_line(); dbg_text(ref_create(STATEMACHINES, "__listcount"));
 	dbg_section("Broadcasts", true);
-	dbg_text("Receivers:"); dbg_same_line(); dbg_text(ref_create(BROADCASTER, "__receivercount"));
+	dbg_text("Receivers:"); dbg_same_line(); dbg_text(ref_create(BROADCASTER, "__receivercount")); 
+	dbg_same_line(); dbg_text(" | "); dbg_same_line();
 	dbg_text("Sent:     "); dbg_same_line(); dbg_text(ref_create(global, "__raptor_broadcast_uid"));
 	dbg_section("Mouse", true);
 	dbg_text("World:"); dbg_same_line(); dbg_text(ref_create(global, "__world_mouse_xprevious")); dbg_same_line(); dbg_text("/"); dbg_same_line(); dbg_text(ref_create(global, "__world_mouse_yprevious"));

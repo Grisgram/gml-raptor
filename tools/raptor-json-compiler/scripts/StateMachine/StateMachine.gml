@@ -220,6 +220,8 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 					
 					__state_frame = 0;
 					rv = active_state.enter(prev_name, enter_override);
+					with(owner)	
+						on_state_changed(name, prev_name);
 					__perform_state_change("enter", rv);
 					break;
 				}
@@ -263,7 +265,7 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 	/// @desc	Delete a state from the StateMachine.
 	///			If the object is currently in this state, the delete request is silently ignored.
 	static delete_state = function(name) {
-		if (active_state_name() == name) 
+		if (get_active_state_name() == name) 
 			return;
 		var delidx = -1;
 		for (var i = 0, len = array_length(__states); i < len; i++) {
@@ -283,9 +285,9 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 		return active_state != undefined;
 	}
 	
-	/// @func	active_state_name()
+	/// @func	get_active_state_name()
 	/// @desc	Get the name of the active state
-	static active_state_name = function() {
+	static get_active_state_name = function() {
 		return active_state != undefined ? active_state.name : undefined;
 	}
 	
@@ -305,7 +307,7 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 	/// @func	get_active_state()
 	/// @desc	Get the state instance of the currently active state
 	static get_active_state = function() {
-		return get_state(active_state_name());
+		return get_state(get_active_state_name());
 	}
 	
 	/// @func	rename_state(old_name, new_name)
@@ -365,7 +367,7 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 		
 	toString = function() {
 		var me = name_of(owner) ?? "";
-		return $"{me}: state='{active_state_name()}'; locked='{locking_animation}'; paused={__objectpool_paused};";
+		return $"{me}: state='{get_active_state_name()}'; locked='{locking_animation}'; paused={__objectpool_paused};";
 	}
 	
 }

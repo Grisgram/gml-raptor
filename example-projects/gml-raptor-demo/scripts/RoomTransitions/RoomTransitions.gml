@@ -43,7 +43,7 @@ function __RoomTransition(_target_room, _need_fx_layer, _data = undefined) : Dat
 	}
 
 	static __destroy_fx_layer = function() {
-		if (fx_layer != undefined)
+		if (fx_layer != undefined && layer_exists(fx_layer))
 			layer_destroy(fx_layer);
 	}
 

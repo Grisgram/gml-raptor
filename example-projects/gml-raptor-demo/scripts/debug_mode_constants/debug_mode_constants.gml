@@ -32,10 +32,12 @@
 gml_release_mode(!DEBUG_MODE_ACTIVE);			
 
 #macro DEBUG_SHOW_OBJECT_FRAMES	global.__debug_show_object_frames
+#macro DEBUG_SHOW_OBJECT_DEPTH	global.__debug_show_object_depth
 #macro DEBUG_MODE_WINDOW_WIDTH	global.__debug_mode_window_width
 #macro DEBUG_MODE_WINDOW_HEIGHT	global.__debug_mode_window_height
 
 DEBUG_SHOW_OBJECT_FRAMES	= false;
+DEBUG_SHOW_OBJECT_DEPTH		= false;
 DEBUG_MODE_WINDOW_WIDTH		= 1280;
 DEBUG_MODE_WINDOW_HEIGHT	= 720;
 

@@ -4,7 +4,14 @@ if (DEBUG_MODE_ACTIVE && global.__debug_shown) {
 	// close/open the debug view if it was visible in previous room
 	// this forces a refresh of all custom debug views
 	GAMECONTROLLER.toggle_debug_view();
-	GAMECONTROLLER.toggle_debug_view();
+	try {
+		// re-show might fail if room has special init code...
+		GAMECONTROLLER.toggle_debug_view();
+	} catch (_) {
+		// ... in this case, hide the view entirely
+		GAMECONTROLLER.toggle_debug_view();
+		elog($"** ERROR ** Could not open debug view. Previous room was incompatible!");
+	}
 }
 
 UI_THEMES.refresh_theme();
