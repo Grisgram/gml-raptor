@@ -129,6 +129,7 @@ CAM_MAX_Y					= 0;
 
 // Common property shortcuts
 #macro SELF_DRAW_ON_GUI				(self[$ "draw_on_gui"] ?? false)
+#macro SELF_MOUSE_IS_OVER			(self[$ "mouse_is_over"] ?? false)
 #macro SELF_IS_ENABLED				(self[$ "is_enabled"] ?? true)
 #macro SELF_IS_CONTROL				(is_child_of(self, _baseControl))
 #macro SELF_IS_CONTAINER			(is_child_of(self, _baseContainerControl))
