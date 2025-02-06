@@ -94,7 +94,7 @@ __topmost_count = 0;
 __topmost_mindepth = depth;
 __topmost_runner = undefined;
 __topmost_cache = new ExpensiveCache();
-is_topmost = function(_x, _y) {
+is_topmost = function(_x, _y, _with_ui = true) {
 	if (__topmost_cache.is_valid()) 
 		return __topmost_cache.return_value;
 		
@@ -108,6 +108,11 @@ is_topmost = function(_x, _y) {
 			if (!__can_touch_this(__topmost_runner)) continue;
 			__topmost_mindepth = min(__topmost_mindepth, __topmost_runner.depth);
 		}
+		if (_with_ui)
+			with(_raptorBase)
+				if (self != other && SELF_DRAW_ON_GUI && SELF_MOUSE_IS_OVER)
+					other.__topmost_mindepth = min(other.__topmost_mindepth, depth);
+					
 		return __topmost_cache.set(__topmost_mindepth == depth);
 	}
 	return __topmost_cache.set(true);

@@ -779,7 +779,7 @@ function animation_abort_all(owner = self, _run_finished_triggers = true) {
 	if (DEBUG_LOG_LIST_POOLS)
 		with (owner) 
 			vlog($"{MY_NAME}: animation_abort_all cleanup: anims_to_remove={array_length(removers)};");
-		
+
 	for (var i = 0, len = array_length(removers); i < len; i++) {
 		var to_remove = removers[@ i];
 		with (to_remove) 
