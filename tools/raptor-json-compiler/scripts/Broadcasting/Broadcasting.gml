@@ -166,12 +166,7 @@ function Sender() constructor {
 			if (r.filter_hit(_title)) {
 				if (DEBUG_LOG_BROADCASTS)
 					dlog($"Sending broadcast #{bcid}: title='{_title}'; to='{r.name}';");
-				var rv = undefined;
-				if (is_object_instance(r.owner) || is_struct(r.owner))
-					with (r.owner) rv = r.callback(bc);
-				else
-					rv = r.callback(bc);
-				if (rv)
+				if (r.callback(bc))
 					array_push(removers, r.name);
 			}
 			if (bc.handled) {

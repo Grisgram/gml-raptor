@@ -123,7 +123,7 @@ function file_write_struct_plain_async(filename, struct, print_pretty = true) {
 		.__raptor_finished(function(_prev, _buffer, _data) {
 			if (variable_struct_exists(__FILE_CACHE, _data.filename)) {
 				dlog($"Updated cache for file '{_data.filename}' (struct)");
-				struct_set(__FILE_CACHE, _data.filename, SnapDeepCopy(_data.str));
+				struct_set(__FILE_CACHE, _data.filename, deep_copy(_data.str));
 			}
 			return true;
 		});
@@ -138,7 +138,7 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 	
 	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename)));
+			return new __FileAsyncCacheHit(filename, deep_copy(struct_get(__FILE_CACHE, filename)));
 		}
 		TRY
 			return file_read_text_file_async(filename, "", add_to_cache)
@@ -152,7 +152,7 @@ function file_read_struct_plain_async(filename, add_to_cache = false) {
 						rv = __file_reconstruct_root(indata);
 						if (_data.cache) {
 							dlog($"Added file '{_data.filename}' to cache (struct)");
-							struct_set(__FILE_CACHE, _data.filename, SnapDeepCopy(rv));
+							struct_set(__FILE_CACHE, _data.filename, deep_copy(rv));
 						}
 					}
 				CATCH ENDTRY
@@ -184,7 +184,7 @@ function file_write_struct_encrypted_async(filename, struct, cryptkey) {
 		.__raptor_finished(function(_prev, _buffer, _data) {
 			if (variable_struct_exists(__FILE_CACHE, _data.filename)) {
 				dlog($"Updated cache for file '{_data.filename}' (encrypted struct)");
-				struct_set(__FILE_CACHE, _data.filename, SnapDeepCopy(_data.str));
+				struct_set(__FILE_CACHE, _data.filename, deep_copy(_data.str));
 			}
 			return true;
 		})
@@ -201,7 +201,7 @@ function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = fal
 	
 	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
-			return new __FileAsyncCacheHit(filename, SnapDeepCopy(struct_get(__FILE_CACHE, filename)));
+			return new __FileAsyncCacheHit(filename, deep_copy(struct_get(__FILE_CACHE, filename)));
 		}
 		TRY
 			return new __FileAsyncReader(__FILE_WORKINGFOLDER_FILENAME, cryptkey)
@@ -217,7 +217,7 @@ function file_read_struct_encrypted_async(filename, cryptkey, add_to_cache = fal
 						rv = __file_reconstruct_root(indata);		
 						if (_data.cache) {
 							dlog($"Added file '{_data.filename}' to cache (encrypted struct)");
-							struct_set(__FILE_CACHE, _data.filename, SnapDeepCopy(rv));
+							struct_set(__FILE_CACHE, _data.filename, deep_copy(rv));
 						}
 					}
 				CATCH ENDTRY

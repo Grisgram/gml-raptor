@@ -122,6 +122,12 @@ set_cursor_custom = function(_cursor_sprite) {
 	_mouse_cursor_type = mouse_cursor_type.pointer;
 }
 
+/// @func	set_cursor_default()
+/// @desc	Reset the mouse cursor to the default pointer sprite
+set_cursor_default = function() {
+	set_cursor(mouse_cursor_type.pointer);
+}
+
 /// @func set_cursor(_mouse_cursor_type, _mouse_cursor_sizing = 0)
 set_cursor = function(_mouse_cursor_type, _mouse_cursor_sizing = 0) {
 	sprite_index = (_mouse_cursor_type == mouse_cursor_type.pointer ? mouse_cursor_sprite : mouse_cursor_sprite_sizing);

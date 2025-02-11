@@ -10,7 +10,7 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 	race = undefined;
 	name = _name;
 	if (_table_struct != undefined) { // if we come from savegame, no struct is given
-		struct_join_into(self, RACE_LOOT_DATA_DEEP_COPY ? SnapDeepCopy(_table_struct) : _table_struct);
+		struct_join_into(self, RACE_LOOT_DATA_DEEP_COPY ? deep_copy(_table_struct) : _table_struct);
 		// create attributes as empty struct if they don't exist
 		var names = struct_get_names(items);
 		for (var i = 0, len = array_length(names); i < len; i++) {
@@ -162,13 +162,15 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 				dropx ?? 0, 
 				dropy ?? 0, 
 				_layer_name_or_depth, 
-				asset_get_index(itemtype)
+				asset_get_index(itemtype),
+				vsget(_drop.item, "init")
 			);
 		else {
 			_drop.instance = pool_get_instance(
 				_pool_name, 
 				asset_get_index(itemtype), 
-				_layer_name_or_depth
+				_layer_name_or_depth,
+				vsget(_drop.item, "init")
 			);
 			_drop.instance.x = dropx ?? 0;
 			_drop.instance.y = dropy ?? 0;
