@@ -62,12 +62,14 @@ function is_object_instance(_inst) {
 /// @func	is_dead_object_instance(_inst)
 /// @desc	Checks whether a variable holds a dead/destroyed object instance pointer
 function is_dead_object_instance(_inst) {
-	return	!is_null(_inst) && 
-			!is_string(_inst) &&
-			!is_array(_inst) &&
-			real(_inst) >= 100000 &&
-			(typeof(_inst) == "ref" || is_struct(_inst) || vsget(_inst, "id")) &&
-			!instance_exists(_inst);
+	return	IS_HTML ? false : (
+				!is_null(_inst) && 
+				!is_string(_inst) &&
+				!is_array(_inst) &&
+				real(_inst) >= 100000 &&
+				(typeof(_inst) == "ref" || is_struct(_inst) || vsget(_inst, "id")) &&
+				!instance_exists(_inst)
+			);
 }
 
 /// @func	scale_sprite_to(target_width, target_height)
