@@ -190,7 +190,11 @@ __draw_bbox_rotated = function() {
 			continue;
 
 		with(__dbg_inst) {
-			draw_set_color(vsget(self, "__raptor_debug_frame_color", c_green));
+			draw_set_color(
+				vsget(self, "mouse_is_over", false) ? 
+				vsget(self, __RAPTOR_DEBUG_FRAME_COLOR_OVER_STR, c_fuchsia) :
+				vsget(self, __RAPTOR_DEBUG_FRAME_COLOR_STR, c_green)
+			);
 				
 			if (SELF_DRAW_ON_GUI)
 				translate_gui_to_world(x, y, other.__dbg_trans);

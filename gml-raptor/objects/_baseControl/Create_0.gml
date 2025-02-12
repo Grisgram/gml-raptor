@@ -10,8 +10,8 @@
 							(control_tree != undefined && control_tree.parent_tree == undefined))
 
 event_inherited();
-// undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
-vsgetx(self, "__raptor_debug_frame_color", c_green);
+// UI Controls render in a different color
+DEBUG_FRAME_COLOR = c_orange;
 
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;

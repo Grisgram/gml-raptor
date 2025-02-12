@@ -214,7 +214,7 @@ function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	has_depth		= (vsget(_owner, "depth") != undefined);
 	name			= _name;
 	message_filter  = string_split(_message_filter, "|", true);
-	callback		= _callback;
+	callback		= method(owner, _callback);
 	
 	static filter_hit = function(_title) {
 		if (array_contains(message_filter, _title))
