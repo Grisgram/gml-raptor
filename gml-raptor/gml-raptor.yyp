@@ -307,6 +307,7 @@
     {"id":{"name":"_GML_ANIMATED_FLAG_VERSION_","path":"scripts/_GML_ANIMATED_FLAG_VERSION_/_GML_ANIMATED_FLAG_VERSION_.yy",},},
     {"id":{"name":"_GML_HIGHSCORER_VERSION_","path":"scripts/_GML_HIGHSCORER_VERSION_/_GML_HIGHSCORER_VERSION_.yy",},},
     {"id":{"name":"_OUTLINE_SHADER_DRAWER_VERSION_","path":"scripts/_OUTLINE_SHADER_DRAWER_VERSION_/_OUTLINE_SHADER_DRAWER_VERSION_.yy",},},
+    {"id":{"name":"_race_functions","path":"scripts/_race_functions/_race_functions.yy",},},
     {"id":{"name":"_view_and_self_macros","path":"scripts/_view_and_self_macros/_view_and_self_macros.yy",},},
     {"id":{"name":"Animation","path":"scripts/Animation/Animation.yy",},},
     {"id":{"name":"AnimCurves","path":"scripts/AnimCurves/AnimCurves.yy",},},
