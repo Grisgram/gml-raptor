@@ -125,7 +125,7 @@ __disabled_text_backup_x		= 0;
 __disabled_text_backup_y		= 0;
 
 __animate_draw_color = function(_to) {
-	if (color_anim_frames == 0) {
+	if (__first_scribble_render || color_anim_frames <= 0) {
 		animated_draw_color = _to;
 		return;
 	}
