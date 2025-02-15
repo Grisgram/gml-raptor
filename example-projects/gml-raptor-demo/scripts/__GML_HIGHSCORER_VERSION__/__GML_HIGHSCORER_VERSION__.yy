@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"_GML_HIGHSCORER_VERSION_",
+  "%Name":"__GML_HIGHSCORER_VERSION__",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"_GML_HIGHSCORER_VERSION_",
+  "name":"__GML_HIGHSCORER_VERSION__",
   "parent":{
     "name":"gml-highscorer",
     "path":"folders/_gml_raptor_packages_/gml-highscorer.yy",

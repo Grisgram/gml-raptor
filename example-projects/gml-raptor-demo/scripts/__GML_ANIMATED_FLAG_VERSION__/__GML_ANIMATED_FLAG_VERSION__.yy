@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"_GML_ANIMATED_FLAG_VERSION_",
+  "%Name":"__GML_ANIMATED_FLAG_VERSION__",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"_GML_ANIMATED_FLAG_VERSION_",
+  "name":"__GML_ANIMATED_FLAG_VERSION__",
   "parent":{
     "name":"gml-animated-flag",
     "path":"folders/_gml_raptor_packages_/gml-animated-flag.yy",

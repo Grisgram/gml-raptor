@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"outline_shader_init_globals",
   "parent":{
-    "name":"outline-shader-drawer",
-    "path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",
+    "name":"gml-outline-shader",
+    "path":"folders/_gml_raptor_packages_/gml-outline-shader.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

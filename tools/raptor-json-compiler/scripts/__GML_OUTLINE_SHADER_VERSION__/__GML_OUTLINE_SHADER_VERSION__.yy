@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"OutlineDrawer",
+  "%Name":"__GML_OUTLINE_SHADER_VERSION__",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"OutlineDrawer",
+  "name":"__GML_OUTLINE_SHADER_VERSION__",
   "parent":{
     "name":"gml-outline-shader",
     "path":"folders/_gml_raptor_packages_/gml-outline-shader.yy",
