@@ -162,3 +162,48 @@ function __camera_action_move(actiondata) {
 		__camera_set_pos(cam, actiondata.target_x, actiondata.target_y, actiondata.stop_at_room_borders);	
 }
 
+function __camera_action_bump(actiondata) {
+	var cam = view_camera[actiondata.camera_index];
+	if (actiondata.first_call) {
+		actiondata.first_call = false;
+		
+		var zoomer = __CAMERA_RUNTIME.get_zoom_action();
+		var cw = CAM_WIDTH;
+		var ch = CAM_HEIGHT;
+		if (zoomer != undefined) {
+			cw = zoomer.new_width;
+			ch = zoomer.new_height;
+		}
+		
+		macro_camera_viewport_index_switch_to(actiondata.camera_index);
+		actiondata.cam_start_x = CAM_LEFT_EDGE;
+		actiondata.cam_start_y = CAM_TOP_EDGE ;
+
+		// a bump action is always relative		
+		actiondata.target_x = CAM_LEFT_EDGE + actiondata.distance_x;
+		actiondata.target_y = CAM_TOP_EDGE  + actiondata.distance_y;
+		
+		var aligned		= __get_target_for_cam_align(actiondata.target_x, actiondata.target_y, cw, ch, actiondata.camera_align);
+		actiondata.target_x		= aligned.x;
+		actiondata.target_y		= aligned.y;
+		
+		actiondata.distance_x = actiondata.target_x - CAM_LEFT_EDGE;
+		actiondata.distance_y = actiondata.target_y - CAM_TOP_EDGE ;
+		macro_camera_viewport_index_switch_back();
+		
+		// a bump always ends where it started
+		actiondata.target_x = actiondata.cam_start_x;
+		actiondata.target_y = actiondata.cam_start_y;
+	}
+	
+	actiondata.next_step_x = actiondata.distance_x * anim_curve_step.x;
+	actiondata.next_step_y = actiondata.distance_y * anim_curve_step.y;
+	
+	__camera_set_pos(cam, 
+		actiondata.cam_start_x + actiondata.next_step_x, 
+		actiondata.cam_start_y + actiondata.next_step_y,
+		actiondata.stop_at_room_borders);
+			
+	if (actiondata.completed) 
+		__camera_set_pos(cam, actiondata.target_x, actiondata.target_y, actiondata.stop_at_room_borders);	
+}

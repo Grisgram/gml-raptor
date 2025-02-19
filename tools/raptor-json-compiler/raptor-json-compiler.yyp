@@ -139,6 +139,7 @@
   "resources":[
     {"id":{"name":"__raptorAcControlColorAnim","path":"animcurves/__raptorAcControlColorAnim/__raptorAcControlColorAnim.yy",},},
     {"id":{"name":"__raptorAcControlDraw","path":"animcurves/__raptorAcControlDraw/__raptorAcControlDraw.yy",},},
+    {"id":{"name":"acBounce","path":"animcurves/acBounce/acBounce.yy",},},
     {"id":{"name":"acLinearAlpha","path":"animcurves/acLinearAlpha/acLinearAlpha.yy",},},
     {"id":{"name":"acLinearBlend","path":"animcurves/acLinearBlend/acLinearBlend.yy",},},
     {"id":{"name":"acLinearMove","path":"animcurves/acLinearMove/acLinearMove.yy",},},
@@ -148,6 +149,7 @@
     {"id":{"name":"acLinearXPlus","path":"animcurves/acLinearXPlus/acLinearXPlus.yy",},},
     {"id":{"name":"acLinearYMinus","path":"animcurves/acLinearYMinus/acLinearYMinus.yy",},},
     {"id":{"name":"acLinearYPlus","path":"animcurves/acLinearYPlus/acLinearYPlus.yy",},},
+    {"id":{"name":"acWave","path":"animcurves/acWave/acWave.yy",},},
     {"id":{"name":"browser_click_handler","path":"extensions/browser_click_handler/browser_click_handler.yy",},},
     {"id":{"name":"browser_hdpi","path":"extensions/browser_hdpi/browser_hdpi.yy",},},
     {"id":{"name":"ImageLoadBar","path":"extensions/ImageLoadBar/ImageLoadBar.yy",},},

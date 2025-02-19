@@ -141,8 +141,8 @@ function __savegame_deep_copy_remove(source, _refstack) constructor {
 			} 
 			else if (is_dead_object_instance(_value))
 			{
-				_value = undefined;
 				wlog($"** WARNING ** Data integrity warning, removed dead object instance #'{_i}' in array before saving!");
+				_value = undefined;
 			}
             else if (is_struct(_value))
             {

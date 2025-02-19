@@ -9,6 +9,7 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 	// the member "items" comes from the json file - it is not declared here
 	race = undefined;
 	name = _name;
+
 	if (_table_struct != undefined) { // if we come from savegame, no struct is given
 		struct_join_into(self, RACE_LOOT_DATA_DEEP_COPY ? deep_copy(_table_struct) : _table_struct);
 		// create attributes as empty struct if they don't exist
@@ -22,7 +23,11 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 	
 	#region query
 	/// @func	query(_layer_name_or_depth = undefined, _pool_name = "")
-	/// @desc	Perform a loot query
+	/// @desc	Perform a loot query.
+	///			NOTE: If you do not supply a _layer_name_or_depth, NO INSTANCES
+	///			will be created by the query() function!
+	///			You can batch-create all instances from the result set through
+	///			create_instances(queryresult) on this table afterwards.
 	static query = function(_layer_name_or_depth = undefined, _pool_name = "") {
 		var drop_instances = !is_null(_layer_name_or_depth);
 		loot_count = max(0, loot_count);
@@ -265,4 +270,13 @@ function RaceTable(_name = "", _table_struct = undefined) constructor {
 	}
 	
 	#endregion
+}
+
+/// @func	RaceTableStruct(_loot_count = 1) constructor
+/// @desc	Create a new, empty race table struct
+function RaceTableStruct(_loot_count = 1) constructor {
+	// DO NOT USE THE construct(...) COMMAND HERE!
+	// THIS STRUCT MAY NOT HAVE ADDITIONAL MEMBERS!
+	loot_count	= _loot_count;
+	items		= {};
 }

@@ -252,7 +252,7 @@ function string_to_real_ex(str, __allow_decimal = true) {
 	return valid ? string_to_real(extracted) : undefined;
 }
 
-/// @func	string_to_real(str)
+/// @func	string_to_int(str)
 /// @desc	Tries to convert the string to an int64. returns undefined, if failed
 function string_to_int(str) {
 	gml_pragma("forceinline");

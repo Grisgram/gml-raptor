@@ -20,8 +20,8 @@
 #macro	STATEMACHINES	global.__statemachine_pool
 STATEMACHINES		= new ListPool("STATEMACHINES");
 
-#macro STATE_DISABLE_EVENTS			states.set_state_enabled("ev:*", false);
-#macro STATE_ENABLE_EVENTS			states.set_state_enabled("ev:*", true);
+#macro STATE_DISABLE_EVENTS_ALL		with(StatefulObject) states.set_event_states_enabled(false);
+#macro STATE_ENABLE_EVENTS_ALL		with(StatefulObject) states.set_event_states_enabled(true);
 
 /// @func	StateMachine(_owner, ...)
 /// @desc	Create a new state machine with a list of states
@@ -262,6 +262,11 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 			if (st != undefined) st.enabled = enabled;
 		}
 		return self;
+	}
+
+	/// @func	set_event_states_enabled(_enabled) 
+	static set_event_states_enabled = function(_enabled) {
+		return set_state_enabled("ev:*", _enabled);
 	}
 	
 	/// @func	delete_state(_name)

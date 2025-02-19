@@ -212,6 +212,7 @@
   "resources":[
     {"id":{"name":"__raptorAcControlColorAnim","path":"animcurves/__raptorAcControlColorAnim/__raptorAcControlColorAnim.yy",},},
     {"id":{"name":"__raptorAcControlDraw","path":"animcurves/__raptorAcControlDraw/__raptorAcControlDraw.yy",},},
+    {"id":{"name":"acBounce","path":"animcurves/acBounce/acBounce.yy",},},
     {"id":{"name":"acBouncyChuck_1","path":"animcurves/acBouncyChuck_1/acBouncyChuck_1.yy",},},
     {"id":{"name":"acBouncyChuck_2","path":"animcurves/acBouncyChuck_2/acBouncyChuck_2.yy",},},
     {"id":{"name":"acEnemySpawn","path":"animcurves/acEnemySpawn/acEnemySpawn.yy",},},
@@ -226,6 +227,7 @@
     {"id":{"name":"acLinearYPlus","path":"animcurves/acLinearYPlus/acLinearYPlus.yy",},},
     {"id":{"name":"acRotate360","path":"animcurves/acRotate360/acRotate360.yy",},},
     {"id":{"name":"acSpawnerAppear","path":"animcurves/acSpawnerAppear/acSpawnerAppear.yy",},},
+    {"id":{"name":"acWave","path":"animcurves/acWave/acWave.yy",},},
     {"id":{"name":"browser_click_handler","path":"extensions/browser_click_handler/browser_click_handler.yy",},},
     {"id":{"name":"browser_hdpi","path":"extensions/browser_hdpi/browser_hdpi.yy",},},
     {"id":{"name":"ImageLoadBar","path":"extensions/ImageLoadBar/ImageLoadBar.yy",},},
