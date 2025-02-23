@@ -139,5 +139,37 @@ function unit_test_Strings() {
 		test.assert_null(string_to_int_ex("hello world 42")	, "10");
 	}
 
+	ut.tests.string_interpret_direct_ok = function(test, data) {
+		var tester = new VersionedDataStruct();
+		test.assert_true(string_interpret("VersionedDataStruct", tester));
+	}
+
+	ut.tests.string_interpret_first_level_ok = function(test, data) {
+		var tester = new VersionedDataStruct();
+		tester.name = "unit test"
+		test.assert_true(string_interpret("VersionedDataStruct.name:unit test", tester));
+	}
+
+	ut.tests.string_interpret_deep_ok = function(test, data) {
+		var tester = new DataBuilder().set_data("testvalue", 42);
+		test.assert_true(string_interpret("DataBuilder.data.testvalue:42", tester));
+	}
+
+	ut.tests.string_interpret_first_level_func_ok = function(test, data) {
+		var tester = new VersionedDataStruct();
+		tester.get_name = function() { return "unit test"; };
+		test.assert_true(string_interpret("VersionedDataStruct.get_name():unit test", tester));
+	}
+
+	ut.tests.string_interpret_deep_func_ok = function(test, data) {
+		var tester = new DataBuilder().set_data("testfunc", function() { return 42; });
+		test.assert_true(string_interpret("DataBuilder.data.testfunc():42", tester));
+	}
+
+	ut.tests.string_interpret_inheritance_ok = function(test, data) {
+		test.assert_true(string_interpret("VersionedDataStruct.start_fullscreen:false", GAMESETTINGS));
+		test.assert_false(string_interpret("VersionedDataStruct.start_fullscreen:false", GAMESETTINGS, false));
+	}
+
 	ut.run();
 }

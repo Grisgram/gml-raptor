@@ -10,5 +10,5 @@ tooltip_text		= __RAPTORDATA.tooltip_text;
 auto_show_tooltip	= __RAPTORDATA.auto_show_tooltip;
 tooltip_object		= is_null(__RAPTORDATA.tooltip_object) ? undefined : asset_get_index(__RAPTORDATA.tooltip_object);
 
-if (vsget(__RAPTORDATA, __POOL_SOURCE_NAME))	self[$ __POOL_SOURCE_NAME]	= __RAPTORDATA[$ __POOL_SOURCE_NAME];
-if (vsget(__RAPTORDATA, __INTERFACES_NAME))		self[$ __INTERFACES_NAME]	= __RAPTORDATA[$ __INTERFACES_NAME];
+if (struct_exists(__RAPTORDATA, __POOL_SOURCE_NAME))	self[$ __POOL_SOURCE_NAME]	= __RAPTORDATA[$ __POOL_SOURCE_NAME];
+if (struct_exists(__RAPTORDATA, __INTERFACES_NAME ))	self[$ __INTERFACES_NAME]	= __RAPTORDATA[$ __INTERFACES_NAME];

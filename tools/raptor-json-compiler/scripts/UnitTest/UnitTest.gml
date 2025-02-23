@@ -333,7 +333,8 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			if (is_struct(new_data))
 				__data_for_test = new_data;
 		} catch (_ex) {
-			__log(0, $"FAIL: test_start of '{__current_test_name}' threw '{_ex.message}'");
+			var exm = string_replace_all(is_string(_ex) ? _ex : _ex.longMessage, "[", "[[");
+			__log(0, $"FAIL: test_start of '{__current_test_name}' threw '{exm}'");
 			__current_test_ok = false;
 		}
 			
@@ -342,7 +343,7 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 			try {
 				struct_get(tests, __current_test_name)(self, __data_for_test);
 			} catch (_ex) {
-				var exm = is_string(_ex) ? _ex : _ex.longMessage;
+				var exm = string_replace_all(is_string(_ex) ? _ex : _ex.longMessage,"[","[[");
 				if (__current_test_exc == undefined ||
 						(!string_is_empty(__current_test_exc) && !string_contains(exm, __current_test_exc) &&
 							(!IS_HTML || string_contains(exm, "undefined to a number"))
@@ -378,7 +379,8 @@ function UnitTest(name = "UnitTest", _test_data = {}) constructor {
 		try {
 			test_finish(__current_test_name, __data_for_test);
 		} catch (_ex) {
-			__log(0, $"FAIL: test_finish of '{__current_test_name}' threw '{_ex.message}'");
+			var exm = string_replace_all(is_string(_ex) ? _ex : _ex.longMessage,"[","[[");
+			__log(0, $"FAIL: test_finish of '{__current_test_name}' threw '{exm}'");
 			__current_test_ok = false;
 		}
 		

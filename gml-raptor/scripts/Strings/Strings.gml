@@ -333,3 +333,61 @@ function string_get_hex(decimal, len = 2, to_uppercase = true) {
     }
 	return rv;
 }
+
+/// @func	string_interpret(_str, _instance, _with_inheritance = true)
+/// @desc	Interprets a string that may contain dot-notation, like
+///			"myinst.data.name:value" and interprets this against the supplied instance.
+///			If _str does not contain a dot-notation, name_of(_instance,false) is compared against _str.
+///			If _str ends with "()", the last part of the chain is considered a function and will be invoked
+///			on the instance. ONLY PARAMETERLESS FUNCTIONS ARE SUPPORTED! (like ".get_name()")
+///			If _with_inheritance is true, interpret also succeeds if the _instance is a child of the
+///			type name of _str. It is automatically detected, whether _instance is an object or class instance.
+///			Example: 
+///			- You are ("self") an object or an instance of type Enemy that contains .data.name with a value of "Mummy"
+///			- You call string_interpret("Enemy.data.name:Mummy", self) and it returns true, because
+///           your .data.name == "Mummy"
+///			- Would you call it with ("Enemy.data.name:Scarab", self) it would return false.
+///			This function is very useful to connect variables/members of objects in string, like when
+///			you read data from json and want to compare it with runtime data of your living objects.
+///			Boolean conversion is automatically in place, ":true" and ":false" are compared with "1" and "0"
+///			(which is gml default)
+function string_interpret(_str, _instance, _with_inheritance = true) {
+	if (string_contains(_str, ".")) {
+		if (string_contains(_str, ":")) {
+			var colon = string_index_of(_str, ":");
+			var dotpart = string_substring(_str, 1, colon - 1);
+			var sa = string_split(dotpart, ".");
+			
+			// early exit, if type name of instance and first entry do not match
+			var next = array_shift(sa);
+			if (_with_inheritance) {
+				if (is_object_instance(_instance)) {
+					if (!is_child_of(_instance, next))
+						return false;
+				} else {
+					if (!is_child_class_of(_instance, next))
+						return false;
+				}
+			} else
+				if (next != name_of(_instance, false))
+					return false;
+			
+			var valuepart = string_substring(_str, colon + 1);
+			if (valuepart == "true") valuepart = 1; else if (valuepart == "false") valuepart = 0;
+			var last = string_trim(array_pop(sa));
+			var is_func = string_ends_with(last, "()");
+			if (is_func) last = string_skip_end(last, 2);
+			
+			next = _instance;
+			while (array_length(sa) > 0) 
+				next = next[$ array_shift(sa)];
+			
+			if (is_func)
+				return string(next[$ last]()) == valuepart;
+			else
+				return string(next[$ last]) == valuepart;
+		} else
+			throw("String interpreter with dot-notation requires ':' for value separation");
+	} else
+		return _str == name_of(_instance, false);
+}
