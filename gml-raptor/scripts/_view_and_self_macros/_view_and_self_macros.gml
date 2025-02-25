@@ -137,4 +137,4 @@ CAM_MAX_Y					= 0;
 #macro SELF_HAS_WINDOW				(is_child_of(invoke_if_exists(self, "get_window"), RaptorWindow))
 
 // A spawn-position far outside the room
-#macro NIRVANA						-100000, -100000
+#macro NIRVANA						-100000

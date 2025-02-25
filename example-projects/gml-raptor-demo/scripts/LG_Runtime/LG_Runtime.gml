@@ -300,7 +300,7 @@ function LG() {
 	}
 	
 	// this inner function looks for variable values [:...] and tries to resolve it
-	static findvars = function(str) {
+	static findvars = function(str, _scope) {
 		static __resolve_variable = function(_scope, str) {
 			var sa = string_split(string_substring(str, 1, string_pos("]", str) - 1), ".");
 			TRY
@@ -309,7 +309,10 @@ function LG() {
 					next = struct_get(next, sa[@i]);
 				}
 				
-				return string(next);
+				if (is_method(next))
+					return string(next());
+				else
+					return string(next);
 			CATCH
 				return $"??? {str} ???";
 			ENDTRY
@@ -336,7 +339,7 @@ function LG() {
 					if (endpos > 2)
 						str = string_replace_all(str,
 							string_copy(runner, 1, endpos),
-							__resolve_variable(self, string_substring(runner, 3))
+							__resolve_variable(_scope, string_substring(runner, 3))
 						);
 				}
 			}
@@ -382,7 +385,7 @@ function LG() {
 			ref = findref(result);
 		}
 		var before = result;
-		result = findvars(result);
+		result = findvars(result, self);
 		may_cache = (before == result);
 	}
 	
