@@ -11,8 +11,8 @@
   "name":"OutlineObjectBaked",
   "overriddenProperties":[],
   "parent":{
-    "name":"outline-shader-drawer",
-    "path":"folders/_gml_raptor_packages_/outline-shader-drawer.yy",
+    "name":"gml-outline-shader",
+    "path":"folders/_gml_raptor_packages_/gml-outline-shader.yy",
   },
   "parentObjectId":{
     "name":"OutlineObject",

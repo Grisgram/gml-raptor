@@ -143,6 +143,65 @@ function unit_test_Structs() {
 		test.assert_equals(asset_get_index("_raptorBase"), tree[7], "index tree[7]");
 	}
 
+	ut.tests.deep_copy_ok = function(test, data) {
+		var str1 = {
+			child: undefined,
+			val1: 1,
+			val2: 2,
+			f1: function(a,b) {return a+b;},
+			f2: function() {return val1+val2;}
+		};
+		var str2 = {
+			parent: str1,
+			val3: 3,
+			val4: 4,
+		}
+		str1.child = str2;
+		var arr1 = [1,2,3,4,5];
+		var arr2 = [10,11,str1,arr1,str2]
+		arr1[1] = arr2;
+		
+		var master = {
+			s1: str1,
+			s2: str2,
+			a1: arr1,
+			a2: arr2,
+		}
+		var res = deep_copy(master);
+
+		test.assert_not_equals(address_of(master), address_of(res), "c1 eq");
+		test.assert_equals(master.s1.val1, res.s1.val1, "c1 v");
+		test.assert_equals(master.s1.child, master.s2, "c1 pc");
+		test.assert_equals(master.s1.child.parent, master.s1, "c1 pc");
+		test.assert_not_equals(address_of(master.s1.f1), address_of(res.s1.f1), "c1 af");
+		test.assert_equals(7, master.s1.f1(2,5), "c1 fm");
+		test.assert_equals(7, res.s1.f1(2,5), "c1 fr");
+		res.s1.val1 = 5;
+		res.s1.val2 = 4;
+		test.assert_equals(3, master.s1.f2(), "c1 f2m");
+		test.assert_equals(9, res.s1.f2(), "c1 f2r");
+
+		var master = [
+			str1,
+			str2,
+			arr1,
+			arr2,
+		];
+		res = deep_copy(master);
+		
+		test.assert_not_equals(address_of(master), address_of(res), "c1 eq");
+		test.assert_equals(master[0].val1, res[0].val1, "c1 v");
+		test.assert_equals(master[0].child, master[1], "c1 pc");
+		test.assert_equals(master[0].child.parent, master[0], "c1 pc");
+		test.assert_not_equals(address_of(master[0].f1), address_of(res[0].f1), "c1 af");
+		test.assert_equals(7, master[0].f1(2,5), "c1 fm");
+		test.assert_equals(7, res[0].f1(2,5), "c1 fr");
+		res[0].val1 = 5;
+		res[0].val2 = 4;
+		test.assert_equals(3, master[0].f2(), "c1 f2m");
+		test.assert_equals(9, res[0].f2(), "c1 f2r");
+	}
+
 	ut.run();
 }
 

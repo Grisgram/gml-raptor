@@ -10,8 +10,8 @@
 							(control_tree != undefined && control_tree.parent_tree == undefined))
 
 event_inherited();
-// undocumented feature to control the frame color when DEBUG_SHOW_OBJECT_FRAMES is true
-vsgetx(self, "__raptor_debug_frame_color", c_green);
+// UI Controls render in a different color
+DEBUG_FRAME_COLOR = c_orange;
 
 gui_mouse = new GuiMouseTranslator();
 mouse_is_over = false;
@@ -125,7 +125,7 @@ __disabled_text_backup_x		= 0;
 __disabled_text_backup_y		= 0;
 
 __animate_draw_color = function(_to) {
-	if (color_anim_frames == 0) {
+	if (__first_scribble_render || color_anim_frames <= 0) {
 		animated_draw_color = _to;
 		return;
 	}

@@ -22,7 +22,7 @@ function directory_list_files(_folder = "", _wildcard = "*.*", _recursive = fals
 		reader:	function(root, p) {
 			
 			if (root != "" && !string_ends_with(root, "/")) root += "/";
-			var look_in = $"{working_directory}{root}";
+			var look_in = $"{(string_starts_with(root, @"\\") || string_starts_with(root, "//") || string_contains(root, ":") ? "" : working_directory)}{root}";
 			
 			if (p.rec) {
 				var dirs = [];

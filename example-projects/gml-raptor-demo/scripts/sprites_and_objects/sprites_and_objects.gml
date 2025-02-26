@@ -66,8 +66,9 @@ function is_dead_object_instance(_inst) {
 			!is_string(_inst) &&
 			!is_array(_inst) &&
 			real(_inst) >= 100000 &&
-			(typeof(_inst) == "ref" || is_struct(_inst) || vsget(_inst, "id")) &&
-			!instance_exists(_inst);
+			(typeof(_inst) == "ref" || vsget(_inst, "id") || vsget(_inst, "object_index")) &&
+			!instance_exists(_inst)
+			;
 }
 
 /// @func	scale_sprite_to(target_width, target_height)

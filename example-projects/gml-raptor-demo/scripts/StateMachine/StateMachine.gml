@@ -20,6 +20,9 @@
 #macro	STATEMACHINES	global.__statemachine_pool
 STATEMACHINES		= new ListPool("STATEMACHINES");
 
+#macro STATE_DISABLE_EVENTS_ALL		with(StatefulObject) states.set_event_states_enabled(false);
+#macro STATE_ENABLE_EVENTS_ALL		with(StatefulObject) states.set_event_states_enabled(true);
+
 /// @func	StateMachine(_owner, ...)
 /// @desc	Create a new state machine with a list of states
 function StateMachine(_owner) : BindableDataBuilder() constructor {
@@ -260,6 +263,11 @@ function StateMachine(_owner) : BindableDataBuilder() constructor {
 		}
 		return self;
 	}
+
+	/// @func	set_event_states_enabled(_enabled) 
+	static set_event_states_enabled = function(_enabled) {
+		return set_state_enabled("ev:*", _enabled);
+	}
 	
 	/// @func	delete_state(_name)
 	/// @desc	Delete a state from the StateMachine.
@@ -378,14 +386,14 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 	name		= _name;
 	data		= {};
 	on_enter	= _on_enter;
-	on_step		= _on_step;
+	on_step		= _on_step ;
 	on_leave	= _on_leave;
 	enabled		= true;
 	
 	__rv_prev	= undefined;
 	
 	#region non-array-mode
-	__na_enter = function(prev_state, enter_override = undefined) {
+	static __na_enter = function(prev_state, enter_override = undefined) {
 		var rv = undefined;
 		if (enter_override != undefined)
 			rv = enter_override(data, prev_state, on_enter);
@@ -394,7 +402,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 		return rv;
 	}
 	
-	__na_leave = function(new_state, leave_override = undefined) {
+	static __na_leave = function(new_state, leave_override = undefined) {
 		if (leave_override != undefined)
 			return leave_override(data, new_state, on_leave) ?? true;
 		else if (on_leave != undefined)
@@ -403,23 +411,24 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 			return true;
 	}
 	
-	__na_step = function(frame) {
+	static __na_step = function(frame) {
 		return on_step != undefined ? on_step(data, frame) : undefined;
 	}	
 	#endregion
 	
 	#region array-mode
-	__a_enter = function(prev_state, enter_override = undefined) {
+	static __a_enter = function(prev_state, enter_override = undefined) {
 		__rv_prev = undefined;
 		if (enter_override != undefined)
 			__rv_prev = enter_override(data, prev_state, undefined);
 		else if (on_enter != undefined)
-			for (var i = 0, len = array_length(on_enter); i < len; i++)
+			for (var i = 0, len = array_length(on_enter); i < len; i++) {
 				__rv_prev = on_enter[@i](data, prev_state, __rv_prev);
+			}
 		return __rv_prev;
 	}
 	
-	__a_leave = function(new_state, leave_override = undefined) {
+	static __a_leave = function(new_state, leave_override = undefined) {
 		__rv_prev = true;
 		if (leave_override != undefined)
 			return leave_override(data, new_state, true) ?? true;
@@ -429,7 +438,7 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 		return __rv_prev;
 	}
 	
-	__a_step = function(frame) {
+	static __a_step = function(frame) {
 		__rv_prev = undefined;
 		for (var i = 0, len = array_length(on_step); i < len; i++)
 			__rv_prev = on_step[@i](data, frame, __rv_prev);
@@ -438,20 +447,22 @@ function State(_name, _on_enter = undefined, _on_step = undefined, _on_leave = u
 	}		
 	#endregion
 	
-	enter = __na_enter;
-	leave = __na_leave;
-	step  = __na_step;
+	enter = method(self, __na_enter);
+	leave = method(self, __na_leave);
+	step  = method(self, __na_step);
 	
 	static add_method_group = function(_on_enter = undefined, _on_step = undefined, _on_leave = undefined) {
+		
 		if (!is_array(on_enter)) on_enter = on_enter == undefined ? [] : [on_enter];
 		if (!is_array(on_step )) on_step  = on_step  == undefined ? [] : [on_step ];
 		if (!is_array(on_leave)) on_leave = on_leave == undefined ? [] : [on_leave];
 		if (_on_enter != undefined) array_push(on_enter, _on_enter);
 		if (_on_step  != undefined) array_push(on_step,  _on_step );
 		if (_on_leave != undefined) array_push(on_leave, _on_leave);
-		enter = __a_enter;
-		leave = __a_leave;
-		step  = __a_step;
+	
+		enter = method(self, __a_enter);
+		leave = method(self, __a_leave);
+		step  = method(self, __a_step);
 	}
 	
 	toString = function() {

@@ -6,6 +6,9 @@
 event_inherited();
 __RAPTORDATA.is_enabled = is_enabled;
 __RAPTORDATA.skinnable  = skinnable;
+__RAPTORDATA.tooltip_text = tooltip_text;
+__RAPTORDATA.auto_show_tooltip = auto_show_tooltip;
+__RAPTORDATA.tooltip_object = is_null(tooltip_object) ? undefined : object_get_name(tooltip_object);
 
-if (vsget(self, __POOL_SOURCE_NAME))	__RAPTORDATA[$ __POOL_SOURCE_NAME]	= self[$ __POOL_SOURCE_NAME];
-if (vsget(self, __INTERFACES_NAME))		__RAPTORDATA[$ __INTERFACES_NAME]	= self[$ __INTERFACES_NAME];
+if (struct_exists(self, __POOL_SOURCE_NAME))	__RAPTORDATA[$ __POOL_SOURCE_NAME]	= self[$ __POOL_SOURCE_NAME];
+if (struct_exists(self, __INTERFACES_NAME ))	__RAPTORDATA[$ __INTERFACES_NAME]	= self[$ __INTERFACES_NAME];

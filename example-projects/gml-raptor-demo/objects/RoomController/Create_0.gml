@@ -190,7 +190,11 @@ __draw_bbox_rotated = function() {
 			continue;
 
 		with(__dbg_inst) {
-			draw_set_color(vsget(self, "__raptor_debug_frame_color", c_green));
+			draw_set_color(
+				vsget(self, "mouse_is_over", false) ? 
+				vsget(self, __RAPTOR_DEBUG_FRAME_COLOR_OVER_STR, c_fuchsia) :
+				vsget(self, __RAPTOR_DEBUG_FRAME_COLOR_STR, c_green)
+			);
 				
 			if (SELF_DRAW_ON_GUI)
 				translate_gui_to_world(x, y, other.__dbg_trans);
@@ -345,6 +349,32 @@ camera_look_at = function(frames, target_x, target_y, enqueue_if_running = true,
 	return camera_move_to(frames, target_x, target_y, enqueue_if_running, cam_align.middle_center, camera_index);
 }
 
+/// @func	camera_bump_x(frames, distance_x, enqueue_if_running = true, camera_index = 0)
+/// @desc	A bump animation horizontal
+camera_bump_x = function(frames, distance_x, enqueue_if_running = true, camera_index = 0) {
+	var a = new camera_action_data(camera_index, frames, __camera_action_bump, enqueue_if_running);
+	// as this is an enqueued action, the data calculation must happen in the camera action on first call
+	a.relative		= true; // relative tells the action to use a.distance* for calculation
+	a.distance_x	= -distance_x;
+	a.distance_y	= 0;
+	a.set_anim_curve(acBounce);
+	// Return the action to our caller
+	return a;
+}
+
+/// @func	camera_bump_y(frames, distance_x, enqueue_if_running = true, camera_index = 0)
+/// @desc	A bump animation vertical
+camera_bump_y = function(frames, distance_y, enqueue_if_running = true, camera_index = 0) {
+	var a = new camera_action_data(camera_index, frames, __camera_action_bump, enqueue_if_running);
+	// as this is an enqueued action, the data calculation must happen in the camera action on first call
+	a.relative		= true; // relative tells the action to use a.distance* for calculation
+	a.distance_x	= 0;
+	a.distance_y	= -distance_y;
+	a.set_anim_curve(acBounce);
+	// Return the action to our caller
+	return a;
+}
+
 #endregion
 
 /*
@@ -436,9 +466,14 @@ transit_back = function() {
 	}
 }
 
-/// @func onTransitFinished()
-/// @desc Invoked when a transition to this room is finished.
-///				 Override (redefine) to execute code when a room is no longer animating
+/// @func	onTransitFinished()
+/// @desc	Invoked when a transition to this room is finished.
+///			Override (redefine) to execute code when a room is no longer animating
+///			NOTE: If this room has been entered through the savegame system
+///			and a transition was specified to enter the room when loading,
+///			this _data member has been enriched by a "was_loading = true"
+///			member. With this, you can always distinguish between a "normal"
+///			enter of the room or an enter caused by game load.
 onTransitFinished = function(_data) {
 }
 
@@ -452,5 +487,16 @@ onTransitBack = function(_transition_data) {
 	// _transition_data.transition = new FadeTransition(_transition_data.target_room, 20, 20);
 	// ...or do nothing of the above to have a simple room_goto fired to the target room
 }
+
+#endregion
+
+/*
+	----------------------
+	 VIRTUAL ROOM CONTROL
+	----------------------
+*/
+#region VIRTUAL ROOM CONTROL
+
+
 
 #endregion

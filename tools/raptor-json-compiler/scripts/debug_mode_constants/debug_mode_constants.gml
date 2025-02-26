@@ -31,6 +31,11 @@
 
 gml_release_mode(!DEBUG_MODE_ACTIVE);			
 
+#macro DEBUG_FRAME_COLOR						__raptor_debug_frame_color
+#macro DEBUG_FRAME_COLOR_OVER					__raptor_debug_frame_color_over
+#macro __RAPTOR_DEBUG_FRAME_COLOR_STR			"__raptor_debug_frame_color"
+#macro __RAPTOR_DEBUG_FRAME_COLOR_OVER_STR		"__raptor_debug_frame_color_over"
+
 #macro DEBUG_SHOW_OBJECT_FRAMES	global.__debug_show_object_frames
 #macro DEBUG_SHOW_OBJECT_DEPTH	global.__debug_show_object_depth
 #macro DEBUG_MODE_WINDOW_WIDTH	global.__debug_mode_window_width

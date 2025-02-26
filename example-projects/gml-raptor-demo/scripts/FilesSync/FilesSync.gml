@@ -139,7 +139,7 @@ function file_write_struct_plain(filename, struct, print_pretty = true) {
 		file_write_text_file(filename, SnapToJSON(struct, print_pretty));
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Updated cache for file '{filename}' (struct)");
-			struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
+			struct_set(__FILE_CACHE, filename, deep_copy(struct));
 		}
 		return true;
 	CATCH return false; ENDTRY
@@ -153,7 +153,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			vlog($"Cache hit for file '{filename}'");
-			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
+			return deep_copy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			dlog($"Loading plain text struct from '{filename}'");
@@ -165,7 +165,7 @@ function file_read_struct_plain(filename, add_to_cache = false) {
 				rv = __file_reconstruct_root(indata);
 				if (add_to_cache) {
 					dlog($"Added file '{filename}' to cache (struct)");
-					struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
+					struct_set(__FILE_CACHE, filename, deep_copy(rv));
 				}
 			}
 			return rv;
@@ -192,7 +192,7 @@ function file_write_struct_encrypted(filename, struct, cryptkey) {
 		buffer_delete(buffer);
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			dlog($"Updated cache for file '{filename}' (encrypted struct)");
-			struct_set(__FILE_CACHE, filename, SnapDeepCopy(struct));
+			struct_set(__FILE_CACHE, filename, deep_copy(struct));
 		}
 		return true;
 	CATCH return false; ENDTRY
@@ -206,7 +206,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 	if (file_exists_html_safe(__FILE_WORKINGFOLDER_FILENAME)) {
 		if (variable_struct_exists(__FILE_CACHE, filename)) {
 			vlog($"Cache hit for file '{filename}' (buffer deep copy)");
-			return SnapDeepCopy(struct_get(__FILE_CACHE, filename));
+			return deep_copy(struct_get(__FILE_CACHE, filename));
 		}
 		TRY
 			dlog($"Loading encrypted struct from '{filename}'");
@@ -222,7 +222,7 @@ function file_read_struct_encrypted(filename, cryptkey, add_to_cache = false) {
 		
 				if (add_to_cache) {
 					dlog($"Added file '{filename}' to cache (encrypted struct)");
-					struct_set(__FILE_CACHE, filename, SnapDeepCopy(rv));
+					struct_set(__FILE_CACHE, filename, deep_copy(rv));
 				}
 			}
 			return rv;

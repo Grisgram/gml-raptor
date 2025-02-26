@@ -171,7 +171,7 @@ function LinqArray(size = 0, initial_value = undefined) constructor {
 	/// @desc get a new LinqArray containing a (snap) deep copy of this LinqArray
 	static clone = function() {
 		var rv = new LinqArray();
-		rv.array = SnapDeepCopy(array);
+		rv.array = deep_copy(array);
 		return rv;
 	}
 	

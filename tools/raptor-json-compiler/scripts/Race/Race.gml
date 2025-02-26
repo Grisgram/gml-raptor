@@ -102,7 +102,7 @@ function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACH
 	
 	/// @func __clone_from_cache(_name)
 	static __clone_from_cache = function(_name) {
-		var cpy = SnapDeepCopy(vsget(__RACE_CACHE_CURRENT, _name));
+		var cpy = deep_copy(vsget(__RACE_CACHE_CURRENT, _name));
 		return new RaceTable(_name, cpy);
 	}
 	
@@ -186,7 +186,7 @@ function Race(_filename = "", _load_async = true, _add_file_to_cache = RACE_CACH
 		var newname = __get_unique_clone_name(_name);
 		// remove the race pointer to avoid endless loop (circular reference)
 		tables[$ _name].race = undefined;
-		var cpy = SnapDeepCopy(tables[$ _name]);
+		var cpy = deep_copy(tables[$ _name]);
 		tables[$ _name].race = self;
 		
 		cpy.race = self;

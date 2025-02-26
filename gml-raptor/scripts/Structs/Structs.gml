@@ -139,6 +139,7 @@ function struct_get_unique_key(struct, basename, prefix = "") {
 /// @desc	Joins two or more structs together into a new struct.
 ///			NOTE: This is NOT a deep copy! If any struct contains other struct
 ///			references, they are simply copied, not recursively converted to new references!
+///			Methods in the structs will be rebound to the new struct
 ///			ATTENTION! No static members can be transferred! Best use this for data structs only!
 function struct_join(structs) {
 	var rv = {};
@@ -153,6 +154,7 @@ function struct_join(structs) {
 ///			NOTE: This is NOT a deep copy! If source contains other struct
 ///			references, they are simply copied, not recursively converted to new references!
 ///			Circular references are handled. It is safe to join child-parent-child references.
+///			Methods in the structs will be rebound to the new struct
 ///			ATTENTION! No static members can be transferred! Best use this for data structs only!
 function struct_join_into(target, sources) {
 	__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
@@ -191,6 +193,128 @@ function struct_join_into(target, sources) {
 	return target;
 }
 
+/// @func	struct_join_no_rebind(structs...)
+/// @desc	Similar to struct_join, but will not rebind methods. They will just be copied
+function struct_join_no_rebind(structs) {
+	var rv = {};
+	for (var i = 0; i < argument_count; i++) 
+		struct_join_into_no_rebind(rv, argument[i]);
+	return rv;
+}
+
+/// @func	struct_join_into_no_rebind(target, sources...)
+/// @desc	Similar to struct_join_into, but will not rebind methods. They will just be copied
+function struct_join_into_no_rebind(target, sources) {
+	__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = [];
+	
+	__STRUCT_JOIN_CIRCULAR_LEVEL++;
+	for (var i = 1; i < argument_count; i++) {
+		var from = argument[i];
+		if (from == undefined) continue;
+		
+		var names = struct_get_names(from);
+		for (var j = 0; j < array_length(names); j++) {
+			var name = names[@j];
+			var member = from[$ name];
+			with (target) {
+				if (is_method(member))
+					self[$ name] = member;
+				else {
+					vsgetx(self, name, member);
+					if (member != undefined && 
+						is_struct(member) && 
+						!array_contains(__STRUCT_JOIN_CIRCULAR_CACHE, member)) {
+						array_push(__STRUCT_JOIN_CIRCULAR_CACHE, member);
+						struct_join_into_no_rebind(self[$ name], member);
+					} else
+						self[$ name] = member;
+				}
+			}
+		}
+	}
+	__STRUCT_JOIN_CIRCULAR_LEVEL--;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = [];
+		
+	return target;
+}
+
+/// @func	deep_copy(_struct_or_array)
+/// @desc	Perform a deep copy of the given struct or array.
+///			Circular dependencies are correctly resolved and rebuilt
+///			in the copy, all pointing to the new instances
+///			Statics are also transferred, as you would expect
+///			Methods in the structs will be rebound to the new struct
+function deep_copy(_struct_or_array) {
+	if (!is_struct(_struct_or_array) && !is_array(_struct_or_array))
+		return _struct_or_array;
+		
+	__ENSURE_STRUCT_JOIN_CIRCULAR_CACHE;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = {
+			str: is_struct(_struct_or_array),
+			rv: (is_struct(_struct_or_array) ? {} : []),
+			next: undefined,
+			stack: {},
+		};
+	
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE.next = __STRUCT_JOIN_CIRCULAR_CACHE.rv;
+		
+	__STRUCT_JOIN_CIRCULAR_LEVEL++;
+	var target = __STRUCT_JOIN_CIRCULAR_CACHE.next;
+	if (is_struct(_struct_or_array)) {
+        static_set(target, static_get(_struct_or_array));
+		var names = struct_get_names(_struct_or_array);
+		for (var i = 0, len = array_length(names); i < len; i++) {
+			var name = names[@i];
+			var member = _struct_or_array[$ name];
+			if (is_method(member)) {
+				target[$ name] = method(target, member);
+			} else if (typeof(member) != "ref" && (is_real(member) || is_string(member)) || is_object_instance(member)) {
+				target[$ name] = member;
+			} else if (is_struct(member) || is_array(member)) {
+				if (vsget(__STRUCT_JOIN_CIRCULAR_CACHE.stack, address_of(member)) == undefined) {
+					var newstr = (is_struct(member)) ? {} : [];
+					__STRUCT_JOIN_CIRCULAR_CACHE.str = is_struct(member);
+					__STRUCT_JOIN_CIRCULAR_CACHE.stack[$ address_of(member)] = newstr;
+					__STRUCT_JOIN_CIRCULAR_CACHE.next = newstr;
+					target[$ name] = deep_copy(member);
+				} else
+					target[$ name] = __STRUCT_JOIN_CIRCULAR_CACHE.stack[$ address_of(member)];
+			} else {
+				target[$ name] = member;
+			}
+		}
+	} else {
+		for (var i = 0, len = array_length(_struct_or_array); i < len; i++) {
+			var member = _struct_or_array[@ i];
+			if (typeof(member) != "ref" && (is_real(member) || is_string(member)) || is_object_instance(member)) {
+				array_push(target, member);
+			} else if (is_struct(member) || is_array(member)) {
+				if (vsget(__STRUCT_JOIN_CIRCULAR_CACHE.stack, address_of(member)) == undefined) {
+					var newstr = (is_struct(member)) ? {} : [];
+					__STRUCT_JOIN_CIRCULAR_CACHE.str = is_struct(member);
+					__STRUCT_JOIN_CIRCULAR_CACHE.stack[$ address_of(member)] = newstr;
+					__STRUCT_JOIN_CIRCULAR_CACHE.next = newstr;
+					array_push(target, deep_copy(member));
+				} else
+					array_push(target, __STRUCT_JOIN_CIRCULAR_CACHE.stack[$ address_of(member)]);
+			} else {
+				array_push(target, member);
+			}
+		}
+	}
+	
+	__STRUCT_JOIN_CIRCULAR_LEVEL--;
+	if (__STRUCT_JOIN_CIRCULAR_LEVEL == 0)
+		__STRUCT_JOIN_CIRCULAR_CACHE = {};
+		
+	return target;
+}
+
 /// @func	vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missing = true)
 /// @desc	Save-gets a struct member, returning a default if it does not exist,
 ///			and even allows you to create that member in the struct, if it is missing
@@ -199,10 +323,10 @@ function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missi
 	if (_struct == undefined) 
 		return _default_if_missing;
 		
-	if (_create_if_missing && _struct[$ _key] == undefined)
+	if (_create_if_missing && !struct_exists(_struct, _key))
         _struct[$ _key] = _default_if_missing;
 		
-    return _struct[$ _key];		
+    return struct_exists(_struct, _key) ? _struct[$ _key] : _default_if_missing;
 }
 
 /// @func	vsget(_struct, _key, _default_if_missing = undefined)
@@ -210,7 +334,7 @@ function vsgetx(_struct, _key, _default_if_missing = undefined, _create_if_missi
 ///			but does not create the missing member in the struct
 function vsget(_struct, _key, _default_if_missing = undefined) {
 	gml_pragma("forceinline");
-	return (_struct != undefined && _struct[$ _key] != undefined) ? _struct[$ _key] : _default_if_missing;
+	return (_struct != undefined && struct_exists(_struct, _key)) ? _struct[$ _key] : _default_if_missing;
 }
 
 

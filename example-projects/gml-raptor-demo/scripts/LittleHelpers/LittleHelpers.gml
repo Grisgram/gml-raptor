@@ -61,6 +61,7 @@ function percent_mult(val, total) {
 #macro __OBJECT_DOES_NOT_EXIST	-1
 function is_child_of(child, parent) {
 	if (is_null(child)) return false;
+	if (is_string(parent)) parent = asset_get_index(parent);
 	
 	var to_find, to_find_parent;
 	if (instance_exists(child)) {
@@ -118,8 +119,9 @@ function object_tree(_object_or_instance, _as_strings = true) {
 /// @param {object_index} _instance	The instance to retrieve the name of.
 function name_of(_instance, _with_ref_id = true) {
 	if (!is_null(_instance)) {
-		if (instance_exists(_instance) && variable_struct_exists(_instance, "object_index"))
-			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(_instance.object_index);
+		if (is_object_instance(_instance))
+		//if (instance_exists(_instance) && variable_struct_exists(_instance, "object_index"))
+			with(_instance) return _with_ref_id ? MY_NAME : object_get_name(object_index);
 		else {
 			if (IS_HTML) {
 				var hash = string_replace_all(sha1_string_unicode(string(_instance)), " ", "");
@@ -492,14 +494,14 @@ function invoke_if_exists_ex(_instance, _method, _pa) {
 	return undefined;
 }
 
-/// @func	dump_array(_array, _to_console = true)
+/// @func	dump_array(_array, _to_console = true, _single_line = false)
 /// @desc	Dumps an array to a string (returned) and to console (optional)
-function dump_array(_array, _to_console = true) {
-	var rv = string_join_ext("\n", _array);
+function dump_array(_array, _to_console = true, _single_line = false) {
+	var rv = $"{(_single_line ? "[" : "")}{string_join_ext(_single_line ? "," : "\n", _array)}{(_single_line ? "]" : "")}";
 	if (_to_console) {
-		dlog($"[--- ARRAY DUMP START ---]");
+		if (!_single_line) dlog($"[--- ARRAY DUMP START ---]");
 		dlog(rv);
-		dlog($"[--- ARRAY DUMP  END  ---]");
+		if (!_single_line) dlog($"[--- ARRAY DUMP  END  ---]");
 	}
 	return rv;
 }

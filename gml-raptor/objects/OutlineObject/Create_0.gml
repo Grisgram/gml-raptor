@@ -8,6 +8,7 @@ __backupx = 0;
 __backupy = 0;
 
 __draw_self = function() {
+	gml_pragma("forceinline");
 	draw_self();
 }
 

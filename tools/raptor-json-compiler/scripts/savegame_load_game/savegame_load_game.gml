@@ -117,6 +117,8 @@ function savegame_load_game_async(_filename, cryptkey = "", _room_transition = u
 			ilog($"Switching to room '{room_name}'");
 			if (_data.trans != undefined) {
 				_data.trans.target_room = asset_get_index(room_name);
+				_data.trans.data ??= {};
+				_data.trans.data.was_loading = true;
 				ROOMCONTROLLER.transit(_data.trans);
 			} else 
 				room_goto(asset_get_index(room_name));

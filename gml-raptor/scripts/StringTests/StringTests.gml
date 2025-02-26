@@ -112,31 +112,63 @@ function unit_test_Strings() {
 	}
 
 	ut.tests.string_to_real_ok = function(test, data) {
-		test.assert_equals(42, string_to_real(" 42 "));
-		test.assert_equals(-42, string_to_real(" -42 "));
-		test.assert_equals(42, string_to_real(" 42,43,44 "));
-		test.assert_null(string_to_real("hello world 42"));
+		test.assert_equals(42, string_to_real(" 42 ")		, "1");
+		test.assert_equals(-42, string_to_real(" -42 ")		, "2");
+		test.assert_equals(42, string_to_real(" 42,43,44 ")	, "3");
+		test.assert_null(string_to_real("hello world 42")	, "4");
 		
-		test.assert_equals(42, string_to_real_ex(" 42 "));
-		test.assert_equals(-42, string_to_real_ex(" -42. "));
-		test.assert_null(string_to_real_ex(" 42-43.44 "));
-		test.assert_null(string_to_real_ex(" 42.43.44 "));
-		test.assert_null(string_to_real_ex(" 42,43,44 "));
-		test.assert_null(string_to_real_ex("hello world 42"));		
+		test.assert_equals(42, string_to_real_ex(" 42 ")	, "5");
+		test.assert_equals(-42, string_to_real_ex(" -42. ")	, "6");
+		test.assert_null(string_to_real_ex(" 42-43.44 ")	, "7");
+		test.assert_null(string_to_real_ex(" 42.43.44 ")	, "8");
+		test.assert_null(string_to_real_ex(" 42,43,44 ")	, "9");
+		test.assert_null(string_to_real_ex("hello world 42"), "10");		
 	}
 
 	ut.tests.string_to_int_ok = function(test, data) {
-		test.assert_equals(42, string_to_int(" 42 "));
-		test.assert_equals(-42, string_to_int(" -42,43,44 "));
-		test.assert_null(string_to_int("hello world 42"));
+		test.assert_equals(42, string_to_int(" 42 ")		, "1");
+		test.assert_equals(-42, string_to_int(" -42,43,44 "), "2");
+		test.assert_null(string_to_int("hello world 42")	, "3");
 		
-		test.assert_equals(42, string_to_int_ex(" 42 "));
-		test.assert_equals(-42, string_to_int_ex(" -42 "));
-		test.assert_null(string_to_int_ex(" -42. "));
-		test.assert_null(string_to_int_ex(" 42-43.44 "));
-		test.assert_null(string_to_int_ex(" 42.43.44 "));
-		test.assert_null(string_to_int_ex(" 42,43,44 "));
-		test.assert_null(string_to_int_ex("hello world 42"));
+		test.assert_equals(42, string_to_int_ex(" 42 ")		, "4");
+		test.assert_equals(-42, string_to_int_ex(" -42 ")	, "5");
+		test.assert_null(string_to_int_ex(" -42. ")			, "6");
+		test.assert_null(string_to_int_ex(" 42-43.44 ")		, "7");
+		test.assert_null(string_to_int_ex(" 42.43.44 ")		, "8");
+		test.assert_null(string_to_int_ex(" 42,43,44 ")		, "9");
+		test.assert_null(string_to_int_ex("hello world 42")	, "10");
+	}
+
+	ut.tests.string_interpret_direct_ok = function(test, data) {
+		var tester = new VersionedDataStruct();
+		test.assert_true(string_interpret("VersionedDataStruct", tester));
+	}
+
+	ut.tests.string_interpret_first_level_ok = function(test, data) {
+		var tester = new VersionedDataStruct();
+		tester.name = "unit test"
+		test.assert_true(string_interpret("VersionedDataStruct.name:unit test", tester));
+	}
+
+	ut.tests.string_interpret_deep_ok = function(test, data) {
+		var tester = new DataBuilder().set_data("testvalue", 42);
+		test.assert_true(string_interpret("DataBuilder.data.testvalue:42", tester));
+	}
+
+	ut.tests.string_interpret_first_level_func_ok = function(test, data) {
+		var tester = new VersionedDataStruct();
+		tester.get_name = function() { return "unit test"; };
+		test.assert_true(string_interpret("VersionedDataStruct.get_name():unit test", tester));
+	}
+
+	ut.tests.string_interpret_deep_func_ok = function(test, data) {
+		var tester = new DataBuilder().set_data("testfunc", function() { return 42; });
+		test.assert_true(string_interpret("DataBuilder.data.testfunc():42", tester));
+	}
+
+	ut.tests.string_interpret_inheritance_ok = function(test, data) {
+		test.assert_true(string_interpret("VersionedDataStruct.start_fullscreen:false", GAMESETTINGS));
+		test.assert_false(string_interpret("VersionedDataStruct.start_fullscreen:false", GAMESETTINGS, false));
 	}
 
 	ut.run();

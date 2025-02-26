@@ -47,7 +47,7 @@
     {"$GMFolder":"","%Name":"_gml_raptor_packages_","folderPath":"folders/_gml_raptor_packages_.yy","name":"_gml_raptor_packages_","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"gml-animated-flag","folderPath":"folders/_gml_raptor_packages_/gml-animated-flag.yy","name":"gml-animated-flag","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"gml-highscorer","folderPath":"folders/_gml_raptor_packages_/gml-highscorer.yy","name":"gml-highscorer","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"outline-shader-drawer","folderPath":"folders/_gml_raptor_packages_/outline-shader-drawer.yy","name":"outline-shader-drawer","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"gml-outline-shader","folderPath":"folders/_gml_raptor_packages_/gml-outline-shader.yy","name":"gml-outline-shader","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"_gml_raptor_ui_","folderPath":"folders/_gml_raptor_ui_.yy","name":"_gml_raptor_ui_","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"helpers","folderPath":"folders/_gml_raptor_ui_/helpers.yy","name":"helpers","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"messagebox","folderPath":"folders/_gml_raptor_ui_/messagebox.yy","name":"messagebox","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -119,16 +119,16 @@
     {"$GMFolder":"","%Name":"Timelines","folderPath":"folders/Timelines.yy","name":"Timelines","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2501_game_settings.json","ConfigValues":{
+    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2504_game_settings.json","ConfigValues":{
         "release":{
           "CopyToMask":"0",
         },
-      },"CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2501_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2501_game_settings.jx","ConfigValues":{
+      },"CopyToMask":-1,"filePath":"datafiles","name":"gml_raptor_demo_2504_game_settings.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"gml_raptor_demo_2504_game_settings.jx","ConfigValues":{
         "release":{
           "CopyToMask":"-1",
         },
-      },"CopyToMask":0,"filePath":"datafiles","name":"gml_raptor_demo_2501_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+      },"CopyToMask":0,"filePath":"datafiles","name":"gml_raptor_demo_2504_game_settings.jx","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"index.html","ConfigValues":{
         "release":{
           "CopyToMask":"0",
@@ -212,6 +212,7 @@
   "resources":[
     {"id":{"name":"__raptorAcControlColorAnim","path":"animcurves/__raptorAcControlColorAnim/__raptorAcControlColorAnim.yy",},},
     {"id":{"name":"__raptorAcControlDraw","path":"animcurves/__raptorAcControlDraw/__raptorAcControlDraw.yy",},},
+    {"id":{"name":"acBounce","path":"animcurves/acBounce/acBounce.yy",},},
     {"id":{"name":"acBouncyChuck_1","path":"animcurves/acBouncyChuck_1/acBouncyChuck_1.yy",},},
     {"id":{"name":"acBouncyChuck_2","path":"animcurves/acBouncyChuck_2/acBouncyChuck_2.yy",},},
     {"id":{"name":"acEnemySpawn","path":"animcurves/acEnemySpawn/acEnemySpawn.yy",},},
@@ -226,6 +227,7 @@
     {"id":{"name":"acLinearYPlus","path":"animcurves/acLinearYPlus/acLinearYPlus.yy",},},
     {"id":{"name":"acRotate360","path":"animcurves/acRotate360/acRotate360.yy",},},
     {"id":{"name":"acSpawnerAppear","path":"animcurves/acSpawnerAppear/acSpawnerAppear.yy",},},
+    {"id":{"name":"acWave","path":"animcurves/acWave/acWave.yy",},},
     {"id":{"name":"browser_click_handler","path":"extensions/browser_click_handler/browser_click_handler.yy",},},
     {"id":{"name":"browser_hdpi","path":"extensions/browser_hdpi/browser_hdpi.yy",},},
     {"id":{"name":"ImageLoadBar","path":"extensions/ImageLoadBar/ImageLoadBar.yy",},},
@@ -352,6 +354,9 @@
     {"id":{"name":"__CanvasSurfFormat","path":"scripts/__CanvasSurfFormat/__CanvasSurfFormat.yy",},},
     {"id":{"name":"__CanvasSystem","path":"scripts/__CanvasSystem/__CanvasSystem.yy",},},
     {"id":{"name":"__CanvasTrace","path":"scripts/__CanvasTrace/__CanvasTrace.yy",},},
+    {"id":{"name":"__GML_ANIMATED_FLAG_VERSION__","path":"scripts/__GML_ANIMATED_FLAG_VERSION__/__GML_ANIMATED_FLAG_VERSION__.yy",},},
+    {"id":{"name":"__GML_HIGHSCORER_VERSION__","path":"scripts/__GML_HIGHSCORER_VERSION__/__GML_HIGHSCORER_VERSION__.yy",},},
+    {"id":{"name":"__GML_OUTLINE_SHADER_VERSION__","path":"scripts/__GML_OUTLINE_SHADER_VERSION__/__GML_OUTLINE_SHADER_VERSION__.yy",},},
     {"id":{"name":"__GML_RAPTOR_VERSION__","path":"scripts/__GML_RAPTOR_VERSION__/__GML_RAPTOR_VERSION__.yy",},},
     {"id":{"name":"__savegame_remove_pointers","path":"scripts/__savegame_remove_pointers/__savegame_remove_pointers.yy",},},
     {"id":{"name":"__savegame_restore_pointers","path":"scripts/__savegame_restore_pointers/__savegame_restore_pointers.yy",},},
@@ -392,9 +397,7 @@
     {"id":{"name":"__SnapSystem","path":"scripts/__SnapSystem/__SnapSystem.yy",},},
     {"id":{"name":"_generic_macros","path":"scripts/_generic_macros/_generic_macros.yy",},},
     {"id":{"name":"_globals_","path":"scripts/_globals_/_globals_.yy",},},
-    {"id":{"name":"_GML_ANIMATED_FLAG_VERSION_","path":"scripts/_GML_ANIMATED_FLAG_VERSION_/_GML_ANIMATED_FLAG_VERSION_.yy",},},
-    {"id":{"name":"_GML_HIGHSCORER_VERSION_","path":"scripts/_GML_HIGHSCORER_VERSION_/_GML_HIGHSCORER_VERSION_.yy",},},
-    {"id":{"name":"_OUTLINE_SHADER_DRAWER_VERSION_","path":"scripts/_OUTLINE_SHADER_DRAWER_VERSION_/_OUTLINE_SHADER_DRAWER_VERSION_.yy",},},
+    {"id":{"name":"_race_functions","path":"scripts/_race_functions/_race_functions.yy",},},
     {"id":{"name":"_view_and_self_macros","path":"scripts/_view_and_self_macros/_view_and_self_macros.yy",},},
     {"id":{"name":"Animation","path":"scripts/Animation/Animation.yy",},},
     {"id":{"name":"AnimationTests","path":"scripts/AnimationTests/AnimationTests.yy",},},

@@ -166,12 +166,7 @@ function Sender() constructor {
 			if (r.filter_hit(_title)) {
 				if (DEBUG_LOG_BROADCASTS)
 					dlog($"Sending broadcast #{bcid}: title='{_title}'; to='{r.name}';");
-				var rv = undefined;
-				if (is_object_instance(r.owner) || is_struct(r.owner))
-					with (r.owner) rv = r.callback(bc);
-				else
-					rv = r.callback(bc);
-				if (rv)
+				if (r.callback(bc))
 					array_push(removers, r.name);
 			}
 			if (bc.handled) {
@@ -219,7 +214,7 @@ function __receiver(_owner, _name, _message_filter, _callback) constructor {
 	has_depth		= (vsget(_owner, "depth") != undefined);
 	name			= _name;
 	message_filter  = string_split(_message_filter, "|", true);
-	callback		= _callback;
+	callback		= method(owner, _callback);
 	
 	static filter_hit = function(_title) {
 		if (array_contains(message_filter, _title))

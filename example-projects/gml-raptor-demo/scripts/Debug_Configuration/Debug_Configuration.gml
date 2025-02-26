@@ -9,6 +9,8 @@
 */
 // Feather ignore all in ./*
 
+#macro DEBUG_VIEW_TOGGLE_KEY				"F12"
+
 // When the debug gets opened, which panels shall become visible?
 #macro DEBUG_VIEW_SHOW_RAPTOR_PANEL			true
 #macro DEBUG_VIEW_SHOW_CAMERA_PANEL			true
