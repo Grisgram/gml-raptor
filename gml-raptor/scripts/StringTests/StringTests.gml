@@ -140,35 +140,35 @@ function unit_test_Strings() {
 	}
 
 	ut.tests.string_interpret_direct_ok = function(test, data) {
-		var tester = new VersionedDataStruct();
-		test.assert_true(string_interpret("VersionedDataStruct", tester));
+		var teststruct = new VersionedDataStruct();
+		test.assert_true(string_interpret("VersionedDataStruct", teststruct));
 	}
 
 	ut.tests.string_interpret_first_level_ok = function(test, data) {
-		var tester = new VersionedDataStruct();
-		tester.name = "unit test"
-		test.assert_true(string_interpret("VersionedDataStruct.name:unit test", tester));
+		var teststruct = new VersionedDataStruct();
+		teststruct.name = "unit test"
+		test.assert_true(string_interpret("VersionedDataStruct.name:unit test", teststruct));
 	}
 
 	ut.tests.string_interpret_deep_ok = function(test, data) {
-		var tester = new DataBuilder().set_data("testvalue", 42);
-		test.assert_true(string_interpret("DataBuilder.data.testvalue:42", tester));
+		var teststruct = new DataBuilder().set_data("testvalue", 42);
+		test.assert_true(string_interpret("DataBuilder.data.testvalue:42", teststruct));
 	}
 
 	ut.tests.string_interpret_first_level_func_ok = function(test, data) {
-		var tester = new VersionedDataStruct();
-		tester.get_name = function() { return "unit test"; };
-		test.assert_true(string_interpret("VersionedDataStruct.get_name():unit test", tester));
+		var teststruct = new VersionedDataStruct();
+		teststruct.get_name = function() { return "unit test"; };
+		test.assert_true(string_interpret("VersionedDataStruct.get_name():unit test", teststruct));
 	}
 
 	ut.tests.string_interpret_deep_func_ok = function(test, data) {
-		var tester = new DataBuilder().set_data("testfunc", function() { return 42; });
-		test.assert_true(string_interpret("DataBuilder.data.testfunc():42", tester));
+		var teststruct = new DataBuilder().set_data("testfunc", function() { return 42; });
+		test.assert_true(string_interpret("DataBuilder.data.testfunc():42", teststruct));
 	}
 
 	ut.tests.string_interpret_inheritance_ok = function(test, data) {
-		test.assert_true(string_interpret("VersionedDataStruct.start_fullscreen:false", GAMESETTINGS));
-		test.assert_false(string_interpret("VersionedDataStruct.start_fullscreen:false", GAMESETTINGS, false));
+		test.assert_true(string_interpret("Coord3.z:0", new Coord4()), "should be true");
+		test.assert_false(string_interpret("Coord3.z:0", new Coord4(), false), "should be false");
 	}
 
 	ut.run();
