@@ -10,6 +10,7 @@ enum mouse_drag {
 
 __base_draw_instance = __draw_instance;
 
+__get_scissor		= !IS_HTML;
 __scissor			= undefined;
 __vscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, shown_range: -1, last_range: -1, };
 __hscroll			= { value: 0, value_percent: 0, min_value: 0, max_value: 100, is_enabled: true, shown_range: -1, last_range: -1, };
@@ -163,7 +164,8 @@ __draw_instance = function(_force = false) {
 	}
 	
 	__base_draw_instance(_force);
-	__scissor = gpu_get_scissor();
+	if (__get_scissor)
+		__scissor = gpu_get_scissor();
 	//dlog($"SCISSOR DEBUG: {(__draw_x * __scale_x + __ap[0])}/{(__draw_y * __scale_y + __ap[1])}, {ceil(__clipw * __scale_x)}x{ceil(__cliph * __scale_y)}");
 	//dlog($"SCISSOR DEBUG: {__draw_x} * {__scale_x}, {__draw_y} * {__scale_y}");
 	gpu_set_scissor(
@@ -176,7 +178,10 @@ __draw_instance = function(_force = false) {
 		other.draw_method();
 		//if (other.draw_method != undefined) other.draw_method(); else draw_self();
 	}
-	gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);
+	if (__get_scissor)
+		gpu_set_scissor(__scissor.x, __scissor.y, __scissor.w, __scissor.h);
+	else
+		gpu_set_scissor(0, 0, GUI_RUNTIME_CONFIG.canvas_width, GUI_RUNTIME_CONFIG.canvas_height);
 }
 
 if (vertical_scrollbar)
@@ -204,9 +209,9 @@ if (horizontal_scrollbar)
 		wheel_scroll_lines: wheel_scroll_lines,
 	})
 	.set_align(fa_bottom, fa_left)
-	.set_anchor(anchor.left | anchor.right)
+	//.set_anchor(anchor.left | anchor.right) // seems to not in html5...
 	.set_name("hscroll")
 	.get_instance()
 	;
-
+	
 control_tree.build();
